@@ -1,26 +1,154 @@
+/* ———————————————————————————————————— google fonts ——— */
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Orbitron&family=Roboto:wght@400;700&display=swap");
+
+/* ———————————————————————————————————— tailwind ——— */
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* ———————————————————————————————————— base layer ——— */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-bg: #0a0a0a; /* ———————————————————————————————————— primary bg (cinematic black) ——— */
+    --color-accent: #ed1d24; /* ———————————————————————————————————— marvel red ——— */
+    --color-text: #ffffff; /* ———————————————————————————————————— normal text ——— */
+    --color-panel: #2e2e2e; /* ———————————————————————————————————— panel bg ——— */
+    --color-secondary: #1c1c1c; /* ———————————————————————————————————— secondary bg ——— */
+    --color-hero-blue: #1464f4; /* ———————————————————————————————————— hero blue ——— */
+    --color-gold: #f5c518; /* ———————————————————————————————————— infinity gold ——— */
+
+    --font-heading: "Bebas Neue", sans-serif; /* ———————————————————————————————————— headings ——— */
+    --font-body: "Roboto", sans-serif; /* ———————————————————————————————————— normal text ——— */
+    --font-alt: "Orbitron", sans-serif; /* ———————————————————————————————————— tech accents ——— */
+    --font-tall: "Anton", sans-serif; /* ———————————————————————————————————— big titles ——— */
+  }
+
+  body {
+    @apply bg-[var(--color-bg)] text-[var(--color-text)];
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+  }
+
+  p,
+  span,
+  li {
+    font-family: var(--font-body);
+  }
+
+  button {
+    font-family: var(--font-heading);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ———————————————————————————————————— utilities layer ——— */
+@layer utilities {
+  .bg-brand {
+    background-color: var(--color-bg);
+  }
+
+  .bg-panel {
+    background-color: var(--color-panel);
+  }
+
+  .bg-second {
+    background-color: var(--color-secondary);
+  }
+
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+
+  .bg-hero-blue {
+    background-color: var(--color-hero-blue);
+  }
+
+  .bg-gold {
+    background-color: var(--color-gold);
+  }
+
+  .text-brand {
+    color: var(--color-bg);
+  }
+
+  .text-accent {
+    color: var(--color-accent);
+  }
+
+  .text-normal {
+    color: var(--color-text);
+  }
+
+  .text-panel {
+    color: var(--color-panel);
+  }
+
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-normal {
+    font-family: var(--font-body);
+  }
+
+  .font-alt {
+    font-family: var(--font-alt);
+  }
+
+  .font-tall {
+    font-family: var(--font-tall);
+  }
+
+  .shadow-marvel {
+    box-shadow: 0 4px 20px rgba(237, 29, 36, 0.6);
+  }
+
+  .border-accent {
+    border-color: var(--color-accent);
+  }
+
+  .border-panel {
+    border-color: var(--color-panel);
+  }
+
+  .stroke-text {
+    -webkit-text-stroke: 1px var(--color-accent);
+    text-stroke: 1px var(--color-accent);
+  }
+}
+
+/* ———————————————————————————————————— loader animation ——— */
+@keyframes center-left {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    top: 50%;
+    left: calc(50% - 100px);
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes marvel-fade {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ———————————————————————————————————— m-query ——— */
+@media (min-width: 1600px) {
+  .xl-plus\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
