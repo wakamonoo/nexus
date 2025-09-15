@@ -1,11 +1,14 @@
+"use client";
 import { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { googleSignUp } from "@/firebase/firebaseConfig";
 import { auth } from "@/firebase/firebaseConfig";
+import { useRouter } from "next/navigation";
 
 export default function SignIn({ setShowSignIn }) {
   const [adminBtn, setAdminBtn] = useState(false);
   const [isLogged, setIsLogged] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((logged) => {
@@ -69,7 +72,7 @@ export default function SignIn({ setShowSignIn }) {
           </button>
           {adminBtn && (
             <button
-              onClick={handleSignIn}
+              onClick={() => router.push("/admin")}
               className="bg-accent px-4 py-2 rounded-full"
             >
               nav to admin page
