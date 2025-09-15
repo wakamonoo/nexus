@@ -8,7 +8,7 @@ router.post("/signup", async (req, res) => {
   const { token } = req.body;
   try {
     const decoded = await admin.auth().verifyIdToken(token);
-    const { uid, email, name } = decoded;
+    const { uid, email, name, picture } = decoded;
 
     const client = await clientPromise;
     const db = client.db("sacredTimeline");
@@ -17,8 +17,8 @@ router.post("/signup", async (req, res) => {
       .collection("users")
       .updateOne(
         { uid },
-        { $setOnInsert: { uid, email, name } },
-        { $upsert: true }
+        { $setOnInsert: { uid, email, name, picture, createdAt: new Date().toISOString().split("T")[0] } },
+        { upsert: true }
       );
 
     res.status(200).json({ message: "user signed up" });

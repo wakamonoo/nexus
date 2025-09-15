@@ -23,7 +23,8 @@ export const googleSignUp = async() => {
     const token = await user.getIdToken();
     
     return { user, token, error: null };
-  } catch {
+  } catch (error) {
+    console.error("signin failed:", error)
     return { user: null, token: null, error }
   }
 }
