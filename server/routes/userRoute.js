@@ -1,0 +1,31 @@
+import express from "express";
+import clientPromise from "../lib/mongodb.js";
+import admin from "../lib/firebaseAdmin.js";
+
+const router = express.Router();
+
+router.post("/signup", async (req, res) => {
+  const { token } = req.body;
+  try {
+    const decoded = await admin.auth().verifyIdToken(token);
+    const { uid, email, name } = decoded;
+
+    const client = await clientPromise;
+    const db = client.db("sacredTimeline");
+
+    await db
+      .collection("users")
+      .updateOne(
+        { uid },
+        { $setOnInsert: { uid, email, name } },
+        { $upsert: true }
+      );
+
+    res.status(200).json({ message: "user signed up" });
+  } catch (err) {
+    console.error("failed to signup user", err);
+    res.status(401).json({ error: "invalid token" });
+  }
+});
+
+export default router;
