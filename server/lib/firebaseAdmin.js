@@ -1,5 +1,5 @@
 import admin from "firebase/admin";
-import serviceAccount from "../config/serviceAccount.js";
+import serviceAccount from "../../serviceAccount.js";
 
 admin.initializeApp({
   credential: admin.credential.cer(serviceAccount),
