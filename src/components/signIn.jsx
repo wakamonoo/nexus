@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
+import { auth } from "@/firebase/firebaseConfig";
+import { googleSignUp } from "@/firebase/firebaseConfig";
 
 export default function SignIn({ setShowSignIn }) {
+  const handleSignIn = async() => {
+    const { user, token, error } = await googleSignUp();
+  }
+
   return (
     <div
       onClick={() => setShowSignIn(false)}
@@ -12,7 +18,7 @@ export default function SignIn({ setShowSignIn }) {
           <MdClose onClick={() => setShowSignIn(false)} />
         </button>
         <div className="flex items-center justify-center">
-          <button className="bg-accent px-4 py-2 rounded-full">Sign In With Google</button>
+          <button onClick={handleSignIn} className="bg-accent px-4 py-2 rounded-full">Sign In With Google</button>
         </div>
       </div>
     </div>
