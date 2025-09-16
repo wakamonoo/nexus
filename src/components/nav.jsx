@@ -11,7 +11,7 @@ export default function Nav({ setShowNav, setShowSignIn }) {
       onClick={() => setShowNav(false)}
       className="inset-0 z-[80] backdrop-blur-xs flex fixed"
     >
-      <div className="fixed right-0 top-0 w-[60%] h-screen bg-panel px-8 py-4">
+      <div className="fixed right-0 top-0 w-[60%] h-screen bg-second px-8 py-4">
         <MdClose onClick={() => setShowNav(false)} className="text-2xl" />
         <div className="p-4 mt-4">
           <ul className="flex flex-col gap-4">

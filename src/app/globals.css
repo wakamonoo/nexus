@@ -152,6 +152,7 @@
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+  scrollbar-gutter: stable;
 }
 
 .scrollbar-hide {
