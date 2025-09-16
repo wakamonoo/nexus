@@ -71,6 +71,11 @@
     background-color: var(--color-gold);
   }
 
+  .bg-text {
+    background-color: var(--color-text);
+  }
+
+
   .text-brand {
     color: var(--color-bg);
   }
