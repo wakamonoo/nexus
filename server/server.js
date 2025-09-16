@@ -4,6 +4,7 @@ import cors from "cors";
 
 import userRoute from "./routes/userRoute.js";
 import titleRoute from "./routes/titleRoute.js";
+import titleGet from "./routes/titleGet.js"
 import imageRoute from "./routes/imageRoute.js";
 
 const app = express();
@@ -22,7 +23,9 @@ app.use(express.json());
 
 app.use("/api/users", userRoute);
 app.use("/api/titles", titleRoute);
+app.use("/api/titles", titleGet);
 app.use("/api/uploads", imageRoute);
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () =>

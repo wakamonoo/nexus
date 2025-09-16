@@ -1,39 +1,58 @@
-import { useEffect, useRef, useState } from "react";
-import { MdClose } from "react-icons/md";
+import {
+  FaHome,
+  FaSignInAlt,
+  FaUser,
+} from "react-icons/fa";
+import { MdClose, MdInfo, MdMovie } from "react-icons/md";
 
 export default function Nav({ setShowNav, setShowSignIn }) {
-  const divRef = useRef(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if(divRef.current && !divRef.current.contains(e.target)) {
-        setShowNav(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return() => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    }
-  }, [])
   return (
-    <>
-      <div ref={divRef} className="fixed right-0 top-0 w-[50%] h-screen bg-red-400 z-10 px-8 py-4">
-        <MdClose onClick={() => setShowNav(false)} />
+    <div
+      onClick={() => setShowNav(false)}
+      className="inset-0 z-[80] backdrop-blur-xs flex fixed"
+    >
+      <div className="fixed right-0 top-0 w-[60%] h-screen bg-panel px-8 py-4">
+        <MdClose onClick={() => setShowNav(false)} className="text-2xl" />
         <div className="p-4 mt-4">
-          <ul>
-            <li>home</li>
+          <ul className="flex flex-col gap-4">
+            <li>
+              <div className="flex gap-2 items-center">
+                <FaHome className="text-2xl" />
+                <p className="text-base text-normal font-bold">Home</p>
+              </div>
+            </li>
+            <li>
+              <div className="flex gap-2 items-center">
+                <MdMovie className="text-2xl" />
+                <p className="text-base text-normal font-bold">Collection</p>
+              </div>
+            </li>
+            <li>
+              <div className="flex gap-2 items-center">
+                <MdInfo className="text-2xl" />
+                <p className="text-base text-normal font-bold">About</p>
+              </div>
+            </li>
             <li
               onClick={() => {
                 setShowSignIn(true);
                 setShowNav(false);
               }}
             >
-              login
+              <div className="flex gap-2 items-center">
+                <FaSignInAlt className="text-2xl" />
+                <p className="text-base text-normal font-bold">Login</p>
+              </div>
+            </li>
+            <li>
+              <div className="flex gap-2 items-center">
+                <FaUser className="text-2xl" />
+                <p className="text-base text-normal font-bold">Profile</p>
+              </div>
             </li>
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 }

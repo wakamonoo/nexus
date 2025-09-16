@@ -75,7 +75,6 @@
     background-color: var(--color-text);
   }
 
-
   .text-brand {
     color: var(--color-bg);
   }
@@ -149,6 +148,15 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* ———————————————————————————————————— m-query ——— */
