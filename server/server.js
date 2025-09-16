@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import userRoute from "./routes/userRoute.js";
+import userGet from "./routes/userGet.js"
 import titleRoute from "./routes/titleRoute.js";
 import titleGet from "./routes/titleGet.js"
 import imageRoute from "./routes/imageRoute.js";
@@ -22,6 +23,7 @@ app.use(
 app.use(express.json());
 
 app.use("/api/users", userRoute);
+app.use("/api/users", userGet);
 app.use("/api/titles", titleRoute);
 app.use("/api/titles", titleGet);
 app.use("/api/uploads", imageRoute);

@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { FaBars, FaSearch } from "react-icons/fa";
-import Nav from "@/components/nav";
+import { FaBars, FaHome, FaSearch, FaUser } from "react-icons/fa";
 import SignIn from "@/components/signIn";
 import Image from "next/image";
 import HeroBg from "@/assets/bg-hero.png";
+import { MdChat } from "react-icons/md";
 
-export default function Hero() {
-  const [showNav, setShowNav] = useState(false);
+export default function Hero({ isLogged, adminBtn, user }) {
   const [showSignIn, setShowSignIn] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -32,12 +31,22 @@ export default function Hero() {
         />
 
         <div
-          className={`fixed flex justify-between p-4 w-full transition-colors duration-150 z-[70] ${
+          className={`fixed flex gap-4 justify-between px-4 py-2 w-full transition-colors duration-150 z-[70] ${
             isScrolled ? "bg-[var(--color-accent)]" : "bg-transparent"
           }`}
         >
-          <h1>logo</h1>
-          <FaBars onClick={() => setShowNav(true)} className="text-2xl" />
+          <div className="flex items-center"> 
+            <h1>logo</h1>
+          </div>
+          <div className="flex items-center gap-4">
+            <FaHome className="text-2xl" />
+            <MdChat className="text-2xl" />
+            {isLogged && user?.picture ? (
+              <Image src={user.picture} alt="user" width={0} height={0} sizes="100vw" className="w-8 rounded-full h-auto" />
+            ) : (
+              <FaUser className="text-2xl" />
+            )}
+          </div>
         </div>
 
         <div className="absolute w-full p-4 flex flex-col left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -76,8 +85,7 @@ export default function Hero() {
           </div>
         </div>
       </div>
-      {showNav && <Nav setShowNav={setShowNav} setShowSignIn={setShowSignIn} />}
-      {showSignIn && <SignIn setShowSignIn={setShowSignIn} />}
+      {showSignIn && <SignIn setShowSignIn={setShowSignIn} isLogged={isLogged} adminBtn={adminBtn} />}
     </>
   );
 }

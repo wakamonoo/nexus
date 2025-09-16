@@ -1,29 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { googleSignUp } from "@/firebase/firebaseConfig";
 import { auth } from "@/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";
 
-export default function SignIn({ setShowSignIn }) {
-  const [adminBtn, setAdminBtn] = useState(false);
-  const [isLogged, setIsLogged] = useState(null);
+export default function SignIn({ setShowSignIn, isLogged, adminBtn }) {
   const router = useRouter();
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((logged) => {
-      setIsLogged(logged);
-      if (logged && logged.email === "joven.serdanbataller21@gmail.com") {
-        setAdminBtn(true);
-      } else {
-        setAdminBtn(false);
-      }
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   const handleSignIn = async () => {
     if (isLogged) {
