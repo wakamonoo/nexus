@@ -31,7 +31,7 @@ export default function Hero({ isLogged, adminBtn, user }) {
         />
 
         <div
-          className={`fixed flex gap-4 justify-between px-4 py-2 w-full transition-colors duration-150 z-[70] ${
+          className={`fixed flex gap-4 justify-between px-4 py-2 w-full h-12 transition-colors duration-150 z-[70] ${
             isScrolled ? "bg-[var(--color-accent)]" : "bg-transparent"
           }`}
         >
