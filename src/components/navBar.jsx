@@ -16,7 +16,7 @@ export default function NavBar({ isScrolled }) {
       }`}
     >
       <div className="flex items-center gap-4">
-        <h1 className="text-2xl text-accent">NEXUS</h1>
+        <h1 onClick={() => router.push("/")} className="text-2xl text-accent">NEXUS</h1>
         <FaSearch className="text-2xl" />
       </div>
       <div className="flex items-center gap-4">

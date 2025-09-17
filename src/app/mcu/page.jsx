@@ -109,7 +109,40 @@ export default function Main() {
 
         <div className="py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl">HIGHEST RATED</h1>
+            <h1 className="text-2xl">MCU CHRONOLOGICAL ORDER</h1>
+            <FaAngleRight
+              className={`text-normal text-xl ${
+                isScrolled3 ? "flex" : "hidden"
+              }`}
+            />
+          </div>
+
+          <div ref={scrollRef3} className="overflow-x-auto scrollbar-hide">
+            <div className="flex gap-2">
+              {titles.length > 0 ? (
+                titles.map((unit, index) => (
+                  <div key={index} className="w-26 h-auto flex-shrink-0">
+                    <Image
+                      src={unit.image || Fallback}
+                      alt="image"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="w-full h-auto rounded"
+                    />
+                  </div>
+                ))
+              ) : (
+                <div>
+                  <p>none</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="py-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl">MCU RELEASE ORDER</h1>
             <FaAngleRight
               className={`text-normal text-xl ${
                 isScrolled2 ? "flex" : "hidden"
@@ -143,15 +176,15 @@ export default function Main() {
 
         <div className="py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl">MCU CHRONOLOGICAL ORDER</h1>
+            <h1 className="text-2xl">GOAT STATUS</h1>
             <FaAngleRight
               className={`text-normal text-xl ${
-                isScrolled3 ? "flex" : "hidden"
+                isScrolled2 ? "flex" : "hidden"
               }`}
             />
           </div>
 
-          <div ref={scrollRef3} className="overflow-x-auto scrollbar-hide">
+          <div ref={scrollRef2} className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2">
               {titles.length > 0 ? (
                 titles.map((unit, index) => (
@@ -173,6 +206,8 @@ export default function Main() {
               )}
             </div>
           </div>
+        </div>
+
         </div>
       </div>
     </>

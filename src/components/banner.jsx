@@ -1,8 +1,14 @@
 import { useState } from "react";
 import SignIn from "./signIn";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
+import { useRouter } from "next/navigation";
 
 export default function Banner() {
   const [showSignIn, setShowSignIn] = useState(false);
+  const { user } = useContext(UserContext);
+  const router = useRouter();
+
   return (
     <>
       <div className="bg-panel flex justify-center gap-2 w-full py-4 px-2">
@@ -15,17 +21,24 @@ export default function Banner() {
           <h1 className="text-5xl">IDEA...</h1>
         </div>
 
-        <button
-          onClick={() => setShowSignIn(true)}
-          className="text-normal font-normal text-base bg-accent px-4 py-2 rounded-full"
-        >
-          Sign Up
-        </button>
+        {!user ? (
+          <button
+            onClick={() => setShowSignIn(true)}
+            className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
+          >
+            <p>Sign Up</p>
+          </button>
+        ) : (
+          <button
+            onClick={() => setShowSignIn(true)}
+            className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
+          >
+            <p>Assemble</p>
+          </button>
+        )}
       </div>
 
-      {showSignIn && (
-        <SignIn setShowSignIn={setShowSignIn} />
-      )}
+      {showSignIn && <SignIn setShowSignIn={setShowSignIn} />}
     </>
   );
 }

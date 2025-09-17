@@ -20,7 +20,7 @@ export default function Page() {
 
   return (
     <>
-      <NavBar />
+      <NavBar isScrolled={isScrolled} />
 
       <Hero />
 
