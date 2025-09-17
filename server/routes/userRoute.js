@@ -11,7 +11,7 @@ router.post("/signup", async (req, res) => {
     const { uid, email, name, picture } = decoded;
 
     const client = await clientPromise;
-    const db = client.db("sacredTimeline");
+    const db = client.db("nexus");
 
     await db
       .collection("users")

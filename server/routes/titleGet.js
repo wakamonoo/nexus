@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/titleGet", async(req, res) => {
   try {
     const client = await clientPromise;
-    const db = client.db("sacredTimeline");
+    const db = client.db("nexus");
 
     const result = await db.collection("titles").find({}).toArray();
 

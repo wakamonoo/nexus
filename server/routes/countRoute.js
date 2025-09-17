@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/countData", async (req, res) => {
   try {
     const client = await clientPromise;
-    const db = client.db("sacredTimeline");
+    const db = client.db("nexus");
 
     const usersCount = await db.collection("users").countDocuments();
     const titlesCount = await db.collection("titles").countDocuments();

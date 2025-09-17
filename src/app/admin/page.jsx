@@ -65,7 +65,8 @@ export default function Page() {
         url: "",
         summary: "",
       });
-      fileRef.current.value = "";
+
+      if (fileRef.current) fileRef.current.value = "";
 
       fetchCounts();
     } catch (err) {

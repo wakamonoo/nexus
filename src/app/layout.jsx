@@ -29,7 +29,7 @@ const orbitron = Orbitron({
 
 // Metadata
 export const metadata = {
-  title: "The Sacred Timeline",
+  title: "nexus",
   description: "Explore the MCU in chronological order",
 };
 

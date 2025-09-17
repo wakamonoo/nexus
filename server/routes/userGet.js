@@ -7,7 +7,7 @@ router.get("/userGet/:uid", async (req, res) => {
   const { uid } = req.params;
   try {
     const client = await clientPromise;
-    const db = client.db("sacredTimeline");
+    const db = client.db("nexus");
 
     const result = await db.collection("users").findOne({ uid });
 

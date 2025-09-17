@@ -16,7 +16,7 @@ router.post("/imageUpload", upload.single("file"), async (req, res) => {
     const result = await new Promise((resolve, reject) => {
       bufferStream.pipe(
         cloudinary.uploader.upload_stream(
-          { folder: "sacredtimeline uploads" },
+          { folder: "nexus uploads" },
           (err, res) => (err ? reject(err) : resolve(res))
         )
       );
