@@ -166,78 +166,78 @@ export default function Main() {
               )}
             </div>
           </div>
+        </div>
 
-          <div className="py-4">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl">MCU RELEASE ORDER</h1>
-              <FaAngleRight
-                className={`text-normal text-xl ${
-                  isScrolled3 ? "flex" : "hidden"
-                }`}
-              />
-            </div>
-
-            <div ref={scrollRef3} className="overflow-x-auto scrollbar-hide">
-              <div className="flex gap-2">
-                {titles.length > 0 ? (
-                  titles.map((unit, index) => (
-                    <div key={index} className="w-26 h-auto flex-shrink-0">
-                      <Image
-                        src={unit.image || Fallback}
-                        alt="image"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-auto rounded"
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <div className="flex flex-col justify-center items-center">
-                    <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                    <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                      Sorry, no data to display!
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
+        <div className="py-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl">MCU RELEASE ORDER</h1>
+            <FaAngleRight
+              className={`text-normal text-xl ${
+                isScrolled3 ? "flex" : "hidden"
+              }`}
+            />
           </div>
 
-          <div className="py-4">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl">GOAT STATUS</h1>
-              <FaAngleRight
-                className={`text-normal text-xl ${
-                  isScrolled4 ? "flex" : "hidden"
-                }`}
-              />
-            </div>
-
-            <div ref={scrollRef4} className="overflow-x-auto scrollbar-hide">
-              <div className="flex gap-2">
-                {titles.length > 0 ? (
-                  titles.map((unit, index) => (
-                    <div key={index} className="w-26 h-auto flex-shrink-0">
-                      <Image
-                        src={unit.image || Fallback}
-                        alt="image"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-auto rounded"
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <div className="flex flex-col justify-center items-center">
-                    <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                    <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                      Sorry, no data to display!
-                    </p>
+          <div ref={scrollRef3} className="overflow-x-auto scrollbar-hide">
+            <div className="flex gap-2">
+              {titles.length > 0 ? (
+                titles.map((unit, index) => (
+                  <div key={index} className="w-26 h-auto flex-shrink-0">
+                    <Image
+                      src={unit.image || Fallback}
+                      alt="image"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="w-full h-auto rounded"
+                    />
                   </div>
-                )}
-              </div>
+                ))
+              ) : (
+                <div className="flex flex-col justify-center items-center">
+                  <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
+                  <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                    Sorry, no data to display!
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="py-4">
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl">GOAT STATUS</h1>
+            <FaAngleRight
+              className={`text-normal text-xl ${
+                isScrolled4 ? "flex" : "hidden"
+              }`}
+            />
+          </div>
+
+          <div ref={scrollRef4} className="overflow-x-auto scrollbar-hide">
+            <div className="flex gap-2">
+              {titles.length > 0 ? (
+                titles.map((unit, index) => (
+                  <div key={index} className="w-26 h-auto flex-shrink-0">
+                    <Image
+                      src={unit.image || Fallback}
+                      alt="image"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="w-full h-auto rounded"
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="flex flex-col justify-center items-center">
+                  <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
+                  <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                    Sorry, no data to display!
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
