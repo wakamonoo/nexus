@@ -7,6 +7,7 @@ import userGet from "./routes/userGet.js"
 import titleRoute from "./routes/titleRoute.js";
 import titleGet from "./routes/titleGet.js"
 import imageRoute from "./routes/imageRoute.js";
+import countRoute from "./routes/countRoute.js"
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/api/users", userGet);
 app.use("/api/titles", titleRoute);
 app.use("/api/titles", titleGet);
 app.use("/api/uploads", imageRoute);
+app.use("/api/counts", countRoute);
 
 
 const PORT = process.env.PORT || 4000;

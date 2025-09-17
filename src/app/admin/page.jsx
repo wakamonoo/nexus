@@ -1,5 +1,8 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FaAngleLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import CountUp from "react-countup";
 
 export default function Page() {
   const [data, setData] = useState({
@@ -9,7 +12,9 @@ export default function Page() {
     timeline: "",
     summary: "",
   });
-  const fileRef = useRef()
+  const fileRef = useRef();
+  const router = useRouter();
+  const [count, setCount] = useState({ usersCount: 0, titlesCount: 0 });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -53,12 +58,41 @@ export default function Page() {
         summary: "",
       });
       fileRef.current.value = "";
+
+      fetchCounts();
     } catch (err) {
       console.error(err);
     }
   };
+
+  const fetchCounts = async () => {
+    try {
+      const res = await fetch("http://localhost:4000/api/counts/countData");
+      const data = await res.json();
+      setCount(data);
+    } catch (err) {
+      console.error("failed to fetch count:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCounts();
+  }, []);
+
   return (
-    <div>
+    <div className="p-4">
+      <FaAngleLeft onClick={() => router.push("/")} className="text-2xl" />
+
+      <div className="flex gap-2 items-center justify-center">
+        <div className="w-32 h-32 rounded-full bg-accent flex justify-center items-center border-7 border-white">
+          <CountUp end={count.usersCount} duration={1.5} />
+        </div>
+
+        <div className="w-32 h-32 rounded-full bg-accent flex justify-center items-center border-7 border-white">
+          <CountUp end={count.titlesCount} duration={1.5} />
+        </div>
+      </div>
+
       <div className="flex flex-col items-center justify-center gap-4 w-full p-8">
         <input
           type="file"
