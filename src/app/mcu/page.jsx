@@ -15,9 +15,11 @@ export default function Main() {
   const [isScrolled1, setIsScrolled1] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
   const [isScrolled3, setIsScrolled3] = useState(false);
+  const [isScrolled4, setIsScrolled4] = useState(false);
   const scrollRef1 = useRef(null);
   const scrollRef2 = useRef(null);
   const scrollRef3 = useRef(null);
+  const scrollRef4 = useRef(null);
 
   useEffect(() => {
     const handleGetTitles = async () => {
@@ -74,6 +76,20 @@ export default function Main() {
     };
   }, []);
 
+  useEffect(() => {
+    const current = scrollRef4.current;
+    if (!current) return;
+
+    const handleScroll = () => {
+      setIsScrolled4(current.scrollLeft > 50);
+    };
+
+    current.addEventListener("scroll", handleScroll);
+    return () => {
+      current.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <NavBar />
@@ -120,12 +136,12 @@ export default function Main() {
             <h1 className="text-2xl">MCU CHRONOLOGICAL ORDER</h1>
             <FaAngleRight
               className={`text-normal text-xl ${
-                isScrolled3 ? "flex" : "hidden"
+                isScrolled2 ? "flex" : "hidden"
               }`}
             />
           </div>
 
-          <div ref={scrollRef3} className="overflow-x-auto scrollbar-hide">
+          <div ref={scrollRef2} className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2">
               {titles.length > 0 ? (
                 titles.map((unit, index) => (
@@ -156,12 +172,12 @@ export default function Main() {
               <h1 className="text-2xl">MCU RELEASE ORDER</h1>
               <FaAngleRight
                 className={`text-normal text-xl ${
-                  isScrolled2 ? "flex" : "hidden"
+                  isScrolled3 ? "flex" : "hidden"
                 }`}
               />
             </div>
 
-            <div ref={scrollRef2} className="overflow-x-auto scrollbar-hide">
+            <div ref={scrollRef3} className="overflow-x-auto scrollbar-hide">
               <div className="flex gap-2">
                 {titles.length > 0 ? (
                   titles.map((unit, index) => (
@@ -193,12 +209,12 @@ export default function Main() {
               <h1 className="text-2xl">GOAT STATUS</h1>
               <FaAngleRight
                 className={`text-normal text-xl ${
-                  isScrolled2 ? "flex" : "hidden"
+                  isScrolled4 ? "flex" : "hidden"
                 }`}
               />
             </div>
 
-            <div ref={scrollRef2} className="overflow-x-auto scrollbar-hide">
+            <div ref={scrollRef4} className="overflow-x-auto scrollbar-hide">
               <div className="flex gap-2">
                 {titles.length > 0 ? (
                   titles.map((unit, index) => (
