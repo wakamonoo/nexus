@@ -5,6 +5,7 @@ import { auth } from "@/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
+import Swal from "sweetalert2";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -18,6 +19,21 @@ export default function SignIn({ setShowSignIn }) {
   const handleSignIn = async () => {
     if (isLogged) {
       await auth.signOut();
+      Swal.fire({
+        title: "Success",
+        text: "Logout complete!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
       setShowSignIn(false);
     } else {
       const { user, token, error } = await googleSignUp();
@@ -35,10 +51,38 @@ export default function SignIn({ setShowSignIn }) {
               token,
             }),
           });
-          alert("succesful");
+          Swal.fire({
+            title: "Success",
+            text: "Login complete!",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+            background: "var(--color-text)",
+            color: "var(--color-bg)",
+            iconColor: "var(--color-hulk)",
+            customClass: {
+              popup: "rounded-2xl shadow-lg",
+              title: "text-lg font-bold text-[var(--color-hulk)]",
+              htmlContainer: "text-sm",
+            },
+          });
         } catch (err) {
           console.error(err);
-          alert("error");
+          Swal.fire({
+            title: "Error",
+            text: "Login failed!",
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+            background: "var(--color-text)",
+            color: "var(--color-bg)",
+            iconColor: "var(--color-accent)",
+            customClass: {
+              popup: "rounded-2xl shadow-lg",
+              title: "text-lg font-bold text-[var(--color-accent)]",
+              htmlContainer: "text-sm",
+            },
+          });
         }
       }
     }

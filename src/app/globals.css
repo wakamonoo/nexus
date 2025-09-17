@@ -13,7 +13,7 @@
     --color-panel: #2e2e2e; /* ———————————————————————————————————— panel bg ——— */
     --color-secondary: #1c1c1c; /* ———————————————————————————————————— secondary bg ——— */
     --color-hero-blue: #1464f4; /* ———————————————————————————————————— hero blue ——— */
-    --color-gold: #f5c518; /* ———————————————————————————————————— infinity gold ——— */
+    --color-hulk: #228B22; /* ———————————————————————————————————— hulk green ——— */
 
     --font-heading: "Bebas Neue", sans-serif; /* ———————————————————————————————————— headings ——— */
     --font-body: "Roboto", sans-serif; /* ———————————————————————————————————— normal text ——— */
@@ -67,8 +67,8 @@
     background-color: var(--color-hero-blue);
   }
 
-  .bg-gold {
-    background-color: var(--color-gold);
+  .bg-hulk {
+    background-color: var(--color-hulk);
   }
 
   .bg-text {
