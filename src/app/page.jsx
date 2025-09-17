@@ -1,47 +1,29 @@
 "use client";
 import { useEffect, useState } from "react";
-import { auth } from "@/firebase/firebaseConfig";
 import Hero from "../sections/hero";
-import Main from "../sections/main.jsx";
+import NavBar from "@/components/navBar";
 
 export default function Page() {
-  const [isLogged, setIsLogged] = useState(null);
-  const [adminBtn, setAdminBtn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (logged) => {
-      setIsLogged(logged);
-      if (logged) {
-        try {
-          const res = await fetch(
-            `http://localhost:4000/api/users/userGet/${logged.uid}`
-          );
-          const resData = await res.json();
-          setUser(resData.result);
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
-        setUser(null);
-      }
-      if (logged && logged.email === "joven.serdanbataller21@gmail.com") {
-        setAdminBtn(true);
-      } else {
-        setAdminBtn(false);
-      }
-    });
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
 
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      unsubscribe();
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
+
   return (
     <>
-      <Hero isLogged={isLogged} adminBtn={adminBtn} user={user} />
+      <NavBar />
 
-      <Main />
+      <Hero />
+
     </>
   );
 }

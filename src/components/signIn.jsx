@@ -3,8 +3,11 @@ import { MdClose } from "react-icons/md";
 import { googleSignUp } from "@/firebase/firebaseConfig";
 import { auth } from "@/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
-export default function SignIn({ setShowSignIn, isLogged, adminBtn }) {
+export default function SignIn({ setShowSignIn }) {
+  const { isLogged, adminBtn } = useContext(UserContext);
   const router = useRouter();
 
   const handleSignIn = async () => {
