@@ -6,6 +6,11 @@ import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
+
 export default function SignIn({ setShowSignIn }) {
   const { isLogged, adminBtn } = useContext(UserContext);
   const router = useRouter();
@@ -21,7 +26,7 @@ export default function SignIn({ setShowSignIn }) {
       }
       if (user) {
         try {
-          await fetch("http://localhost:4000/api/users/signup", {
+          await fetch(`${BASE_URL}/api/users/signup`, {
             method: "POST",
             headers: {
               "Content-type": "application/json",

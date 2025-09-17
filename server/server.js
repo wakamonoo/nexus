@@ -13,7 +13,7 @@ const app = express();
 
 dotenv.config();
 
-const allowedOrigin = ["http://localhost:3000"];
+const allowedOrigin = ["http://localhost:3000", "nexus-wakamonoo.vercel.app", "https://nexus-po8x.onrender.com"];
 
 app.use(
   cors({

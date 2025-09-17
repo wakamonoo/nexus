@@ -5,6 +5,11 @@ import { FaAngleRight } from "react-icons/fa";
 import Fallback from "@/assets/fallback.jpg";
 import NavBar from "@/components/navBar";
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
+
 export default function Main() {
   const [titles, setTitles] = useState([]);
   const [isScrolled1, setIsScrolled1] = useState(false);
@@ -16,7 +21,7 @@ export default function Main() {
 
   useEffect(() => {
     const handleGetTitles = async () => {
-      const res = await fetch("http://localhost:4000/api/titles/titleGet", {
+      const res = await fetch(`${BASE_URL}/api/titles/titleGet`, {
         method: "GET",
       });
 

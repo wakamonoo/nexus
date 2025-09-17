@@ -4,6 +4,12 @@ import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import CountUp from "react-countup";
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
+
+
 export default function Page() {
   const [data, setData] = useState({
     title: "",
@@ -37,7 +43,7 @@ export default function Page() {
       formData.append("file", data.image);
 
       const cloudRes = await fetch(
-        "http://localhost:4000/api/uploads/imageUpload",
+        `${BASE_URL}/api/uploads/imageUpload`,
         {
           method: "POST",
           body: formData,
@@ -47,7 +53,7 @@ export default function Page() {
       const cloudData = await cloudRes.json();
       imageURL = cloudData.url;
 
-      await fetch("http://localhost:4000/api/titles/addTitle", {
+      await fetch(`${BASE_URL}/api/titles/addTitle`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -76,7 +82,7 @@ export default function Page() {
 
   const fetchCounts = async () => {
     try {
-      const res = await fetch("http://localhost:4000/api/counts/countData");
+      const res = await fetch(`${BASE_URL}/api/counts/countData`);
       const data = await res.json();
       setCount(data);
     } catch (err) {
