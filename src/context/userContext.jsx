@@ -13,6 +13,7 @@ export const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(null);
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (logged) => {
@@ -35,6 +36,8 @@ export const UserProvider = ({ children }) => {
       } else {
         setAdminBtn(false);
       }
+
+      setLoading(false);
     });
 
     return () => {
@@ -43,7 +46,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ isLogged, user, adminBtn, setIsLogged, setUser }}>
+    <UserContext.Provider value={{ isLogged, user, adminBtn, loading }}>
       {children}
     </UserContext.Provider>
   );
