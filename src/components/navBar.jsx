@@ -34,34 +34,34 @@ export default function NavBar({ isScrolled }) {
         <FaSearch className="text-2xl cursor-pointer" />
       </div>
       <div className="flex items-center gap-4">
-        <div onClick={() => router.push("/")} 
+        <button
+          onClick={() => router.push("/")}
           className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
             "/"
           )}`}
         >
           <MdFeed className="text-2xl" />
           <p className="text-xs font-bold">Pulse</p>
-        </div>
-        <div onClick={() => router.push("/mcu")}
+        </button>
+        <button
+          onClick={() => router.push("/mcu")}
           className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
             "/mcu"
           )}`}
         >
           <FaFilm className="text-2xl" />
           <p className="text-xs font-bold">Legacy</p>
-        </div>
-        <div onClick={() => router.push("/globalChat")}
+        </button>
+        <button
+          onClick={() => router.push("/globalChat")}
           className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
             "/globalChat"
           )}`}
         >
-          <MdChat
-            
-            className="text-2xl"
-          />
+          <MdChat className="text-2xl" />
           <p className="text-xs font-bold">Citadel</p>
-        </div>
-        <div className="flex flex-1 min-w-[30px] justify-center">
+        </button>
+        <button className="flex flex-1 min-w-[30px] justify-center">
           {isLogged && user?.picture ? (
             loading ? (
               <ImageLoader />
@@ -78,7 +78,7 @@ export default function NavBar({ isScrolled }) {
           ) : (
             <FaUser className="text-2xl cursor-pointer" />
           )}
-        </div>
+        </button>
       </div>
     </div>
   );
