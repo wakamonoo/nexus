@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
   const fetchUserData = async (uid) => {
     try {
@@ -35,6 +36,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      setLoading(true);
       if (firebaseUser) {
         await fetchUserData(firebaseUser.uid);
       } else {
@@ -42,9 +44,8 @@ export const UserProvider = ({ children }) => {
         setIsLogged(false);
         setAdminBtn(false);
       }
-      setTimeout(() => {
-        setLoading(false);
-      }, 1500);
+      await delay(2000);
+      setLoading(false);
     });
 
     return () => {
