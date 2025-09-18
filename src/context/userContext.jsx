@@ -16,28 +16,32 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (logged) => {
-      setIsLogged(!!logged);
-      if (logged) {
-        try {
-          const res = await fetch(
-            `${BASE_URL}/api/users/userGet/${logged.uid}`
-          );
-          const resData = await res.json();
-          setUser(resData.result);
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      if (!firebaseUser) {
         setUser(null);
-      }
-      if (logged && logged.email === "joven.serdanbataller21@gmail.com") {
-        setAdminBtn(true);
-      } else {
+        setIsLogged(false);
         setAdminBtn(false);
+        setLoading(false);
+        return;
       }
 
-      setLoading(false);
+      try {
+        const res = await fetch(
+          `${BASE_URL}/api/users/userGet/${firebaseUser.uid}`
+        );
+        const data = await res.json();
+
+        setUser(data.result);
+        setIsLogged(true);
+        setAdminBtn(firebaseUser.email === "joven.serdanbataller21@gmail.com");
+      } catch (err) {
+        console.error("error fetching user data:", err);
+        setUser(null);
+        setIsLogged(false);
+        setAdminBtn(false);
+      } finally {
+        setLoading(false);
+      }
     });
 
     return () => {

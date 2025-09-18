@@ -22,9 +22,7 @@ export default function Banner() {
           <h1 className="text-5xl">IDEA...</h1>
         </div>
 
-        {loading ? (
-          <Loader />
-        ) : !user ? (
+        {!user ? (
           <button
             onClick={() => setShowSignIn(true)}
             className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
@@ -36,7 +34,7 @@ export default function Banner() {
             onClick={() => setShowSignIn(true)}
             className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
           >
-            <p>Assemble</p>
+            {loading ? <Loader /> : <p>Assemble</p>}
           </button>
         )}
       </div>
