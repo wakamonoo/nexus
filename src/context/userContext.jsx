@@ -17,7 +17,6 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      setLoading(true);
       if (!firebaseUser) {
         setUser(null);
         setIsLogged(false);
