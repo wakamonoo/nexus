@@ -13,7 +13,7 @@ const BASE_URL =
     : "http://localhost:4000";
 
 export default function SignIn({ setShowSignIn }) {
-  const { isLogged, adminBtn } = useContext(UserContext);
+  const { isLogged, adminBtn, refreshUserData } = useContext(UserContext);
   const router = useRouter();
 
   const handleSignIn = async () => {
@@ -54,7 +54,7 @@ export default function SignIn({ setShowSignIn }) {
           },
         });
       }
-      if (user) {
+      if (user && token) {
         try {
           await fetch(`${BASE_URL}/api/users/signup`, {
             method: "POST",
@@ -65,6 +65,8 @@ export default function SignIn({ setShowSignIn }) {
               token,
             }),
           });
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          await refreshUserData();
           Swal.fire({
             title: "Success",
             text: "Login complete!",

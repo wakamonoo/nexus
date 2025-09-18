@@ -15,8 +15,6 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [refresh, setRefresh] = useState(0);
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       if (!firebaseUser) {
@@ -38,16 +36,13 @@ export const UserProvider = ({ children }) => {
         setUser(data.result);
         setIsLogged(true);
         setAdminBtn(firebaseUser.email === "joven.serdanbataller21@gmail.com");
-        setRefresh((prev) => prev + 1);
       } catch (err) {
         console.error("error fetching user data:", err);
         setUser(null);
         setIsLogged(false);
         setAdminBtn(false);
       } finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 5000);
+        setLoading(false);
       }
     });
 
@@ -56,10 +51,26 @@ export const UserProvider = ({ children }) => {
     };
   }, []);
 
+  const refreshUserData = async () => {
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `${BASE_URL}/api/users/userGet/${currentUser.uid}`
+        );
+        const data = await res.json();
+        setUser(data.result);
+      } catch (err) {
+        console.error("error refreshing data:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   return (
-    <UserContext.Provider
-      value={{ isLogged, user, adminBtn, loading, refresh }}
-    >
+    <UserContext.Provider value={{ isLogged, user, adminBtn, loading, refreshUserData }}>
       {children}
     </UserContext.Provider>
   );
