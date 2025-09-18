@@ -13,7 +13,7 @@ const BASE_URL =
     : "http://localhost:4000";
 
 export default function SignIn({ setShowSignIn }) {
-  const { isLogged, adminBtn, refreshUserData } = useContext(UserContext);
+  const { isLogged, adminBtn, fetchUserData } = useContext(UserContext);
   const router = useRouter();
 
   const handleSignIn = async () => {
@@ -65,7 +65,8 @@ export default function SignIn({ setShowSignIn }) {
               token,
             }),
           });
-          
+
+          await fetchUserData();
           Swal.fire({
             title: "Success",
             text: "Login complete!",

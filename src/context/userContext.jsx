@@ -15,37 +15,35 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const fetchUserData = async (uid) => {
+    try {
+      const res = await fetch(
+        `${BASE_URL}/api/users/userGet/${firebaseUser.uid}`
+      );
+      const data = await res.json();
+
+      setUser(data.result);
+      setIsLogged(true);
+      setAdminBtn(firebaseUser.email === "joven.serdanbataller21@gmail.com");
+    } catch (err) {
+      console.error("error fetching user data:", err);
+      setUser(null);
+      setIsLogged(false);
+      setAdminBtn(false);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      setLoading(true);
-      try {
-        if (!firebaseUser) {
-          setUser(null);
-          setIsLogged(false);
-          setAdminBtn(false);
-          return;
-        } else {
-          const res = await fetch(
-            `${BASE_URL}/api/users/userGet/${firebaseUser.uid}`
-          );
-          const data = await res.json();
-
-          setUser(data.result);
-          setIsLogged(true);
-          setAdminBtn(
-            firebaseUser.email === "joven.serdanbataller21@gmail.com"
-          );
-          await new Promise((resolve) => setTimeout(resolve, 1500));
-          await refreshUserData();
-        }
-      } catch (err) {
-        console.error("error fetching user data:", err);
+      if (firebaseUser) {
+        await new Promise((res) => setTimeout(res, 500));
+        await fetchUserData(firebaseUser.uid);
+      } else {
         setUser(null);
         setIsLogged(false);
         setAdminBtn(false);
-      } finally {
-        setLoading(false);
       }
+      setLoading(false);
     });
 
     return () => {
@@ -53,24 +51,9 @@ export const UserProvider = ({ children }) => {
     };
   }, []);
 
-  const refreshUserData = async () => {
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      try {
-        const res = await fetch(
-          `${BASE_URL}/api/users/userGet/${currentUser.uid}`
-        );
-        const data = await res.json();
-        setUser(data.result);
-      } catch (err) {
-        console.error("error refreshing data:", err);
-      }
-    }
-  };
-
   return (
     <UserContext.Provider
-      value={{ isLogged, user, adminBtn, loading, refreshUserData }}
+      value={{ isLogged, user, adminBtn, loading, fetchUserData }}
     >
       {children}
     </UserContext.Provider>
