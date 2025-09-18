@@ -45,7 +45,9 @@ export const UserProvider = ({ children }) => {
         setIsLogged(false);
         setAdminBtn(false);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 5000);
       }
     });
 

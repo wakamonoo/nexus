@@ -41,17 +41,28 @@ export default function NavBar({ isScrolled }) {
           className="text-2xl cursor-pointer"
         />
         <MdChat className="text-2xl cursor-pointer" />
-        {loading ? (
-          <ImageLoader />
-        ) : isLogged && user?.picture ? (
-          <Image
-            src={user.picture}
-            alt="user"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-8 rounded-full h-auto cursor-pointer"
-          />
+        {isLogged ? (
+          loading ? (
+            <ImageLoader />
+          ) : user?.picture ? (
+            <Image
+              src={user.picture}
+              alt="user"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-8 rounded-full h-auto cursor-pointer"
+            />
+          ) : (
+            <Image
+              src="/assets/fallback.png"
+              alt="fallback"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-8 rounded-full h-auto cursor-pointer"
+            />
+          )
         ) : (
           <FaUser className="text-2xl cursor-pointer" />
         )}
