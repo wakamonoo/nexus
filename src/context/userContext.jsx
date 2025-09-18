@@ -17,14 +17,14 @@ export const UserProvider = ({ children }) => {
 
   const fetchUserData = async (uid) => {
     try {
-      const res = await fetch(
-        `${BASE_URL}/api/users/userGet/${firebaseUser.uid}`
-      );
+      const res = await fetch(`${BASE_URL}/api/users/userGet/${uid}`);
       const data = await res.json();
 
       setUser(data.result);
       setIsLogged(true);
-      setAdminBtn(firebaseUser.email === "joven.serdanbataller21@gmail.com");
+      setAdminBtn(
+        auth.currentUser.email === "joven.serdanbataller21@gmail.com"
+      );
     } catch (err) {
       console.error("error fetching user data:", err);
       setUser(null);
@@ -36,14 +36,15 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser) {
-        await new Promise((res) => setTimeout(res, 500));
         await fetchUserData(firebaseUser.uid);
       } else {
         setUser(null);
         setIsLogged(false);
         setAdminBtn(false);
       }
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 800);
     });
 
     return () => {
