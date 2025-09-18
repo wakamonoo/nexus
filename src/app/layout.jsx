@@ -1,5 +1,6 @@
 import { Bebas_Neue, Roboto, Anton, Orbitron } from "next/font/google";
 import { UserProvider } from "@/context/userContext";
+import AuthWrapper from "@/components/authWrapper";
 import "./globals.css";
 
 // Fonts
@@ -39,7 +40,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${bebasNeue.variable} ${roboto.variable} ${anton.variable} ${orbitron.variable} scroll-smooth`}
       >
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <AuthWrapper>{children}</AuthWrapper>
+        </UserProvider>
       </body>
     </html>
   );
