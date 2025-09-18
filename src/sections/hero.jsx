@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <div className="bg-brand w-full pt-12">
+    <div className="bg-brand w-full pt-16">
       <Banner />
 
       <div className="p-4 flex flex-col gap-4">

@@ -90,7 +90,7 @@ export default function Page() {
         iconColor: "var(--color-accent)",
         customClass: {
           popup: "rounded-2xl shadow-lg",
-          title: "text-lg font-bold text-[var(--color-accent)]",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
           htmlContainer: "text-sm",
         },
       });
@@ -107,7 +107,7 @@ export default function Page() {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup: "rounded-2xl shadow-lg",
-          title: "text-lg font-bold text-[var(--color-hulk)]",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
           htmlContainer: "text-sm",
         },
       });

@@ -21,7 +21,7 @@ export default function SignIn({ setShowSignIn }) {
       await auth.signOut();
       Swal.fire({
         title: "Success",
-        text: "Logout complete!",
+        text: "You've been logged out!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -30,7 +30,7 @@ export default function SignIn({ setShowSignIn }) {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup: "rounded-2xl shadow-lg",
-          title: "text-lg font-bold text-[var(--color-hulk)]",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
           htmlContainer: "text-sm",
         },
       });
@@ -40,7 +40,7 @@ export default function SignIn({ setShowSignIn }) {
       if (error) {
         Swal.fire({
           title: "Error",
-          text: "Login failed!",
+          text: "Login attempt failed, kindly try again!",
           icon: "error",
           timer: 2000,
           showConfirmButton: false,
@@ -49,7 +49,7 @@ export default function SignIn({ setShowSignIn }) {
           iconColor: "var(--color-accent)",
           customClass: {
             popup: "rounded-2xl shadow-lg",
-            title: "text-lg font-bold text-[var(--color-accent)]",
+            title: "text-lg font-bold !text-[var(--color-accent)]",
             htmlContainer: "text-sm",
           },
         });
@@ -69,7 +69,7 @@ export default function SignIn({ setShowSignIn }) {
           await fetchUserData(user.uid);
           Swal.fire({
             title: "Success",
-            text: "Login complete!",
+            text: "User login complete!",
             icon: "success",
             timer: 2000,
             showConfirmButton: false,
@@ -78,7 +78,7 @@ export default function SignIn({ setShowSignIn }) {
             iconColor: "var(--color-hulk)",
             customClass: {
               popup: "rounded-2xl shadow-lg",
-              title: "text-lg font-bold text-[var(--color-hulk)]",
+              title: "text-lg font-bold !text-[var(--color-hulk)]",
               htmlContainer: "text-sm",
             },
           });
@@ -86,7 +86,7 @@ export default function SignIn({ setShowSignIn }) {
           console.error(err);
           Swal.fire({
             title: "Error",
-            text: "Login failed!",
+            text: "Initernal error, kindly try again!",
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
@@ -95,7 +95,7 @@ export default function SignIn({ setShowSignIn }) {
             iconColor: "var(--color-accent)",
             customClass: {
               popup: "rounded-2xl shadow-lg",
-              title: "text-lg font-bold text-[var(--color-accent)]",
+              title: "text-lg font-bold !text-[var(--color-accent)]",
               htmlContainer: "text-sm",
             },
           });
