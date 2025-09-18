@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleRight, FaBoxOpen } from "react-icons/fa";
-import Fallback from "@/assets/fallback.jpg";
+import Fallback from "@/assets/fallback.png";
 import NavBar from "@/components/navBar";
 
 const BASE_URL =
