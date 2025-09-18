@@ -80,7 +80,6 @@ export default function SignIn({ setShowSignIn }) {
               htmlContainer: "text-sm",
             },
           });
-          router.refresh();
         } catch (err) {
           console.error(err);
           Swal.fire({
