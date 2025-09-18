@@ -4,6 +4,11 @@ import { auth } from "@/firebase/firebaseConfig";
 
 export const UserContext = createContext();
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
+
 export const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(null);
   const [adminBtn, setAdminBtn] = useState(false);
@@ -15,7 +20,7 @@ export const UserProvider = ({ children }) => {
       if (logged) {
         try {
           const res = await fetch(
-            `http://localhost:4000/api/users/userGet/${logged.uid}`
+            `${BASE_URL}/api/users/userGet/${logged.uid}`
           );
           const resData = await res.json();
           setUser(resData.result);
@@ -38,8 +43,8 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ isLogged, user, adminBtn}}>
+    <UserContext.Provider value={{ isLogged, user, adminBtn }}>
       {children}
     </UserContext.Provider>
-  )
+  );
 };
