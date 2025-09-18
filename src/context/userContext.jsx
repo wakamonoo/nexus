@@ -18,21 +18,16 @@ export const UserProvider = ({ children }) => {
   const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
-    let isMounted = true; // prevent race on unmounted components
-
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      if (!isMounted) return;
-      setLoading(true);
-
       if (!firebaseUser) {
-        if (isMounted) {
-          setUser(null);
-          setIsLogged(false);
-          setAdminBtn(false);
-          setLoading(false);
-        }
+        setUser(null);
+        setIsLogged(false);
+        setAdminBtn(false);
+        setLoading(false);
         return;
       }
+
+      setLoading(true);
 
       try {
         const res = await fetch(
@@ -40,25 +35,23 @@ export const UserProvider = ({ children }) => {
         );
         const data = await res.json();
 
-        if (!isMounted) return;
         setUser(data.result);
         setIsLogged(true);
         setAdminBtn(firebaseUser.email === "joven.serdanbataller21@gmail.com");
         setRefresh((prev) => prev + 1);
       } catch (err) {
-        console.error(err);
-        if (isMounted) {
-          setUser(null);
-          setIsLogged(false);
-          setAdminBtn(false);
-        }
+        console.error("error fetching user data:", err);
+        setUser(null);
+        setIsLogged(false);
+        setAdminBtn(false);
       } finally {
-        if (isMounted) setLoading(false); // only set after all async/state is done
+        setTimeout(() => {
+          setLoading(false);
+        }, 5000);
       }
     });
 
     return () => {
-      isMounted = false;
       unsubscribe();
     };
   }, []);
