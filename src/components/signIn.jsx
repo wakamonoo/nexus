@@ -66,7 +66,7 @@ export default function SignIn({ setShowSignIn }) {
             }),
           });
 
-          await fetchUserData();
+          await fetchUserData(user.uid);
           Swal.fire({
             title: "Success",
             text: "Login complete!",
