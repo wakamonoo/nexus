@@ -67,6 +67,7 @@ export default function SignIn({ setShowSignIn }) {
                 htmlContainer: "text-sm",
               },
             });
+            setShowSignIn(false);
           });
         } catch (err) {
           console.error(err);

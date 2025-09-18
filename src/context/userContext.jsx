@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, useEffect, Children } from "react";
+import { createContext, useState, useEffect } from "react";
 import { auth } from "@/firebase/firebaseConfig";
 
 export const UserContext = createContext();
