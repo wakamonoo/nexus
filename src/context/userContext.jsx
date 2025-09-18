@@ -10,13 +10,18 @@ const BASE_URL =
     : "http://localhost:4000";
 
 export const UserProvider = ({ children }) => {
-  const [isLogged, setIsLogged] = useState(null);
+  const [isLogged, setIsLogged] = useState(false);
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // re-render trigger for components
+  const [updateTrigger, setUpdateTrigger] = useState(0);
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      setLoading(true);
+
       if (!firebaseUser) {
         setUser(null);
         setIsLogged(false);
@@ -25,19 +30,18 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      setLoading(true);
-
       try {
-        const res = await fetch(
-          `${BASE_URL}/api/users/userGet/${firebaseUser.uid}`
-        );
+        const res = await fetch(`${BASE_URL}/api/users/userGet/${firebaseUser.uid}`);
         const data = await res.json();
 
         setUser(data.result);
         setIsLogged(true);
         setAdminBtn(firebaseUser.email === "joven.serdanbataller21@gmail.com");
+
+        // trigger re-render for components
+        setUpdateTrigger(prev => prev + 1);
       } catch (err) {
-        console.error("error fetching user data:", err);
+        console.error("Error fetching user data:", err);
         setUser(null);
         setIsLogged(false);
         setAdminBtn(false);
@@ -46,13 +50,21 @@ export const UserProvider = ({ children }) => {
       }
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe();
   }, []);
 
   return (
-    <UserContext.Provider value={{ isLogged, user, adminBtn, loading }}>
+    <UserContext.Provider value={{
+      isLogged,
+      adminBtn,
+      user,
+      loading,
+      updateTrigger,
+      setUser,
+      setIsLogged,
+      setAdminBtn,
+      setUpdateTrigger
+    }}>
       {children}
     </UserContext.Provider>
   );

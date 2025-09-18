@@ -1,14 +1,20 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import SignIn from "./signIn";
-import { useContext } from "react";
-import { UserContext } from "@/context/userContext";
-import { useRouter } from "next/navigation";
 import Loader from "./loader";
+import { UserContext } from "@/context/userContext";
 
 export default function Banner() {
   const [showSignIn, setShowSignIn] = useState(false);
-  const { user, loading } = useContext(UserContext);
-  const router = useRouter();
+  const { user, loading, updateTrigger } = useContext(UserContext);
+
+  // optional: react to user update
+  useEffect(() => {
+    if (user) {
+      console.log("Banner detected user update:", user);
+    }
+  }, [updateTrigger]);
+
+  if (loading) return <Loader />;
 
   return (
     <>
@@ -27,14 +33,14 @@ export default function Banner() {
             onClick={() => setShowSignIn(true)}
             className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
           >
-            <p>Sign Up</p>
+            Sign Up
           </button>
         ) : (
           <button
-            onClick={() => setShowSignIn(true)}
+            onClick={() => console.log("Assemble clicked")}
             className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
           >
-            {loading ? <Loader /> : <p>Assemble</p>}
+            Assemble
           </button>
         )}
       </div>
