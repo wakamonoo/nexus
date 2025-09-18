@@ -65,8 +65,7 @@ export default function SignIn({ setShowSignIn }) {
               token,
             }),
           });
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          await refreshUserData();
+          
           Swal.fire({
             title: "Success",
             text: "Login complete!",

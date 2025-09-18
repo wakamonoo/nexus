@@ -8,13 +8,7 @@ import ImageLoader from "./imageLoader";
 
 export default function NavBar({ isScrolled }) {
   const router = useRouter();
-  const { isLogged, user, loading, refresh } = useContext(UserContext);
-
-  useEffect(() => {
-    if (user) {
-      console.log("user login:", user);
-    }
-  }, [refresh]);
+  const { isLogged, user, loading } = useContext(UserContext);
 
   return (
     <div

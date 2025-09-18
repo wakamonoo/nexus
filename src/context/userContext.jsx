@@ -17,25 +17,27 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      if (!firebaseUser) {
-        setUser(null);
-        setIsLogged(false);
-        setAdminBtn(false);
-        setLoading(false);
-        return;
-      }
-
       setLoading(true);
-
       try {
-        const res = await fetch(
-          `${BASE_URL}/api/users/userGet/${firebaseUser.uid}`
-        );
-        const data = await res.json();
+        if (!firebaseUser) {
+          setUser(null);
+          setIsLogged(false);
+          setAdminBtn(false);
+          return;
+        } else {
+          const res = await fetch(
+            `${BASE_URL}/api/users/userGet/${firebaseUser.uid}`
+          );
+          const data = await res.json();
 
-        setUser(data.result);
-        setIsLogged(true);
-        setAdminBtn(firebaseUser.email === "joven.serdanbataller21@gmail.com");
+          setUser(data.result);
+          setIsLogged(true);
+          setAdminBtn(
+            firebaseUser.email === "joven.serdanbataller21@gmail.com"
+          );
+          await new Promise((resolve) => setTimeout(resolve, 1500));
+          await refreshUserData();
+        }
       } catch (err) {
         console.error("error fetching user data:", err);
         setUser(null);
@@ -54,7 +56,6 @@ export const UserProvider = ({ children }) => {
   const refreshUserData = async () => {
     const currentUser = auth.currentUser;
     if (currentUser) {
-      setLoading(true);
       try {
         const res = await fetch(
           `${BASE_URL}/api/users/userGet/${currentUser.uid}`
@@ -63,14 +64,14 @@ export const UserProvider = ({ children }) => {
         setUser(data.result);
       } catch (err) {
         console.error("error refreshing data:", err);
-      } finally {
-        setLoading(false);
       }
     }
   };
 
   return (
-    <UserContext.Provider value={{ isLogged, user, adminBtn, loading, refreshUserData }}>
+    <UserContext.Provider
+      value={{ isLogged, user, adminBtn, loading, refreshUserData }}
+    >
       {children}
     </UserContext.Provider>
   );

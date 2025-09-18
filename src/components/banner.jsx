@@ -7,14 +7,9 @@ import ButtonLoader from "./buttonLoader";
 
 export default function Banner() {
   const [showSignIn, setShowSignIn] = useState(false);
-  const { user, loading, refresh } = useContext(UserContext);
+  const { user, loading } = useContext(UserContext);
   const router = useRouter();
 
-  useEffect(() => {
-    if (user) {
-      console.log("user login:", user);
-    }
-  }, [refresh]);
 
   return (
     <>
