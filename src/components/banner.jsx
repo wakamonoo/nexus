@@ -3,11 +3,10 @@ import SignIn from "./signIn";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
-import Loader from "./loader";
 
 export default function Banner() {
   const [showSignIn, setShowSignIn] = useState(false);
-  const { user, loading } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const router = useRouter();
 
   return (
@@ -34,7 +33,7 @@ export default function Banner() {
             onClick={() => setShowSignIn(true)}
             className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
           >
-            {loading ? <Loader /> : <p>Assemble</p>}
+            <p>Assemble</p>
           </button>
         )}
       </div>

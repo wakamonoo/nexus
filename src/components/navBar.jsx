@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 export default function NavBar({ isScrolled }) {
   const router = useRouter();
-  const { isLogged, user, loading } = useContext(UserContext);
+  const { isLogged, user } = useContext(UserContext);
 
   return (
     <div
@@ -23,7 +23,7 @@ export default function NavBar({ isScrolled }) {
         <MdFeed onClick={() => router.push("/")} className="text-2xl cursor-pointer" />
         <FaFilm onClick={() => router.push("/mcu")} className="text-2xl cursor-pointer" />
         <MdChat className="text-2xl cursor-pointer" />
-        {!loading && isLogged && user?.picture ? (
+        {isLogged && user?.picture ? (
           <Image
             src={user.picture}
             alt="user"
