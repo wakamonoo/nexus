@@ -65,22 +65,20 @@ export default function SignIn({ setShowSignIn }) {
               token,
             }),
           });
-          auth.onAuthStateChanged(() => {
-            Swal.fire({
-              title: "Success",
-              text: "Login complete!",
-              icon: "success",
-              timer: 2000,
-              showConfirmButton: false,
-              background: "var(--color-text)",
-              color: "var(--color-bg)",
-              iconColor: "var(--color-hulk)",
-              customClass: {
-                popup: "rounded-2xl shadow-lg",
-                title: "text-lg font-bold text-[var(--color-hulk)]",
-                htmlContainer: "text-sm",
-              },
-            });
+          Swal.fire({
+            title: "Success",
+            text: "Login complete!",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+            background: "var(--color-text)",
+            color: "var(--color-bg)",
+            iconColor: "var(--color-hulk)",
+            customClass: {
+              popup: "rounded-2xl shadow-lg",
+              title: "text-lg font-bold text-[var(--color-hulk)]",
+              htmlContainer: "text-sm",
+            },
           });
         } catch (err) {
           console.error(err);
