@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (logged) => {
-      setIsLogged(logged);
+      setIsLogged(!!logged);
       if (logged) {
         try {
           const res = await fetch(
