@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { MdChat, MdFeed } from "react-icons/md";
 import { FaFilm, FaSearch, FaUser } from "react-icons/fa";
@@ -7,16 +7,7 @@ import { useRouter } from "next/navigation";
 
 export default function NavBar({ isScrolled }) {
   const router = useRouter();
-  const { isLogged, user, loading, updateTrigger } = useContext(UserContext);
-
-  // optional: react to user update
-  useEffect(() => {
-    if (user) {
-      console.log("NavBar detected user update:", user);
-    }
-  }, [updateTrigger]);
-
-  if (loading) return null; // or <Loader /> if you want spinner in navbar
+  const { isLogged, user, loading } = useContext(UserContext);
 
   return (
     <div
@@ -36,9 +27,10 @@ export default function NavBar({ isScrolled }) {
           <Image
             src={user.picture}
             alt="user"
-            width={32}
-            height={32}
-            className="rounded-full cursor-pointer"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-8 rounded-full h-auto cursor-pointer"
           />
         ) : (
           <FaUser className="text-2xl cursor-pointer" />
