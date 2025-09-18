@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SignIn from "./signIn";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
+import ButtonLoader from "./buttonLoader";
 
 export default function Banner() {
   const [showSignIn, setShowSignIn] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, loading, refresh } = useContext(UserContext);
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      console.log("user login:", user);
+    }
+  }, [refresh]);
 
   return (
     <>
@@ -28,6 +35,8 @@ export default function Banner() {
           >
             <p>Sign Up</p>
           </button>
+        ) : loading ? (
+          <ButtonLoader />
         ) : (
           <button
             onClick={() => setShowSignIn(true)}

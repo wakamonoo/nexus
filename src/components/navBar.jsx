@@ -1,13 +1,20 @@
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "@/context/userContext";
 import { MdChat, MdFeed } from "react-icons/md";
 import { FaFilm, FaSearch, FaUser } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import ImageLoader from "./imageLoader";
 
 export default function NavBar({ isScrolled }) {
   const router = useRouter();
-  const { isLogged, user, loading } = useContext(UserContext);
+  const { isLogged, user, loading, refresh } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user) {
+      console.log("user login:", user);
+    }
+  }, [refresh]);
 
   return (
     <div
@@ -16,14 +23,27 @@ export default function NavBar({ isScrolled }) {
       }`}
     >
       <div className="flex items-center gap-4">
-        <h1 onClick={() => router.push("/")} className="text-2xl text-accent cursor-pointer">NEXUS</h1>
+        <h1
+          onClick={() => router.push("/")}
+          className="text-2xl text-accent cursor-pointer"
+        >
+          NEXUS
+        </h1>
         <FaSearch className="text-2xl cursor-pointer" />
       </div>
       <div className="flex items-center gap-4">
-        <MdFeed onClick={() => router.push("/")} className="text-2xl cursor-pointer" />
-        <FaFilm onClick={() => router.push("/mcu")} className="text-2xl cursor-pointer" />
+        <MdFeed
+          onClick={() => router.push("/")}
+          className="text-2xl cursor-pointer"
+        />
+        <FaFilm
+          onClick={() => router.push("/mcu")}
+          className="text-2xl cursor-pointer"
+        />
         <MdChat className="text-2xl cursor-pointer" />
-        {isLogged && user?.picture ? (
+        {loading ? (
+          <ImageLoader />
+        ) : isLogged && user?.picture ? (
           <Image
             src={user.picture}
             alt="user"
