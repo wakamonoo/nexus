@@ -1,6 +1,6 @@
 import Banner from "@/components/banner.jsx";
 import { FaBolt, FaComment, FaShare } from "react-icons/fa";
-import Fallback from "@/assets/fallback.jpg";
+import Fallback from "@/assets/fallback.png";
 import Image from "next/image";
 
 export default function Hero() {

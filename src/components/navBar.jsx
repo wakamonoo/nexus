@@ -5,6 +5,7 @@ import { MdChat, MdFeed } from "react-icons/md";
 import { FaFilm, FaSearch, FaUser } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import ImageLoader from "./imageLoader";
+import Fallback from "@/assets/fallback.png";
 
 export default function NavBar({ isScrolled }) {
   const router = useRouter();
@@ -35,22 +36,13 @@ export default function NavBar({ isScrolled }) {
           className="text-2xl cursor-pointer"
         />
         <MdChat className="text-2xl cursor-pointer" />
-        {isLogged ? (
+        {isLogged && user?.picture ? (
           loading ? (
             <ImageLoader />
-          ) : user?.picture ? (
-            <Image
-              src={user.picture}
-              alt="user"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-8 rounded-full h-auto cursor-pointer"
-            />
           ) : (
             <Image
-              src="/assets/fallback.png"
-              alt="fallback"
+              src={user.picture || Fallback}
+              alt="user"
               width={0}
               height={0}
               sizes="100vw"

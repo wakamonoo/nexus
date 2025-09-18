@@ -44,7 +44,7 @@ export const UserProvider = ({ children }) => {
       }
       setTimeout(() => {
         setLoading(false);
-      }, 800);
+      }, 1500);
     });
 
     return () => {
