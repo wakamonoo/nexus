@@ -144,18 +144,20 @@ export default function Main() {
           <div ref={scrollRef2} className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2">
               {titles.length > 0 ? (
-                titles.map((unit, index) => (
-                  <div key={index} className="w-26 h-40 flex-shrink-0">
-                    <Image
-                      src={unit.image || Fallback}
-                      alt="image"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full h-full object-fill rounded"
-                    />
-                  </div>
-                ))
+                titles
+                  .sort((a, b) => a.order - b.order)
+                  .map((unit) => (
+                    <div key={unit.order} className="w-26 h-40 flex-shrink-0">
+                      <Image
+                        src={unit.image || Fallback}
+                        alt="image"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-fill rounded"
+                      />
+                    </div>
+                  ))
               ) : (
                 <div className="flex flex-col justify-center items-center">
                   <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
@@ -181,18 +183,20 @@ export default function Main() {
           <div ref={scrollRef3} className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2">
               {titles.length > 0 ? (
-                titles.map((unit, index) => (
-                  <div key={index} className="w-26 h-40 flex-shrink-0">
-                    <Image
-                      src={unit.image || Fallback}
-                      alt="image"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full h-full object-fill rounded"
-                    />
-                  </div>
-                ))
+                titles
+                  .sort((a, b) => new Date(a.date) - new Date(b.date))
+                  .map((unit) => (
+                    <div key={unit.date} className="w-26 h-40 flex-shrink-0">
+                      <Image
+                        src={unit.image || Fallback}
+                        alt="image"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-fill rounded"
+                      />
+                    </div>
+                  ))
               ) : (
                 <div className="flex flex-col justify-center items-center">
                   <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
