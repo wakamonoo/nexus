@@ -135,7 +135,7 @@ export default function Page() {
   return (
     <>
       <div className="p-4">
-        <FaAngleLeft onClick={() => router.push("/")} className="text-2xl" />
+        <FaAngleLeft onClick={() => router.push("/")} className="text-2xl cursor-pointer" />
 
         <div className="flex gap-2 pt-4 items-center justify-center">
           <div className="flex items-center gap-2 justify-center">
@@ -189,7 +189,7 @@ export default function Page() {
                 required
                 ref={fileRef}
                 onChange={handleChange}
-                className="bg-panel p-4 rounded w-[80%]"
+                className="bg-panel p-4 rounded w-[80%] cursor-pointer"
               />
             </div>
 
@@ -221,7 +221,7 @@ export default function Page() {
               required
               value={data.phase}
               onChange={handleChange}
-              className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+              className="bg-panel text-base text-normal font-normal p-4 cursor-pointer rounded w-full"
             >
               <option value="null">Select Phase</option>
               <option value="Phase 1">Phase 1</option>
@@ -237,7 +237,7 @@ export default function Page() {
               required
               value={data.type}
               onChange={handleChange}
-              className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
             >
               <option value="null">Select Type</option>
               <option value="Film">Film</option>

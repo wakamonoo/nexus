@@ -15,7 +15,7 @@ export default function Hero() {
       </div>
 
       <div className="p-2 flex flex-col gap-4">
-        <div className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-r-1 border-accent p-4">
+        <div className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-accent p-4">
           <div className="flex gap-3 items-center py-2">
             <Image
               src={Tony}
@@ -52,7 +52,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-r-1 border-accent p-4">
+        <div className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-accent p-4">
           <div className="flex gap-3 items-center py-2">
             <Image
               src={Steve}
@@ -88,7 +88,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-r-1 border-accent p-4">
+        <div className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-accent p-4">
           <div className="flex gap-3 items-center py-2">
             <Image
               src={Thor}
@@ -123,7 +123,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-r-1 border-accent p-4">
+        <div className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-accent p-4">
           <div className="flex gap-3 items-center py-2">
             <Image
               src={Wanda}
