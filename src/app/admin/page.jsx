@@ -166,7 +166,7 @@ export default function Page() {
           <form
             className="flex flex-col items-start justify-center gap-4 w-full pt-8"
             onSubmit={(e) => {
-              e.preventDefault;
+              e.preventDefault();
               handleAddNewTitle();
             }}
           >
@@ -261,6 +261,7 @@ export default function Page() {
               required
               name="order"
               value={data.order}
+              onWheel={(e) => e.target.blur()}
               onChange={handleChange}
               placeholder="Order in Timeline"
               className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
@@ -269,6 +270,7 @@ export default function Page() {
               type="number"
               name="episode"
               value={data.episode}
+              onWheel={(e) => e.target.blur()}
               onChange={handleChange}
               placeholder="Number of Episodes (TV Series)"
               className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
@@ -277,6 +279,7 @@ export default function Page() {
               type="number"
               name="duration"
               value={data.duration}
+              onWheel={(e) => e.target.blur()}
               onChange={handleChange}
               placeholder="Runtime (Movies & One Shots)"
               className="bg-panel text-base text-normal font-normal p-4 rounded w-full"

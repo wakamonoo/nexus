@@ -90,13 +90,23 @@ export default function Main() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!titles) return;
+    titles.forEach((unit) => {
+      if (unit.image) {
+        const img = new window.Image();
+        img.src = unit.image;
+      }
+    });
+  }, []);
+
   return (
     <>
       <NavBar />
       <div className="bg-brand w-full p-2 pt-12">
         <div className="py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl">NEW RELEASES</h1>
+            <h1 className="text-2xl">LATEST RELEASES</h1>
             <FaAngleRight
               className={`text-normal text-xl ${
                 isScrolled1 ? "flex" : "hidden"
@@ -107,18 +117,21 @@ export default function Main() {
           <div ref={scrollRef1} className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2">
               {titles.length > 0 ? (
-                titles.map((unit, index) => (
-                  <div key={index} className="w-26 h-40 flex-shrink-0">
-                    <Image
-                      src={unit.image || Fallback}
-                      alt="image"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full h-full object-fill rounded"
-                    />
-                  </div>
-                ))
+                [...titles]
+                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .slice(0, 10)
+                  .map((unit, index) => (
+                    <div key={index} className="w-26 h-40 flex-shrink-0">
+                      <Image
+                        src={unit.image || Fallback}
+                        alt="image"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-fill rounded"
+                      />
+                    </div>
+                  ))
               ) : (
                 <div className="flex flex-col justify-center items-center">
                   <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
@@ -144,7 +157,7 @@ export default function Main() {
           <div ref={scrollRef2} className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2">
               {titles.length > 0 ? (
-                titles
+                [...titles]
                   .sort((a, b) => a.order - b.order)
                   .map((unit) => (
                     <div key={unit.order} className="w-26 h-40 flex-shrink-0">
@@ -183,7 +196,7 @@ export default function Main() {
           <div ref={scrollRef3} className="overflow-x-auto scrollbar-hide">
             <div className="flex gap-2">
               {titles.length > 0 ? (
-                titles
+                [...titles]
                   .sort((a, b) => new Date(a.date) - new Date(b.date))
                   .map((unit) => (
                     <div key={unit.date} className="w-26 h-40 flex-shrink-0">
