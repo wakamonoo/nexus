@@ -108,14 +108,14 @@ export default function Main() {
             <div className="flex gap-2">
               {titles.length > 0 ? (
                 titles.map((unit, index) => (
-                  <div key={index} className="w-26 h-auto flex-shrink-0">
+                  <div key={index} className="w-26 h-40 flex-shrink-0">
                     <Image
                       src={unit.image || Fallback}
                       alt="image"
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="w-full h-auto rounded"
+                      className="w-full h-full object-fill rounded"
                     />
                   </div>
                 ))
@@ -145,14 +145,14 @@ export default function Main() {
             <div className="flex gap-2">
               {titles.length > 0 ? (
                 titles.map((unit, index) => (
-                  <div key={index} className="w-26 h-auto flex-shrink-0">
+                  <div key={index} className="w-26 h-40 flex-shrink-0">
                     <Image
                       src={unit.image || Fallback}
                       alt="image"
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="w-full h-auto rounded"
+                      className="w-full h-full object-fill rounded"
                     />
                   </div>
                 ))
@@ -182,14 +182,14 @@ export default function Main() {
             <div className="flex gap-2">
               {titles.length > 0 ? (
                 titles.map((unit, index) => (
-                  <div key={index} className="w-26 h-auto flex-shrink-0">
+                  <div key={index} className="w-26 h-40 flex-shrink-0">
                     <Image
                       src={unit.image || Fallback}
                       alt="image"
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="w-full h-auto rounded"
+                      className="w-full h-full object-fill rounded"
                     />
                   </div>
                 ))
@@ -219,14 +219,14 @@ export default function Main() {
             <div className="flex gap-2">
               {titles.length > 0 ? (
                 titles.map((unit, index) => (
-                  <div key={index} className="w-26 h-auto flex-shrink-0">
+                  <div key={index} className="w-26 h-40 flex-shrink-0">
                     <Image
                       src={unit.image || Fallback}
                       alt="image"
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="w-full h-auto rounded"
+                      className="w-full h-full object-fill rounded"
                     />
                   </div>
                 ))

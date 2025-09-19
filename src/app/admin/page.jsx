@@ -18,9 +18,11 @@ export default function Page() {
     date: "",
     timeline: "",
     phase: "",
+    type: "",
     director: "",
     order: "",
-    url: "",
+    episode: "",
+    duration: "",
     summary: "",
   });
   const fileRef = useRef();
@@ -68,9 +70,11 @@ export default function Page() {
         date: "",
         timeline: "",
         phase: "",
+        type: "",
         director: "",
         order: "",
-        url: "",
+        episode: "",
+        duration: "",
         summary: "",
       });
 
@@ -194,7 +198,7 @@ export default function Page() {
             />
           </div>
           <input
-            type="number"
+            type="text"
             name="timeline"
             value={data.timeline}
             onChange={handleChange}
@@ -214,6 +218,20 @@ export default function Page() {
             <option value="Phase 4">Phase 4</option>
             <option value="Phase 5">Phase 5</option>
             <option value="Phase 6">Phase 6</option>
+            <option value="Not Part">Not Part</option>
+          </select>
+          <select
+            name="type"
+            value={data.type}
+            onChange={handleChange}
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          >
+            <option value="null">Select Type</option>
+            <option value="Film">Film</option>
+            <option value="One Shot">One Shot</option>
+            <option value="TV Series">TV Series</option>
+            <option value="Animated Series">Animated Series</option>
+            <option value="Special Presentaion">Special Presentaion</option>
           </select>
           <input
             type="text"
@@ -232,14 +250,22 @@ export default function Page() {
             className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
           />
           <input
-            type="text"
-            name="url"
-            value={data.url}
+            type="number"
+            name="episode"
+            value={data.episode}
             onChange={handleChange}
-            placeholder="Trailer Url"
+            placeholder="Number of Episodes (TV Series)"
             className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
           />
           <input
+            type="number"
+            name="duration"
+            value={data.duration}
+            onChange={handleChange}
+            placeholder="Runtime (Movies & One Shots)"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <textarea
             type="text"
             name="summary"
             value={data.summary}
