@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect } from "react";
 import SignIn from "./signIn";
 import { useContext } from "react";
@@ -9,7 +10,6 @@ export default function Banner() {
   const [showSignIn, setShowSignIn] = useState(false);
   const { user, loading } = useContext(UserContext);
   const router = useRouter();
-
 
   return (
     <>

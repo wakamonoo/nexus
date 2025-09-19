@@ -2,16 +2,19 @@
 import Image from "next/image";
 import { useContext, useEffect } from "react";
 import { UserContext } from "@/context/userContext";
+import { ScrollContext } from "@/context/scrollContext";
 import { MdChat, MdFeed } from "react-icons/md";
 import { FaFilm, FaSearch, FaUser } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "./imageLoader";
 import Fallback from "@/assets/fallback.png";
+import Logo from "@/assets/main_logo.png";
 
-export default function NavBar({ isScrolled }) {
+export default function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
   const { isLogged, user, loading } = useContext(UserContext);
+  const { navHide, isScrolled } = useContext(ScrollContext);
 
   const isActive = (target) =>
     pathname === target
@@ -22,16 +25,19 @@ export default function NavBar({ isScrolled }) {
     <div
       className={`fixed flex justify-between px-4 py-8 w-full h-12 transition-colors duration-150 z-[70] ${
         isScrolled ? "bg-[var(--color-panel)]" : "bg-[var(--color-secondary)]"
-      }`}
+      } ${navHide ? "hidden" : "flex"}`}
     >
       <div className="flex items-center gap-4">
-        <h1
-          onClick={() => router.push("/")}
-          className="text-2xl text-accent cursor-pointer"
-        >
-          NEXUS
-        </h1>
-        <FaSearch className="text-2xl cursor-pointer" />
+        <button onClick={() => router.push("/")}>
+          <Image
+            src={Logo}
+            alt="logo"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-24 h-auto"
+          />
+        </button>
       </div>
       <div className="flex items-center gap-4">
         <button

@@ -1,6 +1,5 @@
 import Banner from "@/components/banner.jsx";
 import { FaBolt, FaComment, FaShare } from "react-icons/fa";
-import Fallback from "@/assets/fallback.png";
 import Tony from "@/assets/tony.jpg";
 import Steve from "@/assets/steve.jpg";
 import Thor from "@/assets/thor.jpg";
