@@ -31,7 +31,7 @@ export default function NavBar() {
           isScrolled ? "bg-[var(--color-panel)]" : "bg-[var(--color-secondary)]"
         } ${navHide ? "hidden" : "flex"}`}
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
           <button
           ref={buttonRef}
             onClick={() => setShowMenu((prev) => !prev)}

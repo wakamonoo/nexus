@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { FaAngleRight, FaBoxOpen } from "react-icons/fa";
+import { FaAngleRight, FaBoxOpen, FaSearch } from "react-icons/fa";
 import Fallback from "@/assets/fallback.png";
 import NavBar from "@/components/navBar";
 import Loader from "@/components/titlesLoader";
@@ -112,11 +112,21 @@ export default function Main() {
   return (
     <>
       <NavBar />
-      <div className="relative bg-brand w-full p-2 pt-16">
+      <div className="relative bg-brand w-full p-2 pt-24">
         {loading ? (
           <Loader />
         ) : (
           <>
+            <div className="flex justify-between items-center gap-2 bg-text px-4 py-2 rounded-full">
+              <input
+                type="text"
+                placeholder="Search for your favorite marvel titles.."
+                className="w-full p-2 outline-none text-base text-panel"
+              />
+              <button>
+                <FaSearch className="text-2xl text-accent" />
+              </button>
+            </div>
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">LATEST RELEASES</h1>
