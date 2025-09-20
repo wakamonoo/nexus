@@ -1,19 +1,21 @@
+"use client";
 import { useEffect, useRef, useContext } from "react";
 import { FaInfo, FaLightbulb } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 import { ScrollContext } from "@/context/scrollContext";
+import { MenuContext } from "@/context/menuContext";
 
-export default function Menu({ setShowMenu, buttonRef }) {
+export default function Menu() {
   const divRef = useRef(null);
   const { navHide } = useContext(ScrollContext);
+  const { setShowMenu, buttonRef } = useContext(MenuContext);
 
   useEffect(() => {
     const handleOutClick = (e) => {
       if (
         divRef.current &&
         !divRef.current.contains(e.target) &&
-        (!buttonRef?.current ||
-        !buttonRef.current.contains(e.target))
+        (!buttonRef?.current || !buttonRef.current.contains(e.target))
       ) {
         setShowMenu(false);
       }
@@ -26,7 +28,7 @@ export default function Menu({ setShowMenu, buttonRef }) {
   return (
     <div
       ref={divRef}
-      className={`bg-accent inset-0 fixed left-0 w-[75%] h-screen top-16 p-8 transition-all duration-300 ${
+      className={`z-[100] bg-accent inset-0 fixed left-0 w-[75%] h-screen top-16 p-8 transition-all duration-300 ${
         navHide ? "hidden" : "block"
       }`}
     >

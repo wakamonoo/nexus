@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleRight, FaBoxOpen, FaSearch } from "react-icons/fa";
 import Fallback from "@/assets/fallback.png";
-import NavBar from "@/components/navBar";
 import Loader from "@/components/titlesLoader";
 
 const BASE_URL =
@@ -111,7 +110,6 @@ export default function Main() {
 
   return (
     <>
-      <NavBar />
       <div className="relative bg-brand w-full p-2 pt-24">
         {loading ? (
           <Loader />

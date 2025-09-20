@@ -10,14 +10,14 @@ import ImageLoader from "./imageLoader";
 import Fallback from "@/assets/fallback.png";
 import Logo from "@/assets/main_logo.png";
 import Menu from "./menu";
+import { MenuContext } from "@/context/menuContext";
 
 export default function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
   const { isLogged, user, loading } = useContext(UserContext);
   const { navHide, isScrolled } = useContext(ScrollContext);
-  const [showMenu, setShowMenu] = useState(false);
-  const buttonRef = useRef(null);
+  const { showMenu, setShowMenu, buttonRef } = useContext(MenuContext);
 
   const isActive = (target) =>
     pathname === target
@@ -33,7 +33,7 @@ export default function NavBar() {
       >
         <div className="flex items-center">
           <button
-          ref={buttonRef}
+            ref={buttonRef}
             onClick={() => setShowMenu((prev) => !prev)}
             className="cursor-pointer "
           >
@@ -46,6 +46,7 @@ export default function NavBar() {
           <button onClick={() => router.push("/")} className="cursor-pointer">
             <Image
               src={Logo}
+              priority
               alt="logo"
               width={0}
               height={0}
@@ -102,7 +103,7 @@ export default function NavBar() {
           </button>
         </div>
       </div>
-      {showMenu && <Menu setShowMenu={setShowMenu} buttonRef={buttonRef} />}
+      {showMenu && <Menu />}
     </>
   );
 }

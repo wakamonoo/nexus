@@ -119,6 +119,7 @@ export default function SignIn({ setShowSignIn }) {
         <div className="flex flex-col gap-2 items-center justify-center p-8">
           <Image
             src={Logo}
+            priority
             alt="logo"
             width={0}
             height={0}
@@ -155,8 +156,16 @@ export default function SignIn({ setShowSignIn }) {
             </>
           )}
           <p className="text-xs text-center text-vibe mt-8">
-            By continuing, you agree to our {" "}<a href="" className="text-blue-400">Terms of Service</a>{" "} and
-            <a href="" className="text-blue-400"> {" "} Privacy Policy</a>.
+            By continuing, you agree to our{" "}
+            <a href="" className="text-blue-400">
+              Terms of Service
+            </a>{" "}
+            and
+            <a href="" className="text-blue-400">
+              {" "}
+              Privacy Policy
+            </a>
+            .
           </p>
         </div>
       </div>

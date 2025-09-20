@@ -1,6 +1,8 @@
 import { Bebas_Neue, Roboto, Anton, Orbitron } from "next/font/google";
 import { UserProvider } from "@/context/userContext";
 import { ScrollProvider } from "@/context/scrollContext";
+import { MenuProvider } from "@/context/menuContext";
+import NavBar from "@/components/navBar";
 import "./globals.css";
 
 // Fonts
@@ -41,7 +43,12 @@ export default function RootLayout({ children }) {
         className={`${bebasNeue.variable} ${roboto.variable} ${anton.variable} ${orbitron.variable} scroll-smooth`}
       >
         <UserProvider>
-          <ScrollProvider>{children}</ScrollProvider>
+          <ScrollProvider>
+            <MenuProvider>
+              <NavBar />
+              {children}
+            </MenuProvider>
+          </ScrollProvider>
         </UserProvider>
       </body>
     </html>
