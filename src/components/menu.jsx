@@ -26,7 +26,7 @@ export default function Menu({ setShowMenu, buttonRef }) {
   return (
     <div
       ref={divRef}
-      className={`bg-accent rounded-tr-2xl rounded-br-2xl inset-0 fixed left-0 w-[75%] h-[85vh] top-18 p-8 transition-all duration-300 ${
+      className={`bg-accent inset-0 fixed left-0 w-[75%] h-screen top-16 p-8 transition-all duration-300 ${
         navHide ? "hidden" : "block"
       }`}
     >
