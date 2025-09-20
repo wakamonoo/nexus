@@ -7,8 +7,7 @@ import { useRouter } from "next/navigation";
 import ButtonLoader from "./buttonLoader";
 
 export default function Banner() {
-  const [showSignIn, setShowSignIn] = useState(false);
-  const { user, loading } = useContext(UserContext);
+  const { user, loading, showSignIn, setShowSignIn } = useContext(UserContext);
   const router = useRouter();
 
   return (
@@ -42,7 +41,7 @@ export default function Banner() {
         )}
       </div>
 
-      {showSignIn && <SignIn setShowSignIn={setShowSignIn} />}
+      {showSignIn && <SignIn />}
     </>
   );
 }

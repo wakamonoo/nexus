@@ -1,14 +1,16 @@
 "use client";
 import { useEffect, useRef, useContext } from "react";
 import { FaInfo, FaLightbulb } from "react-icons/fa";
-import { MdLogout } from "react-icons/md";
+import { MdLogin, MdLogout } from "react-icons/md";
+import { UserContext } from "@/context/userContext";
 import { ScrollContext } from "@/context/scrollContext";
 import { MenuContext } from "@/context/menuContext";
 
 export default function Menu() {
   const divRef = useRef(null);
+  const { user, setShowSignIn } = useContext(UserContext);
   const { navHide } = useContext(ScrollContext);
-  const { setShowMenu, buttonRef } = useContext(MenuContext);
+  const { showMenu, setShowMenu, buttonRef } = useContext(MenuContext);
 
   useEffect(() => {
     const handleOutClick = (e) => {
@@ -29,11 +31,9 @@ export default function Menu() {
     <div
       ref={divRef}
       className={`z-[100] bg-accent inset-0 fixed left-0 w-[75%] h-screen top-16 p-8 transition-all duration-300 ${
-    showMenu
-      ? "translate-x-0 opacity-100"
-      : "-translate-x-full opacity-0 pointer-events-none"
-  } ${
-        navHide ? "hidden" : "block"
+        showMenu ? "translate-x-0" : "translate-x-[-100%]" 
+      } ${
+        navHide ? "translate-x-[-100%] opacity-0" : "translate-x-0 opacity-100"
       }`}
     >
       <div className="flex flex-col gap-2 items-start">
@@ -49,11 +49,28 @@ export default function Menu() {
             Recommendations
           </p>
         </button>
-        <button className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-text)] focus:bg-[var(--color-text)] group w-full p-4 rounded-full transition-all duration-300">
-          <MdLogout className="text-2xl group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]" />
-          <p className="text-base flex font-bold group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]">
-            Logout
-          </p>
+        <button
+          onClick={() => {
+            setShowMenu(false);
+            setShowSignIn(true);
+          }}
+          className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-text)] focus:bg-[var(--color-text)] group w-full p-4 rounded-full transition-all duration-300"
+        >
+          {user ? (
+            <>
+              <MdLogout className="text-2xl group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]" />
+              <p className="text-base flex font-bold group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]">
+                Logout
+              </p>
+            </>
+          ) : (
+            <>
+              <MdLogin className="text-2xl group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]" />
+              <p className="text-base flex font-bold group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]">
+                Login
+              </p>
+            </>
+          )}
         </button>
       </div>
     </div>

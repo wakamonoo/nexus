@@ -15,8 +15,9 @@ const BASE_URL =
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
 
-export default function SignIn({ setShowSignIn }) {
-  const { isLogged, adminBtn, fetchUserData } = useContext(UserContext);
+export default function SignIn() {
+  const { isLogged, adminBtn, fetchUserData, setShowSignIn } =
+    useContext(UserContext);
   const router = useRouter();
 
   const handleSignIn = async () => {
@@ -112,7 +113,10 @@ export default function SignIn({ setShowSignIn }) {
       onClick={() => setShowSignIn(false)}
       className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
     >
-      <div className="flex relative justify-center bg-panel w-[350px] sm:w-[400px] md:w-[450px] h-[350px] sm:h-[400px] md:h-[450px] rounded-2xl overflow-hidden">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex relative justify-center bg-panel w-[350px] sm:w-[400px] md:w-[450px] h-[350px] sm:h-[400px] md:h-[450px] rounded-2xl overflow-hidden"
+      >
         <button className="absolute cursor-pointer top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110">
           <MdClose onClick={() => setShowSignIn(false)} />
         </button>

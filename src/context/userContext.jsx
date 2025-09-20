@@ -11,6 +11,7 @@ const BASE_URL =
 
 export const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(null);
+  const [showSignIn, setShowSignIn] = useState(false);
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -55,7 +56,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ isLogged, user, adminBtn, loading, fetchUserData }}
+      value={{ isLogged, user, adminBtn, loading, fetchUserData, setShowSignIn, showSignIn }}
     >
       {children}
     </UserContext.Provider>
