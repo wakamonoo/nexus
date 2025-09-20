@@ -29,6 +29,10 @@ export default function Menu() {
     <div
       ref={divRef}
       className={`z-[100] bg-accent inset-0 fixed left-0 w-[75%] h-screen top-16 p-8 transition-all duration-300 ${
+    showMenu
+      ? "translate-x-0 opacity-100"
+      : "-translate-x-full opacity-0 pointer-events-none"
+  } ${
         navHide ? "hidden" : "block"
       }`}
     >
