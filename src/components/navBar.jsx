@@ -28,7 +28,7 @@ export default function NavBar() {
       } ${navHide ? "hidden" : "flex"}`}
     >
       <div className="flex items-center gap-4">
-        <button onClick={() => router.push("/")}>
+        <button onClick={() => router.push("/")} className="cursor-pointer">
           <Image
             src={Logo}
             alt="logo"

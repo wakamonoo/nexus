@@ -55,7 +55,7 @@ export default function Main() {
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [titles]);
 
   useEffect(() => {
     const current = scrollRef2.current;
@@ -69,7 +69,7 @@ export default function Main() {
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [titles]);
 
   useEffect(() => {
     const current = scrollRef3.current;
@@ -83,7 +83,7 @@ export default function Main() {
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [titles]);
 
   useEffect(() => {
     const current = scrollRef4.current;
@@ -97,7 +97,7 @@ export default function Main() {
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [titles]);
 
   useEffect(() => {
     if (!titles) return;
@@ -107,12 +107,12 @@ export default function Main() {
         img.src = unit.image;
       }
     });
-  }, []);
+  }, [titles]);
 
   return (
     <>
       <NavBar />
-      <div className="relative bg-brand w-full p-2 pt-12">
+      <div className="relative bg-brand w-full p-2 pt-16">
         {loading ? (
           <Loader />
         ) : (

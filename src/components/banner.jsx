@@ -26,7 +26,7 @@ export default function Banner() {
         {!user ? (
           <button
             onClick={() => setShowSignIn(true)}
-            className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
+            className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full cursor-pointer hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)"
           >
             <p>Sign Up</p>
           </button>
@@ -35,7 +35,7 @@ export default function Banner() {
         ) : (
           <button
             onClick={() => setShowSignIn(true)}
-            className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full"
+            className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full cursor-pointer hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)"
           >
             <p>Assemble</p>
           </button>
