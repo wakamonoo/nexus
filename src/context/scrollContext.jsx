@@ -6,7 +6,7 @@ export const ScrollContext = createContext();
 export const ScrollProvider = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [navHide, setNavHide] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
