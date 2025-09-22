@@ -74,7 +74,7 @@ export default function TitlesLoader() {
           <div className="animate-pulse bg-second w-26 h-40 rounded" />
           <div className="animate-pulse bg-second w-26 h-40 rounded" />
         </div>
-      </div> 
+      </div>
       <div className="flex flex-col gap-2 pb-4">
         <div className="animate-pulse bg-second w-27 h-6 rounded" />
         <div className="flex gap-2 w-full">
