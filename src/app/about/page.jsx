@@ -2,7 +2,6 @@ import {
   MdAnnouncement,
   MdCollections,
   MdGroups,
-  MdIntegrationInstructions,
   MdLeaderboard,
   MdTimeline,
   MdWarningAmber,
@@ -10,7 +9,7 @@ import {
 
 export default function About() {
   return (
-    <div className="bg-brand w-full py-16 p-4">
+    <div className="bg-brand w-full py-16 p-2">
       <div>
         <h1 className="text-4xl py-4 text-accent">— Why this exists</h1>
         <p className="text-base text-justify">
