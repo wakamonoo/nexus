@@ -15,7 +15,6 @@ export default function Latest() {
     setLoading(false);
   }, []);
 
-
   return (
     <>
       {loading && <NavLoad />}
@@ -39,7 +38,6 @@ export default function Latest() {
                     key={index}
                     onClick={() => handleNavigate(unit.titleId)}
                     className="w-26 h-40 flex-shrink-0 cursor-pointer"
-                    F
                   >
                     <Image
                       src={unit.image}
