@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function GlobalChat() {
   return (
     <>
-      <div className="h-screen flex flex-col pt-16">
+      <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
         <div className="flex-1 p-4 overflow-y-auto">
           <div className="flex flex-col gap-4">
             <div className="flex gap-2">
