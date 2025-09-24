@@ -1,14 +1,18 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
 
 export const TitleContext = createContext();
+
 export const TitleProvider = ({ children }) => {
   const [titles, setTitles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [pageLoad, setPageLoad] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleGetTitles = async () => {
@@ -23,13 +27,41 @@ export const TitleProvider = ({ children }) => {
         console.error("failed to fetch titles", err);
         setTitles([]);
       } finally {
-        setLoading(false);
+        setPageLoad(false);
       }
     };
 
     handleGetTitles();
   }, []);
+
+  const handleNavigate = (id) => {
+    setLoading(true);
+    router.push(`/mcu/${id}`);
+  };
+
+  const handleMainBack = () => {
+    setLoading(true);
+    router.push("/mcu");
+  };
+
+  const handleTitleNav = (page) => {
+    setLoading(true);
+    router.push(`/mcu/${page}`);
+  };
+
   return (
-    <TitleContext.Provider value={{ titles, loading }}>{children}</TitleContext.Provider>
+    <TitleContext.Provider
+      value={{
+        titles,
+        loading,
+        pageLoad,
+        setLoading,
+        handleNavigate,
+        handleMainBack,
+        handleTitleNav,
+      }}
+    >
+      {children}
+    </TitleContext.Provider>
   );
 };

@@ -4,13 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { FaAngleRight, FaBoxOpen, FaSearch } from "react-icons/fa";
 import Fallback from "@/assets/fallback.png";
 import Loader from "@/components/titlesLoader";
+import NavLoad from "@/components/loader";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { TitleContext } from "@/context/titleContext";
 import NavBar from "@/components/navBar";
 
 export default function Main() {
-  const { titles, loading } = useContext(TitleContext);
+  const {
+    titles,
+    loading,
+    pageLoad,
+    setLoading,
+    handleNavigate,
+    handleTitleNav,
+  } = useContext(TitleContext);
   const [isScrolled1, setIsScrolled1] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
   const [isScrolled3, setIsScrolled3] = useState(false);
@@ -87,14 +95,20 @@ export default function Main() {
     });
   }, [titles]);
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   return (
     <>
       <NavBar />
+
       <div className="relative bg-brand w-full p-2 pt-24">
-        {loading ? (
+        {pageLoad ? (
           <Loader />
         ) : (
           <>
+            {loading && <NavLoad />}
             <div className="flex justify-between items-center gap-2 bg-text px-4 py-2 rounded-full">
               <input
                 type="text"
@@ -109,7 +123,7 @@ export default function Main() {
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">LATEST RELEASES</h1>
                 <FaAngleRight
-                  onClick={() => router.push("/mcu/latest")}
+                  onClick={() => handleTitleNav("latest")}
                   className={`text-normal text-xl cursor-pointer ${
                     isScrolled1 ? "flex" : "hidden"
                   }`}
@@ -125,7 +139,7 @@ export default function Main() {
                       .map((unit) => (
                         <div
                           key={unit.date}
-                          onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                          onClick={() => handleNavigate(unit.titleId)}
                           className="w-26 h-40 flex-shrink-0 cursor-pointer"
                         >
                           <Image
@@ -154,7 +168,7 @@ export default function Main() {
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">MCU CHRONOLOGICAL ORDER</h1>
                 <FaAngleRight
-                  onClick={() => router.push("/mcu/chrono")}
+                  onClick={() => handleTitleNav("chrono")}
                   className={`text-normal text-xl cursor-pointer ${
                     isScrolled2 ? "flex" : "hidden"
                   }`}
@@ -169,7 +183,7 @@ export default function Main() {
                       .map((unit) => (
                         <div
                           key={unit.order}
-                          onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                          onClick={() => handleNavigate(unit.titleId)}
                           className="w-26 h-40 flex-shrink-0 cursor-pointer"
                         >
                           <Image
@@ -198,7 +212,7 @@ export default function Main() {
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">MCU RELEASE ORDER</h1>
                 <FaAngleRight
-                  onClick={() => router.push("/mcu/release")}
+                  onClick={() => handleTitleNav("release")}
                   className={`text-normal text-xl cursor-pointer ${
                     isScrolled3 ? "flex" : "hidden"
                   }`}
@@ -213,7 +227,7 @@ export default function Main() {
                       .map((unit) => (
                         <div
                           key={unit.date}
-                          onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                          onClick={() => handleNavigate(unit.titleId)}
                           className="w-26 h-40 flex-shrink-0 cursor-pointer"
                         >
                           <Image
@@ -242,7 +256,7 @@ export default function Main() {
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">GOAT STATUS</h1>
                 <FaAngleRight
-                  onClick={() => router.push("/mcu/goat")}
+                  onClick={() => handleTitleNav("goat")}
                   className={`text-normal text-xl cursor-pointer ${
                     isScrolled4 ? "flex" : "hidden"
                   }`}
@@ -255,7 +269,7 @@ export default function Main() {
                     titles.map((unit, index) => (
                       <div
                         key={index}
-                        onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                        onClick={() => handleNavigate(unit.titleId)}
                         className="w-26 h-40 flex-shrink-0 cursor-pointer"
                       >
                         <Image
