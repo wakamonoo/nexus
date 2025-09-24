@@ -14,7 +14,6 @@ export default function Main() {
   const {
     titles,
     loading,
-    pageLoad,
     setLoading,
     handleNavigate,
     handleTitleNav,
@@ -104,7 +103,7 @@ export default function Main() {
       <NavBar />
 
       <div className="relative bg-brand w-full p-2 pt-24">
-        {pageLoad ? (
+        {loading ? (
           <Loader />
         ) : (
           <>
