@@ -1,7 +1,7 @@
 export default function Reco() {
   return (
     <div className="pt-16 p-2">
-      <h1 className="text-4xl pt-4 text-accent">— Feedback & Suggestions</h1>
+      <h1 className="text-4xl py-4 text-accent">— Feedback & Suggestions</h1>
       <p className="text-normal font-normal text-base">
         Found a bug? Have a feature idea or a question?
       </p>
@@ -21,8 +21,13 @@ export default function Reco() {
           placeholder="Subject"
           className="bg-second w-full p-2 rounded text-normal text-base"
         />
-        <textarea placeholder="Message..." className="bg-second w-full h-32 p-2 text-normal text-base" />
-        
+        <textarea
+          placeholder="Message..."
+          className="bg-second w-full h-32 p-2 text-normal text-base"
+        />
+        <button className="font-bold bg-accent p-4 rounded cursor-pointer hover:bg-[var(--color-text)] transition-colors duration-300 focus:bg-[var(--color-text)] group">
+          <p className="transition-colors duration-300 group-hover:text-[var(--color-accent)]">Send</p>
+        </button>
       </form>
     </div>
   );

@@ -3,10 +3,12 @@ import cap from "@/assets/steve.jpg";
 import thor from "@/assets/thor.jpg";
 import ironman from "@/assets/tony.jpg";
 import Image from "next/image";
+import NavBar from "@/components/navBar";
 
 export default function GlobalChat() {
   return (
     <>
+      <NavBar />
       <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
         <div className="flex-1 p-4 overflow-y-auto">
           <div className="flex flex-col gap-4">

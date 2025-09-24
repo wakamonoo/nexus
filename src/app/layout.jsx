@@ -2,7 +2,7 @@ import { Bebas_Neue, Roboto, Anton, Orbitron } from "next/font/google";
 import { UserProvider } from "@/context/userContext";
 import { ScrollProvider } from "@/context/scrollContext";
 import { MenuProvider } from "@/context/menuContext";
-import NavBar from "@/components/navBar";
+import { TitleProvider } from "@/context/titleContext";
 import "./globals.css";
 
 // Fonts
@@ -45,8 +45,9 @@ export default function RootLayout({ children }) {
         <UserProvider>
           <ScrollProvider>
             <MenuProvider>
-              <NavBar />
-              {children}
+              <TitleProvider>
+                {children}
+              </TitleProvider>
             </MenuProvider>
           </ScrollProvider>
         </UserProvider>

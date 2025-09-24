@@ -4,15 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { FaAngleRight, FaBoxOpen, FaSearch } from "react-icons/fa";
 import Fallback from "@/assets/fallback.png";
 import Loader from "@/components/titlesLoader";
-
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { TitleContext } from "@/context/titleContext";
+import NavBar from "@/components/navBar";
 
 export default function Main() {
-  const [titles, setTitles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { titles, loading } = useContext(TitleContext);
   const [isScrolled1, setIsScrolled1] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
   const [isScrolled3, setIsScrolled3] = useState(false);
@@ -21,26 +19,7 @@ export default function Main() {
   const scrollRef2 = useRef(null);
   const scrollRef3 = useRef(null);
   const scrollRef4 = useRef(null);
-
-  useEffect(() => {
-    const handleGetTitles = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/titles/titleGet`, {
-          method: "GET",
-        });
-
-        const data = await res.json();
-        setTitles(data.result);
-      } catch (err) {
-        console.error("failed to fetch titles", err);
-        setTitles([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    handleGetTitles();
-  }, []);
+  const router = useRouter();
 
   useEffect(() => {
     const current = scrollRef1.current;
@@ -110,6 +89,7 @@ export default function Main() {
 
   return (
     <>
+      <NavBar />
       <div className="relative bg-brand w-full p-2 pt-24">
         {loading ? (
           <Loader />
@@ -129,7 +109,8 @@ export default function Main() {
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">LATEST RELEASES</h1>
                 <FaAngleRight
-                  className={`text-normal text-xl ${
+                  onClick={() => router.push("/mcu/latest")}
+                  className={`text-normal text-xl cursor-pointer ${
                     isScrolled1 ? "flex" : "hidden"
                   }`}
                 />
@@ -141,8 +122,8 @@ export default function Main() {
                     [...titles]
                       .sort((a, b) => new Date(b.date) - new Date(a.date))
                       .slice(0, 10)
-                      .map((unit, index) => (
-                        <div key={index} className="w-26 h-40 flex-shrink-0">
+                      .map((unit) => (
+                        <div key={unit.date} className="w-26 h-40 flex-shrink-0">
                           <Image
                             src={unit.image || Fallback}
                             alt="image"
@@ -168,8 +149,8 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">MCU CHRONOLOGICAL ORDER</h1>
-                <FaAngleRight
-                  className={`text-normal text-xl ${
+                <FaAngleRight onClick={() => router.push("/mcu/chrono")}
+                  className={`text-normal text-xl cursor-pointer ${
                     isScrolled2 ? "flex" : "hidden"
                   }`}
                 />
@@ -210,8 +191,8 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">MCU RELEASE ORDER</h1>
-                <FaAngleRight
-                  className={`text-normal text-xl ${
+                <FaAngleRight onClick={() => router.push("/mcu/release")}
+                  className={`text-normal text-xl cursor-pointer ${
                     isScrolled3 ? "flex" : "hidden"
                   }`}
                 />
