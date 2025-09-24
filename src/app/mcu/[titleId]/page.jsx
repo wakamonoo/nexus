@@ -9,6 +9,10 @@ export default function Title() {
   const { titles, pageLoad } = useContext(TitleContext);
   const { titleId } = useParams();
 
+  if (pageLoad) {
+    return <Loader />
+  }
+
   const title = titles.find((t) => t.titleId === titleId);
 
   if (!title) {
@@ -17,7 +21,6 @@ export default function Title() {
 
   return (
     <>
-      {pageLoad && <Loader />}
       <div>
         <Image
           src={title.image}

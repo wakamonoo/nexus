@@ -10,6 +10,7 @@ export const TitleContext = createContext();
 
 export const TitleProvider = ({ children }) => {
   const [titles, setTitles] = useState([]);
+  const [pageLoad, setPageLoad] = useState(true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -26,7 +27,7 @@ export const TitleProvider = ({ children }) => {
         console.error("failed to fetch titles", err);
         setTitles([]);
       } finally {
-        setLoading(false);
+        setPageLoad(false);
       }
     };
 
@@ -53,6 +54,7 @@ export const TitleProvider = ({ children }) => {
       value={{
         titles,
         loading,
+        pageLoad,
         setLoading,
         handleNavigate,
         handleMainBack,
