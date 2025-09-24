@@ -16,17 +16,17 @@ export default function Chrono() {
           onClick={() => router.push("/mcu")}
           className="text-2xl cursor-pointer"
         />
-        <h4 className="text-2xl">MCU Release Order</h4>
+        <h4 className="text-2xl">MCU Choronological Order</h4>
         <div />
       </div>
       <div className="w-full max-w-5xl">
         <div className="flex flex-wrap justify-center gap-2">
           {titles.length > 0 ? (
             [...titles]
-              .sort((a, b) => new Date(a.date) - new Date(b.date))
+              .sort((a, b) => a.order - b.order)
               .map((unit) => (
                 <div
-                  key={unit.date}
+                  key={unit.order}
                   onClick={() => router.push(`/mcu/${unit.titleId}`)}
                   className="w-26 h-40 flex-shrink-0 cursor-pointer"
                 >

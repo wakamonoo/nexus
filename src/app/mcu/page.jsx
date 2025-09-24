@@ -121,9 +121,13 @@ export default function Main() {
                   {titles.length > 0 ? (
                     [...titles]
                       .sort((a, b) => new Date(b.date) - new Date(a.date))
-                      .slice(0, 10)
+                      .slice(0, 15)
                       .map((unit) => (
-                        <div key={unit.date} className="w-26 h-40 flex-shrink-0">
+                        <div
+                          key={unit.date}
+                          onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                          className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                        >
                           <Image
                             src={unit.image || Fallback}
                             alt="image"
@@ -149,7 +153,8 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">MCU CHRONOLOGICAL ORDER</h1>
-                <FaAngleRight onClick={() => router.push("/mcu/chrono")}
+                <FaAngleRight
+                  onClick={() => router.push("/mcu/chrono")}
                   className={`text-normal text-xl cursor-pointer ${
                     isScrolled2 ? "flex" : "hidden"
                   }`}
@@ -164,7 +169,8 @@ export default function Main() {
                       .map((unit) => (
                         <div
                           key={unit.order}
-                          className="w-26 h-40 flex-shrink-0"
+                          onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                          className="w-26 h-40 flex-shrink-0 cursor-pointer"
                         >
                           <Image
                             src={unit.image || Fallback}
@@ -191,7 +197,8 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">MCU RELEASE ORDER</h1>
-                <FaAngleRight onClick={() => router.push("/mcu/release")}
+                <FaAngleRight
+                  onClick={() => router.push("/mcu/release")}
                   className={`text-normal text-xl cursor-pointer ${
                     isScrolled3 ? "flex" : "hidden"
                   }`}
@@ -206,7 +213,8 @@ export default function Main() {
                       .map((unit) => (
                         <div
                           key={unit.date}
-                          className="w-26 h-40 flex-shrink-0"
+                          onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                          className="w-26 h-40 flex-shrink-0 cursor-pointer"
                         >
                           <Image
                             src={unit.image || Fallback}
@@ -234,7 +242,8 @@ export default function Main() {
               <div className="flex justify-between items-center">
                 <h1 className="text-2xl">GOAT STATUS</h1>
                 <FaAngleRight
-                  className={`text-normal text-xl ${
+                  onClick={() => router.push("/mcu/goat")}
+                  className={`text-normal text-xl cursor-pointer ${
                     isScrolled4 ? "flex" : "hidden"
                   }`}
                 />
@@ -244,7 +253,11 @@ export default function Main() {
                 <div className="flex gap-2">
                   {titles.length > 0 ? (
                     titles.map((unit, index) => (
-                      <div key={index} className="w-26 h-40 flex-shrink-0">
+                      <div
+                        key={index}
+                        onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                        className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                      >
                         <Image
                           src={unit.image || Fallback}
                           alt="image"

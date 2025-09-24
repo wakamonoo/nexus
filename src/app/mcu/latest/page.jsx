@@ -12,7 +12,10 @@ export default function Latest() {
   return (
     <div className="flex flex-col justify-center items-center p-2">
       <div className="flex justify-between items-center py-4 w-full">
-        <FaAngleLeft onClick={() => router.push("/mcu")} className="text-2xl cursor-pointer" />
+        <FaAngleLeft
+          onClick={() => router.push("/mcu")}
+          className="text-2xl cursor-pointer"
+        />
         <h4 className="text-2xl">Latest Releases</h4>
         <div />
       </div>
@@ -21,9 +24,14 @@ export default function Latest() {
           {titles.length > 0 ? (
             [...titles]
               .sort((a, b) => new Date(b.date) - new Date(a.date))
-              .slice(0, 10)
+              .slice(0, 15)
               .map((unit, index) => (
-                <div key={index} className="w-26 h-40 flex-shrink-0">
+                <div
+                  key={index}
+                  onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                  className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                  F
+                >
                   <Image
                     src={unit.image || Fallback}
                     alt="image"

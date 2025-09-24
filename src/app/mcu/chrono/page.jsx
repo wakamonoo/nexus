@@ -25,7 +25,8 @@ export default function Chrono() {
             [...titles]
               .sort((a, b) => a.order - b.order)
               .map((unit) => (
-                <div key={unit.order} className="w-26 h-40 flex-shrink-0">
+                <div key={unit.order} onClick={() => router.push(`/mcu/${unit.titleId}`)}
+                          className="w-26 h-40 flex-shrink-0 cursor-pointer">
                   <Image
                     src={unit.image || Fallback}
                     alt="image"
