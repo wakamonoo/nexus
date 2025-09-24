@@ -3,12 +3,10 @@ import { useContext, useEffect } from "react";
 import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import NavLoad from "@/components/loader";
+import Loader from "@/components/loader";
 
 export default function Chrono() {
   const { titles, loading, setLoading, handleNavigate, handleMainBack } = useContext(TitleContext);
-  const router = useRouter();
 
   useEffect(() => {
     setLoading(false);
@@ -16,7 +14,7 @@ export default function Chrono() {
 
   return (
     <>
-      {loading && <NavLoad />}
+      {loading && <Loader />}
       <div className="flex flex-col justify-center items-center p-2">
         <div className="flex justify-between items-center py-4 w-full">
           <FaAngleLeft
