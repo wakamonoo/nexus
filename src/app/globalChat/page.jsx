@@ -35,7 +35,14 @@ export default function GlobalChat() {
       picture: user?.picture,
       sender: user?.name,
       text: input,
-      date: new Date().toLocaleString(),
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      date: new Date().toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
     };
     socket.emit("citadel", msg);
     setInput("");
@@ -52,44 +59,73 @@ export default function GlobalChat() {
             <div className="flex flex-col gap-4">
               {messages.map((msg, i) => {
                 const ownMessage = user.name === msg.sender;
+                const currentDate = msg.date;
+                const prevDate = i > 0 ? messages[i - 1].date : null;
+                const showDate = currentDate !== prevDate;
+
                 return (
-                  <div
-                    key={i}
-                    className={`flex gap-2 ${
-                      user.name === msg.sender ? "justify-end" : "justify-start"
-                    }`}
-                  >
-                    {!ownMessage && (
-                      <Image
-                        src={msg.picture || ironman}
-                        alt="user"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-8 h-8 rounded-full"
-                      />
+                  <div key={i}>
+                    {showDate && (
+                      <p className="text-xs text-vibe font-extralight text-center py-2">
+                        {currentDate}
+                      </p>
                     )}
                     <div
-                      className={`px-4 rounded-2xl ${
-                        ownMessage ? "bg-second" : "bg-panel"
+                      className={`flex gap-2 ${
+                        user.name === msg.sender
+                          ? "justify-end"
+                          : "justify-start"
                       }`}
                     >
-                      <div className="py-2">
-                        <p className="text-base font-bold">{msg.sender}</p>
-                        <p className="text-xs text-vibe">{msg.date}</p>
+                      {!ownMessage && (
+                        <Image
+                          src={msg.picture || ironman}
+                          alt="user"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-8 h-8 rounded-full"
+                        />
+                      )}
+                      <div
+                        className={`px-4 py-2 w-fit rounded-2xl ${
+                          ownMessage ? "bg-second" : "bg-panel"
+                        }`}
+                      >
+                        <p
+                          className={`text-base font-bold flex ${
+                            ownMessage ? "justify-end" : "justify-start"
+                          }`}
+                        >
+                          {ownMessage ? "you" : msg.sender}
+                        </p>
+
+                        <p
+                          className={`text-base text-normal py-2 flex ${
+                            ownMessage ? "justify-end" : "justify-start"
+                          }`}
+                        >
+                          {msg.text}
+                        </p>
+                        <p
+                          className={`text-xs text-vibe flex ${
+                            ownMessage ? "justify-end" : "justify-start"
+                          }`}
+                        >
+                          {msg.time}
+                        </p>
                       </div>
-                      <p className="text-base text-normal py-2">{msg.text}</p>
+                      {ownMessage && (
+                        <Image
+                          src={msg.picture || ironman}
+                          alt="user"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-8 h-8 rounded-full"
+                        />
+                      )}
                     </div>
-                    {ownMessage && (
-                      <Image
-                        src={msg.picture || ironman}
-                        alt="user"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-8 h-8 rounded-full"
-                      />
-                    )}
                   </div>
                 );
               })}
