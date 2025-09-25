@@ -4,7 +4,7 @@ import ironman from "@/assets/tony.jpg";
 import Image from "next/image";
 import NavBar from "@/components/navBar";
 import { UserContext } from "@/context/userContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { FaUserAlt, FaUserSlash } from "react-icons/fa";
 
@@ -19,6 +19,7 @@ export default function GlobalChat() {
   const { user, setShowSignIn } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const msgEndRef = useRef();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -26,6 +27,10 @@ export default function GlobalChat() {
         const res = await fetch(`${BASE_URL}/api/messages/messageGet`);
         const data = await res.json();
         setMessages(data);
+
+        setTimeout(() => {
+          msgEndRef.current?.scrollIntoView({ behavior: "auto" });
+        }, 0);
       } catch (err) {
         console.error("failed to fetch messages", err);
       }
@@ -157,6 +162,7 @@ export default function GlobalChat() {
                   </div>
                 );
               })}
+              <div ref={msgEndRef} />
             </div>
           </div>
           <div className="flex items-center gap-4 p-4 bg-second">
