@@ -25,7 +25,7 @@ export default function GlobalChat() {
     });
 
     return () => {
-      socket.off("citadel", msg);
+      socket.off("citadel");
     };
   }, []);
 
@@ -50,25 +50,49 @@ export default function GlobalChat() {
         <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
           <div className="flex-1 p-4 overflow-y-auto">
             <div className="flex flex-col gap-4">
-              {messages.map((msg, i) => (
-                <div key={i} className="flex gap-2">
-                  <Image
-                    src={msg.picture || ironman}
-                    alt="user"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-8 h-8 rounded-full"
-                  />
-                  <div className="bg-panel px-4 rounded-2xl">
-                    <div className="py-2">
-                      <p className="text-base font-bold">{msg.sender}</p>
-                      <p className="text-xs text-vibe">{msg.date}</p>
+              {messages.map((msg, i) => {
+                const ownMessage = user.name === msg.sender;
+                return (
+                  <div
+                    key={i}
+                    className={`flex gap-2 ${
+                      user.name === msg.sender ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    {!ownMessage && (
+                      <Image
+                        src={msg.picture || ironman}
+                        alt="user"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-8 h-8 rounded-full"
+                      />
+                    )}
+                    <div
+                      className={`px-4 rounded-2xl ${
+                        ownMessage ? "bg-second" : "bg-panel"
+                      }`}
+                    >
+                      <div className="py-2">
+                        <p className="text-base font-bold">{msg.sender}</p>
+                        <p className="text-xs text-vibe">{msg.date}</p>
+                      </div>
+                      <p className="text-base text-normal py-2">{msg.text}</p>
                     </div>
-                    <p className="text-base text-normal py-2">{msg.text}</p>
+                    {ownMessage && (
+                      <Image
+                        src={msg.picture || ironman}
+                        alt="user"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-8 h-8 rounded-full"
+                      />
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
           <div className="flex items-center gap-4 p-4 bg-second">

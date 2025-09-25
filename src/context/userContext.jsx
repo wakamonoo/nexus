@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
 import { auth } from "@/firebase/firebaseConfig";
+import SignIn from "@/components/signIn";
 
 export const UserContext = createContext();
 
@@ -56,9 +57,18 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ isLogged, user, adminBtn, loading, fetchUserData, setShowSignIn, showSignIn }}
+      value={{
+        isLogged,
+        user,
+        adminBtn,
+        loading,
+        fetchUserData,
+        setShowSignIn,
+        showSignIn,
+      }}
     >
       {children}
+      {showSignIn && <SignIn />}
     </UserContext.Provider>
   );
 };

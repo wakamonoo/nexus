@@ -4,7 +4,6 @@ import { ScrollProvider } from "@/context/scrollContext";
 import { MenuProvider } from "@/context/menuContext";
 import { TitleProvider } from "@/context/titleContext";
 import "./globals.css";
-import SignIn from "@/components/signIn";
 
 // Fonts
 const bebasNeue = Bebas_Neue({
@@ -48,7 +47,6 @@ export default function RootLayout({ children }) {
             <MenuProvider>
               <TitleProvider>
                 {children}
-                <SignIn />
               </TitleProvider>
             </MenuProvider>
           </ScrollProvider>

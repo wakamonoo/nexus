@@ -1,15 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import SignIn from "./signIn";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
-import { useRouter } from "next/navigation";
 import ButtonLoader from "./buttonLoader";
 
 export default function Banner() {
   const { user, loading, setShowSignIn } = useContext(UserContext);
-  const router = useRouter();
-
   return (
     <>
       <div className="bg-panel flex justify-center gap-2 w-full py-4 px-2">
