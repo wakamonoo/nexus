@@ -3,17 +3,21 @@ import clientPromise from "../lib/mongodb.js";
 
 const router = express.Router();
 
-router.get("/messageGet", async(req, res) => {
+router.get("/messageGet", async (req, res) => {
   try {
     const client = await clientPromise;
     const db = client.db("nexus");
 
-    const result = await db.collection("messages").find({}).sort({ _id: 1}).toArray();
-    res.status(200).json(result)
-  } catch(err) {
+    const result = await db
+      .collection("messages")
+      .find({})
+      .sort({ _id: 1 })
+      .toArray();
+    res.status(200).json(result);
+  } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "failed to fetch messages" })
+    res.status(500).json({ error: "failed to fetch messages" });
   }
-})
+});
 
 export default router;
