@@ -20,8 +20,20 @@ export default function GlobalChat() {
   const [input, setInput] = useState("");
 
   useEffect(() => {
-    socket.on("citadel", (msg) => {
-      setMessages((prev) => [...prev, msg]);
+    const fetchMessages = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/messages/messageGet`);
+        const data = await res.json();
+        setMessages(data);
+      } catch (err) {
+        console.error("failed to fetch messages", err);
+      }
+    };
+
+    fetchMessages();
+
+    socket.on("citadel", (data) => {
+      setMessages((prev) => [...prev, data]);
     });
 
     return () => {
@@ -31,7 +43,7 @@ export default function GlobalChat() {
 
   const sendMessage = () => {
     if (!input.trim()) return;
-    const msg = {
+    const data = {
       picture: user?.picture,
       sender: user?.name,
       text: input,
@@ -44,7 +56,7 @@ export default function GlobalChat() {
         day: "numeric",
       }),
     };
-    socket.emit("citadel", msg);
+    socket.emit("citadel", data);
     setInput("");
   };
 
