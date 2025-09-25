@@ -16,9 +16,11 @@ const BASE_URL =
     : "http://localhost:4000";
 
 export default function SignIn() {
-  const { isLogged, adminBtn, fetchUserData, setShowSignIn } =
+  const { isLogged, adminBtn, fetchUserData, setShowSignIn, showSignIn } =
     useContext(UserContext);
   const router = useRouter();
+
+  if (!showSignIn) return null;
 
   const handleSignIn = async () => {
     if (isLogged) {
@@ -86,6 +88,7 @@ export default function SignIn() {
               htmlContainer: "text-sm",
             },
           });
+          setShowSignIn(false);
         } catch (err) {
           console.error(err);
           Swal.fire({
