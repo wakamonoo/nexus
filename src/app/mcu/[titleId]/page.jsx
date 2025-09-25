@@ -125,56 +125,39 @@ export default function Title() {
       </div>
 
       <div className="py-4 flex flex-col gap-2">
-        <div className="flex flex-col gap-2 bg-second p-2 rounded">
-          <div className="flex items-center gap-2">
-            <Image
-              src={Alt}
-              alt="user"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-8 h-8 rounded-full"
-            />
-            <p>User</p>
+        <div className="flex gap-2">
+          <Image
+            src={Alt}
+            alt="user"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-8 h-8 rounded-full"
+          />
+          <div className="flex flex-col bg-second p-2 rounded-2xl">
+            <p className="font-bold text-base">Joven Bataller</p>
+            <p className="text-base text-vibe">
+              A visually stunning entry with strong performances. Some pacing
+              issues, but overall a great watch.
+            </p>
           </div>
-          <p>
-            A visually stunning entry with strong performances. Some pacing
-            issues, but overall a great watch.
-          </p>
         </div>
-        <div className="flex flex-col gap-2 bg-second p-2 rounded">
-          <div className="flex items-center gap-2">
-            <Image
-              src={Alt}
-              alt="user"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-8 h-8 rounded-full"
-            />
-            <p>User</p>
+        <div className="flex gap-2">
+          <Image
+            src={Alt}
+            alt="user"
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-8 h-8 rounded-full"
+          />
+          <div className="flex flex-col bg-second p-2 rounded-2xl">
+            <p className="font-bold text-base">Joven Bataller</p>
+            <p className="text-base text-vibe">
+              A visually stunning entry with strong performances. Some pacing
+              issues, but overall a great watch.
+            </p>
           </div>
-          <p>
-            An absolute masterpiece—balanced action, humor, and heart. One of
-            the best in the MCU.
-          </p>
-        </div>
-        <div className="flex flex-col gap-2 bg-second p-2 rounded">
-          <div className="flex items-center gap-2">
-            <Image
-              src={Alt}
-              alt="user"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-8 h-8 rounded-full"
-            />
-            <p>User</p>
-          </div>
-          <p>
-            Solid storytelling and character growth. Could’ve used a tighter
-            ending, but still highly enjoyable.
-          </p>
         </div>
       </div>
     </div>
