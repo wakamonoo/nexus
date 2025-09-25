@@ -52,10 +52,11 @@ io.on("connection", (socket) => {
 
   socket.on("citadel", async (data) => {
     try {
-      const { picture, sender, text, time, date } = data;
+      const { picture, sender, email, text, time, date } = data;
       const msg = {
         picture,
         sender,
+        email,
         text,
         time,
         date,

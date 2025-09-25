@@ -6,6 +6,7 @@ import NavBar from "@/components/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { FaUserAlt, FaUserSlash } from "react-icons/fa";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -15,7 +16,7 @@ const BASE_URL =
 const socket = io.connect(`${BASE_URL}`);
 
 export default function GlobalChat() {
-  const { user } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
 
@@ -46,6 +47,7 @@ export default function GlobalChat() {
     const data = {
       picture: user?.picture,
       sender: user?.name,
+      email: user?.email,
       text: input,
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
@@ -64,13 +66,27 @@ export default function GlobalChat() {
     <>
       <NavBar />
       {!user ? (
-        <div className="pt-16">not user</div>
+        <div
+          className="flex w-full items-center justify-center"
+          style={{ height: "100dvh" }}
+        >
+          <div className="flex flex-col gap-2 items-center justify-center">
+            <FaUserSlash className="text-4xl" />
+            <p className="text-sm text-vibe">Login to the End of Time</p>
+            <button
+              onClick={() => setShowSignIn(true)}
+              className="px-4 py-2 bg-accent rounded-full font-bold"
+            >
+              <p>Login</p>
+            </button>
+          </div>
+        </div>
       ) : (
         <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
           <div className="flex-1 p-4 overflow-y-auto">
             <div className="flex flex-col gap-4">
               {messages.map((msg, i) => {
-                const ownMessage = user.name === msg.sender;
+                const ownMessage = user.email === msg.email;
                 const currentDate = msg.date;
                 const prevDate = i > 0 ? messages[i - 1].date : null;
                 const showDate = currentDate !== prevDate;
