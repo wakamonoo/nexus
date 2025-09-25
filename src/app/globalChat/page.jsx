@@ -65,6 +65,9 @@ export default function GlobalChat() {
     };
     socket.emit("citadel", data);
     setInput("");
+    setTimeout(() => {
+      msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   return (
