@@ -6,7 +6,7 @@ import NavBar from "@/components/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import { FaUserAlt, FaUserSlash } from "react-icons/fa";
+import { FaUserSlash } from "react-icons/fa";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -83,7 +83,7 @@ export default function GlobalChat() {
             <p className="text-sm text-vibe">Login to the End of Time</p>
             <button
               onClick={() => setShowSignIn(true)}
-              className="px-4 py-2 bg-accent rounded-full font-bold"
+              className="px-4 py-2 bg-accent rounded-full font-bold cursor-pointer"
             >
               <p>Login</p>
             </button>
