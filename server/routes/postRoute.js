@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/addPost", async (req, res) => {
   try {
-    const { text, userName, userImage } = req.body;
+    const { text, userName, userImage, files = [] } = req.body;
     const client = await clientPromise;
     const db = client.db("nexus");
 
@@ -18,6 +18,7 @@ router.post("/addPost", async (req, res) => {
           text,
           userName,
           userImage,
+          files,
           date: new Date().toLocaleString(),
         },
       },

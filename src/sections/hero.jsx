@@ -24,7 +24,7 @@ export default function Hero() {
 
     postFetch();
   }, []);
-  
+
   return (
     <div className="bg-brand w-full pt-16">
       <div className="pb-4">
@@ -55,6 +55,11 @@ export default function Hero() {
             </div>
 
             <p className="text-base text-justify py-4">{post.text}</p>
+
+            <div className="flex justify-center bg-panel w-full h-50 rounded">
+              <div></div>
+            </div>
+
             <div className="flex justify-between items-center pt-4 border-t gap-4 mt-2">
               <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
                 <FaBolt className="text-xl" />

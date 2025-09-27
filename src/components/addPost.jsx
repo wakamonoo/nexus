@@ -12,10 +12,27 @@ const BASE_URL =
 
 export default function AddPost({ setShowAddPost }) {
   const { user } = useContext(UserContext);
-  const [post, setPost] = useState({ text: "" });
+  const [post, setPost] = useState({ text: "", file: null });
+  const [addImage, setAddImage] = useState(false);
 
   const submitPost = async () => {
     try {
+      let uploadedUrls = [];
+
+      if (post.file && post.file.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < post.file.length; i++) {
+          formData.append("files", post.file[i]);
+        }
+
+        const uploadRes = await fetch(`${BASE_URL}/api/uploads/postUpload`, {
+          method: "POST",
+          body: formData,
+        });
+
+        const { urls } = await uploadRes.json();
+        uploadedUrls = urls;
+      }
       await fetch(`${BASE_URL}/api/posts/addPost`, {
         method: "POST",
         headers: {
@@ -25,6 +42,7 @@ export default function AddPost({ setShowAddPost }) {
           text: post.text,
           userName: user.name,
           userImage: user.picture,
+          files: uploadedUrls,
         }),
       });
 
@@ -98,7 +116,10 @@ export default function AddPost({ setShowAddPost }) {
               className="bg-second w-full h-32 rounded p-2"
             />
             <div className="flex gap-2">
-              <button className="flex flex-1 justify-center bg-blue-600 p-2 rounded items-center gap-2">
+              <button
+                onClick={() => setAddImage(true)}
+                className="flex flex-1 justify-center bg-blue-600 p-2 rounded items-center gap-2"
+              >
                 <FaImage className="text-2xl" />
                 <p className="font-bold text-normal text-base">Add Image</p>
               </button>
@@ -107,6 +128,19 @@ export default function AddPost({ setShowAddPost }) {
                 <p className="font-bold text-normal text-base">Choose Topic</p>
               </button>
             </div>
+
+            {addImage && (
+              <div className="py-2">
+                <input
+                  name="file"
+                  onChange={(e) => setPost({ ...post, file: e.target.files })}
+                  type="file"
+                  multiple
+                  className="bg-second p-2 w-full"
+                />
+              </div>
+            )}
+
             <div className="py-2">
               <button
                 onClick={submitPost}
