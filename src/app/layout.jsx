@@ -3,6 +3,7 @@ import { UserProvider } from "@/context/userContext";
 import { ScrollProvider } from "@/context/scrollContext";
 import { MenuProvider } from "@/context/menuContext";
 import { TitleProvider } from "@/context/titleContext";
+import { PostProvider } from "@/context/postContext";
 import "./globals.css";
 
 // Fonts
@@ -46,7 +47,7 @@ export default function RootLayout({ children }) {
           <ScrollProvider>
             <MenuProvider>
               <TitleProvider>
-                {children}
+                <PostProvider>{children}</PostProvider>
               </TitleProvider>
             </MenuProvider>
           </ScrollProvider>

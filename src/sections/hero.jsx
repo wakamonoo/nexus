@@ -2,34 +2,21 @@
 import Banner from "@/components/banner.jsx";
 import { FaBolt, FaComment, FaShare } from "react-icons/fa";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
+import { PostContext } from "@/context/postContext";
 import { MdClose } from "react-icons/md";
-
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
-  const [posts, setPosts] = useState([]);
+  const { posts } = useContext(PostContext);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentPost, setCurrentPost] = useState([]);
   const [currentPostInfo, setCurrentPostInfo] = useState(null);
   const [showDetails, setShowDetails] = useState(true);
   const [initialIndex, setInitialIndex] = useState(0);
+  const [showFull, setShowFull] = useState(false);
   const lightboxRef = useRef();
-
-  useEffect(() => {
-    const postFetch = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/posts/postGet`);
-        const data = await res.json();
-        setPosts(data);
-      } catch (err) {}
-    };
-
-    postFetch();
-  }, []);
+  const router = useRouter();
 
   const handleFileClick = (files, index, post) => {
     setCurrentPost(files);
@@ -68,6 +55,7 @@ export default function Hero() {
           {posts.map((post, index) => (
             <div
               key={index}
+              onClick={() => router.push(`/post/${post.postId}`)}
               className="w-full h-auto bg-second rounded-tl-4xl border-t-2 border-accent p-4"
             >
               <div className="flex gap-3 items-center py-2">
@@ -87,7 +75,17 @@ export default function Hero() {
                 </div>
               </div>
 
-              <p className="text-base text-justify py-4">{post.text}</p>
+              <p
+                onClick={(e) => {
+                  setShowFull(!showFull);
+                  e.stopPropagation();
+                }}
+                className={`text-base text-justify leading-5 cursor-pointer py-4 ${
+                  !showFull ? "line-clamp-5" : ""
+                }`}
+              >
+                {post.text}
+              </p>
 
               {post.files && post.files.length > 0 ? (
                 <div className="flex w-full h-80 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
@@ -100,7 +98,10 @@ export default function Hero() {
                     return (
                       <div
                         key={index}
-                        onClick={() => handleFileClick(post.files, index, post)}
+                        onClick={(e) => {
+                          handleFileClick(post.files, index, post);
+                          e.stopPropagation();
+                        }}
                         className="flex-shrink-0 w-full h-full snap-center"
                       >
                         {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
