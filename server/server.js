@@ -13,6 +13,8 @@ import titleGet from "./routes/titleGet.js";
 import imageRoute from "./routes/imageRoute.js";
 import countRoute from "./routes/countRoute.js";
 import messageGet from "./routes/messagesGet.js";
+import postRoute from "./routes/postRoute.js";
+import postGet from "./routes/postGet.js";
 
 dotenv.config();
 
@@ -47,6 +49,8 @@ app.use("/api/titles", titleGet);
 app.use("/api/uploads", imageRoute);
 app.use("/api/counts", countRoute);
 app.use("/api/messages", messageGet);
+app.use("/api/posts", postRoute);
+app.use("/api/posts", postGet);
 
 io.on("connection", (socket) => {
   console.log("a user is connected");
