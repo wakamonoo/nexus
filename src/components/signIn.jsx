@@ -117,8 +117,11 @@ export default function SignIn() {
         onClick={(e) => e.stopPropagation()}
         className="flex relative justify-center bg-panel w-[95%] sm:w-[400px] md:w-[450px] h-[60%] sm:h-[400px] md:h-[450px] rounded-2xl overflow-hidden"
       >
-        <button className="absolute cursor-pointer top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110">
-          <MdClose onClick={() => setShowSignIn(false)} />
+        <button
+          onClick={() => setShowSignIn(false)}
+          className="absolute cursor-pointer top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110"
+        >
+          <MdClose />
         </button>
         <div className="flex flex-col gap-2 items-center justify-center p-8">
           <Image

@@ -8,7 +8,11 @@ router.get("/postGet", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
-    const result = await db.collection("posts").find({}).toArray();
+    const result = await db
+      .collection("posts")
+      .find({})
+      .sort({ _id: -1 })
+      .toArray();
 
     res.status(200).json(result);
   } catch (err) {}

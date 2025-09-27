@@ -6,7 +6,7 @@ import NavBar from "@/components/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import { FaUserAlt, FaUserSlash } from "react-icons/fa";
+import { FaUserSlash } from "react-icons/fa";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
