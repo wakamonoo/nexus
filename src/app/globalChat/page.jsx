@@ -13,7 +13,10 @@ const BASE_URL =
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
 
-const socket = io.connect(`${BASE_URL}`);
+const socket = io(BASE_URL, {
+  transports: ["websocket", "polling"],
+  withCredentials: true,
+});
 
 export default function GlobalChat() {
   const { user, setShowSignIn } = useContext(UserContext);
@@ -22,12 +25,12 @@ export default function GlobalChat() {
   const msgEndRef = useRef();
 
   useEffect(() => {
+    // Fetch history from REST
     const fetchMessages = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/messages/messageGet`);
         const data = await res.json();
         setMessages(data);
-
         setTimeout(() => {
           msgEndRef.current?.scrollIntoView({ behavior: "auto" });
         }, 0);
@@ -38,11 +41,18 @@ export default function GlobalChat() {
 
     fetchMessages();
 
+    // Real-time updates
     socket.on("citadel", (data) => {
       setMessages((prev) => [...prev, data]);
     });
 
+    // Keep alive ping every 25s
+    const interval = setInterval(() => {
+      socket.emit("ping");
+    }, 25000);
+
     return () => {
+      clearInterval(interval);
       socket.off("citadel");
     };
   }, []);
@@ -83,7 +93,7 @@ export default function GlobalChat() {
             <p className="text-sm text-vibe">Login to the End of Time</p>
             <button
               onClick={() => setShowSignIn(true)}
-              className="px-4 py-2 bg-accent rounded-full font-bold cursor-pointer"
+              className="px-4 py-2 bg-accent rounded-full font-bold"
             >
               <p>Login</p>
             </button>
@@ -108,9 +118,7 @@ export default function GlobalChat() {
                     )}
                     <div
                       className={`flex gap-2 ${
-                        user.name === msg.sender
-                          ? "justify-end"
-                          : "justify-start"
+                        ownMessage ? "justify-end" : "justify-start"
                       }`}
                     >
                       {!ownMessage && (
@@ -135,7 +143,6 @@ export default function GlobalChat() {
                         >
                           {ownMessage ? "you" : msg.sender}
                         </p>
-
                         <p
                           className={`text-base text-normal py-2 flex ${
                             ownMessage ? "justify-end" : "justify-start"
