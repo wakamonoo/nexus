@@ -1,10 +1,12 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import ButtonLoader from "./buttonLoader";
+import AddPost from "./addPost";
 
 export default function Banner() {
   const { user, loading, setShowSignIn } = useContext(UserContext);
+  const [showAddPost, setShowAddPost] = useState(false);
   return (
     <>
       <div className="bg-panel flex justify-center gap-2 w-full py-4 px-2">
@@ -28,13 +30,14 @@ export default function Banner() {
           <ButtonLoader />
         ) : (
           <button
-            onClick={() => setShowSignIn(true)}
+            onClick={() => setShowAddPost(true)}
             className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full cursor-pointer hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)"
           >
             <p>Assemble</p>
           </button>
         )}
       </div>
+      {showAddPost && <AddPost setShowAddPost={setShowAddPost} />}
     </>
   );
 }

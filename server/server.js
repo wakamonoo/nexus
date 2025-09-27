@@ -19,27 +19,27 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-const allowedOrigins = [
+const allowedOrigin = [
   "http://localhost:3000",
-  "https://nexus-wakamonoo.vercel.app", // frontend (Vercel)
+  "https://nexus-wakamonoo.vercel.app",
+  "https://nexus-po8x.onrender.com",
 ];
 
 const io = new SocketServer(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: allowedOrigin,
     credentials: true,
   },
 });
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: allowedOrigin,
     credentials: true,
   })
 );
 app.use(express.json());
 
-// REST API routes
 app.use("/api/users", userRoute);
 app.use("/api/users", userGet);
 app.use("/api/titles", titleRoute);
@@ -48,27 +48,9 @@ app.use("/api/uploads", imageRoute);
 app.use("/api/counts", countRoute);
 app.use("/api/messages", messageGet);
 
-async function messageCollection() {
-  const client = await clientPromise;
-  const db = client.db("nexus");
-  return db.collection("messages");
-}
-
-// Global chat room name
-const GLOBAL_ROOM = "global_chat";
-
 io.on("connection", (socket) => {
-  console.log(`socket ${socket.id} connected`);
+  console.log("a user is connected");
 
-  // auto join global chat
-  socket.join(GLOBAL_ROOM);
-
-  // Keep-alive ping
-  socket.on("ping", () => {
-    socket.emit("pong");
-  });
-
-  // Send a new message
   socket.on("citadel", async (data) => {
     try {
       const { picture, sender, email, text, time, date } = data;
@@ -82,18 +64,13 @@ io.on("connection", (socket) => {
         msgId: `msg-${uuid()}`,
       };
 
-      const col = await messageCollection();
-      await col.insertOne(msg);
-
-      // emit only to the global room
-      io.to(GLOBAL_ROOM).emit("citadel", msg);
+      const client = await clientPromise;
+      const db = client.db("nexus");
+      await db.collection("messages").insertOne(msg);
+      io.emit("citadel", msg);
     } catch (err) {
-      console.error("send message error", err);
+      console.error(err);
     }
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`socket ${socket.id} disconnected`);
   });
 });
 
