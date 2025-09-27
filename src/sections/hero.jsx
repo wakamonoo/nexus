@@ -14,6 +14,7 @@ export default function Hero() {
   const [posts, setPosts] = useState([]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentPost, setCurrentPost] = useState([]);
+  const [currentPostInfo, setCurrentPostInfo] = useState(null);
   const [initialIndex, setInitialIndex] = useState(0);
   const lightboxRef = useRef();
 
@@ -29,9 +30,10 @@ export default function Hero() {
     postFetch();
   }, []);
 
-  const handleFileClick = (files, index) => {
+  const handleFileClick = (files, index, post) => {
     setCurrentPost(files);
     setInitialIndex(index);
+    setCurrentPostInfo(post);
     setLightboxOpen(true);
 
     setTimeout(() => {
@@ -97,7 +99,7 @@ export default function Hero() {
                     return (
                       <div
                         key={index}
-                        onClick={() => handleFileClick(post.files, index)}
+                        onClick={() => handleFileClick(post.files, index, post)}
                         className="flex-shrink-0 w-full h-full snap-center"
                       >
                         {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
@@ -149,17 +151,14 @@ export default function Hero() {
         </div>
       </div>
       {lightboxOpen && (
-        <div
-          onClick={() => setLightboxOpen(false)}
-          className="inset-0 z-[100] backdrop-blur-xs flex items-center justify-center fixed"
-        >
+        <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
           <button className="absolute cursor-pointer z-[120] top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110">
             <MdClose onClick={() => setLightboxOpen(false)} />
           </button>
           <div
             onClick={(e) => e.stopPropagation()}
             ref={lightboxRef}
-            className="flex bg-second overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-[100%] h-[100%] scrollbar-hide"
+            className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-[100%] h-[100%] scrollbar-hide"
           >
             {currentPost.map((file, index) => {
               const ext = file.split(".").pop().toLowerCase();
@@ -167,7 +166,7 @@ export default function Hero() {
               return (
                 <div
                   key={index}
-                  className="flex-shrink-0 w-full h-full snap-center flex items-center justify-center relative"
+                  className="flex-shrink-0 w-full h-[80%] snap-center flex items-center justify-center relative"
                 >
                   {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) && (
                     <Image
@@ -188,6 +187,31 @@ export default function Hero() {
                 </div>
               );
             })}
+          </div>
+          <div className="absolute bg-[var(--color-secondary)]/50 w-full p-2 bottom-0 left-0">
+            <div className="flex flex-col">
+              <p className="text-base mt-2 font-bold leading-3.5">
+                {currentPostInfo.userName}
+              </p>
+              <p className="text-xs text-vibe">{currentPostInfo.date}</p>
+            </div>
+            <div>
+              <p className="text-base text-normal">{currentPostInfo.text}</p>
+            </div>
+            <div className="flex justify-between items-center pt-4 border-t gap-4 mt-2">
+              <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
+                <FaBolt className="text-xl" />
+                <p className="text-xs font-light text-vibe">21</p>
+              </div>
+              <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
+                <FaComment className="text-xl" />
+                <p className="text-xs font-light text-vibe">21</p>
+              </div>
+              <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
+                <FaShare className="text-xl" />
+                <p className="text-xs font-light text-vibe">21</p>
+              </div>
+            </div>
           </div>
         </div>
       )}
