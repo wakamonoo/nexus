@@ -56,9 +56,43 @@ export default function Hero() {
 
             <p className="text-base text-justify py-4">{post.text}</p>
 
-            <div className="flex justify-center bg-panel w-full h-50 rounded">
-              <div></div>
-            </div>
+            {post.files && post.files.length > 0 ? (
+              <div className="flex w-full h-80 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
+                {post.files.map((file, index) => {
+                  const ext =
+                    typeof file === "string"
+                      ? file.split(".").pop().toLowerCase()
+                      : "";
+
+                  return (
+                    <div
+                      key={index}
+                      className="flex-shrink-0 w-full h-full snap-center"
+                    >
+                      {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
+                        <Image
+                          src={file}
+                          alt="file"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : ["mp4", "webm", "ogg"].includes(ext) ? (
+                        <video
+                          key={index}
+                          src={file}
+                          controls
+                          className="w-full h-full object-cover"
+                        />
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div />
+            )}
 
             <div className="flex justify-between items-center pt-4 border-t gap-4 mt-2">
               <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">

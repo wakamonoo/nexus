@@ -39,7 +39,7 @@ router.post("/postUpload", upload.array("files"), async (req, res) => {
         bufferStream.pipe(
           cloudinary.uploader.upload_stream(
             { folder: "nexus uploads/posts", resource_type: "auto" },
-            (err, result) => (err ? reject(err) : resolve(result))
+            (err, result) => (err ? reject(err) : resolve(result.secure_url))
           )
         );
       });
@@ -47,7 +47,7 @@ router.post("/postUpload", upload.array("files"), async (req, res) => {
 
     const urls = await Promise.all(uploadPromises);
 
-    res.status(200).json({ urls })
+    res.status(200).json({ urls });
   } catch (err) {
     console.error("failed upload", err);
     res.status(500).json({ error: "upload error" });
