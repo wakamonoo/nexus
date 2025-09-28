@@ -5,6 +5,7 @@ import { MenuProvider } from "@/context/menuContext";
 import { TitleProvider } from "@/context/titleContext";
 import { PostProvider } from "@/context/postContext";
 import { LoaderProvider } from "@/context/loaderContext";
+import { TitleNavProvider } from "@/context/titlesNavContex";
 import "./globals.css";
 
 // Fonts
@@ -49,7 +50,9 @@ export default function RootLayout({ children }) {
             <MenuProvider>
               <TitleProvider>
                 <PostProvider>
-                  <LoaderProvider>{children}</LoaderProvider>
+                  <LoaderProvider>
+                    <TitleNavProvider>{children}</TitleNavProvider>
+                  </LoaderProvider>
                 </PostProvider>
               </TitleProvider>
             </MenuProvider>

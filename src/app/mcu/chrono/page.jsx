@@ -3,22 +3,26 @@ import { useContext, useEffect } from "react";
 import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
 import Image from "next/image";
-import Loader from "@/components/loader";
+import { LoaderContext } from "@/context/loaderContext";
+import { useRouter } from "next/navigation";
+import { TitleNavContext } from "@/context/titlesNavContex";
 
 export default function Chrono() {
-  const { titles, loading, setLoading, handleNavigate, handleMainBack } = useContext(TitleContext);
+  const { titles } = useContext(TitleContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const { handleShowNav } = useContext(TitleNavContext);
+  const router = useRouter();
 
   useEffect(() => {
-    setLoading(false);
+    setIsLoading(false);
   }, []);
 
   return (
     <>
-      {loading && <Loader />}
       <div className="flex flex-col justify-center items-center p-2">
         <div className="flex justify-between items-center py-4 w-full">
           <FaAngleLeft
-            onClick={() => handleMainBack()}
+            onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
           <h4 className="text-2xl">MCU Choronological Order</h4>
@@ -32,7 +36,7 @@ export default function Chrono() {
                 .map((unit) => (
                   <div
                     key={unit.order}
-                    onClick={() => handleNavigate(unit.titleId)}
+                    onClick={() => handleShowNav(unit.titleId)}
                     className="w-26 h-40 flex-shrink-0 cursor-pointer"
                   >
                     <Image

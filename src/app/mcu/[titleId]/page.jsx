@@ -15,29 +15,31 @@ import {
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import Alt from "@/assets/fallback.png";
+import { LoaderContext } from "@/context/loaderContext";
 
 export default function Title() {
-  const { titles, pageLoad } = useContext(TitleContext);
+  const { titles } = useContext(TitleContext);
   const { titleId } = useParams();
   const router = useRouter();
   const [showFull, setShowFull] = useState(false);
   const [showSum, setShowSum] = useState(false);
+  const { setIsLoading } = useContext(LoaderContext);
 
-  if (pageLoad) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const title = titles.find((t) => t.titleId === titleId);
 
   if (!title) {
-    return <p>not a title</p>;
+    return <p>add a title loader</p>;
   }
 
   return (
     <div className="p-8 bg-brand">
       <div className="flex justify-between py-4">
         <FaAngleLeft
-          onClick={() => router.push("/mcu")}
+          onClick={() => router.back()}
           className="text-2xl cursor-pointer"
         />
         <p className="text-sm text-vibe">
