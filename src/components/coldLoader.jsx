@@ -23,7 +23,7 @@ export default function ColdLoader() {
         </div>
       </div>
       <div className="px-2 pt-8 flex flex-col gap-4">
-        <div className="p-4 w-full h-[40vh] bg-panel rounded-tl-4xl rounded-tr-4xl animate-pulse">
+        <div className="p-4 w-full h-fit bg-panel rounded-tl-4xl rounded-tr-4xl animate-pulse">
           <div className="flex gap-2 items-center w-full">
             <div className="w-12 h-12 bg-second rounded-full flex-shrink-0 animate-pulse" />
             <div className="w-full flex flex-col gap-1">
@@ -45,7 +45,7 @@ export default function ColdLoader() {
           </div>
         </div>
 
-        <div className="p-4 w-full h-[75vh] bg-panel rounded-tl-4xl rounded-tr-4xl animate-pulse">
+        <div className="p-4 w-full h-fit bg-panel rounded-tl-4xl rounded-tr-4xl animate-pulse">
           <div className="flex gap-2 items-center w-full">
             <div className="w-12 h-12 bg-second rounded-full flex-shrink-0 animate-pulse" />
             <div className="w-full flex flex-col gap-1">
