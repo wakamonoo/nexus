@@ -32,8 +32,8 @@ export default function Post() {
         <div />
       </div>
       <div className="pb-24">
-        <div className="bg-second p-4">
-          <div className="flex gap-3 items-center">
+        <div className="bg-second">
+          <div className="flex gap-3 p-4 items-center">
             <Image
               src={post?.userImage || Tony}
               alt="user"
@@ -49,9 +49,11 @@ export default function Post() {
               <p className="text-xs text-vibe">{post?.date}</p>
             </div>
           </div>
-          <p className="text-base text-normal leading-5 py-2">{post?.text}</p>
+          <p className="text-base text-normal leading-5 py-2 px-4">
+            {post?.text}
+          </p>
           {post?.files && post.files.length > 0 ? (
-            <div className="flex w-full h-80 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
+            <div className="flex w-full h-[50vh] overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
               {post.files.map((file, index) => {
                 const ext =
                   typeof file === "string"
@@ -91,17 +93,17 @@ export default function Post() {
           ) : (
             <div />
           )}
-          <div className="flex justify-between items-center pt-4 border-t gap-4 mt-2">
-            <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
-              <FaBolt className="text-xl" />
+          <div className="flex justify-between items-center p-4 border-t border-panel gap-4 mt-2">
+            <div className="flex items-center justify-center gap-2  bg-panel p-4 rounded-4xl w-[33%] h-12">
+              <FaBolt className="text-2xl" />
               <p className="text-xs font-light text-vibe">21</p>
             </div>
-            <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
-              <FaComment className="text-xl" />
+            <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-[33%] h-12">
+              <FaComment className="text-2xl" />
               <p className="text-xs font-light text-vibe">21</p>
             </div>
-            <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
-              <FaShare className="text-xl" />
+            <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-[33%] h-12">
+              <FaShare className="text-2xl" />
               <p className="text-xs font-light text-vibe">21</p>
             </div>
           </div>
@@ -116,18 +118,18 @@ export default function Post() {
               sizes="100vw"
               className="w-12 h-12 object-cover rounded-full"
             />
-            <div className="bg-second p-2 rounded-2xl">
+            <div className="bg-second py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
               <p className="text-base text-normal font-bold">Tony</p>
               <p className="text-xs text-vibe">9/27/2025, 5:16:35 PM</p>
               <p className="text-base text-normal py-2">
                 For a fancy entrance, use a small animation:
               </p>
               <div className="py-2 flex justify-end gap-2">
-                <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-24 h-12">
+                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
                   <FaBolt className="text-xl" />
                   <p className="text-xs font-light text-vibe">21</p>
                 </div>
-                <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-24 h-12">
+                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
                   <FaReply className="text-xl" />
                   <p className="text-xs font-light text-vibe">21</p>
                 </div>
@@ -144,18 +146,19 @@ export default function Post() {
               sizes="100vw"
               className="w-12 h-12 object-cover rounded-full"
             />
-            <div className="bg-second p-2 rounded-2xl">
+            <div className="bg-second py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
               <p className="text-base text-normal font-bold">Tony</p>
               <p className="text-xs text-vibe">9/27/2025, 5:16:35 PM</p>
               <p className="text-base text-normal py-2">
-                For a fancy entrance, use a small animation: For a fancy entrance, use a small animation:
+                For a fancy entrance, use a small animation: For a fancy
+                entrance, use a small animation:
               </p>
               <div className="py-2 flex justify-end gap-2">
-                <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-24 h-12">
+                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
                   <FaBolt className="text-xl" />
                   <p className="text-xs font-light text-vibe">21</p>
                 </div>
-                <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-24 h-12">
+                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
                   <FaReply className="text-xl" />
                   <p className="text-xs font-light text-vibe">21</p>
                 </div>

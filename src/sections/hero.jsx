@@ -8,10 +8,7 @@ import { MdClose } from "react-icons/md";
 import { useRouter } from "next/navigation";
 
 export default function Hero() {
-  const {
-    posts,
-    handleFileClick,
-  } = useContext(PostContext);
+  const { posts, handleFileClick } = useContext(PostContext);
   const [showFull, setShowFull] = useState(false);
   const router = useRouter();
 
@@ -27,9 +24,9 @@ export default function Hero() {
             <div
               key={index}
               onClick={() => router.push(`/post/${post.postId}`)}
-              className="w-full h-auto cursor-pointer bg-second rounded-tl-4xl border-t-2 border-accent p-4"
+              className="w-full h-auto cursor-pointer bg-second rounded-tl-4xl rounded-tr-4xl border-t-4 border-l-1 border-panel"
             >
-              <div className="flex gap-3 items-center py-2">
+              <div className="flex gap-3 px-4 items-center py-2">
                 <Image
                   src={post.userImage}
                   alt="user"
@@ -46,7 +43,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div className="py-4">
+              <div className="p-4">
                 <p
                   onClick={(e) => {
                     setShowFull(!showFull);
@@ -61,7 +58,7 @@ export default function Hero() {
               </div>
 
               {post.files && post.files.length > 0 ? (
-                <div className="flex w-full h-80 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
+                <div className="flex w-full h-[50vh] overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
                   {post.files.map((file, index) => {
                     const ext =
                       typeof file === "string"
@@ -102,17 +99,17 @@ export default function Hero() {
                 <div />
               )}
 
-              <div className="flex justify-between items-center pt-4 border-t gap-4 mt-2">
-                <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
-                  <FaBolt className="text-xl" />
+              <div className="flex justify-between items-center p-4 border-t border-panel gap-4 mt-2">
+                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-[33%] h-12">
+                  <FaBolt className="text-2xl" />
                   <p className="text-xs font-light text-vibe">21</p>
                 </div>
-                <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
-                  <FaComment className="text-xl" />
+                <div className="flex items-center justify-center gap-2  bg-panel p-4 rounded-4xl w-[33%] h-12">
+                  <FaComment className="text-2xl" />
                   <p className="text-xs font-light text-vibe">21</p>
                 </div>
-                <div className="flex items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
-                  <FaShare className="text-xl" />
+                <div className="flex items-center justify-center gap-2  bg-panel p-4 rounded-4xl w-[33%] h-12">
+                  <FaShare className="text-2xl" />
                   <p className="text-xs font-light text-vibe">21</p>
                 </div>
               </div>
