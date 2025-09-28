@@ -27,7 +27,6 @@ export default function Post() {
   const { posts, handleLike, handleFileClick } = useContext(PostContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
-  const [comment, setComment] = useState([]);
 
   const post = posts.find((p) => p.postId === postId);
 
