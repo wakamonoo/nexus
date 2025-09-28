@@ -8,6 +8,7 @@ import { MdClose } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
 import Loader from "@/components/loader";
+import ColdLoader from "@/components/coldLoader";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -15,7 +16,7 @@ const BASE_URL =
     : "http://localhost:4000";
 
 export default function Hero() {
-  const { posts, handleLike, handleFileClick, coldLoad } =
+  const { posts, handleLike, handleFileClick } =
     useContext(PostContext);
   const { user } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
@@ -23,7 +24,6 @@ export default function Hero() {
 
   return (
     <>
-      {coldLoad && <Loader />}
       <div className="bg-brand w-full pt-16">
         <div className="pb-4">
           <Banner />
