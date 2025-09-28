@@ -19,6 +19,7 @@ router.post("/addPost", async (req, res) => {
           userName,
           userImage,
           files,
+          comments: [],
           date: new Date().toLocaleString(),
         },
       },

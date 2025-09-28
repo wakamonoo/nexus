@@ -1,25 +1,71 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import {
   FaAngleLeft,
   FaAngleRight,
   FaBolt,
   FaComment,
+  FaRegComment,
   FaReply,
   FaShare,
 } from "react-icons/fa";
 import Image from "next/image";
 import Tony from "@/assets/tony.jpg";
 import { MdSend } from "react-icons/md";
+import { UserContext } from "@/context/userContext";
+
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
 
 export default function Post() {
   const { postId } = useParams();
+  const { user } = useContext(UserContext);
   const { posts, handleFileClick } = useContext(PostContext);
   const router = useRouter();
+  const [commentText, setCommentText] = useState("");
+  const [comment, setComment] = useState([]);
 
   const post = posts.find((p) => p.postId === postId);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const result = await fetch(
+        `${BASE_URL}/api/comments/commentGet/${postId}`
+      );
+      const data = await result.json();
+      setComment(data);
+    };
+
+    fetchComments();
+  }, [postId]);
+
+  const handleSendComment = async () => {
+    try {
+      if (!commentText.trim()) return;
+
+      const newComment = {
+        postId,
+        userId: user.uid,
+        userName: user.name,
+        userImage: user.picture,
+        textComment: commentText,
+      };
+
+      await fetch(`${BASE_URL}/api/comments/addComment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newComment),
+      });
+      setComment((prev) => [...prev, newComment]);
+      setCommentText("");
+    } catch (er) {}
+  };
 
   return (
     <div className="bg-brand">
@@ -109,71 +155,63 @@ export default function Post() {
           </div>
         </div>
         <div className="flex flex-col gap-4 p-4">
-          <div className="flex gap-2">
-            <Image
-              src={Tony}
-              alt="user"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-12 h-12 object-cover rounded-full"
-            />
-            <div className="bg-second py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-              <p className="text-base text-normal font-bold">Tony</p>
-              <p className="text-xs text-vibe">9/27/2025, 5:16:35 PM</p>
-              <p className="text-base text-normal py-2">
-                For a fancy entrance, use a small animation:
-              </p>
-              <div className="py-2 flex justify-end gap-2">
-                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
-                  <FaBolt className="text-xl" />
-                  <p className="text-xs font-light text-vibe">21</p>
-                </div>
-                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
-                  <FaReply className="text-xl" />
-                  <p className="text-xs font-light text-vibe">21</p>
-                </div>
+          {comment.length === 0 ? (
+            <div className="flex items-center justify-center py-16">
+              <div className="flex items-center gap-2">
+                <FaRegComment className="text-2xl" />
+                <p className="text-base text-normal">Be the first to comment</p>
               </div>
             </div>
-          </div>
-
-          <div className="flex gap-2">
-            <Image
-              src={Tony}
-              alt="user"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-12 h-12 object-cover rounded-full"
-            />
-            <div className="bg-second py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-              <p className="text-base text-normal font-bold">Tony</p>
-              <p className="text-xs text-vibe">9/27/2025, 5:16:35 PM</p>
-              <p className="text-base text-normal py-2">
-                For a fancy entrance, use a small animation: For a fancy
-                entrance, use a small animation:
-              </p>
-              <div className="py-2 flex justify-end gap-2">
-                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
-                  <FaBolt className="text-xl" />
-                  <p className="text-xs font-light text-vibe">21</p>
-                </div>
-                <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
-                  <FaReply className="text-xl" />
-                  <p className="text-xs font-light text-vibe">21</p>
+          ) : (
+            comment.map((c, index) => (
+              <div key={index} className="flex gap-2">
+                <Image
+                  src={c.userImage}
+                  alt="user"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="w-12 h-12 object-cover rounded-full"
+                />
+                <div className="bg-second py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                  <p className="text-base text-normal font-bold">
+                    {c.userName}
+                  </p>
+                  <p className="text-xs text-vibe">{c.date}</p>
+                  <p className="text-base text-normal py-2">{c.textComment}</p>
+                  <div className="py-2 flex justify-end gap-2">
+                    <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
+                      <FaBolt className="text-xl" />
+                      <p className="text-xs font-light text-vibe">21</p>
+                    </div>
+                    <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
+                      <FaReply className="text-xl" />
+                      <p className="text-xs font-light text-vibe">21</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            ))
+          )}
         </div>
       </div>
       <div className="flex fixed bottom-0 w-full gap-2 items-center bg-second p-4">
         <input
           type="text"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleSendComment();
+            }
+          }}
           className="bg-text text-brand p-2 w-full rounded"
           placeholder="type your marvelous comment..."
         />
-        <MdSend className="text-2xl" />
+        <button onClick={handleSendComment}>
+          <MdSend className="text-2xl" />
+        </button>
       </div>
     </div>
   );
