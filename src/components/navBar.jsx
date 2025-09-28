@@ -12,18 +12,46 @@ import Logo from "@/assets/main_logo.png";
 import Menu from "./menu";
 import { MenuContext } from "@/context/menuContext";
 import { LoaderContext } from "@/context/loaderContext";
+import { PostContext } from "@/context/postContext";
 
 export default function NavBar() {
   const pathname = usePathname();
   const { isLogged, user, loading } = useContext(UserContext);
   const { navHide, isScrolled } = useContext(ScrollContext);
   const { showMenu, setShowMenu, buttonRef } = useContext(MenuContext);
-  const { handleHomeClick, handleNavClick } = useContext(LoaderContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const { postFetch } = useContext(PostContext);
+  const router = useRouter();
 
   const isActive = (target) =>
     pathname === target
       ? "text-[var(--color-accent)] border-b-1"
       : "text-inherit";
+
+  const handleHomeClick = async () => {
+    if (pathname === "/") {
+      setIsLoading(true);
+      await postFetch();
+      router.push("/");
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+      router.push("/");
+    }
+  };
+
+  const handleNavClick = async (loc) => {
+    if (pathname === `/${loc}`) {
+      router.push(`/${loc}`);
+    } else {
+      setIsLoading(true);
+      router.push(`/${loc}`);
+    }
+  };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [pathname]);
 
   return (
     <>
