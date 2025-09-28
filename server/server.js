@@ -16,7 +16,7 @@ import messageGet from "./routes/messagesGet.js";
 import postRoute from "./routes/postRoute.js";
 import postGet from "./routes/postGet.js";
 import commentRoute from "./routes/commentRoute.js";
-import commentGet from "./routes/commentGet.js";
+import reactRoute from "./routes/reactRoute.js";
 
 dotenv.config();
 
@@ -54,7 +54,7 @@ app.use("/api/messages", messageGet);
 app.use("/api/posts", postRoute);
 app.use("/api/posts", postGet);
 app.use("/api/comments", commentRoute);
-app.use("/api/comments", commentGet);
+app.use("/api/reacts", reactRoute);
 
 io.on("connection", (socket) => {
   console.log("a user is connected");

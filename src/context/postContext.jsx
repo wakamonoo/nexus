@@ -1,6 +1,7 @@
 "use client";
 import LightBox from "@/components/lightBox";
-import { createContext, useEffect, useState, useRef } from "react";
+import { createContext, useEffect, useState, useRef, useContext } from "react";
+import { UserContext } from "./userContext";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
@@ -9,6 +10,7 @@ const BASE_URL =
 export const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
+  const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentPost, setCurrentPost] = useState([]);
@@ -55,10 +57,42 @@ export const PostProvider = ({ children }) => {
     };
   }, [lightboxOpen]);
 
+  const handleLike = async (post) => {
+    try {
+      const userId = user.uid;
+      
+      const res = await fetch(`${BASE_URL}/api/reacts/postEnergize`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postId: post.postId,
+          userId,
+        }),
+      });
+      const data = await res.json();
+
+      setPosts(
+        posts.map((p) =>
+          p.postId === post.postId
+            ? {
+                ...p,
+                energized: data.energized,
+              }
+            : p
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
         posts,
+        handleLike,
         handleFileClick,
         currentPost,
         currentPostInfo,

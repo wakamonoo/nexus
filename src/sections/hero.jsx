@@ -6,9 +6,16 @@ import { useEffect, useRef, useState, useContext } from "react";
 import { PostContext } from "@/context/postContext";
 import { MdClose } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/userContext";
+
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
 
 export default function Hero() {
-  const { posts, handleFileClick } = useContext(PostContext);
+  const { posts, handleLike, handleFileClick } = useContext(PostContext);
+  const { user } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
   const router = useRouter();
 
@@ -100,9 +107,23 @@ export default function Hero() {
               )}
 
               <div className="flex justify-between items-center p-4 border-t border-panel gap-4 mt-2">
-                <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
-                  <FaBolt className="text-2xl" />
-                  <p className="text-xs font-light text-vibe">21</p>
+                <div
+                  onClick={(e) => {
+                    handleLike(post);
+                    e.stopPropagation();
+                  }}
+                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
+                >
+                  <FaBolt
+                    className={`text-2xl ${
+                      post.energized?.includes(user?.uid)
+                        ? "text-amber-600"
+                        : "text-normal"
+                    }`}
+                  />
+                  <p className="text-xs font-light text-vibe">
+                    {post.energized ? post.energized.length : 0}
+                  </p>
                 </div>
                 <div
                   onClick={(e) => {

@@ -24,24 +24,12 @@ const BASE_URL =
 export default function Post() {
   const { postId } = useParams();
   const { user } = useContext(UserContext);
-  const { posts, handleFileClick } = useContext(PostContext);
+  const { posts, handleLike, handleFileClick } = useContext(PostContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
   const [comment, setComment] = useState([]);
 
   const post = posts.find((p) => p.postId === postId);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      const result = await fetch(
-        `${BASE_URL}/api/comments/commentGet/${postId}`
-      );
-      const data = await result.json();
-      setComment(data);
-    };
-
-    fetchComments();
-  }, [postId]);
 
   const handleSendComment = async () => {
     try {
@@ -53,6 +41,7 @@ export default function Post() {
         userName: user.name,
         userImage: user.picture,
         textComment: commentText,
+        date: new Date().toLocaleString(),
       };
 
       await fetch(`${BASE_URL}/api/comments/addComment`, {
@@ -62,7 +51,10 @@ export default function Post() {
         },
         body: JSON.stringify(newComment),
       });
-      setComment((prev) => [...prev, newComment]);
+
+      post.comments = post.comments
+        ? [...post.comments, newComment]
+        : [newComment];
       setCommentText("");
     } catch (er) {}
   };
@@ -140,14 +132,28 @@ export default function Post() {
             <div />
           )}
           <div className="flex justify-between items-center p-4 border-t border-panel gap-4 mt-2">
-            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
-              <FaBolt className="text-2xl" />
-              <p className="text-xs font-light text-vibe">21</p>
+            <div
+              onClick={(e) => {
+                handleLike(post);
+                e.stopPropagation();
+              }}
+              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
+            >
+              <FaBolt
+                className={`text-2xl ${
+                  post?.energized?.includes(user?.uid)
+                    ? "text-amber-600"
+                    : "text-normal"
+                }`}
+              />
+              <p className="text-xs font-light text-vibe">
+                {post?.energized ? post.energized.length : 0}
+              </p>
             </div>
             <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
               <FaComment className="text-2xl" />
               <p className="text-xs font-light text-vibe">
-                {post.comments ? post.comments.length : 0}
+                {post?.comments ? post?.comments.length : 0}
               </p>
             </div>
             <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
@@ -157,7 +163,7 @@ export default function Post() {
           </div>
         </div>
         <div className="flex flex-col gap-4 p-4">
-          {comment.length === 0 ? (
+          {post?.comments.length === 0 ? (
             <div className="flex items-center justify-center py-16">
               <div className="flex items-center gap-2">
                 <FaRegComment className="text-2xl" />
@@ -165,7 +171,7 @@ export default function Post() {
               </div>
             </div>
           ) : (
-            comment.map((c, index) => (
+            post?.comments.map((c, index) => (
               <div key={index} className="flex gap-2">
                 <Image
                   src={c.userImage}

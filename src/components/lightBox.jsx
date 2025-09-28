@@ -5,9 +5,12 @@ import { MdClose } from "react-icons/md";
 import { FaBolt, FaComment, FaShare } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/userContext";
 
 export default function LightBox() {
   const {
+    posts,
+    handleLike,
     currentPost,
     currentPostInfo,
     showDetails,
@@ -16,7 +19,10 @@ export default function LightBox() {
     setLightboxOpen,
     lightboxRef,
   } = useContext(PostContext);
+  const { user } = useContext(UserContext);
   const router = useRouter();
+
+  const post = posts.find((p) => p.postId === currentPostInfo.postId);
 
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
@@ -76,9 +82,25 @@ export default function LightBox() {
             </p>
           </div>
           <div className="flex justify-between items-center pt-4 border-t border-panel gap-4 mt-2 p-2">
-            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
-              <FaBolt className="text-xl" />
-              <p className="text-xs font-light text-vibe">21</p>
+            <div
+              onClick={(e) => {
+                handleLike(currentPostInfo);
+                e.stopPropagation();
+              }}
+              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
+            >
+              <FaBolt
+                className={`text-2xl ${
+                  post?.energized?.includes(user?.uid)
+                    ? "text-amber-600"
+                    : "text-normal"
+                }`}
+              />
+              <p className="text-xs font-light text-vibe">
+                {post?.energized
+                  ? post?.energized.length
+                  : 0}
+              </p>
             </div>
             <div
               onClick={() => {
@@ -89,7 +111,7 @@ export default function LightBox() {
             >
               <FaComment className="text-xl" />
               <p className="text-xs font-light text-vibe">
-                {currentPostInfo.comments ? currentPostInfo.comments.length : 0}
+                {post.comments ? post.comments.length : 0}
               </p>
             </div>
             <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
