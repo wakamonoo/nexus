@@ -146,7 +146,9 @@ export default function Post() {
             </div>
             <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-[33%] h-12">
               <FaComment className="text-2xl" />
-              <p className="text-xs font-light text-vibe">21</p>
+              <p className="text-xs font-light text-vibe">
+                {post.comments ? post.comments.length : 0}
+              </p>
             </div>
             <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-[33%] h-12">
               <FaShare className="text-2xl" />

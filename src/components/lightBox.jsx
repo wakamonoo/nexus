@@ -4,6 +4,7 @@ import { PostContext } from "@/context/postContext";
 import { MdClose } from "react-icons/md";
 import { FaBolt, FaComment, FaShare } from "react-icons/fa";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function LightBox() {
   const {
@@ -15,6 +16,8 @@ export default function LightBox() {
     setLightboxOpen,
     lightboxRef,
   } = useContext(PostContext);
+  const router = useRouter();
+
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
       {showDetails && (
@@ -62,16 +65,30 @@ export default function LightBox() {
             <p className="text-xs text-vibe">{currentPostInfo.date}</p>
           </div>
           <div className="p-2">
-            <p className="text-base text-normal leading-5 line-clamp-3">{currentPostInfo.text}</p>
+            <p
+              onClick={() => {
+                router.push(`/post/${currentPostInfo.postId}`);
+                setLightboxOpen(false);
+              }}
+              className="cursor-pointer text-base text-normal leading-5 line-clamp-3"
+            >
+              {currentPostInfo.text}
+            </p>
           </div>
           <div className="flex justify-between items-center pt-4 border-t border-panel gap-4 mt-2 p-2">
             <div className="flex bg-[var(--color-panel)]/75 items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
               <FaBolt className="text-xl" />
               <p className="text-xs font-light text-vibe">21</p>
             </div>
-            <div className="flex bg-[var(--color-panel)]/75 items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
+            <div
+              onClick={() => {
+                router.push(`/post/${currentPostInfo.postId}`);
+                setLightboxOpen(false);
+              }}
+              className="cursor-pointer flex bg-[var(--color-panel)]/75 items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12"
+            >
               <FaComment className="text-xl" />
-              <p className="text-xs font-light text-vibe">21</p>
+              <p className="text-xs font-light text-vibe">{currentPostInfo.comments ? currentPostInfo.comments.length : 0}</p>
             </div>
             <div className="flex bg-[var(--color-panel)]/75 items-center justify-center gap-2 border-1 p-4 rounded-4xl w-[33%] h-12">
               <FaShare className="text-xl" />
