@@ -76,7 +76,7 @@ export default function LightBox() {
             </p>
           </div>
           <div className="flex justify-between items-center pt-4 border-t border-panel gap-4 mt-2 p-2">
-            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] focus:w-[45%] hover:bg-[var(--color-accent)] focus:bg-[var(--color-accent)] cursor-pointer">
+            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
               <FaBolt className="text-xl" />
               <p className="text-xs font-light text-vibe">21</p>
             </div>
@@ -85,14 +85,14 @@ export default function LightBox() {
                 router.push(`/post/${currentPostInfo.postId}`);
                 setLightboxOpen(false);
               }}
-              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] focus:w-[45%] hover:bg-[var(--color-accent)] focus:bg-[var(--color-accent)] cursor-pointer"
+              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
             >
               <FaComment className="text-xl" />
               <p className="text-xs font-light text-vibe">
                 {currentPostInfo.comments ? currentPostInfo.comments.length : 0}
               </p>
             </div>
-            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] focus:w-[45%] hover:bg-[var(--color-accent)] focus:bg-[var(--color-accent)] cursor-pointer">
+            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
               <FaShare className="text-xl" />
               <p className="text-xs font-light text-vibe">21</p>
             </div>
