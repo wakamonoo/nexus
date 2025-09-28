@@ -11,13 +11,14 @@ import Fallback from "@/assets/fallback.png";
 import Logo from "@/assets/main_logo.png";
 import Menu from "./menu";
 import { MenuContext } from "@/context/menuContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 export default function NavBar() {
-  const router = useRouter();
   const pathname = usePathname();
   const { isLogged, user, loading } = useContext(UserContext);
   const { navHide, isScrolled } = useContext(ScrollContext);
   const { showMenu, setShowMenu, buttonRef } = useContext(MenuContext);
+  const { handleHomeClick, handleNavClick } = useContext(LoaderContext);
 
   const isActive = (target) =>
     pathname === target
@@ -43,7 +44,7 @@ export default function NavBar() {
               }`}
             />
           </button>
-          <button onClick={() => router.push("/")} className="cursor-pointer">
+          <button onClick={handleHomeClick} className="cursor-pointer">
             <Image
               src={Logo}
               priority
@@ -57,7 +58,7 @@ export default function NavBar() {
         </div>
         <div className="flex items-center gap-4">
           <button
-            onClick={() => router.push("/")}
+            onClick={handleHomeClick}
             className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/"
             )}`}
@@ -66,7 +67,7 @@ export default function NavBar() {
             <p className="text-xs font-bold">Pulse</p>
           </button>
           <button
-            onClick={() => router.push("/mcu")}
+            onClick={() => handleNavClick("mcu")}
             className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/mcu"
             )}`}
@@ -75,7 +76,7 @@ export default function NavBar() {
             <p className="text-xs font-bold">Legacy</p>
           </button>
           <button
-            onClick={() => router.push("/globalChat")}
+            onClick={() => handleNavClick("globalChat")}
             className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/globalChat"
             )}`}

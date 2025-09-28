@@ -4,6 +4,7 @@ import { ScrollProvider } from "@/context/scrollContext";
 import { MenuProvider } from "@/context/menuContext";
 import { TitleProvider } from "@/context/titleContext";
 import { PostProvider } from "@/context/postContext";
+import { LoaderProvider } from "@/context/loaderContext";
 import "./globals.css";
 
 // Fonts
@@ -47,7 +48,9 @@ export default function RootLayout({ children }) {
           <ScrollProvider>
             <MenuProvider>
               <TitleProvider>
-                <PostProvider>{children}</PostProvider>
+                <PostProvider>
+                  <LoaderProvider>{children}</LoaderProvider>
+                </PostProvider>
               </TitleProvider>
             </MenuProvider>
           </ScrollProvider>

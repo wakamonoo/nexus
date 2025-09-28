@@ -20,19 +20,19 @@ export const PostProvider = ({ children }) => {
   const [coldLoad, setColdLoad] = useState(true);
   const lightboxRef = useRef();
 
-  useEffect(() => {
-    const postFetch = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/posts/postGet`);
-        const data = await res.json();
-        setPosts(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setColdLoad(false);
-      }
-    };
+  const postFetch = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/api/posts/postGet`);
+      const data = await res.json();
+      setPosts(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setColdLoad(false);
+    }
+  };
 
+  useEffect(() => {
     postFetch();
   }, []);
 
@@ -96,6 +96,7 @@ export const PostProvider = ({ children }) => {
   return (
     <PostContext.Provider
       value={{
+        postFetch,
         posts,
         handleLike,
         handleFileClick,
