@@ -128,7 +128,7 @@ export default function AddPost({ setShowAddPost }) {
                   className="flex flex-1 justify-center bg-blue-600 p-2 rounded items-center gap-2"
                 >
                   <FaImage className="text-2xl" />
-                  <p className="font-bold text-normal text-base">Add Image</p>
+                  <p className="font-bold text-normal text-base">Add Media</p>
                 </button>
                 <button className="flex flex-1 justify-center bg-hulk p-2 rounded items-center gap-2">
                   <FaFlag className="text-2xl" />

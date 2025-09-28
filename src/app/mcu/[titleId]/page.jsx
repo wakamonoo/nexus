@@ -103,11 +103,11 @@ export default function Title() {
           <span className="text-2xl font-bold">#1</span>Ranked
         </h1>
       </div>
-      <div>
+      <div className="py-4">
         <p
           onClick={() => setShowSum(!showSum)}
-          className={`leading-4.5 text-base text-normal text-vibe text-justify py-4 cursor-pointer ${
-            !showSum ? "line-clamp-4 max-h-[5.5rem]" : ""
+          className={`leading-4.5 text-base text-normal text-vibe text-justify cursor-pointer ${
+            !showSum ? "line-clamp-4" : ""
           }`}
         >
           {title.summary}
