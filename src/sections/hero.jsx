@@ -7,6 +7,7 @@ import { PostContext } from "@/context/postContext";
 import { MdClose } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
+import Loader from "@/components/loader";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -14,13 +15,15 @@ const BASE_URL =
     : "http://localhost:4000";
 
 export default function Hero() {
-  const { posts, handleLike, handleFileClick } = useContext(PostContext);
+  const { posts, handleLike, handleFileClick, coldLoad } =
+    useContext(PostContext);
   const { user } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
   const router = useRouter();
 
   return (
     <>
+      {coldLoad && <Loader />}
       <div className="bg-brand w-full pt-16">
         <div className="pb-4">
           <Banner />

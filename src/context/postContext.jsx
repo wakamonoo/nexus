@@ -17,6 +17,7 @@ export const PostProvider = ({ children }) => {
   const [currentPostInfo, setCurrentPostInfo] = useState(null);
   const [showDetails, setShowDetails] = useState(true);
   const [initialIndex, setInitialIndex] = useState(0);
+  const [coldLoad, setColdLoad] = useState(true);
   const lightboxRef = useRef();
 
   useEffect(() => {
@@ -25,7 +26,11 @@ export const PostProvider = ({ children }) => {
         const res = await fetch(`${BASE_URL}/api/posts/postGet`);
         const data = await res.json();
         setPosts(data);
-      } catch (err) {}
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setColdLoad(false);
+      }
     };
 
     postFetch();
@@ -60,7 +65,7 @@ export const PostProvider = ({ children }) => {
   const handleLike = async (post) => {
     try {
       const userId = user.uid;
-      
+
       const res = await fetch(`${BASE_URL}/api/reacts/postEnergize`, {
         method: "POST",
         headers: {
@@ -102,6 +107,7 @@ export const PostProvider = ({ children }) => {
         lightboxOpen,
         setLightboxOpen,
         lightboxRef,
+        coldLoad,
       }}
     >
       {children}

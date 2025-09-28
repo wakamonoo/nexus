@@ -84,7 +84,7 @@ export default function LightBox() {
           <div className="flex justify-between items-center pt-4 border-t border-panel gap-4 mt-2 p-2">
             <div
               onClick={(e) => {
-                handleLike(currentPostInfo);
+                handleLike(post);
                 e.stopPropagation();
               }}
               className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
@@ -111,7 +111,7 @@ export default function LightBox() {
             >
               <FaComment className="text-xl" />
               <p className="text-xs font-light text-vibe">
-                {post.comments ? post.comments.length : 0}
+                {post?.comments ? post?.comments.length : 0}
               </p>
             </div>
             <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
