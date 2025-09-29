@@ -6,6 +6,7 @@ import { FaBolt, FaComment, FaShare } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 export default function LightBox() {
   const {
@@ -20,9 +21,16 @@ export default function LightBox() {
     lightboxRef,
   } = useContext(PostContext);
   const { user } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
+
+  const handlePostNav = (id) => {
+    router.push(`/post/${id}`);
+    setIsLoading(true);
+    setLightboxOpen(false);
+  };
 
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
@@ -72,10 +80,7 @@ export default function LightBox() {
           </div>
           <div className="p-2">
             <p
-              onClick={() => {
-                router.push(`/post/${currentPostInfo.postId}`);
-                setLightboxOpen(false);
-              }}
+              onClick={() => handlePostNav(currentPostInfo.postId)}
               className="cursor-pointer text-base text-normal leading-5 line-clamp-3"
             >
               {currentPostInfo.text}
@@ -97,16 +102,11 @@ export default function LightBox() {
                 }`}
               />
               <p className="text-xs font-light text-vibe">
-                {post?.energized
-                  ? post?.energized.length
-                  : 0}
+                {post?.energized ? post?.energized.length : 0}
               </p>
             </div>
             <div
-              onClick={() => {
-                router.push(`/post/${currentPostInfo.postId}`);
-                setLightboxOpen(false);
-              }}
+              onClick={() => handlePostNav(currentPostInfo.postId)}
               className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
             >
               <FaComment className="text-xl" />

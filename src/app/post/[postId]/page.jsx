@@ -15,6 +15,7 @@ import Image from "next/image";
 import Tony from "@/assets/tony.jpg";
 import { MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -27,6 +28,11 @@ export default function Post() {
   const { posts, handleLike, handleFileClick } = useContext(PostContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
+  const { setIsLoading } = useContext(LoaderContext);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const post = posts.find((p) => p.postId === postId);
 

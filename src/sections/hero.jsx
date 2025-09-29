@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
 import Loader from "@/components/loader";
 import ColdLoader from "@/components/coldLoader";
+import { LoaderContext } from "@/context/loaderContext";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -16,11 +17,16 @@ const BASE_URL =
     : "http://localhost:4000";
 
 export default function Hero() {
-  const { posts, handleLike, handleFileClick } =
-    useContext(PostContext);
+  const { posts, handleLike, handleFileClick } = useContext(PostContext);
   const { user } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
+
+  const handlePostNavMain = (id) => {
+    router.push(`/post/${id}`);
+    setIsLoading(true);
+  };
 
   return (
     <>
@@ -33,7 +39,7 @@ export default function Hero() {
           {posts.map((post, index) => (
             <div
               key={index}
-              onClick={() => router.push(`/post/${post.postId}`)}
+              onClick={() => handlePostNavMain(post.postId)}
               className="w-full h-auto cursor-pointer bg-second rounded-tl-4xl rounded-tr-4xl border-t-4 border-l-1 border-panel"
             >
               <div className="flex gap-3 px-4 items-center py-2">

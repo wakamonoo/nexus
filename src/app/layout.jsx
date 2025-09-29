@@ -49,11 +49,11 @@ export default function RootLayout({ children }) {
           <ScrollProvider>
             <MenuProvider>
               <TitleProvider>
-                <PostProvider>
-                  <LoaderProvider>
+                <LoaderProvider>
+                  <PostProvider>
                     <TitleNavProvider>{children}</TitleNavProvider>
-                  </LoaderProvider>
-                </PostProvider>
+                  </PostProvider>
+                </LoaderProvider>
               </TitleProvider>
             </MenuProvider>
           </ScrollProvider>
