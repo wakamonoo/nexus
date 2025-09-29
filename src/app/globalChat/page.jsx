@@ -95,12 +95,10 @@ export default function GlobalChat() {
             </div>
           </div>
         ) : chatLoad ? (
-          <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
           <ChatLoader />
-          </div>
         ) : (
           <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
-            <div className="flex-1 p-4 overflow-y-auto pb-18">
+            <div className="flex-1 p-4 overflow-y-auto">
               <div className="flex flex-col gap-4">
                 {messages.map((msg, i) => {
                   const ownMessage = user.email === msg.email;
@@ -177,23 +175,22 @@ export default function GlobalChat() {
                 <div ref={msgEndRef} />
               </div>
             </div>
+            <div className={`w-full flex items-center gap-4 p-4 bg-second `}>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                placeholder="enter message ..."
+                className="w-full bg-panel p-2 rounded text-base text-normal font-normal"
+              />
+              <MdSend
+                className="text-2xl cursor-pointer"
+                onClick={sendMessage}
+              />
+            </div>
           </div>
         )}
-        <div
-          className={`absolute w-full flex bottom-0 items-center gap-4 p-4 bg-second ${
-            !user ? "hidden" : "block"
-          }`}
-        >
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            placeholder="enter message ..."
-            className="w-full bg-panel p-2 rounded text-base text-normal font-normal"
-          />
-          <MdSend className="text-2xl cursor-pointer" onClick={sendMessage} />
-        </div>
       </div>
     </>
   );
