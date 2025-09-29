@@ -24,7 +24,7 @@ export const LoaderProvider = ({ children }) => {
       };
     } else {
       setSplashLoading(false);
-      setInitialized(false);
+      setInitialized(true);
     }
   }, [setSplashLoading]);
 
