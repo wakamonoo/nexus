@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PostContext } from "@/context/postContext";
 import { MdClose } from "react-icons/md";
 import { FaBolt, FaComment, FaShare } from "react-icons/fa";
@@ -17,6 +17,7 @@ export default function LightBox() {
     showDetails,
     setShowDetails,
     initialIndex,
+    lightboxOpen,
     setLightboxOpen,
     lightboxRef,
   } = useContext(PostContext);
@@ -31,6 +32,21 @@ export default function LightBox() {
     setIsLoading(true);
     setLightboxOpen(false);
   };
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+
+    window.history.pushState(null, "");
+    const onPopState = () => {
+      setLightboxOpen(false);
+    };
+
+    window.addEventListener("popstate", onPopState);
+
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+    };
+  }, [lightboxOpen]);
 
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
