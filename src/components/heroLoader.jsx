@@ -1,6 +1,6 @@
 export default function ColdLoader() {
   return (
-    <div className="w-full h-screen overflow-hidden animate-pulse">
+    <div className="w-full h-full overflow-hidden animate-pulse">
       <div className="p-2 flex flex-col gap-4 ">
         <div className="p-4 w-full h-fit bg-panel rounded-tl-4xl rounded-tr-4xl">
           <div className="flex gap-2 items-center w-full">

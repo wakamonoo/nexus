@@ -31,9 +31,11 @@ export default function GlobalChat() {
         const data = await res.json();
         setMessages(data);
 
-        setTimeout(() => {
-          msgEndRef.current?.scrollIntoView({ behavior: "auto" });
-        }, 0);
+        if (messages) {
+          setTimeout(() => {
+            msgEndRef.current?.scrollIntoView({ behavior: "auto" });
+          }, 0);
+        }
         setChatLoad(false);
       } catch (err) {
         console.error("failed to fetch messages", err);
