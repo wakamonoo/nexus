@@ -92,7 +92,7 @@ export default function NavBar() {
             )}`}
           >
             <MdFeed className="text-2xl" />
-            <p className="text-xs font-bold">Pulse</p>
+            <p className="text-xs font-bold">Portal</p>
           </button>
           <button
             onClick={() => handleNavClick("mcu")}
@@ -101,7 +101,7 @@ export default function NavBar() {
             )}`}
           >
             <FaFilm className="text-2xl" />
-            <p className="text-xs font-bold">Legacy</p>
+            <p className="text-xs font-bold">Hex</p>
           </button>
           <button
             onClick={() => handleNavClick("globalChat")}

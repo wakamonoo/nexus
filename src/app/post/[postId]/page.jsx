@@ -16,6 +16,7 @@ import Tony from "@/assets/tony.jpg";
 import { MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
+import PostLoader from "@/components/postLoader";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -64,6 +65,10 @@ export default function Post() {
     } catch (er) {}
   };
 
+  if (!post) {
+    return <PostLoader />;
+  }
+
   return (
     <div className="bg-brand">
       <div className="bg-panel p-4 flex justify-between">
@@ -78,7 +83,7 @@ export default function Post() {
         <div className="bg-second">
           <div className="flex gap-3 p-4 items-center">
             <Image
-              src={post?.userImage || Tony}
+              src={post.userImage || Tony}
               alt="user"
               width={0}
               height={0}
@@ -87,15 +92,15 @@ export default function Post() {
             />
             <div className="flex flex-col">
               <p className="text-base mt-2 font-bold leading-3.5">
-                {post?.userName}
+                {post.userName}
               </p>
-              <p className="text-xs text-vibe">{post?.date}</p>
+              <p className="text-xs text-vibe">{post.date}</p>
             </div>
           </div>
           <p className="text-base text-normal leading-5 py-2 px-4">
-            {post?.text}
+            {post.text}
           </p>
-          {post?.files && post.files.length > 0 ? (
+          {post.files && post.files.length > 0 ? (
             <div className="flex w-full h-[50vh] overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
               {post.files.map((file, index) => {
                 const ext =
@@ -146,19 +151,19 @@ export default function Post() {
             >
               <FaBolt
                 className={`text-2xl ${
-                  post?.energized?.includes(user?.uid)
+                  post.energized?.includes(user?.uid)
                     ? "text-amber-600"
                     : "text-normal"
                 }`}
               />
               <p className="text-xs font-light text-vibe">
-                {post?.energized ? post.energized.length : 0}
+                {post.energized ? post.energized.length : 0}
               </p>
             </div>
             <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
               <FaComment className="text-2xl" />
               <p className="text-xs font-light text-vibe">
-                {post?.comments ? post?.comments.length : 0}
+                {post.comments ? post.comments.length : 0}
               </p>
             </div>
             <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
@@ -168,7 +173,7 @@ export default function Post() {
           </div>
         </div>
         <div className="flex flex-col gap-4 p-4">
-          {post?.comments.length === 0 ? (
+          {post.comments.length === 0 ? (
             <div className="flex items-center justify-center py-16">
               <div className="flex items-center gap-2">
                 <FaRegComment className="text-2xl" />
@@ -176,7 +181,7 @@ export default function Post() {
               </div>
             </div>
           ) : (
-            post?.comments.map((c, index) => (
+            post.comments.map((c, index) => (
               <div key={index} className="flex gap-2">
                 <Image
                   src={c.userImage}

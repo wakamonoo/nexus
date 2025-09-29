@@ -1,4 +1,4 @@
-export default function Funding() {
+export default function PostLoader() {
   return (
     <div className="w-full animate-pulse">
       <div className="w-full h-14 bg-panel" />
