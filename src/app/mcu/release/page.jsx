@@ -7,6 +7,7 @@ import Loader from "@/components/loader";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleNavContext } from "@/context/titlesNavContex";
+import ShowListLoader from "@/components/showListLoader";
 
 export default function Chrono() {
   const { titles } = useContext(TitleContext);
@@ -17,6 +18,10 @@ export default function Chrono() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
+
+  if (!titles || titles.length === 0) {
+    return <ShowListLoader />;
+  }
 
   return (
     <>
@@ -31,33 +36,24 @@ export default function Chrono() {
         </div>
         <div className="w-full max-w-5xl">
           <div className="flex flex-wrap justify-center gap-2">
-            {titles.length > 0 ? (
-              [...titles]
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
-                .map((unit) => (
-                  <div
-                    key={unit.date}
-                    onClick={() => handleShowNav(unit.titleId)}
-                    className="w-26 h-40 flex-shrink-0 cursor-pointer"
-                  >
-                    <Image
-                      src={unit.image}
-                      alt="image"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full h-full object-fill rounded"
-                    />
-                  </div>
-                ))
-            ) : (
-              <div className="flex flex-col justify-center items-center">
-                <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                  Sorry, no data to display!
-                </p>
-              </div>
-            )}
+            {...titles
+              .sort((a, b) => new Date(a.date) - new Date(b.date))
+              .map((unit) => (
+                <div
+                  key={unit.date}
+                  onClick={() => handleShowNav(unit.titleId)}
+                  className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                >
+                  <Image
+                    src={unit.image}
+                    alt="image"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="w-full h-full object-fill rounded"
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>

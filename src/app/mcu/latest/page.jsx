@@ -6,6 +6,7 @@ import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titlesNavContex";
+import ShowListLoader from "@/components/showListLoader";
 
 export default function Latest() {
   const { titles } = useContext(TitleContext);
@@ -16,6 +17,10 @@ export default function Latest() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
+
+  if (!titles || titles.length === 0) {
+    return <ShowListLoader />;
+  }
 
   return (
     <>
@@ -30,34 +35,25 @@ export default function Latest() {
         </div>
         <div className="w-full max-w-5xl">
           <div className="flex flex-wrap justify-center gap-2">
-            {titles.length > 0 ? (
-              [...titles]
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 15)
-                .map((unit, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleShowNav(unit.titleId)}
-                    className="w-26 h-40 flex-shrink-0 cursor-pointer"
-                  >
-                    <Image
-                      src={unit.image}
-                      alt="image"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full h-full object-fill rounded"
-                    />
-                  </div>
-                ))
-            ) : (
-              <div className="flex flex-col justify-center items-center">
-                <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                  Sorry, no data to display!
-                </p>
-              </div>
-            )}
+            {...titles
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .slice(0, 15)
+              .map((unit, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleShowNav(unit.titleId)}
+                  className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                >
+                  <Image
+                    src={unit.image}
+                    alt="image"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="w-full h-full object-fill rounded"
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>

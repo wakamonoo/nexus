@@ -1,6 +1,4 @@
-import NavBar from "@/components/navBar";
-
-export default function Funding() {
+export default function ShowListLoader() {
   return (
     <div className="p-4 animate-pulse">
       <div className="py-4 flex justify-between">

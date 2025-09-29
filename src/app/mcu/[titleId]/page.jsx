@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import Alt from "@/assets/fallback.png";
 import { LoaderContext } from "@/context/loaderContext";
+import ShowLoader from "@/components/showLoader";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -32,7 +33,7 @@ export default function Title() {
   const title = titles.find((t) => t.titleId === titleId);
 
   if (!title) {
-    return <p>add a title loader</p>;
+    return <ShowLoader />
   }
 
   return (
