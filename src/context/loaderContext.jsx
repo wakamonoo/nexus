@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
 import Loader from "@/components/loader";
+import Splash from "@/components/splash";
 
 export const LoaderContext = createContext();
 
@@ -29,7 +30,7 @@ export const LoaderProvider = ({ children }) => {
   }, [setSplashLoading]);
 
   if (!initialized || splashLoading) {
-    return <Loader />;
+    return <Splash />;
   }
 
   return (

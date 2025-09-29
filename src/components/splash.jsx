@@ -1,7 +1,7 @@
 import wkmn from "@/assets/wkmn.webp";
 import Image from "next/image";
 
-export default function Funding() {
+export default function Splash() {
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center bg-panel">
       <div className="flex items-center justify-center bg-second w-16 h-20 rounded-tl-4xl rounded-tr-4xl p-2">
@@ -16,6 +16,8 @@ export default function Funding() {
         <div className="flex gap-1 justify-center items-center">
           <Image
             src={wkmn}
+            alt="wkmn"
+            priority
             width={0}
             height={0}
             sizes="100vw"
