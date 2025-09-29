@@ -7,6 +7,8 @@ import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { FaUserSlash } from "react-icons/fa";
+import ShowLoader from "@/components/showLoader";
+import ChatLoader from "@/components/chatLoder";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -20,6 +22,7 @@ export default function GlobalChat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const msgEndRef = useRef();
+  const [chatLoad, setChatLoad] = useState(true);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -31,6 +34,7 @@ export default function GlobalChat() {
         setTimeout(() => {
           msgEndRef.current?.scrollIntoView({ behavior: "auto" });
         }, 0);
+        setChatLoad(false);
       } catch (err) {
         console.error("failed to fetch messages", err);
       }
@@ -73,114 +77,124 @@ export default function GlobalChat() {
   return (
     <>
       <NavBar />
-      {!user ? (
-        <div
-          className="flex w-full items-center justify-center"
-          style={{ height: "100dvh" }}
-        >
-          <div className="flex flex-col gap-2 items-center justify-center">
-            <FaUserSlash className="text-4xl" />
-            <p className="text-sm text-vibe">Login to the End of Time</p>
-            <button
-              onClick={() => setShowSignIn(true)}
-              className="px-4 py-2 bg-accent rounded-full font-bold"
-            >
-              <p>Login</p>
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
-          <div className="flex-1 p-4 overflow-y-auto">
-            <div className="flex flex-col gap-4">
-              {messages.map((msg, i) => {
-                const ownMessage = user.email === msg.email;
-                const currentDate = msg.date;
-                const prevDate = i > 0 ? messages[i - 1].date : null;
-                const showDate = currentDate !== prevDate;
-
-                return (
-                  <div key={i}>
-                    {showDate && (
-                      <p className="text-xs text-vibe font-extralight text-center py-2">
-                        {currentDate}
-                      </p>
-                    )}
-                    <div
-                      className={`flex gap-2 ${
-                        user.name === msg.sender
-                          ? "justify-end"
-                          : "justify-start"
-                      }`}
-                    >
-                      {!ownMessage && (
-                        <Image
-                          src={msg.picture || ironman}
-                          alt="user"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="w-8 h-8 rounded-full"
-                        />
-                      )}
-                      <div
-                        className={`px-4 py-2 w-fit rounded-2xl ${
-                          ownMessage ? "bg-second" : "bg-panel"
-                        }`}
-                      >
-                        <p
-                          className={`text-base font-bold flex ${
-                            ownMessage ? "justify-end" : "justify-start"
-                          }`}
-                        >
-                          {ownMessage ? "you" : msg.sender}
-                        </p>
-
-                        <p
-                          className={`text-base text-normal py-2 flex ${
-                            ownMessage ? "justify-end" : "justify-start"
-                          }`}
-                        >
-                          {msg.text}
-                        </p>
-                        <p
-                          className={`text-xs text-vibe flex ${
-                            ownMessage ? "justify-end" : "justify-start"
-                          }`}
-                        >
-                          {msg.time}
-                        </p>
-                      </div>
-                      {ownMessage && (
-                        <Image
-                          src={msg.picture || ironman}
-                          alt="user"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="w-8 h-8 rounded-full"
-                        />
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-              <div ref={msgEndRef} />
+      <div>
+        {!user ? (
+          <div
+            className="flex w-full items-center justify-center"
+            style={{ height: "100dvh" }}
+          >
+            <div className="flex flex-col gap-2 items-center justify-center">
+              <FaUserSlash className="text-4xl" />
+              <p className="text-sm text-vibe">Login to the End of Time</p>
+              <button
+                onClick={() => setShowSignIn(true)}
+                className="px-4 py-2 bg-accent rounded-full font-bold"
+              >
+                <p>Login</p>
+              </button>
             </div>
           </div>
-          <div className="flex items-center gap-4 p-4 bg-second">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="enter message ..."
-              className="w-full bg-panel p-2 rounded text-base text-normal font-normal"
-            />
-            <MdSend className="text-2xl cursor-pointer" onClick={sendMessage} />
+        ) : chatLoad ? (
+          <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
+          <ChatLoader />
           </div>
+        ) : (
+          <div className="flex flex-col pt-16" style={{ height: "100dvh" }}>
+            <div className="flex-1 p-4 overflow-y-auto pb-18">
+              <div className="flex flex-col gap-4">
+                {messages.map((msg, i) => {
+                  const ownMessage = user.email === msg.email;
+                  const currentDate = msg.date;
+                  const prevDate = i > 0 ? messages[i - 1].date : null;
+                  const showDate = currentDate !== prevDate;
+
+                  return (
+                    <div key={i}>
+                      {showDate && (
+                        <p className="text-xs text-vibe font-extralight text-center py-2">
+                          {currentDate}
+                        </p>
+                      )}
+                      <div
+                        className={`flex gap-2 ${
+                          user.name === msg.sender
+                            ? "justify-end"
+                            : "justify-start"
+                        }`}
+                      >
+                        {!ownMessage && (
+                          <Image
+                            src={msg.picture || ironman}
+                            alt="user"
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-8 h-8 rounded-full"
+                          />
+                        )}
+                        <div
+                          className={`px-4 py-2 max-w-[70%] rounded-2xl ${
+                            ownMessage ? "bg-second" : "bg-panel"
+                          }`}
+                        >
+                          <p
+                            className={`text-base font-bold flex ${
+                              ownMessage ? "justify-end" : "justify-start"
+                            }`}
+                          >
+                            {ownMessage ? "you" : msg.sender}
+                          </p>
+
+                          <p
+                            className={`text-base text-normal py-2 flex ${
+                              ownMessage ? "justify-end" : "justify-start"
+                            }`}
+                          >
+                            {msg.text}
+                          </p>
+                          <p
+                            className={`text-xs text-vibe flex ${
+                              ownMessage ? "justify-end" : "justify-start"
+                            }`}
+                          >
+                            {msg.time}
+                          </p>
+                        </div>
+                        {ownMessage && (
+                          <Image
+                            src={msg.picture || ironman}
+                            alt="user"
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-8 h-8 rounded-full"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                <div ref={msgEndRef} />
+              </div>
+            </div>
+          </div>
+        )}
+        <div
+          className={`absolute w-full flex bottom-0 items-center gap-4 p-4 bg-second ${
+            !user ? "hidden" : "block"
+          }`}
+        >
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            placeholder="enter message ..."
+            className="w-full bg-panel p-2 rounded text-base text-normal font-normal"
+          />
+          <MdSend className="text-2xl cursor-pointer" onClick={sendMessage} />
         </div>
-      )}
+      </div>
     </>
   );
 }
