@@ -162,7 +162,7 @@ export default function Title() {
             <p className="text-normal font-bold text-base">Rank It</p>
           </button>
         </div>
-        <div className="flex flex-col gap-4 py-4">
+        <div className="flex flex-col gap-1 py-4">
           {!title.reviews || title.reviews?.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-4">
                 <MdRateReview className="text-4xl text-vibe opacity-40" />
@@ -179,8 +179,11 @@ export default function Title() {
                   sizes="100vw"
                   className="w-8 h-8 rounded-full"
                 />
-                <div className="flex flex-col bg-panel p-2 rounded-2xl">
-                  <p className="font-bold text-base">{review.userName}</p>
+                <div className="flex flex-col bg-panel p-2 rounded w-full">
+                  <div className="flex justify-between">
+                    <p className="font-bold text-base">{review.userName}</p>
+                    <p className="text-xs text-vibe opacity-60">{format(new Date(review.date), "MMM, dd, yyyy")}</p>
+                  </div>
                   <p className="text-base text-vibe">{review.textReview}</p>
                 </div>
               </div>
