@@ -25,7 +25,7 @@ const BASE_URL =
 
 export default function Post() {
   const { postId } = useParams();
-  const { user } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
   const { posts, handleLike, handleFileClick } = useContext(PostContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
@@ -144,8 +144,12 @@ export default function Post() {
           <div className="flex justify-between items-center p-4 border-t border-panel gap-4 mt-2">
             <div
               onClick={(e) => {
-                handleLike(post);
                 e.stopPropagation();
+                if (user) {
+                  handleLike(post);
+                } else {
+                  setShowSignIn(true);
+                }
               }}
               className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
             >
@@ -221,11 +225,17 @@ export default function Post() {
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault();
-              handleSendComment();
+              if (user) {
+                handleSendComment();
+              } else {
+                setShowSignIn(true);
+              }
             }
           }}
           className="bg-text text-brand p-2 w-full rounded"
-          placeholder="type your marvelous comment..."
+          placeholder={
+            user ? "Type your marvelous comment..." : "Kindly signin to comment"
+          }
         />
         <button onClick={handleSendComment}>
           <MdSend className="text-2xl" />

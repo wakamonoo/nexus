@@ -21,7 +21,7 @@ export default function LightBox() {
     setLightboxOpen,
     lightboxRef,
   } = useContext(PostContext);
-  const { user } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
@@ -105,8 +105,13 @@ export default function LightBox() {
           <div className="flex justify-between items-center pt-4 border-t border-panel gap-4 mt-2 p-2">
             <div
               onClick={(e) => {
-                handleLike(post);
                 e.stopPropagation();
+                if (user) {
+                  handleLike(post);
+                } else {
+                  setLightboxOpen(false);
+                  setShowSignIn(true);
+                }
               }}
               className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
             >

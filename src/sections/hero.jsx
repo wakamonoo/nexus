@@ -27,9 +27,9 @@ const BASE_URL =
 export default function Hero() {
   const { posts, handleLike, handleFileClick, coldLoad } =
     useContext(PostContext);
-  const { user } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
-  const { setIsLoading, splashLoading } = useContext(LoaderContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   const handlePostNavMain = (id) => {
@@ -46,15 +46,6 @@ export default function Hero() {
 
         {coldLoad ? (
           <HeroLoader />
-        ) : !user ? (
-          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className="flex flex-col items-center justify-center">
-              <FaUserSlash className="text-4xl text-vibe opacity-40" />
-              <p className="text-xs text-vibe opacity-40">
-                You're not logged in
-              </p>
-            </div>
-          </div>
         ) : posts.length === 0 ? (
           <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="flex flex-col items-center justify-center">
@@ -148,8 +139,12 @@ export default function Hero() {
                 <div className="flex justify-between items-center p-4 border-t border-panel gap-4 mt-2">
                   <div
                     onClick={(e) => {
-                      handleLike(post);
                       e.stopPropagation();
+                      if (user) {
+                        handleLike(post);
+                      } else {
+                        setShowSignIn(true);
+                      }
                     }}
                     className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
                   >
@@ -166,8 +161,8 @@ export default function Hero() {
                   </div>
                   <div
                     onClick={(e) => {
-                      router.push(`/post/${post.postId}`);
                       e.stopPropagation();
+                      handlePostNavMain(post.postId);
                     }}
                     className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
                   >
