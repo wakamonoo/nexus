@@ -23,6 +23,7 @@ export default function GlobalChat() {
   const [input, setInput] = useState("");
   const msgEndRef = useRef();
   const [chatLoad, setChatLoad] = useState(true);
+  const initialLoad = useRef(true);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -30,12 +31,6 @@ export default function GlobalChat() {
         const res = await fetch(`${BASE_URL}/api/messages/messageGet`);
         const data = await res.json();
         setMessages(data);
-
-        if (messages) {
-          setTimeout(() => {
-            msgEndRef.current?.scrollIntoView({ behavior: "auto" });
-          }, 0);
-        }
         setChatLoad(false);
       } catch (err) {
         console.error("failed to fetch messages", err);
@@ -75,6 +70,13 @@ export default function GlobalChat() {
       msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
+
+  useEffect(() => {
+    if (messages.length && initialLoad.current) {
+      msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      initialLoad.current = false;
+    }
+  }, [messages]);
 
   return (
     <>
