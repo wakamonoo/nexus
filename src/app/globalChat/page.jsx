@@ -84,15 +84,19 @@ export default function GlobalChat() {
             className="flex w-full items-center justify-center"
             style={{ height: "100dvh" }}
           >
-            <div className="flex flex-col gap-2 items-center justify-center">
-              <FaUserSlash className="text-4xl" />
-              <p className="text-sm text-vibe">Login to the End of Time</p>
-              <button
-                onClick={() => setShowSignIn(true)}
-                className="px-4 py-2 bg-accent rounded-full font-bold"
-              >
-                <p>Login</p>
-              </button>
+            <div className="flex flex-col items-center justify-center">
+              <FaUserSlash className="text-4xl text-vibe opacity-40" />
+              <p className="text-xs text-vibe opacity-40">
+                You're not logged in
+              </p>
+              <div className="p-2">
+                <button
+                  onClick={() => setShowSignIn(true)}
+                  className="px-4 py-2 bg-accent rounded-full font-bold"
+                >
+                  <p>Continue to login</p>
+                </button>
+              </div>
             </div>
           </div>
         ) : chatLoad ? (

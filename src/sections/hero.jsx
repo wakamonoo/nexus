@@ -1,6 +1,14 @@
 "use client";
 import Banner from "@/components/banner.jsx";
-import { FaBolt, FaComment, FaShare } from "react-icons/fa";
+import {
+  FaBolt,
+  FaComment,
+  FaMehBlank,
+  FaRegFileAlt,
+  FaShare,
+  FaUserAlt,
+  FaUserSlash,
+} from "react-icons/fa";
 import Image from "next/image";
 import { useEffect, useRef, useState, useContext } from "react";
 import { PostContext } from "@/context/postContext";
@@ -32,19 +40,35 @@ export default function Hero() {
   return (
     <>
       <div className="bg-brand w-full pt-16">
-        <div className="pb-4">
+        <div>
           <Banner />
         </div>
 
         {coldLoad ? (
           <HeroLoader />
+        ) : !user ? (
+          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="flex flex-col items-center justify-center">
+              <FaUserSlash className="text-4xl text-vibe opacity-40" />
+              <p className="text-xs text-vibe opacity-40">
+                You're not logged in
+              </p>
+            </div>
+          </div>
+        ) : posts.length === 0 ? (
+          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="flex flex-col items-center justify-center">
+              <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
+              <p className="text-xs text-vibe opacity-40">no posts yets</p>
+            </div>
+          </div>
         ) : (
-          <div className="p-2 flex flex-col gap-4">
+          <div className="p-2 flex flex-col gap-1">
             {posts.map((post, index) => (
               <div
                 key={index}
                 onClick={() => handlePostNavMain(post.postId)}
-                className="w-full h-auto cursor-pointer bg-second rounded-tl-4xl rounded-tr-4xl border-t-4 border-l-1 border-panel"
+                className="w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
               >
                 <div className="flex gap-3 px-4 items-center py-2">
                   <Image
@@ -159,13 +183,13 @@ export default function Hero() {
                 </div>
               </div>
             ))}
+            <div className="flex justify-center py-8">
+              <p className="text-xs text-vibe text-normal opacity-25">
+                oopss, that's the end of time.
+              </p>
+            </div>
           </div>
         )}
-        <div className="flex justify-center py-8">
-          <p className="text-xs text-vibe text-normal opacity-25">
-            you've reached the bottom of the page
-          </p>
-        </div>
       </div>
     </>
   );

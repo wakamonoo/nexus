@@ -1,8 +1,8 @@
 export default function ColdLoader() {
   return (
     <div className="w-full h-full overflow-hidden animate-pulse">
-      <div className="p-2 flex flex-col gap-4 ">
-        <div className="p-4 w-full h-fit bg-panel rounded-tl-4xl rounded-tr-4xl">
+      <div className="p-2 flex flex-col gap-1 ">
+        <div className="p-4 w-full h-fit bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl">
           <div className="flex gap-2 items-center w-full">
             <div className="w-12 h-12 bg-second rounded-full flex-shrink-0" />
             <div className="w-full flex flex-col gap-1">
@@ -24,7 +24,7 @@ export default function ColdLoader() {
           </div>
         </div>
 
-        <div className="p-4 w-full h-fit bg-panel rounded-tl-4xl rounded-tr-4xl">
+        <div className="p-4 w-full h-fit bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl">
           <div className="flex gap-2 items-center w-full">
             <div className="w-12 h-12 bg-second rounded-full flex-shrink-0  " />
             <div className="w-full flex flex-col gap-1">
