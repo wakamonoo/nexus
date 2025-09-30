@@ -187,17 +187,17 @@ export default function GlobalChat() {
                 </div>
               </div>
             )}
-            <div className={`w-full flex items-center gap-4 p-4 bg-second `}>
+            <div className={`w-full flex items-center gap-2 p-4 bg-second `}>
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 placeholder="enter message ..."
-                className="w-full bg-panel p-2 rounded text-base text-normal font-normal"
+                className="w-full p-2 bg-text text-brand rounded text-base font-normal"
               />
               <MdSend
-                className="text-2xl cursor-pointer"
+                className="text-4xl cursor-pointer"
                 onClick={sendMessage}
               />
             </div>

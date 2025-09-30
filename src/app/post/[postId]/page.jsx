@@ -47,7 +47,6 @@ export default function Post() {
         userName: user.name,
         userImage: user.picture,
         textComment: commentText,
-        date: new Date().toLocaleString(),
       };
 
       await fetch(`${BASE_URL}/api/comments/addComment`, {
@@ -185,10 +184,10 @@ export default function Post() {
               </div>
             </div>
           ) : (
-            post.comments.map((c, index) => (
+            post.comments.map((comment, index) => (
               <div key={index} className="flex gap-2">
                 <Image
-                  src={c.userImage}
+                  src={comment.userImage}
                   alt="user"
                   width={0}
                   height={0}
@@ -197,10 +196,10 @@ export default function Post() {
                 />
                 <div className="bg-second py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                   <p className="text-base text-normal font-bold">
-                    {c.userName}
+                    {comment.userName}
                   </p>
-                  <p className="text-xs text-vibe">{c.date}</p>
-                  <p className="text-base text-normal py-2">{c.textComment}</p>
+                  <p className="text-xs text-vibe">{comment.date}</p>
+                  <p className="text-base text-normal py-2">{comment.textComment}</p>
                   <div className="py-2 flex justify-end gap-2">
                     <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
                       <FaBolt className="text-xl" />
@@ -238,7 +237,7 @@ export default function Post() {
           }
         />
         <button onClick={handleSendComment}>
-          <MdSend className="text-2xl" />
+          <MdSend className="text-4xl cursor-pointer" />
         </button>
       </div>
     </div>

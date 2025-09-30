@@ -38,6 +38,7 @@ router.post("/addTitle", async (req, res) => {
           episode,
           duration,
           summary,
+          reviews: [],
         },
       },
       { upsert: true }
