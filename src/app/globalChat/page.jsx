@@ -6,23 +6,21 @@ import NavBar from "@/components/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import { FaUserSlash } from "react-icons/fa";
+import { FaArrowDown, FaUserSlash } from "react-icons/fa";
 import ShowLoader from "@/components/showLoader";
 import ChatLoader from "@/components/chatLoder";
-
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
-
 const socket = io.connect(`${BASE_URL}`);
-
 export default function GlobalChat() {
   const { user, setShowSignIn } = useContext(UserContext);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const msgEndRef = useRef();
   const [chatLoad, setChatLoad] = useState(true);
+  const justSentMessage = useRef(false);
   const initialLoad = useRef(true);
 
   useEffect(() => {
@@ -36,18 +34,14 @@ export default function GlobalChat() {
         console.error("failed to fetch messages", err);
       }
     };
-
     fetchMessages();
-
     socket.on("citadel", (data) => {
       setMessages((prev) => [...prev, data]);
     });
-
     return () => {
       socket.off("citadel");
     };
   }, []);
-
   const sendMessage = () => {
     if (!input.trim()) return;
     const data = {
@@ -64,11 +58,9 @@ export default function GlobalChat() {
         day: "numeric",
       }),
     };
+    justSentMessage.current = true;
     socket.emit("citadel", data);
     setInput("");
-    setTimeout(() => {
-      msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
   };
 
   useEffect(() => {
@@ -77,7 +69,12 @@ export default function GlobalChat() {
       initialLoad.current = false;
     }
   }, [messages]);
-
+  useEffect(() => {
+    if (messages.length && justSentMessage.current) {
+      msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      justSentMessage.current = false;
+    }
+  }, [messages]);
   return (
     <>
       <NavBar />
@@ -109,7 +106,6 @@ export default function GlobalChat() {
                   const currentDate = msg.date;
                   const prevDate = i > 0 ? messages[i - 1].date : null;
                   const showDate = currentDate !== prevDate;
-
                   return (
                     <div key={i}>
                       {showDate && (
@@ -146,7 +142,6 @@ export default function GlobalChat() {
                           >
                             {ownMessage ? "you" : msg.sender}
                           </p>
-
                           <p
                             className={`text-base text-normal py-2 flex ${
                               ownMessage ? "justify-end" : "justify-start"
