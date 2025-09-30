@@ -6,7 +6,7 @@ import NavBar from "@/components/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import { FaArrowDown, FaUserSlash } from "react-icons/fa";
+import { FaArrowDown, FaRegComments, FaUserSlash } from "react-icons/fa";
 import ShowLoader from "@/components/showLoader";
 import ChatLoader from "@/components/chatLoder";
 const BASE_URL =
@@ -106,7 +106,7 @@ export default function GlobalChat() {
             ) : messages.length === 0 ? (
               <div className="flex h-full w-full justify-center items-center">
                 <div className="flex flex-col items-center justify-center">
-                  <MdOutlineChatBubbleOutline className="text-4xl text-vibe opacity-40" />
+                  <FaRegComments className="text-4xl text-vibe opacity-40" />
                   <p className="text-xs text-vibe opacity-40">no chats in here yet</p>
                 </div>
               </div>

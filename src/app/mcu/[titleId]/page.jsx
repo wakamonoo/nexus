@@ -9,16 +9,22 @@ import {
   FaClipboardList,
   FaCrown,
   FaEye,
+  FaFileAlt,
   FaPlay,
+  FaRegComment,
+  FaRegCommentAlt,
+  FaRegCommentDots,
+  FaRegComments,
   FaUser,
 } from "react-icons/fa";
-import { FiCheckCircle } from "react-icons/fi";
+import { FiCheckCircle, FiMessageSquare } from "react-icons/fi";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowLoader from "@/components/showLoader";
 import AddReview from "@/components/addReview";
 import { UserContext } from "@/context/userContext";
+import { MdOutlineReviews, MdRateReview } from "react-icons/md";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -145,7 +151,7 @@ export default function Title() {
             {doneReview ? (
               <FiCheckCircle className="text-2xl" />
             ) : (
-              <FaClipboardList className="text-2xl" />
+              <MdOutlineReviews className="text-2xl" />
             )}
             <p className="text-normal font-bold text-base">
               {doneReview ? "Reviewed" : "Add Review"}
@@ -157,8 +163,11 @@ export default function Title() {
           </button>
         </div>
         <div className="flex flex-col gap-4 py-4">
-          {title.reviews?.length === 0 ? (
-            <div>no rev</div>
+          {!title.reviews || title.reviews?.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-4">
+                <MdRateReview className="text-4xl text-vibe opacity-40" />
+                <p className="text-xs text-vibe opacity-40">claim the first review</p>
+              </div>
           ) : (
             title.reviews?.map((review, index) => (
               <div key={index} className="flex gap-2">
