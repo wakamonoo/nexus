@@ -12,8 +12,9 @@
     --color-text: #ffffff; /* ———————————————————————————————————— normal text ——— */
     --color-panel: #2e2e2e; /* ———————————————————————————————————— panel bg ——— */
     --color-secondary: #1c1c1c; /* ———————————————————————————————————— secondary bg ——— */
-    --color-vibranium: #E1E2E5; /* ———————————————————————————————————— hero blue ——— */
+    --color-vibranium: #e1e2e5; /* ———————————————————————————————————— hero blue ——— */
     --color-hulk: #436228; /* ———————————————————————————————————— hulk green ——— */
+    --color-zeus: #d97706; /* ———————————————————————————————————— thunderbolt ——— */
 
     --font-heading: "Bebas Neue", sans-serif; /* ———————————————————————————————————— headings ——— */
     --font-body: "Roboto", sans-serif; /* ———————————————————————————————————— normal text ——— */
@@ -71,6 +72,10 @@
     background-color: var(--color-hulk);
   }
 
+  .bg-zeus {
+    background-color: var(--color-zeus);
+  }
+
   .bg-text {
     background-color: var(--color-text);
   }
@@ -90,6 +95,11 @@
   .text-panel {
     color: var(--color-panel);
   }
+
+  .text-zeus {
+    color: var(--color-zeus);
+  }
+
 
   .text-vibe {
     color: var(--color-vibranium);

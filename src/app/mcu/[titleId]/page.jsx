@@ -3,27 +3,22 @@ import { useContext, useEffect, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import Loader from "@/components/loader";
 import {
   FaAngleLeft,
+  FaCheckCircle,
   FaClipboardList,
   FaCrown,
   FaEye,
   FaPlay,
   FaUser,
 } from "react-icons/fa";
+import { FiCheckCircle } from "react-icons/fi";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import Alt from "@/assets/fallback.png";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowLoader from "@/components/showLoader";
-import { MdPostAdd, MdSend } from "react-icons/md";
+import AddReview from "@/components/addReview";
 import { UserContext } from "@/context/userContext";
-
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -32,8 +27,8 @@ export default function Title() {
   const [showFull, setShowFull] = useState(false);
   const [showSum, setShowSum] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
-  const [reviewText, setReviewText] = useState("");
-  const { user, setShowSignIn } = useContext(UserContext);
+  const [showAddReview, setShowAddReview] = useState(false);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     setIsLoading(false);
@@ -45,37 +40,13 @@ export default function Title() {
     return <ShowLoader />;
   }
 
-  const postReview = async () => {
-    try {
-      if (!reviewText.trim()) return;
-
-      const newReview = {
-        titleId,
-        userId: user.uid,
-        userName: user.name,
-        userImage: user.picture,
-        textReview: reviewText,
-      };
-      await fetch(`${BASE_URL}/api/reviews/addReview`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newReview),
-      });
-
-      title.reviews = title.reviews
-        ? [...title.reviews, newReview]
-        : [newReview];
-      setReviewText("");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const doneReview = title.reviews?.some(
+    (review) => review.userId === user?.uid
+  );
 
   return (
-    <div>
-      <div className="px-8 py-2 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]">
+    <>
+      <div className="p-4 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]">
         <div className="flex justify-between py-4">
           <FaAngleLeft
             onClick={() => router.back()}
@@ -124,7 +95,7 @@ export default function Title() {
               </p>
             </div>
           </div>
-          <div className="w-[40%]">
+          <div className="flex relative items-center w-[40%] h-full">
             <Image
               src={title.image}
               alt="poster"
@@ -133,6 +104,11 @@ export default function Title() {
               sizes="100vw"
               className="w-full h-auto rounded"
             />
+            <div className="absolute top-1 right-1 bg-second py-[1px] px-[4px] opacity-60 rounded-full">
+              <p className="text-[4px] text-vibe font-heading">
+                poster: <span className="font-heading">joven bataller</span>
+              </p>
+            </div>
           </div>
         </div>
         <div className="flex justify-between gap-2 mt-2 items-center">
@@ -155,8 +131,32 @@ export default function Title() {
           </p>
         </div>
       </div>
-      <div className="px-4 pb-16">
-        <div className="flex flex-col gap-4 py-8 px-4 border-t-1 border-[var(--color-vibranium)]/20">
+      <div className="px-4">
+        <div className="flex gap-2 justify-between py-2 border-t-1 border-[var(--color-vibranium)]/20 border-b-1">
+          <button
+            onClick={() => setShowAddReview(true)}
+            disabled={doneReview}
+            className={`flex flex-1 justify-center gap-2 items-center px-4 py-2 rounded-full ${
+              doneReview
+                ? "bg-zeus cursor-not-allowed"
+                : "bg-second cursor-pointer"
+            }`}
+          >
+            {doneReview ? (
+              <FiCheckCircle className="text-2xl" />
+            ) : (
+              <FaClipboardList className="text-2xl" />
+            )}
+            <p className="text-normal font-bold text-base">
+              {doneReview ? "Reviewed" : "Add Review"}
+            </p>
+          </button>
+          <button className="flex flex-1 justify-center gap-2 items-center px-4 py-2 bg-second rounded-full">
+            <FaCrown className="text-2xl" />
+            <p className="text-normal font-bold text-base">Rank It</p>
+          </button>
+        </div>
+        <div className="flex flex-col gap-4 py-4">
           {title.reviews?.length === 0 ? (
             <div>no rev</div>
           ) : (
@@ -179,26 +179,13 @@ export default function Title() {
           )}
         </div>
       </div>
-      <div className="fixed flex gap-2 items-center bottom-0 w-full bg-second p-4">
-        <input
-          type="text"
-          value={reviewText}
-          onChange={(e) => setReviewText(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault();
-              if (user) {
-                postReview();
-              } else {
-                setShowSignIn(true);
-              }
-            }
-          }}
-          placeholder="type your review here..."
-          className="p-2 bg-text text-brand w-full rounded"
+      {showAddReview && (
+        <AddReview
+          setShowAddReview={setShowAddReview}
+          titleId={titleId}
+          title={title}
         />
-        <MdPostAdd onClick={postReview} className="text-4xl cursor-pointer" />
-      </div>
-    </div>
+      )}
+    </>
   );
 }

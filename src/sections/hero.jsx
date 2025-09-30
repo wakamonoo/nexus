@@ -151,7 +151,7 @@ export default function Hero() {
                     <FaBolt
                       className={`text-2xl ${
                         post.energized?.includes(user?.uid)
-                          ? "text-amber-600"
+                          ? "text-zeus"
                           : "text-normal"
                       }`}
                     />
