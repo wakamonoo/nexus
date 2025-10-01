@@ -130,6 +130,8 @@ export default function Main() {
     };
   }, [searchInput]);
 
+  
+
   return (
     <>
       <NavBar />

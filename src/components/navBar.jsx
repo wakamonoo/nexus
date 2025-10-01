@@ -4,7 +4,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { ScrollContext } from "@/context/scrollContext";
 import { MdChat, MdFeed, MdMenu } from "react-icons/md";
-import { FaAngleRight, FaFilm, FaSearch, FaUser } from "react-icons/fa";
+import { HiChatBubbleLeftEllipsis, HiChatBubbleOvalLeft, HiMiniFilm, HiMiniNewspaper } from 'react-icons/hi2';
+import { FaAngleRight, FaFilm, FaRegComment, FaSearch, FaUser } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "./imageLoader";
 import Fallback from "@/assets/fallback.png";
@@ -91,7 +92,7 @@ export default function NavBar() {
               "/"
             )}`}
           >
-            <MdFeed className="text-2xl" />
+            <HiMiniNewspaper className="text-2xl" />
             <p className="text-xs font-bold">Portal</p>
           </button>
           <button
@@ -100,7 +101,7 @@ export default function NavBar() {
               "/mcu"
             )}`}
           >
-            <FaFilm className="text-2xl" />
+            <HiMiniFilm className="text-2xl" />
             <p className="text-xs font-bold">Hex</p>
           </button>
           <button
@@ -109,7 +110,7 @@ export default function NavBar() {
               "/globalChat"
             )}`}
           >
-            <MdChat className="text-2xl" />
+            <HiChatBubbleOvalLeft className="text-2xl" />
             <p className="text-xs font-bold">Citadel</p>
           </button>
           <button className="flex flex-1 min-w-[30px] justify-center">

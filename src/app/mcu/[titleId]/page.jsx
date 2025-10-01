@@ -10,6 +10,7 @@ import {
   FaCrown,
   FaEye,
   FaFileAlt,
+  FaMedal,
   FaPlay,
   FaRegComment,
   FaRegCommentAlt,
@@ -49,6 +50,10 @@ export default function Title() {
   const doneReview = title.reviews?.some(
     (review) => review.userId === user?.uid
   );
+
+  const firstReview = title.reviews?.sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  )[0];
 
   return (
     <>
@@ -164,10 +169,12 @@ export default function Title() {
         </div>
         <div className="flex flex-col gap-1 py-4">
           {!title.reviews || title.reviews?.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-4">
-                <MdRateReview className="text-4xl text-vibe opacity-40" />
-                <p className="text-xs text-vibe opacity-40">claim the first review</p>
-              </div>
+            <div className="flex flex-col items-center justify-center py-4">
+              <MdRateReview className="text-4xl text-vibe opacity-40" />
+              <p className="text-xs text-vibe opacity-40">
+                claim the first review
+              </p>
+            </div>
           ) : (
             title.reviews?.map((review, index) => (
               <div key={index} className="flex gap-2">
@@ -179,11 +186,13 @@ export default function Title() {
                   sizes="100vw"
                   className="w-8 h-8 rounded-full"
                 />
-                <div className="flex flex-col bg-panel p-2 rounded w-full">
-                  <div className="flex justify-between">
-                    <p className="font-bold text-base">{review.userName}</p>
-                    <p className="text-xs text-vibe opacity-60">{format(new Date(review.date), "MMM, dd, yyyy")}</p>
-                  </div>
+                <div className="flex relative flex-col bg-panel p-2 rounded w-full">
+                  {review.date === firstReview.date ? (
+                    <div className="flex absolute top-2 right-2 gap-1 p-2 rounded-full bg-zeus items-center">
+                      <FaMedal className="text-sm" />
+                    </div>
+                  ) : null}
+                  <p className="font-bold text-base">{review.userName}</p>
                   <p className="text-base text-vibe">{review.textReview}</p>
                 </div>
               </div>

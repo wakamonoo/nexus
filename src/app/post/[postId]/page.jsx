@@ -7,6 +7,7 @@ import {
   FaAngleRight,
   FaBolt,
   FaComment,
+  FaMedal,
   FaRegComment,
   FaReply,
   FaShare,
@@ -67,6 +68,10 @@ export default function Post() {
   if (!post) {
     return <PostLoader />;
   }
+
+  const firstComment = post.comments.sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  )[0];
 
   return (
     <div className="bg-brand">
@@ -194,12 +199,19 @@ export default function Post() {
                   sizes="100vw"
                   className="w-12 h-12 object-cover rounded-full"
                 />
-                <div className="bg-second py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                <div className="bg-second relative py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                  {comment.date === firstComment.date ? (
+                    <div className="flex absolute top-2 right-2 gap-1 p-2 rounded-full bg-zeus items-center">
+                      <FaMedal className="text-sm" />
+                    </div>
+                  ) : null}
                   <p className="text-base text-normal font-bold">
                     {comment.userName}
                   </p>
                   <p className="text-xs text-vibe">{comment.date}</p>
-                  <p className="text-base text-normal py-2">{comment.textComment}</p>
+                  <p className="text-base text-normal py-2">
+                    {comment.textComment}
+                  </p>
                   <div className="py-2 flex justify-end gap-2">
                     <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
                       <FaBolt className="text-xl" />
