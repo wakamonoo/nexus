@@ -5,6 +5,7 @@ import { UserContext } from "@/context/userContext";
 import { ScrollContext } from "@/context/scrollContext";
 import { MdChat, MdFeed, MdMenu } from "react-icons/md";
 import { HiChatBubbleLeftEllipsis, HiChatBubbleOvalLeft, HiMiniFilm, HiMiniNewspaper } from 'react-icons/hi2';
+import { IoChatbubbleEllipsesSharp } from 'react-icons/io5';
 import { FaAngleRight, FaFilm, FaRegComment, FaSearch, FaUser } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "./imageLoader";
@@ -110,7 +111,7 @@ export default function NavBar() {
               "/globalChat"
             )}`}
           >
-            <HiChatBubbleOvalLeft className="text-2xl" />
+            <IoChatbubbleEllipsesSharp className="text-2xl" />
             <p className="text-xs font-bold">Citadel</p>
           </button>
           <button className="flex flex-1 min-w-[30px] justify-center">

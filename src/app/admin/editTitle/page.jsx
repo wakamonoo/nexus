@@ -19,7 +19,7 @@ export default function EditTitle() {
         <h1 className="text-2xl">EDIT TITLE</h1>
         <div />
       </div>
-      <div className="w-full max-w-5xl py-4">
+      <div className="w-full py-4">
         <div className="flex flex-wrap justify-center gap-2">
           {...titles
             .sort((a, b) => a.order - b.order)

@@ -28,7 +28,13 @@ export default function addTitle() {
     if (name === "image") {
       setData((prev) => ({ ...prev, image: files[0] }));
     } else {
-      setData((prev) => ({ ...prev, [name]: value }));
+      setData((prev) => ({
+        ...prev,
+        [name]:
+          name === "order" || name === "episode" || name === "duration"
+            ? Number(value)
+            : value,
+      }));
     }
   };
 
