@@ -161,32 +161,34 @@ export default function Main() {
             {loading ? (
               <Loader />
             ) : searchResults.length > 0 ? (
-              <div className="p-2">
-                <div className="py-2">
+              <div>
+                <div className="p-2 py-2">
                   <p className="text-sm text-vibe w-full line-clamp-1">
                     Here's the search results for{" "}
-                    <span className="font-bold">{searchInput}</span>....
+                    <span className="font-bold">"{searchInput}"</span>
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-2 items-center justify-center">
-                  {searchResults
-                    .sort((a, b) => new Date(a.date) - new Date(b.date))
-                    .map((unit) => (
-                      <div
-                        key={unit.date}
-                        onClick={() => handleShowNav(unit.titleId)}
-                        className="w-26 h-40 flex-shrink-0 cursor-pointer"
-                      >
-                        <Image
-                          src={unit.image || Fallback}
-                          alt="image"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="w-full h-full object-fill rounded"
-                        />
-                      </div>
-                    ))}
+                <div>
+                  <div className="flex flex-wrap gap-2 items-center justify-center">
+                    {searchResults
+                      .sort((a, b) => new Date(a.date) - new Date(b.date))
+                      .map((unit) => (
+                        <div
+                          key={unit.date}
+                          onClick={() => handleShowNav(unit.titleId)}
+                          className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                        >
+                          <Image
+                            src={unit.image || Fallback}
+                            alt="image"
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-full h-full object-fill rounded"
+                          />
+                        </div>
+                      ))}
+                  </div>
                 </div>
               </div>
             ) : searchInput ? (
