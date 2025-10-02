@@ -111,7 +111,7 @@ export default function Rank() {
           <button
             onClick={handleScrollLeft}
             className={`absolute left-1 top-1/2 p-1 bg-accent rounded-full opacity-70 cursor-pointer ${
-              titles.length > 0 ? "block" : "hidden"
+              titles.length === 0 || filteredItems.length < 4 ? "hidden" : "block"
             }`}
           >
             <FaCaretLeft />
@@ -119,7 +119,7 @@ export default function Rank() {
           <button
             onClick={handleScrollRight}
             className={`absolute right-1 top-1/2 p-1 bg-accent rounded-full opacity-70 cursor-pointer ${
-              titles.length > 0 ? "block" : "hidden"
+               titles.length === 0 || filteredItems.length < 4 ? "hidden" : "block"
             }`}
           >
             <FaCaretRight />
