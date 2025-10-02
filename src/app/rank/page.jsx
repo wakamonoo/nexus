@@ -7,13 +7,16 @@ import SortableRank from "@/components/sortableRank";
 import { DndContext, useDraggable, DragOverlay } from "@dnd-kit/core";
 import Slot from "@/components/slot";
 import Image from "next/image";
-import { GiTrophy } from 'react-icons/gi';
+import { GiTrophy } from "react-icons/gi";
+import RankLoader from "@/components/rankLoader";
+import { MdSearchOff } from "react-icons/md";
 
 export default function Rank() {
   const { titles } = useContext(TitleContext);
   const [items, setItems] = useState([]);
   const [slots, setSlots] = useState({});
   const [draggedItem, setDraggedItem] = useState(null);
+  const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -46,6 +49,10 @@ export default function Rank() {
     });
   };
 
+  const filteredItems = items.filter((unit) =>
+    unit.title.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
   return (
     <div className="p-2 bg-brand">
       <div className="flex justify-between py-4">
@@ -58,6 +65,8 @@ export default function Rank() {
       <div className="flex justify-between items-center gap-2 bg-text px-4 py-2 rounded-full">
         <input
           type="text"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Search for your favorite marvel titles.."
           className="w-full p-2 outline-none text-base text-panel"
         />
@@ -75,20 +84,27 @@ export default function Rank() {
       >
         <div className="flex gap-2 overflow-x-auto scrollbar-hide mt-8">
           {titles.length > 0 ? (
-            items.map((unit) => (
-              <SortableRank
-                key={unit.titleId}
-                id={unit.titleId}
-                image={unit.image}
-              />
-            ))
+            filteredItems.length > 0 ? (
+              filteredItems.map((unit) => (
+                <SortableRank
+                  key={unit.titleId}
+                  id={unit.titleId}
+                  image={unit.image}
+                />
+              ))
+            ) : searchInput ? (
+              <div className="py-4 w-full flex justify-center">
+                <div className="flex items-center gap-1">
+                  <MdSearchOff className="text-2xl text-vibe" />
+                  <p className="text-normal text-vibe">
+                    No search results for{" "}
+                    <span className="font-bold">{searchInput}</span>
+                  </p>
+                </div>
+              </div>
+            ) : null
           ) : (
-            <div className="flex flex-col justify-center items-center">
-              <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-              <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                Sorry, no data to display!
-              </p>
-            </div>
+            <RankLoader />
           )}
         </div>
         <div>
@@ -100,7 +116,7 @@ export default function Rank() {
             </div>
           </div>
           <div className="flex flex-wrap gap-2 justify-center">
-            {Array.from({ length: 16 }).map((_, index) => {
+            {Array.from({ length: 15 }).map((_, index) => {
               const slotId = `slot-${index + 1}`;
               return (
                 <Slot key={slotId} id={slotId}>
@@ -114,7 +130,9 @@ export default function Rank() {
                       className="w-full h-full object-fill rounded"
                     />
                   ) : (
-                    <p className="text-5xl text-vibe opacity-25">{index === 0 ? <GiTrophy /> : index + 1}</p>
+                    <p className="text-5xl text-vibe opacity-25">
+                      {index === 0 ? <GiTrophy /> : index + 1}
+                    </p>
                   )}
                 </Slot>
               );
