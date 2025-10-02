@@ -110,13 +110,17 @@ export default function Rank() {
         <div className="relative">
           <button
             onClick={handleScrollLeft}
-            className="absolute left-1 top-1/2 p-1 bg-accent rounded-full opacity-55 cursor-pointer"
+            className={`absolute left-1 top-1/2 p-1 bg-accent rounded-full opacity-70 cursor-pointer ${
+              titles.length > 0 ? "block" : "hidden"
+            }`}
           >
             <FaCaretLeft />
           </button>
           <button
             onClick={handleScrollRight}
-            className="absolute right-1 top-1/2 p-1 bg-accent rounded-full opacity-55 cursor-pointer"
+            className={`absolute right-1 top-1/2 p-1 bg-accent rounded-full opacity-70 cursor-pointer ${
+              titles.length > 0 ? "block" : "hidden"
+            }`}
           >
             <FaCaretRight />
           </button>
