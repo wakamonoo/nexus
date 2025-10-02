@@ -36,6 +36,7 @@ export default function Page() {
     <div className="p-4">
       <FaAngleLeft
         onClick={() => router.back()}
+        title="Back"
         className="text-2xl cursor-pointer"
       />
 
@@ -73,7 +74,7 @@ export default function Page() {
           onClick={() => router.push("/admin/editTitle")}
           className="bg-accent w-full p-2 rounded cursor-pointer"
         >
-          <p className="font-bold uppercase text-base">Edit title</p>
+          <p className="font-bold uppercase text-base">Update Order</p>
         </button>
       </div>
     </div>

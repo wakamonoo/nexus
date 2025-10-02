@@ -31,8 +31,7 @@ export default function Chrono() {
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <h4 className="text-2xl">MCU Choronological Order</h4>
-          <div />
+          <h4 className="text-2xl">GOAT STATUS</h4>
         </div>
         <div className="w-full max-w-5xl">
           <div className="flex flex-wrap justify-center gap-2">

@@ -32,7 +32,6 @@ export default function Chrono() {
             className="text-2xl cursor-pointer"
           />
           <h4 className="text-2xl">MCU Release Order</h4>
-          <div />
         </div>
         <div className="w-full max-w-5xl">
           <div className="flex flex-wrap justify-center gap-2">

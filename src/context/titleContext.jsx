@@ -32,6 +32,8 @@ export const TitleProvider = ({ children }) => {
     handleGetTitles();
   }, []);
 
+  
+
   return (
     <TitleContext.Provider
       value={{

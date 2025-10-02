@@ -9,6 +9,7 @@ import {
   FaUserAlt,
   FaUserSlash,
 } from "react-icons/fa";
+import { AiFillThunderbolt } from 'react-icons/ai';
 import Image from "next/image";
 import { useEffect, useRef, useState, useContext } from "react";
 import { PostContext } from "@/context/postContext";
@@ -148,7 +149,7 @@ export default function Hero() {
                     }}
                     className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
                   >
-                    <FaBolt
+                    <AiFillThunderbolt
                       className={`text-2xl ${
                         post.energized?.includes(user?.uid)
                           ? "text-zeus"

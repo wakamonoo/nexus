@@ -3,10 +3,16 @@ import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { ScrollContext } from "@/context/scrollContext";
-import { MdChat, MdFeed, MdMenu } from "react-icons/md";
-import { HiChatBubbleLeftEllipsis, HiChatBubbleOvalLeft, HiMiniFilm, HiMiniNewspaper } from 'react-icons/hi2';
-import { IoChatbubbleEllipsesSharp } from 'react-icons/io5';
-import { FaAngleRight, FaFilm, FaRegComment, FaSearch, FaUser } from "react-icons/fa";
+import { RiFilmAiFill } from 'react-icons/ri';
+import {
+  HiMiniFilm,
+  HiMiniNewspaper,
+} from "react-icons/hi2";
+import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
+import {
+  FaAngleRight,
+  FaUser,
+} from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "./imageLoader";
 import Fallback from "@/assets/fallback.png";
@@ -15,6 +21,7 @@ import Menu from "./menu";
 import { MenuContext } from "@/context/menuContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { PostContext } from "@/context/postContext";
+import UserNav from "./userNav";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -23,6 +30,7 @@ export default function NavBar() {
   const { showMenu, setShowMenu, buttonRef } = useContext(MenuContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { postFetch } = useContext(PostContext);
+  const [showUserNav, setShowUserNav] = useState(false);
   const router = useRouter();
 
   const isActive = (target) =>
@@ -58,6 +66,7 @@ export default function NavBar() {
   return (
     <>
       <div
+        onClick={() => setShowUserNav(false)}
         className={`fixed flex justify-between px-4 py-8 w-full h-12 transition-colors duration-150 z-[70] ${
           isScrolled ? "bg-[var(--color-panel)]" : "bg-[var(--color-secondary)]"
         } ${navHide ? "hidden" : "flex"}`}
@@ -102,7 +111,7 @@ export default function NavBar() {
               "/mcu"
             )}`}
           >
-            <HiMiniFilm className="text-2xl" />
+            <RiFilmAiFill className="text-2xl" />
             <p className="text-xs font-bold">Hex</p>
           </button>
           <button
@@ -114,7 +123,13 @@ export default function NavBar() {
             <IoChatbubbleEllipsesSharp className="text-2xl" />
             <p className="text-xs font-bold">Citadel</p>
           </button>
-          <button className="flex flex-1 min-w-[30px] justify-center">
+          <button
+            onClick={(e) => {
+              setShowUserNav((prev) => !prev);
+              e.stopPropagation();
+            }}
+            className="flex flex-1 min-w-[30px] justify-center"
+          >
             {isLogged && user?.picture ? (
               loading ? (
                 <ImageLoader />
@@ -135,6 +150,7 @@ export default function NavBar() {
         </div>
       </div>
       {showMenu && <Menu />}
+      {showUserNav && <UserNav setShowUserNav={setShowUserNav} />}
     </>
   );
 }
