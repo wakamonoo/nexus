@@ -1,10 +1,16 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { FaAngleLeft, FaBoxOpen, FaSearch } from "react-icons/fa";
+import { useContext, useEffect, useRef, useState } from "react";
+import {
+  FaAngleLeft,
+  FaBoxOpen,
+  FaCaretLeft,
+  FaCaretRight,
+  FaSearch,
+} from "react-icons/fa";
 import SortableRank from "@/components/sortableRank";
-import { DndContext, useDraggable, DragOverlay } from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import Slot from "@/components/slot";
 import Image from "next/image";
 import { GiTrophy } from "react-icons/gi";
@@ -18,6 +24,7 @@ export default function Rank() {
   const [draggedItem, setDraggedItem] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     if (titles && titles.length > 0) {
@@ -53,6 +60,24 @@ export default function Rank() {
     unit.title.toLowerCase().includes(searchInput.toLowerCase())
   );
 
+  const handleScrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div className="p-2 bg-brand">
       <div className="flex justify-between py-4">
@@ -82,30 +107,47 @@ export default function Rank() {
         }}
         onDragCancel={() => setDraggedItem(null)}
       >
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide mt-8">
-          {titles.length > 0 ? (
-            filteredItems.length > 0 ? (
-              filteredItems.map((unit) => (
-                <SortableRank
-                  key={unit.titleId}
-                  id={unit.titleId}
-                  image={unit.image}
-                />
-              ))
-            ) : searchInput ? (
-              <div className="py-4 w-full flex justify-center">
-                <div className="flex items-center gap-1">
-                  <MdSearchOff className="text-2xl text-vibe" />
-                  <p className="text-normal text-vibe">
-                    No search results for{" "}
-                    <span className="font-bold">{searchInput}</span>
-                  </p>
+        <div className="relative">
+          <button
+            onClick={handleScrollLeft}
+            className="absolute left-1 top-1/2 p-1 bg-accent rounded-full opacity-55 cursor-pointer"
+          >
+            <FaCaretLeft />
+          </button>
+          <button
+            onClick={handleScrollRight}
+            className="absolute right-1 top-1/2 p-1 bg-accent rounded-full opacity-55 cursor-pointer"
+          >
+            <FaCaretRight />
+          </button>
+          <div
+            ref={scrollRef}
+            className="flex gap-2 overflow-x-auto scrollbar-hide mt-8"
+          >
+            {titles.length > 0 ? (
+              filteredItems.length > 0 ? (
+                filteredItems.map((unit) => (
+                  <SortableRank
+                    key={unit.titleId}
+                    id={unit.titleId}
+                    image={unit.image}
+                  />
+                ))
+              ) : searchInput ? (
+                <div className="py-4 w-full flex justify-center">
+                  <div className="flex items-center gap-1">
+                    <MdSearchOff className="text-2xl text-vibe" />
+                    <p className="text-normal text-vibe">
+                      No search results for{" "}
+                      <span className="font-bold">{searchInput}</span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ) : null
-          ) : (
-            <RankLoader />
-          )}
+              ) : null
+            ) : (
+              <RankLoader />
+            )}
+          </div>
         </div>
         <div>
           <div className="py-4">
