@@ -7,6 +7,7 @@ import SortableRank from "@/components/sortableRank";
 import { DndContext, useDraggable, DragOverlay } from "@dnd-kit/core";
 import Slot from "@/components/slot";
 import Image from "next/image";
+import { GiTrophy } from 'react-icons/gi';
 
 export default function Rank() {
   const { titles } = useContext(TitleContext);
@@ -113,7 +114,7 @@ export default function Rank() {
                       className="w-full h-full object-fill rounded"
                     />
                   ) : (
-                    <p className="text-5xl text-vibe opacity-25">{index + 1}</p>
+                    <p className="text-5xl text-vibe opacity-25">{index === 0 ? <GiTrophy /> : index + 1}</p>
                   )}
                 </Slot>
               );

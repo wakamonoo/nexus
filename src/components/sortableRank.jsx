@@ -17,7 +17,7 @@ export default function SortableRank({ id, image }) {
       style={style}
       {...attributes}
       {...listeners}
-      className="w-26 h-40 flex-shrink-0 cursor-pointer"
+      className="w-26 h-40 flex-shrink-0 cursor-pointer touch-none"
     >
       <Image
         src={image}
