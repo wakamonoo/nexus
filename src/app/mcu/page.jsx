@@ -385,12 +385,12 @@ export default function Main() {
                             className="relative w-26 h-40 flex-shrink-0 cursor-pointer"
                           >
                             <div
-                              className={`absolute opacity-80 top-0 right-1 p-2 h-10 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+                              className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
                                 unit.rank === 1 ? "bg-hulk" : "bg-accent"
                               }`}
                             >
                               <p
-                                className={`font-bold ${
+                                className={`font-bold text-sm ${
                                   unit.rank === 1 ? "text-zeus" : "text-normal"
                                 }`}
                               >
