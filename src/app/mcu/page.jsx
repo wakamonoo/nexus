@@ -10,6 +10,7 @@ import { TitleContext } from "@/context/titleContext";
 import NavBar from "@/components/navBar";
 import { TitleNavContext } from "@/context/titlesNavContex";
 import { MdSearchOff } from "react-icons/md";
+import { GiTrophy } from "react-icons/gi";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -130,7 +131,20 @@ export default function Main() {
     };
   }, [searchInput]);
 
-  
+  const rankedTitles = titles
+    .filter((t) => t.totalRank > 0)
+    .sort((a, b) => a.totalRank - b.totalRank);
+
+  let previousScore = null;
+  let currentRank = 0;
+
+  const ranked = rankedTitles.map((t, index) => {
+    if (t.totalRank !== currentRank) {
+      currentRank = index + 1;
+      previousScore = t.totalRank;
+    }
+    return { ...t, rank: currentRank };
+  });
 
   return (
     <>
@@ -364,12 +378,25 @@ export default function Main() {
                   >
                     <div className="flex gap-2">
                       {titles.length > 0 ? (
-                        titles.map((unit, index) => (
+                        ranked.map((unit) => (
                           <div
-                            key={index}
+                            key={unit.titleId}
                             onClick={() => handleShowNav(unit.titleId)}
-                            className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                            className="relative w-26 h-40 flex-shrink-0 cursor-pointer"
                           >
+                            <div
+                              className={`absolute opacity-80 top-0 right-1 p-2 h-10 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+                                unit.rank === 1 ? "bg-hulk" : "bg-accent"
+                              }`}
+                            >
+                              <p
+                                className={`font-bold ${
+                                  unit.rank === 1 ? "text-zeus" : "text-normal"
+                                }`}
+                              >
+                                {unit.rank === 1 ? <GiTrophy /> : unit.rank}
+                              </p>
+                            </div>
                             <Image
                               src={unit.image || Fallback}
                               alt="image"

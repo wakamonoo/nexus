@@ -55,6 +55,23 @@ export default function Title() {
     (a, b) => new Date(a.date) - new Date(b.date)
   )[0];
 
+  const rankedTitles = titles
+    .filter((t) => t.totalRank > 0)
+    .sort((a, b) => a.totalRank - b.totalRank);
+
+  let previousScore = null;
+  let currentRank = 0;
+
+  const ranked = rankedTitles.map((t, index) => {
+    if (t.totalRank !== currentRank) {
+      currentRank = index + 1;
+      previousScore = t.totalRank;
+    }
+    return { ...t, rank: currentRank };
+  });
+
+  const currentTitleRank = ranked.find((t) => t.titleId === titleId)?.rank;
+
   return (
     <>
       <div className="p-4 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]">
@@ -128,7 +145,10 @@ export default function Title() {
             <span className="text-base text-normal">Watch Trailer</span>
           </button>
           <h1 className="text-base uppercase">
-            <span className="text-2xl font-bold">#1</span>Ranked
+            Ranked
+            <span className="text-2xl font-bold">
+              {currentTitleRank ?? "-"}
+            </span>
           </h1>
         </div>
         <div className="py-4">

@@ -7,8 +7,10 @@ import {
   FaBoxOpen,
   FaCaretLeft,
   FaCaretRight,
+  FaRegSave,
   FaSearch,
 } from "react-icons/fa";
+import { BiReset } from "react-icons/bi";
 import SortableRank from "@/components/sortableRank";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import Slot from "@/components/slot";
@@ -17,6 +19,8 @@ import { GiTrophy } from "react-icons/gi";
 import RankLoader from "@/components/rankLoader";
 import { MdSearchOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
+import Swal from "sweetalert2";
+import { LoaderContext } from "@/context/loaderContext";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -25,7 +29,8 @@ const BASE_URL =
 
 export default function Rank() {
   const { titles } = useContext(TitleContext);
-  const { user } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [items, setItems] = useState([]);
   const [slots, setSlots] = useState({});
   const [draggedItem, setDraggedItem] = useState(null);
@@ -64,7 +69,7 @@ export default function Rank() {
   };
 
   const filteredItems = items.filter((unit) =>
-    unit.title.toLowerCase().includes(searchInput.toLowerCase())
+    unit.title?.toLowerCase().includes(searchInput.toLowerCase())
   );
 
   const handleScrollLeft = () => {
@@ -104,28 +109,74 @@ export default function Rank() {
   };
 
   const handleSave = async () => {
-    const rankings = buildRankings();
+    setIsLoading(true);
 
-    if (rankings.length === 0) {
-      alert("please rank at least one title before saving");
-      return;
-    }
+    try {
+      const rankings = buildRankings();
 
-    const res = await fetch(`${BASE_URL}/api/rankings/saveRanking`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: user.uid,
-        rankings,
-      }),
-    });
+      if (rankings.length === 0) {
+        Swal.fire({
+          title: "Oops",
+          text: "Atleast rank 1 before saving",
+          icon: "warning",
+          timer: 2000,
+          showConfirmButton: false,
+          background: "var(--color-text)",
+          color: "var(--color-bg)",
+          iconColor: "var(--color-zeus)",
+          customClass: {
+            popup: "rounded-2xl shadow-lg",
+            title: "text-lg font-bold !text-[var(--color-zeus)]",
+            htmlContainer: "text-sm",
+          },
+        });
+        return;
+      }
+      await fetch(`${BASE_URL}/api/rankings/saveRanking`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.uid,
+          rankings,
+        }),
+      });
 
-    if (res.ok) {
-      alert("raking saved");
-    } else {
-      alert("raking not saved");
+      Swal.fire({
+        title: "Success",
+        text: "Your ranking was saved!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Ranking not saved, try again later!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -133,7 +184,7 @@ export default function Rank() {
     if (!user?.uid) return;
 
     const restoredSlots = {};
-    user.rankings.forEach((r) => {
+    user.rankings?.forEach((r) => {
       restoredSlots[`slot-${r.rank}`] = {
         titleId: r.titleId,
         image: r.poster,
@@ -143,7 +194,7 @@ export default function Rank() {
     setSlots(restoredSlots);
 
     setItems((prev) =>
-      prev.filter(i => !user.rankings.some((r) => r.titleId === i.titleId))
+      prev.filter((i) => !user.rankings?.some((r) => r.titleId === i.titleId))
     );
   }, [user]);
 
@@ -274,8 +325,26 @@ export default function Rank() {
         </DragOverlay>
       </DndContext>
 
-      <div className="py-4 flex justify-center items-center">
-        <button onClick={handleSave} className="bg-accent w-full p-2 rounded">
+      <div className="py-4 flex flex-col gap-2 justify-center items-center">
+        <button
+          onClick={() => {
+            setSlots({});
+            setItems(
+              [...titles].sort((a, b) => new Date(b.date) - new Date(a.date))
+            );
+          }}
+          className="cursor-pointer bg-accent w-full p-2 rounded flex justify-center items-center gap-1"
+        >
+          <BiReset className="text-2xl" />
+          <p className="text-base text-normal font-bold">Reset Ranking</p>
+        </button>
+        <button
+          onClick={() => {
+            user ? handleSave() : setShowSignIn(true);
+          }}
+          className="cursor-pointer bg-accent w-full p-2 rounded flex justify-center items-center gap-1"
+        >
+          <FaRegSave className="text-2xl" />
           <p className="text-base text-normal font-bold">Save Rankings</p>
         </button>
       </div>

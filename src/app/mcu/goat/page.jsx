@@ -8,8 +8,9 @@ import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titlesNavContex";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowListLoader from "@/components/showListLoader";
+import { GiTrophy } from "react-icons/gi";
 
-export default function Chrono() {
+export default function Goat() {
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
@@ -23,6 +24,21 @@ export default function Chrono() {
     return <ShowListLoader />;
   }
 
+  const rankedTitles = titles
+    .filter((t) => t.totalRank > 0)
+    .sort((a, b) => a.totalRank - b.totalRank);
+
+  let previousScore = null;
+  let currentRank = 0;
+
+  const ranked = rankedTitles.map((t, index) => {
+    if (t.totalRank !== currentRank) {
+      currentRank = index + 1;
+      previousScore = t.totalRank;
+    }
+    return { ...t, rank: currentRank };
+  });
+
   return (
     <>
       <div className="flex flex-col justify-center items-center p-2">
@@ -35,24 +51,35 @@ export default function Chrono() {
         </div>
         <div className="w-full max-w-5xl">
           <div className="flex flex-wrap justify-center gap-2">
-            {...titles
-              .sort((a, b) => a.order - b.order)
-              .map((unit) => (
+            {...ranked.map((unit) => (
+              <div
+                key={unit.titleId}
+                onClick={() => handleShowNav(unit.titleId)}
+                className="relative w-26 h-40 flex-shrink-0 cursor-pointer"
+              >
                 <div
-                  key={unit.order}
-                  onClick={() => handleShowNav(unit.titleId)}
-                  className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                  className={`absolute opacity-80  top-0 right-1 p-2 h-10 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+                    unit.rank === 1 ? "bg-hulk" : "bg-accent"
+                  }`}
                 >
-                  <Image
-                    src={unit.image}
-                    alt="image"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-full h-full object-fill rounded"
-                  />
+                  <p
+                    className={`font-bold ${
+                      unit.rank === 1 ? "text-zeus" : "text-normal"
+                    }`}
+                  >
+                    {unit.rank === 1 ? <GiTrophy /> : unit.rank}
+                  </p>
                 </div>
-              ))}
+                <Image
+                  src={unit.image}
+                  alt="image"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="w-full h-full object-fill rounded"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>

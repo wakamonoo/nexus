@@ -111,7 +111,7 @@ export default function SignIn() {
   return (
     <div
       onClick={() => setShowSignIn(false)}
-      className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+      className="inset-0 z-[100] backdrop-blur-xs flex items-center justify-center fixed"
     >
       <div
         onClick={(e) => e.stopPropagation()}
