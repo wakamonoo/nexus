@@ -1,52 +1,34 @@
+import Image from "next/image";
+import wkmn from "@/assets/wkmn.webp";
+
 export default function Funding() {
   return (
-    <div className="w-full h-full overflow-hidden animate-pulse">
-      <div className="p-2 flex flex-col gap-1 ">
-        <div className="p-4 w-full h-fit bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl">
-          <div className="flex gap-2 items-center w-full">
-            <div className="w-12 h-12 bg-second rounded-full flex-shrink-0" />
-            <div className="w-full flex flex-col gap-1">
-              <div className="w-[40%] h-6 bg-second rounded" />
-              <div className="w-[50%] h-4 bg-second rounded" />
-            </div>
-          </div>
-          <div className="py-4 flex flex-col gap-1">
-            <div className="w-full h-6 bg-second rounded" />
-            <div className="w-full h-6 bg-second rounded" />
-            <div className="w-full h-6 bg-second rounded" />
-            <div className="w-full h-6 bg-second rounded" />
-            <div className="w-[40%] h-6 bg-second rounded" />
-          </div>
-          <div className="flex gap-4">
-            <div className="w-full h-10 bg-second rounded-2xl" />
-            <div className="w-full h-10 bg-second rounded-2xl" />
-            <div className="w-full h-10 bg-second rounded-2xl" />
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-panel">
+      <div className="flex flex-col items-center justify-center gap-2">
+        <div className="flex items-center justify-center bg-second w-16 h-20 rounded-tl-4xl rounded-tr-4xl p-2">
+          <div className="relative w-12 h-16 rounded-tl-4xl rounded-tr-4xl bg-accent">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-second w-4 h-12 rounded-tl-2xl rounded-tr-2xl" />
           </div>
         </div>
+        <div class="flex justify-center flex-row gap-2">
+          <div class="w-2 h-2 rounded-full bg-second animate-bounce"></div>
+          <div class="w-2 h-2 rounded-full bg-second animate-bounce [animation-delay:-.3s]"></div>
+          <div class="w-2 h-2 rounded-full bg-second animate-bounce [animation-delay:-.5s]"></div>
+        </div>
+      </div>
 
-        <div className="p-4 w-full h-fit bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl">
-          <div className="flex gap-2 items-center w-full">
-            <div className="w-12 h-12 bg-second rounded-full flex-shrink-0  " />
-            <div className="w-full flex flex-col gap-1">
-              <div className="w-[40%] h-6 bg-second rounded" />
-              <div className="w-[50%] h-4 bg-second rounded" />
-            </div>
-          </div>
-          <div className="py-4 flex flex-col gap-1">
-            <div className="w-full h-6 bg-second rounded" />
-            <div className="w-full h-6 bg-second rounded" />
-            <div className="w-full h-6 bg-second rounded" />
-            <div className="w-full h-6 bg-second rounded" />
-            <div className="w-[40%] h-6 bg-second rounded" />
-          </div>
-          <div className="py-4">
-            <div className="w-full h-50 bg-second rounded" />
-          </div>
-          <div className="flex gap-4">
-            <div className="w-full h-10 bg-second rounded-2xl" />
-            <div className="w-full h-10 bg-second rounded-2xl" />
-            <div className="w-full h-10 bg-second rounded-2xl" />
-          </div>
+      <div className="fixed bottom-12 w-full opacity-60">
+        <div className="flex justify-center items-center">
+          <Image
+            src={wkmn}
+            alt="wkmn"
+            priority
+            width={0}
+            height={0}
+            sizes="100vw"
+            className="w-6 h-6"
+          />
+          <p className="font-tall text-xl text-brand">WKMN</p>
         </div>
       </div>
     </div>
