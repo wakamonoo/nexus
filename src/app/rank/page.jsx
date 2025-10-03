@@ -16,9 +16,16 @@ import Image from "next/image";
 import { GiTrophy } from "react-icons/gi";
 import RankLoader from "@/components/rankLoader";
 import { MdSearchOff } from "react-icons/md";
+import { UserContext } from "@/context/userContext";
+
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
 
 export default function Rank() {
   const { titles } = useContext(TitleContext);
+  const { user } = useContext(UserContext);
   const [items, setItems] = useState([]);
   const [slots, setSlots] = useState({});
   const [draggedItem, setDraggedItem] = useState(null);
@@ -78,6 +85,68 @@ export default function Rank() {
     }
   };
 
+  const buildRankings = () => {
+    return Object.keys(slots)
+      .map((slotId, index) => {
+        const item = slots[slotId];
+        if (!items) return null;
+
+        const slotNumber = parseInt(slotId.split("-")[1], 10);
+
+        return {
+          titleId: item.titleId,
+          poster: item.image,
+          rank: slotNumber,
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => a.rank - b.rank);
+  };
+
+  const handleSave = async () => {
+    const rankings = buildRankings();
+
+    if (rankings.length === 0) {
+      alert("please rank at least one title before saving");
+      return;
+    }
+
+    const res = await fetch(`${BASE_URL}/api/rankings/saveRanking`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.uid,
+        rankings,
+      }),
+    });
+
+    if (res.ok) {
+      alert("raking saved");
+    } else {
+      alert("raking not saved");
+    }
+  };
+
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const restoredSlots = {};
+    user.rankings.forEach((r) => {
+      restoredSlots[`slot-${r.rank}`] = {
+        titleId: r.titleId,
+        image: r.poster,
+      };
+    });
+
+    setSlots(restoredSlots);
+
+    setItems((prev) =>
+      prev.filter(i => !user.rankings.some((r) => r.titleId === i.titleId))
+    );
+  }, [user]);
+
   return (
     <div className="p-2 bg-brand">
       <div className="flex justify-between py-4">
@@ -111,7 +180,9 @@ export default function Rank() {
           <button
             onClick={handleScrollLeft}
             className={`absolute left-1 top-1/2 p-1 bg-accent rounded-full opacity-70 cursor-pointer ${
-              titles.length === 0 || filteredItems.length < 4 ? "hidden" : "block"
+              titles.length === 0 || filteredItems.length < 5
+                ? "hidden"
+                : "block"
             }`}
           >
             <FaCaretLeft />
@@ -119,7 +190,9 @@ export default function Rank() {
           <button
             onClick={handleScrollRight}
             className={`absolute right-1 top-1/2 p-1 bg-accent rounded-full opacity-70 cursor-pointer ${
-               titles.length === 0 || filteredItems.length < 4 ? "hidden" : "block"
+              titles.length === 0 || filteredItems.length < 5
+                ? "hidden"
+                : "block"
             }`}
           >
             <FaCaretRight />
@@ -200,6 +273,12 @@ export default function Rank() {
           ) : null}
         </DragOverlay>
       </DndContext>
+
+      <div className="py-4 flex justify-center items-center">
+        <button onClick={handleSave} className="bg-accent w-full p-2 rounded">
+          <p className="text-base text-normal font-bold">Save Rankings</p>
+        </button>
+      </div>
     </div>
   );
 }

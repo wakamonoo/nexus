@@ -19,6 +19,7 @@ import postGet from "./routes/postGet.js";
 import commentRoute from "./routes/commentRoute.js";
 import reviewRoute from "./routes/reviewRoute.js";
 import reactRoute from "./routes/reactRoute.js";
+import rankingRoute from "./routes/rankingRoute.js";
 
 dotenv.config();
 
@@ -59,6 +60,7 @@ app.use("/api/posts", postGet);
 app.use("/api/comments", commentRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/reacts", reactRoute);
+app.use("/api/rankings", rankingRoute);
 
 io.on("connection", (socket) => {
   console.log("a user is connected");
