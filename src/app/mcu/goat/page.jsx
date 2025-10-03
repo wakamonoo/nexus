@@ -25,16 +25,16 @@ export default function Goat() {
   }
 
   const rankedTitles = titles
-    .filter((t) => t.totalRank > 0)
-    .sort((a, b) => a.totalRank - b.totalRank);
+    .filter((t) => t.totalPoints > 0)
+    .sort((a, b) => b.totalPoints - a.totalPoints);
 
-  let previousScore = null;
+  let previousPoints = null;
   let currentRank = 0;
 
   const ranked = rankedTitles.map((t, index) => {
-    if (t.totalRank !== currentRank) {
+    if (t.totalPoints !== previousPoints ) {
       currentRank = index + 1;
-      previousScore = t.totalRank;
+      previousPoints = t.totalPoints;
     }
     return { ...t, rank: currentRank };
   });

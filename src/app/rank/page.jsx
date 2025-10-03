@@ -90,6 +90,7 @@ export default function Rank() {
     }
   };
 
+  const max_rank = 15;
   const buildRankings = () => {
     return Object.keys(slots)
       .map((slotId, index) => {
@@ -97,11 +98,14 @@ export default function Rank() {
         if (!items) return null;
 
         const slotNumber = parseInt(slotId.split("-")[1], 10);
+        const points = max_rank - slotNumber + 1;
 
         return {
           titleId: item.titleId,
+          title: item.name,
           poster: item.image,
           rank: slotNumber,
+          points,
         };
       })
       .filter(Boolean)

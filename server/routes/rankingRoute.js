@@ -24,17 +24,23 @@ router.post("/saveRanking", async (req, res) => {
     allUsers.forEach((user) => {
       user.rankings?.forEach((r) => {
         if (!totalsMap[r.titleId]) {
-          totalsMap[r.titleId] = { totalRank: 0, votes: 0 };
+          totalsMap[r.titleId] = { votes: 0, totalPoints: 0 };
         }
-        totalsMap[r.titleId].totalRank += r.rank;
+
         totalsMap[r.titleId].votes += 1;
+        totalsMap[r.titleId].totalPoints += r.points;
       });
     });
 
     const bulkOps = Object.entries(totalsMap).map(([titleId, data]) => ({
       updateOne: {
         filter: { titleId },
-        update: { $set: { totalRank: data.totalRank, votes: data.votes } },
+        update: {
+          $set: {
+            votes: data.votes,
+            totalPoints: data.totalPoints,
+          },
+        },
       },
     }));
 
@@ -50,8 +56,8 @@ router.post("/saveRanking", async (req, res) => {
           filter: { titleId: t.titleId },
           update: {
             $set: {
-              totalRank: 0,
               votes: 0,
+              totalPoints: 0,
             },
           },
         },
