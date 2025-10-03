@@ -3,16 +3,10 @@ import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { ScrollContext } from "@/context/scrollContext";
-import { RiFilmAiFill } from 'react-icons/ri';
-import {
-  HiMiniFilm,
-  HiMiniNewspaper,
-} from "react-icons/hi2";
+import { RiFilmAiFill } from "react-icons/ri";
+import { HiMiniFilm, HiMiniNewspaper } from "react-icons/hi2";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
-import {
-  FaAngleRight,
-  FaUser,
-} from "react-icons/fa";
+import { FaAngleDown, FaAngleRight, FaUser } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "./imageLoader";
 import Fallback from "@/assets/fallback.png";
@@ -128,7 +122,7 @@ export default function NavBar() {
               setShowUserNav((prev) => !prev);
               e.stopPropagation();
             }}
-            className="flex flex-1 min-w-[30px] justify-center"
+            className="flex flex-col flex-1 min-w-[30px] justify-center hover:scale-105 active:scale-105"
           >
             {isLogged && user?.picture ? (
               loading ? (

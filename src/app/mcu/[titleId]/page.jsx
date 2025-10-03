@@ -63,7 +63,7 @@ export default function Title() {
   let currentRank = 0;
 
   const ranked = rankedTitles.map((t, index) => {
-    if (t.totalPoints !== previousPoints ) {
+    if (t.totalPoints !== previousPoints) {
       currentRank = index + 1;
       previousPoints = t.totalPoints;
     }
@@ -144,12 +144,14 @@ export default function Title() {
             <FaPlay className="text-xl" />
             <span className="text-base text-normal">Watch Trailer</span>
           </button>
-          <h1 className="text-base uppercase">
-            Ranked
-            <span className="text-2xl font-bold">
-              {currentTitleRank ?? "-"}
-            </span>
-          </h1>
+          {currentTitleRank ? (
+            <h1 className="text-base uppercase">
+              Ranked
+              <span className="text-2xl font-bold">{currentTitleRank}</span>
+            </h1>
+          ) : (
+            <h1 className="text-base uppercase">Unranked</h1>
+          )}
         </div>
         <div className="py-4">
           <p
@@ -182,7 +184,13 @@ export default function Title() {
               {doneReview ? "Reviewed" : "Add Review"}
             </p>
           </button>
-          <button className="flex flex-1 justify-center gap-2 items-center px-4 py-2 bg-second rounded-full">
+          <button
+            onClick={() => {
+              setIsLoading(true);
+              router.push("/rank");
+            }}
+            className="flex flex-1 justify-center gap-2 items-center px-4 py-2 bg-second rounded-full cursor-pointer"
+          >
             <FaCrown className="text-2xl" />
             <p className="text-normal font-bold text-base">Rank It</p>
           </button>

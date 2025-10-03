@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 
 export default function Menu() {
   const divRef = useRef(null);
-  const { user, setShowSignIn } = useContext(UserContext);
   const { navHide } = useContext(ScrollContext);
   const { showMenu, setShowMenu, buttonRef } = useContext(MenuContext);
   const router = useRouter();
@@ -75,29 +74,7 @@ export default function Menu() {
             Hero Fund
           </p>
         </button>
-        <button
-          onClick={() => {
-            setShowMenu(false);
-            setShowSignIn(true);
-          }}
-          className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-text)] focus:bg-[var(--color-text)] group w-full p-4 rounded-full transition-all duration-300"
-        >
-          {user ? (
-            <>
-              <MdLogout className="text-2xl group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]" />
-              <p className="text-base flex font-bold group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]">
-                Logout
-              </p>
-            </>
-          ) : (
-            <>
-              <MdLogin className="text-2xl group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]" />
-              <p className="text-base flex font-bold group-hover:text-[var(--color-accent)] group-focus:text-[var(--color-accent)]">
-                Login
-              </p>
-            </>
-          )}
-        </button>
+        
       </div>
     </div>
   );

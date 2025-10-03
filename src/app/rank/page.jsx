@@ -39,6 +39,10 @@ export default function Rank() {
   const scrollRef = useRef(null);
 
   useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
     if (titles && titles.length > 0) {
       const sorted = [...titles].sort(
         (a, b) => new Date(b.date) - new Date(a.date)

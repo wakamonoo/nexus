@@ -1,9 +1,15 @@
+import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
-import { FaUser } from "react-icons/fa";
-import { PiRankingDuotone } from 'react-icons/pi';
+import { useContext } from "react";
+import { FaAngleDown, FaUser } from "react-icons/fa";
+import { PiRankingDuotone } from "react-icons/pi";
+import { MdLogin, MdLogout } from "react-icons/md";
+import { UserContext } from "@/context/userContext";
 
 export default function UserNav({ setShowUserNav }) {
-  const router = useRouter()
+  const router = useRouter();
+  const { setIsLoading } = useContext(LoaderContext);
+  const { user, setShowSignIn } = useContext(UserContext);
 
   return (
     <div
@@ -18,9 +24,34 @@ export default function UserNav({ setShowUserNav }) {
           <FaUser className="text-2xl" />
           <p className="text-base font-bold text-normal">Activities</p>
         </button>
-        <button onClick={() => router.push("/rank")} className="flex items-center gap-2 cursor-pointer">
+        <button
+          onClick={() => {
+            setIsLoading(true);
+            router.push("/rank");
+          }}
+          className="flex items-center gap-2 cursor-pointer"
+        >
           <PiRankingDuotone className="text-2xl" />
           <p className="text-base font-bold text-normal">Rank'em</p>
+        </button>
+        <button
+          onClick={() => {
+            setShowUserNav(false);
+            setShowSignIn(true);
+          }}
+          className="flex items-center gap-2 cursor-pointer"
+        >
+          {user ? (
+            <>
+              <MdLogout className="text-2xl" />
+              <p className="text-base font-bold text-normal">Logout</p>
+            </>
+          ) : (
+            <>
+              <MdLogin className="text-2xl" />
+              <p className="text-base font-bold text-normal">Login</p>
+            </>
+          )}
         </button>
       </div>
     </div>
