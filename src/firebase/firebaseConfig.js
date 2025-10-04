@@ -1,6 +1,12 @@
 "use client";
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  GoogleAuthProvider,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -16,13 +22,23 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+
 export const googleSignUp = async () => {
   try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    const token = await user.getIdToken(true);
+    if (isMobile) {
+      await signInWithRedirect(auth, provider);
 
-    return { user, token, error: null };
+      const result = await getRedirectResult(auth);
+      const user = result.user;
+      const token = await user.getIdToken(true);
+      return { user, token, error: null };
+    } else {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const token = await user.getIdToken(true);
+      return { user, token, error: null };
+    }
   } catch (error) {
     console.error("signin failed:", error);
     return { user: null, token: null, error };
