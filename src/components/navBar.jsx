@@ -15,6 +15,7 @@ import Menu from "./menu";
 import { MenuContext } from "@/context/menuContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { PostContext } from "@/context/postContext";
+import { GiNinjaHead } from "react-icons/gi";
 import UserNav from "./userNav";
 
 export default function NavBar() {
@@ -27,10 +28,12 @@ export default function NavBar() {
   const [showUserNav, setShowUserNav] = useState(false);
   const router = useRouter();
 
-  const isActive = (target) =>
-    pathname === target
+  const isActive = (target) => {
+    if (showUserNav) return "text-inherit";
+    return pathname === target
       ? "text-[var(--color-accent)] border-b-1"
       : "text-inherit";
+  };
 
   const handleHomeClick = async () => {
     if (pathname === "/") {
@@ -122,7 +125,9 @@ export default function NavBar() {
               setShowUserNav((prev) => !prev);
               e.stopPropagation();
             }}
-            className="flex flex-col flex-1 min-w-[30px] justify-center hover:scale-105 active:scale-105"
+            className={`flex flex-col items-center hover:text-[var(--color-accent)] cursor-pointer group flex-1 min-w-[30px] justify-center ${
+              showUserNav ? "text-accent" : "text-normal"
+            }`}
           >
             {isLogged && user?.picture ? (
               loading ? (
@@ -134,12 +139,15 @@ export default function NavBar() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  className="w-10 rounded-full h-auto cursor-pointer"
+                  className={`w-6 group-hover:border-[var(--color-accent)] border-1 rounded-full h-auto cursor-pointer ${
+                    showUserNav ? "border-accent border-1" : ""
+                  }`}
                 />
               )
             ) : (
-              <FaUser className="text-2xl cursor-pointer" />
+              <GiNinjaHead className="text-2xl cursor-pointer" />
             )}
+            <p className="text-xs font-bold">You</p>
           </button>
         </div>
       </div>

@@ -5,6 +5,8 @@ import { FaAngleDown, FaUser } from "react-icons/fa";
 import { PiRankingDuotone } from "react-icons/pi";
 import { MdLogin, MdLogout } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
+import { BsFileEarmarkPostFill } from "react-icons/bs";
+import { GiNinjaHead } from "react-icons/gi";
 
 export default function UserNav({ setShowUserNav }) {
   const router = useRouter();
@@ -21,8 +23,15 @@ export default function UserNav({ setShowUserNav }) {
         className="flex flex-col gap-4 p-4 absolute top-18 right-2 bg-accent w-[65%] h-fit rounded overflow-hidden"
       >
         <button className="flex items-center gap-2 cursor-pointer">
-          <FaUser className="text-2xl" />
-          <p className="text-base font-bold text-normal">Activities</p>
+          <GiNinjaHead className="text-2xl" />
+          <p className="text-base font-bold text-normal">Account</p>
+        </button>
+        <button
+          onClick={() => router.push("/postings")}
+          className="flex items-center gap-2 cursor-pointer"
+        >
+          <BsFileEarmarkPostFill className="text-2xl" />
+          <p className="text-base font-bold text-normal">Postings</p>
         </button>
         <button
           onClick={() => {

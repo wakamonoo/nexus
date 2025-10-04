@@ -9,7 +9,7 @@ import {
   FaUserAlt,
   FaUserSlash,
 } from "react-icons/fa";
-import { AiFillThunderbolt } from 'react-icons/ai';
+import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
 import { useEffect, useRef, useState, useContext } from "react";
 import { PostContext } from "@/context/postContext";
@@ -31,6 +31,7 @@ export default function Hero() {
   const { user, setShowSignIn } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
 
   const handlePostNavMain = (id) => {
@@ -94,44 +95,59 @@ export default function Hero() {
                 </div>
 
                 {post.files && post.files.length > 0 ? (
-                  <div className="flex w-full h-[50vh] overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
-                    {post.files.map((file, index) => {
-                      const ext =
-                        typeof file === "string"
-                          ? file.split(".").pop().toLowerCase()
-                          : "";
+                  <div className="relative w-full h-[50vh]">
+                    {post.files.length > 1 ? (
+                      <div className="absolute bottom-2 right-2">
+                        <p className="text-xs text-vibe">{currentIndex + 1}/{post.files.length}</p>
+                      </div>
+                    ) : null}
+                    <div
+                      onScroll={(e) => {
+                        const width = e.target.clientWidth;
+                        const scrollLeft = e.target.scrollLeft;
+                        const index = Math.round(scrollLeft / width);
+                        setCurrentIndex(index);
+                      }}
+                      className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
+                    >
+                      {post.files.map((file, index) => {
+                        const ext =
+                          typeof file === "string"
+                            ? file.split(".").pop().toLowerCase()
+                            : "";
 
-                      return (
-                        <div
-                          key={index}
-                          onClick={(e) => {
-                            handleFileClick(post.files, index, post);
-                            e.stopPropagation();
-                          }}
-                          className="flex-shrink-0 w-full h-full snap-center"
-                        >
-                          {["jpg", "jpeg", "png", "gif", "webp"].includes(
-                            ext
-                          ) ? (
-                            <Image
-                              src={file}
-                              alt="file"
-                              width={0}
-                              height={0}
-                              sizes="100vw"
-                              className="w-full h-full object-cover"
-                            />
-                          ) : ["mp4", "webm", "ogg"].includes(ext) ? (
-                            <video
-                              key={index}
-                              src={file}
-                              controls
-                              className="w-full h-full object-cover"
-                            />
-                          ) : null}
-                        </div>
-                      );
-                    })}
+                        return (
+                          <div
+                            key={index}
+                            onClick={(e) => {
+                              handleFileClick(post.files, index, post);
+                              e.stopPropagation();
+                            }}
+                            className="flex-shrink-0 w-full h-full snap-center"
+                          >
+                            {["jpg", "jpeg", "png", "gif", "webp"].includes(
+                              ext
+                            ) ? (
+                              <Image
+                                src={file}
+                                alt="file"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className="w-full h-full object-cover"
+                              />
+                            ) : ["mp4", "webm", "ogg"].includes(ext) ? (
+                              <video
+                                key={index}
+                                src={file}
+                                controls
+                                className="w-full h-full object-cover"
+                              />
+                            ) : null}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 ) : (
                   <div />

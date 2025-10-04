@@ -43,6 +43,7 @@ export default function AddPost({ setShowAddPost }) {
         },
         body: JSON.stringify({
           text: post.text,
+          userId: user.uid,
           userName: user.name,
           userImage: user.picture,
           files: uploadedUrls,
