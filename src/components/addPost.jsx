@@ -146,7 +146,7 @@ export default function AddPost({ setShowAddPost }) {
                     onChange={(e) => setPost({ ...post, file: e.target.files })}
                     type="file"
                     multiple
-                    className="bg-second p-2 w-full"
+                    className="bg-second p-2 w-full cursor-pointer"
                   />
                 </div>
               )}
