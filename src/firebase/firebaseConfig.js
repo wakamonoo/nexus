@@ -1,5 +1,4 @@
 "use client";
-
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -9,7 +8,6 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 
-// Your Firebase config from .env.local
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -24,44 +22,34 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// Detect mobile
 const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
-/**
- * 🔹 Trigger Google Sign-In
- */
 export const googleSignUp = async () => {
   try {
     if (isMobile) {
-      // Redirect-based login (mobile browsers block popups)
       await signInWithRedirect(auth, provider);
       return { redirecting: true };
     } else {
-      // Popup-based login (desktop)
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       const token = await user.getIdToken(true);
       return { user, token, error: null };
     }
   } catch (error) {
-    console.error("Google Sign-In failed:", error);
+    console.error("signin failed:", error);
     return { user: null, token: null, error };
   }
 };
 
-/**
- * 🔹 Handle Redirect Result (after returning from Google login)
- * Call this in a useEffect() in your login page component.
- */
 export const handleRedirectResult = async () => {
   try {
     const result = await getRedirectResult(auth);
-    if (!result) return null; // No redirect happened
+    if (!result) return null;
     const user = result.user;
     const token = await user.getIdToken(true);
     return { user, token, error: null };
   } catch (error) {
-    console.error("Redirect Sign-In failed:", error);
+    console.error("redirect signin failed:", error);
     return { user: null, token: null, error };
   }
 };

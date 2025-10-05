@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
-import { auth } from "@/firebase/firebaseConfig";
+import { auth, handleRedirectResult } from "@/firebase/firebaseConfig";
 import SignIn from "@/components/signIn";
 
 export const UserContext = createContext();
@@ -37,6 +37,17 @@ export const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const handleAuth = async () => {
+      const redirectResult = await handleRedirectResult();
+      if (redirectResult?.user) {
+        await fetchUserData(redirectResult.user.uid);
+        setLoading(false);
+        return;
+      }
+    };
+
+    handleAuth();
+
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       setLoading(true);
       if (firebaseUser) {
