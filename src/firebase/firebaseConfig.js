@@ -1,12 +1,6 @@
 "use client";
 import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -22,39 +16,16 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-function isMobile() {
-  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-
 export const googleSignUp = async () => {
   try {
-    if (isMobile()) {
-      await signInWithRedirect(auth, provider);
-    } else {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const token = await user.getIdToken(true);
-      return { user, token, error: null };
-    }
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    const token = await user.getIdToken(true);
+    return { user, token, error: null };
   } catch (error) {
     console.error("signin failed:", error);
     return { user: null, token: null, error };
   }
-};
-
-// Automatically check for redirect result after returning from Google
-export const checkRedirectResult = async () => {
-  try {
-    const result = await getRedirectResult(auth);
-    if (result) {
-      const user = result.user;
-      const token = await user.getIdToken(true);
-      return { user, token, error: null };
-    }
-  } catch (error) {
-    console.error("redirect signin failed:", error);
-  }
-  return { user: null, token: null, error: null };
 };
 
 export { auth };
