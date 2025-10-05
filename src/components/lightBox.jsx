@@ -1,9 +1,9 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import { MdClose } from "react-icons/md";
 import { FaBolt, FaComment, FaShare } from "react-icons/fa";
-import { AiFillThunderbolt } from 'react-icons/ai';
+import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
@@ -25,6 +25,7 @@ export default function LightBox() {
   const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
 
@@ -57,6 +58,12 @@ export default function LightBox() {
         </button>
       )}
       <div
+        onScroll={(e) => {
+          const width = e.target.clientWidth;
+          const scrollLeft = e.target.scrollLeft;
+          const index = Math.round(scrollLeft / width);
+          setCurrentIndex(index);
+        }}
         onClick={(e) => {
           e.stopPropagation();
           setShowDetails((prev) => !prev);
@@ -87,6 +94,13 @@ export default function LightBox() {
           );
         })}
       </div>
+      {currentPost.length > 1 ? (
+        <div className="absolute top-5 left-4">
+          <p className="text-xs text-vibe">
+            {currentIndex + 1}/{currentPost.length}
+          </p>
+        </div>
+      ) : null}
       {showDetails && (
         <div className="absolute bg-[var(--color-secondary)]/50 w-full bottom-0 left-0">
           <div className="flex flex-col p-2">

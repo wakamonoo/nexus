@@ -97,7 +97,7 @@ export default function Hero() {
                 {post.files && post.files.length > 0 ? (
                   <div className="relative w-full h-[50vh]">
                     {post.files.length > 1 ? (
-                      <div className="absolute bottom-2 right-2">
+                      <div className="absolute top-2 left-4">
                         <p className="text-xs text-vibe">{currentIndex + 1}/{post.files.length}</p>
                       </div>
                     ) : null}
