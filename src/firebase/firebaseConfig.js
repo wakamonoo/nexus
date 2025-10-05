@@ -22,17 +22,14 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+function isMobile() {
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
 
 export const googleSignUp = async () => {
   try {
-    if (isMobile) {
+    if (isMobile()) {
       await signInWithRedirect(auth, provider);
-      const result = await getRedirectResult(auth);
-      if (!result) return;
-      const user = result.user;
-      const token = await user.getIdToken(true);
-      return { user, token, error: null };
     } else {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -43,6 +40,21 @@ export const googleSignUp = async () => {
     console.error("signin failed:", error);
     return { user: null, token: null, error };
   }
+};
+
+// Automatically check for redirect result after returning from Google
+export const checkRedirectResult = async () => {
+  try {
+    const result = await getRedirectResult(auth);
+    if (result) {
+      const user = result.user;
+      const token = await user.getIdToken(true);
+      return { user, token, error: null };
+    }
+  } catch (error) {
+    console.error("redirect signin failed:", error);
+  }
+  return { user: null, token: null, error: null };
 };
 
 export { auth };
