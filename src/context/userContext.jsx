@@ -16,20 +16,20 @@ export const UserProvider = ({ children }) => {
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
   const fetchUserData = async (uid) => {
     try {
       const res = await fetch(`${BASE_URL}/api/users/userGet/${uid}`);
       const data = await res.json();
-
       setUser(data.result);
       setIsLogged(true);
       setAdminBtn(
-        auth.currentUser.email === "joven.serdanbataller21@gmail.com"
+        auth.currentUser?.email === "joven.serdanbataller21@gmail.com"
       );
     } catch (err) {
-      console.error("error fetching user data:", err);
+      console.error("Error fetching user data:", err);
       setUser(null);
       setIsLogged(false);
       setAdminBtn(false);
@@ -37,32 +37,44 @@ export const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const handleAuth = async () => {
-      const redirectResult = await handleRedirectResult();
-      if (redirectResult?.user) {
-        await fetchUserData(redirectResult.user.uid);
+    let unsubscribe;
+
+    const initAuth = async () => {
+      setLoading(true);
+
+      try {
+        // First handle redirect results (for mobile)
+        const redirectResult = await handleRedirectResult();
+        if (redirectResult?.user) {
+          await fetchUserData(redirectResult.user.uid);
+          setLoading(false);
+          return;
+        }
+
+        // Then listen for normal auth changes
+        unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+          if (firebaseUser) {
+            await fetchUserData(firebaseUser.uid);
+          } else {
+            setUser(null);
+            setIsLogged(false);
+            setAdminBtn(false);
+          }
+
+          await delay(1000); // small delay for smooth loading
+          setLoading(false);
+        });
+      } catch (err) {
+        console.error("Auth init error:", err);
         setLoading(false);
-        return;
       }
     };
 
-    handleAuth();
+    initAuth();
 
-    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      setLoading(true);
-      if (firebaseUser) {
-        await fetchUserData(firebaseUser.uid);
-      } else {
-        setUser(null);
-        setIsLogged(false);
-        setAdminBtn(false);
-      }
-      await delay(2000);
-      setLoading(false);
-    });
-
+    // Proper cleanup
     return () => {
-      unsubscribe();
+      if (unsubscribe) unsubscribe();
     };
   }, []);
 
