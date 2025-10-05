@@ -90,7 +90,7 @@ export default function SignIn() {
           console.error(err);
           Swal.fire({
             title: "Error",
-            text: "Initernal error, kindly try again!",
+            text: `Initernal error: ${err}`,
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
