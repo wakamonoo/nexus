@@ -163,34 +163,36 @@ export default function SignIn() {
               </button>
             </>
           )}
-          {!isLogged ? (
-            <div className="flex flex-col gap-1 items-center justify-center mt-4">
-              <p className="text-xs text-vibe text-justify">
-                To make sign-in work properly, ensure{" "}
-                <span className="font-bold">pop-ups aren’t blocked</span>.
-              </p>
-              <Image
-                src={PopUp}
-                width={0}
-                height={0}
-                sizes="100vw"
-                alt="pop-up"
-                className="w-[80%] h-auto rounded-2xl"
-              />
-            </div>
-          ) : null}
-          <p className="text-xs text-center text-vibe">
-            By continuing, you agree to our{" "}
-            <a href="" className="text-blue-400">
-              Terms of Service
-            </a>{" "}
-            and
-            <a href="" className="text-blue-400">
-              {" "}
-              Privacy Policy
-            </a>
-            .
-          </p>
+          <div className="mt-4">
+            {!isLogged ? (
+              <div className="flex flex-col gap-1 items-center justify-center">
+                <p className="text-xs text-vibe text-center">
+                  To make sign-in work properly, ensure{" "}
+                  <span className="font-bold">pop-ups aren’t blocked</span>.
+                </p>
+                <Image
+                  src={PopUp}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  alt="pop-up"
+                  className="w-full h-auto rounded-2xl"
+                />
+              </div>
+            ) : null}
+            <p className="text-xs text-center text-vibe">
+              By continuing, you agree to our{" "}
+              <a href="" className="text-blue-400">
+                Terms of Service
+              </a>{" "}
+              and
+              <a href="" className="text-blue-400">
+                {" "}
+                Privacy Policy
+              </a>
+              .
+            </p>
+          </div>
         </div>
       </div>
     </div>
