@@ -44,7 +44,7 @@ export default function SignIn() {
       if (error) {
         Swal.fire({
           title: "Error",
-          text: "Login attempt failed, kindly try again!",
+          text: `Login attempt failed, kindly try again!${error.code}`,
           icon: "error",
           timer: 2000,
           showConfirmButton: false,
