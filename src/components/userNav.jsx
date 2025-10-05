@@ -7,6 +7,7 @@ import { MdLogin, MdLogout } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { BsFileEarmarkPostFill } from "react-icons/bs";
 import { GiNinjaHead } from "react-icons/gi";
+import Image from "next/image";
 
 export default function UserNav({ setShowUserNav }) {
   const router = useRouter();
@@ -29,8 +30,24 @@ export default function UserNav({ setShowUserNav }) {
           }}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <GiNinjaHead className="text-2xl" />
-          <p className="text-base font-bold text-normal">{user.name}</p>
+          {user ? (
+            <>
+              <Image
+                src={user.picture}
+                alt="user"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-6 h-auto object-cover rounded-full"
+              />
+              <p className="text-base font-bold text-normal">{user.name}</p>
+            </>
+          ) : (
+            <>
+              <GiNinjaHead className="text-2xl" />
+              <p className="text-base font-bold text-normal">Profile</p>
+            </>
+          )}
         </button>
         <button
           onClick={() => {
