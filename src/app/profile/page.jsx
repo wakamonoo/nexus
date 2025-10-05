@@ -66,8 +66,8 @@ export default function Profile() {
           />
           <h4 className="text-2xl">Profile</h4>
         </div>
-        <div className="flex gap-4 py-4">
-          <div className="w-32 h-36 relative">
+        <div className="flex w-full gap-2 py-4">
+          <div className="w-[30%] h-32 relative">
             <Image
               src={user.picture}
               alt="user"
@@ -78,7 +78,7 @@ export default function Profile() {
             />
             <LuImageUp className="absolute bottom-1 right-1 text-2xl" />
           </div>
-          <div>
+          <div className="w-[70%]">
             <div className="flex gap-1 items-center">
               <div className="flex justify-between gap-1">
                 <p className="font-bold text-base text-normal">{user.name}</p>
