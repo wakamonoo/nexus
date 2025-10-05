@@ -60,21 +60,20 @@ export default function SignIn() {
       }
       if (redirecting) {
         Swal.fire({
-          title: "Redirecting...",
-          text: "You’ll be redirected to Google Sign-In.",
+          title: "Redirecting",
+          text: "You'll be redirected to Google Sign-In",
           icon: "info",
-          timer: 1500,
+          timer: 2000,
           showConfirmButton: false,
           background: "var(--color-text)",
           color: "var(--color-bg)",
-          iconColor: "var(--color-accent)",
+          iconColor: "var(--color-hulk)",
           customClass: {
             popup: "rounded-2xl shadow-lg",
-            title: "text-lg font-bold !text-[var(--color-accent)]",
+            title: "text-lg font-bold !text-[var(--color-hulk)]",
             htmlContainer: "text-sm",
           },
         });
-        return; // Stop execution here – Firebase will redirect
       }
       if (user && token) {
         try {
