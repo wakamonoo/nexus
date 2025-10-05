@@ -6,6 +6,8 @@ const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
+import Swal from "sweetalert2";
+import { LoaderContext } from "./loaderContext";
 
 export const PostContext = createContext();
 
@@ -18,6 +20,7 @@ export const PostProvider = ({ children }) => {
   const [showDetails, setShowDetails] = useState(true);
   const [initialIndex, setInitialIndex] = useState(0);
   const [coldLoad, setColdLoad] = useState(true);
+  const { setIsLoading } = useContext(LoaderContext);
   const lightboxRef = useRef();
 
   const postFetch = async () => {
@@ -93,6 +96,51 @@ export const PostProvider = ({ children }) => {
     }
   };
 
+  const handlePostDelete = async (postId) => {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/api/posts/deletePost/${postId}`, {
+        method: "DELETE",
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Post deletion failed",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: true,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+      console.error(err);
+    } finally {
+      setLightboxOpen(false);
+      setIsLoading(false);
+      Swal.fire({
+        title: "Success",
+        text: "Post Deleted!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -109,6 +157,7 @@ export const PostProvider = ({ children }) => {
         setLightboxOpen,
         lightboxRef,
         coldLoad,
+        handlePostDelete,
       }}
     >
       {children}

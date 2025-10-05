@@ -6,6 +6,7 @@ import {
   FaMehBlank,
   FaRegFileAlt,
   FaShare,
+  FaTrash,
   FaUserAlt,
   FaUserSlash,
 } from "react-icons/fa";
@@ -19,6 +20,7 @@ import { UserContext } from "@/context/userContext";
 import Loader from "@/components/loader";
 import HeroLoader from "@/components/heroLoader";
 import { LoaderContext } from "@/context/loaderContext";
+import DelConfirm from "@/components/delConfirmation";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -32,6 +34,8 @@ export default function Hero() {
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [delModal, setDelModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
   const router = useRouter();
 
   const handlePostNavMain = (id) => {
@@ -41,6 +45,9 @@ export default function Hero() {
 
   return (
     <>
+      {delModal && (
+        <DelConfirm setDelModal={setDelModal} postId={selectedPost} />
+      )}
       <div className="bg-brand w-full pt-16">
         <div>
           <Banner />
@@ -61,8 +68,22 @@ export default function Hero() {
               <div
                 key={index}
                 onClick={() => handlePostNavMain(post.postId)}
-                className="w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
+                className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
               >
+                {user?.uid === post.userId ? (
+                  <div className="absolute top-4 right-4">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDelModal(true);
+                        setSelectedPost(post.postId);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                ) : null}
                 <div className="flex gap-3 px-4 items-center py-2">
                   <Image
                     src={post.userImage}
@@ -98,7 +119,9 @@ export default function Hero() {
                   <div className="relative w-full h-[50vh]">
                     {post.files.length > 1 ? (
                       <div className="absolute top-2 left-4">
-                        <p className="text-xs text-vibe">{currentIndex + 1}/{post.files.length}</p>
+                        <p className="text-xs text-vibe">
+                          {currentIndex + 1}/{post.files.length}
+                        </p>
                       </div>
                     ) : null}
                     <div
