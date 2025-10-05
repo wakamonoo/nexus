@@ -74,7 +74,7 @@ export default function SignIn() {
           await fetchUserData(user.uid);
           Swal.fire({
             title: "Success",
-            text: "User login complete!",
+            text: `Welcome, ${user.displayName}`,
             icon: "success",
             timer: 2000,
             showConfirmButton: false,
