@@ -1,8 +1,7 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
-import { auth, handleRedirectResult } from "@/firebase/firebaseConfig";
+import { auth } from "@/firebase/firebaseConfig";
 import SignIn from "@/components/signIn";
-import Swal from "sweetalert2";
 
 export const UserContext = createContext();
 
@@ -38,80 +37,6 @@ export const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const handleAuth = async () => {
-      // Handle redirect result for mobile users
-      const redirectResult = await handleRedirectResult();
-      if (redirectResult?.user && redirectResult?.token) {
-        try {
-          // Complete the backend signup
-          await fetch(`${BASE_URL}/api/users/signup`, {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify({
-              token: redirectResult.token,
-            }),
-          });
-          
-          await fetchUserData(redirectResult.user.uid);
-          
-          Swal.fire({
-            title: "Success",
-            text: "User login complete!",
-            icon: "success",
-            timer: 2000,
-            showConfirmButton: false,
-            background: "var(--color-text)",
-            color: "var(--color-bg)",
-            iconColor: "var(--color-hulk)",
-            customClass: {
-              popup: "rounded-2xl shadow-lg",
-              title: "text-lg font-bold !text-[var(--color-hulk)]",
-              htmlContainer: "text-sm",
-            },
-          });
-        } catch (err) {
-          console.error("Backend signup error:", err);
-          Swal.fire({
-            title: "Error",
-            text: "Internal error, kindly try again!",
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-            background: "var(--color-text)",
-            color: "var(--color-bg)",
-            iconColor: "var(--color-accent)",
-            customClass: {
-              popup: "rounded-2xl shadow-lg",
-              title: "text-lg font-bold !text-[var(--color-accent)]",
-              htmlContainer: "text-sm",
-            },
-          });
-        }
-        setLoading(false);
-        return;
-      } else if (redirectResult?.error) {
-        Swal.fire({
-          title: "Error",
-          text: "Login attempt failed, kindly try again!",
-          icon: "error",
-          timer: 2000,
-          showConfirmButton: false,
-          background: "var(--color-text)",
-          color: "var(--color-bg)",
-          iconColor: "var(--color-accent)",
-          customClass: {
-            popup: "rounded-2xl shadow-lg",
-            title: "text-lg font-bold !text-[var(--color-accent)]",
-            htmlContainer: "text-sm",
-          },
-        });
-      }
-    };
-
-    handleAuth();
-
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       setLoading(true);
       if (firebaseUser) {

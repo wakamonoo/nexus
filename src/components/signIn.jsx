@@ -40,7 +40,7 @@ export default function SignIn() {
       });
       setShowSignIn(false);
     } else {
-      const { user, token, error, redirecting } = await googleSignUp();
+      const { user, token, error } = await googleSignUp();
       if (error) {
         Swal.fire({
           title: "Error",
@@ -54,23 +54,6 @@ export default function SignIn() {
           customClass: {
             popup: "rounded-2xl shadow-lg",
             title: "text-lg font-bold !text-[var(--color-accent)]",
-            htmlContainer: "text-sm",
-          },
-        });
-      }
-      if (redirecting) {
-        Swal.fire({
-          title: "Redirecting",
-          text: "You'll be redirected to Google Sign-In",
-          icon: "info",
-          timer: 2000,
-          showConfirmButton: false,
-          background: "var(--color-text)",
-          color: "var(--color-bg)",
-          iconColor: "var(--color-hulk)",
-          customClass: {
-            popup: "rounded-2xl shadow-lg",
-            title: "text-lg font-bold !text-[var(--color-hulk)]",
             htmlContainer: "text-sm",
           },
         });
