@@ -1,9 +1,8 @@
 "use client";
 import { MdAdminPanelSettings, MdClose, MdLogout } from "react-icons/md";
-import { googleSignUp } from "@/firebase/firebaseConfig";
-import { auth } from "@/firebase/firebaseConfig";
+import { googleSignUp, handleRedirectResult, auth } from "@/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
@@ -19,6 +18,42 @@ export default function SignIn() {
   const { isLogged, adminBtn, fetchUserData, setShowSignIn } =
     useContext(UserContext);
   const router = useRouter();
+
+  // Handle redirect result on page load
+  useEffect(() => {
+    handleRedirectResult().then(async (res) => {
+      if (res.user && res.token) {
+        try {
+          await fetch(`${BASE_URL}/api/users/signup`, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify({ token: res.token }),
+          });
+          await fetchUserData(res.user.uid);
+          setShowSignIn(false);
+          Swal.fire({
+            title: "Success",
+            text: "User login complete!",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+            background: "var(--color-text)",
+            color: "var(--color-bg)",
+            iconColor: "var(--color-hulk)",
+            customClass: {
+              popup: "rounded-2xl shadow-lg",
+              title: "text-lg font-bold !text-[var(--color-hulk)]",
+              htmlContainer: "text-sm",
+            },
+          });
+        } catch (err) {
+          console.error("redirect signup failed:", err);
+        }
+      }
+    });
+  }, []);
 
   const handleSignIn = async () => {
     if (isLogged) {
@@ -40,14 +75,16 @@ export default function SignIn() {
       });
       setShowSignIn(false);
     } else {
-      const { user, token, error } = await googleSignUp();
+      const { user, token, error, redirecting } = await googleSignUp();
+      if (redirecting) return; // stop here, redirect flow in progress
+
       if (error) {
         Swal.fire({
           title: "Error",
-          text: `Login attempt failed, kindly try again!${error.code}`,
+          text: `Login attempt failed, kindly try again! ${error.code}`,
           icon: "error",
           timer: 2000,
-          showConfirmButton: false,
+          showConfirmButton: true,
           background: "var(--color-text)",
           color: "var(--color-bg)",
           iconColor: "var(--color-accent)",
@@ -58,16 +95,13 @@ export default function SignIn() {
           },
         });
       }
+
       if (user && token) {
         try {
           await fetch(`${BASE_URL}/api/users/signup`, {
             method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
-            body: JSON.stringify({
-              token,
-            }),
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({ token }),
           });
           setShowSignIn(false);
           await fetchUserData(user.uid);
@@ -88,21 +122,6 @@ export default function SignIn() {
           });
         } catch (err) {
           console.error(err);
-          Swal.fire({
-            title: "Error",
-            text: `Initernal error: ${err}`,
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-            background: "var(--color-text)",
-            color: "var(--color-bg)",
-            iconColor: "var(--color-accent)",
-            customClass: {
-              popup: "rounded-2xl shadow-lg",
-              title: "text-lg font-bold !text-[var(--color-accent)]",
-              htmlContainer: "text-sm",
-            },
-          });
         }
       }
     }
