@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import Logo from "@/assets/main_logo.png";
+import PopUp from "@/assets/pop-up.png";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -44,7 +45,7 @@ export default function SignIn() {
       if (error) {
         Swal.fire({
           title: "Error",
-          text: `Failed: ${error.code} kindly try again!`,
+          text: `Failed: ${error.code}`,
           icon: "error",
           timer: 2000,
           showConfirmButton: true,
@@ -65,7 +66,9 @@ export default function SignIn() {
             headers: {
               "Content-type": "application/json",
             },
-            body: JSON.stringify({ token }),
+            body: JSON.stringify({
+              token,
+            }),
           });
           setShowSignIn(false);
           await fetchUserData(user.uid);
@@ -88,7 +91,7 @@ export default function SignIn() {
           console.error(err);
           Swal.fire({
             title: "Error",
-            text: `Failed: ${err.code || "unknown error"} kindly try again!`,
+            text: `Failed: ${err.code}`,
             icon: "error",
             timer: 2000,
             showConfirmButton: true,
@@ -160,7 +163,23 @@ export default function SignIn() {
               </button>
             </>
           )}
-          <p className="text-xs text-center text-vibe mt-8">
+          {!isLogged ? (
+            <div className="flex flex-col gap-1 items-center justify-center mt-4">
+              <p className="text-xs text-vibe text-justify">
+                To make sign-in work properly, ensure{" "}
+                <span className="font-bold">pop-ups aren’t blocked</span>.
+              </p>
+              <Image
+                src={PopUp}
+                width={0}
+                height={0}
+                sizes="100vw"
+                alt="pop-up"
+                className="w-[80%] h-auto rounded-2xl"
+              />
+            </div>
+          ) : null}
+          <p className="text-xs text-center text-vibe">
             By continuing, you agree to our{" "}
             <a href="" className="text-blue-400">
               Terms of Service
