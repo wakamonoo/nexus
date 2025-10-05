@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
-import { auth, handleRedirectLogin } from "@/firebase/firebaseConfig";
+import { auth } from "@/firebase/firebaseConfig";
 import SignIn from "@/components/signIn";
 
 export const UserContext = createContext();
@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
       setUser(data.result);
       setIsLogged(true);
       setAdminBtn(
-        auth.currentUser?.email === "joven.serdanbataller21@gmail.com"
+        auth.currentUser.email === "joven.serdanbataller21@gmail.com"
       );
     } catch (err) {
       console.error("error fetching user data:", err);
@@ -36,7 +36,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // ✅ Handle Firebase Auth state changes
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       setLoading(true);
@@ -47,31 +46,13 @@ export const UserProvider = ({ children }) => {
         setIsLogged(false);
         setAdminBtn(false);
       }
-      await delay(1500);
+      await delay(2000);
       setLoading(false);
     });
-    return unsubscribe;
-  }, []);
 
-  // ✅ Handle Redirect Login (mobile)
-  useEffect(() => {
-    const checkRedirectLogin = async () => {
-      const { user, token, error } = await handleRedirectLogin();
-      if (user && token) {
-        console.log("Handling redirect login...");
-        try {
-          await fetch(`${BASE_URL}/api/users/signup`, {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify({ token }),
-          });
-          await fetchUserData(user.uid);
-        } catch (err) {
-          console.error("redirect signup error:", err);
-        }
-      }
+    return () => {
+      unsubscribe();
     };
-    checkRedirectLogin();
   }, []);
 
   return (
