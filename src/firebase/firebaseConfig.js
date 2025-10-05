@@ -24,7 +24,7 @@ export const googleSignUp = async () => {
     return { user, token, error: null };
   } catch (error) {
     console.error("signin failed:", error);
-    alert(error);
+    alert(`Redirect login failed:\n${error.code}\n${error.message}`);
     return { user: null, token: null, error };
   }
 };
