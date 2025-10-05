@@ -12,9 +12,9 @@ import {
 // ✅ Firebase Configuration
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, // nexus-616.firebaseapp.com
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, // e.g. nexus-616.firebaseapp.com
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET, // nexus-616.appspot.com
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET, // e.g. nexus-616.appspot.com
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
@@ -31,29 +31,38 @@ const isMobile =
   typeof window !== "undefined" &&
   /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
-// ✅ Sign-in function (popup for desktop, redirect for mobile)
+// ✅ Trigger Google Sign-In
 export const googleSignUp = async () => {
   try {
     if (isMobile) {
-      console.log("Mobile device detected — using redirect flow");
+      console.log("📱 Mobile device detected — using redirect flow");
       await signInWithRedirect(auth, provider);
-      const result = await getRedirectResult(auth);
-      if (result) {
-        const user = result.user;
-        const token = await user.getIdToken(true);
-        return { user, token, error: null };
-      } else {
-        return { user: null, token: null, error: null };
-      }
+      // ⛔️ No return — user leaves the page
     } else {
-      console.log("Desktop detected — using popup flow");
+      console.log("💻 Desktop detected — using popup flow");
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       const token = await user.getIdToken(true);
       return { user, token, error: null };
     }
   } catch (error) {
-    console.error("Google sign-in failed:", error);
+    console.error("❌ Google sign-in failed:", error);
+    return { user: null, token: null, error };
+  }
+};
+
+// ✅ Handle Redirect Result (MUST run on page load)
+export const handleRedirectLogin = async () => {
+  try {
+    const result = await getRedirectResult(auth);
+    if (!result) return { user: null, token: null, error: null };
+
+    const user = result.user;
+    const token = await user.getIdToken(true);
+    console.log("✅ Redirect login successful:", user.email);
+    return { user, token, error: null };
+  } catch (error) {
+    console.error("❌ Redirect login failed:", error);
     return { user: null, token: null, error };
   }
 };
