@@ -106,7 +106,7 @@ export default function Rank() {
 
         return {
           titleId: item.titleId,
-          title: item.name,
+          title: item.title,
           poster: item.image,
           rank: slotNumber,
           points,

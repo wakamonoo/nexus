@@ -8,6 +8,7 @@ const BASE_URL =
     : "http://localhost:4000";
 import Swal from "sweetalert2";
 import { LoaderContext } from "./loaderContext";
+import DelConfirm from "@/components/delConfirmation";
 
 export const PostContext = createContext();
 
@@ -21,6 +22,8 @@ export const PostProvider = ({ children }) => {
   const [initialIndex, setInitialIndex] = useState(0);
   const [coldLoad, setColdLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
+  const [delModal, setDelModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
   const lightboxRef = useRef();
 
   const postFetch = async () => {
@@ -158,10 +161,15 @@ export const PostProvider = ({ children }) => {
         lightboxRef,
         coldLoad,
         handlePostDelete,
+        setDelModal,
+        selectedPost,
+        setSelectedPost,
+        setDelModal,
       }}
     >
       {children}
       {lightboxOpen && <LightBox />}
+      {delModal && <DelConfirm postId={selectedPost} />}
     </PostContext.Provider>
   );
 };

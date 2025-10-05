@@ -3,8 +3,8 @@ import { PostContext } from "@/context/postContext";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
 
-export default function DelConfirm({ setDelModal, postId }) {
-  const { handlePostDelete } = useContext(PostContext);
+export default function DelConfirm({ postId }) {
+  const { handlePostDelete, setDelModal } = useContext(PostContext);
 
   return (
     <div

@@ -22,12 +22,21 @@ export default function UserNav({ setShowUserNav }) {
         onClick={(e) => e.stopPropagation()}
         className="flex flex-col gap-4 p-4 absolute top-18 right-2 bg-accent w-[65%] h-fit rounded overflow-hidden"
       >
-        <button className="flex items-center gap-2 cursor-pointer">
+        <button
+          onClick={() => {
+            setIsLoading(true);
+            router.push("/profile");
+          }}
+          className="flex items-center gap-2 cursor-pointer"
+        >
           <GiNinjaHead className="text-2xl" />
-          <p className="text-base font-bold text-normal">Account</p>
+          <p className="text-base font-bold text-normal">{user.name}</p>
         </button>
         <button
-          onClick={() => router.push("/postings")}
+          onClick={() => {
+            setIsLoading(true);
+            router.push("/postings");
+          }}
           className="flex items-center gap-2 cursor-pointer"
         >
           <BsFileEarmarkPostFill className="text-2xl" />
