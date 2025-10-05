@@ -1,7 +1,8 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
-import { auth } from "@/firebase/firebaseConfig";
+import { auth, getRedirectResult } from "@/firebase/firebaseConfig";
 import SignIn from "@/components/signIn";
+import Swal from "sweetalert2";
 
 export const UserContext = createContext();
 
@@ -25,9 +26,7 @@ export const UserProvider = ({ children }) => {
 
       setUser(data.result);
       setIsLogged(true);
-      setAdminBtn(
-        auth.currentUser.email === "joven.serdanbataller21@gmail.com"
-      );
+      setAdminBtn(auth.currentUser?.email === "joven.serdanbataller21@gmail.com");
     } catch (err) {
       console.error("error fetching user data:", err);
       setUser(null);
@@ -37,6 +36,61 @@ export const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const handleRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result?.user) {
+          const user = result.user;
+          const token = await user.getIdToken(true);
+
+          await fetch(`${BASE_URL}/api/users/signup`, {
+            method: "POST",
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({ token }),
+          });
+
+          await fetchUserData(user.uid);
+
+          Swal.fire({
+            title: "Success",
+            text: "User login complete!",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false,
+            background: "var(--color-text)",
+            color: "var(--color-bg)",
+            iconColor: "var(--color-hulk)",
+            customClass: {
+              popup: "rounded-2xl shadow-lg",
+              title: "text-lg font-bold !text-[var(--color-hulk)]",
+              htmlContainer: "text-sm",
+            },
+          });
+        }
+      } catch (error) {
+        if (error?.code !== "auth/no-auth-event") {
+          console.error("Redirect login failed:", error);
+          Swal.fire({
+            title: "Error",
+            text: `Failed: ${error.code} kindly try again!`,
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: true,
+            background: "var(--color-text)",
+            color: "var(--color-bg)",
+            iconColor: "var(--color-accent)",
+            customClass: {
+              popup: "rounded-2xl shadow-lg",
+              title: "text-lg font-bold !text-[var(--color-accent)]",
+              htmlContainer: "text-sm",
+            },
+          });
+        }
+      }
+    };
+
+    handleRedirectResult();
+
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       setLoading(true);
       if (firebaseUser) {
@@ -50,9 +104,7 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe();
   }, []);
 
   return (

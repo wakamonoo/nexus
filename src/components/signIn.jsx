@@ -65,9 +65,7 @@ export default function SignIn() {
             headers: {
               "Content-type": "application/json",
             },
-            body: JSON.stringify({
-              token,
-            }),
+            body: JSON.stringify({ token }),
           });
           setShowSignIn(false);
           await fetchUserData(user.uid);
@@ -90,7 +88,7 @@ export default function SignIn() {
           console.error(err);
           Swal.fire({
             title: "Error",
-            text: `Failed: ${error.code} kindly try again!`,
+            text: `Failed: ${err.code || "unknown error"} kindly try again!`,
             icon: "error",
             timer: 2000,
             showConfirmButton: true,

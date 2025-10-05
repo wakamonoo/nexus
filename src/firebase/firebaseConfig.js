@@ -3,6 +3,8 @@ import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
 } from "firebase/auth";
 
@@ -20,18 +22,25 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
 export const googleSignUp = async () => {
   try {
+    if (isMobile) {
+      // Mobile: use redirect
+      await signInWithRedirect(auth, provider);
+      return { user: null, token: null, error: null };
+    } else {
+      // Desktop: use popup
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       const token = await user.getIdToken(true);
       return { user, token, error: null };
-
+    }
   } catch (error) {
     console.error("signin failed:", error);
     return { user: null, token: null, error };
   }
 };
 
-export { auth };
+export { auth, getRedirectResult };
