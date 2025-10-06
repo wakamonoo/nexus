@@ -9,7 +9,7 @@ export const WatchContext = createContext();
 
 export const WatchProvider = ({ children }) => {
   const [watchInfo, setWatchInfo] = useState([]);
-  
+
   const watchFetch = async (userId, titleId) => {
     try {
       const res = await fetch(
