@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa";
 import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import DelConfirm from "@/components/delConfirmation";
 import { LuImageUp } from "react-icons/lu";
 import { TitleContext } from "@/context/titleContext";
@@ -22,8 +22,9 @@ import { GiTrophy } from "react-icons/gi";
 import { WatchContext } from "@/context/watchContext";
 import { TitleNavContext } from "@/context/titlesNavContex";
 
-export default function Profile() {
-  const { user } = useContext(UserContext);
+export default function UserProfile() {
+  const { userId } = useParams();
+  const { allUsers, user } = useContext(UserContext);
   const { posts, handleLike, handleFileClick } = useContext(PostContext);
   const { titles } = useContext(TitleContext);
   const [showFull, setShowFull] = useState(false);
@@ -35,32 +36,35 @@ export default function Profile() {
   const { handleShowNav } = useContext(TitleNavContext);
   const router = useRouter();
 
+  const profileUser = allUsers.find((u) => u.uid === userId);
+
   useEffect(() => {
     setIsLoading(false);
-    if (user?.uid) {
-      watchedInfoFetch(user.uid);
+    if (profileUser?.uid) {
+      watchedInfoFetch(profileUser.uid);
     }
-  }, [user]);
+  }, [profileUser]);
 
   const handlePostNavMain = (id) => {
     router.push(`/post/${id}`);
     setIsLoading(true);
   };
 
-  const isLoading = !user || !posts;
+  const isLoading = !profileUser || !posts;
 
   if (isLoading) {
     return <Loader />;
   }
 
-  const topRanks = user.rankings
-    ? [...user.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
+  const topRanks = profileUser.rankings
+    ? [...profileUser.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
     : [];
   const showNum = titles.length;
-  const userPosts = posts.filter((p) => p.userId === user?.uid);
+  const profileUserPosts = posts.filter((p) => p.userId === profileUser?.uid);
 
-  const userWatch = watchInfo?.filter((w) => w.userId === user?.uid) || [];
-  const latestWatch = [...userWatch]
+  const profileUserWatch =
+    watchInfo?.filter((w) => w.userId === profileUser?.uid) || [];
+  const latestWatch = [...profileUserWatch]
     .sort((a, b) => {
       const aDate = new Date(a.updatedAt || a.createdAt);
       const bDate = new Date(b.updatedAt || b.createdAt);
@@ -84,30 +88,42 @@ export default function Profile() {
         <div className="flex items-center w-full gap-2 py-4">
           <div className="w-16 h-16 relative">
             <Image
-              src={user.picture}
+              src={profileUser.picture}
               alt="user"
               width={0}
               height={0}
               sizes="100vw"
               className="w-full h-full object-cover rounded-full"
             />
-            <LuImageUp className="absolute bottom-1 right-1 text-2xl" />
+            <LuImageUp
+              className={`absolute cursor-pointer bottom-1 right-1 text-2xl ${
+                user?.uid === profileUser.uid ? "flex" : "hidden"
+              }`}
+            />
           </div>
           <div className="flex flex-col justify-center items-start">
             <div className="flex justify-between gap-1">
-              <p className="font-bold text-base text-normal">{user.name}</p>
-              <FaPen className="text-xs text-vibe opacity-70" />
+              <p className="font-bold text-base text-normal">
+                {profileUser.name}
+              </p>
+              <FaPen
+                className={`text-xs cursor-pointer text-vibe opacity-70 ${
+                  user?.uid === profileUser.uid ? "flex" : "hidden"
+                }`}
+              />
             </div>
             <p className="text-xs text-vibe">
-              {user.totalWatched ? user.totalWatched : 0}/<span>{showNum}</span>{" "}
-              watched
+              {profileUser.totalWatched ? profileUser.totalWatched : 0}/
+              <span>{showNum}</span> watched
             </p>
           </div>
         </div>
 
-        {user.rankings ? (
+        {profileUser.rankings ? (
           <div className="w-full h-full p-2">
-            <h4 className="font-bold text-base">Your holy trinity</h4>
+            <h4 className="font-bold text-base">
+              {profileUser.name.split(" ")[0]}'s holy trinity
+            </h4>
             <div className="flex gap-2 justify-center">
               {topRanks.map((rank, index) => (
                 <div
@@ -117,7 +133,7 @@ export default function Profile() {
                 >
                   <Image
                     src={rank?.poster}
-                    alt="user"
+                    alt="profileUser"
                     width={0}
                     height={0}
                     sizes="100vw"
@@ -145,7 +161,9 @@ export default function Profile() {
         )}
         {latestWatch.length > 0 ? (
           <div className="w-full h-full p-2">
-            <h4 className="font-bold text-base">Your latest watch</h4>
+            <h4 className="font-bold text-base">
+              {profileUser.name.split(" ")[0]}'s latest watch
+            </h4>
             <div className="flex gap-2 justify-center">
               {latestWatch.map((item, index) => (
                 <div
@@ -155,7 +173,7 @@ export default function Profile() {
                 >
                   <Image
                     src={item?.poster}
-                    alt="user"
+                    alt="profileUser"
                     width={0}
                     height={0}
                     sizes="100vw"
@@ -169,7 +187,7 @@ export default function Profile() {
           <div>no watched</div>
         )}
 
-        {userPosts.length === 0 ? (
+        {profileUserPosts.length === 0 ? (
           <div className="mt-16">
             <div className="flex flex-col items-center justify-center">
               <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
@@ -180,7 +198,7 @@ export default function Profile() {
           </div>
         ) : (
           <div className="flex flex-col gap-1 py-4">
-            {userPosts.map((post, index) => (
+            {profileUserPosts.map((post, index) => (
               <div
                 key={index}
                 onClick={() => handlePostNavMain(post.postId)}
@@ -193,7 +211,9 @@ export default function Profile() {
                       setDelModal(true);
                       setSelectedPost(post.postId);
                     }}
-                    className="cursor-pointer"
+                    className={`cursor-pointer ${
+                      user?.uid === post.userId ? "flex" : "hidden"
+                    }`}
                   >
                     <FaTrash />
                   </button>
@@ -201,7 +221,7 @@ export default function Profile() {
                 <div className="flex gap-3 px-4 items-center py-2">
                   <Image
                     src={post.userImage}
-                    alt="user"
+                    alt="profileUser"
                     width={0}
                     height={0}
                     sizes="100vw"
@@ -294,7 +314,7 @@ export default function Profile() {
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (user) {
+                      if (profileUser) {
                         handleLike(post);
                       } else {
                         setShowSignIn(true);
@@ -304,7 +324,7 @@ export default function Profile() {
                   >
                     <AiFillThunderbolt
                       className={`text-2xl ${
-                        post.energized?.includes(user?.uid)
+                        post.energized?.includes(profileUser?.uid)
                           ? "text-zeus"
                           : "text-normal"
                       }`}

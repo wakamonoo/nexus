@@ -18,4 +18,18 @@ router.get("/userGet/:uid", async (req, res) => {
   }
 });
 
+router.get("/allUsersGet", async (req, res) => {
+  try {
+    const client = await clientPromise;
+    const db = client.db("nexus");
+
+    const result = await db.collection("users").find({}).toArray();
+
+    res.status(200).json({ result });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "failed to fetch user" });
+  }
+});
+
 export default router;

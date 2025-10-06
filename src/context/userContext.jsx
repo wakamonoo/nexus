@@ -16,6 +16,7 @@ export const UserProvider = ({ children }) => {
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [allUsers, setAllUsers] = useState([]);
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
   const fetchUserData = async (uid) => {
@@ -55,6 +56,25 @@ export const UserProvider = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const fethAllUsers = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/users/allUsersGet`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "appplication/type",
+          },
+        });
+        const data = await res.json();
+        setAllUsers(data.result);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fethAllUsers();
+  }, []);
+
   return (
     <UserContext.Provider
       value={{
@@ -65,6 +85,7 @@ export const UserProvider = ({ children }) => {
         fetchUserData,
         setShowSignIn,
         showSignIn,
+        allUsers,
       }}
     >
       {children}
