@@ -54,11 +54,34 @@ export default function LightBox() {
 
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
-      {showDetails && (
-        <button className="absolute cursor-pointer z-[120] top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110">
-          <MdClose onClick={() => setLightboxOpen(false)} />
-        </button>
-      )}
+      <div className="z-50">
+        {currentPost.length > 1 ? (
+          <div className="absolute top-5 left-1/2">
+            <p className="text-xs text-vibe">
+              {currentIndex + 1}/{currentPost.length}
+            </p>
+          </div>
+        ) : null}
+        {showDetails && (
+          <button className="absolute cursor-pointer top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110">
+            <MdClose onClick={() => setLightboxOpen(false)} />
+          </button>
+        )}
+        {post && user?.uid === post.userId && showDetails ? (
+          <div className="absolute top-4.5 left-4">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setDelModal(true);
+                setSelectedPost(post.postId);
+              }}
+              className="cursor-pointer"
+            >
+              <FaTrash />
+            </button>
+          </div>
+        ) : null}
+      </div>
       <div
         onScroll={(e) => {
           const width = e.target.clientWidth;
@@ -73,20 +96,6 @@ export default function LightBox() {
         ref={lightboxRef}
         className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-[100%] h-[100%] scrollbar-hide"
       >
-        {post && user?.uid === post.userId && showDetails ? (
-          <div className="absolute top-4.5 right-12 z-[100]">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setDelModal(true);
-                setSelectedPost(post.postId);
-              }}
-              className="cursor-pointer"
-            >
-              <FaTrash />
-            </button>
-          </div>
-        ) : null}
         {currentPost.map((file, index) => {
           const ext = file.split(".").pop().toLowerCase();
 
@@ -110,13 +119,7 @@ export default function LightBox() {
           );
         })}
       </div>
-      {currentPost.length > 1 ? (
-        <div className="absolute top-5 left-4">
-          <p className="text-xs text-vibe">
-            {currentIndex + 1}/{currentPost.length}
-          </p>
-        </div>
-      ) : null}
+
       {showDetails && (
         <div className="absolute bg-[var(--color-secondary)]/50 w-full bottom-0 left-0">
           <div className="flex flex-col p-2">
