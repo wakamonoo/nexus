@@ -20,6 +20,8 @@ import commentRoute from "./routes/commentRoute.js";
 import reviewRoute from "./routes/reviewRoute.js";
 import reactRoute from "./routes/reactRoute.js";
 import rankingRoute from "./routes/rankingRoute.js";
+import watchRoute from "./routes/watchedRoute.js";
+import watchGet from "./routes/watchedGet.js";
 
 dotenv.config();
 
@@ -61,6 +63,8 @@ app.use("/api/comments", commentRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/reacts", reactRoute);
 app.use("/api/rankings", rankingRoute);
+app.use("/api/watched", watchRoute);
+app.use("/api/watched", watchGet);
 
 io.on("connection", (socket) => {
   console.log("a user is connected");

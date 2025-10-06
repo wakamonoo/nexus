@@ -10,6 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import Logo from "@/assets/main_logo.png";
 import PopUp from "@/assets/pop-up.png";
+import { LoaderContext } from "@/context/loaderContext";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -45,10 +46,10 @@ export default function SignIn() {
       if (error) {
         Swal.fire({
           title: "Error",
-          text: `Failed: ${error.code}`,
+          text: "Sign-in Failed, please refresh and try again!",
           icon: "error",
           timer: 2000,
-          showConfirmButton: true,
+          showConfirmButton: false,
           background: "var(--color-text)",
           color: "var(--color-bg)",
           iconColor: "var(--color-accent)",
@@ -91,10 +92,10 @@ export default function SignIn() {
           console.error(err);
           Swal.fire({
             title: "Error",
-            text: `Failed: ${err.code}`,
+            text: "Sign-in Failed, please refresh and try again!",
             icon: "error",
             timer: 2000,
-            showConfirmButton: true,
+            showConfirmButton: false,
             background: "var(--color-text)",
             color: "var(--color-bg)",
             iconColor: "var(--color-accent)",

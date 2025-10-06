@@ -18,6 +18,7 @@ import {
   FaRegComments,
   FaUser,
 } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiCheckCircle, FiMessageSquare } from "react-icons/fi";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -26,6 +27,8 @@ import ShowLoader from "@/components/showLoader";
 import AddReview from "@/components/addReview";
 import { UserContext } from "@/context/userContext";
 import { MdOutlineReviews, MdRateReview } from "react-icons/md";
+import TitleMenu from "@/components/titleMenu";
+import { WatchContext } from "@/context/watchContext";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -35,6 +38,7 @@ export default function Title() {
   const [showSum, setShowSum] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [showAddReview, setShowAddReview] = useState(false);
+  const [showTitleMenu, setShowTitleMenu] = useState(false);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -74,16 +78,24 @@ export default function Title() {
 
   return (
     <>
+      {showTitleMenu && (
+        <TitleMenu
+          setShowTitleMenu={setShowTitleMenu}
+          title={title.title}
+          titleId={title.titleId}
+          poster={title.image}
+        />
+      )}
       <div className="p-4 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]">
         <div className="flex justify-between py-4">
           <FaAngleLeft
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <p className="text-sm text-vibe">
-            Chronological Order:{" "}
-            <span className="font-bold capitalize">{title.order}</span>
-          </p>
+          <BsThreeDotsVertical
+            onClick={() => setShowTitleMenu(true)}
+            className="text-2xl cursor-pointer"
+          />
         </div>
         <div className="flex justify-between w-full">
           <div className="w-[50%]">
@@ -109,7 +121,7 @@ export default function Title() {
                   {title.director}
                 </span>
               </p>
-              <p className="text-sm text-vibe">
+              <p className="text-sm text-vibe mt-2">
                 Release{" "}
                 <span className="font-bold text-base capitalize">
                   {format(new Date(title.date), "yyyy")}
@@ -120,6 +132,18 @@ export default function Title() {
                 <span className="font-bold text-base capitalize">
                   {title.timeline}
                 </span>
+              </p>
+              <p className="text-sm text-vibe">
+                Chronological{" "}
+                <span className="font-bold text-base capitalize">
+                  {title.order}
+                </span>
+              </p>
+              <p className="text-sm text-vibe">
+                <span className="font-bold text-base capitalize">
+                  {title.watchCount ? title.watchCount : 0}
+                </span>{" "}
+                have watched
               </p>
             </div>
           </div>
