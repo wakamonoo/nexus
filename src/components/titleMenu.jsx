@@ -16,7 +16,7 @@ export default function TitleMenu({
   poster,
 }) {
   const { user } = useContext(UserContext);
-  const { watchFetch, watchInfo } = useContext(WatchContext);
+  const { isWatchedFetch, isWatched } = useContext(WatchContext);
   const { setIsLoading } = useContext(LoaderContext);
 
   const handleWatch = async () => {
@@ -35,7 +35,7 @@ export default function TitleMenu({
           poster,
         }),
       });
-      await watchFetch(user.uid, titleId);
+      await isWatchedFetch(user.uid, titleId);
     } catch (err) {
       console.error(err);
     } finally {
@@ -44,7 +44,7 @@ export default function TitleMenu({
   };
 
   useEffect(() => {
-    if (user?.uid && titleId) watchFetch();
+    if (user?.uid && titleId) isWatchedFetch(user.uid, titleId);
   }, [user?.uid, titleId]);
 
   return (
@@ -60,7 +60,7 @@ export default function TitleMenu({
           onClick={handleWatch}
           className="flex items-center gap-2 cursor-pointer"
         >
-          {watchInfo?.watched === true ? (
+          {isWatched === true ? (
             <>
               <FaEyeSlash className="text-2xl" />
               <p className="text-base font-bold text-normal">
