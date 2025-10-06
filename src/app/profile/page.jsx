@@ -7,6 +7,7 @@ import { AiFillThunderbolt } from "react-icons/ai";
 import {
   FaAngleLeft,
   FaComment,
+  FaCrown,
   FaPen,
   FaRegFileAlt,
   FaShare,
@@ -91,12 +92,12 @@ export default function Profile() {
               sizes="100vw"
               className="w-full h-full object-cover rounded-full"
             />
-            <LuImageUp className="absolute bottom-1 right-1 text-2xl" />
+            <LuImageUp className="cursor-pointer absolute bottom-1 right-1 text-2xl" />
           </div>
           <div className="flex flex-col justify-center items-start">
             <div className="flex justify-between gap-1">
               <p className="font-bold text-base text-normal">{user.name}</p>
-              <FaPen className="text-xs text-vibe opacity-70" />
+              <FaPen className="cursor-pointer text-xs text-vibe opacity-70" />
             </div>
             <p className="text-xs text-vibe">
               {user.totalWatched ? user.totalWatched : 0}/<span>{showNum}</span>{" "}
@@ -141,7 +142,11 @@ export default function Profile() {
             </div>
           </div>
         ) : (
-          <div>no ranked</div>
+          <div className="flex flex-col justify-center">
+            <p className="text-xs text-vibe opacity-40">
+              You haven't ranked any title yet.
+            </p>
+          </div>
         )}
         {latestWatch.length > 0 ? (
           <div className="w-full h-full p-2">
@@ -166,7 +171,11 @@ export default function Profile() {
             </div>
           </div>
         ) : (
-          <div>no watched</div>
+          <div className="flex flex-col justify-center">
+            <p className="text-xs text-vibe opacity-40">
+              You haven't watched anything yet.
+            </p>
+          </div>
         )}
 
         {userPosts.length === 0 ? (

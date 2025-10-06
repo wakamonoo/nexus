@@ -157,7 +157,11 @@ export default function UserProfile() {
             </div>
           </div>
         ) : (
-          <div>no ranked</div>
+          <div className="flex flex-col justify-center">
+            <p className="text-xs text-vibe opacity-40">
+              {profileUser.name} haven't ranked any title yet.
+            </p>
+          </div>
         )}
         {latestWatch.length > 0 ? (
           <div className="w-full h-full p-2">
@@ -184,7 +188,11 @@ export default function UserProfile() {
             </div>
           </div>
         ) : (
-          <div>no watched</div>
+          <div className="flex flex-col justify-center">
+            <p className="text-xs text-vibe opacity-40">
+              {profileUser.name} haven't watched anything yet.
+            </p>
+          </div>
         )}
 
         {profileUserPosts.length === 0 ? (
@@ -192,7 +200,7 @@ export default function UserProfile() {
             <div className="flex flex-col items-center justify-center">
               <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
               <p className="text-xs text-vibe opacity-40">
-                You have no posts yet
+                {profileUser.name} has no posts yet
               </p>
             </div>
           </div>
@@ -324,7 +332,7 @@ export default function UserProfile() {
                   >
                     <AiFillThunderbolt
                       className={`text-2xl ${
-                        post.energized?.includes(profileUser?.uid)
+                        post.energized?.includes(user?.uid)
                           ? "text-zeus"
                           : "text-normal"
                       }`}
