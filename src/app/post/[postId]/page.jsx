@@ -106,7 +106,8 @@ export default function Post() {
             <Image
               onClick={(e) => {
                 e.stopPropagation();
-                handleProfileNav(post.userId);
+                setIsLoading(true);
+                router.push(`/profile/${post.userId}`);
               }}
               src={post.userImage || Tony}
               alt="user"
@@ -119,7 +120,8 @@ export default function Post() {
               <p
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleProfileNav(post.userId);
+                  setIsLoading(true);
+                  router.push(`/profile/${post.userId}`);
                 }}
                 className="cursor-pointer text-base mt-2 font-bold leading-3.5"
               >

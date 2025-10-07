@@ -19,7 +19,7 @@ export default function Hero() {
     setDelModal,
     setSelectedPost,
   } = useContext(PostContext);
-  const { user, setShowSignIn, handleProfileNav } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -68,7 +68,8 @@ export default function Hero() {
                 <Image
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleProfileNav(post.userId);
+                    setIsLoading(true);
+                    router.push(`/profile/${post.userId}`);
                   }}
                   src={post.userImage}
                   alt="user"
@@ -81,7 +82,8 @@ export default function Hero() {
                   <p
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleProfileNav(post.userId);
+                      setIsLoading(true);
+                      router.push(`/profile/${post.userId}`);
                     }}
                     className="text-base mt-2 font-bold leading-3.5"
                   >

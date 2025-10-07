@@ -24,7 +24,7 @@ import { TitleNavContext } from "@/context/titlesNavContex";
 
 export default function UserProfile() {
   const { userId } = useParams();
-  const { allUsers, user, setUserLoading } = useContext(UserContext);
+  const { allUsers, user } = useContext(UserContext);
   const { posts, handleLike, handleFileClick } = useContext(PostContext);
   const { titles } = useContext(TitleContext);
   const [showFull, setShowFull] = useState(false);
@@ -39,7 +39,7 @@ export default function UserProfile() {
   const profileUser = allUsers.find((u) => u.uid === userId);
 
   useEffect(() => {
-    setUserLoading (false);
+    setIsLoading(false);
     if (profileUser?.uid) {
       watchedInfoFetch(profileUser.uid);
     }

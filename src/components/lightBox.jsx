@@ -126,8 +126,9 @@ export default function LightBox() {
             <p
               onClick={(e) => {
                 e.stopPropagation();
+                setIsLoading(true);
                 setLightboxOpen(false);
-                handleProfileNav(currentPostInfo.userId);
+                router.push(`/profile/${post.userId}`);
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
             >

@@ -17,9 +17,8 @@ export const UserProvider = ({ children }) => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
-  const [userLoading, setUserLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
-  const router = useRouter();
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
   const fetchUserData = async (uid) => {
@@ -42,7 +41,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      setUserLoading(true);
+      setLoading(true);
       if (firebaseUser) {
         await fetchUserData(firebaseUser.uid);
       } else {
@@ -51,7 +50,7 @@ export const UserProvider = ({ children }) => {
         setAdminBtn(false);
       }
       await delay(2000);
-      setUserLoading(false);
+      setLoading(false);
     });
 
     return () => {
@@ -65,7 +64,7 @@ export const UserProvider = ({ children }) => {
         const res = await fetch(`${BASE_URL}/api/users/allUsersGet`, {
           method: "GET",
           headers: {
-            "Content-Type": "appplication/type",
+            "Content-Type": "appplication/json",
           },
         });
         const data = await res.json();
@@ -78,10 +77,6 @@ export const UserProvider = ({ children }) => {
     fethAllUsers();
   }, []);
 
-  const handleProfileNav = (userId) => {
-    router.push(`/profile/${userId}`);
-    setUserLoading(true);
-  };
 
   return (
     <UserContext.Provider
@@ -93,13 +88,11 @@ export const UserProvider = ({ children }) => {
         setShowSignIn,
         showSignIn,
         allUsers,
-        handleProfileNav,
-        setUserLoading,
+        loading,
       }}
     >
       {children}
       {showSignIn && <SignIn />}
-      {userLoading && <Loader />}
     </UserContext.Provider>
   );
 };

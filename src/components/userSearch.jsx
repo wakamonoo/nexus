@@ -7,6 +7,7 @@ import Loader from "@/components/searchLoader";
 import Fallback from "@/assets/fallback.png";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -17,8 +18,9 @@ export default function UserSearch({ showSearch, setShowSearch }) {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { handleProfileNav } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const inputRef = useRef();
+  const router = useRouter();
 
   useEffect(() => {
     if (showSearch && inputRef.current) {
@@ -106,7 +108,10 @@ export default function UserSearch({ showSearch, setShowSearch }) {
             searchResults?.map((profile, index) => (
               <div
                 key={index}
-                onClick={() => handleProfileNav(profile.uid)}
+                onClick={() => {
+                  setIsLoading(true);
+                  router.push(`profile/${profile.uid}`);
+                }}
                 className="w-full rounded-full bg-panel p-2"
               >
                 <div className="flex gap-2 items-center">
