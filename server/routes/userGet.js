@@ -23,7 +23,15 @@ router.get("/allUsersGet", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
-    const result = await db.collection("users").find({}).toArray();
+    const { query } = req.query;
+
+    let filter = {};
+
+    if (query) {
+      filter = { name: { $regex: query, $options: "i" } };
+    }
+
+    const result = await db.collection("users").find(filter).toArray();
 
     res.status(200).json({ result });
   } catch (err) {
