@@ -11,6 +11,7 @@ import NavBar from "@/components/navBar";
 import { TitleNavContext } from "@/context/titlesNavContex";
 import { MdSearchOff } from "react-icons/md";
 import { GiTrophy } from "react-icons/gi";
+import { HiOutlineSearch } from "react-icons/hi";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -155,7 +156,7 @@ export default function Main() {
           <TitleLoader />
         ) : (
           <>
-            <div className="flex justify-between items-center gap-2 bg-text px-4 py-2 rounded-full">
+            <div className="flex justify-between items-center gap-2 bg-panel px-4 py-2 rounded-full">
               <input
                 type="text"
                 value={searchInput}
@@ -167,10 +168,10 @@ export default function Main() {
                   }
                 }}
                 placeholder="Search for your favorite marvel titles.."
-                className="w-full p-2 outline-none text-base text-panel"
+                className="w-full outline-none text-base text-normal"
               />
               <button onClick={handleSearch}>
-                <FaSearch className="text-2xl text-accent" />
+                <HiOutlineSearch className="text-2xl text-normal" />
               </button>
             </div>
 
