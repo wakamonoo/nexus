@@ -2,6 +2,8 @@
 import { createContext, useState, useEffect } from "react";
 import { auth } from "@/firebase/firebaseConfig";
 import SignIn from "@/components/signIn";
+import Loader from "@/components/loader";
+import { useRouter } from "next/navigation";
 
 export const UserContext = createContext();
 
@@ -15,8 +17,9 @@ export const UserProvider = ({ children }) => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [userLoading, setUserLoading] = useState(true);
   const [allUsers, setAllUsers] = useState([]);
+  const router = useRouter();
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
   const fetchUserData = async (uid) => {
@@ -39,7 +42,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
-      setLoading(true);
+      setUserLoading(true);
       if (firebaseUser) {
         await fetchUserData(firebaseUser.uid);
       } else {
@@ -48,7 +51,7 @@ export const UserProvider = ({ children }) => {
         setAdminBtn(false);
       }
       await delay(2000);
-      setLoading(false);
+      setUserLoading(false);
     });
 
     return () => {
@@ -75,21 +78,28 @@ export const UserProvider = ({ children }) => {
     fethAllUsers();
   }, []);
 
+  const handleProfileNav = (userId) => {
+    router.push(`/profile/${userId}`);
+    setUserLoading(true);
+  };
+
   return (
     <UserContext.Provider
       value={{
         isLogged,
         user,
         adminBtn,
-        loading,
         fetchUserData,
         setShowSignIn,
         showSignIn,
         allUsers,
+        handleProfileNav,
+        setUserLoading,
       }}
     >
       {children}
       {showSignIn && <SignIn />}
+      {userLoading && <Loader />}
     </UserContext.Provider>
   );
 };

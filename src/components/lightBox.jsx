@@ -24,7 +24,7 @@ export default function LightBox() {
     setDelModal,
     setSelectedPost,
   } = useContext(PostContext);
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { user, setShowSignIn, handleProfileNav } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -123,7 +123,14 @@ export default function LightBox() {
       {showDetails && (
         <div className="absolute bg-[var(--color-secondary)]/50 w-full bottom-0 left-0">
           <div className="flex flex-col p-2">
-            <p className="text-base mt-2 font-bold leading-3.5">
+            <p
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxOpen(false);
+                handleProfileNav(currentPostInfo.userId);
+              }}
+              className="cursor-pointer text-base mt-2 font-bold leading-3.5"
+            >
               {currentPostInfo.userName}
             </p>
             <p className="text-xs text-vibe">{currentPostInfo.date}</p>

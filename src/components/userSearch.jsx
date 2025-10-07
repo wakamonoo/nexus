@@ -5,6 +5,8 @@ import Image from "next/image";
 import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/searchLoader";
 import Fallback from "@/assets/fallback.png";
+import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/userContext";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -15,6 +17,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { handleProfileNav } = useContext(UserContext);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -101,7 +104,11 @@ export default function UserSearch({ showSearch, setShowSearch }) {
             <Loader />
           ) : searchResults.length > 0 ? (
             searchResults?.map((profile, index) => (
-              <div key={index} className="w-full rounded-full bg-panel p-2">
+              <div
+                key={index}
+                onClick={() => handleProfileNav(profile.uid)}
+                className="w-full rounded-full bg-panel p-2"
+              >
                 <div className="flex gap-2 items-center">
                   <Image
                     src={profile.picture || Fallback}

@@ -27,7 +27,7 @@ const BASE_URL =
 
 export default function Post() {
   const { postId } = useParams();
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { user, setShowSignIn, handleProfileNav } = useContext(UserContext);
   const { posts, handleLike, handleFileClick, setDelModal, setSelectedPost } =
     useContext(PostContext);
   const router = useRouter();
@@ -104,15 +104,25 @@ export default function Post() {
           ) : null}
           <div className="flex gap-3 p-4 items-center">
             <Image
+              onClick={(e) => {
+                e.stopPropagation();
+                handleProfileNav(post.userId);
+              }}
               src={post.userImage || Tony}
               alt="user"
               width={0}
               height={0}
               sizes="100vw"
-              className="w-12 h-12 object-cover rounded-full"
+              className="cursor-pointer w-12 h-12 object-cover rounded-full"
             />
             <div className="flex flex-col">
-              <p className="text-base mt-2 font-bold leading-3.5">
+              <p
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProfileNav(post.userId);
+                }}
+                className="cursor-pointer text-base mt-2 font-bold leading-3.5"
+              >
                 {post.userName}
               </p>
               <p className="text-xs text-vibe">{post.date}</p>
