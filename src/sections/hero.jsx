@@ -32,11 +32,7 @@ export default function Hero() {
   };
 
   return (
-    <div className="bg-brand w-full pt-16">
-      <div>
-        <Banner />
-      </div>
-
+    <div className="bg-brand w-full">
       {coldLoad ? (
         <HeroLoader />
       ) : posts.length === 0 ? (

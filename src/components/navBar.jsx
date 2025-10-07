@@ -6,7 +6,7 @@ import { ScrollContext } from "@/context/scrollContext";
 import { RiFilmAiFill } from "react-icons/ri";
 import { HiMiniFilm, HiMiniNewspaper } from "react-icons/hi2";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
-import { FaAngleDown, FaAngleRight, FaUser } from "react-icons/fa";
+import { FaAngleDown, FaAngleRight, FaSearch, FaUser } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "./imageLoader";
 import Fallback from "@/assets/fallback.png";
@@ -68,7 +68,7 @@ export default function NavBar() {
           isScrolled ? "bg-[var(--color-panel)]" : "bg-[var(--color-secondary)]"
         } ${navHide ? "hidden" : "flex"}`}
       >
-        <div className="flex items-center">
+        <div className="flex items-center w-[50%]">
           <button
             ref={buttonRef}
             onClick={() => setShowMenu((prev) => !prev)}
@@ -91,11 +91,14 @@ export default function NavBar() {
               className="w-24 h-auto"
             />
           </button>
+          <div className="pl-2">
+            <FaSearch className="text-2xl" />
+          </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center w-[50%] gap-4">
           <button
             onClick={handleHomeClick}
-            className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/"
             )}`}
           >
@@ -104,7 +107,7 @@ export default function NavBar() {
           </button>
           <button
             onClick={() => handleNavClick("mcu")}
-            className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/mcu"
             )}`}
           >
@@ -113,7 +116,7 @@ export default function NavBar() {
           </button>
           <button
             onClick={() => handleNavClick("globalChat")}
-            className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/globalChat"
             )}`}
           >
