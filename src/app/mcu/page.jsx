@@ -99,7 +99,7 @@ export default function Main() {
     });
   }, [titles]);
 
-  const handleSearch = async () => {
+  const handleTitleSearch = async () => {
     if (!searchInput) return setSearchResults([]);
     try {
       setLoading(true);
@@ -124,7 +124,7 @@ export default function Main() {
     }
 
     const debounce = setTimeout(() => {
-      handleSearch();
+      handleTitleSearch();
     }, 300);
 
     return () => {
@@ -164,13 +164,13 @@ export default function Main() {
                 onKeyDown={(e) => {
                   if ((e.key === "Enter") & !e.shiftKey) {
                     e.preventDefault();
-                    handleSearch();
+                    handleTitleSearch();
                   }
                 }}
                 placeholder="Search for your favorite marvel titles.."
                 className="w-full outline-none text-base text-normal"
               />
-              <button onClick={handleSearch}>
+              <button onClick={handleTitleSearch}>
                 <HiOutlineSearch className="text-2xl text-normal" />
               </button>
             </div>

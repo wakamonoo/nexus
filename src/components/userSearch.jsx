@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { HiOutlineSearch } from "react-icons/hi";
 import Image from "next/image";
 import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/searchLoader";
+import Fallback from "@/assets/fallback.png";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -22,7 +23,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
     }
   }, [showSearch]);
 
-  const handleSearch = async () => {
+  const handleUserSearch = async () => {
     if (!searchInput) return setSearchResults([]);
     try {
       setLoading(true);
@@ -59,7 +60,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
     }
 
     const debounce = setTimeout(() => {
-      handleSearch();
+      handleUserSearch();
     }, 300);
 
     return () => {
@@ -77,19 +78,20 @@ export default function UserSearch({ showSearch, setShowSearch }) {
           />
           <div className="flex w-full justify-between items-center gap-2 bg-panel px-4 py-2 rounded-full">
             <input
+              ref={inputRef}
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={(e) => {
                 if ((e.key === "Enter") & !e.shiftKey) {
                   e.preventDefault();
-                  handleSearch();
+                  handleUserSearch();
                 }
               }}
               placeholder="Search for an agent.."
               className="w-full outline-none text-base text-normal"
             />
-            <button onClick={handleSearch}>
+            <button onClick={handleUserSearch}>
               <HiOutlineSearch className="text-2xl text-normal" />
             </button>
           </div>
@@ -102,7 +104,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
               <div key={index} className="w-full rounded-full bg-panel p-2">
                 <div className="flex gap-2 items-center">
                   <Image
-                    src={profile.picture}
+                    src={profile.picture || Fallback}
                     alt="image"
                     width={0}
                     height={0}
