@@ -10,7 +10,7 @@ import { FaAngleDown, FaAngleRight, FaSearch, FaUser } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "./imageLoader";
 import Fallback from "@/assets/fallback.png";
-import Logo from "@/assets/alt_logo.png";
+import Logo from "@/assets/main_logo.png";
 import Menu from "./menu";
 import { MenuContext } from "@/context/menuContext";
 import { LoaderContext } from "@/context/loaderContext";
@@ -28,7 +28,6 @@ export default function NavBar() {
   const { setIsLoading } = useContext(LoaderContext);
   const { postFetch } = useContext(PostContext);
   const [showUserNav, setShowUserNav] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
   const router = useRouter();
 
   const isActive = (target) => {
@@ -67,7 +66,6 @@ export default function NavBar() {
     <>
       {showMenu && <Menu />}
       {showUserNav && <UserNav setShowUserNav={setShowUserNav} />}
-      {showSearch && <UserSearch showSearch={showSearch} setShowSearch={setShowSearch} />}
       <div
         onClick={() => setShowUserNav(false)}
         className={`fixed flex justify-between px-4 py-8 w-full h-12 transition-colors duration-150 z-[70] ${
@@ -94,17 +92,9 @@ export default function NavBar() {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-12 h-auto"
+              className="w-24 h-auto"
             />
           </button>
-          <div className="w-full px-2">
-            <div
-              onClick={() => setShowSearch(true)}
-              className="bg-panel px-4 py-2 rounded-full flex items-center justify-end"
-            >
-              <HiOutlineSearch className="text-2xl text-normal" />
-            </div>
-          </div>
         </div>
         <div className="flex items-center gap-4 w-full">
           <button

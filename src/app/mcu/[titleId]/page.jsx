@@ -231,6 +231,11 @@ export default function Title() {
             title.reviews?.map((review, index) => (
               <div key={index} className="flex gap-2">
                 <Image
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsLoading(true);
+                    router.push(`/profile/${review.userId}`);
+                  }}
                   src={review.userImage}
                   alt="user"
                   width={0}
@@ -244,7 +249,16 @@ export default function Title() {
                       <FaMedal className="text-sm" />
                     </div>
                   ) : null}
-                  <p className="font-bold text-base">{review.userName}</p>
+                  <p
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsLoading(true);
+                      router.push(`/profile/${review.userId}`);
+                    }}
+                    className="font-bold text-base"
+                  >
+                    {review.userName}
+                  </p>
                   <p className="text-base text-vibe">{review.textReview}</p>
                 </div>
               </div>

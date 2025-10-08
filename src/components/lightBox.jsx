@@ -24,7 +24,7 @@ export default function LightBox() {
     setDelModal,
     setSelectedPost,
   } = useContext(PostContext);
-  const { user, setShowSignIn, handleProfileNav } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);

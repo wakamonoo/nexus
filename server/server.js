@@ -71,10 +71,11 @@ io.on("connection", (socket) => {
 
   socket.on("citadel", async (data) => {
     try {
-      const { picture, sender, email, text, time, date } = data;
+      const { picture, sender, senderId,  email, text, time, date } = data;
       const msg = {
         picture,
         sender,
+        senderId,
         email,
         text,
         time,

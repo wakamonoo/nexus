@@ -93,7 +93,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                   handleUserSearch();
                 }
               }}
-              placeholder="Search for an agent.."
+              placeholder="Search for a user.."
               className="w-full outline-none text-base text-normal"
             />
             <button onClick={handleUserSearch}>

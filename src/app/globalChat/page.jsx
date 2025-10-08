@@ -9,6 +9,8 @@ import { io } from "socket.io-client";
 import { FaArrowDown, FaRegComments, FaUserSlash } from "react-icons/fa";
 import ShowLoader from "@/components/showLoader";
 import ChatLoader from "@/components/chatLoder";
+import { useRouter } from "next/navigation";
+import { LoaderContext } from "@/context/loaderContext";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
@@ -16,12 +18,14 @@ const BASE_URL =
 const socket = io.connect(`${BASE_URL}`);
 export default function GlobalChat() {
   const { user, setShowSignIn } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const msgEndRef = useRef();
   const [chatLoad, setChatLoad] = useState(true);
   const justSentMessage = useRef(false);
   const initialLoad = useRef(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -47,6 +51,7 @@ export default function GlobalChat() {
     const data = {
       picture: user?.picture,
       sender: user?.name,
+      senderId: user?.uid,
       email: user?.email,
       text: input,
       time: new Date().toLocaleTimeString([], {
@@ -107,7 +112,9 @@ export default function GlobalChat() {
               <div className="flex h-full w-full justify-center items-center">
                 <div className="flex flex-col items-center justify-center">
                   <FaRegComments className="text-4xl text-vibe opacity-40" />
-                  <p className="text-xs text-vibe opacity-40">no chats in here yet</p>
+                  <p className="text-xs text-vibe opacity-40">
+                    no chats in here yet
+                  </p>
                 </div>
               </div>
             ) : (
@@ -134,12 +141,17 @@ export default function GlobalChat() {
                         >
                           {!ownMessage && (
                             <Image
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsLoading(true);
+                                router.push(`/profile/${msg.senderId}`);
+                              }}
                               src={msg.picture || ironman}
                               alt="user"
                               width={0}
                               height={0}
                               sizes="100vw"
-                              className="w-8 h-8 rounded-full"
+                              className="cursor-pointer w-8 h-8 rounded-full"
                             />
                           )}
                           <div
@@ -171,12 +183,17 @@ export default function GlobalChat() {
                           </div>
                           {ownMessage && (
                             <Image
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsLoading(true);
+                                router.push(`/profile/${msg.senderId}`);
+                              }}
                               src={msg.picture || ironman}
                               alt="user"
                               width={0}
                               height={0}
                               sizes="100vw"
-                              className="w-8 h-8 rounded-full"
+                              className="cursor-pointer w-8 h-8 rounded-full"
                             />
                           )}
                         </div>

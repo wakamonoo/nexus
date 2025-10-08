@@ -27,7 +27,7 @@ const BASE_URL =
 
 export default function Post() {
   const { postId } = useParams();
-  const { user, setShowSignIn, handleProfileNav } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
   const { posts, handleLike, handleFileClick, setDelModal, setSelectedPost } =
     useContext(PostContext);
   const router = useRouter();
