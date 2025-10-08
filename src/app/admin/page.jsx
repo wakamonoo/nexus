@@ -71,7 +71,13 @@ export default function Page() {
           <p className="font-bold uppercase text-base">Add new title</p>
         </button>
         <button
-          onClick={() => router.push("/admin/editTitle")}
+          onClick={() => router.push("/admin/editTitles")}
+          className="bg-accent w-full p-2 rounded cursor-pointer"
+        >
+          <p className="font-bold uppercase text-base">Edit Titles</p>
+        </button>
+        <button
+          onClick={() => router.push("/admin/updateTitlesOrder")}
           className="bg-accent w-full p-2 rounded cursor-pointer"
         >
           <p className="font-bold uppercase text-base">Update Order</p>

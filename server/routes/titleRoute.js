@@ -8,6 +8,8 @@ router.post("/addTitle", async (req, res) => {
   const {
     title,
     image,
+    posterCredit,
+    posterCreditUrl,
     date,
     timeline,
     phase,
@@ -16,6 +18,7 @@ router.post("/addTitle", async (req, res) => {
     order,
     episode,
     duration,
+    trailer,
     summary,
   } = req.body;
   try {
@@ -29,6 +32,8 @@ router.post("/addTitle", async (req, res) => {
         $setOnInsert: {
           title,
           image,
+          posterCredit,
+          posterCreditUrl,
           date,
           timeline,
           phase,
@@ -37,6 +42,7 @@ router.post("/addTitle", async (req, res) => {
           order: Number(order) || null,
           episode: Number(episode) || null,
           duration: Number(duration) || null,
+          trailer,
           summary,
           reviews: [],
         },

@@ -15,7 +15,7 @@ const BASE_URL =
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
 
-export default function EditTitle() {
+export default function UpdateOrder() {
   const { titles } = useContext(TitleContext);
   const [items, setItems] = useState([]);
   const [rotate, setRotate] = useState(false);

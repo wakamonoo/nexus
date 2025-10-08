@@ -5,10 +5,17 @@ import { LoaderContext } from "@/context/loaderContext";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
+
 export default function addTitle() {
   const [data, setData] = useState({
     title: "",
     image: null,
+    posterCredit: "",
+    posterCreditUrl: "",
     date: "",
     timeline: "",
     phase: "",
@@ -17,6 +24,7 @@ export default function addTitle() {
     order: "",
     episode: "",
     duration: "",
+    trailer: "",
     summary: "",
   });
   const fileRef = useRef();
@@ -66,6 +74,8 @@ export default function addTitle() {
       setData({
         title: "",
         image: null,
+        posterCredit: "",
+        posterCreditUrl: "",
         date: "",
         timeline: "",
         phase: "",
@@ -74,6 +84,7 @@ export default function addTitle() {
         order: "",
         episode: "",
         duration: "",
+        trailer: "",
         summary: "",
       });
 
@@ -154,7 +165,24 @@ export default function addTitle() {
             className="bg-panel p-4 rounded w-[72%] cursor-pointer"
           />
         </div>
-
+        <input
+          type="text"
+          required
+          name="posterCredit"
+          value={data.posterCredit}
+          onChange={handleChange}
+          placeholder="Poster Credit"
+          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+        />
+        <input
+          type="text"
+          required
+          name="posterCreditUrl"
+          value={data.posterCreditUrl}
+          onChange={handleChange}
+          placeholder="Poster Credit Url"
+          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+        />
         <div className="flex items-center w-full">
           <label className="text-normal font-normal text-base w-[30%]">
             Release Date
@@ -244,6 +272,14 @@ export default function addTitle() {
           onWheel={(e) => e.target.blur()}
           onChange={handleChange}
           placeholder="Runtime (Movies & One Shots)"
+          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+        />
+        <input
+          type="text"
+          name="trailer"
+          value={data.trailer}
+          onChange={handleChange}
+          placeholder="Trailer Url"
           className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
         />
         <textarea
