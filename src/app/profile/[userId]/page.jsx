@@ -45,16 +45,16 @@ export default function UserProfile() {
     }
   }, [profileUser]);
 
-  const handlePostNavMain = (id) => {
-    router.push(`/post/${id}`);
-    setIsLoading(true);
-  };
-
   const isLoading = !profileUser || !posts;
 
   if (isLoading) {
     return <Loader />;
   }
+
+  const handlePostNavMain = (id) => {
+    router.push(`/post/${id}`);
+    setIsLoading(true);
+  };
 
   const topRanks = profileUser.rankings
     ? [...profileUser.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
