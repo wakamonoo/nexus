@@ -241,7 +241,7 @@ export default function Title() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  className="w-8 h-8 rounded-full"
+                  className="cursor-pointer w-8 h-8 rounded-full"
                 />
                 <div className="flex relative flex-col bg-panel p-2 rounded w-full">
                   {review.date === firstReview.date ? (
@@ -255,7 +255,7 @@ export default function Title() {
                       setIsLoading(true);
                       router.push(`/profile/${review.userId}`);
                     }}
-                    className="font-bold text-base"
+                    className="cursor-pointer font-bold text-base"
                   >
                     {review.userName}
                   </p>
