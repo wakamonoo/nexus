@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import Image from "next/image";
+import Fallback from "@/assets/fallback.png";
 import TitleDelConfirm from "@/components/titleDelConfirm";
 
 export default function EditTitleMain() {
@@ -36,7 +37,7 @@ export default function EditTitleMain() {
           {titles.map((title, index) => (
             <div key={index} className="flex gap-4 items-center">
               <Image
-                src={title?.image}
+                src={title?.image || Fallback}
                 alt="image"
                 width={0}
                 height={0}

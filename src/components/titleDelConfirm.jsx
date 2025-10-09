@@ -1,59 +1,10 @@
 "use client";
-import { LoaderContext } from "@/context/loaderContext";
+import { TitleContext } from "@/context/titleContext";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
-import Swal from "sweetalert2";
-
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
 
 export default function TitleDelConfirm({ titleId, setDelModal }) {
-  const { setIsLoading } = useContext(LoaderContext);
-
-  const handleTitleDelete = async (titleId) => {
-    try {
-      setIsLoading(true);
-      await fetch(`${BASE_URL}/api/titles/deleteTitle/${titleId}`, {
-        method: "DELETE",
-      });
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        title: "Error",
-        text: "Failed updating title!",
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
-        iconColor: "var(--color-accent)",
-        customClass: {
-          popup: "rounded-2xl shadow-lg",
-          title: "text-lg font-bold !text-[var(--color-accent)]",
-          htmlContainer: "text-sm",
-        },
-      });
-    } finally {
-      setIsLoading(false);
-      Swal.fire({
-        title: "Success",
-        text: "Title have been deleted!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
-        iconColor: "var(--color-hulk)",
-        customClass: {
-          popup: "rounded-2xl shadow-lg",
-          title: "text-lg font-bold !text-[var(--color-hulk)]",
-          htmlContainer: "text-sm",
-        },
-      });
-    }
-  };
+  const { handleTitleDelete } = useContext(TitleContext);
 
   return (
     <div

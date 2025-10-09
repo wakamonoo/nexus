@@ -79,7 +79,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
         <div className="flex items-center justify-between w-full">
           <FaAngleLeft
             onClick={() => setShowSearch(false)}
-            className="text-2xl"
+            className="text-2xl cursor-pointer"
           />
           <div className="flex w-full justify-between items-center gap-2 bg-panel px-4 py-2 rounded-full">
             <input
