@@ -114,16 +114,17 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                 }}
                 className="w-full rounded-full bg-panel p-2"
               >
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center cursor-pointer">
                   <Image
                     src={profile.picture || Fallback}
                     alt="image"
                     width={0}
                     height={0}
                     sizes="100vw"
-                    className="w-8 h-8 object-fill rounded-full"
+                    className="w-10 h-10 object-fill rounded-full"
                   />
-                  <p>{profile.name}</p>
+                  <p className="text-normal text-base font-bold
+                  ">{profile.name}</p>
                 </div>
               </div>
             ))

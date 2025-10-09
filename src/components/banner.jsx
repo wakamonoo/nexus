@@ -26,11 +26,11 @@ export default function Banner() {
         <UserSearch showSearch={showSearch} setShowSearch={setShowSearch} />
       )}
       <div className="pt-16">
-        <div className="bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-panel)] flex flex-col justify-center gap-2 w-full px-2">
+        <div className="bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-panel)] flex flex-col justify-center gap-2 w-full p-2">
           <div className="w-full">
             <div
               onClick={() => setShowSearch(true)}
-              className="bg-panel cursor-pointer px-4 py-2 rounded-full flex items-center justify-between"
+              className="bg-panel cursor-text px-4 py-2 rounded-full flex items-center justify-between"
             >
               <p className="text-vibe opacity-70">Search for a user..</p>
               <HiOutlineSearch className="text-2xl text-normal" />

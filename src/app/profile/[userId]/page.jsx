@@ -238,6 +238,11 @@ export default function UserProfile() {
                     </div>
                     <div className="flex gap-3 px-4 items-center py-2">
                       <Image
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsLoading(true);
+                          router.push(`/profile/${post.userId}`);
+                        }}
                         src={post.userImage}
                         alt="profileUser"
                         width={0}
@@ -246,7 +251,14 @@ export default function UserProfile() {
                         className="w-12 h-12 object-cover rounded-full"
                       />
                       <div className="flex flex-col">
-                        <p className="text-base mt-2 font-bold leading-3.5">
+                        <p
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsLoading(true);
+                            router.push(`/profile/${post.userId}`);
+                          }}
+                          className="text-base mt-2 font-bold leading-3.5"
+                        >
                           {post.userName}
                         </p>
                         <p className="text-xs text-vibe">{post.date}</p>
