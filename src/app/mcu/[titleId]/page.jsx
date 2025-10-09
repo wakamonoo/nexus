@@ -20,15 +20,16 @@ import {
 } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FiCheckCircle, FiMessageSquare } from "react-icons/fi";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowLoader from "@/components/showLoader";
 import AddReview from "@/components/addReview";
 import { UserContext } from "@/context/userContext";
-import { MdOutlineReviews, MdRateReview } from "react-icons/md";
+import { MdAnnouncement, MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/titleMenu";
 import { WatchContext } from "@/context/watchContext";
+import { HiInformationCircle } from "react-icons/hi2";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -156,10 +157,14 @@ export default function Title() {
               sizes="100vw"
               className="w-full h-auto rounded"
             />
-            <div className="absolute top-1 right-1 bg-second py-[1px] px-[4px] opacity-60 rounded-full">
-              <p className="text-[4px] text-vibe font-heading">
-                poster: <span className="font-heading">joven bataller</span>
-              </p>
+            <div
+              onClick={() => {
+                setIsLoading(true);
+                router.push("/trustAndLegality");
+              }}
+              className="absolute top-1 right-1 rounded-full cursor-pointer"
+            >
+              <HiInformationCircle className="text-normal" />
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import Loader from "@/components/searchLoader";
 import { useContext } from "react";
 import { TitleContext } from "@/context/titleContext";
 import NavBar from "@/components/navBar";
-import { TitleNavContext } from "@/context/titlesNavContex";
+import { TitleNavContext } from "@/context/titlesNavContext";
 import { MdSearchOff } from "react-icons/md";
 import { GiTrophy } from "react-icons/gi";
 import { HiOutlineSearch } from "react-icons/hi";
@@ -133,7 +133,7 @@ export default function Main() {
   }, [searchInput]);
 
   const rankedTitles = titles
-    .filter((t) => t.totalPoints > 0)
+    ?.filter((t) => t.totalPoints > 0)
     .sort((a, b) => b.totalPoints - a.totalPoints);
 
   let previousPoints = null;

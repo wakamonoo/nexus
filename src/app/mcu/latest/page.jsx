@@ -5,7 +5,7 @@ import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
 import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
-import { TitleNavContext } from "@/context/titlesNavContex";
+import { TitleNavContext } from "@/context/titlesNavContext";
 import ShowListLoader from "@/components/showListLoader";
 
 export default function Latest() {

@@ -45,7 +45,11 @@ export default function EditTitleMain() {
                 className="w-26 h-40 object-fill rounded"
               />
               <div className="w-full">
-                <h4 className="leading-3.5">{title.title}</h4>
+                <h4 className="leading-3.5">
+                  {title.order}
+                  {"  "}
+                  {title.title}
+                </h4>
                 <div className="flex flex-col gap-2 w-full">
                   <button
                     onClick={() =>

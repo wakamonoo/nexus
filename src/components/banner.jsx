@@ -36,7 +36,7 @@ export default function Banner() {
               <HiOutlineSearch className="text-2xl text-normal" />
             </div>
           </div>
-          <div className="flex justify-between">
+          <div className="flex gap-2 justify-between p-2">
             <div className="flex">
               <h1 className="text-5xl">THERE</h1>
               <div className="flex flex-col items-center justify-center mt-3">
@@ -49,7 +49,7 @@ export default function Banner() {
             {!user ? (
               <button
                 onClick={() => setShowSignIn(true)}
-                className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full cursor-pointer hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)"
+                className="text-normal font-extrabold text-base bg-accent flex-1 px-4 py-2 rounded-full cursor-pointer hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)"
               >
                 <p>Sign Up</p>
               </button>
@@ -58,7 +58,7 @@ export default function Banner() {
             ) : (
               <button
                 onClick={() => setShowAddPost(true)}
-                className="text-normal font-extrabold text-base bg-accent px-4 py-2 rounded-full cursor-pointer hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)"
+                className="text-normal font-extrabold text-base bg-accent flex-1 px-4 py-2 rounded-full cursor-pointer hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)"
               >
                 <p>Assemble</p>
               </button>

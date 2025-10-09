@@ -5,7 +5,7 @@ import { MenuProvider } from "@/context/menuContext";
 import { TitleProvider } from "@/context/titleContext";
 import { PostProvider } from "@/context/postContext";
 import { LoaderProvider } from "@/context/loaderContext";
-import { TitleNavProvider } from "@/context/titlesNavContex";
+import { TitleNavProvider } from "@/context/titlesNavContext";
 import { WatchProvider } from "@/context/watchContext";
 import "./globals.css";
 
@@ -46,10 +46,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${bebasNeue.variable} ${roboto.variable} ${anton.variable} ${orbitron.variable} scroll-smooth`}
       >
-        <UserProvider>
-          <ScrollProvider>
-            <MenuProvider>
-              <LoaderProvider>
+        <LoaderProvider>
+          <UserProvider>
+            <ScrollProvider>
+              <MenuProvider>
                 <TitleProvider>
                   <PostProvider>
                     <TitleNavProvider>
@@ -57,10 +57,10 @@ export default function RootLayout({ children }) {
                     </TitleNavProvider>
                   </PostProvider>
                 </TitleProvider>
-              </LoaderProvider>
-            </MenuProvider>
-          </ScrollProvider>
-        </UserProvider>
+              </MenuProvider>
+            </ScrollProvider>
+          </UserProvider>
+        </LoaderProvider>
       </body>
     </html>
   );

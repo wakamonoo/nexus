@@ -21,7 +21,7 @@ import { LuImageUp } from "react-icons/lu";
 import { TitleContext } from "@/context/titleContext";
 import { GiTrophy } from "react-icons/gi";
 import { WatchContext } from "@/context/watchContext";
-import { TitleNavContext } from "@/context/titlesNavContex";
+import { TitleNavContext } from "@/context/titlesNavContext";
 
 export default function Profile() {
   const { user } = useContext(UserContext);

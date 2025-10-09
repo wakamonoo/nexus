@@ -5,7 +5,7 @@ import { FaAngleLeft, FaBoxOpen, FaCrown } from "react-icons/fa";
 import Image from "next/image";
 import Loader from "@/components/loader";
 import { useRouter } from "next/navigation";
-import { TitleNavContext } from "@/context/titlesNavContex";
+import { TitleNavContext } from "@/context/titlesNavContext";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowListLoader from "@/components/showListLoader";
 import { GiTrophy } from "react-icons/gi";
