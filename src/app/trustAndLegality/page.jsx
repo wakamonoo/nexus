@@ -86,7 +86,7 @@ export default function TrustAndLegality() {
                     sizes="100vw"
                     className="w-14 h-auto rounded"
                   />
-                  <p className="text-base font-bold">/{title.posterCredit}</p>
+                  <p className="text-base font-bold truncate">/{title.posterCredit}</p>
                 </div>
               </a>
             ))}
