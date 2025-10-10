@@ -1,5 +1,5 @@
 "use client";
-import NavBar from "@/components/navBar";
+import NavBar from "@/components/layout/navBar";
 import TDBP from "@/assets/tpdb.svg";
 import Image from "next/image";
 import { useContext, useEffect } from "react";

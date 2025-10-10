@@ -11,8 +11,8 @@ import { TitleContext } from "@/context/titleContext";
 import { GiTrophy } from "react-icons/gi";
 import { WatchContext } from "@/context/watchContext";
 import { TitleNavContext } from "@/context/titlesNavContext";
-import ProfilePosts from "@/components/profilePosts";
-import ProfileReviews from "@/components/profileReviews";
+import ProfilePosts from "@/components/profile/profilePosts";
+import ProfileReviews from "@/components/profile/profileReviews";
 
 export default function UserProfile() {
   const { userId } = useParams();

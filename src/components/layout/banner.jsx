@@ -1,10 +1,10 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
-import ButtonLoader from "./buttonLoader";
-import AddPost from "./addPost";
+import ButtonLoader from "../loaders/buttonLoader";
+import AddPost from "../modals/addPost";
 import { HiOutlineSearch } from "react-icons/hi";
-import UserSearch from "./userSearch";
+import UserSearch from "../modals/userSearch";
 
 export default function Banner() {
   const { user, loading, setShowSignIn } = useContext(UserContext);

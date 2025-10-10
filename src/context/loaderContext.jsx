@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
-import Loader from "@/components/loader";
-import Splash from "@/components/splash";
+import Loader from "@/components/loaders/loader";
+import Splash from "@/components/loaders/splash";
 
 export const LoaderContext = createContext();
 

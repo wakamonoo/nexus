@@ -2,13 +2,13 @@
 import { MdOutlineChatBubbleOutline, MdSend } from "react-icons/md";
 import ironman from "@/assets/tony.jpg";
 import Image from "next/image";
-import NavBar from "@/components/navBar";
+import NavBar from "@/components/layout/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { FaArrowDown, FaRegComments, FaUserSlash } from "react-icons/fa";
-import ShowLoader from "@/components/showLoader";
-import ChatLoader from "@/components/chatLoder";
+import ShowLoader from "@/components/loaders/showLoader";
+import ChatLoader from "@/components/loaders/chatLoder";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 const BASE_URL =

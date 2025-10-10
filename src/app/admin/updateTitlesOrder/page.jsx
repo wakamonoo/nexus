@@ -3,7 +3,7 @@ import { TitleContext } from "@/context/titleContext";
 import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import SortableItem from "@/components/sortableItem";
+import SortableItem from "@/components/dnd/sortableItem";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { MdAutorenew, MdUpdate } from "react-icons/md";

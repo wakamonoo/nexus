@@ -6,7 +6,7 @@ import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titlesNavContext";
-import ShowListLoader from "@/components/showListLoader";
+import ShowListLoader from "@/components/loaders/showListLoader";
 
 export default function Chrono() {
   const { titles } = useContext(TitleContext);

@@ -1,5 +1,5 @@
 "use client";
-import Loader from "@/components/loader";
+import Loader from "@/components/loaders/loader";
 import { PostContext } from "@/context/postContext";
 import { UserContext } from "@/context/userContext";
 import { useContext, useState } from "react";
@@ -14,7 +14,7 @@ import {
 import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
-import DelConfirm from "@/components/delConfirmation";
+import DelConfirm from "@/components/modals/delConfirmation";
 
 export default function Posting() {
   const { user } = useContext(UserContext);

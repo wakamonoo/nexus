@@ -1,5 +1,5 @@
 "use client";
-import LightBox from "@/components/lightBox";
+import LightBox from "@/components/modals/lightBox";
 import { createContext, useEffect, useState, useRef, useContext } from "react";
 import { UserContext } from "./userContext";
 const BASE_URL =
@@ -8,7 +8,7 @@ const BASE_URL =
     : "http://localhost:4000";
 import Swal from "sweetalert2";
 import { LoaderContext } from "./loaderContext";
-import DelConfirm from "@/components/delConfirmation";
+import DelConfirm from "@/components/modals/delConfirmation";
 
 export const PostContext = createContext();
 

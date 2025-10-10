@@ -3,7 +3,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import { HiOutlineSearch } from "react-icons/hi";
 import Image from "next/image";
 import { MdSearchOff } from "react-icons/md";
-import Loader from "@/components/searchLoader";
+import Loader from "@/components/loaders/searchLoader";
 import Fallback from "@/assets/fallback.png";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";

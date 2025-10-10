@@ -1,8 +1,8 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
 import { auth } from "@/firebase/firebaseConfig";
-import SignIn from "@/components/signIn";
-import Loader from "@/components/loader";
+import SignIn from "@/components/modals/signIn";
+import Loader from "@/components/loaders/loader";
 import { useRouter } from "next/navigation";
 
 export const UserContext = createContext();

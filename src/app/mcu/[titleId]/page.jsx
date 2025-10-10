@@ -24,11 +24,11 @@ import { FiCheckCircle, FiMessageSquare } from "react-icons/fi";
 import { format, set } from "date-fns";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import ShowLoader from "@/components/showLoader";
-import AddReview from "@/components/addReview";
+import ShowLoader from "@/components/loaders/showLoader";
+import AddReview from "@/components/modals/addReview";
 import { UserContext } from "@/context/userContext";
 import { MdAnnouncement, MdOutlineReviews, MdRateReview } from "react-icons/md";
-import TitleMenu from "@/components/titleMenu";
+import TitleMenu from "@/components/layout/titleMenu";
 import { WatchContext } from "@/context/watchContext";
 import { HiInformationCircle } from "react-icons/hi2";
 
@@ -270,16 +270,18 @@ export default function Title() {
                       {review.userName}
                     </p>
                     <p className="text-xs text-vibe">
-                      {new Date(review.date)
-                        .toLocaleString("en-us", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          hour12: "true",
-                        })
-                        .replace(/^(\w{3})/, "$1.")}
+                      {review.date && !isNaN(new Date(review.date).getTime())
+                        ? new Date(review.date)
+                            .toLocaleString("en-us", {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                              hour: "numeric",
+                              minute: "2-digit",
+                              hour12: true,
+                            })
+                            .replace(/^(\w{3})/, "$1.")
+                        : "Just now "}
                     </p>
                   </div>
                 </div>

@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
-import TitleDelConfirm from "@/components/titleDelConfirm";
+import TitleDelConfirm from "@/components/modals/titleDelConfirm";
 
 export default function EditTitleMain() {
   const { titles } = useContext(TitleContext);

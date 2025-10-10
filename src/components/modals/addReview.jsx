@@ -3,7 +3,7 @@ import { UserContext } from "@/context/userContext";
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Image from "next/image";
-import Loader from "./loader";
+import Loader from "../loaders/loader";
 import Swal from "sweetalert2";
 
 const BASE_URL =

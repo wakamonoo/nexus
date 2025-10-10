@@ -18,7 +18,7 @@ import Tony from "@/assets/tony.jpg";
 import { MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
-import PostLoader from "@/components/postLoader";
+import PostLoader from "@/components/loaders/postLoader";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"

@@ -1,5 +1,5 @@
 "use client";
-import Banner from "@/components/banner.jsx";
+import Banner from "@/components/layout/banner.jsx";
 import { FaComment, FaRegFileAlt, FaShare, FaTrash } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import { useState, useContext } from "react";
 import { PostContext } from "@/context/postContext";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
-import HeroLoader from "@/components/heroLoader";
+import HeroLoader from "@/components/loaders/heroLoader";
 import { LoaderContext } from "@/context/loaderContext";
 
 export default function Hero() {

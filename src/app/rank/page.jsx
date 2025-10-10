@@ -11,12 +11,12 @@ import {
   FaSearch,
 } from "react-icons/fa";
 import { BiReset } from "react-icons/bi";
-import SortableRank from "@/components/sortableRank";
+import SortableRank from "@/components/dnd/sortableRank";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
-import Slot from "@/components/slot";
+import Slot from "@/components/dnd/slot";
 import Image from "next/image";
 import { GiTrophy } from "react-icons/gi";
-import RankLoader from "@/components/rankLoader";
+import RankLoader from "@/components/loaders/rankLoader";
 import { MdSearchOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";

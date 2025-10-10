@@ -3,11 +3,11 @@ import { useContext, useEffect } from "react";
 import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft, FaBoxOpen, FaCrown } from "react-icons/fa";
 import Image from "next/image";
-import Loader from "@/components/loader";
+import Loader from "@/components/loaders/loader";
 import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titlesNavContext";
 import { LoaderContext } from "@/context/loaderContext";
-import ShowListLoader from "@/components/showListLoader";
+import ShowListLoader from "@/components/loaders/showListLoader";
 import { GiTrophy } from "react-icons/gi";
 
 export default function Goat() {

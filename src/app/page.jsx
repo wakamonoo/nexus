@@ -1,7 +1,7 @@
 "use client";
-import Banner from "@/components/banner";
+import Banner from "@/components/layout/banner";
 import Hero from "../sections/hero";
-import NavBar from "@/components/navBar";
+import NavBar from "@/components/layout/navBar";
 
 export default function Page() {
   return (

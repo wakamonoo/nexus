@@ -4,7 +4,7 @@ import { UserContext } from "@/context/userContext";
 import Image from "next/image";
 import { FaFlag, FaImage } from "react-icons/fa";
 import Swal from "sweetalert2";
-import Loader from "./loader";
+import Loader from "../loaders/loader";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"

@@ -7,7 +7,7 @@ import { FaComment, FaRegFileAlt, FaShare, FaTrash } from "react-icons/fa";
 import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
-import DelConfirm from "./delConfirmation";
+import DelConfirm from "../modals/delConfirmation";
 
 export default function ProfilePosts({ profileUser }) {
   const { user } = useContext(UserContext);

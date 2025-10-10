@@ -8,7 +8,7 @@ import { HiMiniFilm, HiMiniNewspaper } from "react-icons/hi2";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 import { FaAngleDown, FaAngleRight, FaSearch, FaUser } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
-import ImageLoader from "./imageLoader";
+import ImageLoader from "../loaders/imageLoader";
 import Fallback from "@/assets/fallback.png";
 import Logo from "@/assets/main_logo.png";
 import Menu from "./menu";
@@ -18,7 +18,7 @@ import { PostContext } from "@/context/postContext";
 import { GiNinjaHead } from "react-icons/gi";
 import { HiOutlineSearch } from "react-icons/hi";
 import UserNav from "./userNav";
-import UserSearch from "./userSearch";
+import UserSearch from "../modals/userSearch";
 
 export default function NavBar() {
   const pathname = usePathname();

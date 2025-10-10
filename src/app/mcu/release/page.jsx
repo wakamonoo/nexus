@@ -3,11 +3,11 @@ import { useContext, useEffect } from "react";
 import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
 import Image from "next/image";
-import Loader from "@/components/loader";
+import Loader from "@/components/loaders/loader";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleNavContext } from "@/context/titlesNavContext";
-import ShowListLoader from "@/components/showListLoader";
+import ShowListLoader from "@/components/loaders/showListLoader";
 
 export default function Chrono() {
   const { titles } = useContext(TitleContext);
