@@ -16,8 +16,7 @@ export default function AddTitle() {
           onClick={() => router.back()}
           className="text-2xl cursor-pointer"
         />
-        <h1 className="text-2xl">ADD NEW TITLE</h1>
-        <div />
+        <h1 className="text-xl">ADD NEW TITLE</h1>
       </div>
       <form
         className="flex flex-col items-start justify-center gap-4 w-full pt-8"

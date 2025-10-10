@@ -30,7 +30,7 @@ export default function EditTitleMain() {
             className="text-2xl cursor-pointer"
             title="Back"
           />
-          <h1 className="text-2xl">Edit Titles</h1>
+          <h1 className="text-xl">Edit Titles</h1>
         </div>
 
         <div className="flex flex-col gap-2 p-2">
@@ -46,8 +46,6 @@ export default function EditTitleMain() {
               />
               <div className="w-full">
                 <h4 className="leading-3.5">
-                  {title.order}
-                  {"  "}
                   {title.title}
                 </h4>
                 <div className="flex flex-col gap-2 w-full">

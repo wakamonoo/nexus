@@ -24,7 +24,7 @@ export default function ProfileReviews({ profileUser }) {
   );
 
   return (
-    <div className="p-2 pb-32">
+    <div className="p-2">
       {userReviews.length === 0 ? (
         <div className="mt-16">
           <div className="flex flex-col items-center justify-center">

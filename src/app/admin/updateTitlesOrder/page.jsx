@@ -111,7 +111,7 @@ export default function UpdateOrder() {
           className="text-2xl cursor-pointer"
           title="Back"
         />
-        <h1 className="text-2xl">Update Order</h1>
+        <h1 className="text-xl">Update Order</h1>
         <div>
           <button
             onClick={handleUpdateOrder}

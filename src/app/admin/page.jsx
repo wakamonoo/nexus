@@ -49,7 +49,7 @@ export default function Page() {
               className="text-7xl font-extrabold text-accent"
             />
           </div>
-          <p className="text-base font-extrabold">USERS</p>
+          <h2 className="text-xl font-extrabold">USERS</h2>
         </div>
 
         <div className="flex items-center gap-2 justify-center">
@@ -60,7 +60,7 @@ export default function Page() {
               className="text-7xl font-extrabold text-accent"
             />
           </div>
-          <p className="text-base font-extrabold">TITLES</p>
+          <h2 className="text-xl font-extrabold">TITLES</h2>
         </div>
       </div>
       <div className="flex flex-col gap-2">
