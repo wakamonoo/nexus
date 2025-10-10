@@ -214,7 +214,7 @@ export default function Rank() {
           onClick={() => router.back()}
           className="text-2xl cursor-pointer"
         />
-        <h4 className="text-2xl">RANK'EM</h4>
+        <h4 className="text-xl">RANK'EM</h4>
       </div>
       <div className="flex justify-between items-center gap-2 bg-panel px-4 py-2 rounded-full">
         <input
@@ -289,8 +289,8 @@ export default function Rank() {
         <div>
           <div className="py-4">
             <div className="flex w-full bg-second justify-center p-2">
-              <p className="font-bold text-base text-normal uppercase">
-                Who is your uno?
+              <p className="font-bold text-lg text-normal uppercase">
+                Who is your goat?
               </p>
             </div>
           </div>

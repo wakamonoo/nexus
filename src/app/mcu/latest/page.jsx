@@ -30,7 +30,7 @@ export default function Latest() {
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <h4 className="text-2xl">Latest Releases</h4>
+          <h4 className="text-xl">Latest Releases</h4>
         </div>
         <div className="w-full max-w-5xl">
           <div className="flex flex-wrap justify-center gap-2">

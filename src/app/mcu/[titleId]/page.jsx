@@ -10,6 +10,7 @@ import {
   FaCrown,
   FaEye,
   FaFileAlt,
+  FaInfo,
   FaMedal,
   FaPlay,
   FaQuoteLeft,
@@ -19,7 +20,12 @@ import {
   FaRegComments,
   FaUser,
 } from "react-icons/fa";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import {
+  Bs1CircleFill,
+  BsInfoCircle,
+  BsThreeDotsVertical,
+} from "react-icons/bs";
+import { TbEyeSpark } from "react-icons/tb";
 import { FiCheckCircle, FiMessageSquare } from "react-icons/fi";
 import { format, set } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -31,6 +37,8 @@ import { MdAnnouncement, MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/layout/titleMenu";
 import { WatchContext } from "@/context/watchContext";
 import { HiInformationCircle } from "react-icons/hi2";
+import { InfoOutline } from "@mui/icons-material";
+import { BiInfoSquare } from "react-icons/bi";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -102,16 +110,21 @@ export default function Title() {
         <div className="flex justify-between w-full">
           <div className="w-[50%]">
             <div>
-              <h4 className="text-2xl font-bold text-normal leading-5">
-                {title.title}
+              <h4 className="text-xl font-bold text-normal leading-4.5 max-w-[80%]">
+                {title.title}{" "}
+                <span className="font-normal text-sm">
+                  {format(new Date(title.date), "yyyy")}
+                </span>
               </h4>
               <p className="text-sm text-vibe">
                 {title.duration
                   ? `${title.duration} minutes`
-                  : `${title.episode} episodes`}
+                  : `${title.episode} episodes`}{" "}
+                | {title.type}
               </p>
             </div>
-            <div className="flex flex-col mt-2">
+
+            <div className="flex flex-col mt-2 border-t-1 border-[var(--color-vibranium)]/20 py-2">
               <p className="text-sm text-vibe">
                 Directed by{" "}
                 <span
@@ -123,49 +136,47 @@ export default function Title() {
                   {title.director}
                 </span>
               </p>
-              <p className="text-sm text-vibe mt-2">
-                Release{" "}
-                <span className="font-bold text-base capitalize">
-                  {format(new Date(title.date), "yyyy")}
-                </span>
-              </p>
-              <p className="text-sm text-vibe">
-                MCU{" "}
-                <span className="font-bold text-base capitalize">
-                  {title.timeline}
-                </span>
-              </p>
-              <p className="text-sm text-vibe">
-                Chronological{" "}
-                <span className="font-bold text-base capitalize">
-                  {title.order}
-                </span>
-              </p>
-              <p className="text-sm text-vibe">
-                <span className="font-bold text-base capitalize">
-                  {title.watchCount ? title.watchCount : 0}
-                </span>{" "}
-                have watched
-              </p>
+              <div className="flex flex-col py-2">
+                <p className="text-xs text-vibe">
+                  MCU Timeline{" "}
+                  <span className="font-bold text-sm capitalize">
+                    {title.timeline}
+                  </span>
+                </p>
+                <p className="text-xs text-vibe">
+                  Chronological Order{" "}
+                  <span className="font-bold text-sm capitalize">
+                    {title.order}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-          <div className="flex relative items-center w-[40%] h-full">
-            <Image
-              src={title.image}
-              alt="poster"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-full h-auto rounded"
-            />
-            <div
-              onClick={() => {
-                setIsLoading(true);
-                router.push("/trustAndLegality");
-              }}
-              className="absolute top-1 right-1 rounded-full cursor-pointer"
-            >
-              <HiInformationCircle className="text-normal" />
+          <div className="w-[40%] h-full">
+            <div className="flex relative items-center">
+              <Image
+                src={title.image}
+                alt="poster"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full h-auto rounded"
+              />
+              <div
+                onClick={() => {
+                  setIsLoading(true);
+                  router.push("/trustAndLegality");
+                }}
+                className="absolute top-2 right-2 cursor-pointer"
+              >
+                <BsInfoCircle className="text-normal" />
+              </div>
+            </div>
+            <div className="flex gap-1 justify-end p-1 items-center">
+              <TbEyeSpark className="text-xs" />
+              <p className="text-xs text-vibe font-extralight">
+                {title.watchCount ? title.watchCount : 0}
+              </p>
             </div>
           </div>
         </div>
@@ -240,8 +251,8 @@ export default function Title() {
                 className="bg-panel rounded-2xl border p-2 relative"
               >
                 {review.date === firstReview.date ? (
-                  <div className="flex absolute top-2 right-2 gap-1 p-2 rounded-full bg-zeus items-center">
-                    <FaMedal className="text-sm" />
+                  <div className="flex absolute top-2 right-2">
+                    <Bs1CircleFill className="text-base text-zeus" />
                   </div>
                 ) : null}
                 <div className="flex items-center gap-2">
@@ -256,7 +267,7 @@ export default function Title() {
                     width={0}
                     height={0}
                     sizes="100vw"
-                    className="cursor-pointer w-8 h-8 rounded-full"
+                    className="cursor-pointer w-12 h-12 rounded-full"
                   />
                   <div className="flex flex-col">
                     <p

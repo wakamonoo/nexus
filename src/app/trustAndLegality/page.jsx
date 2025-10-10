@@ -19,7 +19,7 @@ export default function TrustAndLegality() {
       <NavBar />
       <div className="bg-brand w-full py-16 p-4">
         <div>
-          <h1 className="text-4xl py-4 text-accent text-center">
+          <h1 className="text-2xl py-4 text-accent text-center">
             Disclaimer & Legal Notice
           </h1>
           <p className="text-base text-justify">
@@ -55,7 +55,7 @@ export default function TrustAndLegality() {
           </p>
         </div>
         <div>
-          <h1 className="text-4xl py-4 text-accent text-center">
+          <h1 className="text-2xl py-4 text-accent text-center">
             Poster & Artwork
           </h1>
           <p className="text-base text-justify">

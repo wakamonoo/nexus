@@ -14,7 +14,7 @@ export default function About() {
       <NavBar />
       <div className="bg-brand w-full py-16 p-4">
         <div>
-          <h1 className="text-4xl py-4 text-accent text-center">
+          <h1 className="text-2xl py-4 text-accent text-center">
             Why this exists
           </h1>
           <p className="text-base text-justify">
@@ -42,7 +42,7 @@ export default function About() {
         </div>
 
         <div>
-          <h1 className="text-4xl py-4 text-accent text-center">
+          <h1 className="text-2xl py-4 text-accent text-center">
             What you'll find here
           </h1>
           <p className="text-base text-justify">

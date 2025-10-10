@@ -58,7 +58,7 @@ export default function Reco() {
     <>
       <NavBar />
       <div className="pt-16 p-4">
-        <h1 className="text-4xl py-4 text-accent text-center">
+        <h1 className="text-2xl py-4 text-accent text-center">
           Feedback & Suggestions
         </h1>
         <p className="text-normal font-normal text-base text-justify">

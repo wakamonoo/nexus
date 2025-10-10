@@ -19,6 +19,7 @@ import { MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
 import PostLoader from "@/components/loaders/postLoader";
+import { Bs1CircleFill } from "react-icons/bs";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -127,7 +128,18 @@ export default function Post() {
               >
                 {post.userName}
               </p>
-              <p className="text-xs text-vibe">{post.date}</p>
+              <p className="text-xs text-vibe">
+                {new Date(post.date)
+                  .toLocaleString("en-us", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true,
+                  })
+                  .replace(/^(\w{3})/, "$1.")}
+              </p>
             </div>
           </div>
           <p className="text-base text-normal leading-5 py-2 px-4">
@@ -245,29 +257,38 @@ export default function Post() {
                   sizes="100vw"
                   className="w-12 h-12 object-cover rounded-full"
                 />
-                <div className="bg-second relative py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-                  {comment.date === firstComment.date ? (
-                    <div className="flex absolute top-2 right-2 gap-1 p-2 rounded-full bg-zeus items-center">
-                      <FaMedal className="text-sm" />
+                <div className="bg-second relative w-fit py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex flex-col">
+                      <p className="text-base text-normal font-bold">
+                        {comment.userName}
+                      </p>
+                      <p className="text-xs text-vibe">
+                        {comment.date &&
+                        !isNaN(new Date(comment.date).getTime())
+                          ? new Date(comment.date)
+                              .toLocaleString("en-us", {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                                hour: "numeric",
+                                minute: "2-digit",
+                                hour12: true,
+                              })
+                              .replace(/^(\w{3})/, "$1.")
+                          : "Just now "}
+                      </p>
                     </div>
-                  ) : null}
-                  <p className="text-base text-normal font-bold">
-                    {comment.userName}
-                  </p>
-                  <p className="text-xs text-vibe">{comment.date}</p>
+                    {comment.date === firstComment.date ? (
+                      <div className="flex top-2 right-2">
+                        <Bs1CircleFill className="text-base text-zeus" />
+                      </div>
+                    ) : null}
+                  </div>
+
                   <p className="text-base text-normal py-2">
                     {comment.textComment}
                   </p>
-                  <div className="py-2 flex justify-end gap-2">
-                    <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
-                      <FaBolt className="text-xl" />
-                      <p className="text-xs font-light text-vibe">21</p>
-                    </div>
-                    <div className="flex items-center justify-center gap-2 bg-panel p-4 rounded-4xl w-24 h-12">
-                      <FaReply className="text-xl" />
-                      <p className="text-xs font-light text-vibe">21</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             ))

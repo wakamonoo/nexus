@@ -68,7 +68,7 @@ export default function UserProfile() {
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <h4 className="text-2xl">Profile</h4>
+          <h4 className="text-xl">Profile</h4>
         </div>
         {!profileUser ? (
           <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -99,7 +99,7 @@ export default function UserProfile() {
               </div>
               <div className="flex flex-col justify-center items-start">
                 <div className="flex justify-between gap-1">
-                  <p className="font-bold text-base text-normal">
+                  <p className="font-bold text-xl leading-5 text-normal">
                     {profileUser.name}
                   </p>
                   <FaPen
@@ -117,7 +117,7 @@ export default function UserProfile() {
 
             {profileUser.rankings ? (
               <div className="w-full h-full p-2">
-                <h4 className="font-bold text-base">
+                <h4 className="font-bold text-lg">
                   {profileUser.name.split(" ")[0]}'s holy trinity
                 </h4>
                 <div className="flex gap-2 justify-center">
@@ -161,7 +161,7 @@ export default function UserProfile() {
             )}
             {latestWatch.length > 0 ? (
               <div className="w-full h-full p-2">
-                <h4 className="font-bold text-base">
+                <h4 className="font-bold text-lg">
                   {profileUser.name.split(" ")[0]}'s latest watch
                 </h4>
                 <div className="flex gap-2 justify-center">
@@ -202,7 +202,7 @@ export default function UserProfile() {
           className="cursor-pointer w-[50%]"
         >
           <p
-            className={`text-base w-full text-center ${
+            className={`text-lg w-full text-center ${
               showProfilePosts
                 ? "font-bold text-accent border-b-2 border-accent"
                 : "text-normal"
@@ -219,7 +219,7 @@ export default function UserProfile() {
           className="cursor-pointer w-[50%]"
         >
           <p
-            className={`text-base w-full text-center ${
+            className={`text-lg w-full text-center ${
               showProfileReviews
                 ? "font-bold text-accent border-b-2 border-accent"
                 : "text-normal"

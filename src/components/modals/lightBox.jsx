@@ -134,7 +134,18 @@ export default function LightBox() {
             >
               {currentPostInfo.userName}
             </p>
-            <p className="text-xs text-vibe">{currentPostInfo.date}</p>
+            <p className="text-xs text-vibe">
+              {new Date(currentPostInfo.date)
+                .toLocaleString("en-us", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })
+                .replace(/^(\w{3})/, "$1.")}
+            </p>
           </div>
           <div className="p-2">
             <p

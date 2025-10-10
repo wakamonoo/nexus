@@ -222,7 +222,7 @@ export default function Main() {
               <>
                 <div className="py-4">
                   <div className="flex justify-between items-center">
-                    <h1 className="text-2xl">LATEST RELEASES</h1>
+                    <h1 className="text-xl">LATEST RELEASES</h1>
                     <FaAngleRight
                       onClick={() => handleShowListNav("latest")}
                       className={`text-normal text-xl cursor-pointer ${
@@ -270,7 +270,7 @@ export default function Main() {
 
                 <div className="py-4">
                   <div className="flex justify-between items-center">
-                    <h1 className="text-2xl">MCU CHRONOLOGICAL ORDER</h1>
+                    <h1 className="text-xl">MCU CHRONOLOGICAL ORDER</h1>
                     <FaAngleRight
                       onClick={() => handleShowListNav("chrono")}
                       className={`text-normal text-xl cursor-pointer ${
@@ -317,7 +317,7 @@ export default function Main() {
 
                 <div className="py-4">
                   <div className="flex justify-between items-center">
-                    <h1 className="text-2xl">MCU RELEASE ORDER</h1>
+                    <h1 className="text-xl">MCU RELEASE ORDER</h1>
                     <FaAngleRight
                       onClick={() => handleShowListNav("release")}
                       className={`text-normal text-xl cursor-pointer ${
@@ -364,7 +364,7 @@ export default function Main() {
 
                 <div className="py-4">
                   <div className="flex justify-between items-center">
-                    <h1 className="text-2xl">GOAT STATUS</h1>
+                    <h1 className="text-xl">GOAT STATUS</h1>
                     <FaAngleRight
                       onClick={() => handleShowListNav("goat")}
                       className={`text-normal text-xl cursor-pointer ${
