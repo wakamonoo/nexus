@@ -9,7 +9,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
 import DelConfirm from "./delConfirmation";
 
-export default function ProfilePosts() {
+export default function ProfilePosts({ profileUser }) {
   const { user } = useContext(UserContext);
   const {
     posts,
@@ -25,29 +25,29 @@ export default function ProfilePosts() {
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
+  const profileUserPosts = posts.filter((p) => p.userId === profileUser?.uid);
+
   const handlePostNavMain = (id) => {
     router.push(`/post/${id}`);
     setIsLoading(true);
   };
 
-  const userPosts = posts.filter((p) => p.userId === user?.uid);
-
   return (
     <>
       {delModal && <DelConfirm postId={selectedPost} />}
       <div className="p-2">
-        {userPosts.length === 0 ? (
+        {profileUserPosts.length === 0 ? (
           <div className="mt-16">
             <div className="flex flex-col items-center justify-center">
               <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
               <p className="text-xs text-vibe opacity-40">
-                You have no posts yet
+                {profileUser?.name} has no posts yet
               </p>
             </div>
           </div>
         ) : (
           <div className="flex flex-col gap-1 py-4">
-            {userPosts.map((post, index) => (
+            {profileUserPosts.map((post, index) => (
               <div
                 key={index}
                 onClick={() => handlePostNavMain(post.postId)}
@@ -60,7 +60,9 @@ export default function ProfilePosts() {
                       setDelModal(true);
                       setSelectedPost(post.postId);
                     }}
-                    className="cursor-pointer"
+                    className={`cursor-pointer ${
+                      user?.uid === post.userId ? "flex" : "hidden"
+                    }`}
                   >
                     <FaTrash />
                   </button>
@@ -72,7 +74,7 @@ export default function ProfilePosts() {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     src={post.userImage}
-                    alt="user"
+                    alt="profileUser"
                     width={0}
                     height={0}
                     sizes="100vw"
@@ -109,7 +111,7 @@ export default function ProfilePosts() {
                 {post.files && post.files.length > 0 ? (
                   <div className="relative w-full h-[50vh]">
                     {post.files.length > 1 ? (
-                      <div className="absolute bottom-2 right-2">
+                      <div className="absolute top-2 left-4">
                         <p className="text-xs text-vibe">
                           {currentIndex + 1}/{post.files.length}
                         </p>
@@ -171,7 +173,7 @@ export default function ProfilePosts() {
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (user) {
+                      if (profileUser) {
                         handleLike(post);
                       } else {
                         setShowSignIn(true);

@@ -1,21 +1,19 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
-import { UserContext } from "@/context/userContext";
 import { useContext } from "react";
 import Image from "next/image";
 import { FaQuoteLeft } from "react-icons/fa";
 import { MdRateReview } from "react-icons/md";
 import { useRouter } from "next/navigation";
 
-export default function ProfileReviews() {
-  const { user } = useContext(UserContext);
+export default function ProfileReviews({ profileUser }) {
   const { titles } = useContext(TitleContext);
   const router = useRouter();
 
   const userReviews = titles.flatMap(
     (t) =>
       t.reviews
-        ?.filter((r) => r.userId === user.uid)
+        ?.filter((r) => r.userId === profileUser.uid)
         .map((r) => ({
           ...r,
           title: t.title,

@@ -26,7 +26,7 @@ export default function UserNav({ setShowUserNav }) {
         <button
           onClick={() => {
             setIsLoading(true);
-            router.push("/profile");
+            router.push(`/profile/${user.uid}`);
           }}
           className="flex items-center gap-2 cursor-pointer"
         >
