@@ -240,8 +240,7 @@ export default function UserProfile() {
                       <Image
                         onClick={(e) => {
                           e.stopPropagation();
-                          setIsLoading(true);
-                          router.push(`/profile/${post.userId}`);
+                          window.scrollTo({ top: 0, behavior: "smooth" });
                         }}
                         src={post.userImage}
                         alt="profileUser"
@@ -254,8 +253,7 @@ export default function UserProfile() {
                         <p
                           onClick={(e) => {
                             e.stopPropagation();
-                            setIsLoading(true);
-                            router.push(`/profile/${post.userId}`);
+                            window.scrollTo({ top: 0, behavior: "smooth" });
                           }}
                           className="text-base mt-2 font-bold leading-3.5"
                         >

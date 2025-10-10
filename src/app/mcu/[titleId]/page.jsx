@@ -12,6 +12,7 @@ import {
   FaFileAlt,
   FaMedal,
   FaPlay,
+  FaQuoteLeft,
   FaRegComment,
   FaRegCommentAlt,
   FaRegCommentDots,
@@ -234,37 +235,59 @@ export default function Title() {
             </div>
           ) : (
             title.reviews?.map((review, index) => (
-              <div key={index} className="flex gap-2">
-                <Image
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsLoading(true);
-                    router.push(`/profile/${review.userId}`);
-                  }}
-                  src={review.userImage}
-                  alt="user"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="cursor-pointer w-8 h-8 rounded-full"
-                />
-                <div className="flex relative flex-col bg-panel p-2 rounded w-full">
-                  {review.date === firstReview.date ? (
-                    <div className="flex absolute top-2 right-2 gap-1 p-2 rounded-full bg-zeus items-center">
-                      <FaMedal className="text-sm" />
-                    </div>
-                  ) : null}
-                  <p
+              <div
+                key={index}
+                className="bg-panel rounded-2xl border p-2 relative"
+              >
+                {review.date === firstReview.date ? (
+                  <div className="flex absolute top-2 right-2 gap-1 p-2 rounded-full bg-zeus items-center">
+                    <FaMedal className="text-sm" />
+                  </div>
+                ) : null}
+                <div className="flex items-center gap-2">
+                  <Image
                     onClick={(e) => {
                       e.stopPropagation();
                       setIsLoading(true);
                       router.push(`/profile/${review.userId}`);
                     }}
-                    className="cursor-pointer font-bold text-base"
-                  >
-                    {review.userName}
+                    src={review.userImage}
+                    alt="user"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="cursor-pointer w-8 h-8 rounded-full"
+                  />
+                  <div className="flex flex-col">
+                    <p
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsLoading(true);
+                        router.push(`/profile/${review.userId}`);
+                      }}
+                      className="cursor-pointer text-base mt-2 font-bold leading-3.5"
+                    >
+                      {review.userName}
+                    </p>
+                    <p className="text-xs text-vibe">
+                      {new Date(review.date)
+                        .toLocaleString("en-us", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: "true",
+                        })
+                        .replace(/^(\w{3})/, "$1.")}
+                    </p>
+                  </div>
+                </div>
+                <div className="border-t border-[var(--color-vibranium)]/20 mt-4 py-4">
+                  <p className="flex gap-1 text-base">
+                    <FaQuoteLeft className="text-xs" />
+                    {review.textReview}
                   </p>
-                  <p className="text-base text-vibe">{review.textReview}</p>
                 </div>
               </div>
             ))

@@ -21,6 +21,7 @@ import { MdSearchOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
+import { HiOutlineSearch } from "react-icons/hi";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -215,16 +216,16 @@ export default function Rank() {
         />
         <h4 className="text-2xl">RANK'EM</h4>
       </div>
-      <div className="flex justify-between items-center gap-2 bg-text px-4 py-2 rounded-full">
+      <div className="flex justify-between items-center gap-2 bg-panel px-4 py-2 rounded-full">
         <input
           type="text"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Search for your favorite marvel titles.."
-          className="w-full p-2 outline-none text-base text-panel"
+          className="w-full outline-none text-base text-normal"
         />
         <button>
-          <FaSearch className="text-2xl text-accent" />
+          <HiOutlineSearch className="text-2xl text-normal" />
         </button>
       </div>
       <DndContext

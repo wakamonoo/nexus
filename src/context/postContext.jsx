@@ -105,6 +105,7 @@ export const PostProvider = ({ children }) => {
       await fetch(`${BASE_URL}/api/posts/deletePost/${postId}`, {
         method: "DELETE",
       });
+      await postFetch()
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -161,10 +162,10 @@ export const PostProvider = ({ children }) => {
         lightboxRef,
         coldLoad,
         handlePostDelete,
+        delModal,
         setDelModal,
         selectedPost,
         setSelectedPost,
-        setDelModal,
       }}
     >
       {children}
