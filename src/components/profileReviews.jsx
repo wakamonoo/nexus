@@ -5,10 +5,12 @@ import { useContext } from "react";
 import Image from "next/image";
 import { FaQuoteLeft } from "react-icons/fa";
 import { MdRateReview } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 export default function ProfileReviews() {
   const { user } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
+  const router = useRouter();
 
   const userReviews = titles.flatMap(
     (t) =>
@@ -17,6 +19,7 @@ export default function ProfileReviews() {
         .map((r) => ({
           ...r,
           title: t.title,
+          titleId: t.titleId,
           type: t.type,
           timeline: t.timeline,
         })) || []
@@ -36,18 +39,32 @@ export default function ProfileReviews() {
       ) : (
         <div className="flex flex-col gap-1">
           {userReviews.map((review, index) => (
-            <div key={index} className="bg-panel rounded-2xl border p-2">
+            <div
+              onClick={() => router.push(`/mcu/${review.titleId}`)}
+              key={index}
+              className="bg-panel rounded-2xl border cursor-pointer p-2"
+            >
               <div className="flex gap-2 items-center py-2">
                 <Image
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
                   src={review.userImage}
                   alt="user"
                   width={0}
                   height={0}
                   sizes="100vw"
-                  className="w-12 h-12 object-cover rounded-full"
+                  className="cursor-pointer w-12 h-12 object-cover rounded-full"
                 />
                 <div className="flex flex-col">
-                  <p className="text-base mt-2 font-bold leading-3.5">
+                  <p
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className="cursor-pointer text-base mt-2 font-bold leading-3.5"
+                  >
                     {review.userName}
                   </p>
                   <p className="text-xs text-vibe">
