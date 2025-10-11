@@ -143,7 +143,7 @@ export default function NavBar() {
                   width={0}
                   height={0}
                   sizes="100vw"
-                  className={`w-6 group-hover:border-[var(--color-accent)] border-1 rounded-full h-auto cursor-pointer ${
+                  className={`w-6 h-6 group-hover:border-[var(--color-accent)] border-1 rounded-full cursor-pointer ${
                     showUserNav ? "border-accent border-1" : ""
                   }`}
                 />

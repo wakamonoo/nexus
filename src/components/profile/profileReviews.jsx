@@ -5,9 +5,11 @@ import Image from "next/image";
 import { FaQuoteLeft } from "react-icons/fa";
 import { MdRateReview } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { LoaderContext } from "@/context/loaderContext";
 
 export default function ProfileReviews({ profileUser }) {
   const { titles } = useContext(TitleContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   const userReviews = titles.flatMap(
@@ -38,7 +40,10 @@ export default function ProfileReviews({ profileUser }) {
         <div className="flex flex-col gap-1">
           {userReviews.map((review, index) => (
             <div
-              onClick={() => router.push(`/mcu/${review.titleId}`)}
+              onClick={() => {
+                setIsLoading(true);
+                router.push(`/mcu/${review.titleId}`);
+              }}
               key={index}
               className="bg-panel rounded-2xl border cursor-pointer p-2"
             >

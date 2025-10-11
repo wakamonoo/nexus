@@ -38,7 +38,7 @@ export default function UserNav({ setShowUserNav }) {
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="w-6 h-auto object-cover rounded-full"
+                className="w-6 h-6 object-cover rounded-full"
               />
               <p className="text-base font-bold text-normal">{user.name}</p>
             </>

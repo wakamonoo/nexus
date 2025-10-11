@@ -29,6 +29,28 @@ router.post("/imageUpload", upload.single("file"), async (req, res) => {
   }
 });
 
+router.post("/userImageUpload", upload.single("file"), async (req, res) => {
+  try {
+    const bufferStream = new Readable();
+    bufferStream.push(req.file.buffer);
+    bufferStream.push(null);
+
+    const result = await new Promise((resolve, reject) => {
+      bufferStream.pipe(
+        cloudinary.uploader.upload_stream(
+          { folder: "nexus uploads/userProfiles" },
+          (err, res) => (err ? reject(err) : resolve(res))
+        )
+      );
+    });
+
+    res.status(200).json({ url: result.secure_url });
+  } catch (err) {
+    console.error("failed upload", err);
+    res.status(500).json({ error: "upload error" });
+  }
+});
+
 router.post("/postUpload", upload.array("files"), async (req, res) => {
   try {
     const uploadPromises = req.files.map((file) => {

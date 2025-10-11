@@ -90,7 +90,18 @@ export default function ProfilePosts({ profileUser }) {
                     >
                       {post.userName}
                     </p>
-                    <p className="text-xs text-vibe">{post.date}</p>
+                    <p className="text-xs text-vibe">
+                      {new Date(post.date)
+                        .toLocaleString("en-us", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                          hour: "numeric",
+                          minute: "2-digit",
+                          hour12: true,
+                        })
+                        .replace(/^(\w{3})/, "$1.")}
+                    </p>
                   </div>
                 </div>
 

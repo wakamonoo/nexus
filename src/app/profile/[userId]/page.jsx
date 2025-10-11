@@ -13,6 +13,8 @@ import { WatchContext } from "@/context/watchContext";
 import { TitleNavContext } from "@/context/titlesNavContext";
 import ProfilePosts from "@/components/profile/profilePosts";
 import ProfileReviews from "@/components/profile/profileReviews";
+import EditProfile from "@/components/modals/editProfile";
+import Fallback from "@/assets/fallback.png";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -24,6 +26,7 @@ export default function UserProfile() {
   const { handleShowNav } = useContext(TitleNavContext);
   const [showProfilePosts, setShowProfilePosts] = useState(true);
   const [showProfileReviews, setShowProfileReviews] = useState(false);
+  const [editProfile, setEditProfile] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -62,6 +65,7 @@ export default function UserProfile() {
 
   return (
     <>
+      {editProfile && <EditProfile setEditProfile={setEditProfile} />}
       <div className="p-2">
         <div className="flex justify-between items-center py-4 w-full">
           <FaAngleLeft
@@ -82,19 +86,14 @@ export default function UserProfile() {
         ) : (
           <>
             <div className="flex items-center w-full gap-2 py-4">
-              <div className="w-16 h-16 relative">
+              <div className="w-16 h-16">
                 <Image
-                  src={profileUser.picture}
+                  src={profileUser.picture || Fallback}
                   alt="user"
                   width={0}
                   height={0}
                   sizes="100vw"
                   className="w-full h-full object-cover rounded-full"
-                />
-                <LuImageUp
-                  className={`absolute cursor-pointer bottom-1 right-1 text-2xl ${
-                    user?.uid === profileUser.uid ? "flex" : "hidden"
-                  }`}
                 />
               </div>
               <div className="flex flex-col justify-center items-start">
@@ -103,6 +102,7 @@ export default function UserProfile() {
                     {profileUser.name}
                   </p>
                   <FaPen
+                    onClick={() => setEditProfile(true)}
                     className={`text-xs cursor-pointer text-vibe opacity-70 ${
                       user?.uid === profileUser.uid ? "flex" : "hidden"
                     }`}
@@ -113,6 +113,9 @@ export default function UserProfile() {
                   <span>{showNum}</span> watched
                 </p>
               </div>
+            </div>
+            <div className="p-2">
+              <p className="text-sm text-vibe italic">{profileUser.bio}</p>
             </div>
 
             {profileUser.rankings ? (
@@ -193,7 +196,11 @@ export default function UserProfile() {
           </>
         )}
       </div>
-      <div className="flex justify-center gap-8 p-8 w-full">
+      <div
+        className={`flex justify-center gap-8 p-8 w-full ${
+          profileUser ? "block" : "hidden"
+        }`}
+      >
         <div
           onClick={() => {
             setShowProfilePosts(true);
@@ -229,8 +236,12 @@ export default function UserProfile() {
           </p>
         </div>
       </div>
-      {showProfilePosts && <ProfilePosts profileUser={profileUser} />}
-      {showProfileReviews && <ProfileReviews profileUser={profileUser} />}
+      {showProfilePosts && profileUser && (
+        <ProfilePosts profileUser={profileUser} />
+      )}
+      {showProfileReviews && profileUser && (
+        <ProfileReviews profileUser={profileUser} />
+      )}
     </>
   );
 }
