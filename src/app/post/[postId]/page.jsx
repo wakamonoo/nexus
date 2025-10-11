@@ -20,6 +20,8 @@ import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
 import PostLoader from "@/components/loaders/postLoader";
 import { Bs1CircleFill } from "react-icons/bs";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import PostOpt from "@/components/layout/postOpt";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -29,8 +31,14 @@ const BASE_URL =
 export default function Post() {
   const { postId } = useParams();
   const { user, setShowSignIn } = useContext(UserContext);
-  const { posts, handleLike, handleFileClick, setDelModal, setSelectedPost } =
-    useContext(PostContext);
+  const {
+    posts,
+    handleLike,
+    handleFileClick,
+    setDelModal,
+    selectedPost,
+    setSelectedPost,
+  } = useContext(PostContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
   const { setIsLoading } = useContext(LoaderContext);
@@ -92,17 +100,20 @@ export default function Post() {
           {user?.uid === post.userId ? (
             <div className="absolute top-4 right-4">
               <button
+                id={`btn-${post.postId}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setDelModal(true);
-                  setSelectedPost(post.postId);
+                  setSelectedPost(
+                    selectedPost === post.postId ? null : post.postId
+                  );
                 }}
                 className="cursor-pointer"
               >
-                <FaTrash />
+                <BiDotsHorizontalRounded className="text-2xl" />
               </button>
             </div>
           ) : null}
+          {selectedPost === post.postId && <PostOpt postId={post.postId} />}
           <div className="flex gap-3 p-4 items-center">
             <Image
               onClick={(e) => {

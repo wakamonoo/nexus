@@ -3,8 +3,8 @@ import { PostContext } from "@/context/postContext";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
 
-export default function DelConfirm({ postId }) {
-  const { handlePostDelete, setDelModal } = useContext(PostContext);
+export default function DelConfirm({ onDelete }) {
+  const { setDelModal } = useContext(PostContext);
 
   return (
     <div
@@ -30,10 +30,7 @@ export default function DelConfirm({ postId }) {
           </p>
           <div className="w-full flex gap-2">
             <button
-              onClick={() => {
-                handlePostDelete(postId);
-                setDelModal(false);
-              }}
+              onClick={() => onDelete()}
               className="flex-1 flex justify-center px-4 py-2 bg-accent rounded-full cursor-pointer"
             >
               <p>Confirm</p>

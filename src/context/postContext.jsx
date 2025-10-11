@@ -2,6 +2,7 @@
 import LightBox from "@/components/modals/lightBox";
 import { createContext, useEffect, useState, useRef, useContext } from "react";
 import { UserContext } from "./userContext";
+import { usePathname, useRouter } from "next/navigation";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
@@ -9,7 +10,6 @@ const BASE_URL =
 import Swal from "sweetalert2";
 import { LoaderContext } from "./loaderContext";
 import DelConfirm from "@/components/modals/delConfirmation";
-
 export const PostContext = createContext();
 
 export const PostProvider = ({ children }) => {
@@ -25,6 +25,8 @@ export const PostProvider = ({ children }) => {
   const [delModal, setDelModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const lightboxRef = useRef();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const postFetch = async () => {
     try {
@@ -105,7 +107,7 @@ export const PostProvider = ({ children }) => {
       await fetch(`${BASE_URL}/api/posts/deletePost/${postId}`, {
         method: "DELETE",
       });
-      await postFetch()
+      await postFetch();
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -126,6 +128,9 @@ export const PostProvider = ({ children }) => {
       console.error(err);
     } finally {
       setLightboxOpen(false);
+      if (pathname.startsWith("/post")) {
+        router.back();
+      }
       setIsLoading(false);
       Swal.fire({
         title: "Success",
@@ -170,7 +175,15 @@ export const PostProvider = ({ children }) => {
     >
       {children}
       {lightboxOpen && <LightBox />}
-      {delModal && <DelConfirm postId={selectedPost} />}
+      {delModal && (
+        <DelConfirm
+          postId={delModal}
+          onDelete={() => {
+            handlePostDelete(delModal);
+            setDelModal(false);
+          }}
+        />
+      )}
     </PostContext.Provider>
   );
 };

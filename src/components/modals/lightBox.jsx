@@ -1,8 +1,8 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import { MdClose } from "react-icons/md";
-import { FaBolt, FaComment, FaShare, FaTrash } from "react-icons/fa";
+import { FaComment, FaShare, FaTrash } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -22,12 +22,14 @@ export default function LightBox() {
     setLightboxOpen,
     lightboxRef,
     setDelModal,
+    selectedPost,
     setSelectedPost,
   } = useContext(PostContext);
   const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const btnRef = useRef();
 
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
 
@@ -56,7 +58,7 @@ export default function LightBox() {
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
       <div className="z-50">
         {currentPost.length > 1 ? (
-          <div className="absolute top-5 left-1/2">
+          <div className="absolute top-5 left-4">
             <p className="text-xs text-vibe">
               {currentIndex + 1}/{currentPost.length}
             </p>
@@ -67,20 +69,6 @@ export default function LightBox() {
             <MdClose onClick={() => setLightboxOpen(false)} />
           </button>
         )}
-        {post && user?.uid === post.userId && showDetails ? (
-          <div className="absolute top-4.5 left-4">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setDelModal(true);
-                setSelectedPost(post.postId);
-              }}
-              className="cursor-pointer"
-            >
-              <FaTrash />
-            </button>
-          </div>
-        ) : null}
       </div>
       <div
         onScroll={(e) => {

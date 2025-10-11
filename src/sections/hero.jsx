@@ -3,12 +3,14 @@ import Banner from "@/components/layout/banner.jsx";
 import { FaComment, FaRegFileAlt, FaShare, FaTrash } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { PostContext } from "@/context/postContext";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
 import HeroLoader from "@/components/loaders/heroLoader";
 import { LoaderContext } from "@/context/loaderContext";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import PostOpt from "@/components/layout/postOpt";
 
 export default function Hero() {
   const {
@@ -16,13 +18,14 @@ export default function Hero() {
     handleLike,
     handleFileClick,
     coldLoad,
-    setDelModal,
+    selectedPost,
     setSelectedPost,
   } = useContext(PostContext);
   const { user, setShowSignIn } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const optRef = useRef();
 
   const router = useRouter();
 
@@ -30,6 +33,19 @@ export default function Hero() {
     router.push(`/post/${id}`);
     setIsLoading(true);
   };
+
+  useEffect(() => {
+    const handleOutClick = (e) => {
+      if (optRef.current && !optRef.current.contains(e.target)) {
+        setSelectedPost(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutClick);
+    };
+  }, [optRef]);
 
   return (
     <div className="bg-brand w-full">
@@ -53,17 +69,20 @@ export default function Hero() {
               {user?.uid === post.userId ? (
                 <div className="absolute top-4 right-4">
                   <button
+                    id={`btn-${post.postId}`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setDelModal(true);
-                      setSelectedPost(post.postId);
+                      setSelectedPost(
+                        selectedPost === post.postId ? null : post.postId
+                      );
                     }}
                     className="cursor-pointer"
                   >
-                    <FaTrash />
+                    <BiDotsHorizontalRounded className="text-2xl" />
                   </button>
                 </div>
               ) : null}
+              {selectedPost === post.postId && <PostOpt postId={post.postId} />}
               <div className="flex gap-3 px-4 items-center py-2">
                 <Image
                   onClick={(e) => {
