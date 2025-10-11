@@ -121,7 +121,7 @@ export default function GlobalChat() {
               <div className="flex-1 p-4 overflow-y-auto">
                 <div className="flex flex-col gap-4">
                   {messages.map((msg, i) => {
-                    const ownMessage = user.email === msg.email;
+                    const ownMessage = user.uid === msg.senderId;
                     const currentDate = msg.date;
                     const prevDate = i > 0 ? messages[i - 1].date : null;
                     const showDate = currentDate !== prevDate;
@@ -134,7 +134,7 @@ export default function GlobalChat() {
                         )}
                         <div
                           className={`flex gap-2 ${
-                            user.name === msg.sender
+                            user.uid === msg.senderId
                               ? "justify-end"
                               : "justify-start"
                           }`}

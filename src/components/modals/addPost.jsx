@@ -2,7 +2,7 @@ import { MdClose } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import Image from "next/image";
-import { FaFlag, FaImage } from "react-icons/fa";
+import { FaFlag, FaImage, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Loader from "../loaders/loader";
 
@@ -97,7 +97,7 @@ export default function AddPost({ setShowAddPost }) {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex relative justify-center bg-panel w-[95%] sm:w-[400px] md:w-[450px] h-[70%] sm:h-[400px] md:h-[450px] rounded-2xl overflow-hidden"
+          className="flex relative justify-center bg-panel w-[95%] sm:w-[400px] md:w-[450px] h-fit rounded-2xl overflow-hidden"
         >
           <button className="absolute cursor-pointer top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110">
             <MdClose onClick={() => setShowAddPost(false)} />
@@ -124,13 +124,27 @@ export default function AddPost({ setShowAddPost }) {
                 className="bg-second w-full h-32 rounded p-2"
               />
               <div className="flex gap-2">
-                <button
-                  onClick={() => setAddImage(true)}
-                  className="flex flex-1 justify-center bg-blue-600 p-2 rounded items-center gap-2"
+                <label
+                  htmlFor="fileUpload"
+                  className="cursor-pointer flex flex-1 bg-blue-600 p-2 rounded  justify-center items-center gap-2"
                 >
                   <FaImage className="text-2xl" />
                   <p className="font-bold text-normal text-base">Add Media</p>
-                </button>
+                </label>
+                <input
+                  id="fileUpload"
+                  name="file"
+                  onChange={(e) => {
+                    const newFiles = Array.from(e.target.files);
+                    setPost({
+                      ...post,
+                      file: post.file ? [...post.file, ...newFiles] : newFiles,
+                    });
+                  }}
+                  type="file"
+                  multiple
+                  className="hidden"
+                />
                 <button className="flex flex-1 justify-center bg-hulk p-2 rounded items-center gap-2">
                   <FaFlag className="text-2xl" />
                   <p className="font-bold text-normal text-base">
@@ -139,15 +153,35 @@ export default function AddPost({ setShowAddPost }) {
                 </button>
               </div>
 
-              {addImage && (
-                <div className="py-2">
-                  <input
-                    name="file"
-                    onChange={(e) => setPost({ ...post, file: e.target.files })}
-                    type="file"
-                    multiple
-                    className="bg-second p-2 w-full cursor-pointer"
-                  />
+              {post.file && post.file.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {Array.from(post.file).map((file, index) => (
+                    <div key={index} className="w-20 h-20 relative">
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        alt={`preivew-${index}`}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover rounded"
+                      />
+                      <div className="absolute top-1 right-1">
+                        <button
+                          onClick={() => {
+                            const filesArray = Array.from(post.file);
+                            filesArray.splice(index, 1);
+                            setPost({
+                              ...post,
+                              file: filesArray.length ? filesArray : null,
+                            });
+                          }}
+                          className="cursor-pointer"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
 
