@@ -1,13 +1,132 @@
 "use client";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { TitleContext } from "@/context/titleContext";
+import { LoaderContext } from "@/context/loaderContext";
+import Fallback from "@/assets/fallback.png";
+import Image from "next/image";
+import Swal from "sweetalert2";
+
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
 
 export default function AddTitle() {
-  const { data, handleChange, handleAddNewTitle } = useContext(TitleContext);
+  const [data, setData] = useState({
+    title: "",
+    image: null,
+    posterCredit: "",
+    posterCreditUrl: "",
+    date: "",
+    timeline: "",
+    phase: "",
+    type: "",
+    director: "",
+    order: "",
+    episode: "",
+    duration: "",
+    trailer: "",
+    summary: "",
+  });
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
   const fileRef = useRef();
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setData((prev) => ({ ...prev, image: files[0] }));
+    } else {
+      setData((prev) => ({
+        ...prev,
+        [name]:
+          name === "order" || name === "episode" || name === "duration"
+            ? Number(value)
+            : value,
+      }));
+    }
+  };
+
+  const handleAddNewTitle = async (fileRef) => {
+    try {
+      setIsLoading(true);
+
+      let imageURL;
+
+      const formData = new FormData();
+      formData.append("file", data.image);
+
+      const cloudRes = await fetch(`${BASE_URL}/api/uploads/imageUpload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      const cloudData = await cloudRes.json();
+      imageURL = cloudData.url;
+
+      await fetch(`${BASE_URL}/api/titles/addTitle`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ ...data, image: imageURL }),
+      });
+
+      setData({
+        title: "",
+        image: null,
+        posterCredit: "",
+        posterCreditUrl: "",
+        date: "",
+        timeline: "",
+        phase: "",
+        type: "",
+        director: "",
+        order: "",
+        episode: "",
+        duration: "",
+        trailer: "",
+        summary: "",
+      });
+
+      if (fileRef.current) fileRef.current.value = "";
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Failed adding title!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+      Swal.fire({
+        title: "Success",
+        text: "Title have been added!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    }
+  };
 
   return (
     <div className="p-2">
@@ -25,6 +144,32 @@ export default function AddTitle() {
           handleAddNewTitle(fileRef);
         }}
       >
+        <div className="flex justify-center items-center w-full">
+          <label htmlFor="addPoster">
+            <Image
+              src={
+                data.image instanceof File
+                  ? URL.createObjectURL(data.image)
+                  : data.image || Fallback
+              }
+              alt="user"
+              width={0}
+              height={0}
+              sizes="100vw"
+              name="userImage"
+              className="object-cover w-26 h-40 cursor-pointer rounded"
+            />
+          </label>
+          <input
+            id="addPoster"
+            type="file"
+            name="image"
+            required
+            ref={fileRef}
+            onChange={handleChange}
+            className="bg-panel p-4 rounded w-[72%] cursor-pointer hidden"
+          />
+        </div>
         <input
           type="text"
           name="title"
@@ -34,19 +179,7 @@ export default function AddTitle() {
           placeholder="Enter Title"
           className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
         />
-        <div className="flex gap-2 items-center w-full">
-          <label className="text-normal font-normal text-base w-[28%]">
-            Poster
-          </label>
-          <input
-            type="file"
-            name="image"
-            required
-            ref={fileRef}
-            onChange={handleChange}
-            className="bg-panel p-4 rounded w-[72%] cursor-pointer"
-          />
-        </div>
+
         <input
           type="text"
           required
