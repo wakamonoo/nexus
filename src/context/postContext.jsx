@@ -177,9 +177,8 @@ export const PostProvider = ({ children }) => {
       {lightboxOpen && <LightBox />}
       {delModal && (
         <DelConfirm
-          postId={delModal}
           onDelete={() => {
-            handlePostDelete(delModal);
+            handlePostDelete(selectedPost);
             setDelModal(false);
           }}
         />

@@ -2,7 +2,7 @@ import { PostContext } from "@/context/postContext";
 import { useContext, useEffect, useRef } from "react";
 import { FaTrash } from "react-icons/fa";
 
-export default function PostOpt({ postId, btnRef }) {
+export default function PostOpt({ postId }) {
   const { setDelModal, setSelectedPost } = useContext(PostContext);
   const optRef = useRef();
 
@@ -33,7 +33,8 @@ export default function PostOpt({ postId, btnRef }) {
       <button
         onClick={(e) => {
           e.stopPropagation();
-          setDelModal(postId);
+          setSelectedPost(postId);
+          setDelModal(true);
         }}
         className="cursor-pointer flex items-center justify-center text-base font-bold gap-1"
       >

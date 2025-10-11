@@ -2,7 +2,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import { MdClose } from "react-icons/md";
-import { FaComment, FaShare, FaTrash } from "react-icons/fa";
+import { FaComment, FaShare } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -21,9 +21,6 @@ export default function LightBox() {
     lightboxOpen,
     setLightboxOpen,
     lightboxRef,
-    setDelModal,
-    selectedPost,
-    setSelectedPost,
   } = useContext(PostContext);
   const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
