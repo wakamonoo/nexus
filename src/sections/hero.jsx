@@ -34,19 +34,6 @@ export default function Hero() {
     setIsLoading(true);
   };
 
-  useEffect(() => {
-    const handleOutClick = (e) => {
-      if (optRef.current && !optRef.current.contains(e.target)) {
-        setSelectedPost(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutClick);
-    };
-  }, [optRef]);
-
   return (
     <div className="bg-brand w-full">
       {coldLoad ? (

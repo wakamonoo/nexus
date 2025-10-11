@@ -24,6 +24,7 @@ export const PostProvider = ({ children }) => {
   const { setIsLoading } = useContext(LoaderContext);
   const [delModal, setDelModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [postToDelete, setPostToDelete] = useState(null);
   const lightboxRef = useRef();
   const router = useRouter();
   const pathname = usePathname();
@@ -171,6 +172,7 @@ export const PostProvider = ({ children }) => {
         setDelModal,
         selectedPost,
         setSelectedPost,
+        setPostToDelete,
       }}
     >
       {children}
@@ -178,7 +180,7 @@ export const PostProvider = ({ children }) => {
       {delModal && (
         <DelConfirm
           onDelete={() => {
-            handlePostDelete(selectedPost);
+            handlePostDelete(postToDelete);
             setDelModal(false);
           }}
         />
