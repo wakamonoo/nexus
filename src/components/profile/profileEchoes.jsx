@@ -5,8 +5,6 @@ import { AiFillThunderbolt } from "react-icons/ai";
 import { FaComment, FaTrash } from "react-icons/fa";
 import { MdOutlineSensors, MdSensorsOff } from "react-icons/md";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { LoaderContext } from "@/context/loaderContext";
 
 export default function ProfileEchoes({ profileUser }) {
   const { user } = useContext(UserContext);
@@ -17,19 +15,14 @@ export default function ProfileEchoes({ profileUser }) {
     handleFileClick,
     setDelModal,
     setSelectedPost,
+    handlePostNavMain,
   } = useContext(PostContext);
   const [showFull, setShowFull] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
-  const router = useRouter();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const profileUserEchoes = posts?.filter((p) =>
     p.echoed?.includes(profileUser.uid)
   );
-
-  const handlePostNavMain = (id) => {
-    router.push(`/post/${id}`);
-    setIsLoading(true);
-  };
 
   return (
     <div className="p-2">
@@ -187,7 +180,7 @@ export default function ProfileEchoes({ profileUser }) {
                       setShowSignIn(true);
                     }
                   }}
-                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+                  className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
                 >
                   <AiFillThunderbolt
                     className={`text-2xl ${
@@ -196,8 +189,8 @@ export default function ProfileEchoes({ profileUser }) {
                         : "text-normal"
                     }`}
                   />
-                  <p className="text-xs font-light text-vibe">
-                    {post.energized ? post.energized.length : 0}
+                  <p className="text-xs font-light text-vibe opacity-50">
+                    {post.energized ? post.energized.length : 0} energized
                   </p>
                 </div>
                 <div
@@ -209,7 +202,7 @@ export default function ProfileEchoes({ profileUser }) {
                       setShowSignIn(true);
                     }
                   }}
-                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+                  className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
                 >
                   <MdOutlineSensors
                     className={`text-2xl ${
@@ -218,7 +211,7 @@ export default function ProfileEchoes({ profileUser }) {
                         : "text-normal"
                     }`}
                   />
-                  <p className="text-xs font-light text-vibe">
+                  <p className="text-xs font-light text-vibe opacity-50">
                     {post.echoed ? post.echoed.length : 0} echoed
                   </p>
                 </div>
@@ -227,11 +220,11 @@ export default function ProfileEchoes({ profileUser }) {
                     e.stopPropagation();
                     handlePostNavMain(post.postId);
                   }}
-                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+                  className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
                 >
                   <FaComment className="text-2xl transform -scale-x-100" />
-                  <p className="text-xs font-light text-vibe">
-                    {post.comments ? post.comments.length : 0}
+                  <p className="text-xs font-light text-vibe opacity-50">
+                    {post.comments ? post.comments.length : 0} commented
                   </p>
                 </div>
               </div>

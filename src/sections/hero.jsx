@@ -1,9 +1,8 @@
 "use client";
-import Banner from "@/components/layout/banner.jsx";
 import { FaComment, FaRegFileAlt, FaShare, FaTrash } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext } from "react";
 import { PostContext } from "@/context/postContext";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
@@ -11,9 +10,7 @@ import HeroLoader from "@/components/loaders/heroLoader";
 import { LoaderContext } from "@/context/loaderContext";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "@/components/layout/postOpt";
-import { BsSoundwave } from "react-icons/bs";
 import { MdOutlineSensors, MdSensors } from "react-icons/md";
-import { GiEchoRipples } from "react-icons/gi";
 
 export default function Hero() {
   const {
@@ -24,20 +21,15 @@ export default function Hero() {
     coldLoad,
     selectedPost,
     setSelectedPost,
+    handlePostNavMain,
   } = useContext(PostContext);
   const { user, setShowSignIn } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const optRef = useRef();
-
   const router = useRouter();
 
-  const handlePostNavMain = (id) => {
-    router.push(`/post/${id}`);
-    setIsLoading(true);
-  };
-
+  
   return (
     <div className="bg-brand w-full">
       {coldLoad ? (
@@ -202,7 +194,7 @@ export default function Hero() {
                       setShowSignIn(true);
                     }
                   }}
-                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4  w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+                  className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
                 >
                   <AiFillThunderbolt
                     className={`text-2xl ${
@@ -211,7 +203,7 @@ export default function Hero() {
                         : "text-normal"
                     }`}
                   />
-                  <p className="text-xs font-light text-vibe">
+                  <p className="text-xs font-light text-vibe opacity-50">
                     {post.energized ? post.energized.length : 0} energized
                   </p>
                 </div>
@@ -225,7 +217,7 @@ export default function Hero() {
                       setShowSignIn(true);
                     }
                   }}
-                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+                  className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
                 >
                   <MdOutlineSensors
                     className={`text-2xl ${
@@ -234,7 +226,7 @@ export default function Hero() {
                         : "text-normal"
                     }`}
                   />
-                  <p className="text-xs font-light text-vibe">
+                  <p className="text-xs font-light text-vibe opacity-50">
                     {post.echoed ? post.echoed.length : 0} echoed
                   </p>
                 </div>
@@ -243,10 +235,10 @@ export default function Hero() {
                     e.stopPropagation();
                     handlePostNavMain(post.postId);
                   }}
-                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+                  className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
                 >
                   <FaComment className="text-2xl transform -scale-x-100" />
-                  <p className="text-xs font-light text-vibe">
+                  <p className="text-xs font-light text-vibe opacity-50">
                     {post.comments ? post.comments.length : 0} commented
                   </p>
                 </div>

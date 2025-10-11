@@ -182,6 +182,11 @@ export const PostProvider = ({ children }) => {
     }
   };
 
+  const handlePostNavMain = (id) => {
+    router.push(`/post/${id}`);
+    setIsLoading(true);
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -205,6 +210,7 @@ export const PostProvider = ({ children }) => {
         selectedPost,
         setSelectedPost,
         setPostToDelete,
+        handlePostNavMain,
       }}
     >
       {children}

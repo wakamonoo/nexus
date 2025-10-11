@@ -152,7 +152,7 @@ export default function LightBox() {
                   setShowSignIn(true);
                 }
               }}
-              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+              className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <AiFillThunderbolt
                 className={`text-2xl ${
@@ -161,8 +161,8 @@ export default function LightBox() {
                     : "text-normal"
                 }`}
               />
-              <p className="text-xs font-light text-vibe">
-                {post?.energized ? post?.energized.length : 0}
+              <p className="text-xs font-light text-vibe opacity-50">
+                {post?.energized ? post?.energized.length : 0} energized
               </p>
             </div>
             <div
@@ -175,24 +175,26 @@ export default function LightBox() {
                   setShowSignIn(true);
                 }
               }}
-              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+              className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <MdOutlineSensors
                 className={`text-2xl ${
-                  post.echoed?.includes(user?.uid) ? "text-accent" : "text-normal"
+                  post.echoed?.includes(user?.uid)
+                    ? "text-accent"
+                    : "text-normal"
                 }`}
               />
-              <p className="text-xs font-light text-vibe">
-                {post.echoed ? post.echoed.length : 0}
+              <p className="text-xs font-light text-vibe opacity-50">
+                {post.echoed ? post.echoed.length : 0} echoed
               </p>
             </div>
             <div
               onClick={() => handlePostNav(currentPostInfo.postId)}
-              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+              className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <FaComment className="text-2xl transform -scale-x-100" />
-              <p className="text-xs font-light text-vibe">
-                {post?.comments ? post?.comments.length : 0}
+              <p className="text-xs font-light text-vibe opacity-50">
+                {post?.comments ? post?.comments.length : 0} commented
               </p>
             </div>
           </div>
