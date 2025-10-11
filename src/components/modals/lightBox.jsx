@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdOutlineSensors } from "react-icons/md";
 import { FaComment, FaShare } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
@@ -12,7 +12,8 @@ import { LoaderContext } from "@/context/loaderContext";
 export default function LightBox() {
   const {
     posts,
-    handleLike,
+    handleEnergize,
+    handleEcho,
     currentPost,
     currentPostInfo,
     showDetails,
@@ -140,18 +141,18 @@ export default function LightBox() {
               {currentPostInfo.text}
             </p>
           </div>
-          <div className="flex justify-between items-center pt-4 border-t border-panel gap-4 mt-2 p-2">
+          <div className="flex justify-between items-center pt-4 border-t border-panel mt-2 py-4">
             <div
               onClick={(e) => {
                 e.stopPropagation();
                 if (user) {
-                  handleLike(post);
+                  handleEnergize(post);
                 } else {
                   setLightboxOpen(false);
                   setShowSignIn(true);
                 }
               }}
-              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
+              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <AiFillThunderbolt
                 className={`text-2xl ${
@@ -165,17 +166,34 @@ export default function LightBox() {
               </p>
             </div>
             <div
+              onClick={(e) => {
+                e.stopPropagation();
+                if (user) {
+                  handleEcho(post);
+                } else {
+                  setLightboxOpen(false);
+                  setShowSignIn(true);
+                }
+              }}
+              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+            >
+              <MdOutlineSensors
+                className={`text-2xl ${
+                  post.echoed?.includes(user?.uid) ? "text-accent" : "text-normal"
+                }`}
+              />
+              <p className="text-xs font-light text-vibe">
+                {post.echoed ? post.echoed.length : 0}
+              </p>
+            </div>
+            <div
               onClick={() => handlePostNav(currentPostInfo.postId)}
-              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
+              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <FaComment className="text-2xl transform -scale-x-100" />
               <p className="text-xs font-light text-vibe">
                 {post?.comments ? post?.comments.length : 0}
               </p>
-            </div>
-            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
-              <FaShare className="text-xl" />
-              <p className="text-xs font-light text-vibe">21</p>
             </div>
           </div>
         </div>

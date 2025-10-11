@@ -12,7 +12,7 @@ export default function ProfileReviews({ profileUser }) {
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
-  const userReviews = titles.flatMap(
+  const profileUserReviews = titles?.flatMap(
     (t) =>
       t.reviews
         ?.filter((r) => r.userId === profileUser.uid)
@@ -27,7 +27,7 @@ export default function ProfileReviews({ profileUser }) {
 
   return (
     <div className="p-2">
-      {userReviews.length === 0 ? (
+      {profileUserReviews?.length === 0 ? (
         <div className="mt-16">
           <div className="flex flex-col items-center justify-center">
             <MdRateReview className="text-4xl text-vibe opacity-40" />
@@ -38,7 +38,7 @@ export default function ProfileReviews({ profileUser }) {
         </div>
       ) : (
         <div className="flex flex-col gap-1">
-          {userReviews.map((review, index) => (
+          {profileUserReviews?.map((review, index) => (
             <div
               onClick={() => {
                 setIsLoading(true);

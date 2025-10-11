@@ -71,7 +71,7 @@ export const PostProvider = ({ children }) => {
     };
   }, [lightboxOpen]);
 
-  const handleLike = async (post) => {
+  const handleEnergize = async (post) => {
     try {
       const userId = user.uid;
 
@@ -93,6 +93,37 @@ export const PostProvider = ({ children }) => {
             ? {
                 ...p,
                 energized: data.energized,
+              }
+            : p
+        )
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleEcho = async (post) => {
+    try {
+      const userId = user.uid;
+
+      const res = await fetch(`${BASE_URL}/api/reacts/postEcho`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postId: post.postId,
+          userId,
+        }),
+      });
+      const data = await res.json();
+
+      setPosts(
+        posts.map((p) =>
+          p.postId === post.postId
+            ? {
+                ...p,
+                echoed: data.echoed,
               }
             : p
         )
@@ -156,7 +187,8 @@ export const PostProvider = ({ children }) => {
       value={{
         postFetch,
         posts,
-        handleLike,
+        handleEnergize,
+        handleEcho,
         handleFileClick,
         currentPost,
         currentPostInfo,

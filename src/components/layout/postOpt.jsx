@@ -29,7 +29,7 @@ export default function PostOpt({ postId }) {
   return (
     <div
       ref={optRef}
-      className="absolute top-10 right-4 w-fit bg-accent rounded shadow-2xl px-4 py-2 z-50"
+      className="flex flex-col absolute top-full right-0 w-[50vw] bg-accent rounded shadow-2xl p-2 z-50"
     >
       <button
         onClick={(e) => {
@@ -37,9 +37,9 @@ export default function PostOpt({ postId }) {
           setPostToDelete(postId);
           setDelModal(true);
         }}
-        className="cursor-pointer flex items-center justify-center text-base font-bold gap-1"
+        className="flex w-full items-center gap-2 px-4 py-2 cursor-pointer"
       >
-        <FaTrash className="text-xl" />
+        <FaTrash className="text-xl shrink-0" />
         <p className="text-base font-bold">Delete Post</p>
       </button>
     </div>

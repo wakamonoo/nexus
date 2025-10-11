@@ -15,7 +15,7 @@ import {
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
 import Tony from "@/assets/tony.jpg";
-import { MdSend } from "react-icons/md";
+import { MdOutlineSensors, MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
 import PostLoader from "@/components/loaders/postLoader";
@@ -33,7 +33,8 @@ export default function Post() {
   const { user, setShowSignIn } = useContext(UserContext);
   const {
     posts,
-    handleLike,
+    handleEnergize,
+    handleEcho,
     handleFileClick,
     setDelModal,
     selectedPost,
@@ -111,9 +112,10 @@ export default function Post() {
               >
                 <BiDotsHorizontalRounded className="text-2xl" />
               </button>
+              {selectedPost === post.postId && <PostOpt postId={post.postId} />}
             </div>
           ) : null}
-          {selectedPost === post.postId && <PostOpt postId={post.postId} />}
+
           <div className="flex gap-3 p-4 items-center">
             <Image
               onClick={(e) => {
@@ -214,17 +216,17 @@ export default function Post() {
           ) : (
             <div />
           )}
-          <div className="flex justify-between items-center p-4 border-t border-panel gap-4 mt-2">
+          <div className="flex justify-between items-center py-4 border-t border-panel mt-2">
             <div
               onClick={(e) => {
                 e.stopPropagation();
                 if (user) {
-                  handleLike(post);
+                  handleEnergize(post);
                 } else {
                   setShowSignIn(true);
                 }
               }}
-              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer"
+              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <AiFillThunderbolt
                 className={`text-2xl ${
@@ -237,15 +239,31 @@ export default function Post() {
                 {post.energized ? post.energized.length : 0}
               </p>
             </div>
-            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                if (user) {
+                  handleEcho(post);
+                } else {
+                  setShowSignIn(true);
+                }
+              }}
+              className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+            >
+              <MdOutlineSensors
+                className={`text-2xl ${
+                  post.echoed?.includes(user?.uid) ? "text-accent" : "text-normal"
+                }`}
+              />
+              <p className="text-xs font-light text-vibe">
+                {post.echoed ? post.echoed.length : 0}
+              </p>
+            </div>
+            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer">
               <FaComment className="text-2xl transform -scale-x-100" />
               <p className="text-xs font-light text-vibe">
                 {post.comments ? post.comments.length : 0}
               </p>
-            </div>
-            <div className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 rounded-4xl w-[33%] h-12 transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-accent)] active:bg-[var(--color-accent)] cursor-pointer">
-              <FaShare className="text-2xl" />
-              <p className="text-xs font-light text-vibe">21</p>
             </div>
           </div>
         </div>

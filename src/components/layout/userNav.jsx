@@ -8,16 +8,20 @@ import { UserContext } from "@/context/userContext";
 import { BsFileEarmarkPostFill } from "react-icons/bs";
 import { GiNinjaHead } from "react-icons/gi";
 import Image from "next/image";
+import { ScrollContext } from "@/context/scrollContext";
 
 export default function UserNav({ setShowUserNav }) {
   const router = useRouter();
   const { setIsLoading } = useContext(LoaderContext);
+  const { navHide } = useContext(ScrollContext);
   const { user, setShowSignIn } = useContext(UserContext);
 
   return (
     <div
       onClick={() => setShowUserNav(false)}
-      className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+      className={`inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed ${
+        navHide ? "translate-x-[-100%] opacity-0" : "translate-x-0 opacity-100"
+      }`}
     >
       <div
         onClick={(e) => e.stopPropagation()}

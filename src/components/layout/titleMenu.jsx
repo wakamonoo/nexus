@@ -49,32 +49,25 @@ export default function TitleMenu({
 
   return (
     <div
-      onClick={() => setShowTitleMenu(false)}
-      className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+      onClick={(e) => e.stopPropagation()}
+      className="flex flex-col w-[50vw] absolute top-full right-0 mt-2 p-2 rounded bg-accent shadow-lg z-50 overflow-hidden"
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="flex flex-col gap-4 p-4 absolute top-18 right-2 bg-accent w-[65%] h-fit rounded overflow-hidden"
+      <button
+        onClick={handleWatch}
+        className="flex w-full items-center gap-2 px-4 py-2 cursor-pointer"
       >
-        <button
-          onClick={handleWatch}
-          className="flex items-center gap-2 cursor-pointer"
-        >
-          {isWatched === true ? (
-            <>
-              <FaEyeSlash className="text-2xl" />
-              <p className="text-base font-bold text-normal">
-                Mark as unwatched
-              </p>
-            </>
-          ) : (
-            <>
-              <FaEye className="text-2xl" />
-              <p className="text-base font-bold text-normal">Mark as watched</p>
-            </>
-          )}
-        </button>
-      </div>
+        {isWatched === true ? (
+          <>
+            <FaEyeSlash className="text-2xl shrink-0" />
+            <p className="text-base font-bold text-normal">Mark as unwatched</p>
+          </>
+        ) : (
+          <>
+            <FaEye className="text-2xl shrink-0" />
+            <p className="text-base font-bold text-normal">Mark as watched</p>
+          </>
+        )}
+      </button>
     </div>
   );
 }

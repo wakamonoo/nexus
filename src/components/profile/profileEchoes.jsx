@@ -1,37 +1,30 @@
-"use client";
-import Banner from "@/components/layout/banner.jsx";
-import { FaComment, FaRegFileAlt, FaShare, FaTrash } from "react-icons/fa";
-import { AiFillThunderbolt } from "react-icons/ai";
-import Image from "next/image";
-import { useState, useContext, useRef, useEffect } from "react";
 import { PostContext } from "@/context/postContext";
-import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
-import HeroLoader from "@/components/loaders/heroLoader";
+import { useContext, useState } from "react";
+import { AiFillThunderbolt } from "react-icons/ai";
+import { FaComment, FaTrash } from "react-icons/fa";
+import { MdOutlineSensors, MdSensorsOff } from "react-icons/md";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
-import PostOpt from "@/components/layout/postOpt";
-import { BsSoundwave } from "react-icons/bs";
-import { MdOutlineSensors, MdSensors } from "react-icons/md";
-import { GiEchoRipples } from "react-icons/gi";
 
-export default function Hero() {
+export default function ProfileEchoes({ profileUser }) {
+  const { user } = useContext(UserContext);
   const {
     posts,
     handleEnergize,
     handleEcho,
     handleFileClick,
-    coldLoad,
-    selectedPost,
+    setDelModal,
     setSelectedPost,
   } = useContext(PostContext);
-  const { user, setShowSignIn } = useContext(UserContext);
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const optRef = useRef();
-
   const router = useRouter();
+
+  const profileUserEchoes = posts?.filter((p) =>
+    p.echoed?.includes(profileUser.uid)
+  );
 
   const handlePostNavMain = (id) => {
     router.push(`/post/${id}`);
@@ -39,53 +32,46 @@ export default function Hero() {
   };
 
   return (
-    <div className="bg-brand w-full">
-      {coldLoad ? (
-        <HeroLoader />
-      ) : posts.length === 0 ? (
-        <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+    <div className="p-2">
+      {profileUserEchoes.length === 0 ? (
+        <div className="mt-16">
           <div className="flex flex-col items-center justify-center">
-            <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
-            <p className="text-xs text-vibe opacity-40">No posts yet</p>
+            <MdSensorsOff className="text-4xl text-vibe opacity-40" />
+            <p className="text-xs text-vibe opacity-40">
+              You have no echoed posts yet
+            </p>
           </div>
         </div>
       ) : (
-        <div className="p-2 flex flex-col gap-1">
-          {posts.map((post, index) => (
+        <div className="flex flex-col gap-1 py-4">
+          {profileUserEchoes.map((post, index) => (
             <div
               key={index}
               onClick={() => handlePostNavMain(post.postId)}
-              className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
+              className="w-full relative h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
             >
-              {user?.uid === post.userId ? (
-                <div className="absolute top-4 right-4">
-                  <button
-                    id={`btn-${post.postId}`}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedPost(
-                        selectedPost === post.postId ? null : post.postId
-                      );
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <BiDotsHorizontalRounded className="text-2xl" />
-                  </button>
-                  {selectedPost === post.postId && (
-                    <PostOpt postId={post.postId} />
-                  )}
-                </div>
-              ) : null}
-
+              <div className="absolute top-4 right-4">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDelModal(true);
+                    setSelectedPost(post.postId);
+                  }}
+                  className={`cursor-pointer ${
+                    user?.uid === post.userId ? "flex" : "hidden"
+                  }`}
+                >
+                  <FaTrash />
+                </button>
+              </div>
               <div className="flex gap-3 px-4 items-center py-2">
                 <Image
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsLoading(true);
-                    router.push(`/profile/${post.userId}`);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
                   src={post.userImage}
-                  alt="user"
+                  alt="profileUser"
                   width={0}
                   height={0}
                   sizes="100vw"
@@ -95,8 +81,7 @@ export default function Hero() {
                   <p
                     onClick={(e) => {
                       e.stopPropagation();
-                      setIsLoading(true);
-                      router.push(`/profile/${post.userId}`);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     className="text-base mt-2 font-bold leading-3.5"
                   >
@@ -196,13 +181,13 @@ export default function Hero() {
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (user) {
+                    if (profileUser) {
                       handleEnergize(post);
                     } else {
                       setShowSignIn(true);
                     }
                   }}
-                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4  w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+                  className="flex items-center justify-center gap-2 bg-[var(--color-panel)]/75 p-4 w-[33%] h-12 transition-all duration-200 hover:w-[40%] active:w-[40%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
                 >
                   <AiFillThunderbolt
                     className={`text-2xl ${
@@ -212,10 +197,9 @@ export default function Hero() {
                     }`}
                   />
                   <p className="text-xs font-light text-vibe">
-                    {post.energized ? post.energized.length : 0} energized
+                    {post.energized ? post.energized.length : 0}
                   </p>
                 </div>
-
                 <div
                   onClick={(e) => {
                     e.stopPropagation();
@@ -247,17 +231,12 @@ export default function Hero() {
                 >
                   <FaComment className="text-2xl transform -scale-x-100" />
                   <p className="text-xs font-light text-vibe">
-                    {post.comments ? post.comments.length : 0} commented
+                    {post.comments ? post.comments.length : 0}
                   </p>
                 </div>
               </div>
             </div>
           ))}
-          <div className="flex justify-center py-8">
-            <p className="text-xs text-vibe text-normal opacity-25">
-              oopss, that's the end of time.
-            </p>
-          </div>
         </div>
       )}
     </div>

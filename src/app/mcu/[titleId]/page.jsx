@@ -3,42 +3,22 @@ import { useContext, useEffect, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import {
-  FaAngleLeft,
-  FaCheckCircle,
-  FaClipboardList,
-  FaCrown,
-  FaEye,
-  FaFileAlt,
-  FaInfo,
-  FaMedal,
-  FaPlay,
-  FaQuoteLeft,
-  FaRegComment,
-  FaRegCommentAlt,
-  FaRegCommentDots,
-  FaRegComments,
-  FaUser,
-} from "react-icons/fa";
+import { FaAngleLeft, FaCrown, FaPlay, FaQuoteLeft } from "react-icons/fa";
 import {
   Bs1CircleFill,
   BsInfoCircle,
   BsThreeDotsVertical,
 } from "react-icons/bs";
 import { TbEyeSpark } from "react-icons/tb";
-import { FiCheckCircle, FiMessageSquare } from "react-icons/fi";
-import { format, set } from "date-fns";
+import { FiCheckCircle } from "react-icons/fi";
+import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowLoader from "@/components/loaders/showLoader";
 import AddReview from "@/components/modals/addReview";
 import { UserContext } from "@/context/userContext";
-import { MdAnnouncement, MdOutlineReviews, MdRateReview } from "react-icons/md";
+import { MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/layout/titleMenu";
-import { WatchContext } from "@/context/watchContext";
-import { HiInformationCircle } from "react-icons/hi2";
-import { InfoOutline } from "@mui/icons-material";
-import { BiInfoSquare } from "react-icons/bi";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -88,25 +68,28 @@ export default function Title() {
 
   return (
     <>
-      {showTitleMenu && (
-        <TitleMenu
-          setShowTitleMenu={setShowTitleMenu}
-          title={title.title}
-          titleId={title.titleId}
-          poster={title.image}
-        />
-      )}
       <div className="p-4 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]">
-        <div className="flex justify-between py-4">
+        <div className="flex justify-between py-4 ">
           <FaAngleLeft
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <BsThreeDotsVertical
-            onClick={() => setShowTitleMenu(true)}
-            className="text-2xl cursor-pointer"
-          />
+          <div className="relative">
+            <BsThreeDotsVertical
+              onClick={() => setShowTitleMenu(true)}
+              className="text-2xl cursor-pointer"
+            />
+            {showTitleMenu && (
+              <TitleMenu
+                setShowTitleMenu={setShowTitleMenu}
+                title={title.title}
+                titleId={title.titleId}
+                poster={title.image}
+              />
+            )}
+          </div>
         </div>
+
         <div className="flex justify-between w-full">
           <div className="w-[50%]">
             <div>

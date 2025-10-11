@@ -15,6 +15,7 @@ import ProfilePosts from "@/components/profile/profilePosts";
 import ProfileReviews from "@/components/profile/profileReviews";
 import EditProfile from "@/components/modals/editProfile";
 import Fallback from "@/assets/fallback.png";
+import ProfileEchoes from "@/components/profile/profileEchoes";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -26,6 +27,7 @@ export default function UserProfile() {
   const { handleShowNav } = useContext(TitleNavContext);
   const [showProfilePosts, setShowProfilePosts] = useState(true);
   const [showProfileReviews, setShowProfileReviews] = useState(false);
+  const [showProfileEchoes, setShowProfileEchoes] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const router = useRouter();
 
@@ -36,12 +38,12 @@ export default function UserProfile() {
     }
   }, [allUsers, posts]);
 
-  const profileUser = allUsers.find((u) => u.uid === userId);
+  const profileUser = allUsers?.find((u) => u.uid === userId);
 
   const topRanks = profileUser?.rankings
     ? [...profileUser.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
     : [];
-  const showNum = titles.length;
+  const showNum = titles?.length;
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -205,11 +207,12 @@ export default function UserProfile() {
           onClick={() => {
             setShowProfilePosts(true);
             setShowProfileReviews(false);
+            setShowProfileEchoes(false);
           }}
-          className="cursor-pointer w-[50%]"
+          className="cursor-pointer flex flex-1"
         >
           <p
-            className={`text-lg w-full text-center ${
+            className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
               showProfilePosts
                 ? "font-bold text-accent border-b-2 border-accent"
                 : "text-normal"
@@ -222,11 +225,12 @@ export default function UserProfile() {
           onClick={() => {
             setShowProfileReviews(true);
             setShowProfilePosts(false);
+            setShowProfileEchoes(false);
           }}
-          className="cursor-pointer w-[50%]"
+          className="cursor-pointer flex flex-1"
         >
           <p
-            className={`text-lg w-full text-center ${
+            className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
               showProfileReviews
                 ? "font-bold text-accent border-b-2 border-accent"
                 : "text-normal"
@@ -235,12 +239,33 @@ export default function UserProfile() {
             Reviews
           </p>
         </div>
+        <div
+          onClick={() => {
+            setShowProfileEchoes(true);
+            setShowProfileReviews(false);
+            setShowProfilePosts(false);
+          }}
+          className="cursor-pointer flex flex-1"
+        >
+          <p
+            className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+              showProfileEchoes
+                ? "font-bold text-accent border-b-2 border-accent"
+                : "text-normal"
+            }`}
+          >
+            Echoes
+          </p>
+        </div>
       </div>
       {showProfilePosts && profileUser && (
         <ProfilePosts profileUser={profileUser} />
       )}
       {showProfileReviews && profileUser && (
         <ProfileReviews profileUser={profileUser} />
+      )}
+      {showProfileEchoes && profileUser && (
+        <ProfileEchoes profileUser={profileUser} />
       )}
     </>
   );
