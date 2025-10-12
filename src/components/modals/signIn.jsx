@@ -183,14 +183,25 @@ export default function SignIn() {
             ) : null}
             <p className="text-xs text-center text-vibe">
               By continuing, you agree to our{" "}
-              <a href="" className="text-blue-400">
+              <span
+                onClick={() => {
+                  setShowSignIn(false);
+                  router.push("/terms&Conditions");
+                }}
+                className="cursor-pointer text-blue-500"
+              >
                 Terms of Service
-              </a>{" "}
-              and
-              <a href="" className="text-blue-400">
-                {" "}
+              </span>{" "}
+              and{" "}
+              <span
+                onClick={() => {
+                  setShowSignIn(false);
+                  router.push("/privacyPolicy");
+                }}
+                className="cursor-pointer text-blue-500"
+              >
                 Privacy Policy
-              </a>
+              </span>
               .
             </p>
           </div>

@@ -1,96 +1,179 @@
 "use client";
 import NavBar from "@/components/layout/navBar";
-import TDBP from "@/assets/tpdb.svg";
-import Image from "next/image";
 import { useContext, useEffect } from "react";
-import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 
-export default function TrustAndLegality() {
-  const { titles } = useContext(TitleContext);
+export default function TermsAndConditions() {
   const { setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
-
   return (
     <>
       <NavBar />
       <div className="bg-brand w-full py-16 p-4">
         <div>
-          <h1 className="text-2xl py-4 text-accent text-center">
-            Disclaimer & Legal Notice
+          <h1 className="text-2xl py-4 text-accent text-left">
+            1. Introduction
           </h1>
           <p className="text-base text-justify">
-            This website is an independent, fan-made project created solely for
-            entertainment and educational purposes. I am not affiliated with,
-            sponsored by, or in any way officially connected to{" "}
-            <a href="" className="font-bold">
-              Marvel Studios
-            </a>
-            ,{" "}
-            <a href="" className="font-bold">
-              The Walt Disney Company
-            </a>
-            , or any of their subsidiaries or affiliates. All trademarks,
-            character names, movie titles, logos, and other intellectual
-            property referenced on this site remain the exclusive property of
-            their respective copyright and trademark holders, including but not
-            limited to Marvel and Disney.
+            Welcome to <strong>Nexus</strong>, an independent, fan-made{" "}
+            <strong>Marvel Cinematic Universe</strong> (MCU) community created
+            and developed by <strong>Joven Bataller</strong>.
             <br />
             <br />
-            The site’s original code, tools, and written content are the sole
-            creation of the site’s developer and are shared for the enjoyment of
-            the global MCU fan community. This site makes no claim of ownership
-            over any{" "}
-            <a href="" className="font-bold">
-              Marvel
-            </a>{" "}
-            or{" "}
-            <a href="" className="font-bold">
-              Disney
-            </a>{" "}
-            intellectual property.
+            By accessing or using <i>nexus-wakamonoo.vercel.app</i>, you agree
+            to these <strong>Terms and Conditions</strong> and to my{" "}
+            <strong>Privacy Policy</strong>. If you do not agree, please do not
+            use this Site.
           </p>
         </div>
         <div>
-          <h1 className="text-2xl py-4 text-accent text-center">
-            Poster & Artwork
+          <h1 className="text-2xl py-4 text-accent text-left">
+            2. Ownership and Legal Disclaimer
           </h1>
           <p className="text-base text-justify">
-            All movie poster artwork featured on this site has been sourced from
-            publicly available entries on{" "}
-            <a href="" className="font-bold">
-              The Poster Database (TPDb)
-            </a>
-            . Full credit is given to the original artists, and links to their
-            TPDb profiles or other public portfolios are provided below. If you
-            are an artist and would like your work removed or updated, please
-            contact me and we will respond promptly.
+            This website is a personal, non-commercial fan project built for
+            entertainment and educational purposes. I am not affiliated,
+            sponsored, or endorsed by <strong>Marvel Studios</strong>,{" "}
+            <strong>The Walt Disney Company</strong>, or any of their
+            subsidiaries or affiliates.
+            <br />
+            <br />
+            All trademarks, logos, character names, and movie titles remain the
+            exclusive property of their respective owners, including{" "}
+            <strong>Marvel</strong> and
+            <strong>Disney</strong>.
+            <br />
+            <br />
+            All original code, systems, design, and written content belong to
+            me, <strong>Joven Bataller</strong>, and are used to provide a space
+            for MCU fans to connect, rank titles, and share insights. I make no
+            claim of ownership over any <strong>Marvel</strong> or{" "}
+            <strong>Disney</strong> intellectual property.
           </p>
-          <div className="flex flex-col gap-2 py-2">
-            {titles.map((title, index) => (
-              <a
-                href={title.posterCreditUrl}
-                key={index}
-                className="flex gap-4 p-2 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-bg)] rounded-l-full"
-              >
-                <p className="truncate w-[40%] font-bold">{title.title}</p>
-                <div className="flex items-center">
-                  <Image
-                    src={TDBP}
-                    alt="poster"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-14 h-auto rounded"
-                  />
-                  <p className="text-base font-bold truncate">/{title.posterCredit}</p>
-                </div>
-              </a>
-            ))}
-          </div>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            3. User Accounts
+          </h1>
+          <ul className="text-base text-justify">
+            Users must sign in through <strong>Google Authentication</strong> to
+            interact with community features.
+          </ul>
+          <br />
+          <ul className="text-base text-justify list-disc list-inside">
+            Registered users can:{" "}
+            <li className="text-sm text-vibe">Create posts and comments</li>
+            <li className="text-sm text-vibe">
+              Participate in the global chat
+            </li>
+            <li className="text-sm text-vibe">
+              Track MCU titles and mark them as watched or unwatched
+            </li>
+            <li className="text-sm text-vibe">Rank their favorite titles</li>
+            <li className="text-sm text-vibe">
+              Update their profile name, photo, and bio
+            </li>
+          </ul>
+          <br />
+          <ul className="text-base text-justify">
+            Users can delete their accounts at any time, and their personal data
+            and activity will be removed from the platform.
+          </ul>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            4. User Content and Responsibilities
+          </h1>
+          <ul className="text-base text-justify">
+            You are responsible for the content you post, including text,
+            images, videos, rankings, and other submissions.
+          </ul>
+          <br />
+          <ul className="text-base text-justify list-disc list-inside">
+            You agree <strong>not to upload </strong> or share any material
+            that:
+            <li className="text-sm text-vibe">
+              Violates copyright or intellectual property laws
+            </li>
+            <li className="text-sm text-vibe">
+              Contains harassment, hate speech, or harmful material
+            </li>
+            <li className="text-sm text-vibe">
+              Involves illegal activity or promotes it
+            </li>
+          </ul>
+          <br />
+          <ul className="text-base text-justify">
+            I reserve the right to remove any content or account that violates
+            these rules or disrupts the community space.
+          </ul>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            5. Copyright and Attribution
+          </h1>
+          <p className="text-base text-justify">
+            All movie posters and promotional artwork are sourced from{" "}
+            <strong>The Poster Database (TPDb)</strong> and belong to their
+            respective creators.
+            <br />
+            <br />
+            Full credit is given to the original artists. If any artist requests
+            removal or correction of their work, I will respond promptly.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            6. Community Conduct
+          </h1>
+          <p className="text-base text-justify">
+            Nexus is built to foster positive, respectful interaction among MCU
+            fans. Any form of harassment, spamming, impersonation, or malicious
+            behavior will result in removal of content or account suspension.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            7. Limitation of Liability
+          </h1>
+          <p className="text-base text-justify">
+            The Site is provided “as is.”
+            <br />
+            <br />
+            I, <strong>Joven Bataller</strong>, am not responsible for any
+            damages or data loss resulting from use of the Site, community
+            content, or external links.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            8. Age Requirement
+          </h1>
+          <p className="text-base text-justify">
+            To ensure safety and legal compliance, this Site is intended for
+            individuals aged <strong>10 years or older</strong>.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            9. Modifications
+          </h1>
+          <p className="text-base text-justify">
+            I may update these Terms at any time. Continued use of the Site
+            after updates means you accept the revised Terms.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">10. Contact</h1>
+          <p className="text-base text-justify">
+            For questions about these Terms, please{" "}
+            <a href="https://nexus-wakamonoo.vercel.app/recommendations">
+              <strong>contact me.</strong>
+            </a>
+          </p>
         </div>
       </div>
     </>

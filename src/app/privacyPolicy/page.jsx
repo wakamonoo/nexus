@@ -1,13 +1,9 @@
 "use client";
 import NavBar from "@/components/layout/navBar";
-import TDBP from "@/assets/tpdb.svg";
-import Image from "next/image";
 import { useContext, useEffect } from "react";
-import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 
-export default function TrustAndLegality() {
-  const { titles } = useContext(TitleContext);
+export default function PrivacyPolicy() {
   const { setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
@@ -19,80 +15,149 @@ export default function TrustAndLegality() {
       <NavBar />
       <div className="bg-brand w-full py-16 p-4">
         <div>
-          <h1 className="text-2xl py-4 text-accent text-center">
-            Disclaimer & Legal Notice
-          </h1>
+          <h1 className="text-2xl py-4 text-accent text-left">1. Overview</h1>
           <p className="text-base text-justify">
-            This website is an independent, fan-made project created solely for
-            entertainment and educational purposes. I am not affiliated with,
-            sponsored by, or in any way officially connected to{" "}
-            <a href="" className="font-bold">
-              Marvel Studios
-            </a>
-            ,{" "}
-            <a href="" className="font-bold">
-              The Walt Disney Company
-            </a>
-            , or any of their subsidiaries or affiliates. All trademarks,
-            character names, movie titles, logos, and other intellectual
-            property referenced on this site remain the exclusive property of
-            their respective copyright and trademark holders, including but not
-            limited to Marvel and Disney.
-            <br />
-            <br />
-            The site’s original code, tools, and written content are the sole
-            creation of the site’s developer and are shared for the enjoyment of
-            the global MCU fan community. This site makes no claim of ownership
-            over any{" "}
-            <a href="" className="font-bold">
-              Marvel
-            </a>{" "}
-            or{" "}
-            <a href="" className="font-bold">
-              Disney
-            </a>{" "}
-            intellectual property.
+            This Privacy Policy explains how I collect, use, and protect
+            personal information from users of the Nexus community.
           </p>
         </div>
         <div>
-          <h1 className="text-2xl py-4 text-accent text-center">
-            Poster & Artwork
+          <h1 className="text-2xl py-4 text-accent text-left">
+            2. Information I Collect
           </h1>
           <p className="text-base text-justify">
-            All movie poster artwork featured on this site has been sourced from
-            publicly available entries on{" "}
-            <a href="" className="font-bold">
-              The Poster Database (TPDb)
-            </a>
-            . Full credit is given to the original artists, and links to their
-            TPDb profiles or other public portfolios are provided below. If you
-            are an artist and would like your work removed or updated, please
-            contact me and we will respond promptly.
+            When you register or use Nexus, I collect the following:
           </p>
-          <div className="flex flex-col gap-2 py-2">
-            {titles.map((title, index) => (
-              <a
-                href={title.posterCreditUrl}
-                key={index}
-                className="flex gap-4 p-2 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-bg)] rounded-l-full"
-              >
-                <p className="truncate w-[40%] font-bold">{title.title}</p>
-                <div className="flex items-center">
-                  <Image
-                    src={TDBP}
-                    alt="poster"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-14 h-auto rounded"
-                  />
-                  <p className="text-base font-bold truncate">
-                    /{title.posterCredit}
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
+          <br />
+          <ul className="text-base text-justify list-disc list-inside">
+            Personal Information:
+            <li className="text-sm text-vibe">Google account name</li>
+            <li className="text-sm text-vibe">Email address</li>
+            <li className="text-sm text-vibe">Profile photo</li>
+            <li className="text-sm text-vibe">Optional user bio</li>
+          </ul>
+          <ul className="text-base text-justify list-disc list-inside">
+            Activity Information:
+            <li className="text-sm text-vibe">
+              Posts, comments, and chat messages
+            </li>
+            <li className="text-sm text-vibe">
+              MCU titles tracked or marked as watched
+            </li>
+            <li className="text-sm text-vibe">
+              Rankings and personal preference
+            </li>
+            <li className="text-sm text-vibe">Interaction logs</li>
+          </ul>
+          <ul className="text-base text-justify list-disc list-inside">
+            Technical Information:
+            <li className="text-sm text-vibe">
+              Google account ID (for authentication)
+            </li>
+            <li className="text-sm text-vibe">
+              Basic timestamps for login and activity
+            </li>
+          </ul>
+          <br />
+          <p className="text-base text-justify">
+            I do not collect addresses, phone numbers, or payment information.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            3. How I Use Your Information
+          </h1>
+          <ul className="text-base text-justify list-disc list-inside">
+            Your information is used only to:
+            <li className="text-sm text-vibe">
+              Provide access to community features
+            </li>
+            <li className="text-sm text-vibe">
+              Allow you to track and rank MCU titles
+            </li>
+            <li className="text-sm text-vibe">
+              Maintain your personalized profile and account
+            </li>
+            <li className="text-sm text-vibe">
+              Moderate content for community safety and integrity
+            </li>
+          </ul>
+          <br />
+          <p className="text-base text-justify">
+            I do not sell, rent, or trade your information.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            4. Data Storage and Third-Party Services
+          </h1>
+          <ul className="text-base text-justify list-disc list-inside">
+            I rely on secure, trusted providers for authentication, storage, and
+            media hosting:
+            <li className="text-sm text-vibe">
+              <strong>Firebase Authentication (Google)</strong>: user login and
+              verification
+            </li>
+            <li className="text-sm text-vibe">
+              <strong>MongoDB Atlas</strong>: database for storing user activity
+              and profile data
+            </li>
+            <li className="text-sm text-vibe">
+              <strong> Cloudinary</strong>: image and video storage
+            </li>
+          </ul>
+          <br />
+          <p className="text-base text-justify">
+            Each provider follows its own strict security and privacy standards.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            5. Data Retention and Deletion
+          </h1>
+          <p className="text-base text-justify">
+            You may delete your account at any time. When you do, your personal
+            data, posts, and rankings are permanently removed. Temporary backups
+            may exist briefly before full deletion for technical consistency.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            6. Data Security
+          </h1>
+          <p className="text-base text-justify">
+            I implement reasonable technical measures to protect your data.
+            However, no system is completely secure. Please be mindful of the
+            information you share publicly.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            7. Children’s Privacy
+          </h1>
+          <p className="text-base text-justify">
+            Nexus is not directed toward children under 10 years old. If I
+            discover that a user under 10 has registered, I will remove their
+            account and delete all related data.
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">
+            8. Changes to This Policy
+          </h1>
+          <p className="text-base text-justify">
+            I may update this Privacy Policy from time to time. Any changes will
+            be reflected on this page with an updated “Last Updated” date..
+          </p>
+        </div>
+        <div>
+          <h1 className="text-2xl py-4 text-accent text-left">9. Contact</h1>
+          <p className="text-base text-justify">
+            For questions about these Terms, please{" "}
+            <a href="https://nexus-wakamonoo.vercel.app/recommendations">
+              <strong>contact me.</strong>
+            </a>
+          </p>
         </div>
       </div>
     </>
