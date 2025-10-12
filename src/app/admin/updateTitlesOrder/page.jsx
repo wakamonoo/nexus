@@ -9,6 +9,7 @@ import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { MdAutorenew, MdUpdate } from "react-icons/md";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
+import AdminGuard from "@/components/guard/adminGuard";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -104,45 +105,47 @@ export default function UpdateOrder() {
   };
 
   return (
-    <div className="p-2">
-      <div className="flex justify-between items-center">
-        <FaAngleLeft
-          onClick={() => router.back()}
-          className="text-2xl cursor-pointer"
-          title="Back"
-        />
-        <h1 className="text-xl">Update Order</h1>
-        <div>
-          <button
-            onClick={handleUpdateOrder}
-            className={`cursor-pointer transition-transform duration-500 ${
-              rotate ? "rotate-720" : ""
-            }`}
-            title="Sync"
+    <AdminGuard>
+      <div className="p-2">
+        <div className="flex justify-between items-center">
+          <FaAngleLeft
+            onClick={() => router.back()}
+            className="text-2xl cursor-pointer"
+            title="Back"
+          />
+          <h1 className="text-xl">Update Order</h1>
+          <div>
+            <button
+              onClick={handleUpdateOrder}
+              className={`cursor-pointer transition-transform duration-500 ${
+                rotate ? "rotate-720" : ""
+              }`}
+              title="Sync"
+            >
+              <MdAutorenew className="text-2xl" />
+            </button>
+          </div>
+        </div>
+
+        <div className="w-full py-4">
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
           >
-            <MdAutorenew className="text-2xl" />
-          </button>
+            <SortableContext items={items.map((t) => t.titleId)}>
+              <div className="flex flex-wrap justify-center gap-2">
+                {items.map((unit) => (
+                  <SortableItem
+                    key={unit.titleId}
+                    id={unit.titleId}
+                    image={unit.image}
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
         </div>
       </div>
-
-      <div className="w-full py-4">
-        <DndContext
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={items.map((t) => t.titleId)}>
-            <div className="flex flex-wrap justify-center gap-2">
-              {items.map((unit) => (
-                <SortableItem
-                  key={unit.titleId}
-                  id={unit.titleId}
-                  image={unit.image}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
-      </div>
-    </div>
+    </AdminGuard>
   );
 }

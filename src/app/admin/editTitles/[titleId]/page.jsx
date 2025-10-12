@@ -3,6 +3,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
 import { useParams, useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
+import AdminGuard from "@/components/guard/adminGuard";
 import Fallback from "@/assets/fallback.png";
 import Image from "next/image";
 import Swal from "sweetalert2";
@@ -141,179 +142,181 @@ export default function EditTitle() {
   };
 
   return (
-    <div className="p-2">
-      <div className="flex justify-between items-center">
-        <FaAngleLeft
-          onClick={() => router.back()}
-          className="text-2xl cursor-pointer"
-        />
-        <h1 className="text-xl">Edit Title</h1>
-      </div>
-      <form
-        className="flex flex-col items-start justify-center gap-4 w-full pt-8"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleUpdateTitle(title.titleId);
-        }}
-      >
-        <div className="flex justify-center items-center w-full">
-          <label htmlFor="addPoster">
-            <Image
-              src={
-                data.image instanceof File
-                  ? URL.createObjectURL(data.image)
-                  : data.image || Fallback
-              }
-              alt="user"
-              width={0}
-              height={0}
-              sizes="100vw"
-              name="userImage"
-              className="object-cover w-26 h-40 cursor-pointer rounded"
+    <AdminGuard>
+      <div className="p-2">
+        <div className="flex justify-between items-center">
+          <FaAngleLeft
+            onClick={() => router.back()}
+            className="text-2xl cursor-pointer"
+          />
+          <h1 className="text-xl">Edit Title</h1>
+        </div>
+        <form
+          className="flex flex-col items-start justify-center gap-4 w-full pt-8"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleUpdateTitle(title.titleId);
+          }}
+        >
+          <div className="flex justify-center items-center w-full">
+            <label htmlFor="addPoster">
+              <Image
+                src={
+                  data.image instanceof File
+                    ? URL.createObjectURL(data.image)
+                    : data.image || Fallback
+                }
+                alt="user"
+                width={0}
+                height={0}
+                sizes="100vw"
+                name="userImage"
+                className="object-cover w-26 h-40 cursor-pointer rounded"
+              />
+            </label>
+            <input
+              id="addPoster"
+              type="file"
+              name="image"
+              required
+              ref={fileRef}
+              onChange={handleChange}
+              className="bg-panel p-4 rounded w-[72%] cursor-pointer hidden"
             />
-          </label>
+          </div>
           <input
-            id="addPoster"
-            type="file"
-            name="image"
-            required
-            ref={fileRef}
+            type="text"
+            name="title"
+            value={data.title}
             onChange={handleChange}
-            className="bg-panel p-4 rounded w-[72%] cursor-pointer hidden"
+            placeholder="Enter Title"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
           />
-        </div>
-        <input
-          type="text"
-          name="title"
-          value={data.title}
-          onChange={handleChange}
-          placeholder="Enter Title"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <input
-          type="text"
-          name="posterCredit"
-          value={data.posterCredit}
-          onChange={handleChange}
-          placeholder="Poster Credit"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <input
-          type="text"
-          name="posterCreditUrl"
-          value={data.posterCreditUrl}
-          onChange={handleChange}
-          placeholder="Poster Credit Url"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <div className="flex items-center w-full">
-          <label className="text-normal font-normal text-base w-[30%]">
-            Release Date
-          </label>
           <input
-            type="date"
-            name="date"
-            value={data.date}
+            type="text"
+            name="posterCredit"
+            value={data.posterCredit}
             onChange={handleChange}
-            placeholder="Release Date"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-[70%]"
+            placeholder="Poster Credit"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
           />
-        </div>
-        <input
-          type="text"
-          name="timeline"
-          value={data.timeline}
-          onChange={handleChange}
-          placeholder="Timeline Date"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <select
-          name="phase"
-          value={data.phase}
-          onChange={handleChange}
-          className="bg-panel text-base text-normal font-normal p-4 cursor-pointer rounded w-full"
-        >
-          <option value="null">Select Phase</option>
-          <option value="Phase 1">Phase 1</option>
-          <option value="Phase 2">Phase 2</option>
-          <option value="Phase 3">Phase 3</option>
-          <option value="Phase 4">Phase 4</option>
-          <option value="Phase 5">Phase 5</option>
-          <option value="Phase 6">Phase 6</option>
-          <option value="Not Part">Not Part</option>
-        </select>
-        <select
-          name="type"
-          value={data.type}
-          onChange={handleChange}
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
-        >
-          <option value="null">Select Type</option>
-          <option value="Film">Film</option>
-          <option value="One Shot">One Shot</option>
-          <option value="TV Series">TV Series</option>
-          <option value="Mini-Series">Mini-Series</option>
-          <option value="Animated Series">Animated Series</option>
-          <option value="Special Presentaion">Special Presentaion</option>
-        </select>
-        <input
-          type="text"
-          name="director"
-          value={data.director}
-          onChange={handleChange}
-          placeholder="Director/s"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <input
-          type="number"
-          name="order"
-          value={data.order}
-          onWheel={(e) => e.target.blur()}
-          onChange={handleChange}
-          placeholder="Order in Timeline"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <input
-          type="number"
-          name="episode"
-          value={data.episode}
-          onWheel={(e) => e.target.blur()}
-          onChange={handleChange}
-          placeholder="Number of Episodes (TV Series)"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <input
-          type="number"
-          name="duration"
-          value={data.duration}
-          onWheel={(e) => e.target.blur()}
-          onChange={handleChange}
-          placeholder="Runtime (Movies & One Shots)"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <input
-          type="text"
-          name="trailer"
-          value={data.trailer}
-          onChange={handleChange}
-          placeholder="Trailer Url"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <textarea
-          type="text"
-          name="summary"
-          value={data.summary}
-          onChange={handleChange}
-          placeholder="Synopsis"
-          className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-        />
-        <button
-          type="submit"
-          className="bg-accent p-4 w-full rounded font-bold cursor-pointer"
-        >
-          <p className="text-base">Update Title</p>
-        </button>
-      </form>
-    </div>
+          <input
+            type="text"
+            name="posterCreditUrl"
+            value={data.posterCreditUrl}
+            onChange={handleChange}
+            placeholder="Poster Credit Url"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <div className="flex items-center w-full">
+            <label className="text-normal font-normal text-base w-[30%]">
+              Release Date
+            </label>
+            <input
+              type="date"
+              name="date"
+              value={data.date}
+              onChange={handleChange}
+              placeholder="Release Date"
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-[70%]"
+            />
+          </div>
+          <input
+            type="text"
+            name="timeline"
+            value={data.timeline}
+            onChange={handleChange}
+            placeholder="Timeline Date"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <select
+            name="phase"
+            value={data.phase}
+            onChange={handleChange}
+            className="bg-panel text-base text-normal font-normal p-4 cursor-pointer rounded w-full"
+          >
+            <option value="null">Select Phase</option>
+            <option value="Phase 1">Phase 1</option>
+            <option value="Phase 2">Phase 2</option>
+            <option value="Phase 3">Phase 3</option>
+            <option value="Phase 4">Phase 4</option>
+            <option value="Phase 5">Phase 5</option>
+            <option value="Phase 6">Phase 6</option>
+            <option value="Not Part">Not Part</option>
+          </select>
+          <select
+            name="type"
+            value={data.type}
+            onChange={handleChange}
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
+          >
+            <option value="null">Select Type</option>
+            <option value="Film">Film</option>
+            <option value="One Shot">One Shot</option>
+            <option value="TV Series">TV Series</option>
+            <option value="Mini-Series">Mini-Series</option>
+            <option value="Animated Series">Animated Series</option>
+            <option value="Special Presentaion">Special Presentaion</option>
+          </select>
+          <input
+            type="text"
+            name="director"
+            value={data.director}
+            onChange={handleChange}
+            placeholder="Director/s"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <input
+            type="number"
+            name="order"
+            value={data.order}
+            onWheel={(e) => e.target.blur()}
+            onChange={handleChange}
+            placeholder="Order in Timeline"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <input
+            type="number"
+            name="episode"
+            value={data.episode}
+            onWheel={(e) => e.target.blur()}
+            onChange={handleChange}
+            placeholder="Number of Episodes (TV Series)"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <input
+            type="number"
+            name="duration"
+            value={data.duration}
+            onWheel={(e) => e.target.blur()}
+            onChange={handleChange}
+            placeholder="Runtime (Movies & One Shots)"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <input
+            type="text"
+            name="trailer"
+            value={data.trailer}
+            onChange={handleChange}
+            placeholder="Trailer Url"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <textarea
+            type="text"
+            name="summary"
+            value={data.summary}
+            onChange={handleChange}
+            placeholder="Synopsis"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <button
+            type="submit"
+            className="bg-accent p-4 w-full rounded font-bold cursor-pointer"
+          >
+            <p className="text-base">Update Title</p>
+          </button>
+        </form>
+      </div>
+    </AdminGuard>
   );
 }
