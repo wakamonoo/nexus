@@ -56,25 +56,20 @@ export default function Chrono() {
                 <div
                   key={unit.date}
                   onClick={() => handleShowNav(unit.titleId)}
-                  className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
+                  className="w-26 h-40 flex-shrink-0 cursor-pointer"
                 >
                   <Image
-                    src={unit.image}
+                    src={unit.image || Fallback}
                     alt="image"
                     width={0}
                     height={0}
                     sizes="100vw"
-                    className="w-full h-full object-fill rounded"
+                    className={`w-full h-full object-fill rounded ${
+                      isTitleWatched(unit.titleId)
+                        ? "grayscale-0"
+                        : "grayscale-90"
+                    }`}
                   />
-                  <div className="absolute left-0 top-0">
-                    <GoDotFill
-                      className={`text-lg  ${
-                        isTitleWatched(unit.titleId)
-                          ? "text-[var(--color-hulk)]"
-                          : "text-accent"
-                      }`}
-                    />
-                  </div>
                 </div>
               ))}
           </div>

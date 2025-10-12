@@ -31,8 +31,9 @@ export default function LightBox() {
 
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
 
-  const handlePostNav = (id) => {
-    router.push(`/post/${id}`);
+  const handlePostNav = (id, focusInput = false) => {
+    const url = focusInput ? `/post/${id}?focus=comment` : "/post/${id}";
+    router.push(url);
     setIsLoading(true);
     setLightboxOpen(false);
   };
@@ -189,7 +190,7 @@ export default function LightBox() {
               </p>
             </div>
             <div
-              onClick={() => handlePostNav(currentPostInfo.postId)}
+              onClick={() => handlePostNav(currentPostInfo.postId, true)}
               className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <FaComment className="text-2xl transform -scale-x-100" />

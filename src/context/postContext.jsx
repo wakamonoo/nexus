@@ -182,8 +182,9 @@ export const PostProvider = ({ children }) => {
     }
   };
 
-  const handlePostNavMain = (id) => {
-    router.push(`/post/${id}`);
+  const handlePostNavMain = (id, focusInput = false) => {
+    const url = focusInput ? `/post/${id}?focus=comment` : "/post/${id}";
+    router.push(url);
     setIsLoading(true);
   };
 

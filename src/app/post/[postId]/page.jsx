@@ -1,6 +1,6 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import {
   FaAngleLeft,
@@ -44,9 +44,14 @@ export default function Post() {
   const [commentText, setCommentText] = useState("");
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const searchParams = useSearchParams();
+  const inputRef = useRef();
 
   useEffect(() => {
     setIsLoading(false);
+    if (searchParams.get("focus") === "comment" && inputRef.current) {
+      inputRef.current.focus();
+    }
   }, []);
 
   const post = posts.find((p) => p.postId === postId);
@@ -88,7 +93,7 @@ export default function Post() {
 
   return (
     <div className="bg-brand">
-      <div className="bg-panel p-4 flex justify-between">
+      <div className="bg-panel border-b-1 border-[var(--color-secondary)]  p-4 flex justify-between">
         <FaAngleLeft
           onClick={() => router.back()}
           className="text-2xl cursor-pointer"
@@ -97,7 +102,7 @@ export default function Post() {
         <div />
       </div>
       <div className="pb-24">
-        <div className="relative bg-second">
+        <div className="relative bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]">
           {user?.uid === post.userId ? (
             <div className="absolute top-4 right-4">
               <button
@@ -261,7 +266,13 @@ export default function Post() {
                 {post.echoed ? post.echoed.length : 0} echoed
               </p>
             </div>
-            <div className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer">
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                inputRef.current.focus();
+              }}
+              className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+            >
               <FaComment className="text-2xl transform -scale-x-100" />
               <p className="text-xs font-light text-vibe opacity-50">
                 {post.comments ? post.comments.length : 0} commented
@@ -328,6 +339,7 @@ export default function Post() {
       </div>
       <div className="flex fixed bottom-0 w-full gap-2 items-center bg-second p-4">
         <input
+          ref={inputRef}
           type="text"
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}

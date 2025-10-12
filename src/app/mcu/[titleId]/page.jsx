@@ -19,7 +19,7 @@ import AddReview from "@/components/modals/addReview";
 import { UserContext } from "@/context/userContext";
 import { MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/layout/titleMenu";
-import { GoDotFill } from "react-icons/go";
+import { GiGoat, GiTrophy } from "react-icons/gi";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -30,7 +30,7 @@ export default function Title() {
   const { setIsLoading } = useContext(LoaderContext);
   const [showAddReview, setShowAddReview] = useState(false);
   const [showTitleMenu, setShowTitleMenu] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, allUsers } = useContext(UserContext);
 
   useEffect(() => {
     setIsLoading(false);
@@ -65,11 +65,19 @@ export default function Title() {
     return { ...t, rank: currentRank };
   });
 
+  const topRankedNumber =
+    allUsers
+      ?.flatMap((user) => user.rankings || [])
+      .filter((r) => r.titleId === title.titleId && r.rank === 1).length || 0;
+
   const currentTitleRank = ranked.find((t) => t.titleId === titleId)?.rank;
 
   return (
     <>
-      <div className="p-4 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]">
+      <div
+        onClick={() => setShowTitleMenu(false)}
+        className="p-4 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]"
+      >
         <div className="flex justify-between py-4 ">
           <FaAngleLeft
             onClick={() => router.back()}
@@ -77,7 +85,10 @@ export default function Title() {
           />
           <div className="relative">
             <BsThreeDotsVertical
-              onClick={() => setShowTitleMenu(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowTitleMenu((prev) => !prev);
+              }}
               className="text-2xl cursor-pointer"
             />
             {showTitleMenu && (
@@ -146,20 +157,28 @@ export default function Title() {
                 sizes="100vw"
                 className="w-full h-auto rounded"
               />
-              <div className="flex absolute top-2 left-2">
-                <GoDotFill className="text-xs text-[var(--color-hulk)]" />
-                <p className="text-xs text-vibe font-extralight">
-                  {title.watchCount ? title.watchCount : 0}
-                </p>
-              </div>
               <div
                 onClick={() => {
                   setIsLoading(true);
                   router.push("/trustAndLegality");
                 }}
-                className="absolute top-2 right-2 cursor-pointer"
+                className="absolute top-2 right-2 cursor-pointer opacity-70"
               >
                 <BsInfoCircle className="text-normal" />
+              </div>
+              <div className="flex flex-col absolute top-2 left-2 gap-2 opacity-70">
+                <div className="flex items-center gap-1">
+                  <GiTrophy className="text-xs" />
+                  <p className="text-xs text-vibe font-extralight">
+                    {topRankedNumber}
+                  </p>
+                </div>
+                <div className="flex items-center gap-1">
+                  <TbEyeSpark className="text-xs" />
+                  <p className="text-xs text-vibe font-extralight">
+                    {title.watchCount ? title.watchCount : 0}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

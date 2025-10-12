@@ -7,6 +7,8 @@ import { MdOutlineSensors } from "react-icons/md";
 import Image from "next/image";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "./postOpt";
+import { LoaderContext } from "@/context/loaderContext";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function PostStructure({ post }) {
   const { user, setShowSignIn } = useContext(UserContext);
@@ -17,9 +19,13 @@ export default function PostStructure({ post }) {
     handleFileClick,
     setSelectedPost,
     handlePostNavMain,
+    handleCommentNav,
   } = useContext(PostContext);
   const [showFull, setShowFull] = useState(false);
+  const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div
@@ -48,8 +54,15 @@ export default function PostStructure({ post }) {
         <Image
           onClick={(e) => {
             e.stopPropagation();
-            setIsLoading(true);
-            router.push(`/profile/${post.userId}`);
+            if (pathname.startsWith("/profile")) {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            } else {
+              setIsLoading(true);
+              router.push(`/profile/${post.userId}`);
+            }
           }}
           src={post.userImage}
           alt="user"
@@ -62,8 +75,15 @@ export default function PostStructure({ post }) {
           <p
             onClick={(e) => {
               e.stopPropagation();
-              setIsLoading(true);
-              router.push(`/profile/${post.userId}`);
+              if (pathname.startsWith("/profile")) {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              } else {
+                setIsLoading(true);
+                router.push(`/profile/${post.userId}`);
+              }
             }}
             className="text-base mt-2 font-bold leading-3.5"
           >
@@ -202,7 +222,7 @@ export default function PostStructure({ post }) {
         <div
           onClick={(e) => {
             e.stopPropagation();
-            handlePostNavMain(post.postId);
+            handlePostNavMain(post.postId, true);
           }}
           className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
         >

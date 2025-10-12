@@ -208,7 +208,7 @@ export default function Main() {
                         <div
                           key={unit.date}
                           onClick={() => handleShowNav(unit.titleId)}
-                          className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
+                          className="w-26 h-40 flex-shrink-0 cursor-pointer"
                         >
                           <Image
                             src={unit.image || Fallback}
@@ -216,17 +216,12 @@ export default function Main() {
                             width={0}
                             height={0}
                             sizes="100vw"
-                            className="w-full h-full object-fill rounded"
+                            className={`w-full h-full object-fill rounded ${
+                              isTitleWatched(unit.titleId)
+                                ? "grayscale-0"
+                                : "grayscale-90"
+                            }`}
                           />
-                          <div className="absolute left-0 top-0">
-                            <GoDotFill
-                              className={`text-2xl  ${
-                                isTitleWatched(unit.titleId)
-                                  ? "text-[var(--color-hulk)]"
-                                  : "text-[var(--color-secondary)]"
-                              }`}
-                            />
-                          </div>
                         </div>
                       ))}
                   </div>
@@ -268,7 +263,7 @@ export default function Main() {
                             <div
                               key={unit.date}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -276,17 +271,12 @@ export default function Main() {
                                 width={0}
                                 height={0}
                                 sizes="100vw"
-                                className="w-full h-full object-fill rounded"
+                                className={`w-full h-full object-fill rounded ${
+                                  isTitleWatched(unit.titleId)
+                                    ? "grayscale-0"
+                                    : "grayscale-90"
+                                }`}
                               />
-                              <div className="absolute left-0 top-0">
-                                <GoDotFill
-                                  className={`text-lg  ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "text-[var(--color-hulk)]"
-                                      : "text-accent"
-                                  }`}
-                                />
-                              </div>
                             </div>
                           ))
                       ) : (
@@ -324,7 +314,7 @@ export default function Main() {
                             <div
                               key={unit.order}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -332,17 +322,12 @@ export default function Main() {
                                 width={0}
                                 height={0}
                                 sizes="100vw"
-                                className="w-full h-full object-fill rounded"
+                                className={`w-full h-full object-fill rounded ${
+                                  isTitleWatched(unit.titleId)
+                                    ? "grayscale-0"
+                                    : "grayscale-90"
+                                }`}
                               />
-                              <div className="absolute left-0 top-0">
-                                <GoDotFill
-                                  className={`text-lg  ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "text-[var(--color-hulk)]"
-                                      : "text-accent"
-                                  }`}
-                                />
-                              </div>
                             </div>
                           ))
                       ) : (
@@ -380,7 +365,7 @@ export default function Main() {
                             <div
                               key={unit.date}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -388,17 +373,12 @@ export default function Main() {
                                 width={0}
                                 height={0}
                                 sizes="100vw"
-                                className="w-full h-full object-fill rounded"
+                                className={`w-full h-full object-fill rounded ${
+                                  isTitleWatched(unit.titleId)
+                                    ? "grayscale-0"
+                                    : "grayscale-90"
+                                }`}
                               />
-                              <div className="absolute left-0 top-0">
-                                <GoDotFill
-                                  className={`text-lg  ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "text-[var(--color-hulk)]"
-                                      : "text-accent"
-                                  }`}
-                                />
-                              </div>
                             </div>
                           ))
                       ) : (
@@ -442,7 +422,11 @@ export default function Main() {
                               width={0}
                               height={0}
                               sizes="100vw"
-                              className="w-full h-full object-fill rounded"
+                              className={`w-full h-full object-fill rounded ${
+                                isTitleWatched(unit.titleId)
+                                  ? "grayscale-0"
+                                  : "grayscale-90"
+                              }`}
                             />
                             <div
                               className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
@@ -456,15 +440,6 @@ export default function Main() {
                               >
                                 {unit.rank === 1 ? <GiTrophy /> : unit.rank}
                               </p>
-                            </div>
-                            <div className="absolute left-0 top-0">
-                              <GoDotFill
-                                className={`text-lg  ${
-                                  isTitleWatched(unit.titleId)
-                                    ? "text-[var(--color-hulk)]"
-                                    : "text-accent"
-                                }`}
-                              />
                             </div>
                           </div>
                         ))

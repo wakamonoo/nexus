@@ -72,12 +72,14 @@ export default function Goat() {
               className="relative w-26 h-40 flex-shrink-0 cursor-pointer"
             >
               <Image
-                src={unit.image}
+                src={unit.image || Fallback}
                 alt="image"
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="w-full h-full object-fill rounded"
+                className={`w-full h-full object-fill rounded ${
+                  isTitleWatched(unit.titleId) ? "grayscale-0" : "grayscale-90"
+                }`}
               />
               <div
                 className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
@@ -91,16 +93,6 @@ export default function Goat() {
                 >
                   {unit.rank === 1 ? <GiTrophy /> : unit.rank}
                 </p>
-              </div>
-
-              <div className="absolute left-0 top-0">
-                <GoDotFill
-                  className={`text-lg  ${
-                    isTitleWatched(unit.titleId)
-                      ? "text-[var(--color-hulk)]"
-                      : "text-accent"
-                  }`}
-                />
               </div>
             </div>
           ))}

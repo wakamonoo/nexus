@@ -48,10 +48,7 @@ export default function TitleMenu({
   }, [user?.uid, titleId]);
 
   return (
-    <div
-      onClick={(e) => e.stopPropagation()}
-      className="flex flex-col w-[50vw] absolute top-full right-0 mt-2 p-2 rounded bg-accent shadow-lg z-50 overflow-hidden"
-    >
+    <div className="flex flex-col w-[65vw] absolute top-full right-0 mt-2 p-2 rounded bg-accent shadow-lg z-50 overflow-hidden">
       <button
         onClick={handleWatch}
         className="flex w-full items-center gap-2 px-4 py-2 cursor-pointer"
