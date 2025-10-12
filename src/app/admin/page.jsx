@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import CountUp from "react-countup";
 import { UserContext } from "@/context/userContext";
 import AdminGuard from "@/components/guard/adminGuard";
+import { LoaderContext } from "@/context/loaderContext";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
@@ -14,9 +15,11 @@ export default function Page() {
   const router = useRouter();
   const [count, setCount] = useState({ usersCount: 0, titlesCount: 0 });
   const { setShowSignIn } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
     setShowSignIn(false);
+    setIsLoading(false);
   }, []);
 
   const fetchCounts = async () => {

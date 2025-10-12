@@ -155,7 +155,7 @@ export default function EditTitle() {
           className="flex flex-col items-start justify-center gap-4 w-full pt-8"
           onSubmit={(e) => {
             e.preventDefault();
-            handleUpdateTitle(title.titleId);
+            handleUpdateTitle(titleId);
           }}
         >
           <div className="flex justify-center items-center w-full">
@@ -178,7 +178,6 @@ export default function EditTitle() {
               id="addPoster"
               type="file"
               name="image"
-              required
               ref={fileRef}
               onChange={handleChange}
               className="bg-panel p-4 rounded w-[72%] cursor-pointer hidden"

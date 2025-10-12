@@ -49,7 +49,7 @@ export default function EditTitleMain() {
                   sizes="100vw"
                   className="w-26 h-40 object-fill rounded"
                 />
-                <div className="w-full">
+                <div className="w-full flex flex-col gap-2">
                   <h4 className="leading-3.5">{title.title}</h4>
                   <div className="flex flex-col gap-2 w-full">
                     <button

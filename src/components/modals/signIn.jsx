@@ -20,6 +20,7 @@ const BASE_URL =
 export default function SignIn() {
   const { isLogged, adminBtn, fetchUserData, setShowSignIn } =
     useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   const handleSignIn = async () => {
@@ -154,7 +155,10 @@ export default function SignIn() {
             <>
               <p className="text-xs text-vibe mt-2">Hi wakamonoo:</p>
               <button
-                onClick={() => router.push("/admin")}
+                onClick={() => {
+                  setIsLoading(true);
+                  router.push("/admin");
+                }}
                 className="bg-accent px-4 py-2 rounded-full font-bold cursor-pointer w-full hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)]"
               >
                 <div className="flex gap-2 items-center justify-center">
@@ -186,6 +190,7 @@ export default function SignIn() {
               <span
                 onClick={() => {
                   setShowSignIn(false);
+                  setIsLoading(true);
                   router.push("/terms&Conditions");
                 }}
                 className="cursor-pointer text-blue-500"
@@ -196,6 +201,7 @@ export default function SignIn() {
               <span
                 onClick={() => {
                   setShowSignIn(false);
+                  setIsLoading(true);
                   router.push("/privacyPolicy");
                 }}
                 className="cursor-pointer text-blue-500"
