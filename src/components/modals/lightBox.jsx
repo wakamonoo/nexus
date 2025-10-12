@@ -5,7 +5,7 @@ import { MdClose, MdOutlineSensors } from "react-icons/md";
 import { FaComment, FaShare } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
 
@@ -27,15 +27,18 @@ export default function LightBox() {
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const btnRef = useRef();
+  const pathname = usePathname();
 
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
 
   const handlePostNav = (id, focusInput = false) => {
-    const url = focusInput ? `/post/${id}?focus=comment` : "/post/${id}";
+    setLightboxOpen(false);
+    if (pathname == `/post/${id}`) {
+      return;
+    }
+    const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
     router.push(url);
     setIsLoading(true);
-    setLightboxOpen(false);
   };
 
   useEffect(() => {
