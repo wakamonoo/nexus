@@ -13,17 +13,13 @@ const BASE_URL =
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
 
-export default function Page() {
+export default function AdminGuard() {
   const { user } = useContext(UserContext);
-  const router = useRouter();
-  const [count, setCount] = useState({ usersCount: 0, titlesCount: 0 });
-  const { setShowSignIn } = useContext(UserContext);
   const [isAuthorized, setIsAuthorized] = useState(null);
   const [showUnauth, setShowUnauth] = useState(false);
   const [coldLoad, setColdLoad] = useState(false);
 
   useEffect(() => {
-    setShowSignIn(false);
     if (!user) {
       setIsAuthorized(false);
     }
