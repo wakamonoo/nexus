@@ -1,22 +1,37 @@
 "use client";
 import { useContext, useEffect } from "react";
 import { TitleContext } from "@/context/titleContext";
-import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
+import { FaAngleLeft, FaBoxOpen, FaDotCircle } from "react-icons/fa";
+import { GoDotFill } from "react-icons/go";
 import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titlesNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
+import { WatchContext } from "@/context/watchContext";
+import { UserContext } from "@/context/userContext";
 
 export default function Chrono() {
+  const { user } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
+  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    const fetchWathced = async () => {
+      if (user?.uid) {
+        await watchedInfoFetch(user?.uid);
+      }
+    };
+
+    fetchWathced();
+  }, [user]);
 
   if (!titles || titles.length === 0) {
     return <ShowListLoader />;
@@ -40,7 +55,7 @@ export default function Chrono() {
                 <div
                   key={unit.order}
                   onClick={() => handleShowNav(unit.titleId)}
-                  className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                  className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
                 >
                   <Image
                     src={unit.image}
@@ -50,6 +65,15 @@ export default function Chrono() {
                     sizes="100vw"
                     className="w-full h-full object-fill rounded"
                   />
+                  <div className="absolute left-0 top-0">
+                    <GoDotFill
+                      className={`text-lg  ${
+                        isTitleWatched(unit.titleId)
+                          ? "text-[var(--color-hulk)]"
+                          : "text-accent"
+                      }`}
+                    />
+                  </div>
                 </div>
               ))}
           </div>

@@ -1,5 +1,6 @@
 "use client";
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { TitleContext } from "./titleContext";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
@@ -8,6 +9,7 @@ const BASE_URL =
 export const WatchContext = createContext();
 
 export const WatchProvider = ({ children }) => {
+  const { titles } = useContext(TitleContext);
   const [isWatched, setIsWatched] = useState(null);
   const [watchInfo, setWatchInfo] = useState([]);
 
@@ -49,9 +51,19 @@ export const WatchProvider = ({ children }) => {
     }
   };
 
+  const isTitleWatched = (titleId) => {
+    return watchInfo.some((w) => w.titleId === titleId);
+  };
+
   return (
     <WatchContext.Provider
-      value={{ isWatchedFetch, isWatched, watchedInfoFetch, watchInfo }}
+      value={{
+        isWatchedFetch,
+        isWatched,
+        watchedInfoFetch,
+        watchInfo,
+        isTitleWatched,
+      }}
     >
       {children}
     </WatchContext.Provider>

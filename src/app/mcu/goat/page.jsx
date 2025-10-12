@@ -9,16 +9,31 @@ import { TitleNavContext } from "@/context/titlesNavContext";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { GiTrophy } from "react-icons/gi";
+import { GoDotFill } from "react-icons/go";
+import { WatchContext } from "@/context/watchContext";
+import { UserContext } from "@/context/userContext";
 
 export default function Goat() {
+  const { user } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
+  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    const fetchWathced = async () => {
+      if (user?.uid) {
+        await watchedInfoFetch(user?.uid);
+      }
+    };
+
+    fetchWathced();
+  }, [user]);
 
   if (!titles || titles.length === 0) {
     return <ShowListLoader />;
@@ -56,6 +71,14 @@ export default function Goat() {
               onClick={() => handleShowNav(unit.titleId)}
               className="relative w-26 h-40 flex-shrink-0 cursor-pointer"
             >
+              <Image
+                src={unit.image}
+                alt="image"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full h-full object-fill rounded"
+              />
               <div
                 className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
                   unit.rank === 1 ? "bg-hulk" : "bg-accent"
@@ -69,14 +92,16 @@ export default function Goat() {
                   {unit.rank === 1 ? <GiTrophy /> : unit.rank}
                 </p>
               </div>
-              <Image
-                src={unit.image}
-                alt="image"
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-full h-full object-fill rounded"
-              />
+
+              <div className="absolute left-0 top-0">
+                <GoDotFill
+                  className={`text-lg  ${
+                    isTitleWatched(unit.titleId)
+                      ? "text-[var(--color-hulk)]"
+                      : "text-accent"
+                  }`}
+                />
+              </div>
             </div>
           ))}
         </div>

@@ -19,6 +19,7 @@ import AddReview from "@/components/modals/addReview";
 import { UserContext } from "@/context/userContext";
 import { MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/layout/titleMenu";
+import { GoDotFill } from "react-icons/go";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -145,6 +146,12 @@ export default function Title() {
                 sizes="100vw"
                 className="w-full h-auto rounded"
               />
+              <div className="flex absolute top-2 left-2">
+                <GoDotFill className="text-xs text-[var(--color-hulk)]" />
+                <p className="text-xs text-vibe font-extralight">
+                  {title.watchCount ? title.watchCount : 0}
+                </p>
+              </div>
               <div
                 onClick={() => {
                   setIsLoading(true);
@@ -154,12 +161,6 @@ export default function Title() {
               >
                 <BsInfoCircle className="text-normal" />
               </div>
-            </div>
-            <div className="flex gap-1 justify-end p-1 items-center">
-              <TbEyeSpark className="text-xs" />
-              <p className="text-xs text-vibe font-extralight">
-                {title.watchCount ? title.watchCount : 0}
-              </p>
             </div>
           </div>
         </div>

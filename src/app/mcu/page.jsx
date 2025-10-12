@@ -12,6 +12,9 @@ import { TitleNavContext } from "@/context/titlesNavContext";
 import { MdSearchOff } from "react-icons/md";
 import { GiTrophy } from "react-icons/gi";
 import { HiOutlineSearch } from "react-icons/hi";
+import { WatchContext } from "@/context/watchContext";
+import { UserContext } from "@/context/userContext";
+import { GoDotFill } from "react-icons/go";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -20,7 +23,9 @@ const BASE_URL =
 
 export default function Main() {
   const { titles, pageLoad } = useContext(TitleContext);
+  const { user } = useContext(UserContext);
   const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
+  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const [isScrolled1, setIsScrolled1] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
   const [isScrolled3, setIsScrolled3] = useState(false);
@@ -32,6 +37,16 @@ export default function Main() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchWathced = async () => {
+      if (user?.uid) {
+        await watchedInfoFetch(user?.uid);
+      }
+    };
+
+    fetchWathced();
+  }, [user]);
 
   useEffect(() => {
     const current = scrollRef1.current;
@@ -193,7 +208,7 @@ export default function Main() {
                         <div
                           key={unit.date}
                           onClick={() => handleShowNav(unit.titleId)}
-                          className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                          className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
                         >
                           <Image
                             src={unit.image || Fallback}
@@ -203,6 +218,15 @@ export default function Main() {
                             sizes="100vw"
                             className="w-full h-full object-fill rounded"
                           />
+                          <div className="absolute left-0 top-0">
+                            <GoDotFill
+                              className={`text-2xl  ${
+                                isTitleWatched(unit.titleId)
+                                  ? "text-[var(--color-hulk)]"
+                                  : "text-[var(--color-secondary)]"
+                              }`}
+                            />
+                          </div>
                         </div>
                       ))}
                   </div>
@@ -244,7 +268,7 @@ export default function Main() {
                             <div
                               key={unit.date}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -254,6 +278,15 @@ export default function Main() {
                                 sizes="100vw"
                                 className="w-full h-full object-fill rounded"
                               />
+                              <div className="absolute left-0 top-0">
+                                <GoDotFill
+                                  className={`text-lg  ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "text-[var(--color-hulk)]"
+                                      : "text-accent"
+                                  }`}
+                                />
+                              </div>
                             </div>
                           ))
                       ) : (
@@ -291,7 +324,7 @@ export default function Main() {
                             <div
                               key={unit.order}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -301,6 +334,15 @@ export default function Main() {
                                 sizes="100vw"
                                 className="w-full h-full object-fill rounded"
                               />
+                              <div className="absolute left-0 top-0">
+                                <GoDotFill
+                                  className={`text-lg  ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "text-[var(--color-hulk)]"
+                                      : "text-accent"
+                                  }`}
+                                />
+                              </div>
                             </div>
                           ))
                       ) : (
@@ -338,7 +380,7 @@ export default function Main() {
                             <div
                               key={unit.date}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 relative flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -348,6 +390,15 @@ export default function Main() {
                                 sizes="100vw"
                                 className="w-full h-full object-fill rounded"
                               />
+                              <div className="absolute left-0 top-0">
+                                <GoDotFill
+                                  className={`text-lg  ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "text-[var(--color-hulk)]"
+                                      : "text-accent"
+                                  }`}
+                                />
+                              </div>
                             </div>
                           ))
                       ) : (
@@ -385,6 +436,14 @@ export default function Main() {
                             onClick={() => handleShowNav(unit.titleId)}
                             className="relative w-26 h-40 flex-shrink-0 cursor-pointer"
                           >
+                            <Image
+                              src={unit.image || Fallback}
+                              alt="image"
+                              width={0}
+                              height={0}
+                              sizes="100vw"
+                              className="w-full h-full object-fill rounded"
+                            />
                             <div
                               className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
                                 unit.rank === 1 ? "bg-hulk" : "bg-accent"
@@ -398,14 +457,15 @@ export default function Main() {
                                 {unit.rank === 1 ? <GiTrophy /> : unit.rank}
                               </p>
                             </div>
-                            <Image
-                              src={unit.image || Fallback}
-                              alt="image"
-                              width={0}
-                              height={0}
-                              sizes="100vw"
-                              className="w-full h-full object-fill rounded"
-                            />
+                            <div className="absolute left-0 top-0">
+                              <GoDotFill
+                                className={`text-lg  ${
+                                  isTitleWatched(unit.titleId)
+                                    ? "text-[var(--color-hulk)]"
+                                    : "text-accent"
+                                }`}
+                              />
+                            </div>
                           </div>
                         ))
                       ) : (
