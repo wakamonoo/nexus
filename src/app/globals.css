@@ -13,7 +13,7 @@
     --color-panel: #2e2e2e; /* ———————————————————————————————————— panel bg ——— */
     --color-secondary: #1c1c1c; /* ———————————————————————————————————— secondary bg ——— */
     --color-vibranium: #e1e2e5; /* ———————————————————————————————————— hero blue ——— */
-    --color-hulk: #3A9D23; /* ———————————————————————————————————— hulk green ——— */
+    --color-hulk: #3a9d23; /* ———————————————————————————————————— hulk green ——— */
     --color-zeus: #d97706; /* ———————————————————————————————————— thunderbolt ——— */
 
     --font-heading: "Bebas Neue", sans-serif; /* ———————————————————————————————————— headings ——— */
@@ -99,7 +99,6 @@
   .text-zeus {
     color: var(--color-zeus);
   }
-
 
   .text-vibe {
     color: var(--color-vibranium);

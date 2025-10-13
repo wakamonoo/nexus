@@ -14,7 +14,7 @@ export default function Banner() {
   useEffect(() => {
     if (showSearch) {
       window.scrollTo({ top: 50, behavior: "smooth" });
-    } else if(!showSearch) {
+    } else if (!showSearch) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [showSearch]);
