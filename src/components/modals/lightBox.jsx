@@ -137,7 +137,21 @@ export default function LightBox() {
                 .replace(/^(\w{3})/, "$1.")}
             </p>
           </div>
-          <div className="p-2">
+          <div
+            onClick={() => handlePostNav(currentPostInfo.postId)}
+            className="px-1"
+          >
+            <div
+              className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
+                currentPostInfo.topic ? "block" : "hidden"
+              }`}
+            >
+              <p className="font-bold text-vibe px-2">
+                {currentPostInfo.topic}
+              </p>
+            </div>
+          </div>
+          <div className="px-2 py-1">
             <p
               onClick={() => handlePostNav(currentPostInfo.postId)}
               className="cursor-pointer text-base text-normal leading-5 line-clamp-3"

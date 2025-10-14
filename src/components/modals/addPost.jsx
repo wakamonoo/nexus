@@ -95,7 +95,7 @@ export default function AddPost({ setShowAddPost }) {
     <>
       <div
         onClick={() => setShowAddPost(false)}
-        className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+        className="inset-0 z-[100] backdrop-blur-xs flex items-center justify-center fixed"
       >
         <div
           onClick={(e) => e.stopPropagation()}
@@ -119,7 +119,7 @@ export default function AddPost({ setShowAddPost }) {
             </div>
             <div className="pb-2">
               <div className="relative">
-                <p className="font-bold px-4 py-2 bg-zeus rounded-2xl">
+                <p className="font-bold px-4 rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)]">
                   {post.topic ? post.topic : "No topic assigned"}
                 </p>
                 <MdClose
@@ -203,7 +203,7 @@ export default function AddPost({ setShowAddPost }) {
 
               <div className="py-2">
                 {showTopics && (
-                  <div className="w-fit h-32 bg-second rounded p-2 overflow-y-auto">
+                  <div className="w-fit h-32 bg-second rounded p-2 overflow-y-auto flex flex-col gap-2">
                     {titles?.map((title, index) => (
                       <div
                         key={index}
@@ -214,9 +214,9 @@ export default function AddPost({ setShowAddPost }) {
                           });
                           setShowTopics(false);
                         }}
-                        className="cursor-pointer"
+                        className="cursor-pointer h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] px-4"
                       >
-                        <p>{title.title}</p>
+                        <p className="font-bold text-base truncate w-full">{title.title}</p>
                       </div>
                     ))}
                   </div>

@@ -104,11 +104,17 @@ export default function PostStructure({ post }) {
         </div>
       </div>
 
-      <div className={`h-fit bg-gradient-to-r from-[var(--color-accent)] p-2 ${post.topic? "block" : "hidden"}`}>
-        <p className="font-bold text-vibe ml-2">{post.topic}</p>
+      <div className="px-2">
+        <div
+          className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
+            post.topic ? "block" : "hidden"
+          }`}
+        >
+          <p className="font-bold text-vibe px-2">{post.topic}</p>
+        </div>
       </div>
 
-      <div className="p-4">
+      <div className="px-4 py-2">
         <p
           onClick={(e) => {
             setShowFull(!showFull);

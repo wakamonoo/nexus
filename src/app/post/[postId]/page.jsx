@@ -121,7 +121,7 @@ export default function Post() {
             </div>
           ) : null}
 
-          <div className="flex gap-3 p-4 items-center">
+          <div className="flex gap-3 px-4 py-2 items-center">
             <Image
               onClick={(e) => {
                 e.stopPropagation();
@@ -160,7 +160,16 @@ export default function Post() {
               </p>
             </div>
           </div>
-          <p className="text-base text-normal leading-5 py-2 px-4">
+          <div className="px-2">
+            <div
+              className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
+                post.topic ? "block" : "hidden"
+              }`}
+            >
+              <p className="font-bold text-vibe px-2">{post.topic}</p>
+            </div>
+          </div>
+          <p className="text-base text-normal leading-5 py-1 px-4">
             {post.text}
           </p>
           {post.files && post.files.length > 0 ? (
