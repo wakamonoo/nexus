@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/addPost", async (req, res) => {
   try {
-    const { text, userId, userName, userImage, files = [] } = req.body;
+    const { topic, text, userId, userName, userImage, files = [] } = req.body;
     const client = await clientPromise;
     const db = client.db("nexus");
 
@@ -15,6 +15,7 @@ router.post("/addPost", async (req, res) => {
       { postId: newId },
       {
         $setOnInsert: {
+          topic,
           text,
           userId,
           userName,

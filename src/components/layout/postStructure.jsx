@@ -104,6 +104,10 @@ export default function PostStructure({ post }) {
         </div>
       </div>
 
+      <div className={`h-fit bg-gradient-to-r from-[var(--color-accent)] p-2 ${post.topic? "block" : "hidden"}`}>
+        <p className="font-bold text-vibe ml-2">{post.topic}</p>
+      </div>
+
       <div className="p-4">
         <p
           onClick={(e) => {

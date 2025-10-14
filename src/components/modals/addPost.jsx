@@ -4,7 +4,8 @@ import { UserContext } from "@/context/userContext";
 import Image from "next/image";
 import { FaFlag, FaImage, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
-import Loader from "../loaders/loader";
+import { TitleContext } from "@/context/titleContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -13,13 +14,14 @@ const BASE_URL =
 
 export default function AddPost({ setShowAddPost }) {
   const { user } = useContext(UserContext);
-  const [post, setPost] = useState({ text: "", file: null });
-  const [addImage, setAddImage] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [post, setPost] = useState({ topic: "", text: "", file: null });
+  const { titles } = useContext(TitleContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const [showTopics, setShowTopics] = useState(false);
 
   const submitPost = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       let uploadedUrls = [];
 
       if (post.file && post.file.length > 0) {
@@ -42,6 +44,7 @@ export default function AddPost({ setShowAddPost }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          topic: post.topic,
           text: post.text,
           userId: user.uid,
           userName: user.name,
@@ -69,7 +72,7 @@ export default function AddPost({ setShowAddPost }) {
         },
       });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
       Swal.fire({
         title: "Success",
         text: "Your post is live!",
@@ -90,7 +93,6 @@ export default function AddPost({ setShowAddPost }) {
 
   return (
     <>
-      {loading && <Loader />}
       <div
         onClick={() => setShowAddPost(false)}
         className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
@@ -114,6 +116,17 @@ export default function AddPost({ setShowAddPost }) {
                 className="w-10 h-10 rounded-full"
               />
               <p className="text-base text-normal font-bold">{user?.name}</p>
+            </div>
+            <div className="pb-2">
+              <div className="relative">
+                <p className="font-bold px-4 py-2 bg-zeus rounded-2xl">
+                  {post.topic ? post.topic : "No topic assigned"}
+                </p>
+                <MdClose
+                  onClick={() => setPost({ ...post, topic: "" })}
+                  className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-2 text-2xl"
+                />
+              </div>
             </div>
             <div>
               <textarea
@@ -145,7 +158,10 @@ export default function AddPost({ setShowAddPost }) {
                   multiple
                   className="hidden"
                 />
-                <button className="flex flex-1 justify-center bg-hulk p-2 rounded items-center gap-2">
+                <button
+                  onClick={() => setShowTopics((prev) => !prev)}
+                  className="cursor-pointer flex flex-1 justify-center bg-hulk p-2 rounded items-center gap-2"
+                >
                   <FaFlag className="text-2xl" />
                   <p className="font-bold text-normal text-base">
                     Choose Topic
@@ -184,6 +200,28 @@ export default function AddPost({ setShowAddPost }) {
                   ))}
                 </div>
               )}
+
+              <div className="py-2">
+                {showTopics && (
+                  <div className="w-fit h-32 bg-second rounded p-2 overflow-y-auto">
+                    {titles?.map((title, index) => (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          setPost({
+                            ...post,
+                            topic: `${title.title}`,
+                          });
+                          setShowTopics(false);
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <p>{title.title}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <div className="py-2">
                 <button

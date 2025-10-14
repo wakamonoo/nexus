@@ -102,6 +102,7 @@ export default function Menu() {
           onClick={() => {
             router.push("/heroFund");
             setShowMenu(false);
+            
           }}
           className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-text)] focus:bg-[var(--color-text)] group w-full p-4 rounded-full transition-all duration-300"
         >
