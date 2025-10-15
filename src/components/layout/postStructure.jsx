@@ -18,14 +18,18 @@ export default function PostStructure({ post }) {
     handleEcho,
     handleFileClick,
     setSelectedPost,
-    handlePostNavMain,
-    handleCommentNav,
   } = useContext(PostContext);
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
+
+  const handlePostNavMain = (id, focusInput = false) => {
+    setIsLoading(true);
+    const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
+    router.push(url);
+  };
 
   return (
     <div
@@ -106,6 +110,18 @@ export default function PostStructure({ post }) {
 
       <div className="px-2">
         <div
+          onClick={(e) => {
+            e.stopPropagation();
+            if (pathname.startsWith("/postings")) {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            } else {
+              setIsLoading(true);
+              router.push(`/postings/${post.topic}`);
+            }
+          }}
           className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
             post.topic ? "block" : "hidden"
           }`}

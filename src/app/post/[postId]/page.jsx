@@ -162,6 +162,11 @@ export default function Post() {
           </div>
           <div className="px-2">
             <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLoading(true);
+                router.push(`/postings/${post.topic}`);
+              }}
               className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
                 post.topic ? "block" : "hidden"
               }`}

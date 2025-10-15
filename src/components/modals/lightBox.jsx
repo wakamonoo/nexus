@@ -36,9 +36,9 @@ export default function LightBox() {
     if (pathname == `/post/${id}`) {
       return;
     }
+    setIsLoading(true);
     const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
     router.push(url);
-    setIsLoading(true);
   };
 
   useEffect(() => {
@@ -142,6 +142,12 @@ export default function LightBox() {
             className="px-1"
           >
             <div
+              onClick={(e) => {
+                setIsLoading(true);
+                e.stopPropagation();
+                setLightboxOpen(false);
+                router.push(`/postings/${currentPostInfo.topic}`);
+              }}
               className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
                 currentPostInfo.topic ? "block" : "hidden"
               }`}

@@ -182,11 +182,7 @@ export const PostProvider = ({ children }) => {
     }
   };
 
-  const handlePostNavMain = (id, focusInput = false) => {
-    const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
-    router.push(url);
-    setIsLoading(true);
-  };
+ 
 
   return (
     <PostContext.Provider
@@ -210,8 +206,7 @@ export const PostProvider = ({ children }) => {
         setDelModal,
         selectedPost,
         setSelectedPost,
-        setPostToDelete,
-        handlePostNavMain,
+        setPostToDelete
       }}
     >
       {children}
