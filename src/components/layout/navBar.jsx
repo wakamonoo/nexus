@@ -107,18 +107,18 @@ export default function NavBar() {
             <p className="text-xs font-bold">Portal</p>
           </button>
           <button
-            onClick={() => handleNavClick("mcu")}
+            onClick={() => handleNavClick("hex")}
             className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
-              "/mcu"
+              "/hex"
             )}`}
           >
             <RiFilmAiFill className="text-2xl" />
             <p className="text-xs font-bold">Hex</p>
           </button>
           <button
-            onClick={() => handleNavClick("globalChat")}
+            onClick={() => handleNavClick("citadel")}
             className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
-              "/globalChat"
+              "/citadel"
             )}`}
           >
             <IoChatbubbleEllipsesSharp className="text-2xl" />

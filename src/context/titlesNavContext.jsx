@@ -11,12 +11,12 @@ export const TitleNavProvider = ({ children }) => {
 
   const handleShowNav = (id) => {
     setIsLoading(true);
-    router.push(`/mcu/${id}`);
+    router.push(`/hex/${id}`);
   };
 
   const handleShowListNav = (page) => {
     setIsLoading(true);
-    router.push(`/mcu/${page}`);
+    router.push(`/hex/${page}`);
   };
 
   return (

@@ -112,14 +112,14 @@ export default function PostStructure({ post }) {
         <div
           onClick={(e) => {
             e.stopPropagation();
-            if (pathname.startsWith("/postings")) {
+            if (pathname.startsWith("/posts")) {
               window.scrollTo({
                 top: 0,
                 behavior: "smooth",
               });
             } else {
               setIsLoading(true);
-              router.push(`/postings/${post.topic}`);
+              router.push(`/posts/${post.topic}`);
             }
           }}
           className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${

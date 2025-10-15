@@ -146,7 +146,7 @@ export default function LightBox() {
                 setIsLoading(true);
                 e.stopPropagation();
                 setLightboxOpen(false);
-                router.push(`/postings/${currentPostInfo.topic}`);
+                router.push(`/posts/${currentPostInfo.topic}`);
               }}
               className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
                 currentPostInfo.topic ? "block" : "hidden"
