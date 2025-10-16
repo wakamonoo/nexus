@@ -122,7 +122,7 @@ export default function HeroFund() {
                 console.error("Paypal checkout failed", err);
                 Swal.fire({
                   title: "Error",
-                  text: "Something went wrong. Please try again.",
+                  text: "Donation failed. Please try again.",
                   icon: "error",
                   timer: 2000,
                   showConfirmButton: false,
