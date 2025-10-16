@@ -1,7 +1,13 @@
+"use client";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import NavBar from "@/components/layout/navBar";
 import { SiCloudinary, SiMongodb, SiRender, SiVercel } from "react-icons/si";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 export default function HeroFund() {
+  const [amount, setAmount] = useState("");
+  const paypalID = process.env.NEXT_PUBLIC_PAYPAL_ID;
   return (
     <>
       <NavBar />
@@ -64,17 +70,74 @@ export default function HeroFund() {
             project alive and helps it grow.
           </p>
         </div>
-        <div className="p-4 flex flex-col gap-2 items-center justify-center">
-          <button className="p-2 w-full bg-accent rounded-full cursor-pointer">
-            <p className="font-bold text-normal text-base">
-              Continue with GCash
-            </p>
-          </button>
-          <button className="p-2 w-full bg-accent rounded-full cursor-pointer">
-            <p className="font-bold text-normal text-base">
-              Continue with PayPal
-            </p>
-          </button>
+        <div className="p-4 bg-second rounded flex flex-col gap-2 items-center justify-center mt-6">
+          <div className="flex items-center justify-center gap-2 w-full bg-text p-2 rounded">
+            <span className="text-vibe text-base">$</span>
+            <input
+              id="donation_amount"
+              type="number"
+              placeholder="Enter amount in USD"
+              step="0.01"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="w-64 text-panel text-base text-center font-bold"
+            />
+          </div>
+
+          <PayPalScriptProvider
+            options={{ "client-id": paypalID, currency: "USD" }}
+          >
+            <PayPalButtons
+              className="w-full"
+              style={{ layout: "vertical", shape: "pill", color: "gold" }}
+              createOrder={(data, actions) =>
+                actions.order.create({
+                  purchase_units: [
+                    {
+                      amount: { value: amount || 1 },
+                    },
+                  ],
+                })
+              }
+              onApprove={(data, actions) =>
+                actions.order.capture().then((details) => {
+                  Swal.fire({
+                    title: "Success",
+                    text: `Thank you, ${details.payer.name.given_name}! your donation was received!`,
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    background: "var(--color-text)",
+                    color: "var(--color-bg)",
+                    iconColor: "var(--color-hulk)",
+                    customClass: {
+                      popup: "rounded-2xl shadow-lg",
+                      title: "text-lg font-bold !text-[var(--color-hulk)]",
+                      htmlContainer: "text-sm",
+                    },
+                  });
+                })
+              }
+              onError={(err) => {
+                console.error("Paypal checkout failed", err);
+                Swal.fire({
+                  title: "Error",
+                  text: "Something went wrong. Please try again.",
+                  icon: "error",
+                  timer: 2000,
+                  showConfirmButton: false,
+                  background: "var(--color-text)",
+                  color: "var(--color-bg)",
+                  iconColor: "var(--color-accent)",
+                  customClass: {
+                    popup: "rounded-2xl shadow-lg",
+                    title: "text-lg font-bold !text-[var(--color-accent)]",
+                    htmlContainer: "text-sm",
+                  },
+                });
+              }}
+            />
+          </PayPalScriptProvider>
         </div>
       </div>
     </>

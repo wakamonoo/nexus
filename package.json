@@ -19,6 +19,7 @@
     "@heroicons/react": "^2.2.0",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
+    "@paypal/react-paypal-js": "^8.9.2",
     "cloudinary": "^2.7.0",
     "concurrently": "^9.2.1",
     "cors": "^2.8.5",
