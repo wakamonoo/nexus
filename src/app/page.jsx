@@ -17,7 +17,7 @@ export default function Page() {
           <Banner />
           <Hero />
         </div>
-        <aside className="hidden lg:block lg:w-[20%]  px-4 pt-24">
+        <aside className="hidden lg:block lg:w-[20%] px-4 pt-20 h-screen sticky top-0">
           <LatestActivities />
         </aside>
       </div>

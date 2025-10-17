@@ -37,15 +37,15 @@ export default function ProfileReviews({ profileUser }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-4">
           {profileUserReviews?.map((review, index) => (
             <div
               onClick={() => {
                 setIsLoading(true);
-                router.push(`/mcu/${review.titleId}`);
+                router.push(`/hex/${review.titleId}`);
               }}
               key={index}
-              className="bg-panel rounded-2xl border cursor-pointer p-2"
+              className="bg-second rounded-2xl border-1 border-panel cursor-pointer p-2"
             >
               <div className="flex gap-2 items-center py-2">
                 <Image
@@ -93,10 +93,10 @@ export default function ProfileReviews({ profileUser }) {
                 </div>
               </div>
               <div className="border-t border-[var(--color-vibranium)]/20 mt-4 py-4">
-                <p className="flex gap-1 text-base">
-                  <FaQuoteLeft className="text-xs" />
-                  {review.textReview}
-                </p>
+                <div className="flex items-start gap-2 text-normal leading-snug">
+                  <FaQuoteLeft className="text-xs shrink-0 opacity-50" />
+                  <p className="italic">{review.textReview}</p>
+                </div>
               </div>
             </div>
           ))}

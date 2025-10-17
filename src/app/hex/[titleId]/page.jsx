@@ -239,7 +239,7 @@ export default function Title() {
             <p className="text-normal font-bold text-base">Rank It</p>
           </button>
         </div>
-        <div className="flex flex-col gap-1 py-4">
+        <div className="flex flex-col gap-4 py-4">
           {!title.reviews || title.reviews?.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-4">
               <MdRateReview className="text-4xl text-vibe opacity-40" />
@@ -251,7 +251,7 @@ export default function Title() {
             title.reviews?.map((review, index) => (
               <div
                 key={index}
-                className="bg-panel rounded-2xl border p-2 relative"
+                className="bg-second rounded-2xl border-1 border-panel p-2 relative"
               >
                 {review.date === firstReview.date ? (
                   <div className="flex absolute top-2 right-2">
@@ -300,10 +300,10 @@ export default function Title() {
                   </div>
                 </div>
                 <div className="border-t border-[var(--color-vibranium)]/20 mt-4 py-4">
-                  <p className="flex gap-1 text-base">
-                    <FaQuoteLeft className="text-xs" />
-                    {review.textReview}
-                  </p>
+                  <div className="flex items-start gap-2 text-normal leading-snug">
+                    <FaQuoteLeft className="text-xs shrink-0 opacity-50" />
+                    <p className="italic">{review.textReview}</p>
+                  </div>
                 </div>
               </div>
             ))
