@@ -112,7 +112,9 @@ export default function HeroFund() {
       } else {
         Swal.fire({
           title: "Error",
-          text: "Unable to create GCash payment. Please try again.",
+          text:
+            data?.errors?.[0]?.detail ||
+            "Unable to create GCash payment. Please try again.",
           icon: "error",
           timer: 2000,
           showConfirmButton: false,
@@ -285,6 +287,7 @@ export default function HeroFund() {
               type="number"
               inputMode="numeric"
               placeholder="Enter amount in PHP"
+              step="1"
               value={displayAmount}
               onChange={handleGCashInput}
               className="w-64 text-panel outline-none text-base text-center font-bold"
@@ -304,10 +307,10 @@ export default function HeroFund() {
             />
             <p className="text-xs text-vibe font-bold">via paymongo</p>
           </button>
-          <p className="text-vibe text-sm font-bold opacity-70">or directly at:</p>
-          <p className="font-bold">
-            09934937214
+          <p className="text-vibe text-sm font-bold opacity-70">
+            or directly at:
           </p>
+          <p className="font-bold">09934937214</p>
         </div>
       </div>
     </>
