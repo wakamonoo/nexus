@@ -2,12 +2,149 @@
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import NavBar from "@/components/layout/navBar";
 import { SiCloudinary, SiMongodb, SiRender, SiVercel } from "react-icons/si";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import GcashLogo from "@/assets/GCash_logo.svg";
+import Image from "next/image";
 import Swal from "sweetalert2";
+import { useSearchParams } from "next/navigation";
+
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
 
 export default function HeroFund() {
-  const [amount, setAmount] = useState("");
+  const [payPalAmount, setPayPalAmount] = useState("");
+  const [gCashAmount, setGCashAmount] = useState("");
+  const [displayAmount, setDisplayAmount] = useState("");
   const paypalID = process.env.NEXT_PUBLIC_PAYPAL_ID;
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const isSuccess = searchParams.get("success");
+    if (isSuccess === "true") {
+      Swal.fire({
+        title: "Success",
+        text: `Thank you! Your GCash donation was received!`,
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
+
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (isSuccess === "false") {
+      Swal.fire({
+        title: "Error",
+        text: "Unable to create GCash payment. Please try again.",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [searchParams]);
+
+  const handleGCashInput = (e) => {
+    const raw = e.target.value.replace(/[^0-9]/g, "");
+    if (!raw) {
+      setGCashAmount("");
+      setDisplayAmount("");
+      return;
+    }
+
+    const amount = (parseInt(raw, 10) / 100).toFixed(2);
+    setDisplayAmount(amount);
+    setGCashAmount(raw);
+  };
+
+  const handleGCashPayment = async () => {
+    if (!gCashAmount || gCashAmount <= 1999) {
+      Swal.fire({
+        title: "Invalid Amount",
+        text: "Sorry paymongo has ₱20.00 minimum policy.",
+        icon: "warning",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-zeus)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-zeus)]",
+          htmlContainer: "text-sm",
+        },
+      });
+      return;
+    }
+    try {
+      const res = await fetch(`${BASE_URL}/api/payment/gcashDonate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: parseInt(gCashAmount, 10),
+        }),
+      });
+
+      const data = await res.json();
+      const redirectUrl = data?.data?.attributes?.redirect?.checkout_url;
+
+      if (redirectUrl) {
+        window.location.href = redirectUrl;
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Unable to create GCash payment. Please try again.",
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+          background: "var(--color-text)",
+          color: "var(--color-bg)",
+          iconColor: "var(--color-accent)",
+          customClass: {
+            popup: "rounded-2xl shadow-lg",
+            title: "text-lg font-bold !text-[var(--color-accent)]",
+            htmlContainer: "text-sm",
+          },
+        });
+      }
+    } catch (err) {
+      console.error("GCash error:", err);
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong. Please try again.",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    }
+  };
   return (
     <>
       <NavBar />
@@ -78,9 +215,9 @@ export default function HeroFund() {
               type="number"
               placeholder="Enter amount in USD"
               step="0.01"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="w-64 text-panel text-base text-center font-bold"
+              value={payPalAmount}
+              onChange={(e) => setPayPalAmount(e.target.value)}
+              className="w-64 outline-none text-panel text-base text-center font-bold"
             />
           </div>
 
@@ -94,7 +231,7 @@ export default function HeroFund() {
                 actions.order.create({
                   purchase_units: [
                     {
-                      amount: { value: amount || 1 },
+                      amount: { value: payPalAmount || 1 },
                     },
                   ],
                 })
@@ -138,6 +275,39 @@ export default function HeroFund() {
               }}
             />
           </PayPalScriptProvider>
+        </div>
+
+        <div className="p-4 bg-second rounded flex flex-col gap-2 items-center justify-center mt-6">
+          <div className="flex items-center justify-center gap-2 w-full bg-text p-2 rounded">
+            <span className="text-vibe text-base">₱</span>
+            <input
+              id="donation_amount"
+              type="number"
+              inputMode="numeric"
+              placeholder="Enter amount in PHP"
+              value={displayAmount}
+              onChange={handleGCashInput}
+              className="w-64 text-panel outline-none text-base text-center font-bold"
+            />
+          </div>
+          <button
+            onClick={handleGCashPayment}
+            className="bg-panel cursor-pointer p-2 w-full rounded-full flex items-center justify-center gap-2"
+          >
+            <Image
+              src={GcashLogo}
+              alt="file"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-24 h-auto object-cover"
+            />
+            <p className="text-xs text-vibe font-bold">via paymongo</p>
+          </button>
+          <p className="text-vibe text-sm font-bold opacity-70">or directly at:</p>
+          <p className="font-bold">
+            09934937214
+          </p>
         </div>
       </div>
     </>
