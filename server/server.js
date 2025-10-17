@@ -22,7 +22,6 @@ import reactRoute from "./routes/reactRoute.js";
 import rankingRoute from "./routes/rankingRoute.js";
 import watchRoute from "./routes/watchedRoute.js";
 import watchGet from "./routes/watchedGet.js";
-import gcashRoute from "./routes/gcashRoute.js";
 
 dotenv.config();
 
@@ -66,14 +65,13 @@ app.use("/api/reacts", reactRoute);
 app.use("/api/rankings", rankingRoute);
 app.use("/api/watched", watchRoute);
 app.use("/api/watched", watchGet);
-app.use("/api/payment", gcashRoute);
 
 io.on("connection", (socket) => {
   console.log("a user is connected");
 
   socket.on("citadel", async (data) => {
     try {
-      const { picture, sender, senderId, email, text, time, date } = data;
+      const { picture, sender, senderId,  email, text, time, date } = data;
       const msg = {
         picture,
         sender,
