@@ -4,6 +4,7 @@ import { FaQuoteLeft } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
+import { MdRateReview } from "react-icons/md";
 
 export default function LatestActivities() {
   const { titles } = useContext(TitleContext);
@@ -27,75 +28,86 @@ export default function LatestActivities() {
   return (
     <div className="h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
       <p className="text-base font-bold p-2">Latest Reviews</p>
-      <div className="flex flex-col gap-4">
-        {sortedReviews?.map((review, index) => (
-          <div
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsLoading(true);
-              router.push(`/hex/${review.titleId}`);
-            }}
-            key={index}
-            className="border-1 border-panel rounded-2xl p-2 cursor-pointer"
-          >
-            <div className="flex flex-col gap-2">
-              <div className="flex items-start gap-1">
-                <Image
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsLoading(true);
-                    router.push(`/profile/${review.userId}`);
-                  }}
-                  src={review.userImage}
-                  alt="user"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="cursor-pointer w-6 h-6 rounded-full"
-                />
-                <p className="text-sm text-vibe">
-                  <span
+      {sortedReviews?.length === 0 ? (
+        <div className="mt-16">
+          <div className="flex flex-col items-center justify-center">
+            <MdRateReview className="text-4xl text-vibe opacity-40" />
+            <p className="text-xs text-vibe opacity-40">
+              No reviews yet
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {sortedReviews?.map((review, index) => (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLoading(true);
+                router.push(`/hex/${review.titleId}`);
+              }}
+              key={index}
+              className="border-1 border-panel rounded-2xl p-2 cursor-pointer"
+            >
+              <div className="flex flex-col gap-2">
+                <div className="flex items-start gap-1">
+                  <Image
                     onClick={(e) => {
                       e.stopPropagation();
                       setIsLoading(true);
                       router.push(`/profile/${review.userId}`);
                     }}
-                    className="font-semibold text-normal"
-                  >
-                    {review.userName}
-                  </span>{" "}
-                  <span className="opacity-60">shared a review</span>
-                </p>
-              </div>
-              <div className="flex items-start gap-2 text-normal leading-snug">
-                <FaQuoteLeft className="text-xs shrink-0 opacity-50" />
-                <p className="italic">{review.textReview}</p>
-              </div>
+                    src={review.userImage}
+                    alt="user"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="cursor-pointer w-6 h-6 rounded-full"
+                  />
+                  <p className="text-sm text-vibe">
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsLoading(true);
+                        router.push(`/profile/${review.userId}`);
+                      }}
+                      className="font-semibold text-normal"
+                    >
+                      {review.userName}
+                    </span>{" "}
+                    <span className="opacity-60">shared a review</span>
+                  </p>
+                </div>
+                <div className="flex items-start gap-2 text-normal leading-snug">
+                  <FaQuoteLeft className="text-xs shrink-0 opacity-50" />
+                  <p className="italic">{review.textReview}</p>
+                </div>
 
-              <div className="flex items-center justify-between gap-2 text-sm text-vibe pt-2 border-t border-panel">
-                <p className="text-xs">
-                  for{" "}
-                  <span className="text-vibe text-base font-semibold">
-                    {review.title}
-                  </span>
-                </p>
-                <p className="text-xs opacity-50">
-                  {new Date(review.date)
-                    .toLocaleString("en-us", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                      hour: "numeric",
-                      minute: "2-digit",
-                      hour12: true,
-                    })
-                    .replace(/^(\w{3})/, "$1.")}
-                </p>
+                <div className="flex items-center justify-between gap-2 text-sm text-vibe pt-2 border-t border-panel">
+                  <p className="text-xs">
+                    for{" "}
+                    <span className="text-vibe text-base font-semibold">
+                      {review.title}
+                    </span>
+                  </p>
+                  <p className="text-xs opacity-50">
+                    {new Date(review.date)
+                      .toLocaleString("en-us", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        hour12: true,
+                      })
+                      .replace(/^(\w{3})/, "$1.")}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
