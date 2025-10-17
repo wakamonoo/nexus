@@ -75,7 +75,7 @@ export default function HeroFund() {
         <div className="p-4 bg-second rounded flex flex-col gap-2 items-center justify-center mt-6">
           <div className="flex flex-col items-center justify-center">
             <p className="text-sm text-vibe font-bold mb-2">
-              Donate with GCash:
+              Help the cause with GCash:
             </p>
             <Image
               src={QR}
@@ -96,7 +96,7 @@ export default function HeroFund() {
               step="0.01"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="w-64 text-panel text-base text-center font-bold"
+              className="w-64 text-panel outline-none text-base text-center font-bold"
             />
           </div>
 
