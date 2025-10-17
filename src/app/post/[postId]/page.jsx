@@ -167,11 +167,11 @@ export default function Post() {
                 setIsLoading(true);
                 router.push(`/posts/${post.topic}`);
               }}
-              className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
+              className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] ${
                 post.topic ? "block" : "hidden"
               }`}
             >
-              <p className="font-bold text-vibe px-2">{post.topic}</p>
+              <p className="font-bold text-sm text-vibe px-2">{post.topic}</p>
             </div>
           </div>
           <p className="text-base text-normal leading-5 py-1 px-4">

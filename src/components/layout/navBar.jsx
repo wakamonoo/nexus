@@ -68,7 +68,7 @@ export default function NavBar() {
       {showUserNav && <UserNav setShowUserNav={setShowUserNav} />}
       <div
         onClick={() => setShowUserNav(false)}
-        className={`fixed flex justify-between px-4 py-8 w-full h-12 transition-colors duration-150 z-[70] ${
+        className={`fixed flex justify-between px-4 py-8 w-full h-12 transition-colors duration-150 z-[70]  md:border-b border-gray-900 ${
           isScrolled ? "bg-[var(--color-panel)]" : "bg-[var(--color-secondary)]"
         } ${navHide ? "hidden" : "flex"}`}
       >
@@ -79,7 +79,7 @@ export default function NavBar() {
             className="cursor-pointer "
           >
             <FaAngleRight
-              className={`text-2xl transition-transform duration-300 ${
+              className={`text-2xl transition-transform duration-300 md:hidden ${
                 showMenu ? "rotate-180 text-accent" : "rotate-0"
               }`}
             />

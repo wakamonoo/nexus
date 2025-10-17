@@ -13,6 +13,7 @@ export const ScrollProvider = ({ children }) => {
       const currentScrollY = window.scrollY;
 
       setIsScrolled(currentScrollY > 100);
+      if (window.innerWidth >= 768) return;
       if (currentScrollY > 300) {
         if (currentScrollY > lastScrollY) {
           setNavHide(true);

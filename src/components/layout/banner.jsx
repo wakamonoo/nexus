@@ -26,7 +26,7 @@ export default function Banner() {
         <UserSearch showSearch={showSearch} setShowSearch={setShowSearch} />
       )}
       <div className="pt-16">
-        <div className="bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-panel)] flex flex-col justify-center gap-2 w-full p-2">
+        <div className="bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-panel)] flex flex-col justify-center gap-2 w-full md:rounded-2xl p-2">
           <div className="w-full">
             <div
               onClick={() => setShowSearch(true)}

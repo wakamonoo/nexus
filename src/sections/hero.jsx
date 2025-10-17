@@ -1,39 +1,39 @@
 "use client";
-import { FaRegFileAlt} from "react-icons/fa";
+import { FaRegFileAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { PostContext } from "@/context/postContext";
 import HeroLoader from "@/components/loaders/heroLoader";
 import PostStructure from "@/components/layout/postStructure";
+import Menu from "@/components/layout/menu";
 
 export default function Hero() {
-  const {
-    posts,
-    coldLoad,
-  } = useContext(PostContext);
+  const { posts, coldLoad } = useContext(PostContext);
 
   return (
-    <div className="bg-brand w-full">
-      {coldLoad ? (
-        <HeroLoader />
-      ) : posts.length === 0 ? (
-        <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="flex flex-col items-center justify-center">
-            <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
-            <p className="text-xs text-vibe opacity-40">No posts yet</p>
+    <div>
+      <div className="bg-brand w-full">
+        {coldLoad ? (
+          <HeroLoader />
+        ) : posts.length === 0 ? (
+          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="flex flex-col items-center justify-center">
+              <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
+              <p className="text-xs text-vibe opacity-40">No posts yet</p>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="p-2 flex flex-col gap-1">
-          {posts.map((post, index) => (
-            <PostStructure key={index} post={post} />
-          ))}
-          <div className="flex justify-center py-8">
-            <p className="text-xs text-vibe text-normal opacity-25">
-              oopss, that's the end of time.
-            </p>
+        ) : (
+          <div className="p-2 flex flex-col gap-1">
+            {posts.map((post, index) => (
+              <PostStructure key={index} post={post} />
+            ))}
+            <div className="flex justify-center py-8">
+              <p className="text-xs text-vibe text-normal opacity-25">
+                oopss, that's the end of time.
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

@@ -148,11 +148,11 @@ export default function LightBox() {
                 setLightboxOpen(false);
                 router.push(`/posts/${currentPostInfo.topic}`);
               }}
-              className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] p-1 ${
+              className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] ${
                 currentPostInfo.topic ? "block" : "hidden"
               }`}
             >
-              <p className="font-bold text-vibe px-2">
+              <p className="font-bold text-sm text-vibe px-2">
                 {currentPostInfo.topic}
               </p>
             </div>
