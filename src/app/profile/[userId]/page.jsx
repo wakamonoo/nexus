@@ -68,7 +68,7 @@ export default function UserProfile() {
   return (
     <>
       {editProfile && <EditProfile setEditProfile={setEditProfile} />}
-      <div className="p-2">
+      <div className="p-2 sm:px-4 md:px-8 lg:px-16">
         <div className="flex justify-between items-center py-4 w-full">
           <FaAngleLeft
             onClick={() => router.back()}
@@ -86,116 +86,120 @@ export default function UserProfile() {
             </div>
           </div>
         ) : (
-          <>
-            <div className="flex items-center w-full gap-2 py-4">
-              <div className="w-16 h-16">
-                <Image
-                  src={profileUser.picture || Fallback}
-                  alt="user"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </div>
-              <div className="flex flex-col justify-center items-start">
-                <div className="flex justify-between gap-1">
-                  <p className="font-bold text-xl leading-5 text-normal">
-                    {profileUser.name}
-                  </p>
-                  <FaPen
-                    onClick={() => setEditProfile(true)}
-                    className={`text-xs cursor-pointer text-vibe opacity-70 ${
-                      user?.uid === profileUser.uid ? "flex" : "hidden"
-                    }`}
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-4">
+            <div className="flex flex-col justify-start">
+              <div className="flex items-center w-full gap-2 py-4">
+                <div className="w-16 h-16">
+                  <Image
+                    src={profileUser.picture || Fallback}
+                    alt="user"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="w-full h-full object-cover rounded-full"
                   />
                 </div>
-                <p className="text-xs text-vibe">
-                  {profileUser.totalWatched ? profileUser.totalWatched : 0}/
-                  <span>{showNum}</span> watched
-                </p>
+                <div className="flex flex-col justify-center items-start">
+                  <div className="flex justify-between gap-1">
+                    <p className="font-bold text-xl leading-5 text-normal">
+                      {profileUser.name}
+                    </p>
+                    <FaPen
+                      onClick={() => setEditProfile(true)}
+                      className={`text-xs cursor-pointer text-vibe opacity-70 ${
+                        user?.uid === profileUser.uid ? "flex" : "hidden"
+                      }`}
+                    />
+                  </div>
+                  <p className="text-xs text-vibe">
+                    {profileUser.totalWatched ? profileUser.totalWatched : 0}/
+                    <span>{showNum}</span> watched
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="p-2">
-              <p className="text-sm text-vibe italic">{profileUser.bio}</p>
+              <div className="p-2">
+                <p className="text-sm text-vibe italic">{profileUser.bio}</p>
+              </div>
             </div>
 
-            {profileUser.rankings ? (
-              <div className="w-full h-full p-2">
-                <h4 className="font-bold text-lg">
-                  {profileUser.name.split(" ")[0]}'s holy trinity
-                </h4>
-                <div className="flex gap-2 justify-center">
-                  {topRanks.map((rank, index) => (
-                    <div
-                      key={index}
-                      onClick={() => handleShowNav(rank.titleId)}
-                      className="w-26 h-40 cursor-pointer relative"
-                    >
-                      <Image
-                        src={rank?.poster}
-                        alt="profileUser"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-fill rounded"
-                      />
+            <div className="flex flex-col p-2">
+              {profileUser.rankings ? (
+                <div className="w-full h-full p-2">
+                  <h4 className="font-bold text-lg">
+                    {profileUser.name.split(" ")[0]}'s holy trinity
+                  </h4>
+                  <div className="flex gap-2 justify-start">
+                    {topRanks.map((rank, index) => (
                       <div
-                        className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                          rank?.rank === 1 ? "bg-hulk" : "bg-accent"
-                        }`}
+                        key={index}
+                        onClick={() => handleShowNav(rank.titleId)}
+                        className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative shrink-0"
                       >
-                        <p
-                          className={`font-bold text-sm ${
-                            rank?.rank === 1 ? "text-zeus" : "text-normal"
+                        <Image
+                          src={rank?.poster}
+                          alt="profileUser"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-fill rounded"
+                        />
+                        <div
+                          className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+                            rank?.rank === 1 ? "bg-hulk" : "bg-accent"
                           }`}
                         >
-                          {rank?.rank === 1 ? <GiTrophy /> : rank?.rank}
-                        </p>
+                          <p
+                            className={`font-bold text-sm ${
+                              rank?.rank === 1 ? "text-zeus" : "text-normal"
+                            }`}
+                          >
+                            {rank?.rank === 1 ? <GiTrophy /> : rank?.rank}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-col justify-center">
-                <p className="text-xs text-vibe opacity-40">
-                  {profileUser.name} haven't ranked any title yet.
-                </p>
-              </div>
-            )}
-            {latestWatch.length > 0 ? (
-              <div className="w-full h-full p-2">
-                <h4 className="font-bold text-lg">
-                  {profileUser.name.split(" ")[0]}'s latest watch
-                </h4>
-                <div className="flex gap-2 justify-center">
-                  {latestWatch.map((item, index) => (
-                    <div
-                      key={index}
-                      onClick={() => handleShowNav(item.titleId)}
-                      className="w-26 h-40 cursor-pointer relative"
-                    >
-                      <Image
-                        src={item?.poster}
-                        alt="profileUser"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-fill rounded"
-                      />
-                    </div>
-                  ))}
+              ) : (
+                <div className="flex flex-col justify-center">
+                  <p className="text-xs text-vibe opacity-40">
+                    {profileUser.name} haven't ranked any title yet.
+                  </p>
                 </div>
-              </div>
-            ) : (
-              <div className="flex flex-col justify-center">
-                <p className="text-xs text-vibe opacity-40">
-                  {profileUser.name} haven't watched anything yet.
-                </p>
-              </div>
-            )}
-          </>
+              )}
+              {latestWatch.length > 0 ? (
+                <div className="w-full h-full p-2">
+                  <h4 className="font-bold text-lg">
+                    {profileUser.name.split(" ")[0]}'s latest watch
+                  </h4>
+                  <div className="flex gap-2 justify-start">
+                    {latestWatch.map((item, index) => (
+                      <div
+                        key={index}
+                        onClick={() => handleShowNav(item.titleId)}
+                        className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative shrink-0"
+                      >
+                        <Image
+                          src={item?.poster}
+                          alt="profileUser"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-fill rounded"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col justify-center">
+                  <p className="text-xs text-vibe opacity-40">
+                    {profileUser.name} haven't watched anything yet.
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
         )}
       </div>
       <div

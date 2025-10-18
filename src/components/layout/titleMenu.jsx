@@ -48,10 +48,10 @@ export default function TitleMenu({
   }, [user?.uid, titleId]);
 
   return (
-    <div className="flex flex-col w-[65vw] absolute top-full right-0 mt-2 p-2 rounded bg-accent shadow-lg z-50 overflow-hidden">
+    <div className="flex flex-col w-60 border-1 border-panel absolute top-full right-2 mt-2 p-2 rounded bg-second shadow-2xl z-50 overflow-hidden">
       <button
         onClick={handleWatch}
-        className="flex w-full items-center gap-2 px-4 py-2 cursor-pointer"
+        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
         {isWatched === true ? (
           <>

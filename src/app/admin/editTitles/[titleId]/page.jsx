@@ -171,7 +171,7 @@ export default function EditTitle() {
                 height={0}
                 sizes="100vw"
                 name="userImage"
-                className="object-cover w-26 h-40 cursor-pointer rounded"
+                className="object-cover w-26 h-40 md:w-32 md:h-46 cursor-pointer rounded"
               />
             </label>
             <input

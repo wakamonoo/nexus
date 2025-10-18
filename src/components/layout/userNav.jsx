@@ -24,7 +24,7 @@ export default function UserNav({ setShowUserNav }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="absolute top-18 right-2 sm:right-4 md:right-8 lg:right-16 bg-second w-64 h-fit rounded overflow-hidden"
+        className="absolute top-18 right-2 sm:right-4 md:right-8 lg:right-16 bg-second w-60 border-1 border-panel h-fit rounded overflow-hidden"
       >
         <div className="flex flex-col p-4">
           <button

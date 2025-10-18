@@ -320,7 +320,7 @@ export default function Rank() {
         </div>
         <DragOverlay>
           {draggedItem ? (
-            <div className="w-26 h-40 flex-shrink-0 cursor-pointer">
+            <div className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer">
               <Image
                 src={draggedItem.image}
                 alt="image"

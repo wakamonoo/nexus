@@ -10,14 +10,14 @@ export default function Page() {
     <>
       <NavBar />
       <div className="flex w-full md:px-8 lg:px-16">
-        <aside className="hidden md:block bg-brand md:w-[35%] lg:w-[25%] pt-24 h-screen sticky top-0 md:-ml-4">
+        <aside className="hidden md:block bg-brand md:w-[35%] lg:w-[25%] pt-18 h-screen sticky top-0 md:-ml-4">
           <MenuStructure />
         </aside>
-        <div className="w-full md:w-[65%] lg:w-[50%] md:py-2 md:ml-4 lg:px-8 xl:px-16">
+        <div className="w-full md:w-[65%] lg:w-[50%] md:pt-2 md:ml-4 lg:px-8 xl:px-16">
           <Banner />
           <Hero />
         </div>
-        <aside className="hidden lg:block lg:w-[25%] pt-20 h-screen sticky top-0">
+        <aside className="hidden lg:block lg:w-[25%] pt-18 h-screen sticky top-0">
           <LatestActivities />
         </aside>
       </div>

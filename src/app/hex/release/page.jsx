@@ -56,7 +56,7 @@ export default function Chrono() {
                 <div
                   key={unit.date}
                   onClick={() => handleShowNav(unit.titleId)}
-                  className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                  className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                 >
                   <Image
                     src={unit.image || Fallback}

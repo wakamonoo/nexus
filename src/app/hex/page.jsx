@@ -207,7 +207,7 @@ export default function Main() {
                         <div
                           key={unit.date}
                           onClick={() => handleShowNav(unit.titleId)}
-                          className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                          className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                         >
                           <Image
                             src={unit.image || Fallback}
@@ -262,7 +262,7 @@ export default function Main() {
                             <div
                               key={unit.date}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -313,7 +313,7 @@ export default function Main() {
                             <div
                               key={unit.order}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -364,7 +364,7 @@ export default function Main() {
                             <div
                               key={unit.date}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 flex-shrink-0 cursor-pointer"
+                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -413,7 +413,7 @@ export default function Main() {
                           <div
                             key={unit.titleId}
                             onClick={() => handleShowNav(unit.titleId)}
-                            className="relative w-26 h-40 flex-shrink-0 cursor-pointer"
+                            className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                           >
                             <Image
                               src={unit.image || Fallback}
