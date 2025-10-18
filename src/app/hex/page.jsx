@@ -165,8 +165,7 @@ export default function Main() {
   return (
     <>
       <NavBar />
-
-      <div className="relative bg-brand w-full p-2 pt-24">
+      <div className="relative bg-brand w-full pt-24 p-2 sm:px-4 md:px-8 lg:px-16">
         {pageLoad ? (
           <TitleLoader />
         ) : (

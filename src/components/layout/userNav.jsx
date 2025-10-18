@@ -24,15 +24,15 @@ export default function UserNav({ setShowUserNav }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="absolute top-18 right-2 bg-accent w-[65%] h-fit rounded overflow-hidden"
+        className="absolute top-18 right-2 sm:right-4 md:right-8 lg:right-16 bg-second w-64 h-fit rounded overflow-hidden"
       >
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col p-4">
           <button
             onClick={() => {
               setIsLoading(true);
               router.push(`/profile/${user.uid}`);
             }}
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
             {user ? (
               <>
@@ -56,19 +56,9 @@ export default function UserNav({ setShowUserNav }) {
           <button
             onClick={() => {
               setIsLoading(true);
-              router.push("/postings");
-            }}
-            className="flex items-center gap-2 cursor-pointer"
-          >
-            <BsFileEarmarkPostFill className="text-2xl" />
-            <p className="text-base font-bold text-normal">Postings</p>
-          </button>
-          <button
-            onClick={() => {
-              setIsLoading(true);
               router.push("/rank");
             }}
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
             <PiRankingDuotone className="text-2xl" />
             <p className="text-base font-bold text-normal">Rank'em</p>
@@ -78,7 +68,7 @@ export default function UserNav({ setShowUserNav }) {
               setShowUserNav(false);
               setShowSignIn(true);
             }}
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
             {user ? (
               <>

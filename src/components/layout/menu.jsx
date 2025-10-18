@@ -31,14 +31,23 @@ export default function Menu() {
 
   return (
     <div
-      ref={divRef}
-      className={`z-[100] bg-accent inset-0 fixed left-0 w-[70%] h-screen top-16 px-4 py-8 transition-all duration-300 ${
-        showMenu ? "translate-x-0" : "translate-x-[-100%]"
-      } ${
+      onClick={() => setShowMenu(false)}
+      className={`inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed ${
         navHide ? "translate-x-[-100%] opacity-0" : "translate-x-0 opacity-100"
       }`}
     >
-      <MenuStructure />
+      <div
+        ref={divRef}
+        className={`bg-second inset-0 absolute left-0 top-16 w-[70%] h-screen  px-4 py-8 transition-all duration-300 border-t-1 border-panel ${
+          showMenu ? "translate-x-0" : "translate-x-[-100%]"
+        } ${
+          navHide
+            ? "translate-x-[-100%] opacity-0"
+            : "translate-x-0 opacity-100"
+        }`}
+      >
+        <MenuStructure />
+      </div>
     </div>
   );
 }

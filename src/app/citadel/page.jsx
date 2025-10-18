@@ -118,7 +118,7 @@ export default function GlobalChat() {
                 </div>
               </div>
             ) : (
-              <div className="flex-1 p-4 overflow-y-auto">
+              <div className="flex-1 p-2 sm:px-4 md:px-8 lg:px-16 overflow-y-auto">
                 <div className="flex flex-col gap-4">
                   {messages.map((msg, i) => {
                     const ownMessage = user.uid === msg.senderId;
