@@ -22,7 +22,7 @@ export default function Hero() {
             </div>
           </div>
         ) : (
-          <div className="p-2 flex flex-col gap-1">
+          <div className="py-2 flex flex-col gap-1">
             {posts.map((post, index) => (
               <PostStructure key={index} post={post} />
             ))}

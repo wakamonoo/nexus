@@ -36,7 +36,7 @@ export default function Banner() {
               <HiOutlineSearch className="text-2xl text-normal" />
             </div>
           </div>
-          <div className="flex gap-2 justify-between p-2">
+          <div className="flex gap-2 justify-center p-2">
             <div className="flex">
               <h1 className="text-5xl">THERE</h1>
               <div className="flex flex-col items-center justify-center mt-3">

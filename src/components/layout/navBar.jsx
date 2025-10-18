@@ -68,7 +68,7 @@ export default function NavBar() {
       {showUserNav && <UserNav setShowUserNav={setShowUserNav} />}
       <div
         onClick={() => setShowUserNav(false)}
-        className={`fixed flex justify-between px-4 py-8 w-full h-12 transition-colors duration-150 z-[70]  md:border-b border-gray-900 ${
+        className={`fixed flex justify-between px-2 sm:px-4 md:px-8 lg:px-16 py-8 w-full h-12 transition-colors duration-150 z-[70]  md:border-b border-gray-900 ${
           isScrolled ? "bg-[var(--color-panel)]" : "bg-[var(--color-secondary)]"
         } ${navHide ? "hidden" : "flex"}`}
       >
@@ -96,7 +96,7 @@ export default function NavBar() {
             />
           </button>
         </div>
-        <div className="flex items-center gap-4 w-full">
+        <div className="flex items-center gap-4 sm:gap-8 w-fit">
           <button
             onClick={handleHomeClick}
             className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(

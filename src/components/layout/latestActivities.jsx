@@ -47,7 +47,7 @@ export default function LatestActivities() {
                 router.push(`/hex/${review.titleId}`);
               }}
               key={index}
-              className="border-1 border-panel rounded-2xl p-2 cursor-pointer"
+              className="border-1 border-panel rounded-2xl p-2 cursor-pointer group transition-all duration-300 hover:-translate-y-2 hover:bg-[var(--color-panel)]"
             >
               <div className="flex flex-col gap-2">
                 <div className="flex items-start gap-1">
@@ -78,12 +78,12 @@ export default function LatestActivities() {
                     <span className="opacity-60">shared a review</span>
                   </p>
                 </div>
-                <div className="flex items-start gap-2 text-normal leading-snug">
+                <div className="flex items-start gap-2 text-normal group-hover:font-bold leading-snug">
                   <FaQuoteLeft className="text-xs shrink-0 opacity-50" />
                   <p className="italic">{review.textReview}</p>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 text-sm text-vibe pt-2 border-t border-panel">
+                <div className="flex items-center justify-between gap-2 text-sm text-vibe pt-2 border-t border-panel group-hover:border-[var(--color-secondary)]">
                   <p className="text-xs">
                     for{" "}
                     <span className="text-vibe text-base font-semibold">
