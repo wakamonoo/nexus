@@ -86,7 +86,7 @@ export default function UserProfile() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_1.2fr] gap-4">
             <div className="flex flex-col justify-start">
               <div className="flex items-center w-full gap-2 py-4">
                 <div className="w-16 h-16">
@@ -122,7 +122,7 @@ export default function UserProfile() {
               </div>
             </div>
 
-            <div className="flex flex-col p-2">
+            <div className="flex flex-col justify-center items-center">
               {profileUser.rankings ? (
                 <div className="w-full h-full p-2">
                   <h4 className="font-bold text-lg">
