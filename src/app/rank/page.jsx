@@ -208,7 +208,7 @@ export default function Rank() {
   }, [user]);
 
   return (
-    <div className="p-2 bg-brand">
+    <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
       <div className="flex justify-between py-4">
         <FaAngleLeft
           onClick={() => router.back()}

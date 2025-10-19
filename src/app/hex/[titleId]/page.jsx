@@ -76,7 +76,7 @@ export default function Title() {
     <>
       <div
         onClick={() => setShowTitleMenu(false)}
-        className="p-2 sm:px-4 md:px-8 lg:px-16 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]"
+        className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]"
       >
         <div className="flex justify-between py-4 ">
           <FaAngleLeft

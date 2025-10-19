@@ -38,7 +38,7 @@ export default function Page() {
 
   return (
     <AdminGuard>
-      <div className="p-4">
+      <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <FaAngleLeft
           onClick={() => router.back()}
           title="Back"

@@ -57,7 +57,7 @@ export default function Reco() {
   return (
     <>
       <NavBar />
-      <div className="pt-16 p-4">
+      <div className="bg-brand w-full py-16 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <h1 className="text-2xl py-4 text-accent text-center">
           Feedback & Suggestions
         </h1>
@@ -114,10 +114,18 @@ export default function Reco() {
           or reach me on
         </p>
         <div className="flex gap-2 items-center justify-center">
-          <FaFacebook className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
-          <FaInstagram className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
-          <FaLinkedin className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
-          <FaGithub className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+          <a href="https://www.facebook.com/joven.serdanbataller">
+            <FaFacebook className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+          </a>
+          <a href="https://www.instagram.com/wakamonoooo/">
+            <FaInstagram className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+          </a>
+          <a href="https://www.linkedin.com/in/joven-bataller-085761350/">
+            <FaLinkedin className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+          </a>
+          <a href="https://github.com/wakamonoo">
+            <FaGithub className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+          </a>
         </div>
       </div>
     </>

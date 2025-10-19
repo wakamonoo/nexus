@@ -13,7 +13,7 @@ export default function PrivacyPolicy() {
   return (
     <>
       <NavBar />
-      <div className="bg-brand w-full py-16 p-4">
+     <div className="bg-brand w-full py-16 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <div>
           <h1 className="text-2xl py-4 text-accent text-left">1. Overview</h1>
           <p className="text-base text-justify">

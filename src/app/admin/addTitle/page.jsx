@@ -131,7 +131,7 @@ export default function AddTitle() {
 
   return (
     <AdminGuard>
-      <div className="p-2">
+      <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <div className="flex justify-between items-center">
           <FaAngleLeft
             onClick={() => router.back()}

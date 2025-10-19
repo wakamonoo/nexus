@@ -17,7 +17,7 @@ export default function TrustAndLegality() {
   return (
     <>
       <NavBar />
-      <div className="bg-brand w-full py-16 p-4">
+      <div className="bg-brand w-full py-16 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <div>
           <h1 className="text-2xl py-4 text-accent text-center">
             Disclaimer & Legal Notice
@@ -69,7 +69,7 @@ export default function TrustAndLegality() {
             are an artist and would like your work removed or updated, please
             contact me and we will respond promptly.
           </p>
-          <div className="flex flex-col gap-2 py-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-2 py-2">
             {titles.map((title, index) => (
               <a
                 href={title.posterCreditUrl}

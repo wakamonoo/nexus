@@ -13,7 +13,7 @@ export default function HeroFund() {
   return (
     <>
       <NavBar />
-      <div className="bg-brand w-full py-16 p-4">
+      <div className="bg-brand w-full py-16 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <div>
           <h1 className="text-2xl py-4 text-accent text-center">
             Why I Need Your Support
@@ -72,88 +72,90 @@ export default function HeroFund() {
             project alive and helps it grow.
           </p>
         </div>
-        <div className="p-4 bg-second rounded flex flex-col gap-2 items-center justify-center mt-6">
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-sm text-vibe font-bold mb-2">
-              Help the cause with GCash:
-            </p>
-            <Image
-              src={QR}
-              alt="file"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-32 h-auto object-cover"
-            />
-          </div>
-          <p className="text-sm text-vibe font-bold mb-2">or via PayPal:</p>
-          <div className="flex items-center justify-center gap-2 w-full bg-text p-2 rounded">
-            <span className="text-vibe text-base">$</span>
-            <input
-              id="donation_amount"
-              type="number"
-              placeholder="Enter amount in USD"
-              step="0.01"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="w-64 text-panel outline-none text-base text-center font-bold"
-            />
-          </div>
+        <div className="flex justify-center">
+          <div className="p-4 bg-second rounded flex flex-col gap-2 items-center justify-center mt-6 w-fit">
+            <div className="flex flex-col items-center justify-center">
+              <p className="text-sm text-vibe font-bold mb-2">
+                Help the cause with GCash:
+              </p>
+              <Image
+                src={QR}
+                alt="file"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-32 h-auto object-cover"
+              />
+            </div>
+            <p className="text-sm text-vibe font-bold mb-2">or via PayPal:</p>
+            <div className="flex items-center justify-center gap-2 w-full bg-text p-2 rounded">
+              <span className="text-vibe text-base">$</span>
+              <input
+                id="donation_amount"
+                type="number"
+                placeholder="Enter amount in USD"
+                step="0.01"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="w-64 text-panel outline-none text-base text-center font-bold"
+              />
+            </div>
 
-          <PayPalScriptProvider
-            options={{ "client-id": paypalID, currency: "USD" }}
-          >
-            <PayPalButtons
-              className="w-full"
-              style={{ layout: "vertical", shape: "pill", color: "gold" }}
-              createOrder={(data, actions) =>
-                actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: { value: amount || 1 },
-                    },
-                  ],
-                })
-              }
-              onApprove={(data, actions) =>
-                actions.order.capture().then((details) => {
+            <PayPalScriptProvider
+              options={{ "client-id": paypalID, currency: "USD" }}
+            >
+              <PayPalButtons
+                className="w-full"
+                style={{ layout: "vertical", shape: "pill", color: "gold" }}
+                createOrder={(data, actions) =>
+                  actions.order.create({
+                    purchase_units: [
+                      {
+                        amount: { value: amount || 1 },
+                      },
+                    ],
+                  })
+                }
+                onApprove={(data, actions) =>
+                  actions.order.capture().then((details) => {
+                    Swal.fire({
+                      title: "Success",
+                      text: `Thank you, ${details.payer.name.given_name}! your donation was received!`,
+                      icon: "success",
+                      timer: 2000,
+                      showConfirmButton: false,
+                      background: "var(--color-text)",
+                      color: "var(--color-bg)",
+                      iconColor: "var(--color-hulk)",
+                      customClass: {
+                        popup: "rounded-2xl shadow-lg",
+                        title: "text-lg font-bold !text-[var(--color-hulk)]",
+                        htmlContainer: "text-sm",
+                      },
+                    });
+                  })
+                }
+                onError={(err) => {
+                  console.error("Paypal checkout failed", err);
                   Swal.fire({
-                    title: "Success",
-                    text: `Thank you, ${details.payer.name.given_name}! your donation was received!`,
-                    icon: "success",
+                    title: "Error",
+                    text: "Donation failed. Please try again.",
+                    icon: "error",
                     timer: 2000,
                     showConfirmButton: false,
                     background: "var(--color-text)",
                     color: "var(--color-bg)",
-                    iconColor: "var(--color-hulk)",
+                    iconColor: "var(--color-accent)",
                     customClass: {
                       popup: "rounded-2xl shadow-lg",
-                      title: "text-lg font-bold !text-[var(--color-hulk)]",
+                      title: "text-lg font-bold !text-[var(--color-accent)]",
                       htmlContainer: "text-sm",
                     },
                   });
-                })
-              }
-              onError={(err) => {
-                console.error("Paypal checkout failed", err);
-                Swal.fire({
-                  title: "Error",
-                  text: "Donation failed. Please try again.",
-                  icon: "error",
-                  timer: 2000,
-                  showConfirmButton: false,
-                  background: "var(--color-text)",
-                  color: "var(--color-bg)",
-                  iconColor: "var(--color-accent)",
-                  customClass: {
-                    popup: "rounded-2xl shadow-lg",
-                    title: "text-lg font-bold !text-[var(--color-accent)]",
-                    htmlContainer: "text-sm",
-                  },
-                });
-              }}
-            />
-          </PayPalScriptProvider>
+                }}
+              />
+            </PayPalScriptProvider>
+          </div>
         </div>
       </div>
     </>

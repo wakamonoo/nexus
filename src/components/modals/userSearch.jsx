@@ -75,7 +75,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
 
   return (
     <div className="inset-0 z-[100] backdrop-blur-xs flex justify-center fixed overflow-y-auto">
-      <div className="w-full p-2 py-6">
+      <div className="w-full h-full md:w-[65%] lg:w-[42%] p-2 py-6 md:absolute md:right-6 lg:right-1/2 lg:translate-x-1/2 lg:mr-3">
         <div className="flex items-center justify-between w-full">
           <FaAngleLeft
             onClick={() => setShowSearch(false)}
@@ -123,8 +123,12 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                     sizes="100vw"
                     className="w-10 h-10 object-fill rounded-full"
                   />
-                  <p className="text-normal text-base font-bold
-                  ">{profile.name}</p>
+                  <p
+                    className="text-normal text-base font-bold
+                  "
+                  >
+                    {profile.name}
+                  </p>
                 </div>
               </div>
             ))
