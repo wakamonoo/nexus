@@ -8,6 +8,7 @@ import Fallback from "@/assets/fallback.png";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { FaAngleLeft } from "react-icons/fa";
+import RegularButtons from "@/components/buttons/regBtns";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -308,12 +309,9 @@ export default function EditTitle() {
             placeholder="Synopsis"
             className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
           />
-          <button
-            type="submit"
-            className="bg-accent p-4 w-full rounded font-bold cursor-pointer"
-          >
+          <RegularButtons type="submit">
             <p className="font-bold text-normal text-base">Update Title</p>
-          </button>
+          </RegularButtons>
         </form>
       </div>
     </AdminGuard>

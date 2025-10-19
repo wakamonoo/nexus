@@ -4,6 +4,7 @@ import emailjs from "@emailjs/browser";
 import Swal from "sweetalert2";
 import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import NavBar from "@/components/layout/navBar";
+import RegularButtons from "@/components/buttons/regBtns";
 
 export default function Reco() {
   const contact = useRef();
@@ -100,14 +101,9 @@ export default function Reco() {
               placeholder="Message..."
               className="bg-second w-full h-32 p-2 text-normal text-base"
             />
-            <button
-              type="submit"
-              className="font-bold bg-accent p-4 rounded cursor-pointer hover:bg-[var(--color-text)] transition-colors duration-300 focus:bg-[var(--color-text)] group"
-            >
-              <p className="transition-colors duration-300 group-hover:text-[var(--color-accent)]">
-                Send
-              </p>
-            </button>
+            <RegularButtons type="submit">
+              <p className="font-bold text-normal text-base">Send</p>
+            </RegularButtons>
           </form>
         </div>
         <p className="flex justify-center py-4 text-xs text-vibe">

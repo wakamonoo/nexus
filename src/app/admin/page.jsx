@@ -6,6 +6,7 @@ import CountUp from "react-countup";
 import { UserContext } from "@/context/userContext";
 import AdminGuard from "@/components/guard/adminGuard";
 import { LoaderContext } from "@/context/loaderContext";
+import RegularButtons from "@/components/buttons/regBtns";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
@@ -69,24 +70,17 @@ export default function Page() {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <button
-            onClick={() => router.push("/admin/addTitle")}
-            className="bg-accent w-full p-2 rounded cursor-pointer"
-          >
-            <p className="font-bold uppercase text-base">Add new title</p>
-          </button>
-          <button
-            onClick={() => router.push("/admin/editTitles")}
-            className="bg-accent w-full p-2 rounded cursor-pointer"
-          >
-            <p className="font-bold uppercase text-base">Edit Titles</p>
-          </button>
-          <button
+          <RegularButtons onClick={() => router.push("/admin/addTitle")}>
+            <p className="font-bold text-normal text-base uppercase">Add new title</p>
+          </RegularButtons>
+          <RegularButtons onClick={() => router.push("/admin/editTitles")}>
+            <p className="font-bold text-normal text-base uppercase">Edit Titles</p>
+          </RegularButtons>
+          <RegularButtons
             onClick={() => router.push("/admin/updateTitlesOrder")}
-            className="bg-accent w-full p-2 rounded cursor-pointer"
           >
-            <p className="font-bold uppercase text-base">Update Order</p>
-          </button>
+            <p className="font-bold text-normal text-base uppercase">Update Order</p>
+          </RegularButtons>
         </div>
       </div>
     </AdminGuard>

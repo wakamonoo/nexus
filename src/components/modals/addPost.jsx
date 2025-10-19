@@ -141,13 +141,10 @@ export default function AddPost({ setShowAddPost }) {
                 className="bg-text text-brand w-full h-32 rounded p-2"
               />
               <div className="flex gap-2">
-                <label
-                  htmlFor="fileUpload"
-                  className="cursor-pointer mt-2 bg-panel hover:bg-[var(--color-panel)]/80 w-full p-2 rounded flex justify-center items-center gap-1"
-                >
+                <SecondaryButtons htmlFor="fileUpload">
                   <FaImage className="text-2xl" />
                   <p className="font-bold text-normal text-base">Add Media</p>
-                </label>
+                </SecondaryButtons>
                 <input
                   id="fileUpload"
                   name="file"
@@ -239,9 +236,7 @@ export default function AddPost({ setShowAddPost }) {
                     : "cursor-pointer"
                 }`}
               >
-                <p className="font-bold text-normal text-base">
-                  Post
-                </p>
+                <p className="font-bold text-normal text-base">Post</p>
               </button>
             </div>
           </div>
