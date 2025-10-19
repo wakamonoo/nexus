@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { FaAngleRight, FaBoxOpen, FaSearch } from "react-icons/fa";
+import { FaAngleLeft, FaAngleRight, FaBoxOpen, FaSearch } from "react-icons/fa";
 import Fallback from "@/assets/fallback.png";
 import TitleLoader from "@/components/loaders/titlesLoader";
 import Loader from "@/components/loaders/searchLoader";
@@ -14,7 +14,7 @@ import { GiTrophy } from "react-icons/gi";
 import { HiOutlineSearch } from "react-icons/hi";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
-import { GoDotFill } from "react-icons/go";
+import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -37,6 +37,10 @@ export default function Main() {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showArrows1, setShowArrors1] = useState(false);
+  const [showArrows2, setShowArrors2] = useState(false);
+  const [showArrows3, setShowArrors3] = useState(false);
+  const [showArrows4, setShowArrors4] = useState(false);
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -162,6 +166,78 @@ export default function Main() {
     return { ...t, rank: currentRank };
   });
 
+  const handleScrollLeft1 = () => {
+    if (scrollRef1.current) {
+      scrollRef1.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight1 = () => {
+    if (scrollRef1.current) {
+      scrollRef1.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollLeft2 = () => {
+    if (scrollRef2.current) {
+      scrollRef2.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight2 = () => {
+    if (scrollRef2.current) {
+      scrollRef2.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollLeft3 = () => {
+    if (scrollRef3.current) {
+      scrollRef3.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight3 = () => {
+    if (scrollRef3.current) {
+      scrollRef3.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollLeft4 = () => {
+    if (scrollRef4.current) {
+      scrollRef4.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight4 = () => {
+    if (scrollRef4.current) {
+      scrollRef4.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -241,51 +317,87 @@ export default function Main() {
                 <div className="py-4">
                   <div className="flex justify-between items-center">
                     <h1 className="text-xl">LATEST RELEASES</h1>
-                    <FaAngleRight
+                    <div
                       onClick={() => handleShowListNav("latest")}
-                      className={`text-normal text-xl cursor-pointer ${
+                      className={`flex items-center cursor-pointer ${
                         isScrolled1 ? "flex" : "hidden"
                       }`}
-                    />
+                    >
+                      <p className="text-xs text-vibe">View All</p>
+                      <FaAngleRight className="text-vibe text-base" />
+                    </div>
                   </div>
 
                   <div
-                    ref={scrollRef1}
-                    className="overflow-x-auto scrollbar-hide"
+                    className="relative"
+                    onMouseEnter={() => setShowArrors1(true)}
+                    onMouseLeave={() => setShowArrors1(false)}
                   >
-                    <div className="flex gap-2">
-                      {titles.length > 0 ? (
-                        [...titles]
-                          .sort((a, b) => new Date(b.date) - new Date(a.date))
-                          .slice(0, 15)
-                          .map((unit) => (
-                            <div
-                              key={unit.date}
-                              onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                            >
-                              <Image
-                                src={unit.image || Fallback}
-                                alt="image"
-                                width={0}
-                                height={0}
-                                sizes="100vw"
-                                className={`w-full h-full object-fill rounded ${
-                                  isTitleWatched(unit.titleId)
-                                    ? "grayscale-0"
-                                    : "grayscale-90"
-                                }`}
-                              />
-                            </div>
-                          ))
-                      ) : (
-                        <div className="flex flex-col justify-center items-center">
-                          <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                          <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                            Sorry, no data to display!
-                          </p>
+                    <div
+                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                        showArrows1 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                        showArrows1 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+
+                    {showArrows1 && (
+                      <>
+                        <div
+                          onClick={handleScrollLeft1}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                        >
+                          <RiArrowLeftWideFill className="text-2xl" />
                         </div>
-                      )}
+                        <div
+                          onClick={handleScrollRight1}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                        >
+                          <RiArrowRightWideFill className="text-2xl" />
+                        </div>
+                      </>
+                    )}
+                    <div
+                      ref={scrollRef1}
+                      className="overflow-x-auto scrollbar-hide"
+                    >
+                      <div className="flex gap-2">
+                        {titles.length > 0 ? (
+                          [...titles]
+                            .sort((a, b) => new Date(b.date) - new Date(a.date))
+                            .slice(0, 15)
+                            .map((unit) => (
+                              <div
+                                key={unit.date}
+                                onClick={() => handleShowNav(unit.titleId)}
+                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                              >
+                                <Image
+                                  src={unit.image || Fallback}
+                                  alt="image"
+                                  width={0}
+                                  height={0}
+                                  sizes="100vw"
+                                  className={`w-full h-full object-fill rounded ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "grayscale-0"
+                                      : "grayscale-90"
+                                  }`}
+                                />
+                              </div>
+                            ))
+                        ) : (
+                          <div className="flex flex-col justify-center items-center">
+                            <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
+                            <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                              Sorry, no data to display!
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -293,50 +405,85 @@ export default function Main() {
                 <div className="py-4">
                   <div className="flex justify-between items-center">
                     <h1 className="text-xl">MCU CHRONOLOGICAL ORDER</h1>
-                    <FaAngleRight
+                    <div
                       onClick={() => handleShowListNav("chrono")}
-                      className={`text-normal text-xl cursor-pointer ${
+                      className={`flex items-center cursor-pointer ${
                         isScrolled2 ? "flex" : "hidden"
                       }`}
-                    />
+                    >
+                      <p className="text-xs text-vibe">View All</p>
+                      <FaAngleRight className="text-vibe text-base" />
+                    </div>
                   </div>
-
                   <div
-                    ref={scrollRef2}
-                    className="overflow-x-auto scrollbar-hide"
+                    className="relative"
+                    onMouseEnter={() => setShowArrors2(true)}
+                    onMouseLeave={() => setShowArrors2(false)}
                   >
-                    <div className="flex gap-2">
-                      {titles.length > 0 ? (
-                        [...titles]
-                          .sort((a, b) => a.order - b.order)
-                          .map((unit) => (
-                            <div
-                              key={unit.order}
-                              onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                            >
-                              <Image
-                                src={unit.image || Fallback}
-                                alt="image"
-                                width={0}
-                                height={0}
-                                sizes="100vw"
-                                className={`w-full h-full object-fill rounded ${
-                                  isTitleWatched(unit.titleId)
-                                    ? "grayscale-0"
-                                    : "grayscale-90"
-                                }`}
-                              />
-                            </div>
-                          ))
-                      ) : (
-                        <div className="flex flex-col justify-center items-center">
-                          <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                          <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                            Sorry, no data to display!
-                          </p>
+                    <div
+                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                        showArrows2 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                        showArrows2 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+
+                    {showArrows2 && (
+                      <>
+                        <div
+                          onClick={handleScrollLeft2}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                        >
+                          <RiArrowLeftWideFill className="text-2xl" />
                         </div>
-                      )}
+                        <div
+                          onClick={handleScrollRight2}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                        >
+                          <RiArrowRightWideFill className="text-2xl" />
+                        </div>
+                      </>
+                    )}
+                    <div
+                      ref={scrollRef2}
+                      className="overflow-x-auto scrollbar-hide"
+                    >
+                      <div className="flex gap-2">
+                        {titles.length > 0 ? (
+                          [...titles]
+                            .sort((a, b) => a.order - b.order)
+                            .map((unit) => (
+                              <div
+                                key={unit.order}
+                                onClick={() => handleShowNav(unit.titleId)}
+                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                              >
+                                <Image
+                                  src={unit.image || Fallback}
+                                  alt="image"
+                                  width={0}
+                                  height={0}
+                                  sizes="100vw"
+                                  className={`w-full h-full object-fill rounded ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "grayscale-0"
+                                      : "grayscale-90"
+                                  }`}
+                                />
+                              </div>
+                            ))
+                        ) : (
+                          <div className="flex flex-col justify-center items-center">
+                            <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
+                            <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                              Sorry, no data to display!
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -344,27 +491,147 @@ export default function Main() {
                 <div className="py-4">
                   <div className="flex justify-between items-center">
                     <h1 className="text-xl">MCU RELEASE ORDER</h1>
-                    <FaAngleRight
+                    <div
                       onClick={() => handleShowListNav("release")}
-                      className={`text-normal text-xl cursor-pointer ${
+                      className={`flex items-center cursor-pointer ${
                         isScrolled3 ? "flex" : "hidden"
                       }`}
-                    />
+                    >
+                      <p className="text-xs text-vibe">View All</p>
+                      <FaAngleRight className="text-vibe text-base" />
+                    </div>
                   </div>
 
                   <div
-                    ref={scrollRef3}
-                    className="overflow-x-auto scrollbar-hide"
+                    className="relative"
+                    onMouseEnter={() => setShowArrors3(true)}
+                    onMouseLeave={() => setShowArrors3(false)}
                   >
-                    <div className="flex gap-2">
-                      {titles.length > 0 ? (
-                        [...titles]
-                          .sort((a, b) => new Date(a.date) - new Date(b.date))
-                          .map((unit) => (
+                    <div
+                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                        showArrows3 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                        showArrows3 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+
+                    {showArrows3 && (
+                      <>
+                        <div
+                          onClick={handleScrollLeft3}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                        >
+                          <RiArrowLeftWideFill className="text-2xl" />
+                        </div>
+                        <div
+                          onClick={handleScrollRight3}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                        >
+                          <RiArrowRightWideFill className="text-2xl" />
+                        </div>
+                      </>
+                    )}
+                    <div
+                      ref={scrollRef3}
+                      className="overflow-x-auto scrollbar-hide"
+                    >
+                      <div className="flex gap-2">
+                        {titles.length > 0 ? (
+                          [...titles]
+                            .sort((a, b) => new Date(a.date) - new Date(b.date))
+                            .map((unit) => (
+                              <div
+                                key={unit.date}
+                                onClick={() => handleShowNav(unit.titleId)}
+                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                              >
+                                <Image
+                                  src={unit.image || Fallback}
+                                  alt="image"
+                                  width={0}
+                                  height={0}
+                                  sizes="100vw"
+                                  className={`w-full h-full object-fill rounded ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "grayscale-0"
+                                      : "grayscale-90"
+                                  }`}
+                                />
+                              </div>
+                            ))
+                        ) : (
+                          <div className="flex flex-col justify-center items-center">
+                            <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
+                            <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                              Sorry, no data to display!
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="py-4">
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-xl">GOAT STATUS</h1>
+                    <div
+                      onClick={() => handleShowListNav("goat")}
+                      className={`flex items-center cursor-pointer ${
+                        isScrolled4 ? "flex" : "hidden"
+                      }`}
+                    >
+                      <p className="text-xs text-vibe">View All</p>
+                      <FaAngleRight className="text-vibe text-base" />
+                    </div>
+                  </div>
+
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setShowArrors4(true)}
+                    onMouseLeave={() => setShowArrors4(false)}
+                  >
+                    <div
+                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                        showArrows4 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                        showArrows4 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+
+                    {showArrows4 && (
+                      <>
+                        <div
+                          onClick={handleScrollLeft4}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                        >
+                          <RiArrowLeftWideFill className="text-2xl" />
+                        </div>
+                        <div
+                          onClick={handleScrollRight4}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                        >
+                          <RiArrowRightWideFill className="text-2xl" />
+                        </div>
+                      </>
+                    )}
+                    <div
+                      ref={scrollRef4}
+                      className="overflow-x-auto scrollbar-hide"
+                    >
+                      <div className="flex gap-2">
+                        {titles.length > 0 ? (
+                          ranked.map((unit) => (
                             <div
-                              key={unit.date}
+                              key={unit.titleId}
                               onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                              className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                             >
                               <Image
                                 src={unit.image || Fallback}
@@ -378,78 +645,32 @@ export default function Main() {
                                     : "grayscale-90"
                                 }`}
                               />
-                            </div>
-                          ))
-                      ) : (
-                        <div className="flex flex-col justify-center items-center">
-                          <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                          <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                            Sorry, no data to display!
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">GOAT STATUS</h1>
-                    <FaAngleRight
-                      onClick={() => handleShowListNav("goat")}
-                      className={`text-normal text-xl cursor-pointer ${
-                        isScrolled4 ? "flex" : "hidden"
-                      }`}
-                    />
-                  </div>
-
-                  <div
-                    ref={scrollRef4}
-                    className="overflow-x-auto scrollbar-hide"
-                  >
-                    <div className="flex gap-2">
-                      {titles.length > 0 ? (
-                        ranked.map((unit) => (
-                          <div
-                            key={unit.titleId}
-                            onClick={() => handleShowNav(unit.titleId)}
-                            className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                          >
-                            <Image
-                              src={unit.image || Fallback}
-                              alt="image"
-                              width={0}
-                              height={0}
-                              sizes="100vw"
-                              className={`w-full h-full object-fill rounded ${
-                                isTitleWatched(unit.titleId)
-                                  ? "grayscale-0"
-                                  : "grayscale-90"
-                              }`}
-                            />
-                            <div
-                              className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                                unit.rank === 1 ? "bg-hulk" : "bg-accent"
-                              }`}
-                            >
-                              <p
-                                className={`font-bold text-sm ${
-                                  unit.rank === 1 ? "text-zeus" : "text-normal"
+                              <div
+                                className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+                                  unit.rank === 1 ? "bg-hulk" : "bg-accent"
                                 }`}
                               >
-                                {unit.rank === 1 ? <GiTrophy /> : unit.rank}
-                              </p>
+                                <p
+                                  className={`font-bold text-sm ${
+                                    unit.rank === 1
+                                      ? "text-zeus"
+                                      : "text-normal"
+                                  }`}
+                                >
+                                  {unit.rank === 1 ? <GiTrophy /> : unit.rank}
+                                </p>
+                              </div>
                             </div>
+                          ))
+                        ) : (
+                          <div className="flex flex-col justify-center items-center">
+                            <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
+                            <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                              Sorry, no data to display!
+                            </p>
                           </div>
-                        ))
-                      ) : (
-                        <div className="flex flex-col justify-center items-center">
-                          <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                          <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                            Sorry, no data to display!
-                          </p>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
