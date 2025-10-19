@@ -7,6 +7,7 @@ import { LuImageUp } from "react-icons/lu";
 import Fallback from "@/assets/fallback.png";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
+import RegularButtons from "../buttons/regBtns";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -172,12 +173,11 @@ export default function EditProfile({ setEditProfile }) {
                 />
               </div>
             </div>
-            <button
+            <RegularButtons
               type="submit"
-              className="mt-2 p-2 w-full bg-accent rounded cursor-pointer"
             >
               <p className="font-bold text-normal text-base">Submit Changes</p>
-            </button>
+            </RegularButtons>
           </form>
         </div>
       </div>

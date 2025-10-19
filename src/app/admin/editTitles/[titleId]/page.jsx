@@ -312,7 +312,7 @@ export default function EditTitle() {
             type="submit"
             className="bg-accent p-4 w-full rounded font-bold cursor-pointer"
           >
-            <p className="text-base">Update Title</p>
+            <p className="font-bold text-normal text-base">Update Title</p>
           </button>
         </form>
       </div>

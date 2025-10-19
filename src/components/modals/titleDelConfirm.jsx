@@ -2,6 +2,7 @@
 import { TitleContext } from "@/context/titleContext";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
+import CircledButtons from "../buttons/circledBtns";
 
 export default function TitleDelConfirm({ titleId, setDelModal }) {
   const { handleTitleDelete } = useContext(TitleContext);
@@ -29,21 +30,17 @@ export default function TitleDelConfirm({ titleId, setDelModal }) {
             Are you sure you want to delete this title?
           </p>
           <div className="w-full flex gap-2">
-            <button
+            <CircledButtons
               onClick={() => {
                 handleTitleDelete(titleId);
                 setDelModal(false);
               }}
-              className="flex-1 flex justify-center px-4 py-2 bg-accent rounded-full cursor-pointer"
             >
-              <p>Confirm</p>
-            </button>
-            <button
-              onClick={() => setDelModal(false)}
-              className="flex-1 flex justify-center px-4 py-2 bg-accent rounded-full cursor-pointer"
-            >
-              <p>Cancel</p>
-            </button>
+              <p className="font-bold text-normal text-base">Confirm</p>
+            </CircledButtons>
+            <CircledButtons onClick={() => setDelModal(false)}>
+              <p className="font-bold text-normal text-base">Cancel</p>
+            </CircledButtons>
           </div>
         </div>
       </div>

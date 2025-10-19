@@ -7,6 +7,7 @@ import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
 import TitleDelConfirm from "@/components/modals/titleDelConfirm";
 import AdminGuard from "@/components/guard/adminGuard";
+import CircledButtons from "@/components/buttons/circledBtns";
 
 export default function EditTitleMain() {
   const { titles } = useContext(TitleContext);
@@ -38,7 +39,7 @@ export default function EditTitleMain() {
             <h1 className="text-xl">Edit Titles</h1>
           </div>
 
-          <div className="flex flex-col gap-2 p-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 p-2">
             {titles.map((title, index) => (
               <div key={index} className="flex gap-4 items-center">
                 <Image
@@ -52,22 +53,23 @@ export default function EditTitleMain() {
                 <div className="w-full flex flex-col gap-2">
                   <h4 className="leading-3.5">{title.title}</h4>
                   <div className="flex flex-col gap-2 w-full">
-                    <button
+                    <CircledButtons
                       onClick={() =>
                         router.push(`/admin/editTitles/${title.titleId}`)
                       }
-                      className="cursor-pointer px-4 bg-hulk rounded-2xl"
                     >
-                      <p className="font-bold text-normal">Edit title</p>
-                    </button>
-                    <button
+                      <p className="font-bold text-normal text-base">
+                        Edit title
+                      </p>
+                    </CircledButtons>
+                    <CircledButtons
                       onClick={() => openDelModal(title.titleId)}
                       className="px-4 bg-accent rounded-2xl"
                     >
-                      <p className="cursor-pointer font-bold text-normal">
+                      <p className="font-bold text-normal text-base">
                         Delete title
                       </p>
-                    </button>
+                    </CircledButtons>
                   </div>
                 </div>
               </div>

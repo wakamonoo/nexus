@@ -11,7 +11,7 @@ export default function ProfileEchoes({ profileUser }) {
   );
 
   return (
-     <div className="w-full">
+    <div className="w-full">
       {profileUserEchoes.length === 0 ? (
         <div className="mt-16">
           <div className="flex flex-col items-center justify-center">
@@ -22,7 +22,7 @@ export default function ProfileEchoes({ profileUser }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-1 py-4">
+        <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
           {profileUserEchoes.map((post, index) => (
             <PostStructure key={index} post={post} />
           ))}

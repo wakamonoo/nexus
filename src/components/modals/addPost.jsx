@@ -6,6 +6,7 @@ import { FaFlag, FaImage, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
+import SecondaryButtons from "../buttons/secBtns";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -137,12 +138,12 @@ export default function AddPost({ setShowAddPost }) {
                 value={post.text}
                 onChange={(e) => setPost({ ...post, text: e.target.value })}
                 placeholder="share your thoughts"
-                className="bg-panel text-normal w-full h-32 rounded p-2"
+                className="bg-text text-brand w-full h-32 rounded p-2"
               />
               <div className="flex gap-2">
                 <label
                   htmlFor="fileUpload"
-                  className="cursor-pointer flex flex-1 bg-blue-600 p-2 rounded  justify-center items-center gap-2"
+                  className="cursor-pointer mt-2 bg-panel hover:bg-[var(--color-panel)]/80 w-full p-2 rounded flex justify-center items-center gap-1"
                 >
                   <FaImage className="text-2xl" />
                   <p className="font-bold text-normal text-base">Add Media</p>
@@ -161,15 +162,14 @@ export default function AddPost({ setShowAddPost }) {
                   multiple
                   className="hidden"
                 />
-                <button
+                <SecondaryButtons
                   onClick={() => setShowTopics((prev) => !prev)}
-                  className="cursor-pointer flex flex-1 justify-center bg-hulk p-2 rounded items-center gap-2"
                 >
                   <FaFlag className="text-2xl" />
                   <p className="font-bold text-normal text-base">
                     Choose Topic
                   </p>
-                </button>
+                </SecondaryButtons>
               </div>
 
               {post.file && post.file.length > 0 && (
@@ -228,23 +228,21 @@ export default function AddPost({ setShowAddPost }) {
                 )}
               </div>
 
-              <div className="py-2">
-                <button
-                  onClick={submitPost}
-                  disabled={
-                    !(post.text.trim() || (post.file && post.file.length > 0))
-                  }
-                  className={`bg-accent p-2 rounded w-full ${
-                    !(post.text.trim() || (post.file && post.file.length > 0))
-                      ? "opacity-50 cursor-not-allowed"
-                      : "cursor-pointer"
-                  }`}
-                >
-                  <p className="font-bold text-norma; text-base uppercase">
-                    Post
-                  </p>
-                </button>
-              </div>
+              <button
+                onClick={submitPost}
+                disabled={
+                  !(post.text.trim() || (post.file && post.file.length > 0))
+                }
+                className={`bg-accent hover:bg-[var(--color-accent)]/80 w-full p-2 rounded flex justify-center items-center gap-1 ${
+                  !(post.text.trim() || (post.file && post.file.length > 0))
+                    ? "opacity-50 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+              >
+                <p className="font-bold text-normal text-base">
+                  Post
+                </p>
+              </button>
             </div>
           </div>
         </div>

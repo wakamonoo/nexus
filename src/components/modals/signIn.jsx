@@ -11,6 +11,7 @@ import Image from "next/image";
 import Logo from "@/assets/main_logo.png";
 import PopUp from "@/assets/pop-up.png";
 import { LoaderContext } from "@/context/loaderContext";
+import CircledButtons from "../buttons/circledBtns";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -135,37 +136,39 @@ export default function SignIn() {
             height={0}
             className="w-36 h-auto pb-8"
           />
-          <button
-            onClick={handleSignIn}
-            className="bg-accent px-4 py-2 rounded-full font-bold cursor-pointer w-full hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)]"
-          >
+          <CircledButtons onClick={handleSignIn}>
             {isLogged ? (
               <div className="flex gap-2 items-center justify-center">
-                <p>Logout Account</p>
+                <p className="font-bold text-normal text-base">
+                  Logout Account
+                </p>
                 <MdLogout className="text-2xl" />
               </div>
             ) : (
               <div className="flex gap-2 items-center justify-center">
-                <p>Continue with Google</p>
+                <p className="font-bold text-normal text-base">
+                  Continue with Google
+                </p>
                 <FcGoogle className="text-2xl" />
               </div>
             )}
-          </button>
+          </CircledButtons>
           {adminBtn && (
             <>
               <p className="text-xs text-vibe mt-2">Hi wakamonoo:</p>
-              <button
+              <CircledButtons
                 onClick={() => {
                   setIsLoading(true);
                   router.push("/admin");
                 }}
-                className="bg-accent px-4 py-2 rounded-full font-bold cursor-pointer w-full hover:bg-[var(--color-hulk)] focus:bg-[var(--color-hulk)]"
               >
                 <div className="flex gap-2 items-center justify-center">
-                  <p>Visit Admin Page</p>
+                  <p className="font-bold text-normal text-base">
+                    Visit Admin Page
+                  </p>
                   <MdAdminPanelSettings className="text-2xl" />
                 </div>
-              </button>
+              </CircledButtons>
             </>
           )}
           <div className="mt-4">

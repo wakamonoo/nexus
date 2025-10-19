@@ -2,6 +2,7 @@
 import { PostContext } from "@/context/postContext";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
+import RegularButtons from "../buttons/regBtns";
 
 export default function DelConfirm({ onDelete }) {
   const { setDelModal } = useContext(PostContext);
@@ -29,18 +30,12 @@ export default function DelConfirm({ onDelete }) {
             Are you sure you want to delete this post?
           </p>
           <div className="w-full flex gap-2">
-            <button
-              onClick={() => onDelete()}
-              className="flex-1 flex justify-center px-4 py-2 bg-accent rounded-full cursor-pointer"
-            >
-              <p>Confirm</p>
-            </button>
-            <button
-              onClick={() => setDelModal(false)}
-              className="flex-1 flex justify-center px-4 py-2 bg-accent rounded-full cursor-pointer"
-            >
-              <p>Cancel</p>
-            </button>
+            <RegularButtons onClick={() => onDelete()}>
+              <p className="font-bold text-normal text-base">Confirm</p>
+            </RegularButtons>
+            <RegularButtons onClick={() => setDelModal(false)}>
+              <p className="font-bold text-normal text-base">Cancel</p>
+            </RegularButtons>
           </div>
         </div>
       </div>

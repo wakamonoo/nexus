@@ -22,6 +22,7 @@ import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import { HiOutlineSearch } from "react-icons/hi";
+import RegularButtons from "@/components/buttons/regBtns";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -334,28 +335,26 @@ export default function Rank() {
         </DragOverlay>
       </DndContext>
 
-      <div className="py-4 flex flex-col gap-2 justify-center items-center">
-        <button
+      <div className="py-4 flex gap-2 justify-center items-center">
+        <RegularButtons
           onClick={() => {
             setSlots({});
             setItems(
               [...titles].sort((a, b) => new Date(b.date) - new Date(a.date))
             );
           }}
-          className="cursor-pointer bg-accent w-full p-2 rounded flex justify-center items-center gap-1"
         >
           <BiReset className="text-2xl" />
           <p className="text-base text-normal font-bold">Reset Ranking</p>
-        </button>
-        <button
+        </RegularButtons>
+        <RegularButtons
           onClick={() => {
             user ? handleSave() : setShowSignIn(true);
           }}
-          className="cursor-pointer bg-accent w-full p-2 rounded flex justify-center items-center gap-1"
         >
           <FaRegSave className="text-2xl" />
           <p className="text-base text-normal font-bold">Save Rankings</p>
-        </button>
+        </RegularButtons>
       </div>
     </div>
   );

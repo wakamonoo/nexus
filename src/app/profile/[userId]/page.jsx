@@ -76,7 +76,7 @@ export default function UserProfile() {
           />
           <h4 className="text-xl">Profile</h4>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
           {!profileUser ? (
             <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <div className="flex flex-col items-center justify-center">

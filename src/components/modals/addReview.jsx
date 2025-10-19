@@ -5,6 +5,7 @@ import { MdClose } from "react-icons/md";
 import Image from "next/image";
 import Loader from "../loaders/loader";
 import Swal from "sweetalert2";
+import RegularButtons from "../buttons/regBtns";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -122,16 +123,11 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
                   }
                 }}
                 placeholder="inifinity thoughts, one review box..."
-                className="bg-panel text-base text-normal w-full h-64 rounded p-2"
+                className="bg-text text-base text-brand w-full h-64 rounded p-2"
               />
-              <button
-                onClick={postReview}
-                className="bg-accent p-2 rounded w-full"
-              >
-                <p className="font-bold text-norma; text-base uppercase">
-                  Post
-                </p>
-              </button>
+              <RegularButtons onClick={postReview}>
+                <p className="font-bold text-normal text-base">Post</p>
+              </RegularButtons>
             </div>
           </div>
         </div>

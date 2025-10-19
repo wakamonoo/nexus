@@ -21,7 +21,7 @@ export default function ProfilePosts({ profileUser }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-1 py-4">
+        <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
           {profileUserPosts.map((post, index) => (
             <PostStructure key={index} post={post} />
           ))}
