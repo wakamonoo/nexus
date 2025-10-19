@@ -67,8 +67,11 @@ export default function LightBox() {
           </div>
         ) : null}
         {showDetails && (
-          <button className="absolute cursor-pointer top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110">
-            <MdClose onClick={() => setLightboxOpen(false)} />
+          <button className="absolute cursor-pointer top-4 right-4">
+            <MdClose
+              onClick={() => setLightboxOpen(false)}
+              className="text-2xl font-bold duration-200 hover:scale-110 active:scale-110"
+            />
           </button>
         )}
       </div>

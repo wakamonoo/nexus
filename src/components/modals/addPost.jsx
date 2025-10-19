@@ -99,13 +99,16 @@ export default function AddPost({ setShowAddPost }) {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex relative justify-center bg-panel w-[95%] sm:w-[400px] md:w-[450px] h-fit rounded-2xl overflow-hidden"
+          className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-fit rounded-2xl overflow-hidden p-2"
         >
-          <button className="absolute cursor-pointer top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110">
-            <MdClose onClick={() => setShowAddPost(false)} />
+          <button
+            onClick={() => setShowAddPost(false)}
+            className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+          >
+            <MdClose className="text-2xl" />
           </button>
 
-          <div className="mt-12 p-2 h-full w-full">
+          <div className="mt-4 p-2 h-full w-full">
             <div className="flex py-2 justify-start items-center gap-2">
               <Image
                 src={user?.picture}
@@ -134,7 +137,7 @@ export default function AddPost({ setShowAddPost }) {
                 value={post.text}
                 onChange={(e) => setPost({ ...post, text: e.target.value })}
                 placeholder="share your thoughts"
-                className="bg-second w-full h-32 rounded p-2"
+                className="bg-panel text-normal w-full h-32 rounded p-2"
               />
               <div className="flex gap-2">
                 <label
@@ -216,7 +219,9 @@ export default function AddPost({ setShowAddPost }) {
                         }}
                         className="cursor-pointer h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] px-4"
                       >
-                        <p className="font-bold text-base truncate w-full">{title.title}</p>
+                        <p className="font-bold text-base truncate w-full">
+                          {title.title}
+                        </p>
                       </div>
                     ))}
                   </div>

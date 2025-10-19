@@ -13,18 +13,18 @@ export default function TitleDelConfirm({ titleId, setDelModal }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex relative justify-center bg-panel w-[95%] h-[30%] rounded-2xl overflow-hidden"
+        className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-fit rounded-2xl overflow-hidden p-2"
       >
         <button
           onClick={(e) => {
             e.stopPropagation();
             setDelModal(false);
           }}
-          className="absolute cursor-pointer top-4 right-4 text-2xl sm:text-3xl md:text-4xl font-bold duration-200 hover:scale-110 active:scale-110"
+          className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
         >
-          <MdClose />
+          <MdClose className="text-2xl" />
         </button>
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full p-4">
+        <div className="mt-6 p-2 h-full w-full">
           <p className="text-center text-normal font-bold py-2">
             Are you sure you want to delete this title?
           </p>
