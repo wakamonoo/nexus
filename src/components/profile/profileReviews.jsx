@@ -26,7 +26,7 @@ export default function ProfileReviews({ profileUser }) {
   );
 
   return (
-    <div className="p-2">
+    <div className="w-full">
       {profileUserReviews?.length === 0 ? (
         <div className="mt-16">
           <div className="flex flex-col items-center justify-center">
@@ -45,7 +45,7 @@ export default function ProfileReviews({ profileUser }) {
                 router.push(`/hex/${review.titleId}`);
               }}
               key={index}
-              className="bg-second rounded-2xl border-1 border-panel cursor-pointer p-2"
+              className="bg-second w-full rounded-2xl border-1 border-panel cursor-pointer p-2"
             >
               <div className="flex gap-2 items-center py-2">
                 <Image

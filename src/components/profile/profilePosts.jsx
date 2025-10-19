@@ -10,7 +10,7 @@ export default function ProfilePosts({ profileUser }) {
   const profileUserPosts = posts.filter((p) => p.userId === profileUser?.uid);
 
   return (
-    <div className="p-2">
+     <div className="w-full">
       {profileUserPosts.length === 0 ? (
         <div className="mt-16">
           <div className="flex flex-col items-center justify-center">
