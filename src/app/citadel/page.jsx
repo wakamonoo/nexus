@@ -220,7 +220,7 @@ export default function GlobalChat() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                   placeholder={`Chat as ${user.name}...`}
-                  className="w-full text-normal outline-none rounded-full text-base font-normal truncate"
+                  className="w-full px-2 text-normal outline-none rounded-full text-base font-normal truncate"
                 />
                 <MdSend
                   className="text-2xl cursor-pointer shrink-0"

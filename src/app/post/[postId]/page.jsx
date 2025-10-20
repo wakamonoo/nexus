@@ -137,7 +137,7 @@ export default function Post() {
     return <PostLoader />;
   }
 
-  const firstComment = post.comments.sort(
+  const firstComment = post.comments?.sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   )[0];
 
@@ -403,8 +403,8 @@ export default function Post() {
               </div>
             </aside>
 
-            <div className="flex flex-col gap-4 p-4 pb-24">
-              {post.comments.length === 0 ? (
+            <div className="flex flex-col gap-4 p-4">
+              {post.comments?.length === 0 ? (
                 <div className="flex items-center justify-center py-16">
                   <div className="flex items-center gap-2">
                     <FaRegComment className="text-2xl" />
@@ -414,7 +414,7 @@ export default function Post() {
                   </div>
                 </div>
               ) : (
-                post.comments.map((comment, index) => (
+                post.comments?.map((comment, index) => (
                   <div key={index} className="flex gap-2">
                     <Image
                       src={comment.userImage}
@@ -462,7 +462,7 @@ export default function Post() {
               )}
             </div>
 
-            <div className="flex fixed z-50 bottom-0 md:bottom-2 w-full md:w-[55%] gap-2 items-center p-2 md:rounded-full bg-second">
+            <div className="flex sticky z-50 bottom-0 md:bottom-2 w-full gap-2 items-center p-2 md:rounded-full bg-second">
               <Image
                 src={user?.picture || null}
                 alt="user"
@@ -487,7 +487,7 @@ export default function Post() {
                       }
                     }
                   }}
-                  className="w-full text-normal outline-none rounded-full text-base font-normal truncate"
+                  className="w-full text-normal px-2 outline-none rounded-full text-base font-normal truncate"
                   placeholder={
                     user
                       ? `Comment as ${user.name}...`
