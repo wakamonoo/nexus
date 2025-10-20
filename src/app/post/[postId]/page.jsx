@@ -53,7 +53,7 @@ export default function Post() {
   const searchParams = useSearchParams();
   const inputRef = useRef();
   const { titles } = useContext(TitleContext);
-  const { isTitleWatched } = useContext(WatchContext);
+  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollRef = useRef(null);
@@ -66,6 +66,16 @@ export default function Post() {
   }, []);
 
   const post = posts.find((p) => p.postId === postId);
+
+  useEffect(() => {
+    const fetchWathced = async () => {
+      if (user?.uid) {
+        await watchedInfoFetch(user?.uid);
+      }
+    };
+
+    fetchWathced();
+  }, [user]);
 
   useEffect(() => {
     const current = scrollRef.current;
