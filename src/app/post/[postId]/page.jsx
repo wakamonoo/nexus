@@ -343,7 +343,7 @@ export default function Post() {
               </div>
             </div>
 
-            <aside className="p-2 md:hidden">
+            <aside className="p-2 mt-4 mb-4 md:hidden">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">GOAT STATUS</h1>
                 <div
@@ -464,7 +464,7 @@ export default function Post() {
               )}
             </div>
 
-            <div className="flex fixed z-50 bottom-0 md:bottom-2 w-full md:w-[55.5%] gap-2 items-center p-2 md:p-4 md:rounded-2xl">
+            <div className="flex fixed z-50 bottom-0 md:bottom-2 w-full md:w-[55.5%] gap-2 items-center p-2 md:rounded-2xl backdrop-blur-sm">
               <Image
                 src={user?.picture || null}
                 alt="user"
