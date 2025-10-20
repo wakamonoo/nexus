@@ -213,7 +213,7 @@ export default function PostStructure({ post }) {
               setShowSignIn(true);
             }
           }}
-          className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+          className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
         >
           <AiFillThunderbolt
             className={`text-2xl ${
@@ -234,7 +234,7 @@ export default function PostStructure({ post }) {
               setShowSignIn(true);
             }
           }}
-          className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+          className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
         >
           <MdOutlineSensors
             className={`text-2xl ${
@@ -250,7 +250,7 @@ export default function PostStructure({ post }) {
             e.stopPropagation();
             handlePostNavMain(post.postId, true);
           }}
-          className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+          className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
         >
           <FaComment className="text-2xl transform -scale-x-100" />
           <p className="text-xs font-light text-vibe opacity-50">
