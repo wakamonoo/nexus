@@ -101,60 +101,62 @@ export default function HeroFund() {
               />
             </div>
 
-            <PayPalScriptProvider
-              options={{ "client-id": paypalID, currency: "USD" }}
-            >
-              <PayPalButtons
-                className="w-full"
-                style={{ layout: "vertical", shape: "pill", color: "gold" }}
-                createOrder={(data, actions) =>
-                  actions.order.create({
-                    purchase_units: [
-                      {
-                        amount: { value: amount || 1 },
-                      },
-                    ],
-                  })
-                }
-                onApprove={(data, actions) =>
-                  actions.order.capture().then((details) => {
+            <div className="relative z-0">
+              <PayPalScriptProvider
+                options={{ "client-id": paypalID, currency: "USD" }}
+              >
+                <PayPalButtons
+                  className="w-full"
+                  style={{ layout: "vertical", shape: "pill", color: "gold" }}
+                  createOrder={(data, actions) =>
+                    actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: { value: amount || 1 },
+                        },
+                      ],
+                    })
+                  }
+                  onApprove={(data, actions) =>
+                    actions.order.capture().then((details) => {
+                      Swal.fire({
+                        title: "Success",
+                        text: `Thank you, ${details.payer.name.given_name}! your donation was received!`,
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        background: "var(--color-text)",
+                        color: "var(--color-bg)",
+                        iconColor: "var(--color-hulk)",
+                        customClass: {
+                          popup: "rounded-2xl shadow-lg",
+                          title: "text-lg font-bold !text-[var(--color-hulk)]",
+                          htmlContainer: "text-sm",
+                        },
+                      });
+                    })
+                  }
+                  onError={(err) => {
+                    console.error("Paypal checkout failed", err);
                     Swal.fire({
-                      title: "Success",
-                      text: `Thank you, ${details.payer.name.given_name}! your donation was received!`,
-                      icon: "success",
+                      title: "Error",
+                      text: "Donation failed. Please try again.",
+                      icon: "error",
                       timer: 2000,
                       showConfirmButton: false,
                       background: "var(--color-text)",
                       color: "var(--color-bg)",
-                      iconColor: "var(--color-hulk)",
+                      iconColor: "var(--color-accent)",
                       customClass: {
                         popup: "rounded-2xl shadow-lg",
-                        title: "text-lg font-bold !text-[var(--color-hulk)]",
+                        title: "text-lg font-bold !text-[var(--color-accent)]",
                         htmlContainer: "text-sm",
                       },
                     });
-                  })
-                }
-                onError={(err) => {
-                  console.error("Paypal checkout failed", err);
-                  Swal.fire({
-                    title: "Error",
-                    text: "Donation failed. Please try again.",
-                    icon: "error",
-                    timer: 2000,
-                    showConfirmButton: false,
-                    background: "var(--color-text)",
-                    color: "var(--color-bg)",
-                    iconColor: "var(--color-accent)",
-                    customClass: {
-                      popup: "rounded-2xl shadow-lg",
-                      title: "text-lg font-bold !text-[var(--color-accent)]",
-                      htmlContainer: "text-sm",
-                    },
-                  });
-                }}
-              />
-            </PayPalScriptProvider>
+                  }}
+                />
+              </PayPalScriptProvider>
+            </div>
           </div>
         </div>
       </div>

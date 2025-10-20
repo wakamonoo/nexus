@@ -84,7 +84,7 @@ export default function LightBox() {
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
       <div className="z-50 inset-0">
-        {currentPost.length > 1 ? (
+       {showDetails && currentPost.length > 1 ? (
           <div className="absolute top-5 left-4">
             <p className="text-xs text-vibe">
               {currentIndex + 1}/{currentPost.length}

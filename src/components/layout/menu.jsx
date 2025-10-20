@@ -38,7 +38,7 @@ export default function Menu() {
     >
       <div
         ref={divRef}
-        className={`bg-second inset-0 absolute left-0 top-16 w-[70%] h-screen  px-4 py-8 transition-all duration-300 border-t-1 border-panel ${
+        className={`bg-second inset-0 absolute left-0 top-16 w-72 h-screen  px-4 py-8 transition-all duration-300 border-t-1 border-panel ${
           showMenu ? "translate-x-0" : "translate-x-[-100%]"
         } ${
           navHide
