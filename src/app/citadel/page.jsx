@@ -204,19 +204,29 @@ export default function GlobalChat() {
                 </div>
               </div>
             )}
-            <div className={`w-full flex items-center gap-2 p-4 bg-second `}>
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                placeholder="enter message ..."
-                className="w-full p-2 bg-panel text-normal outline-none rounded-full text-base font-normal"
+            <div className="w-full flex items-center gap-2 p-2 bg-second">
+              <Image
+                src={user?.picture || null}
+                alt="user"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-12 h-12 object-cover rounded-full"
               />
-              <MdSend
-                className="text-4xl cursor-pointer"
-                onClick={sendMessage}
-              />
+              <div className="flex items-center w-full gap-2 bg-panel rounded-full border-1 border-[var(--color-secondary)] py-2 px-4">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                  placeholder={`Chat as ${user.name}...`}
+                  className="w-full text-normal outline-none rounded-full text-base font-normal truncate"
+                />
+                <MdSend
+                  className="text-2xl cursor-pointer shrink-0"
+                  onClick={sendMessage}
+                />
+              </div>
             </div>
           </div>
         )}

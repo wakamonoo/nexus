@@ -474,7 +474,7 @@ export default function Post() {
               )}
             </div>
 
-            <div className="flex fixed z-50 bottom-0 md:bottom-2 w-full md:w-[55.5%] gap-2 items-center p-2 md:rounded-2xl backdrop-blur-sm">
+            <div className="flex fixed z-50 bottom-0 md:bottom-2 w-full md:w-[55%] gap-2 items-center p-2 md:rounded-full bg-second">
               <Image
                 src={user?.picture || null}
                 alt="user"
@@ -499,15 +499,15 @@ export default function Post() {
                       }
                     }
                   }}
-                  className="text-normal outline-none p-2 w-full rounded"
+                  className="w-full text-normal outline-none rounded-full text-base font-normal truncate"
                   placeholder={
                     user
-                      ? "Type your marvelous comment..."
+                      ? `Comment as ${user.name}...`
                       : "Kindly signin to comment"
                   }
                 />
                 <button onClick={handleSendComment}>
-                  <MdSend className="text-4xl cursor-pointer shrink-0" />
+                  <MdSend className="text-2xl cursor-pointer shrink-0" />
                 </button>
               </div>
             </div>
@@ -516,6 +516,7 @@ export default function Post() {
 
         <aside className="w-full hidden md:block">
           <div className="w-full md:px-2 lg:px-4">
+            <h1 className="text-xl text-center">GOAT STATUS</h1>
             <div className="flex flex-wrap justify-center gap-2">
               {...ranked.map((unit) => (
                 <div
