@@ -133,7 +133,7 @@ export default function Post() {
 
   return (
     <div className="bg-brand">
-      <div className="bg-panel border-b-1 border-[var(--color-secondary)]  p-4 flex justify-between">
+      <div className="bg-panel border-b-1 border-[var(--color-secondary)] py-4 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 flex justify-between">
         <FaAngleLeft
           onClick={() => router.back()}
           className="text-2xl cursor-pointer"
@@ -141,9 +141,9 @@ export default function Post() {
         <p className="uppercase font-bold text-normal">Post</p>
         <div />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-[3fr_1fr] items-start">
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_1.5fr] items-start md:py-2 md:px-8 lg:px-16 xl:px-32">
         <main className="md:sticky md:top-0">
-          <div className="md:p-2 lg:px-4">
+          <div>
             <div className="relative bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] md:rounded-2xl">
               {user?.uid === post.userId ? (
                 <div className="absolute top-4 right-4">
@@ -464,40 +464,49 @@ export default function Post() {
               )}
             </div>
 
-            <div className="flex fixed bottom-0 w-full md:w-[73%] gap-2 items-center bg-second p-4 md:rounded-2xl">
-              <input
-                ref={inputRef}
-                type="text"
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    if (user) {
-                      handleSendComment();
-                    } else {
-                      setShowSignIn(true);
-                    }
-                  }
-                }}
-                className="bg-text text-brand p-2 w-full rounded"
-                placeholder={
-                  user
-                    ? "Type your marvelous comment..."
-                    : "Kindly signin to comment"
-                }
+            <div className="flex fixed z-50 bottom-0 md:bottom-2 w-full md:w-[55.5%] gap-2 items-center p-2 md:p-4 md:rounded-2xl">
+              <Image
+                src={user?.picture || null}
+                alt="user"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-12 h-12 object-cover rounded-full"
               />
-              <button onClick={handleSendComment}>
-                <MdSend className="text-4xl cursor-pointer" />
-              </button>
+              <div className="flex items-center w-full gap-2 bg-panel rounded-full border-1 border-[var(--color-secondary)] py-2 px-4">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      if (user) {
+                        handleSendComment();
+                      } else {
+                        setShowSignIn(true);
+                      }
+                    }
+                  }}
+                  className="text-normal outline-none p-2 w-full rounded"
+                  placeholder={
+                    user
+                      ? "Type your marvelous comment..."
+                      : "Kindly signin to comment"
+                  }
+                />
+                <button onClick={handleSendComment}>
+                  <MdSend className="text-4xl cursor-pointer shrink-0" />
+                </button>
+              </div>
             </div>
           </div>
         </main>
 
-        <aside className="w-full p-4">
-          <div className="w-full">
-            <h4 className="text-xl text-end">GOAT STATUS</h4>
-            <div className="flex flex-wrap justify-end gap-2">
+        <aside className="w-full hidden md:block">
+          <div className="w-full md:px-2 lg:px-4">
+            <div className="flex flex-wrap justify-center gap-2">
               {...ranked.map((unit) => (
                 <div
                   key={unit.titleId}

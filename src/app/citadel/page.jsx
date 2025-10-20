@@ -211,7 +211,7 @@ export default function GlobalChat() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 placeholder="enter message ..."
-                className="w-full p-2 bg-text text-brand rounded text-base font-normal"
+                className="w-full p-2 bg-panel text-normal outline-none rounded-full text-base font-normal"
               />
               <MdSend
                 className="text-4xl cursor-pointer"
