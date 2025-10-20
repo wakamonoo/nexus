@@ -17,7 +17,7 @@ export default function AccountDelConfirm({ setAccountDelModal }) {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            setDelModal(false);
+            setAccountDelModal(false);
           }}
           className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
         >
