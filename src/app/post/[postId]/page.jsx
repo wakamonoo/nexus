@@ -143,16 +143,17 @@ export default function Post() {
 
   return (
     <div className="bg-brand">
-      <div className="bg-panel border-b-1 border-[var(--color-secondary)] py-4 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 flex justify-between">
+      <div className="relative bg-panel border-b-1 border-[var(--color-secondary)] p-6 flex justify-center items-center">
         <FaAngleLeft
           onClick={() => router.back()}
-          className="text-2xl cursor-pointer"
+          className="absolute left-2 sm:left-4 md:left-8 lg:left-16 xl:left-32 text-2xl cursor-pointer"
         />
-        <p className="uppercase font-bold text-normal">Post</p>
-        <div />
+        <p className="absolute left-1/2 -translate-x-1/2 uppercase font-bold text-normal">
+          {post.userName}'s Post
+        </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-[3fr_1.5fr] items-start md:py-2 md:px-8 lg:px-16 xl:px-32">
-        <main className="md:sticky md:top-0">
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_1.5fr] md:gap-4 items-start md:px-8 lg:px-16 xl:px-32">
+        <main className="md:py-2 md:sticky md:top-0">
           <div>
             <div className="relative bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] md:rounded-2xl">
               {user?.uid === post.userId ? (
@@ -353,21 +354,8 @@ export default function Post() {
               </div>
             </div>
 
-            <aside className="p-2 mt-4 mb-4 md:hidden">
-              <div className="flex justify-between items-center">
-                <h1 className="text-xl">GOAT STATUS</h1>
-                <div
-                  onClick={() => handleShowListNav("goat")}
-                  className={`flex items-center cursor-pointer ${
-                    isScrolled ? "flex" : "hidden"
-                  }`}
-                >
-                  <p className="text-xs text-vibe">View All</p>
-                  <FaAngleRight className="text-vibe text-base" />
-                </div>
-              </div>
-
-              <div ref={scrollRef} className="overflow-x-auto scrollbar-hide">
+            <aside className="p-2 md:hidden">
+              <div className="overflow-x-auto scrollbar-hide">
                 <div className="flex gap-2">
                   {titles.length > 0 ? (
                     ranked.map((unit) => (
@@ -514,10 +502,9 @@ export default function Post() {
           </div>
         </main>
 
-        <aside className="w-full hidden md:block">
-          <div className="w-full md:px-2 lg:px-4">
-            <h1 className="text-xl text-center">GOAT STATUS</h1>
-            <div className="flex flex-wrap justify-center gap-2">
+        <aside className="w-full h-full hidden md:block">
+          <div className="w-full md:py-4">
+            <div className="flex flex-wrap justify-start gap-2">
               {...ranked.map((unit) => (
                 <div
                   key={unit.titleId}
@@ -552,17 +539,6 @@ export default function Post() {
                 </div>
               ))}
             </div>
-          </div>
-          <div className="w-full flex justify-center p-8 opacity-70">
-            <p className="text-xs text-vibe text-center">
-              Your fav not here?{" "}
-              <span
-                onClick={() => router.push("/rank")}
-                className="cursor-pointer underline"
-              >
-                rank'em
-              </span>
-            </p>
           </div>
         </aside>
       </div>
