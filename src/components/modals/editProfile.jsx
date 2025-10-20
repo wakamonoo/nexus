@@ -8,6 +8,7 @@ import Fallback from "@/assets/fallback.png";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import RegularButtons from "../buttons/regBtns";
+import AccountDelConfirm from "./accountDelConfirm";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -17,6 +18,7 @@ const BASE_URL =
 export default function EditProfile({ setEditProfile }) {
   const { user } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
+  const [accountDelModal, setAccountDelModal] = useState(false);
   const [data, setData] = useState({
     userImage: user.picture,
     userName: user.name,
@@ -108,79 +110,95 @@ export default function EditProfile({ setEditProfile }) {
   };
 
   return (
-    <div
-      onClick={() => setEditProfile(false)}
-      className="inset-0 z-[150] backdrop-blur-xs flex items-center justify-center fixed"
-    >
+    <>
       <div
-        onClick={(e) => e.stopPropagation()}
-        className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-fit rounded-2xl overflow-hidden p-2"
+        onClick={() => setEditProfile(false)}
+        className="inset-0 z-[150] backdrop-blur-xs flex items-center justify-center fixed"
       >
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setEditProfile(false);
-          }}
-          className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-fit rounded-2xl overflow-hidden p-2"
         >
-          <MdClose className="text-2xl" />
-        </button>
-        <div className="w-full mt-6 p-4">
-          <form onSubmit={handleUpdateProfile} className="flex flex-col w-full">
-            <div className="flex items-start gap-2">
-              <div className="w-24 aspect-square relative flex-shrink-0">
-                <Image
-                  src={
-                    data.userImage instanceof File
-                      ? URL.createObjectURL(data.userImage)
-                      : data.userImage || Fallback
-                  }
-                  alt="user"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  name="userImage"
-                  className="object-cover w-full h-full rounded-full"
-                />
-                <label htmlFor="userImageUpload">
-                  <LuImageUp className="absolute cursor-pointer bottom-1 right-1 text-2xl" />
-                </label>
-                <input
-                  type="file"
-                  id="userImageUpload"
-                  accept="image/*"
-                  name="userImage"
-                  onChange={handleChange}
-                  className="hidden"
-                />
-              </div>
-              <div className="flex flex-col gap-2 w-full">
-                <input
-                  type="text"
-                  name="userName"
-                  value={data.userName}
-                  onChange={handleChange}
-                  placeholder="Edit username.."
-                  className="bg-panel p-2 w-full rounded"
-                />
-                <textarea
-                  type="text"
-                  name="userBio"
-                  value={data.userBio}
-                  onChange={handleChange}
-                  placeholder="Add bio.."
-                  className="bg-panel p-2 w-full h-32 rounded"
-                />
-              </div>
-            </div>
-            <RegularButtons
-              type="submit"
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setEditProfile(false);
+            }}
+            className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+          >
+            <MdClose className="text-2xl" />
+          </button>
+          <div className="w-full mt-6 p-4">
+            <form
+              onSubmit={handleUpdateProfile}
+              className="flex flex-col w-full"
             >
-              <p className="font-bold text-normal text-base">Submit Changes</p>
-            </RegularButtons>
-          </form>
+              <div className="flex items-start gap-2">
+                <div className="w-24 aspect-square relative flex-shrink-0">
+                  <Image
+                    src={
+                      data.userImage instanceof File
+                        ? URL.createObjectURL(data.userImage)
+                        : data.userImage || Fallback
+                    }
+                    alt="user"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    name="userImage"
+                    className="object-cover w-full h-full rounded-full"
+                  />
+                  <label htmlFor="userImageUpload">
+                    <LuImageUp className="absolute cursor-pointer bottom-1 right-1 text-2xl" />
+                  </label>
+                  <input
+                    type="file"
+                    id="userImageUpload"
+                    accept="image/*"
+                    name="userImage"
+                    onChange={handleChange}
+                    className="hidden"
+                  />
+                </div>
+                <div className="flex flex-col gap-2 w-full">
+                  <input
+                    type="text"
+                    name="userName"
+                    value={data.userName}
+                    onChange={handleChange}
+                    placeholder="Edit username.."
+                    className="bg-panel p-2 w-full rounded"
+                  />
+                  <textarea
+                    type="text"
+                    name="userBio"
+                    value={data.userBio}
+                    onChange={handleChange}
+                    placeholder="Add bio.."
+                    className="bg-panel p-2 w-full h-32 rounded"
+                  />
+                </div>
+              </div>
+              <RegularButtons type="submit">
+                <p className="font-bold text-normal text-base">
+                  Submit changes
+                </p>
+              </RegularButtons>
+              <RegularButtons
+                type="button"
+                onClick={() => setAccountDelModal(true)}
+              >
+                <p className="font-bold text-normal text-base">
+                  Delete your account
+                </p>
+              </RegularButtons>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+      {accountDelModal && (
+        <AccountDelConfirm setAccountDelModal={setAccountDelModal} />
+      )}
+    </>
   );
 }
