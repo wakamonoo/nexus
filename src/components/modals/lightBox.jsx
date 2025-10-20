@@ -8,6 +8,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
+import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 
 export default function LightBox() {
   const {
@@ -56,9 +57,33 @@ export default function LightBox() {
     };
   }, [lightboxOpen]);
 
+  const handleNext = () => {
+    if (!lightboxRef.current) return;
+    if (currentIndex < currentPost.length - 1) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+      lightboxRef.current.scrollTo({
+        left: lightboxRef.current.clientWidth * newIndex,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handlePrev = () => {
+    if (!lightboxRef.current) return;
+    if (currentIndex > 0) {
+      const newIndex = currentIndex - 1;
+      setCurrentIndex(newIndex);
+      lightboxRef.current.scrollTo({
+        left: lightboxRef.current.clientWidth * newIndex,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
-      <div className="z-50">
+      <div className="z-50 inset-0">
         {currentPost.length > 1 ? (
           <div className="absolute top-5 left-4">
             <p className="text-xs text-vibe">
@@ -73,6 +98,28 @@ export default function LightBox() {
               className="text-2xl font-bold duration-200 hover:scale-110 active:scale-110"
             />
           </button>
+        )}
+        {showDetails && currentPost.length > 1 && (
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation;
+                handlePrev();
+              }}
+              className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+            >
+              <RiArrowLeftWideFill className="text-2xl" />
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation;
+                handleNext();
+              }}
+              className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+            >
+              <RiArrowRightWideFill className="text-2xl" />
+            </button>
+          </>
         )}
       </div>
       <div

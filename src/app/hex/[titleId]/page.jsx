@@ -20,6 +20,8 @@ import { UserContext } from "@/context/userContext";
 import { MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/layout/titleMenu";
 import { GiGoat, GiTrophy } from "react-icons/gi";
+import CircledButtons from "@/components/buttons/circledBtns";
+import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -186,10 +188,14 @@ export default function Title() {
               </div>
             </div>
             <div className="flex justify-between gap-2 mt-2 items-center">
-              <button className="bg-accent py-2 px-4 rounded-full flex items-center gap-2 font-bold cursor-pointer">
-                <FaPlay className="text-xl" />
-                <span className="text-base text-normal">Watch Trailer</span>
-              </button>
+              <div className="w-44">
+                <CircledButtons>
+                  <FaPlay className="text-2xl" />
+                  <span className="font-bold text-normal text-base">
+                    Watch Trailer
+                  </span>
+                </CircledButtons>
+              </div>
               {currentTitleRank ? (
                 <h1 className="text-base uppercase">
                   Ranked
@@ -211,34 +217,28 @@ export default function Title() {
             </div>
 
             <div className="flex gap-2 justify-between py-2 border-t-1 border-[var(--color-vibranium)]/20 border-b-1">
-              <button
+              <SecondaryCircledButtons
                 onClick={() => setShowAddReview(true)}
                 disabled={doneReview}
-                className={`flex flex-1 justify-center gap-2 items-center px-4 py-2 rounded-full ${
-                  doneReview
-                    ? "bg-zeus cursor-not-allowed"
-                    : "bg-second cursor-pointer"
-                }`}
               >
                 {doneReview ? (
                   <FiCheckCircle className="text-2xl" />
                 ) : (
                   <MdOutlineReviews className="text-2xl" />
                 )}
-                <p className="text-normal font-bold text-base">
+                <p className="font-bold text-normal text-base">
                   {doneReview ? "Reviewed" : "Add Review"}
                 </p>
-              </button>
-              <button
+              </SecondaryCircledButtons>
+              <SecondaryCircledButtons
                 onClick={() => {
                   setIsLoading(true);
                   router.push("/rank");
                 }}
-                className="flex flex-1 justify-center gap-2 items-center px-4 py-2 bg-second rounded-full cursor-pointer"
               >
                 <FaCrown className="text-2xl" />
-                <p className="text-normal font-bold text-base">Rank It</p>
-              </button>
+                <p className="font-bold text-normal text-base">Rank It</p>
+              </SecondaryCircledButtons>
             </div>
           </div>
           <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide">

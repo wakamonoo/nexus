@@ -346,18 +346,18 @@ export default function Main() {
 
                     {showArrows1 && (
                       <>
-                        <div
+                        <button
                           onClick={handleScrollLeft1}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                         >
                           <RiArrowLeftWideFill className="text-2xl" />
-                        </div>
-                        <div
+                        </button>
+                        <button
                           onClick={handleScrollRight1}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
                         >
                           <RiArrowRightWideFill className="text-2xl" />
-                        </div>
+                        </button>
                       </>
                     )}
                     <div
@@ -433,18 +433,18 @@ export default function Main() {
 
                     {showArrows2 && (
                       <>
-                        <div
+                        <button
                           onClick={handleScrollLeft2}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                         >
                           <RiArrowLeftWideFill className="text-2xl" />
-                        </div>
-                        <div
+                        </button>
+                        <button
                           onClick={handleScrollRight2}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
                         >
                           <RiArrowRightWideFill className="text-2xl" />
-                        </div>
+                        </button>
                       </>
                     )}
                     <div
@@ -520,18 +520,18 @@ export default function Main() {
 
                     {showArrows3 && (
                       <>
-                        <div
+                        <button
                           onClick={handleScrollLeft3}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                         >
                           <RiArrowLeftWideFill className="text-2xl" />
-                        </div>
-                        <div
+                        </button>
+                        <button
                           onClick={handleScrollRight3}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
                         >
                           <RiArrowRightWideFill className="text-2xl" />
-                        </div>
+                        </button>
                       </>
                     )}
                     <div
@@ -607,18 +607,18 @@ export default function Main() {
 
                     {showArrows4 && (
                       <>
-                        <div
+                        <button
                           onClick={handleScrollLeft4}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                         >
                           <RiArrowLeftWideFill className="text-2xl" />
-                        </div>
-                        <div
+                        </button>
+                        <button
                           onClick={handleScrollRight4}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
                         >
                           <RiArrowRightWideFill className="text-2xl" />
-                        </div>
+                        </button>
                       </>
                     )}
                     <div

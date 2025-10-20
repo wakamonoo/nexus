@@ -10,6 +10,7 @@ import {
   FaRegSave,
   FaSearch,
 } from "react-icons/fa";
+import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import { BiReset } from "react-icons/bi";
 import SortableRank from "@/components/dnd/sortableRank";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
@@ -238,25 +239,28 @@ export default function Rank() {
         onDragCancel={() => setDraggedItem(null)}
       >
         <div className="relative">
+          <div className="absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80" />
+          <div className="absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80" />
+
           <button
             onClick={handleScrollLeft}
-            className={`absolute left-1 top-1/2 p-1 bg-accent rounded-full opacity-70 cursor-pointer ${
+            className={`cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1 ${
               titles.length === 0 || filteredItems.length < 5
                 ? "hidden"
                 : "block"
             }`}
           >
-            <FaCaretLeft />
+            <RiArrowLeftWideFill className="text-2xl" />
           </button>
           <button
             onClick={handleScrollRight}
-            className={`absolute right-1 top-1/2 p-1 bg-accent rounded-full opacity-70 cursor-pointer ${
+            className={`cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1 ${
               titles.length === 0 || filteredItems.length < 5
                 ? "hidden"
                 : "block"
             }`}
           >
-            <FaCaretRight />
+            <RiArrowRightWideFill className="text-2xl" />
           </button>
           <div
             ref={scrollRef}

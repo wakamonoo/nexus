@@ -5,6 +5,7 @@ import ButtonLoader from "../loaders/buttonLoader";
 import AddPost from "../modals/addPost";
 import { HiOutlineSearch } from "react-icons/hi";
 import UserSearch from "../modals/userSearch";
+import CircledButtons from "../buttons/circledBtns";
 
 export default function Banner() {
   const { user, loading, setShowSignIn } = useContext(UserContext);
@@ -47,21 +48,19 @@ export default function Banner() {
             </div>
 
             {!user ? (
-              <button
+              <CircledButtons
                 onClick={() => setShowSignIn(true)}
-                className="text-normal font-extrabold text-base bg-accent flex-1 px-4 py-2 rounded-full cursor-pointer hover:shadow-2xl"
               >
-                <p>Sign Up</p>
-              </button>
+                <p className="font-bold text-normal text-base">Sign Up</p>
+              </CircledButtons>
             ) : loading ? (
               <ButtonLoader />
             ) : (
-              <button
+              <CircledButtons
                 onClick={() => setShowAddPost(true)}
-                className="text-normal font-extrabold text-base bg-accent flex-1 px-4 py-2 rounded-full cursor-pointer hover:shadow-2xl"
               >
-                <p>Assemble</p>
-              </button>
+                <p className="font-bold text-normal text-base">Assemble</p>
+              </CircledButtons>
             )}
           </div>
         </div>
