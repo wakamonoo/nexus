@@ -11,12 +11,14 @@ import ShowLoader from "@/components/loaders/showLoader";
 import ChatLoader from "@/components/loaders/chatLoder";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
+import MessageDelConfirm from "@/components/modals/messageDelConfirm";
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
 const socket = io.connect(`${BASE_URL}`);
-export default function GlobalChat() {
+
+export default function Citadel() {
   const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [messages, setMessages] = useState([]);
@@ -25,6 +27,8 @@ export default function GlobalChat() {
   const [chatLoad, setChatLoad] = useState(true);
   const justSentMessage = useRef(false);
   const initialLoad = useRef(true);
+  const [messageDelModal, setMessageDelModal] = useState(false);
+  const [messageToDelete, setMessageToDelete] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -80,6 +84,26 @@ export default function GlobalChat() {
       justSentMessage.current = false;
     }
   }, [messages]);
+
+  const handleLocalMessageDelete = (msgId) => {
+    setMessages((prev) => prev.filter((m) => m.msgId !== msgId));
+  };
+
+  const isJustNow = (msgTime) => {
+    const now = new Date();
+    const [time, modifier] = msgTime.split(" ");
+    let [hours, minutes] = time.split(":").map(Number);
+
+    if (modifier === "PM" && hours < 12) hours += 12;
+    if (modifier === "AM" && hours === 12) hours = 0;
+
+    const msgDate = new Date();
+    msgDate.setHours(hours, minutes, 0, 0);
+
+    const diff = now - msgDate;
+    return diff < 60000 && diff >= 0;
+  };
+
   return (
     <>
       <NavBar />
@@ -118,7 +142,7 @@ export default function GlobalChat() {
                 </div>
               </div>
             ) : (
-              <div className="flex-1 p-2 sm:px-4 md:px-8 lg:px-16 overflow-y-auto">
+              <div className="flex-1 p-2 sm:px-4 md:px-8 lg:px-16 overflow-y-auto custom-scroll">
                 <div className="flex flex-col gap-4">
                   {messages.map((msg, i) => {
                     const ownMessage = user.uid === msg.senderId;
@@ -155,7 +179,7 @@ export default function GlobalChat() {
                             />
                           )}
                           <div
-                            className={`px-4 py-2 max-w-[70%] rounded-2xl ${
+                            className={`px-4 py-2 min-w-32 max-w-60 md:max-w-90 rounded-2xl ${
                               ownMessage ? "bg-second" : "bg-panel"
                             }`}
                           >
@@ -167,18 +191,31 @@ export default function GlobalChat() {
                               {ownMessage ? "you" : msg.sender}
                             </p>
                             <p
-                              className={`text-base text-normal py-2 flex ${
+                              className={`text-xs text-vibe flex ${
                                 ownMessage ? "justify-end" : "justify-start"
+                              }`}
+                            >
+                              {isJustNow(msg.time) ? "just now" : msg.time}
+                            </p>
+                            <p
+                              className={`text-base text-normal py-2 flex border-t-1 mt-2 ${
+                                ownMessage
+                                  ? "justify-end border-[var(--color-panel)]"
+                                  : "justify-start border-[var(--color-secondary)]"
                               }`}
                             >
                               {msg.text}
                             </p>
                             <p
-                              className={`text-xs text-vibe flex ${
-                                ownMessage ? "justify-end" : "justify-start"
+                              onClick={() => {
+                                setMessageToDelete(msg.msgId);
+                                setMessageDelModal(true);
+                              }}
+                              className={`text-sm text-vibe text-end hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                ownMessage ? "block" : "hidden"
                               }`}
                             >
-                              {msg.time}
+                              Delete
                             </p>
                           </div>
                           {ownMessage && (
@@ -231,6 +268,13 @@ export default function GlobalChat() {
           </div>
         )}
       </div>
+      {messageDelModal && (
+        <MessageDelConfirm
+          setMessageDelModal={setMessageDelModal}
+          messageToDelete={messageToDelete}
+          onDelete={handleLocalMessageDelete}
+        />
+      )}
     </>
   );
 }
