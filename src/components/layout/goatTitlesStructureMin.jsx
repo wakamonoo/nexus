@@ -47,7 +47,7 @@ export default function GoatTitlesStructureMin() {
 
   return (
     <div className="flex gap-2">
-      {titles.length > 0 ? (
+      {ranked.length > 0 ? (
         ranked.map((unit) => (
           <div
             key={unit.titleId}
@@ -80,9 +80,9 @@ export default function GoatTitlesStructureMin() {
           </div>
         ))
       ) : (
-        <div className="flex flex-col justify-center items-center">
-          <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-          <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+        <div className="flex flex-col w-full justify-center items-center">
+          <FaBoxOpen className="text-6xl text-panel" />
+          <p className="text-sm text-panel font-normal">
             Sorry, no data to display!
           </p>
         </div>

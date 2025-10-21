@@ -12,7 +12,11 @@ const BASE_URL =
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
 
-export default function AccountDelConfirm({ setAccountDelModal, setEditProfile, user }) {
+export default function AccountDelConfirm({
+  setAccountDelModal,
+  setEditProfile,
+  user,
+}) {
   const { setIsLoading } = useContext(LoaderContext);
   const { firebaseUser } = useContext(UserContext);
   const userId = user?.uid;
@@ -85,7 +89,10 @@ export default function AccountDelConfirm({ setAccountDelModal, setEditProfile, 
             Are you sure you want to permanently delete your account?
             <br />
             <span className="text-sm text-vibe opacity-80">
-              All data for this account will be deleted too.
+              All data associated with this account will also be deleted,
+              including your posts, comments, reviews, reactions (Energized and
+              Echoed), and your watch count in the database. Do you still wish
+              to continue?
             </span>
           </p>
           <div className="w-full flex gap-2">

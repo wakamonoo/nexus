@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import {  FaAngleRight, FaBoxOpen} from "react-icons/fa";
+import { FaAngleRight, FaBoxOpen } from "react-icons/fa";
 import Fallback from "@/assets/fallback.png";
 import TitleLoader from "@/components/loaders/titlesLoader";
 import Loader from "@/components/loaders/searchLoader";
@@ -150,7 +150,6 @@ export default function Main() {
       clearTimeout(debounce);
     };
   }, [searchInput]);
-
 
   const handleScrollLeft1 = () => {
     if (scrollRef1.current) {
@@ -376,9 +375,9 @@ export default function Main() {
                               </div>
                             ))
                         ) : (
-                          <div className="flex flex-col justify-center items-center">
-                            <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                            <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                          <div className="flex flex-col w-full justify-center items-center">
+                            <FaBoxOpen className="text-6xl text-panel" />
+                            <p className="text-sm text-panel font-normal">
                               Sorry, no data to display!
                             </p>
                           </div>
@@ -462,9 +461,9 @@ export default function Main() {
                               </div>
                             ))
                         ) : (
-                          <div className="flex flex-col justify-center items-center">
-                            <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                            <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                          <div className="flex flex-col w-full justify-center items-center">
+                            <FaBoxOpen className="text-6xl text-panel" />
+                            <p className="text-sm text-panel font-normal">
                               Sorry, no data to display!
                             </p>
                           </div>
@@ -549,9 +548,9 @@ export default function Main() {
                               </div>
                             ))
                         ) : (
-                          <div className="flex flex-col justify-center items-center">
-                            <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                            <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
+                          <div className="flex flex-col w-full justify-center items-center">
+                            <FaBoxOpen className="text-6xl text-panel" />
+                            <p className="text-sm text-panel font-normal">
                               Sorry, no data to display!
                             </p>
                           </div>
