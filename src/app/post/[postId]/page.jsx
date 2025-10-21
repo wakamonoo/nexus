@@ -4,15 +4,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import {
   FaAngleLeft,
-  FaAngleRight,
-  FaBolt,
-  FaBoxOpen,
   FaComment,
-  FaMedal,
   FaRegComment,
-  FaReply,
-  FaShare,
-  FaTrash,
 } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
@@ -24,10 +17,8 @@ import PostLoader from "@/components/loaders/postLoader";
 import { Bs1CircleFill } from "react-icons/bs";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "@/components/layout/postOpt";
-import { TitleContext } from "@/context/titleContext";
-import { WatchContext } from "@/context/watchContext";
-import { GiTrophy } from "react-icons/gi";
-import { TitleNavContext } from "@/context/titlesNavContext";
+import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
+import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -42,7 +33,6 @@ export default function Post() {
     handleEnergize,
     handleEcho,
     handleFileClick,
-    setDelModal,
     selectedPost,
     setSelectedPost,
   } = useContext(PostContext);
@@ -52,12 +42,6 @@ export default function Post() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const searchParams = useSearchParams();
   const inputRef = useRef();
-  const { titles } = useContext(TitleContext);
-  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
-  const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const scrollRef = useRef(null);
-
   useEffect(() => {
     setIsLoading(false);
     if (searchParams.get("focus") === "comment" && inputRef.current) {
@@ -67,44 +51,6 @@ export default function Post() {
 
   const post = posts.find((p) => p.postId === postId);
 
-  useEffect(() => {
-    const fetchWathced = async () => {
-      if (user?.uid) {
-        await watchedInfoFetch(user?.uid);
-      }
-    };
-
-    fetchWathced();
-  }, [user]);
-
-  useEffect(() => {
-    const current = scrollRef.current;
-    if (!current) return;
-
-    const handleScroll = () => {
-      setIsScrolled(current.scrollLeft > 50);
-    };
-
-    current.addEventListener("scroll", handleScroll);
-    return () => {
-      current.removeEventListener("scroll", handleScroll);
-    };
-  }, [titles]);
-
-  const rankedTitles = titles
-    ?.filter((t) => t.totalPoints > 0)
-    .sort((a, b) => b.totalPoints - a.totalPoints);
-
-  let previousPoints = null;
-  let currentRank = 0;
-
-  const ranked = rankedTitles.map((t, index) => {
-    if (t.totalPoints !== previousPoints) {
-      currentRank = index + 1;
-      previousPoints = t.totalPoints;
-    }
-    return { ...t, rank: currentRank };
-  });
 
   const handleSendComment = async () => {
     try {
@@ -356,50 +302,7 @@ export default function Post() {
 
             <aside className="p-2 md:hidden">
               <div className="overflow-x-auto scrollbar-hide">
-                <div className="flex gap-2">
-                  {titles.length > 0 ? (
-                    ranked.map((unit) => (
-                      <div
-                        key={unit.titleId}
-                        onClick={() => handleShowNav(unit.titleId)}
-                        className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                      >
-                        <Image
-                          src={unit.image || Fallback}
-                          alt="image"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className={`w-full h-full object-fill rounded ${
-                            isTitleWatched(unit.titleId)
-                              ? "grayscale-0"
-                              : "grayscale-90"
-                          }`}
-                        />
-                        <div
-                          className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                            unit.rank === 1 ? "bg-hulk" : "bg-accent"
-                          }`}
-                        >
-                          <p
-                            className={`font-bold text-sm ${
-                              unit.rank === 1 ? "text-zeus" : "text-normal"
-                            }`}
-                          >
-                            {unit.rank === 1 ? <GiTrophy /> : unit.rank}
-                          </p>
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="flex flex-col justify-center items-center">
-                      <FaBoxOpen className="w-[32vw] sm:w-[24vw] md:w-[16vw] h-auto text-panel" />
-                      <p className="text-sm sm:text-base md:text-xl text-panel font-normal">
-                        Sorry, no data to display!
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <GoatTitlesStructureMin />
               </div>
             </aside>
 
@@ -504,41 +407,7 @@ export default function Post() {
 
         <aside className="w-full h-full hidden md:block">
           <div className="w-full md:py-4">
-            <div className="flex flex-wrap justify-start gap-2">
-              {...ranked.map((unit) => (
-                <div
-                  key={unit.titleId}
-                  onClick={() => handleShowNav(unit.titleId)}
-                  className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                >
-                  <Image
-                    src={unit.image || Fallback}
-                    alt="image"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className={`w-full h-full object-fill rounded ${
-                      isTitleWatched(unit.titleId)
-                        ? "grayscale-0"
-                        : "grayscale-90"
-                    }`}
-                  />
-                  <div
-                    className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                      unit.rank === 1 ? "bg-hulk" : "bg-accent"
-                    }`}
-                  >
-                    <p
-                      className={`font-bold text-sm ${
-                        unit.rank === 1 ? "text-zeus" : "text-normal"
-                      }`}
-                    >
-                      {unit.rank === 1 ? <GiTrophy /> : unit.rank}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <GoatTitlesStructureMax />
           </div>
         </aside>
       </div>
