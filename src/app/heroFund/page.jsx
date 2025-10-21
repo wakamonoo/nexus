@@ -101,7 +101,7 @@ export default function HeroFund() {
               />
             </div>
 
-            <div className="relative z-0">
+            <div className="relative z-0 w-full">
               <PayPalScriptProvider
                 options={{ "client-id": paypalID, currency: "USD" }}
               >

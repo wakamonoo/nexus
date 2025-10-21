@@ -56,12 +56,12 @@ export default function UserNav({ setShowUserNav }) {
           <button
             onClick={() => {
               setIsLoading(true);
-              router.push("/rank");
+              router.push("/powerboard");
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
             <PiRankingDuotone className="text-2xl" />
-            <p className="text-base font-bold text-normal">Rank'em</p>
+            <p className="text-base font-bold text-normal">Powerboard</p>
           </button>
           <button
             onClick={() => {

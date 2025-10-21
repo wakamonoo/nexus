@@ -203,7 +203,7 @@ export default function AddPost({ setShowAddPost }) {
 
               <div className="py-2">
                 {showTopics && (
-                  <div className="w-fit h-32 bg-second rounded p-2 overflow-y-auto flex flex-col gap-2">
+                  <div className="w-full h-32 bg-second rounded p-2 overflow-y-auto custom-scroll flex flex-col gap-2">
                     {titles?.map((title, index) => (
                       <div
                         key={index}
@@ -214,7 +214,7 @@ export default function AddPost({ setShowAddPost }) {
                           });
                           setShowTopics(false);
                         }}
-                        className="cursor-pointer h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] px-4"
+                        className="cursor-pointer h-fit w-full rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] px-4"
                       >
                         <p className="font-bold text-base truncate w-full">
                           {title.title}

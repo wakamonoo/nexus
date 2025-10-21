@@ -102,10 +102,10 @@ export default function Goat() {
         <p className="text-xs text-vibe">
           Your fav not here?{" "}
           <span
-            onClick={() => router.push("/rank")}
+            onClick={() => router.push("/powerboard")}
             className="cursor-pointer underline"
           >
-            rank'em
+            Rank it
           </span>
         </p>
       </div>

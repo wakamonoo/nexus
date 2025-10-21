@@ -216,7 +216,7 @@ export default function Rank() {
           onClick={() => router.back()}
           className="text-2xl cursor-pointer"
         />
-        <h4 className="text-xl">RANK'EM</h4>
+        <h4 className="text-xl">POWERBOARD</h4>
       </div>
       <div className="flex justify-between items-center gap-2 bg-panel px-4 py-2 rounded-full">
         <input

@@ -233,7 +233,7 @@ export default function Title() {
               <SecondaryCircledButtons
                 onClick={() => {
                   setIsLoading(true);
-                  router.push("/rank");
+                  router.push("/powerboard");
                 }}
               >
                 <FaCrown className="text-2xl" />
