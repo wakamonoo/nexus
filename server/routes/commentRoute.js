@@ -31,4 +31,25 @@ router.post("/addComment", async (req, res) => {
   }
 });
 
+router.delete("/deleteComment/:commentId", async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    const client = await clientPromise;
+    const db = client.db("nexus");
+
+    await db
+      .collection("posts")
+      .updateOne(
+        { "comments.commentId": commentId },
+        { $pull: { comments: { commentId } } }
+      );
+
+    res.status(200).json({ message: "Comment deleted succesfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;

@@ -31,4 +31,25 @@ router.post("/addReview", async (req, res) => {
   }
 });
 
+router.delete("/deleteReview/:reviewId", async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+
+    const client = await clientPromise;
+    const db = client.db("nexus");
+
+    await db
+      .collection("titles")
+      .updateOne(
+        { "reviews.reviewId": reviewId },
+        { $pull: { reviews: { reviewId } } }
+      );
+
+    res.status(200).json({ message: "Review deleted succesfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;

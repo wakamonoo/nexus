@@ -22,6 +22,7 @@ import TitleMenu from "@/components/layout/titleMenu";
 import { GiGoat, GiTrophy } from "react-icons/gi";
 import CircledButtons from "@/components/buttons/circledBtns";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
+import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";
 
 export default function Title() {
   const { titles } = useContext(TitleContext);
@@ -33,6 +34,8 @@ export default function Title() {
   const [showAddReview, setShowAddReview] = useState(false);
   const [showTitleMenu, setShowTitleMenu] = useState(false);
   const { user, allUsers } = useContext(UserContext);
+  const [reviewDelModal, setReviewDelModal] = useState(false);
+  const [reviewToDelete, setReviewToDelete] = useState(null);
 
   useEffect(() => {
     setIsLoading(false);
@@ -307,6 +310,19 @@ export default function Title() {
                       <p className="italic">{review.textReview}</p>
                     </div>
                   </div>
+                  <div className="flex items-center justify-end px-2 gap-2">
+                    <p
+                      onClick={() => {
+                        setReviewToDelete(review.reviewId);
+                        setReviewDelModal(true);
+                      }}
+                      className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                        user?.uid === review.userId ? "block" : "hidden"
+                      }`}
+                    >
+                      Delete
+                    </p>
+                  </div>
                 </div>
               ))
             )}
@@ -317,6 +333,13 @@ export default function Title() {
         <AddReview
           setShowAddReview={setShowAddReview}
           titleId={titleId}
+          title={title}
+        />
+      )}
+      {reviewDelModal && (
+        <ReviewDelConfirm
+          setReviewDelModal={setReviewDelModal}
+          reviewToDelete={reviewToDelete}
           title={title}
         />
       )}

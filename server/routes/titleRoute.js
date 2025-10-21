@@ -112,7 +112,7 @@ router.delete("/deleteTitle/:titleId", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
-    await db.collection("titles").deleteOne({ titleId });
+    await db.collection("posts").deleteOne({ titleId });
 
     res.status(200).json({ message: "title delete success" });
   } catch (err) {
