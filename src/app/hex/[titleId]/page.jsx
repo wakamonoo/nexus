@@ -183,7 +183,7 @@ export default function Title() {
                     <div className="flex items-center gap-1">
                       <TbEyeSpark className="text-xs" />
                       <p className="text-xs text-vibe font-extralight">
-                        {title.watchCount ? title.watchCount : 0}
+                        {title.watchCount ? title.watchCount.length : 0}
                       </p>
                     </div>
                   </div>

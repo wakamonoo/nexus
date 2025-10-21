@@ -1,5 +1,4 @@
 "use client";
-import { UserContext } from "@/context/userContext";
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Image from "next/image";
@@ -15,14 +14,13 @@ const BASE_URL =
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
 
-export default function EditProfile({ setEditProfile }) {
-  const { user } = useContext(UserContext);
+export default function EditProfile({ setEditProfile, user }) {
   const { setIsLoading } = useContext(LoaderContext);
   const [accountDelModal, setAccountDelModal] = useState(false);
   const [data, setData] = useState({
-    userImage: user.picture,
-    userName: user.name,
-    userBio: user.bio || "",
+    userImage: user?.picture,
+    userName: user?.name,
+    userBio: user?.bio || "",
   });
 
   const handleChange = (e) => {
@@ -186,7 +184,9 @@ export default function EditProfile({ setEditProfile }) {
               </RegularButtons>
               <RegularButtons
                 type="button"
-                onClick={() => setAccountDelModal(true)}
+                onClick={() => {
+                  setAccountDelModal(true);
+                }}
               >
                 <p className="font-bold text-normal text-base">
                   Delete your account
@@ -197,7 +197,11 @@ export default function EditProfile({ setEditProfile }) {
         </div>
       </div>
       {accountDelModal && (
-        <AccountDelConfirm setAccountDelModal={setAccountDelModal} />
+        <AccountDelConfirm
+          setAccountDelModal={setAccountDelModal}
+          user={user}
+          setEditProfile={setEditProfile}
+        />
       )}
     </>
   );

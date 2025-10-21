@@ -27,7 +27,7 @@ router.post("/watchRoute", async (req, res) => {
       },
       {
         $setOnInsert: {
-          watchCount: 0,
+          watchCount: [],
         },
       },
       { upsert: true }
@@ -60,13 +60,12 @@ router.post("/watchRoute", async (req, res) => {
           $inc: { totalWatched: -1 },
         }
       );
+
       await db.collection("titles").updateOne(
         {
           titleId,
         },
-        {
-          $inc: { watchCount: -1 },
-        }
+        { $pull: { watchCount: userId } }
       );
     } else {
       await db.collection("watchList").updateOne(
@@ -102,11 +101,11 @@ router.post("/watchRoute", async (req, res) => {
         {
           titleId,
         },
-        {
-          $inc: { watchCount: 1 },
-        },
+        { $addToSet: { watchCount: userId } },
         { upsert: true }
       );
+
+      
     }
     res.status(200).json({ message: `${title} marked as watched` });
   } catch (err) {

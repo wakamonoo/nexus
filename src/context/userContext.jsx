@@ -19,6 +19,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
+  const [firebaseUser, setFirebaseUser] = useState(null);
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
   const fetchUserData = async (uid) => {
@@ -43,6 +44,7 @@ export const UserProvider = ({ children }) => {
     const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       setLoading(true);
       if (firebaseUser) {
+        setFirebaseUser(firebaseUser);
         await fetchUserData(firebaseUser.uid);
       } else {
         setUser(null);
@@ -77,12 +79,12 @@ export const UserProvider = ({ children }) => {
     fethAllUsers();
   }, []);
 
-
   return (
     <UserContext.Provider
       value={{
         isLogged,
         user,
+        firebaseUser,
         adminBtn,
         fetchUserData,
         setShowSignIn,

@@ -67,7 +67,7 @@ export default function UserProfile() {
 
   return (
     <>
-      {editProfile && <EditProfile setEditProfile={setEditProfile} />}
+      {editProfile && <EditProfile setEditProfile={setEditProfile} user={user} />}
       <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <div className="flex justify-between items-center py-4 w-full">
           <FaAngleLeft
