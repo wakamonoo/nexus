@@ -25,7 +25,8 @@ import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
 import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";
 
 export default function Title() {
-  const { titles } = useContext(TitleContext);
+  const { titles, reviewToDelete, setReviewToDelete } =
+    useContext(TitleContext);
   const { titleId } = useParams();
   const router = useRouter();
   const [showFull, setShowFull] = useState(false);
@@ -35,7 +36,6 @@ export default function Title() {
   const [showTitleMenu, setShowTitleMenu] = useState(false);
   const { user, allUsers } = useContext(UserContext);
   const [reviewDelModal, setReviewDelModal] = useState(false);
-  const [reviewToDelete, setReviewToDelete] = useState(null);
 
   useEffect(() => {
     setIsLoading(false);

@@ -14,6 +14,7 @@ export const TitleProvider = ({ children }) => {
   const [titles, setTitles] = useState([]);
   const [pageLoad, setPageLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
+  const [reviewToDelete, setReviewToDelete] = useState(null);
 
   useEffect(() => {
     const handleGetTitles = async () => {
@@ -41,7 +42,7 @@ export const TitleProvider = ({ children }) => {
       await fetch(`${BASE_URL}/api/titles/deleteTitle/${titleId}`, {
         method: "DELETE",
       });
-      setTitles((prev) => prev.filter((t) => t.titleId !== titleId))
+      setTitles((prev) => prev.filter((t) => t.titleId !== titleId));
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -85,6 +86,8 @@ export const TitleProvider = ({ children }) => {
         titles,
         pageLoad,
         handleTitleDelete,
+        reviewToDelete,
+        setReviewToDelete,
       }}
     >
       {children}

@@ -10,11 +10,12 @@ import { UserContext } from "@/context/userContext";
 import ReviewDelConfirm from "../modals/reviewDelConfirm";
 
 export default function ProfileReviews({ profileUser }) {
-  const { titles } = useContext(TitleContext);
+  const { titles, reviewToDelete, setReviewToDelete } =
+    useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { user } = useContext(UserContext);
   const [reviewDelModal, setReviewDelModal] = useState(false);
-  const [reviewToDelete, setReviewToDelete] = useState(null);
+
   const [reviews, setReviews] = useState([]);
   const router = useRouter();
 
@@ -35,6 +36,7 @@ export default function ProfileReviews({ profileUser }) {
       setReviews(profileUserReviews);
     }
   }, [titles, profileUser.uid]);
+  
   return (
     <>
       <div className="w-full">
