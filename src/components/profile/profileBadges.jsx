@@ -16,14 +16,18 @@ import Ascendant from "@/assets/badges/ascendant.png";
 import Cosmic from "@/assets/badges/cosmic.png";
 import Image from "next/image";
 
-export default function ProfileBadges({ profileUser }) {
+export default function ProfileBadges({ profileUser, user }) {
   return (
     <div className="p-2">
       <h4 className="font-bold text-lg">
-        {profileUser.name.split(" ")[0]}'s badges
+        {profileUser.uid === user.uid
+          ? "Your"
+          : `${profileUser.name.split(" ")[0]}'s`}{" "}
+        badges
       </h4>
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-3 w-full gap-2">
         {profileUser?.primeProspect && (
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
             <Image
               src={PrimeProspect}
               alt="PrimeProspect"
@@ -32,156 +36,235 @@ export default function ProfileBadges({ profileUser }) {
               sizes="100vw"
               className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
             />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Prime Prospect
+            </p>
+          </div>
         )}
         {profileUser?.emergingLuminary && (
-          <Image
-            src={EmergingLuminary}
-            alt="EmergingLuminary"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={EmergingLuminary}
+              alt="EmergingLuminary"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Emerging Luminary
+            </p>
+          </div>
         )}
         {profileUser?.heroicScribe && (
-          <Image
-            src={HeroicScribe}
-            alt="HeroicScribe"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={HeroicScribe}
+              alt="HeroicScribe"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Heroic Scribe
+            </p>
+          </div>
         )}
         {profileUser?.friendlyNeighboor && (
-          <Image
-            src={FriendlyNeighboor}
-            alt="FriendlyNeighboor"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={FriendlyNeighboor}
+              alt="FriendlyNeighboor"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Friendly Neighboor
+            </p>
+          </div>
         )}
         {profileUser?.alleySwinger && (
-          <Image
-            src={AlleySwinger}
-            alt="AlleySwinger"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={AlleySwinger}
+              alt="AlleySwinger"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Alley Swinger
+            </p>
+          </div>
         )}
         {profileUser?.webWalker && (
-          <Image
-            src={WebWalker}
-            alt="WebWalker"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={WebWalker}
+              alt="WebWalker"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Web Walker
+            </p>
+          </div>
         )}
         {profileUser?.taleCollector && (
-          <Image
-            src={TaleCollector}
-            alt="TaleCollector"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={TaleCollector}
+              alt="TaleCollector"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Tale Collector
+            </p>
+          </div>
         )}
         {profileUser?.cinematicEye && (
-          <Image
-            src={CinematicEye}
-            alt="CinematicEye"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={CinematicEye}
+              alt="CinematicEye"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Cinematic Eye
+            </p>
+          </div>
         )}
         {profileUser?.masterArchivist && (
-          <Image
-            src={MasterArchivist}
-            alt="MasterArchivist"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={MasterArchivist}
+              alt="MasterArchivist"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Master Archivist
+            </p>
+          </div>
         )}
         {profileUser?.vanguard && (
-          <Image
-            src={Vanguard}
-            alt="Vanguard"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={Vanguard}
+              alt="Vanguard"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Vanguard
+            </p>
+          </div>
         )}
         {profileUser?.paragon && (
-          <Image
-            src={Paragon}
-            alt="Paragon"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={Paragon}
+              alt="Paragon"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Paragon
+            </p>
+          </div>
         )}
         {profileUser?.insightScout && (
-          <Image
-            src={InsightScout}
-            alt="InsightScout"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={InsightScout}
+              alt="InsightScout"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Insight Scout
+            </p>
+          </div>
         )}
         {profileUser?.loreGuardian && (
-          <Image
-            src={LoreGuardian}
-            alt="LoreGuardian"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={LoreGuardian}
+              alt="LoreGuardian"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Lore Guardian
+            </p>
+          </div>
         )}
         {profileUser?.vigilante && (
-          <Image
-            src={Vigilante}
-            alt="Vigilante"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={Vigilante}
+              alt="Vigilante"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Vigilante
+            </p>
+          </div>
         )}
         {profileUser?.ascendant && (
-          <Image
-            src={Ascendant}
-            alt="Ascendant"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={Ascendant}
+              alt="Ascendant"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Ascendant
+            </p>
+          </div>
         )}
         {profileUser?.cosmic && (
-          <Image
-            src={Cosmic}
-            alt="Cosmic"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
-          />
+          <div tabIndex={0} className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer">
+            <Image
+              src={Cosmic}
+              alt="Cosmic"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-10 h-10 md:w-12 md:h-12 object-fill rounded-full"
+            />
+            <p className="text-xs text-vibe mt-2 truncate w-full text-center">
+              Cosmic
+            </p>
+          </div>
         )}
       </div>
     </div>

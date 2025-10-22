@@ -125,12 +125,15 @@ export default function UserProfile() {
               <div className="p-2">
                 <p className="text-sm text-vibe italic">{profileUser.bio}</p>
               </div>
-              <ProfileBadges profileUser={profileUser} />
+              <ProfileBadges profileUser={profileUser} user={user} />
 
               {profileUser.rankings ? (
                 <div className="w-full h-full p-2">
                   <h4 className="font-bold text-lg">
-                    {profileUser.name.split(" ")[0]}'s holy trinity
+                    {profileUser.uid === user.uid
+                      ? "Your"
+                      : `${profileUser.name.split(" ")[0]}'s`}{" "}
+                    holy trinity
                   </h4>
                   <div className="flex gap-2 justify-start">
                     {topRanks.map((rank, index) => (
@@ -174,7 +177,10 @@ export default function UserProfile() {
               {latestWatch.length > 0 ? (
                 <div className="w-full h-full p-2">
                   <h4 className="font-bold text-lg">
-                    {profileUser.name.split(" ")[0]}'s latest watch
+                    {profileUser.uid === user.uid
+                      ? "Your"
+                      : `${profileUser.name.split(" ")[0]}'s`}{" "}
+                    latest watch
                   </h4>
                   <div className="flex gap-2 justify-start">
                     {latestWatch.map((item, index) => (
