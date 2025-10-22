@@ -130,7 +130,7 @@ export default function UserProfile() {
               {profileUser.rankings ? (
                 <div className="w-full h-full p-2">
                   <h4 className="font-bold text-lg">
-                    {profileUser.uid === user.uid
+                    {profileUser.uid === user?.uid
                       ? "Your"
                       : `${profileUser.name.split(" ")[0]}'s`}{" "}
                     holy trinity
@@ -177,7 +177,7 @@ export default function UserProfile() {
               {latestWatch.length > 0 ? (
                 <div className="w-full h-full p-2">
                   <h4 className="font-bold text-lg">
-                    {profileUser.uid === user.uid
+                    {profileUser.uid === user?.uid
                       ? "Your"
                       : `${profileUser.name.split(" ")[0]}'s`}{" "}
                     latest watch

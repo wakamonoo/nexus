@@ -20,7 +20,7 @@ export default function ProfileBadges({ profileUser, user }) {
   return (
     <div className="p-2">
       <h4 className="font-bold text-lg">
-        {profileUser.uid === user.uid
+        {profileUser.uid === user?.uid
           ? "Your"
           : `${profileUser.name.split(" ")[0]}'s`}{" "}
         badges
