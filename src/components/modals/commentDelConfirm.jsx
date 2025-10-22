@@ -15,6 +15,7 @@ export default function CommentDelConfirm({
   setCommentDelModal,
   commentToDelete,
   post,
+  userId,
 }) {
   const { setIsLoading } = useContext(LoaderContext);
 
@@ -23,8 +24,15 @@ export default function CommentDelConfirm({
       setIsLoading(true);
       await fetch(`${BASE_URL}/api/comments/deleteComment/${commentToDelete}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
       });
-      post.comments = post.comments.filter((c) => c.commentId !== commentToDelete);
+
+      post.comments = post.comments.filter(
+        (c) => c.commentId !== commentToDelete
+      );
     } catch (err) {
       console.error(err);
       Swal.fire({

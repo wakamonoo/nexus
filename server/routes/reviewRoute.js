@@ -11,6 +11,31 @@ router.post("/addReview", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
+    await db.collection("users").findOneAndUpdate(
+      { uid: userId },
+      [
+        {
+          $set: {
+            totalReviews: { $add: [{ $ifNull: ["$totalReviews", 0] }, 1] },
+          },
+        },
+        {
+          $set: {
+            taleCollector: {
+              $cond: [{ $gte: ["$totalReviews", 10] }, true, false],
+            },
+            cinematicEye: {
+              $cond: [{ $gte: ["$totalReviews", 20] }, true, false],
+            },
+            masterArchivist: {
+              $cond: [{ $gte: ["$totalReviews", 40] }, true, false],
+            },
+          },
+        },
+      ],
+      { returnDocument: "after", upsert: true }
+    );
+
     const newReview = {
       reviewId: `review-${uuidv4()}`,
       userId,
@@ -34,6 +59,7 @@ router.post("/addReview", async (req, res) => {
 router.delete("/deleteReview/:reviewId", async (req, res) => {
   try {
     const { reviewId } = req.params;
+    const { userId } = req.body;
 
     const client = await clientPromise;
     const db = client.db("nexus");
@@ -44,6 +70,10 @@ router.delete("/deleteReview/:reviewId", async (req, res) => {
         { "reviews.reviewId": reviewId },
         { $pull: { reviews: { reviewId } } }
       );
+
+    await db
+      .collection("users")
+      .updateOne({ uid: userId }, { $inc: { totalReviews: -1 } });
 
     res.status(200).json({ message: "Review deleted succesfully" });
   } catch (err) {

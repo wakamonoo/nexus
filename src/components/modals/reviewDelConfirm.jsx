@@ -16,6 +16,7 @@ export default function ReviewDelConfirm({
   reviewToDelete,
   title,
   setReviews,
+  userId,
 }) {
   const { setIsLoading } = useContext(LoaderContext);
   const pathname = usePathname();
@@ -25,6 +26,10 @@ export default function ReviewDelConfirm({
       setIsLoading(true);
       await fetch(`${BASE_URL}/api/reviews/deleteReview/${reviewToDelete}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
       });
       if (pathname.startsWith("/hex")) {
         title.reviews = title.reviews.filter(

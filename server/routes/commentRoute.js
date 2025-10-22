@@ -11,6 +11,31 @@ router.post("/addComment", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
+    await db.collection("users").findOneAndUpdate(
+      { uid: userId },
+      [
+        {
+          $set: {
+            totalComments: { $add: [{ $ifNull: ["$totalComments", 0] }, 1] },
+          },
+        },
+        {
+          $set: {
+            friendlyNeighboor: {
+              $cond: [{ $gte: ["$totalComments", 1] }, true, false],
+            },
+            AlleySwinger: {
+              $cond: [{ $gte: ["$totalComments", 10] }, true, false],
+            },
+            WebWalker: {
+              $cond: [{ $gte: ["$totalComments", 20] }, true, false],
+            },
+          },
+        },
+      ],
+      { returnDocument: "after", upsert: true }
+    );
+
     const newComment = {
       commentId: `comment-${uuidv4()}`,
       userId,
@@ -34,6 +59,7 @@ router.post("/addComment", async (req, res) => {
 router.delete("/deleteComment/:commentId", async (req, res) => {
   try {
     const { commentId } = req.params;
+    const { userId } = req.body;
 
     const client = await clientPromise;
     const db = client.db("nexus");
@@ -44,6 +70,10 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
         { "comments.commentId": commentId },
         { $pull: { comments: { commentId } } }
       );
+      
+    await db
+      .collection("users")
+      .updateOne({ uid: userId }, { $inc: { totalComments: -1 } });
 
     res.status(200).json({ message: "Comment deleted succesfully" });
   } catch (err) {

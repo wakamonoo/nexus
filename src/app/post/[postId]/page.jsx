@@ -432,6 +432,7 @@ export default function Post() {
           setCommentDelModal={setCommentDelModal}
           commentToDelete={commentToDelete}
           post={post}
+          userId={user?.uid}
         />
       )}
     </>

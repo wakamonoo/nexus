@@ -36,7 +36,7 @@ export default function ProfileReviews({ profileUser }) {
       setReviews(profileUserReviews);
     }
   }, [titles, profileUser.uid]);
-  
+
   return (
     <>
       <div className="w-full">
@@ -135,6 +135,7 @@ export default function ProfileReviews({ profileUser }) {
           setReviewDelModal={setReviewDelModal}
           reviewToDelete={reviewToDelete}
           setReviews={setReviews}
+          userId={user?.uid}
         />
       )}
     </>

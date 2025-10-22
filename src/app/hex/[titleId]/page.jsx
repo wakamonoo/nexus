@@ -341,6 +341,7 @@ export default function Title() {
           setReviewDelModal={setReviewDelModal}
           reviewToDelete={reviewToDelete}
           title={title}
+          userId={user?.uid}
         />
       )}
     </>

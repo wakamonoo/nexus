@@ -15,19 +15,19 @@ router.post("/addPost", async (req, res) => {
       [
         {
           $set: {
-            totalPost: { $add: [{ $ifNull: ["$totalPost", 0] }, 1] },
+            totalPosts: { $add: [{ $ifNull: ["$totalPosts", 0] }, 1] },
           },
         },
         {
           $set: {
             rookieAvenger: {
-              $cond: [{ $gte: ["$totalPost", 1] }, true, false],
+              $cond: [{ $gte: ["$totalPosts", 1] }, true, false],
             },
             emergingLuminary: {
-              $cond: [{ $gte: ["$totalPost", 10] }, true, false],
+              $cond: [{ $gte: ["$totalPosts", 10] }, true, false],
             },
             heroicScribe: {
-              $cond: [{ $gte: ["$totalPost", 20] }, true, false],
+              $cond: [{ $gte: ["$totalPosts", 20] }, true, false],
             },
           },
         },
@@ -67,9 +67,10 @@ router.delete("/deletePost/:postId", async (req, res) => {
     const db = client.db("nexus");
 
     await db.collection("posts").deleteOne({ postId });
+    
     await db
       .collection("users")
-      .updateOne({ uid: userId }, { $inc: { totalPost: -1 } });
+      .updateOne({ uid: userId }, { $inc: { totalPosts: -1 } });
 
     res.status(200).json({ message: "post delete success" });
   } catch (err) {
