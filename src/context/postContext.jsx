@@ -138,6 +138,10 @@ export const PostProvider = ({ children }) => {
       setIsLoading(true);
       await fetch(`${BASE_URL}/api/posts/deletePost/${postId}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user?.uid }),
       });
       await postFetch();
     } catch (err) {
@@ -182,8 +186,6 @@ export const PostProvider = ({ children }) => {
     }
   };
 
- 
-
   return (
     <PostContext.Provider
       value={{
@@ -206,7 +208,7 @@ export const PostProvider = ({ children }) => {
         setDelModal,
         selectedPost,
         setSelectedPost,
-        setPostToDelete
+        setPostToDelete,
       }}
     >
       {children}

@@ -10,6 +10,31 @@ router.post("/addPost", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
+    await db.collection("users").findOneAndUpdate(
+      { uid: userId },
+      [
+        {
+          $set: {
+            totalPost: { $add: [{ $ifNull: ["$totalPost", 0] }, 1] },
+          },
+        },
+        {
+          $set: {
+            rookieAvenger: {
+              $cond: [{ $gte: ["$totalPost", 1] }, true, false],
+            },
+            emergingLuminary: {
+              $cond: [{ $gte: ["$totalPost", 10] }, true, false],
+            },
+            heroicScribe: {
+              $cond: [{ $gte: ["$totalPost", 20] }, true, false],
+            },
+          },
+        },
+      ],
+      { returnDocument: "after", upsert: true }
+    );
+
     const newId = `post-${uuidv4()}`;
     await db.collection("posts").updateOne(
       { postId: newId },
@@ -37,10 +62,14 @@ router.post("/addPost", async (req, res) => {
 router.delete("/deletePost/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
+    const { userId } = req.body;
     const client = await clientPromise;
     const db = client.db("nexus");
 
     await db.collection("posts").deleteOne({ postId });
+    await db
+      .collection("users")
+      .updateOne({ uid: userId }, { $inc: { totalPost: -1 } });
 
     res.status(200).json({ message: "post delete success" });
   } catch (err) {
