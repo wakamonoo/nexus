@@ -24,10 +24,10 @@ router.post("/addComment", async (req, res) => {
             friendlyNeighboor: {
               $cond: [{ $gte: ["$totalComments", 1] }, true, false],
             },
-            AlleySwinger: {
+            alleySwinger: {
               $cond: [{ $gte: ["$totalComments", 10] }, true, false],
             },
-            WebWalker: {
+            webWalker: {
               $cond: [{ $gte: ["$totalComments", 20] }, true, false],
             },
           },

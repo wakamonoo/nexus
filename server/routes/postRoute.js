@@ -20,7 +20,7 @@ router.post("/addPost", async (req, res) => {
         },
         {
           $set: {
-            rookieAvenger: {
+            primeProspect: {
               $cond: [{ $gte: ["$totalPosts", 1] }, true, false],
             },
             emergingLuminary: {

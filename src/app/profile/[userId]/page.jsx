@@ -16,6 +16,7 @@ import ProfileReviews from "@/components/profile/profileReviews";
 import EditProfile from "@/components/modals/editProfile";
 import Fallback from "@/assets/fallback.png";
 import ProfileEchoes from "@/components/profile/profileEchoes";
+import ProfileBadges from "@/components/profile/profileBadges";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -56,7 +57,9 @@ export default function UserProfile() {
   }, [profileUser]);
 
   const profileUserWatch =
-    watchInfo?.filter((w) => w.userId === profileUser?.uid) || [];
+    watchInfo?.filter(
+      (w) => w.userId === profileUser?.uid && w.watched === true
+    ) || [];
   const latestWatch = [...profileUserWatch]
     .sort((a, b) => {
       const aDate = new Date(a.updatedAt || a.createdAt);
@@ -67,7 +70,9 @@ export default function UserProfile() {
 
   return (
     <>
-      {editProfile && <EditProfile setEditProfile={setEditProfile} user={user} />}
+      {editProfile && (
+        <EditProfile setEditProfile={setEditProfile} user={user} />
+      )}
       <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <div className="flex justify-between items-center py-4 w-full">
           <FaAngleLeft
@@ -120,6 +125,7 @@ export default function UserProfile() {
               <div className="p-2">
                 <p className="text-sm text-vibe italic">{profileUser.bio}</p>
               </div>
+              <ProfileBadges profileUser={profileUser} />
 
               {profileUser.rankings ? (
                 <div className="w-full h-full p-2">
