@@ -13,8 +13,36 @@ router.post("/postEnergize", async (req, res) => {
 
     let update;
     if (post.energized?.includes(userId)) {
+      await db
+        .collection("users")
+        .updateOne({ uid: userId }, { $inc: { totalEnergized: -1 } });
+
       update = { $pull: { energized: userId } };
     } else {
+      await db.collection("users").findOneAndUpdate(
+        { uid: userId },
+        [
+          {
+            $set: {
+              totalEnergized: {
+                $add: [{ $ifNull: ["$totalEnergized", 0] }, 1],
+              },
+            },
+          },
+          {
+            $set: {
+              vanguard: {
+                $cond: [{ $gte: ["$totalEnergized", 20] }, true, false],
+              },
+              paragon: {
+                $cond: [{ $gte: ["$totalEnergized", 40] }, true, false],
+              },
+            },
+          },
+        ],
+        { upsert: true }
+      );
+
       update = { $addToSet: { energized: userId } };
     }
 
@@ -38,8 +66,36 @@ router.post("/postEcho", async (req, res) => {
 
     let update;
     if (post.echoed?.includes(userId)) {
+      await db
+        .collection("users")
+        .updateOne({ uid: userId }, { $inc: { totalEchoed: -1 } });
+
       update = { $pull: { echoed: userId } };
     } else {
+      await db.collection("users").findOneAndUpdate(
+        { uid: userId },
+        [
+          {
+            $set: {
+              totalEchoed: {
+                $add: [{ $ifNull: ["$totalEchoed", 0] }, 1],
+              },
+            },
+          },
+          {
+            $set: {
+              insightScout: {
+                $cond: [{ $gte: ["$totalEchoed", 10] }, true, false],
+              },
+              loreGuardian: {
+                $cond: [{ $gte: ["$totalEchoed", 20] }, true, false],
+              },
+            },
+          },
+        ],
+        { upsert: true }
+      );
+
       update = { $addToSet: { echoed: userId } };
     }
 

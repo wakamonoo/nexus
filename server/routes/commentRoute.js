@@ -33,7 +33,7 @@ router.post("/addComment", async (req, res) => {
           },
         },
       ],
-      { returnDocument: "after", upsert: true }
+      { upsert: true }
     );
 
     const newComment = {
@@ -65,15 +65,15 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
     const db = client.db("nexus");
 
     await db
+      .collection("users")
+      .updateOne({ uid: userId }, { $inc: { totalComments: -1 } });
+
+    await db
       .collection("posts")
       .updateOne(
         { "comments.commentId": commentId },
         { $pull: { comments: { commentId } } }
       );
-      
-    await db
-      .collection("users")
-      .updateOne({ uid: userId }, { $inc: { totalComments: -1 } });
 
     res.status(200).json({ message: "Comment deleted succesfully" });
   } catch (err) {

@@ -33,7 +33,7 @@ router.post("/addReview", async (req, res) => {
           },
         },
       ],
-      { returnDocument: "after", upsert: true }
+      { upsert: true }
     );
 
     const newReview = {
@@ -65,15 +65,15 @@ router.delete("/deleteReview/:reviewId", async (req, res) => {
     const db = client.db("nexus");
 
     await db
+      .collection("users")
+      .updateOne({ uid: userId }, { $inc: { totalReviews: -1 } });
+
+    await db
       .collection("titles")
       .updateOne(
         { "reviews.reviewId": reviewId },
         { $pull: { reviews: { reviewId } } }
       );
-
-    await db
-      .collection("users")
-      .updateOne({ uid: userId }, { $inc: { totalReviews: -1 } });
 
     res.status(200).json({ message: "Review deleted succesfully" });
   } catch (err) {

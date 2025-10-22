@@ -52,7 +52,7 @@ export const WatchProvider = ({ children }) => {
   };
 
   const isTitleWatched = (titleId) => {
-    return watchInfo.some((w) => w.titleId === titleId);
+    return watchInfo.some((w) => w.titleId === titleId && w.watched === true);
   };
 
   return (

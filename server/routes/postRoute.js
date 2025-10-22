@@ -32,7 +32,7 @@ router.post("/addPost", async (req, res) => {
           },
         },
       ],
-      { returnDocument: "after", upsert: true }
+      { upsert: true }
     );
 
     const newId = `post-${uuidv4()}`;
@@ -66,11 +66,11 @@ router.delete("/deletePost/:postId", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
-    await db.collection("posts").deleteOne({ postId });
-    
     await db
       .collection("users")
       .updateOne({ uid: userId }, { $inc: { totalPosts: -1 } });
+
+    await db.collection("posts").deleteOne({ postId });
 
     res.status(200).json({ message: "post delete success" });
   } catch (err) {

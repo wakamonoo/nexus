@@ -9,6 +9,8 @@ router.post("/watchRoute", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
+    const titlesCount = await db.collection("titles").countDocuments();
+
     await db.collection("users").updateOne(
       {
         uid: userId,
@@ -52,14 +54,9 @@ router.post("/watchRoute", async (req, res) => {
         { upsert: true }
       );
 
-      await db.collection("users").updateOne(
-        {
-          uid: userId,
-        },
-        {
-          $inc: { totalWatched: -1 },
-        }
-      );
+      await db
+        .collection("users")
+        .updateOne({ uid: userId }, { $inc: { totalWatched: -1 } });
 
       await db.collection("titles").updateOne(
         {
@@ -87,13 +84,28 @@ router.post("/watchRoute", async (req, res) => {
         { upsert: true }
       );
 
-      await db.collection("users").updateOne(
-        {
-          uid: userId,
-        },
-        {
-          $inc: { totalWatched: 1 },
-        },
+      await db.collection("users").findOneAndUpdate(
+        { uid: userId },
+        [
+          {
+            $set: {
+              totalWatched: { $add: [{ $ifNull: ["$totalWatched", 0] }, 1] },
+            },
+          },
+          {
+            $set: {
+              vigilante: {
+                $cond: [{ $gte: ["$totalWatched", 20] }, true, false],
+              },
+              ascendant: {
+                $cond: [{ $gte: ["$totalWatched", 40] }, true, false],
+              },
+              cosmic: {
+                $cond: [{ $gte: ["$totalWatched", titlesCount] }, true, false],
+              },
+            },
+          },
+        ],
         { upsert: true }
       );
 
@@ -104,8 +116,6 @@ router.post("/watchRoute", async (req, res) => {
         { $addToSet: { watchCount: userId } },
         { upsert: true }
       );
-
-      
     }
     res.status(200).json({ message: `${title} marked as watched` });
   } catch (err) {
