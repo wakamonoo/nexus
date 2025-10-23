@@ -35,10 +35,10 @@ export default function Sigil() {
                 sizes="100vw"
                 className="w-16 h-16 md:w-18 md:h-18 object-fill"
               />
-              <p className="text-xs text-vibe w-full text-center">
+              <p className="text-sm text-normal w-full text-center">
                 {sigil.name}
               </p>
-              <p className="text-sm text-normal  w-full text-center mt-2">
+              <p className="text-xs text-vibe w-full text-center mt-2">
                 {sigil.desc}
               </p>
             </div>
