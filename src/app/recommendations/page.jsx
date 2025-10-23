@@ -6,7 +6,7 @@ import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import NavBar from "@/components/layout/navBar";
 import RegularButtons from "@/components/buttons/regBtns";
 
-export default function Reco() {
+export default function Recommendations() {
   const contact = useRef();
   const ejssid = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
   const ejstid = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;

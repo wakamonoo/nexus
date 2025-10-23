@@ -5,6 +5,7 @@ import { FaFileShield } from "react-icons/fa6";
 import { MenuContext } from "@/context/menuContext";
 import { useRouter } from "next/navigation";
 import { RiContractFill } from "react-icons/ri";
+import { GiSwordsEmblem } from "react-icons/gi";
 
 export default function MenuStructure() {
   const { setShowMenu } = useContext(MenuContext);
@@ -21,6 +22,16 @@ export default function MenuStructure() {
       >
         <FaInfo className="text-2xl" />
         <p className="text-base flex font-bold">About</p>
+      </button>
+      <button
+        onClick={() => {
+          router.push("/sigils");
+          setShowMenu(false);
+        }}
+        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+      >
+        <GiSwordsEmblem className="text-2xl" />
+        <p className="text-base flex font-bold">Sigils</p>
       </button>
       <button
         onClick={() => {

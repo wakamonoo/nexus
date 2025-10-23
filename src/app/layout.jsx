@@ -7,6 +7,7 @@ import { PostProvider } from "@/context/postContext";
 import { LoaderProvider } from "@/context/loaderContext";
 import { TitleNavProvider } from "@/context/titlesNavContext";
 import { WatchProvider } from "@/context/watchContext";
+import { SigilProvider } from "@/context/sigilContext";
 import "./globals.css";
 
 // Fonts
@@ -53,7 +54,9 @@ export default function RootLayout({ children }) {
                 <TitleProvider>
                   <PostProvider>
                     <TitleNavProvider>
-                      <WatchProvider>{children}</WatchProvider>
+                      <WatchProvider>
+                        <SigilProvider>{children}</SigilProvider>
+                      </WatchProvider>
                     </TitleNavProvider>
                   </PostProvider>
                 </TitleProvider>
