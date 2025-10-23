@@ -33,7 +33,7 @@ export default function Sigil() {
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="w-14 h-14 md:w-16 md:h-16 object-fill"
+                className="w-16 h-16 md:w-18 md:h-18 object-fill"
               />
               <p className="text-xs text-vibe w-full text-center">
                 {sigil.name}
