@@ -47,7 +47,7 @@ export const SigilProvider = ({ children }) => {
       desc: "Given for users who commented for the first time.",
     },
     {
-      key: "alleySwinger ",
+      key: "alleySwinger",
       name: "Alley Swinger",
       image: AlleySwinger,
       desc: "Given for users who commented for 10 times.",
