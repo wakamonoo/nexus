@@ -1,7 +1,7 @@
 import PrimeProspect from "@/assets/badges/primeProspect.png";
 import EmergingLuminary from "@/assets/badges/emergingLuminary.png";
 import HeroicScribe from "@/assets/badges/heroicScribe.png";
-import FriendlyNeighboor from "@/assets/badges/friendlyNeighboor.png";
+import FriendlyNeighbor from "@/assets/badges/friendlyNeighbor.png";
 import AlleySwinger from "@/assets/badges/alleySwinger.png";
 import WebWalker from "@/assets/badges/webWalker.png";
 import TaleCollector from "@/assets/badges/taleCollector.png";
@@ -37,7 +37,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Prime Prospect
@@ -55,7 +55,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Emerging Luminary
@@ -73,28 +73,28 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Heroic Scribe
             </p>
           </div>
         )}
-        {profileUser?.friendlyNeighboor && (
+        {profileUser?.friendlyNeighbor && (
           <div
             tabIndex={0}
             className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer"
           >
             <Image
-              src={FriendlyNeighboor}
-              alt="FriendlyNeighboor"
+              src={FriendlyNeighbor}
+              alt="FriendlyNeighbor"
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
-              Friendly Neighboor
+              Friendly Neighbor
             </p>
           </div>
         )}
@@ -109,7 +109,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Alley Swinger
@@ -127,7 +127,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Web Walker
@@ -145,7 +145,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Tale Collector
@@ -163,7 +163,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Cinematic Eye
@@ -181,7 +181,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Master Archivist
@@ -199,7 +199,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Vanguard
@@ -217,7 +217,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Paragon
@@ -235,7 +235,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Insight Scout
@@ -253,7 +253,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Lore Guardian
@@ -271,7 +271,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Vigilante
@@ -289,7 +289,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Ascendant
@@ -307,7 +307,7 @@ export default function ProfileBadges({ profileUser, user }) {
               width={0}
               height={0}
               sizes="100vw"
-              className="w-14 h-14 md:w-16 md:h-16 object-fill rounded-full"
+              className="w-14 h-14 md:w-16 md:h-16 object-fill"
             />
             <p className="text-xs text-vibe truncate w-full text-center">
               Cosmic

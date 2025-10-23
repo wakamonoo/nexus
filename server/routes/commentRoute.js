@@ -21,7 +21,7 @@ router.post("/addComment", async (req, res) => {
         },
         {
           $set: {
-            friendlyNeighboor: {
+            friendlyNeighbor: {
               $cond: [{ $gte: ["$totalComments", 1] }, true, false],
             },
             alleySwinger: {
