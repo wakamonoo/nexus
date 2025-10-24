@@ -43,11 +43,11 @@ export default function Title() {
 
   const title = titles.find((t) => t.titleId === titleId);
 
-  const doneReview = title.reviews?.some(
+  const doneReview = title?.reviews?.some(
     (review) => review.userId === user?.uid
   );
 
-  const firstReview = title.reviews?.sort(
+  const firstReview = title?.reviews?.sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   )[0];
 
@@ -69,7 +69,7 @@ export default function Title() {
   const topRankedNumber =
     allUsers
       ?.flatMap((user) => user.rankings || [])
-      .filter((r) => r.titleId === title.titleId && r.rank === 1).length || 0;
+      .filter((r) => r.titleId === title?.titleId && r.rank === 1).length || 0;
 
   const currentTitleRank = ranked.find((t) => t.titleId === titleId)?.rank;
 
