@@ -5,6 +5,7 @@ import { AiFillThunderbolt } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import { MdOutlineSensors } from "react-icons/md";
 import Image from "next/image";
+import Fallback from "@/assets/fallback.png";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "./postOpt";
 import { LoaderContext } from "@/context/loaderContext";
@@ -68,7 +69,7 @@ export default function PostStructure({ post }) {
               router.push(`/profile/${post.userId}`);
             }
           }}
-          src={post.userImage}
+          src={post.userImage || Fallback}
           alt="user"
           width={0}
           height={0}
@@ -179,7 +180,7 @@ export default function PostStructure({ post }) {
                 >
                   {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
                     <Image
-                      src={file}
+                      src={file || Fallback}
                       alt="file"
                       width={0}
                       height={0}
@@ -189,7 +190,7 @@ export default function PostStructure({ post }) {
                   ) : ["mp4", "webm", "ogg"].includes(ext) ? (
                     <video
                       key={index}
-                      src={file}
+                      src={file || Fallback}
                       controls
                       className="w-full h-full object-cover"
                     />

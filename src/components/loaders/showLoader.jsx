@@ -26,9 +26,6 @@ export default function ShowLoader() {
                 </div>
               </div>
             </div>
-            <div className="w-full flex justify-end">
-              <div className="w-32 md:w-36 lg:w-52 h-48 md:h-54 lg:h-78 rounded bg-panel" />
-            </div>
           </div>
           <div className="mt-4">
             <div className="w-full flex justify-between items-center gap-1">

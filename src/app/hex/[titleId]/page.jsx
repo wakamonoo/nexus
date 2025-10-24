@@ -103,7 +103,7 @@ export default function Title() {
           </div>
         </div>
 
-        {title ? (
+        {!title ? (
           <ShowLoader />
         ) : (
           <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">

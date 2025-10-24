@@ -5,7 +5,7 @@ import { PostContext } from "@/context/postContext";
 import { FaAngleLeft, FaComment, FaRegComment } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
-import Tony from "@/assets/tony.jpg";
+import Fallback from "@/assets/fallback.png";
 import { MdOutlineSensors, MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
@@ -128,7 +128,7 @@ export default function Post() {
                           setIsLoading(true);
                           router.push(`/profile/${post?.userId}`);
                         }}
-                        src={post?.userImage || Tony}
+                        src={post?.userImage || Fallback}
                         alt="user"
                         width={0}
                         height={0}
@@ -383,7 +383,7 @@ export default function Post() {
 
               <div className="flex sticky z-50 bottom-0 md:bottom-2 w-full gap-2 items-center p-2 md:rounded-full bg-second">
                 <Image
-                  src={user?.picture || null}
+                  src={user?.picture || Fallback}
                   alt="user"
                   width={0}
                   height={0}
