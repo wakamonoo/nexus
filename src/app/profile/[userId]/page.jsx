@@ -17,6 +17,7 @@ import EditProfile from "@/components/modals/editProfile";
 import Fallback from "@/assets/fallback.png";
 import ProfileEchoes from "@/components/profile/profileEchoes";
 import ProfileBadges from "@/components/profile/profileBadges";
+import ProfileLoader from "@/components/loaders/profileLoader";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -81,17 +82,12 @@ export default function UserProfile() {
           />
           <h4 className="text-xl">Profile</h4>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
-          {!profileUser ? (
-            <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <div className="flex flex-col items-center justify-center">
-                <FaUserSlash className="text-4xl text-vibe opacity-40" />
-                <p className="text-xs text-vibe opacity-40">
-                  Sorry, this user cant be found
-                </p>
-              </div>
-            </div>
-          ) : (
+        {!profileUser ? (
+          <div className="w-full py-4">
+            <ProfileLoader />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
             <aside className="flex flex-col lg:sticky lg:top-0">
               <div className="flex items-center w-full gap-2 py-4">
                 <div className="w-16 h-16">
@@ -209,82 +205,82 @@ export default function UserProfile() {
                 </div>
               )}
             </aside>
-          )}
 
-          <main className="flex flex-col justify-center items-center">
-            <div
-              className={`flex justify-center gap-8 p-8 w-full ${
-                profileUser ? "block" : "hidden"
-              }`}
-            >
-              <button
-                onClick={() => {
-                  setShowProfilePosts(true);
-                  setShowProfileReviews(false);
-                  setShowProfileEchoes(false);
-                }}
-                className="cursor-pointer flex flex-1"
+            <main className="flex flex-col justify-center items-center">
+              <div
+                className={`flex justify-center gap-8 p-8 w-full ${
+                  profileUser ? "block" : "hidden"
+                }`}
               >
-                <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
-                    showProfilePosts
-                      ? "font-bold text-accent border-b-2 border-accent"
-                      : "text-normal"
-                  }`}
+                <button
+                  onClick={() => {
+                    setShowProfilePosts(true);
+                    setShowProfileReviews(false);
+                    setShowProfileEchoes(false);
+                  }}
+                  className="cursor-pointer flex flex-1"
                 >
-                  Posts
-                </p>
-              </button>
-              <button
-                onClick={() => {
-                  setShowProfileReviews(true);
-                  setShowProfilePosts(false);
-                  setShowProfileEchoes(false);
-                }}
-                className="cursor-pointer flex flex-1"
-              >
-                <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
-                    showProfileReviews
-                      ? "font-bold text-accent border-b-2 border-accent"
-                      : "text-normal"
-                  }`}
+                  <p
+                    className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                      showProfilePosts
+                        ? "font-bold text-accent border-b-2 border-accent"
+                        : "text-normal"
+                    }`}
+                  >
+                    Posts
+                  </p>
+                </button>
+                <button
+                  onClick={() => {
+                    setShowProfileReviews(true);
+                    setShowProfilePosts(false);
+                    setShowProfileEchoes(false);
+                  }}
+                  className="cursor-pointer flex flex-1"
                 >
-                  Reviews
-                </p>
-              </button>
-              <button
-                onClick={() => {
-                  setShowProfileEchoes(true);
-                  setShowProfileReviews(false);
-                  setShowProfilePosts(false);
-                }}
-                className="cursor-pointer flex flex-1"
-              >
-                <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
-                    showProfileEchoes
-                      ? "font-bold text-accent border-b-2 border-accent"
-                      : "text-normal"
-                  }`}
+                  <p
+                    className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                      showProfileReviews
+                        ? "font-bold text-accent border-b-2 border-accent"
+                        : "text-normal"
+                    }`}
+                  >
+                    Reviews
+                  </p>
+                </button>
+                <button
+                  onClick={() => {
+                    setShowProfileEchoes(true);
+                    setShowProfileReviews(false);
+                    setShowProfilePosts(false);
+                  }}
+                  className="cursor-pointer flex flex-1"
                 >
-                  Echoes
-                </p>
-              </button>
-            </div>
-            <div className="flex justify-center w-full">
-              {showProfilePosts && profileUser && (
-                <ProfilePosts profileUser={profileUser} />
-              )}
-              {showProfileReviews && profileUser && (
-                <ProfileReviews profileUser={profileUser} />
-              )}
-              {showProfileEchoes && profileUser && (
-                <ProfileEchoes profileUser={profileUser} />
-              )}
-            </div>
-          </main>
-        </div>
+                  <p
+                    className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                      showProfileEchoes
+                        ? "font-bold text-accent border-b-2 border-accent"
+                        : "text-normal"
+                    }`}
+                  >
+                    Echoes
+                  </p>
+                </button>
+              </div>
+              <div className="flex justify-center w-full">
+                {showProfilePosts && profileUser && (
+                  <ProfilePosts profileUser={profileUser} />
+                )}
+                {showProfileReviews && profileUser && (
+                  <ProfileReviews profileUser={profileUser} />
+                )}
+                {showProfileEchoes && profileUser && (
+                  <ProfileEchoes profileUser={profileUser} />
+                )}
+              </div>
+            </main>
+          </div>
+        )}
       </div>
     </>
   );

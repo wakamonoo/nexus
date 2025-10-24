@@ -2,9 +2,8 @@
 import { FaRegFileAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { PostContext } from "@/context/postContext";
-import HeroLoader from "@/components/loaders/heroLoader";
+import HeroLoader from "@/components/loaders/postsLoader";
 import PostStructure from "@/components/layout/postStructure";
-import Menu from "@/components/layout/menu";
 
 export default function Hero() {
   const { posts, coldLoad } = useContext(PostContext);
@@ -13,7 +12,9 @@ export default function Hero() {
     <div>
       <div className="bg-brand w-full">
         {coldLoad ? (
-          <HeroLoader />
+          <div className="py-2">
+            <HeroLoader />
+          </div>
         ) : posts.length === 0 ? (
           <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="flex flex-col items-center justify-center">

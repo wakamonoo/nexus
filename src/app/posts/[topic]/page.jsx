@@ -7,6 +7,7 @@ import { useContext, useEffect } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
 import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
+import PostsLoader from "@/components/loaders/postsLoader";
 
 export default function TopicPostings() {
   const { topic } = useParams();
@@ -40,9 +41,13 @@ export default function TopicPostings() {
       <div className="grid grid-cols-1 md:grid-cols-[3fr_1.5fr] md:gap-4 items-start md:px-8 lg:px-16 xl:px-32">
         <main className="md:py-2 md:sticky md:top-0">
           <div className="p-2 flex flex-col gap-1">
-            {currentTopic?.map((post, index) => (
-              <PostStructure key={index} post={post} />
-            ))}
+            {!currentTopic ? (
+              <PostsLoader />
+            ) : (
+              currentTopic?.map((post, index) => (
+                <PostStructure key={index} post={post} />
+              ))
+            )}
           </div>
         </main>
         <aside className="w-full h-full hidden md:block">
