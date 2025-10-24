@@ -12,6 +12,7 @@ import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import Image from "next/image";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
+import GoatMaxLoader from "../loaders/goatMaxLoader";
 
 export default function GoatTitlesStructureMax() {
   const { topic } = useParams();
@@ -23,6 +24,8 @@ export default function GoatTitlesStructureMax() {
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
 
+  const isLoading = titles === undefined || titles === null || titles.length === 0;
+
   useEffect(() => {
     const fetchWathced = async () => {
       if (user?.uid) {
@@ -32,6 +35,8 @@ export default function GoatTitlesStructureMax() {
 
     fetchWathced();
   }, [user]);
+
+  
 
   const rankedTitles = titles
     ?.filter((t) => t.totalPoints > 0)
@@ -55,39 +60,50 @@ export default function GoatTitlesStructureMax() {
   const currentTopic = posts?.filter(
     (p) => p.topic === decodeURIComponent(topic)
   );
+
+
   return (
     <div className="flex flex-wrap justify-center gap-2">
-      {...ranked.map((unit) => (
-        <div
-          key={unit.titleId}
-          onClick={() => handleShowNav(unit.titleId)}
-          className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-        >
-          <Image
-            src={unit.image || Fallback}
-            alt="image"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className={`w-full h-full object-fill rounded ${
-              isTitleWatched(unit.titleId) ? "grayscale-0" : "grayscale-90"
-            }`}
-          />
+      {ranked.length > 0 ? (
+        ranked.map((unit) => (
           <div
-            className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-              unit.rank === 1 ? "bg-hulk" : "bg-accent"
-            }`}
+            key={unit.titleId}
+            onClick={() => handleShowNav(unit.titleId)}
+            className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
           >
-            <p
-              className={`font-bold text-sm ${
-                unit.rank === 1 ? "text-zeus" : "text-normal"
+            <Image
+              src={unit.image || Fallback}
+              alt="image"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className={`w-full h-full object-fill rounded ${
+                isTitleWatched(unit.titleId) ? "grayscale-0" : "grayscale-90"
+              }`}
+            />
+            <div
+              className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+                unit.rank === 1 ? "bg-hulk" : "bg-accent"
               }`}
             >
-              {unit.rank === 1 ? <GiTrophy /> : unit.rank}
-            </p>
+              <p
+                className={`font-bold text-sm ${
+                  unit.rank === 1 ? "text-zeus" : "text-normal"
+                }`}
+              >
+                {unit.rank === 1 ? <GiTrophy /> : unit.rank}
+              </p>
+            </div>
           </div>
+        ))
+      ) : (
+        <div className="flex flex-col w-full justify-center items-center">
+          <FaBoxOpen className="text-6xl text-panel" />
+          <p className="text-sm text-panel font-normal">
+            Sorry, no data to display!
+          </p>
         </div>
-      ))}
+      )}
     </div>
   );
 }

@@ -85,10 +85,10 @@ router.post("/postEcho", async (req, res) => {
           {
             $set: {
               insightScout: {
-                $cond: [{ $gte: ["$totalEchoed", 10] }, true, false],
+                $cond: [{ $gte: ["$totalEchoed", 15] }, true, false],
               },
               loreGuardian: {
-                $cond: [{ $gte: ["$totalEchoed", 20] }, true, false],
+                $cond: [{ $gte: ["$totalEchoed", 30] }, true, false],
               },
             },
           },

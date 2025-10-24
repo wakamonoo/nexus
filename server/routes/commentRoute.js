@@ -25,10 +25,10 @@ router.post("/addComment", async (req, res) => {
               $cond: [{ $gte: ["$totalComments", 1] }, true, false],
             },
             alleySwinger: {
-              $cond: [{ $gte: ["$totalComments", 10] }, true, false],
+              $cond: [{ $gte: ["$totalComments", 20] }, true, false],
             },
             webWalker: {
-              $cond: [{ $gte: ["$totalComments", 20] }, true, false],
+              $cond: [{ $gte: ["$totalComments", 40] }, true, false],
             },
           },
         },

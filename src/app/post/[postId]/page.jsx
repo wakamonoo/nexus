@@ -16,6 +16,8 @@ import PostOpt from "@/components/layout/postOpt";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
 import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
 import CommentDelConfirm from "@/components/modals/commentDelConfirm";
+import GoatMinLoader from "@/components/loaders/goatMinLoader";
+import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -108,7 +110,9 @@ export default function Post() {
                           onClick={(e) => {
                             e.stopPropagation();
                             setSelectedPost(
-                              selectedPost === post?.postId ? null : post?.postId
+                              selectedPost === post?.postId
+                                ? null
+                                : post?.postId
                             );
                           }}
                           className="cursor-pointer"
@@ -259,7 +263,8 @@ export default function Post() {
                           }`}
                         />
                         <p className="text-xs font-light text-vibe opacity-50">
-                          {post?.energized ? post?.energized.length : 0} energized
+                          {post?.energized ? post?.energized.length : 0}{" "}
+                          energized
                         </p>
                       </div>
                       <div
@@ -302,9 +307,13 @@ export default function Post() {
               )}
 
               <aside className="p-2 md:hidden">
-                <div className="overflow-x-auto scrollbar-hide">
-                  <GoatTitlesStructureMin />
-                </div>
+                {!post ? (
+                  <GoatMinLoader />
+                ) : (
+                  <div className="overflow-x-auto scrollbar-hide">
+                    <GoatTitlesStructureMin />
+                  </div>
+                )}
               </aside>
 
               <div className="flex flex-col gap-4 p-4">
@@ -422,9 +431,13 @@ export default function Post() {
           </main>
 
           <aside className="w-full h-full hidden md:block">
-            <div className="w-full md:py-4">
-              <GoatTitlesStructureMax />
-            </div>
+            {!post ? (
+              <GoatMaxLoader />
+            ) : (
+              <div className="w-full md:py-4">
+                <GoatTitlesStructureMax />
+              </div>
+            )}
           </aside>
         </div>
       </div>

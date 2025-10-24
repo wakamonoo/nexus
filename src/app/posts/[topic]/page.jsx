@@ -8,6 +8,8 @@ import { FaAngleLeft } from "react-icons/fa";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
 import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
 import PostsLoader from "@/components/loaders/postsLoader";
+import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
+import GoatMinLoader from "@/components/loaders/goatMinLoader";
 
 export default function TopicPostings() {
   const { topic } = useParams();
@@ -34,14 +36,18 @@ export default function TopicPostings() {
         </p>
       </div>
       <aside className="p-2 md:hidden">
-        <div className="overflow-x-auto scrollbar-hide">
-          <GoatTitlesStructureMin />
-        </div>
+        {!posts || posts.length === 0 ? (
+          <GoatMinLoader />
+        ) : (
+          <div className="overflow-x-auto scrollbar-hide">
+            <GoatTitlesStructureMin />
+          </div>
+        )}
       </aside>
       <div className="grid grid-cols-1 md:grid-cols-[3fr_1.5fr] md:gap-4 items-start md:px-8 lg:px-16 xl:px-32">
         <main className="md:py-2 md:sticky md:top-0">
           <div className="p-2 flex flex-col gap-1">
-            {!currentTopic ? (
+            {!posts || posts.length === 0 ? (
               <PostsLoader />
             ) : (
               currentTopic?.map((post, index) => (
@@ -52,7 +58,11 @@ export default function TopicPostings() {
         </main>
         <aside className="w-full h-full hidden md:block">
           <div className="w-full md:py-4">
-            <GoatTitlesStructureMax />
+            {!posts || posts.length === 0 ? (
+              <GoatMaxLoader />
+            ) : (
+              <GoatTitlesStructureMax />
+            )}
           </div>
         </aside>
       </div>

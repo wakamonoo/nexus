@@ -22,13 +22,13 @@ router.post("/addReview", async (req, res) => {
         {
           $set: {
             taleCollector: {
-              $cond: [{ $gte: ["$totalReviews", 10] }, true, false],
+              $cond: [{ $gte: ["$totalReviews", 15] }, true, false],
             },
             cinematicEye: {
-              $cond: [{ $gte: ["$totalReviews", 20] }, true, false],
+              $cond: [{ $gte: ["$totalReviews", 30] }, true, false],
             },
             masterArchivist: {
-              $cond: [{ $gte: ["$totalReviews", 40] }, true, false],
+              $cond: [{ $gte: ["$totalReviews", 60] }, true, false],
             },
           },
         },
