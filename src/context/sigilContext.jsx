@@ -58,24 +58,7 @@ export const SigilProvider = ({ children }) => {
       image: WebWalker,
       desc: "Given for users who commented for 20 times.",
     },
-    {
-      key: "taleCollector",
-      name: "Tale Collector",
-      image: TaleCollector,
-      desc: "Given for users who reviewed for 10 times.",
-    },
-    {
-      key: "cinematicEye",
-      name: "Cinematic Eye",
-      image: CinematicEye,
-      desc: "Given for users who reviewed for 20 times.",
-    },
-    {
-      key: "masterArchivist",
-      name: "Master Archivist",
-      image: MasterArchivist,
-      desc: "Given for users who reviewed for 40 times.",
-    },
+
     {
       key: "vanguard",
       name: "Vanguard",
@@ -99,6 +82,24 @@ export const SigilProvider = ({ children }) => {
       name: "Lore Guardian",
       image: LoreGuardian,
       desc: "Given for users who echoed posts for 20 times.",
+    },
+    {
+      key: "taleCollector",
+      name: "Tale Collector",
+      image: TaleCollector,
+      desc: "Given for users who reviewed for 10 times.",
+    },
+    {
+      key: "cinematicEye",
+      name: "Cinematic Eye",
+      image: CinematicEye,
+      desc: "Given for users who reviewed for 20 times.",
+    },
+    {
+      key: "masterArchivist",
+      name: "Master Archivist",
+      image: MasterArchivist,
+      desc: "Given for users who reviewed for 40 times.",
     },
     {
       key: "vigilante",
