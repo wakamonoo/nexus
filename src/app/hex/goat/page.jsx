@@ -29,9 +29,13 @@ export default function Goat() {
         />
         <h4 className="text-xl">GOAT STATUS</h4>
       </div>
-      <div className="w-full">
-        <GoatTitlesStructureMax />
-      </div>
+      {!titles || titles.length === 0 ? (
+        <ShowListLoader />
+      ) : (
+        <div className="w-full">
+          <GoatTitlesStructureMax />
+        </div>
+      )}
       <div className="w-full flex justify-center p-8 opacity-70">
         <p className="text-xs text-vibe">
           Your fav not here?{" "}

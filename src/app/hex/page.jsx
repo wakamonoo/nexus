@@ -15,6 +15,7 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
+import { Html } from "next/document";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"

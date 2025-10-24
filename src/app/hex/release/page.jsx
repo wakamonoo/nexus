@@ -34,9 +34,6 @@ export default function Chrono() {
     fetchWathced();
   }, [user]);
 
-  if (!titles || titles.length === 0) {
-    return <ShowListLoader />;
-  }
 
   return (
     <>
@@ -48,7 +45,7 @@ export default function Chrono() {
           />
           <h4 className="text-xl">MCU Release Order</h4>
         </div>
-        <div className="w-full">
+        {!titles || titles.length === 0 ? <ShowListLoader /> : (<div className="w-full">
           <div className="flex flex-wrap justify-center gap-2">
             {...titles
               .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -73,7 +70,7 @@ export default function Chrono() {
                 </div>
               ))}
           </div>
-        </div>
+        </div>)}
       </div>
     </>
   );

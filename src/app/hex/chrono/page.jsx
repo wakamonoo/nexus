@@ -33,10 +33,6 @@ export default function Chrono() {
     fetchWathced();
   }, [user]);
 
-  if (!titles || titles.length === 0) {
-    return <ShowListLoader />;
-  }
-
   return (
     <>
       <div className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
@@ -47,7 +43,7 @@ export default function Chrono() {
           />
           <h4 className="text-xl">MCU Choronological Order</h4>
         </div>
-        <div className="w-full">
+        {!titles || titles.length === 0 ? <ShowListLoader /> : (<div className="w-full">
           <div className="flex flex-wrap justify-center gap-2">
             {...titles
               .sort((a, b) => a.order - b.order)
@@ -72,7 +68,7 @@ export default function Chrono() {
                 </div>
               ))}
           </div>
-        </div>
+        </div>)}
       </div>
     </>
   );
