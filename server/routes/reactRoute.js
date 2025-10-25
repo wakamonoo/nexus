@@ -13,9 +13,18 @@ router.post("/postEnergize", async (req, res) => {
 
     let update;
     if (post.energized?.includes(userId)) {
-      await db
-        .collection("users")
-        .updateOne({ uid: userId }, { $inc: { totalEnergized: -1 } });
+      await db.collection("users").updateOne({ uid: userId }, [
+        {
+          $set: {
+            totalEnergized: {
+              $max: [
+                { $subtract: [{ $ifNull: ["$totalEnergized", 0] }, 1] },
+                0,
+              ],
+            },
+          },
+        },
+      ]);
 
       update = { $pull: { energized: userId } };
     } else {
@@ -66,9 +75,15 @@ router.post("/postEcho", async (req, res) => {
 
     let update;
     if (post.echoed?.includes(userId)) {
-      await db
-        .collection("users")
-        .updateOne({ uid: userId }, { $inc: { totalEchoed: -1 } });
+      await db.collection("users").updateOne({ uid: userId }, [
+        {
+          $set: {
+            totalEchoed: {
+              $max: [{ $subtract: [{ $ifNull: ["$totalEchoed", 0] }, 1] }, 0],
+            },
+          },
+        },
+      ]);
 
       update = { $pull: { echoed: userId } };
     } else {

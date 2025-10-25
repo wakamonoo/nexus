@@ -6,6 +6,9 @@ import CircledButtons from "../buttons/circledBtns";
 import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
+import { GoogleAuthProvider, reauthenticateWithPopup } from "firebase/auth";
+import { auth } from "@/firebase/firebaseConfig";
+import { useRouter } from "next/navigation";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -20,14 +23,21 @@ export default function AccountDelConfirm({
   const { setIsLoading } = useContext(LoaderContext);
   const { firebaseUser } = useContext(UserContext);
   const userId = user?.uid;
+  const router = useRouter();
 
   const handleAccountDelete = async (userId) => {
     try {
       setIsLoading(true);
+
+      const provider = new GoogleAuthProvider();
+      await reauthenticateWithPopup(auth.currentUser, provider);
+
       await fetch(`${BASE_URL}/api/users/deleteUser/${userId}`, {
         method: "DELETE",
       });
+
       await firebaseUser.delete();
+      router.push("/")
       setEditProfile(false);
     } catch (err) {
       console.error(err);

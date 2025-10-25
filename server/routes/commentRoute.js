@@ -122,9 +122,15 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
-    await db
-      .collection("users")
-      .updateOne({ uid: userId }, { $inc: { totalComments: -1 } });
+    await db.collection("users").updateOne({ uid: userId }, [
+      {
+        $set: {
+          totalComments: {
+            $max: [{ $subtract: [{ $ifNull: ["$totalComments", 0] }, 1] }, 0],
+          },
+        },
+      },
+    ]);
 
     await db
       .collection("posts")

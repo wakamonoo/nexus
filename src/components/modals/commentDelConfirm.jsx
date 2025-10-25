@@ -30,9 +30,22 @@ export default function CommentDelConfirm({
         body: JSON.stringify({ userId }),
       });
 
-      post.comments = post.comments.filter(
-        (c) => c.commentId !== commentToDelete
+      const commentExists = post.comments.some(
+        (c) => c.commentId === commentToDelete
       );
+
+      if (commentExists) {
+        post.comments = post.comments.filter(
+          (c) => c.commentId !== commentToDelete
+        );
+      } else {
+        post.comments = post.comments.map((c) => ({
+          ...c,
+          replies: c.replies
+            ? c.replies.filter((r) => r.replyId !== commentToDelete)
+            : [],
+        }));
+      }
     } catch (err) {
       console.error(err);
       Swal.fire({

@@ -64,9 +64,15 @@ router.delete("/deleteReview/:reviewId", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
-    await db
-      .collection("users")
-      .updateOne({ uid: userId }, { $inc: { totalReviews: -1 } });
+    await db.collection("users").updateOne({ uid: userId }, [
+      {
+        $set: {
+          totalReviews: {
+            $max: [{ $subtract: [{ $ifNull: ["$totalReviews", 0] }, 1] }, 0],
+          },
+        },
+      },
+    ]);
 
     await db
       .collection("titles")

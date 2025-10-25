@@ -54,9 +54,15 @@ router.post("/watchRoute", async (req, res) => {
         { upsert: true }
       );
 
-      await db
-        .collection("users")
-        .updateOne({ uid: userId }, { $inc: { totalWatched: -1 } });
+      await db.collection("users").updateOne({ uid: userId }, [
+        {
+          $set: {
+            totalWatched: {
+              $max: [{ $subtract: [{ $ifNull: ["$totalWatched", 0] }, 1] }, 0],
+            },
+          },
+        },
+      ]);
 
       await db.collection("titles").updateOne(
         {
