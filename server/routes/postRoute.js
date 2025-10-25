@@ -47,7 +47,7 @@ router.post("/addPost", async (req, res) => {
           userImage,
           files,
           comments: [],
-          date: new Date().toLocaleString(),
+          date: new Date(),
         },
       },
       { upsert: true }

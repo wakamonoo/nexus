@@ -18,9 +18,9 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
   const [loading, setLoading] = useState(false);
 
   const postReview = async () => {
+    if (!reviewText.trim()) return;
     try {
       setLoading(true);
-      if (!reviewText.trim()) return;
 
       const newReview = {
         titleId,
@@ -29,7 +29,8 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
         userImage: user.picture,
         textReview: reviewText,
       };
-      await fetch(`${BASE_URL}/api/reviews/addReview`, {
+
+      const res = await fetch(`${BASE_URL}/api/reviews/addReview`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,9 +38,12 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
         body: JSON.stringify(newReview),
       });
 
+      const data = await res.json();
+
       title.reviews = title.reviews
-        ? [...title.reviews, newReview]
-        : [newReview];
+        ? [...title.reviews, data.review]
+        : [data.review];
+
       setReviewText("");
       setShowAddReview(false);
     } catch (err) {
@@ -112,20 +116,18 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
               <textarea
                 value={reviewText}
                 onChange={(e) => setReviewText(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    if (user) {
-                      postReview();
-                    } else {
-                      setShowSignIn(true);
-                    }
-                  }
-                }}
                 placeholder="inifinity thoughts, one review box..."
                 className="bg-text text-base text-brand w-full h-64 rounded p-2"
               />
-              <RegularButtons onClick={postReview}>
+              <RegularButtons
+                onClick={() => {
+                  if (user) {
+                    postReview();
+                  } else {
+                    setShowSignIn(true);
+                  }
+                }}
+              >
                 <p className="font-bold text-normal text-base">Post</p>
               </RegularButtons>
             </div>

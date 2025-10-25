@@ -73,15 +73,14 @@ io.on("connection", (socket) => {
 
   socket.on("citadel", async (data) => {
     try {
-      const { picture, sender, senderId, email, text, time, date } = data;
+      const { picture, sender, senderId, email, text } = data;
       const msg = {
         picture,
         sender,
         senderId,
         email,
         text,
-        time,
-        date,
+        messagedAt: new Date(),
         msgId: `msg-${uuid()}`,
       };
 

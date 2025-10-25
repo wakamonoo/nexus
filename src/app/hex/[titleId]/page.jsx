@@ -23,6 +23,10 @@ import { GiGoat, GiTrophy } from "react-icons/gi";
 import CircledButtons from "@/components/buttons/circledBtns";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
 import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export default function Title() {
   const { titles, reviewToDelete, setReviewToDelete } =
@@ -290,19 +294,23 @@ export default function Title() {
                           {review.userName}
                         </p>
                         <p className="text-xs text-vibe">
-                          {review.date &&
-                          !isNaN(new Date(review.date).getTime())
-                            ? new Date(review.date)
-                                .toLocaleString("en-us", {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                  hour: "numeric",
-                                  minute: "2-digit",
-                                  hour12: true,
-                                })
-                                .replace(/^(\w{3})/, "$1.")
-                            : "Just now "}
+                          {(() => {
+                            const diffWeeks = dayjs().diff(
+                              dayjs(review.date),
+                              "week"
+                            );
+                            if (diffWeeks < 1) {
+                              return dayjs(review.date).fromNow();
+                            }
+                            return new Date(review.date).toLocaleDateString(
+                              [],
+                              {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                              }
+                            );
+                          })()}
                         </p>
                       </div>
                     </div>

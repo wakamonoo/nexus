@@ -10,6 +10,10 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "./postOpt";
 import { LoaderContext } from "@/context/loaderContext";
 import { usePathname, useRouter } from "next/navigation";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export default function PostStructure({ post }) {
   const { user, setShowSignIn } = useContext(UserContext);
@@ -95,16 +99,17 @@ export default function PostStructure({ post }) {
             {post.userName}
           </p>
           <p className="text-xs text-vibe">
-            {new Date(post.date)
-              .toLocaleString("en-us", {
+            {(() => {
+              const diffWeeks = dayjs().diff(dayjs(post.date), "week");
+              if (diffWeeks < 1) {
+                return dayjs(post.date).fromNow();
+              }
+              return new Date(post.date).toLocaleDateString([], {
                 month: "short",
-                day: "numeric",
+                day: "2-digit",
                 year: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,
-              })
-              .replace(/^(\w{3})/, "$1.")}
+              });
+            })()}
           </p>
         </div>
       </div>

@@ -6,8 +6,12 @@ import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { MdRateReview } from "react-icons/md";
 import AsideLoader from "../loaders/asideLoader";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-export default function LatestActivities() {
+dayjs.extend(relativeTime);
+
+export default function LatestReviews() {
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
@@ -34,7 +38,7 @@ export default function LatestActivities() {
   const sortedReviews = allReviews?.sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
-  
+
   return (
     <div className="h-[calc(100vh-6rem)] overflow-y-auto custom-scroll">
       <p className="text-base font-bold p-2">Latest Reviews</p>
@@ -99,16 +103,20 @@ export default function LatestActivities() {
                     </span>
                   </p>
                   <p className="text-xs opacity-50">
-                    {new Date(review.date)
-                      .toLocaleString("en-us", {
+                    {(() => {
+                      const diffWeeks = dayjs().diff(
+                        dayjs(review.date),
+                        "week"
+                      );
+                      if (diffWeeks < 1) {
+                        return dayjs(review.date).fromNow();
+                      }
+                      return new Date(review.date).toLocaleDateString([], {
                         month: "short",
-                        day: "numeric",
+                        day: "2-digit",
                         year: "numeric",
-                        hour: "numeric",
-                        minute: "2-digit",
-                        hour12: true,
-                      })
-                      .replace(/^(\w{3})/, "$1.")}
+                      });
+                    })()}
                   </p>
                 </div>
               </div>

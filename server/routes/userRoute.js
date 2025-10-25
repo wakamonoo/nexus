@@ -21,7 +21,7 @@ router.post("/signup", async (req, res) => {
           email,
           name,
           picture,
-          createdAt: new Date().toISOString().split("T")[0],
+          createdAt: new Date(),
         },
       },
       { upsert: true }
@@ -48,7 +48,7 @@ router.put("/updateUser/:uid", async (req, res) => {
           name,
           picture,
           bio,
-          updatedAt: new Date().toISOString().split("T")[0],
+          updatedAt: new Date(),
         },
       }
     );

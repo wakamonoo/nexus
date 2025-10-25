@@ -48,7 +48,7 @@ router.post("/watchRoute", async (req, res) => {
         {
           $set: {
             watched: false,
-            updatedAt: new Date().toLocaleDateString(),
+            updatedAt: new Date(),
           },
         },
         { upsert: true }
@@ -81,7 +81,7 @@ router.post("/watchRoute", async (req, res) => {
             userName,
             title,
             poster,
-            createdAt: new Date().toLocaleDateString(),
+            createdAt: new Date(),
           },
           $set: {
             watched: true,

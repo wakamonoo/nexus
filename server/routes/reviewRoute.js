@@ -42,14 +42,16 @@ router.post("/addReview", async (req, res) => {
       userName,
       userImage,
       textReview,
-      date: new Date().toLocaleString(),
+      date: new Date(),
     };
 
     await db
       .collection("titles")
       .updateOne({ titleId }, { $push: { reviews: newReview } });
 
-    res.status(200).json({ message: "succes, review posted" });
+    res
+      .status(200)
+      .json({ message: "succes, review posted", review: newReview });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });

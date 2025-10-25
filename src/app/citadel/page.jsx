@@ -12,10 +12,16 @@ import ChatLoader from "@/components/loaders/chatLoder";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import MessageDelConfirm from "@/components/modals/messageDelConfirm";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
+
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
+
 const socket = io.connect(`${BASE_URL}`);
 
 export default function Citadel() {
@@ -58,14 +64,6 @@ export default function Citadel() {
       senderId: user?.uid,
       email: user?.email,
       text: input,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      date: new Date().toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
     };
     justSentMessage.current = true;
     socket.emit("citadel", data);
@@ -87,21 +85,6 @@ export default function Citadel() {
 
   const handleLocalMessageDelete = (msgId) => {
     setMessages((prev) => prev.filter((m) => m.msgId !== msgId));
-  };
-
-  const isJustNow = (msgTime) => {
-    const now = new Date();
-    const [time, modifier] = msgTime.split(" ");
-    let [hours, minutes] = time.split(":").map(Number);
-
-    if (modifier === "PM" && hours < 12) hours += 12;
-    if (modifier === "AM" && hours === 12) hours = 0;
-
-    const msgDate = new Date();
-    msgDate.setHours(hours, minutes, 0, 0);
-
-    const diff = now - msgDate;
-    return diff < 60000 && diff >= 0;
   };
 
   return (
@@ -146,8 +129,23 @@ export default function Citadel() {
                 <div className="flex flex-col gap-4">
                   {messages.map((msg, i) => {
                     const ownMessage = user.uid === msg.senderId;
-                    const currentDate = msg.date;
-                    const prevDate = i > 0 ? messages[i - 1].date : null;
+                    const currentDate = new Date(
+                      msg.messagedAt
+                    ).toLocaleDateString([], {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                    });
+                    const prevDate =
+                      i > 0
+                        ? new Date(
+                            messages[i - 1].messagedAt
+                          ).toLocaleDateString([], {
+                            month: "short",
+                            day: "2-digit",
+                            year: "numeric",
+                          })
+                        : null;
                     const showDate = currentDate !== prevDate;
                     return (
                       <div key={i}>
@@ -195,7 +193,21 @@ export default function Citadel() {
                                 ownMessage ? "justify-end" : "justify-start"
                               }`}
                             >
-                              {isJustNow(msg.time) ? "just now" : msg.time}
+                              {(() => {
+                                const diffMinutes = dayjs().diff(
+                                  dayjs(msg.messagedAt),
+                                  "minutes"
+                                );
+                                if (diffMinutes < 60) {
+                                  return dayjs(msg.messagedAt).fromNow();
+                                }
+                                return new Date(
+                                  msg.messagedAt
+                                ).toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                });
+                              })()}
                             </p>
                             <p
                               className={`text-base text-normal py-2 flex border-t-1 mt-2 ${

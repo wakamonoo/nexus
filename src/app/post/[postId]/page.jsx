@@ -18,6 +18,10 @@ import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
 import CommentDelConfirm from "@/components/modals/commentDelConfirm";
 import GoatMinLoader from "@/components/loaders/goatMinLoader";
 import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -67,7 +71,7 @@ export default function Post() {
         textComment: commentText,
       };
 
-      await fetch(`${BASE_URL}/api/comments/addComment`, {
+      const res = await fetch(`${BASE_URL}/api/comments/addComment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,9 +79,11 @@ export default function Post() {
         body: JSON.stringify(newComment),
       });
 
+      const data = await res.json();
+
       post.comments = post?.comments
-        ? [...post?.comments, newComment]
-        : [newComment];
+        ? [...post?.comments, data.comment]
+        : [data.comment];
       setCommentText("");
     } catch (err) {
       console.error(err);
@@ -97,7 +103,7 @@ export default function Post() {
         textReply: commentText,
       };
 
-      await fetch(`${BASE_URL}/api/comments/addReply`, {
+      const res = await fetch(`${BASE_URL}/api/comments/addReply`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -105,9 +111,11 @@ export default function Post() {
         body: JSON.stringify(newReply),
       });
 
+      const data = await res.json();
+
       post.comments = post.comments.map((c) =>
         c.commentId === replyToCommentId
-          ? { ...c, replies: [...(c.replies || []), newReply] }
+          ? { ...c, replies: [...(c.replies || []), data.reply] }
           : c
       );
 
@@ -192,16 +200,20 @@ export default function Post() {
                           {post?.userName}
                         </p>
                         <p className="text-xs text-vibe">
-                          {new Date(post?.date)
-                            .toLocaleString("en-us", {
+                          {(() => {
+                            const diffWeeks = dayjs().diff(
+                              dayjs(post.date),
+                              "week"
+                            );
+                            if (diffWeeks < 1) {
+                              return dayjs(post.date).fromNow();
+                            }
+                            return new Date(post.date).toLocaleDateString([], {
                               month: "short",
-                              day: "numeric",
+                              day: "2-digit",
                               year: "numeric",
-                              hour: "numeric",
-                              minute: "2-digit",
-                              hour12: true,
-                            })
-                            .replace(/^(\w{3})/, "$1.")}
+                            });
+                          })()}
                         </p>
                       </div>
                     </div>
@@ -386,19 +398,7 @@ export default function Post() {
                                 {comment.userName}
                               </p>
                               <p className="text-xs text-vibe">
-                                {comment.date &&
-                                !isNaN(new Date(comment.date).getTime())
-                                  ? new Date(comment.date)
-                                      .toLocaleString("en-us", {
-                                        month: "short",
-                                        day: "numeric",
-                                        year: "numeric",
-                                        hour: "numeric",
-                                        minute: "2-digit",
-                                        hour12: true,
-                                      })
-                                      .replace(/^(\w{3})/, "$1.")
-                                  : "Just now "}
+                                {dayjs(comment.date).fromNow()}
                               </p>
                             </div>
                             {comment.date === firstComment.date ? (
@@ -458,19 +458,7 @@ export default function Post() {
                                       {reply.userName}
                                     </p>
                                     <p className="text-xs text-vibe">
-                                      {reply.date &&
-                                      !isNaN(new Date(comment.date).getTime())
-                                        ? new Date(comment.date)
-                                            .toLocaleString("en-us", {
-                                              month: "short",
-                                              day: "numeric",
-                                              year: "numeric",
-                                              hour: "numeric",
-                                              minute: "2-digit",
-                                              hour12: true,
-                                            })
-                                            .replace(/^(\w{3})/, "$1.")
-                                        : "Just now "}
+                                      {dayjs(reply.date).fromNow()}
                                     </p>
                                   </div>
                                 </div>

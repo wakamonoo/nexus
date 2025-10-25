@@ -42,14 +42,16 @@ router.post("/addComment", async (req, res) => {
       userName,
       userImage,
       textComment,
-      date: new Date().toLocaleString(),
+      date: new Date(),
     };
 
     await db
       .collection("posts")
       .updateOne({ postId }, { $push: { comments: newComment } });
 
-    res.status(200).json({ message: "succes, comment posted" });
+    res
+      .status(200)
+      .json({ message: "succes, comment posted", comment: newComment });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
@@ -96,7 +98,7 @@ router.post("/addReply", async (req, res) => {
       userName,
       userImage,
       textReply,
-      date: new Date().toLocaleString(),
+      date: new Date(),
     };
 
     await db
@@ -107,7 +109,7 @@ router.post("/addReply", async (req, res) => {
         { arrayFilters: [{ "comment.commentId": commentId }] }
       );
 
-    res.status(200).json({ message: "succes, reply posted" });
+    res.status(200).json({ message: "succes, reply posted", reply: newReply });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });

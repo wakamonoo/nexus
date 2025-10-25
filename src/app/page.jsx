@@ -3,7 +3,7 @@ import Banner from "@/components/layout/banner";
 import Hero from "../sections/hero";
 import NavBar from "@/components/layout/navBar";
 import MenuStructure from "@/components/layout/menuStructure";
-import LatestActivities from "@/components/layout/latestActivities";
+import LatestReviews from "@/components/layout/latestReviews";
 
 export default function Page() {
   return (
@@ -18,7 +18,7 @@ export default function Page() {
           <Hero />
         </div>
         <aside className="hidden lg:block lg:w-[25%] pt-18 h-screen sticky top-0">
-          <LatestActivities />
+          <LatestReviews />
         </aside>
       </div>
     </>
