@@ -56,6 +56,64 @@ router.post("/addComment", async (req, res) => {
   }
 });
 
+router.post("/addReply", async (req, res) => {
+  try {
+    const { postId, commentId, userId, userName, userImage, textReply } =
+      req.body;
+
+    const client = await clientPromise;
+    const db = client.db("nexus");
+
+    await db.collection("users").findOneAndUpdate(
+      { uid: userId },
+      [
+        {
+          $set: {
+            totalComments: { $add: [{ $ifNull: ["$totalComments", 0] }, 1] },
+          },
+        },
+        {
+          $set: {
+            friendlyNeighbor: {
+              $cond: [{ $gte: ["$totalComments", 1] }, true, false],
+            },
+            alleySwinger: {
+              $cond: [{ $gte: ["$totalComments", 20] }, true, false],
+            },
+            webWalker: {
+              $cond: [{ $gte: ["$totalComments", 40] }, true, false],
+            },
+          },
+        },
+      ],
+      { upsert: true }
+    );
+
+    const newReply = {
+      replyId: `reply-${uuidv4()}`,
+      commentId,
+      userId,
+      userName,
+      userImage,
+      textReply,
+      date: new Date().toLocaleString(),
+    };
+
+    await db
+      .collection("posts")
+      .updateOne(
+        { postId },
+        { $push: { "comments.$[comment].replies": newReply } },
+        { arrayFilters: [{ "comment.commentId": commentId }] }
+      );
+
+    res.status(200).json({ message: "succes, reply posted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.delete("/deleteComment/:commentId", async (req, res) => {
   try {
     const { commentId } = req.params;

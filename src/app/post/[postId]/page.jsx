@@ -37,6 +37,10 @@ export default function Post() {
   } = useContext(PostContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
+  const [replyText, setReplyText] = useState("");
+  const [replyToCommentId, setReplyToCommentId] = useState(null);
+  const [replyToUserName, setReplyToUserName] = useState(null);
+  const [isReplying, setIsReplying] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [commentDelModal, setCommentDelModal] = useState(false);
@@ -76,7 +80,45 @@ export default function Post() {
         ? [...post?.comments, newComment]
         : [newComment];
       setCommentText("");
-    } catch (er) {}
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSendReply = async () => {
+    try {
+      if (!commentText.trim()) return;
+
+      const newReply = {
+        postId,
+        commentId: replyToCommentId,
+        userId: user.uid,
+        userName: user.name,
+        userImage: user.picture,
+        textReply: commentText,
+      };
+
+      await fetch(`${BASE_URL}/api/comments/addReply`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newReply),
+      });
+
+      post.comments = post.comments.map((c) =>
+        c.commentId === replyToCommentId
+          ? { ...c, replies: [...(c.replies || []), newReply] }
+          : c
+      );
+
+      setCommentText("");
+      setIsReplying(false);
+      setReplyToCommentId(null);
+      setReplyToUserName(null);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const firstComment = post?.comments?.sort(
@@ -328,63 +370,145 @@ export default function Post() {
                   </div>
                 ) : (
                   post?.comments?.map((comment, index) => (
-                    <div key={index} className="flex gap-2 relative">
-                      <Image
-                        src={comment.userImage}
-                        alt="user"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-12 h-12 object-cover rounded-full"
-                      />
-                      <div className="bg-second min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-                        <div className="flex justify-between items-start gap-4">
-                          <div className="flex flex-col">
-                            <p className="text-base text-normal font-bold">
-                              {comment.userName}
+                    <div key={index} className="flex flex-col">
+                      <div className="flex gap-2 relative">
+                        <Image
+                          src={comment.userImage}
+                          alt="user"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-12 h-12 object-cover rounded-full"
+                        />
+                        <div className="bg-second min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                          <div className="flex justify-between items-start gap-4">
+                            <div className="flex flex-col">
+                              <p className="text-base text-normal font-bold">
+                                {comment.userName}
+                              </p>
+                              <p className="text-xs text-vibe">
+                                {comment.date &&
+                                !isNaN(new Date(comment.date).getTime())
+                                  ? new Date(comment.date)
+                                      .toLocaleString("en-us", {
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "numeric",
+                                        hour: "numeric",
+                                        minute: "2-digit",
+                                        hour12: true,
+                                      })
+                                      .replace(/^(\w{3})/, "$1.")
+                                  : "Just now "}
+                              </p>
+                            </div>
+                            {comment.date === firstComment.date ? (
+                              <div className="flex top-2 right-2">
+                                <Bs1CircleFill className="text-base text-zeus" />
+                              </div>
+                            ) : null}
+                          </div>
+                          <p className="text-base text-normal py-2">
+                            {comment.textComment}
+                          </p>
+                          <div className="flex items-center justify-end px-2 gap-2">
+                            <p
+                              onClick={() => {
+                                setCommentToDelete(comment.commentId);
+                                setCommentDelModal(true);
+                              }}
+                              className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                user?.uid === comment.userId
+                                  ? "block"
+                                  : "hidden"
+                              }`}
+                            >
+                              Delete
                             </p>
-                            <p className="text-xs text-vibe">
-                              {comment.date &&
-                              !isNaN(new Date(comment.date).getTime())
-                                ? new Date(comment.date)
-                                    .toLocaleString("en-us", {
-                                      month: "short",
-                                      day: "numeric",
-                                      year: "numeric",
-                                      hour: "numeric",
-                                      minute: "2-digit",
-                                      hour12: true,
-                                    })
-                                    .replace(/^(\w{3})/, "$1.")
-                                : "Just now "}
+                            <p
+                              onClick={() => {
+                                setIsReplying(true);
+                                setReplyToCommentId(comment.commentId);
+                                setReplyToUserName(comment.userName);
+                                inputRef.current.focus();
+                              }}
+                              className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
+                            >
+                              Reply
                             </p>
                           </div>
-                          {comment.date === firstComment.date ? (
-                            <div className="flex top-2 right-2">
-                              <Bs1CircleFill className="text-base text-zeus" />
-                            </div>
-                          ) : null}
-                        </div>
-                        <p className="text-base text-normal py-2">
-                          {comment.textComment}
-                        </p>
-                        <div className="flex items-center justify-end px-2 gap-2">
-                          <p
-                            onClick={() => {
-                              setCommentToDelete(comment.commentId);
-                              setCommentDelModal(true);
-                            }}
-                            className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                              user?.uid === comment.userId ? "block" : "hidden"
-                            }`}
-                          >
-                            Delete
-                          </p>
-                          <p className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer">
-                            Reply
-                          </p>
                         </div>
                       </div>
+
+                      {comment.replies && comment.replies.length > 0 && (
+                        <div className="flex flex-col  gap-2 mt-2 ml-12">
+                          {comment.replies.map((reply, index) => (
+                            <div key={index} className="flex gap-2 relative">
+                              <Image
+                                src={reply.userImage}
+                                alt="user"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className="w-12 h-12 object-cover rounded-full"
+                              />
+                              <div className="bg-panel min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                                <div className="flex justify-between items-start gap-4">
+                                  <div className="flex flex-col">
+                                    <p className="text-base text-normal font-bold">
+                                      {reply.userName}
+                                    </p>
+                                    <p className="text-xs text-vibe">
+                                      {reply.date &&
+                                      !isNaN(new Date(comment.date).getTime())
+                                        ? new Date(comment.date)
+                                            .toLocaleString("en-us", {
+                                              month: "short",
+                                              day: "numeric",
+                                              year: "numeric",
+                                              hour: "numeric",
+                                              minute: "2-digit",
+                                              hour12: true,
+                                            })
+                                            .replace(/^(\w{3})/, "$1.")
+                                        : "Just now "}
+                                    </p>
+                                  </div>
+                                </div>
+                                <p className="text-base text-normal py-2">
+                                  {reply.textReply}
+                                </p>
+                                <div className="flex items-center justify-end px-2 gap-2">
+                                  <p
+                                    onClick={() => {
+                                      setCommentToDelete(reply.replyId);
+                                      setCommentDelModal(true);
+                                    }}
+                                    className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                      user?.uid === reply.userId
+                                        ? "block"
+                                        : "hidden"
+                                    }`}
+                                  >
+                                    Delete
+                                  </p>
+                                  <p
+                                    onClick={() => {
+                                      setIsReplying(true);
+                                      setReplyToCommentId(comment.commentId);
+                                      setReplyToUserName(comment.userName);
+                                      inputRef.current.focus();
+                                    }}
+                                    className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
+                                  >
+                                    Reply
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   ))
                 )}
@@ -408,21 +532,23 @@ export default function Post() {
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && !e.shiftKey) {
                         e.preventDefault();
-                        if (user) {
-                          handleSendComment();
-                        } else {
-                          setShowSignIn(true);
-                        }
+                        if (!user) return setShowSignIn(true);
+                        if (isReplying) handleSendReply();
+                        else handleSendComment();
                       }
                     }}
                     className="w-full text-normal px-2 outline-none rounded-full text-base font-normal truncate"
                     placeholder={
                       user
-                        ? `Comment as ${user.name}...`
+                        ? isReplying
+                          ? `Reply to ${replyToUserName}...`
+                          : `Comment as ${user.name}...`
                         : "Kindly signin to comment"
                     }
                   />
-                  <button onClick={handleSendComment}>
+                  <button
+                    onClick={isReplying ? handleSendReply : handleSendComment}
+                  >
                     <MdSend className="text-2xl cursor-pointer shrink-0" />
                   </button>
                 </div>
