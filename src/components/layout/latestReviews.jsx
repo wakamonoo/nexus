@@ -95,14 +95,14 @@ export default function LatestReviews() {
                   <p className="italic">{review.textReview}</p>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 text-sm text-vibe pt-2 border-t border-panel group-hover:border-[var(--color-secondary)]">
-                  <p className="text-xs">
+                <div className="flex items-center justify-between gap-2 text-sm text-vibe pt-2 border-t border-panel group-hover:border-[var(--color-secondary)] w-full">
+                  <p className="text-xs w-[70%] truncate">
                     for{" "}
                     <span className="text-vibe text-base font-semibold">
                       {review.title}
                     </span>
                   </p>
-                  <p className="text-xs opacity-50">
+                  <p className="text-xs opacity-50 w-[30%]">
                     {(() => {
                       const diffWeeks = dayjs().diff(
                         dayjs(review.date),
