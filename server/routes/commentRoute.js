@@ -132,12 +132,21 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
       },
     ]);
 
-    await db
+    const delCommentResult = await db
       .collection("posts")
       .updateOne(
         { "comments.commentId": commentId },
         { $pull: { comments: { commentId } } }
       );
+
+    if (delCommentResult.modifiedCount === 0) {
+      await db
+        .collection("posts")
+        .updateOne(
+          { "comments.replies.replyId": commentId },
+          { $pull: { "comments.$[].replies": { replyId: commentId } } }
+        );
+    }
 
     res.status(200).json({ message: "Comment deleted succesfully" });
   } catch (err) {

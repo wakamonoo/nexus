@@ -37,7 +37,6 @@ export default function Post() {
   } = useContext(PostContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
-  const [replyText, setReplyText] = useState("");
   const [replyToCommentId, setReplyToCommentId] = useState(null);
   const [replyToUserName, setReplyToUserName] = useState(null);
   const [isReplying, setIsReplying] = useState(false);

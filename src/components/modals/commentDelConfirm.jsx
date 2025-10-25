@@ -103,6 +103,10 @@ export default function CommentDelConfirm({
         <div className="mt-6 p-2 h-full w-full">
           <p className="text-center text-normal font-bold py-2">
             Are you sure you want to delete this comment?
+            <br />
+            <span className="text-sm text-vibe opacity-80">
+              If it's a new comment, kindly refresh the page first.
+            </span>
           </p>
           <div className="w-full flex gap-2">
             <CircledButtons
