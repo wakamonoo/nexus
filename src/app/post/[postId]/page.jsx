@@ -351,7 +351,15 @@ export default function Post() {
                       >
                         <FaComment className="text-2xl transform -scale-x-100" />
                         <p className="text-xs font-light text-vibe opacity-50">
-                          {post?.comments ? post?.comments.length : 0} commented
+                          {post.comments
+                            ? post.comments.length +
+                              post.comments.reduce(
+                                (total, comment) =>
+                                  total + (comment.replies?.length || 0),
+                                0
+                              )
+                            : 0}{" "}
+                          commented
                         </p>
                       </div>
                     </div>
@@ -384,17 +392,27 @@ export default function Post() {
                     <div key={index} className="flex flex-col">
                       <div className="flex gap-2 relative">
                         <Image
+                          onClick={() => {
+                            router.push(`/profile/${comment.userId}`);
+                            setIsLoading(true);
+                          }}
                           src={comment.userImage}
                           alt="user"
                           width={0}
                           height={0}
                           sizes="100vw"
-                          className="w-12 h-12 object-cover rounded-full"
+                          className="w-12 h-12 object-cover rounded-full cursor-pointer"
                         />
                         <div className="bg-second min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                           <div className="flex justify-between items-start gap-4">
                             <div className="flex flex-col">
-                              <p className="text-base text-normal font-bold">
+                              <p
+                                onClick={() => {
+                                  router.push(`/profile/${comment.userId}`);
+                                  setIsLoading(true);
+                                }}
+                                className="text-base text-normal font-bold cursor-pointer"
+                              >
                                 {comment.userName}
                               </p>
                               <p className="text-xs text-vibe">
@@ -444,17 +462,27 @@ export default function Post() {
                           {comment.replies.map((reply, index) => (
                             <div key={index} className="flex gap-2 relative">
                               <Image
+                                onClick={() => {
+                                  router.push(`/profile/${reply.userId}`);
+                                  setIsLoading(true);
+                                }}
                                 src={reply.userImage}
                                 alt="user"
                                 width={0}
                                 height={0}
                                 sizes="100vw"
-                                className="w-12 h-12 object-cover rounded-full"
+                                className="w-12 h-12 object-cover rounded-full cursor-pointer"
                               />
                               <div className="bg-panel min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                                 <div className="flex justify-between items-start gap-4">
                                   <div className="flex flex-col">
-                                    <p className="text-base text-normal font-bold">
+                                    <p
+                                      onClick={() => {
+                                        router.push(`/profile/${reply.userId}`);
+                                        setIsLoading(true);
+                                      }}
+                                      className="text-base text-normal font-bold cursor-pointer"
+                                    >
                                       {reply.userName}
                                     </p>
                                     <p className="text-xs text-vibe">

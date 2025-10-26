@@ -84,7 +84,7 @@ export default function LightBox() {
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
       <div className="z-50 inset-0">
-       {showDetails && currentPost.length > 1 ? (
+        {showDetails && currentPost.length > 1 ? (
           <div className="absolute top-5 left-4">
             <p className="text-xs text-vibe">
               {currentIndex + 1}/{currentPost.length}
@@ -268,7 +268,15 @@ export default function LightBox() {
             >
               <FaComment className="text-2xl transform -scale-x-100" />
               <p className="text-xs font-light text-vibe opacity-50">
-                {post?.comments ? post?.comments.length : 0} commented
+                {post.comments
+                  ? post.comments.length +
+                    post.comments.reduce(
+                      (total, comment) =>
+                        total + (comment.replies?.length || 0),
+                      0
+                    )
+                  : 0}{" "}
+                commented
               </p>
             </div>
           </div>

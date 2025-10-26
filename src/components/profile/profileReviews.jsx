@@ -8,6 +8,10 @@ import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
 import ReviewDelConfirm from "../modals/reviewDelConfirm";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export default function ProfileReviews({ profileUser }) {
   const { titles, reviewToDelete, setReviewToDelete } =
@@ -84,16 +88,20 @@ export default function ProfileReviews({ profileUser }) {
                       {review.userName}
                     </p>
                     <p className="text-xs text-vibe">
-                      {new Date(review.date)
-                        .toLocaleString("en-us", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          hour12: "true",
-                        })
-                        .replace(/^(\w{3})/, "$1.")}
+                      {(() => {
+                                                  const diffWeeks = dayjs().diff(
+                                                    dayjs(review.date),
+                                                    "week"
+                                                  );
+                                                  if (diffWeeks < 1) {
+                                                    return dayjs(review.date).fromNow();
+                                                  }
+                                                  return new Date(review.date).toLocaleDateString([], {
+                                                    month: "short",
+                                                    day: "2-digit",
+                                                    year: "numeric",
+                                                  });
+                                                })()}
                     </p>
                   </div>
                 </div>

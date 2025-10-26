@@ -260,7 +260,14 @@ export default function PostStructure({ post }) {
         >
           <FaComment className="text-2xl transform -scale-x-100" />
           <p className="text-xs font-light text-vibe opacity-50">
-            {post.comments ? post.comments.length : 0} commented
+            {post.comments
+              ? post.comments.length +
+                post.comments.reduce(
+                  (total, comment) => total + (comment.replies?.length || 0),
+                  0
+                )
+              : 0}{" "}
+            commented
           </p>
         </div>
       </div>
