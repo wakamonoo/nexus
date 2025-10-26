@@ -3,7 +3,13 @@ import { useContext, useEffect, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { FaAngleLeft, FaCrown, FaPlay, FaQuoteLeft } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaCrown,
+  FaPlay,
+  FaQuoteLeft,
+  FaVideoSlash,
+} from "react-icons/fa";
 import {
   Bs1CircleFill,
   BsInfoCircle,
@@ -25,6 +31,7 @@ import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
 import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import CircledNotAllowedButtons from "@/components/buttons/circledNotAllowedBtns";
 
 dayjs.extend(relativeTime);
 
@@ -194,13 +201,24 @@ export default function Title() {
                 </div>
               </div>
               <div className="flex justify-between gap-2 mt-2 items-center">
-                <div className="w-44">
-                  <CircledButtons>
-                    <FaPlay className="text-2xl" />
-                    <span className="font-bold text-normal text-base">
-                      Watch Trailer
-                    </span>
-                  </CircledButtons>
+                <div className="min-w-44">
+                  {title.trailer ? (
+                    <a href={title.trailer}>
+                      <CircledButtons>
+                        <FaPlay className="text-2xl" />
+                        <span className="font-bold text-normal text-base">
+                          Watch Trailer
+                        </span>
+                      </CircledButtons>
+                    </a>
+                  ) : (
+                    <CircledNotAllowedButtons>
+                      <FaVideoSlash className="text-2xl" />
+                      <span className="font-bold text-normal text-base">
+                        Unavailable
+                      </span>
+                    </CircledNotAllowedButtons>
+                  )}
                 </div>
                 {currentTitleRank ? (
                   <h1 className="text-base uppercase">
