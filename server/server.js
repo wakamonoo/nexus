@@ -50,6 +50,8 @@ app.use(
 );
 app.use(express.json());
 
+app.set("io", io);
+
 app.use("/api/users", userRoute);
 app.use("/api/users", userGet);
 app.use("/api/titles", titleRoute);
@@ -69,7 +71,14 @@ app.use("/api/watched", watchRoute);
 app.use("/api/watched", watchGet);
 
 io.on("connection", (socket) => {
-  console.log("a user is connected");
+  console.log("a user is connected", socket.id);
+
+  socket.on("joinRoom", (userId) => {
+    if (userId) {
+      socket.join(userId);
+      console.log(`user ${userId} joined the private room`);
+    }
+  });
 
   socket.on("citadel", async (data) => {
     try {
@@ -91,6 +100,10 @@ io.on("connection", (socket) => {
     } catch (err) {
       console.error(err);
     }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected", socket.id);
   });
 });
 

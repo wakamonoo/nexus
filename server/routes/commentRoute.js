@@ -11,6 +11,8 @@ router.post("/addComment", async (req, res) => {
     const client = await clientPromise;
     const db = client.db("nexus");
 
+    const post = await db.collection("posts").findOne({ postId });
+
     await db.collection("users").findOneAndUpdate(
       { uid: userId },
       [
@@ -48,6 +50,28 @@ router.post("/addComment", async (req, res) => {
     await db
       .collection("posts")
       .updateOne({ postId }, { $push: { comments: newComment } });
+
+    const io = req.app.get("io");
+    const postOwner = post.userId;
+
+    if (postOwner && postOwner !== userId) {
+      const pingData = {
+        notificationId: `notification-${uuidv4()}`,
+        type: "comment",
+        senderId: userId,
+        senderName: userName,
+        senderImage: userImage,
+        postId,
+        message: `${userName} commented on you post.`,
+        date: new Date(),
+        isRead: false,
+      };
+
+      await db.collection("notifications").insertOne(pingData);
+
+      io.to(postOwner).emit("ping", pingData);
+      console.log(`notification sent to ${postOwner}`);
+    }
 
     res
       .status(200)

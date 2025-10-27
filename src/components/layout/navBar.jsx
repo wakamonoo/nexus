@@ -16,9 +16,10 @@ import { MenuContext } from "@/context/menuContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { PostContext } from "@/context/postContext";
 import { GiNinjaHead } from "react-icons/gi";
-import { HiOutlineSearch } from "react-icons/hi";
+import { HiBell, HiOutlineSearch } from "react-icons/hi";
 import UserNav from "./userNav";
 import UserSearch from "../modals/userSearch";
+import Ping from "./ping";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -28,10 +29,12 @@ export default function NavBar() {
   const { setIsLoading } = useContext(LoaderContext);
   const { postFetch } = useContext(PostContext);
   const [showUserNav, setShowUserNav] = useState(false);
+  const [showPing, setShowPing] = useState(false);
   const router = useRouter();
 
   const isActive = (target) => {
     if (showUserNav) return "text-inherit";
+    if (showPing) return "text-inherit";
     return pathname === target
       ? "text-[var(--color-accent)] border-b-1"
       : "text-inherit";
@@ -66,8 +69,12 @@ export default function NavBar() {
     <>
       {showMenu && <Menu />}
       {showUserNav && <UserNav setShowUserNav={setShowUserNav} />}
+      {showPing && <Ping setShowPing={setShowPing} />}
       <div
-        onClick={() => setShowUserNav(false)}
+        onClick={() => {
+          setShowUserNav(false);
+          setShowPing(false);
+        }}
         className={`fixed flex justify-between px-2 sm:px-4 md:px-8 lg:px-16 py-8 w-full h-12 transition-colors duration-150 z-[70]  md:border-b border-gray-900 ${
           isScrolled ? "bg-[var(--color-panel)]" : "bg-[var(--color-secondary)]"
         } ${navHide ? "hidden" : "flex"}`}
@@ -96,10 +103,10 @@ export default function NavBar() {
             />
           </button>
         </div>
-        <div className="flex items-center gap-4 sm:gap-8 w-fit">
+        <div className="flex items-center gap-3.5 sm:gap-7 w-fit">
           <button
             onClick={handleHomeClick}
-            className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/"
             )}`}
           >
@@ -108,7 +115,7 @@ export default function NavBar() {
           </button>
           <button
             onClick={() => handleNavClick("hex")}
-            className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/hex"
             )}`}
           >
@@ -117,7 +124,7 @@ export default function NavBar() {
           </button>
           <button
             onClick={() => handleNavClick("citadel")}
-            className={`flex flex-col flex-1 min-w-[30px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
               "/citadel"
             )}`}
           >
@@ -126,10 +133,25 @@ export default function NavBar() {
           </button>
           <button
             onClick={(e) => {
-              setShowUserNav((prev) => !prev);
+              setShowPing((prev) => !prev);
+              setShowUserNav(false);
               e.stopPropagation();
             }}
-            className={`flex flex-col items-center hover:text-[var(--color-accent)] cursor-pointer group flex-1 min-w-[30px] justify-center ${
+            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${
+              showPing ? "text-accent" : "text-normal"
+            }`}
+          >
+            <HiBell className="text-2xl" />
+            <p className="text-xs font-bold">Ping</p>
+          </button>
+          <button
+            onClick={(e) => {
+              setShowUserNav((prev) => !prev);
+
+              setShowPing(false);
+              e.stopPropagation();
+            }}
+            className={`flex flex-col items-center hover:text-[var(--color-accent)] cursor-pointer group flex-1 min-w-[25px] justify-center ${
               showUserNav ? "text-accent" : "text-normal"
             }`}
           >

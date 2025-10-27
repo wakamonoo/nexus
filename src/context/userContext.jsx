@@ -2,8 +2,7 @@
 import { createContext, useState, useEffect } from "react";
 import { auth } from "@/firebase/firebaseConfig";
 import SignIn from "@/components/modals/signIn";
-import Loader from "@/components/loaders/loader";
-import { useRouter } from "next/navigation";
+import { io } from "socket.io-client";
 
 export const UserContext = createContext();
 
@@ -11,6 +10,8 @@ const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
+
+const socket = io.connect(`${BASE_URL}`);
 
 export const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(null);
@@ -46,6 +47,8 @@ export const UserProvider = ({ children }) => {
       if (firebaseUser) {
         setFirebaseUser(firebaseUser);
         await fetchUserData(firebaseUser.uid);
+
+        socket.emit("joinRoom", firebaseUser.uid);
       } else {
         setUser(null);
         setIsLogged(false);
@@ -91,6 +94,7 @@ export const UserProvider = ({ children }) => {
         showSignIn,
         allUsers,
         loading,
+        socket,
       }}
     >
       {children}

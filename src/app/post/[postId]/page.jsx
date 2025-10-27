@@ -355,7 +355,7 @@ export default function Post() {
                             ? post.comments.length +
                               post.comments.reduce(
                                 (total, comment) =>
-                                  total + (comment.replies?.length || 0),
+                                  total + (comment?.replies?.length || 0),
                                 0
                               )
                             : 0}{" "}
