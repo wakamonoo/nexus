@@ -111,7 +111,7 @@ export default function NavBar() {
             )}`}
           >
             <HiMiniNewspaper className="text-2xl" />
-            <p className="text-xs font-bold">Portal</p>
+            <p className="text-xs">Portal</p>
           </button>
           <button
             onClick={() => handleNavClick("hex")}
@@ -120,7 +120,7 @@ export default function NavBar() {
             )}`}
           >
             <RiFilmAiFill className="text-2xl" />
-            <p className="text-xs font-bold">Hex</p>
+            <p className="text-xs">Hex</p>
           </button>
           <button
             onClick={() => handleNavClick("citadel")}
@@ -129,7 +129,7 @@ export default function NavBar() {
             )}`}
           >
             <IoChatbubbleEllipsesSharp className="text-2xl" />
-            <p className="text-xs font-bold">Citadel</p>
+            <p className="text-xs">Citadel</p>
           </button>
           <button
             onClick={(e) => {
@@ -138,11 +138,11 @@ export default function NavBar() {
               e.stopPropagation();
             }}
             className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${
-              showPing ? "text-accent" : "text-normal"
+              showPing ? "text-accent border-b-1" : "text-normal"
             }`}
           >
             <HiBell className="text-2xl" />
-            <p className="text-xs font-bold">Ping</p>
+            <p className="text-xs">Ping</p>
           </button>
           <button
             onClick={(e) => {
@@ -173,7 +173,7 @@ export default function NavBar() {
             ) : (
               <GiNinjaHead className="text-2xl cursor-pointer" />
             )}
-            <p className="text-xs font-bold">You</p>
+            <p className="text-xs">You</p>
           </button>
         </div>
       </div>

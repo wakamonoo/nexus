@@ -63,7 +63,7 @@ router.post("/addComment", async (req, res) => {
         senderImage: userImage,
         userId: postOwner,
         postId,
-        message: `commented on you post.`,
+        message: "commented on you post.",
         date: new Date(),
         isRead: false,
       };
