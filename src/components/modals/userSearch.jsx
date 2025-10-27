@@ -121,7 +121,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                     width={0}
                     height={0}
                     sizes="100vw"
-                    className="w-10 h-10 object-fill rounded-full"
+                    className="w-12 h-12 object-fill rounded-full"
                   />
                   <p
                     className="text-normal text-base font-bold

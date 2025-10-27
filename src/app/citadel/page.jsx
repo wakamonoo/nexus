@@ -56,7 +56,6 @@ export default function Citadel() {
       socket.off("citadel");
     };
   }, []);
-  
   const sendMessage = () => {
     if (!input.trim()) return;
     const data = {
@@ -77,7 +76,6 @@ export default function Citadel() {
       initialLoad.current = false;
     }
   }, [messages]);
-
   useEffect(() => {
     if (messages.length && justSentMessage.current) {
       msgEndRef.current?.scrollIntoView({ behavior: "smooth" });

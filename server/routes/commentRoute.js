@@ -56,7 +56,7 @@ router.post("/addComment", async (req, res) => {
 
     if (postOwner && postOwner !== userId) {
       const pingData = {
-        notificationId: `notification-${uuidv4()}`,
+        pingId: `ping-${uuidv4()}`,
         type: "comment",
         senderId: userId,
         senderName: userName,

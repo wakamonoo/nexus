@@ -4,6 +4,12 @@ import { UserContext } from "@/context/userContext";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import { FaRegFileAlt } from "react-icons/fa";
+import { PiBellSimpleSlash } from "react-icons/pi";
+
+dayjs.extend(relativeTime);
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -43,6 +49,27 @@ export default function Ping({ setShowPing }) {
     };
   }, [user]);
 
+  const handlePingClick = async (ping) => {
+    try {
+      await fetch(`${BASE_URL}/api/pings/isReadPatch/${ping.pingId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isRead: true }),
+      });
+
+      setPings((prev) =>
+        prev.map((p) => (p.pingId === ping.pingId ? { ...p, isRead: true } : p))
+      );
+
+      setIsLoading(true);
+      router.push(`/post/${ping.postId}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div
       onClick={() => setShowPing(false)}
@@ -56,35 +83,61 @@ export default function Ping({ setShowPing }) {
       >
         <div className="flex flex-col py-2">
           <h4 className="text-xl text-center">Pings</h4>
-          {pings.map((ping, index) => (
-            <div
-              key={index}
-              onClick={() => {
-                setIsLoading(true);
-                router.push(`/post/${ping.postId}`);
-              }}
-              className={`border-b-1 border-panel p-4 ${
-                ping.isRead ? "bg-second" : "bg-panel"
-              }`}
-            >
-              <div className="flex gap-2 items-start">
-                <Image
-                  src={ping.senderImage}
-                  alt="user"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="cursor-pointer w-8 h-8 rounded-full"
-                />
-                <div className="flex gap-2">
-                  <p className="leading-4 text-base font-bold">
-                    {ping.senderName}{" "}
-                    <span className="font-normal text-sm">{ping.message}</span>
-                  </p>
-                </div>
-              </div>
+          {pings.length === 0 ? (
+            <div className="flex flex-col items-center justify-center">
+              <PiBellSimpleSlash className="text-4xl text-vibe opacity-40 mt-16" />
+              <p className="text-xs text-vibe opacity-40">No pings yet</p>
             </div>
-          ))}
+          ) : (
+            pings
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .map((ping) => (
+                <div
+                  key={ping.date}
+                  onClick={() => handlePingClick(ping)}
+                  className={`border-b-1 border-panel p-4 cursor-pointer ${
+                    ping.isRead ? "bg-second" : "bg-panel"
+                  }`}
+                >
+                  <div className="flex gap-2 items-start">
+                    <Image
+                      src={ping.senderImage}
+                      alt="user"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="cursor-pointer w-12 h-12 rounded-full"
+                    />
+                    <div className="flex flex-col gap-1">
+                      <div className="flex gap-2">
+                        <p className="leading-4 text-base font-bold">
+                          {ping.senderName}{" "}
+                          <span className="font-normal text-sm">
+                            {ping.message}
+                          </span>
+                        </p>
+                      </div>
+                      <p className="text-xs text-vibe">
+                        {(() => {
+                          const diffWeeks = dayjs().diff(
+                            dayjs(ping.date),
+                            "week"
+                          );
+                          if (diffWeeks < 1) {
+                            return dayjs(ping.date).fromNow();
+                          }
+                          return new Date(ping.date).toLocaleDateString([], {
+                            month: "short",
+                            day: "2-digit",
+                            year: "numeric",
+                          });
+                        })()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+          )}
         </div>
       </div>
     </div>

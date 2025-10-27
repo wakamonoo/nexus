@@ -23,6 +23,7 @@ import reactRoute from "./routes/reactRoute.js";
 import rankingRoute from "./routes/rankingRoute.js";
 import watchRoute from "./routes/watchedRoute.js";
 import watchGet from "./routes/watchedGet.js";
+import pingRoute from "./routes/pingRoute.js";
 import pingGet from "./routes/pingGet.js";
 
 dotenv.config();
@@ -70,6 +71,7 @@ app.use("/api/reacts", reactRoute);
 app.use("/api/rankings", rankingRoute);
 app.use("/api/watched", watchRoute);
 app.use("/api/watched", watchGet);
+app.use("/api/pings", pingRoute);
 app.use("/api/pings", pingGet);
 
 io.on("connection", (socket) => {
