@@ -61,16 +61,17 @@ router.post("/addComment", async (req, res) => {
         senderId: userId,
         senderName: userName,
         senderImage: userImage,
+        userId: postOwner,
         postId,
-        message: `${userName} commented on you post.`,
+        message: `commented on you post.`,
         date: new Date(),
         isRead: false,
       };
 
-      await db.collection("notifications").insertOne(pingData);
+      await db.collection("pings").insertOne(pingData);
 
       io.to(postOwner).emit("ping", pingData);
-      console.log(`notification sent to ${postOwner}`);
+      console.log(`ping sent to ${postOwner}`);
     }
 
     res
