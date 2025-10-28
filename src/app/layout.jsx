@@ -8,6 +8,7 @@ import { LoaderProvider } from "@/context/loaderContext";
 import { TitleNavProvider } from "@/context/titlesNavContext";
 import { WatchProvider } from "@/context/watchContext";
 import { SigilProvider } from "@/context/sigilContext";
+import { SocketProvider } from "@/context/socketContext";
 import "./globals.css";
 
 // Fonts
@@ -49,19 +50,21 @@ export default function RootLayout({ children }) {
       >
         <LoaderProvider>
           <UserProvider>
-            <ScrollProvider>
-              <MenuProvider>
-                <TitleProvider>
-                  <PostProvider>
-                    <TitleNavProvider>
-                      <WatchProvider>
-                        <SigilProvider>{children}</SigilProvider>
-                      </WatchProvider>
-                    </TitleNavProvider>
-                  </PostProvider>
-                </TitleProvider>
-              </MenuProvider>
-            </ScrollProvider>
+            <SocketProvider>
+              <ScrollProvider>
+                <MenuProvider>
+                  <TitleProvider>
+                    <PostProvider>
+                      <TitleNavProvider>
+                        <WatchProvider>
+                          <SigilProvider>{children}</SigilProvider>
+                        </WatchProvider>
+                      </TitleNavProvider>
+                    </PostProvider>
+                  </TitleProvider>
+                </MenuProvider>
+              </ScrollProvider>
+            </SocketProvider>
           </UserProvider>
         </LoaderProvider>
       </body>

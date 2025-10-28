@@ -14,6 +14,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import MessageDelConfirm from "@/components/modals/messageDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { SocketContext } from "@/context/socketContext";
 
 dayjs.extend(relativeTime);
 
@@ -27,35 +28,15 @@ const socket = io.connect(`${BASE_URL}`);
 export default function Citadel() {
   const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const [messages, setMessages] = useState([]);
+  const { messages, setMessages, chatLoad } = useContext(SocketContext);
   const [input, setInput] = useState("");
   const msgEndRef = useRef();
-  const [chatLoad, setChatLoad] = useState(true);
   const justSentMessage = useRef(false);
   const initialLoad = useRef(true);
   const [messageDelModal, setMessageDelModal] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/messages/messageGet`);
-        const data = await res.json();
-        setMessages(data);
-        setChatLoad(false);
-      } catch (err) {
-        console.error("failed to fetch messages", err);
-      }
-    };
-    fetchMessages();
-    socket.on("citadel", (data) => {
-      setMessages((prev) => [...prev, data]);
-    });
-    return () => {
-      socket.off("citadel");
-    };
-  }, []);
   const sendMessage = () => {
     if (!input.trim()) return;
     const data = {

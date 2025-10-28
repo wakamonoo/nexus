@@ -20,16 +20,23 @@ import { HiBell, HiOutlineSearch } from "react-icons/hi";
 import UserNav from "./userNav";
 import UserSearch from "../modals/userSearch";
 import Ping from "./ping";
+import { SocketContext } from "@/context/socketContext";
+
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
 
 export default function NavBar() {
   const pathname = usePathname();
-  const { isLogged, user, loading } = useContext(UserContext);
+  const { isLogged, user, loading, socket } = useContext(UserContext);
   const { navHide, isScrolled } = useContext(ScrollContext);
   const { showMenu, setShowMenu, buttonRef } = useContext(MenuContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { postFetch } = useContext(PostContext);
   const [showUserNav, setShowUserNav] = useState(false);
   const [showPing, setShowPing] = useState(false);
+  const { pings, setPings } = useContext(SocketContext);
   const router = useRouter();
 
   const isActive = (target) => {
@@ -137,10 +144,13 @@ export default function NavBar() {
               setShowUserNav(false);
               e.stopPropagation();
             }}
-            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${
+            className={`relative flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${
               showPing ? "text-accent border-b-1" : "text-normal"
             }`}
           >
+            <p className="absolute right-0 -top-2 text-xs text-accent">
+              {pings?.filter((p) => !p.isRead).length || null}
+            </p>
             <HiBell className="text-2xl" />
             <p className="text-xs">Ping</p>
           </button>

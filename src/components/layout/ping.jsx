@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { FaRegFileAlt } from "react-icons/fa";
 import { PiBellSimpleSlash } from "react-icons/pi";
+import { SocketContext } from "@/context/socketContext";
 
 dayjs.extend(relativeTime);
 
@@ -18,36 +18,9 @@ const BASE_URL =
 
 export default function Ping({ setShowPing }) {
   const { navHide } = useContext(ScrollContext);
-  const { user, socket } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const [pings, setPings] = useState([]);
+  const { pings, setPings } = useContext(SocketContext);
   const router = useRouter();
-
-  useEffect(() => {
-    if (!user) return;
-
-    const fetchPings = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/pings/pingGet/${user.uid}`);
-        const pingData = await res.json();
-
-        setPings(pingData || []);
-      } catch (err) {
-        console.error("failed to fetch pings", err);
-      }
-    };
-
-    fetchPings();
-
-    socket.on("ping", (pingData) => {
-      console.log("Received ping:", pingData);
-      setPings((prev) => [...prev, pingData]);
-    });
-
-    return () => {
-      socket.off("ping");
-    };
-  }, [user]);
 
   const handlePingClick = async (ping) => {
     try {
@@ -69,7 +42,6 @@ export default function Ping({ setShowPing }) {
       console.error(err);
     }
   };
-
   return (
     <div
       onClick={() => setShowPing(false)}
