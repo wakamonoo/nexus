@@ -85,8 +85,16 @@ router.post("/addComment", async (req, res) => {
 
 router.post("/addReply", async (req, res) => {
   try {
-    const { postId, commentId, userId, userName, userImage, textReply } =
-      req.body;
+    const {
+      postId,
+      postOwner,
+      commentId,
+      commentUserId,
+      userId,
+      userName,
+      userImage,
+      textReply,
+    } = req.body;
 
     const client = await clientPromise;
     const db = client.db("nexus");
@@ -133,6 +141,29 @@ router.post("/addReply", async (req, res) => {
         { $push: { "comments.$[comment].replies": newReply } },
         { arrayFilters: [{ "comment.commentId": commentId }] }
       );
+
+    const io = req.app.get("io");
+    const commentOwner = commentUserId;
+
+    if (commentOwner && commentOwner !== userId) {
+      const pingData = {
+        pingId: `ping-${uuidv4()}`,
+        type: "reply",
+        senderId: userId,
+        senderName: userName,
+        senderImage: userImage,
+        userId: commentOwner,
+        postId,
+        message: `replied to your comment on ${postOwner === userName ? "their" : `${postOwner}'s`} post`,
+        date: new Date(),
+        isRead: false,
+      };
+
+      await db.collection("pings").insertOne(pingData);
+
+      io.to(commentOwner).emit("ping", pingData);
+      console.log(`ping sent to ${commentOwner}`);
+    }
 
     res.status(200).json({ message: "succes, reply posted", reply: newReply });
   } catch (err) {

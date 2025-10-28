@@ -42,6 +42,7 @@ export default function Post() {
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
   const [replyToCommentId, setReplyToCommentId] = useState(null);
+  const [replyToCommentUserId, setReplyToCommentUserId] = useState(null);
   const [replyToUserName, setReplyToUserName] = useState(null);
   const [isReplying, setIsReplying] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
@@ -96,7 +97,9 @@ export default function Post() {
 
       const newReply = {
         postId,
+        postOwner: post.userName,
         commentId: replyToCommentId,
+        commentUserId: replyToCommentUserId,
         userId: user.uid,
         userName: user.name,
         userImage: user.picture,
@@ -122,6 +125,7 @@ export default function Post() {
       setCommentText("");
       setIsReplying(false);
       setReplyToCommentId(null);
+      setReplyToCommentUserId(null);
       setReplyToUserName(null);
     } catch (err) {
       console.error(err);
@@ -446,6 +450,7 @@ export default function Post() {
                               onClick={() => {
                                 setIsReplying(true);
                                 setReplyToCommentId(comment.commentId);
+                                setReplyToCommentUserId(comment.userId);
                                 setReplyToUserName(comment.userName);
                                 inputRef.current.focus();
                               }}
@@ -511,6 +516,7 @@ export default function Post() {
                                     onClick={() => {
                                       setIsReplying(true);
                                       setReplyToCommentId(comment.commentId);
+                                      setReplyToCommentUserId(comment.userId);
                                       setReplyToUserName(comment.userName);
                                       inputRef.current.focus();
                                     }}

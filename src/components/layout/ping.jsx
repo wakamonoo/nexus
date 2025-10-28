@@ -58,7 +58,7 @@ export default function Ping({ setShowPing }) {
           {pings.length === 0 ? (
             <div className="flex flex-col items-center justify-center">
               <PiBellSimpleSlash className="text-4xl text-vibe opacity-40 mt-16" />
-              <p className="text-xs text-vibe opacity-40">No posts yet</p>
+              <p className="text-xs text-vibe opacity-40">No pings yet</p>
             </div>
           ) : (
             pings
