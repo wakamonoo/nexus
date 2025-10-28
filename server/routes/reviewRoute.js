@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/addReview", async (req, res) => {
   try {
-    const { titleId, userId, userName, userImage, textReview } = req.body;
+    const { titleId, title, userId, userName, userImage, textReview } = req.body;
 
     const client = await clientPromise;
     const db = client.db("nexus");
@@ -48,6 +48,20 @@ router.post("/addReview", async (req, res) => {
     await db
       .collection("titles")
       .updateOne({ titleId }, { $push: { reviews: newReview } });
+
+    const io = req.app.get("io");
+
+    const data = {
+      titleId,
+      title,
+      userId,
+      userName,
+      userImage,
+      textReview,
+      date: new Date(),
+    };
+
+    io.emit("newReview", data);
 
     res
       .status(200)

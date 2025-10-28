@@ -24,6 +24,7 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
 
       const newReview = {
         titleId,
+        title: title.title,
         userId: user.uid,
         userName: user.name,
         userImage: user.picture,

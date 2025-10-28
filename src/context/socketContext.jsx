@@ -13,6 +13,7 @@ export const SocketProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [chatLoad, setChatLoad] = useState(true);
   const { user, socket } = useContext(UserContext);
+  const [sortedReviews, setSortedReviews] = useState([]);
   const [pings, setPings] = useState([]);
 
   useEffect(() => {
@@ -61,8 +62,44 @@ export const SocketProvider = ({ children }) => {
     };
   }, [user]);
 
+  useEffect(() => {
+    const fetchLatestReviews = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/reviews/latestReviewsGet`);
+        const data = await res.json();
+
+        setSortedReviews(data);
+      } catch (err) {
+        console.error("failed to fetch pings", err);
+      }
+    };
+
+    fetchLatestReviews();
+
+    socket.on("newReview", (data) => {
+      console.log("Received latest review data:", data);
+      setSortedReviews((prev) => [
+        { ...data, title: data.title || "unknown" },
+        ...prev,
+      ]);
+    });
+
+    return () => {
+      socket.off("newReview");
+    };
+  }, [socket]);
+
   return (
-    <SocketContext.Provider value={{ messages, setMessages, chatLoad, pings, setPings }}>
+    <SocketContext.Provider
+      value={{
+        messages,
+        setMessages,
+        chatLoad,
+        pings,
+        setPings,
+        sortedReviews,
+      }}
+    >
       {children}
     </SocketContext.Provider>
   );

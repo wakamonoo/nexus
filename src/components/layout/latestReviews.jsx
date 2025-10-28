@@ -1,5 +1,5 @@
 import { TitleContext } from "@/context/titleContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -8,10 +8,12 @@ import { MdRateReview } from "react-icons/md";
 import AsideLoader from "../loaders/asideLoader";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { SocketContext } from "@/context/socketContext";
 
 dayjs.extend(relativeTime);
 
 export default function LatestReviews() {
+  const { sortedReviews } = useContext(SocketContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
@@ -23,21 +25,6 @@ export default function LatestReviews() {
       </div>
     );
   }
-
-  const allReviews = titles
-    ?.flatMap(
-      (title) =>
-        title.reviews?.map((review) => ({
-          ...review,
-          title: title.title,
-          titleId: title.titleId,
-        })) || []
-    )
-    .filter(Boolean);
-
-  const sortedReviews = allReviews?.sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
 
   return (
     <div className="h-[calc(100vh-6rem)] overflow-y-auto custom-scroll">
