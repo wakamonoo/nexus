@@ -37,7 +37,11 @@ export default function Ping({ setShowPing }) {
       );
 
       setIsLoading(true);
-      router.push(`/post/${ping.postId}`);
+      if (ping.type === "comment" || ping.type === "reply") {
+        router.push(`/post/${ping.postId}`);
+      } else if (ping.type === "sigil") {
+        router.push(`/profile/${ping.userId}`);
+      }
     } catch (err) {
       console.error(err);
     }

@@ -1,11 +1,14 @@
 import express from "express";
 import clientPromise from "../lib/mongodb.js";
+import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
 router.post("/postEnergize", async (req, res) => {
   try {
     const { postId, userId } = req.body;
+
+    const io = req.app.get("io");
     const client = await clientPromise;
     const db = client.db("nexus");
 
@@ -28,6 +31,8 @@ router.post("/postEnergize", async (req, res) => {
 
       update = { $pull: { energized: userId } };
     } else {
+      const userBefore = await db.collection("users").findOne({ uid: userId });
+
       await db.collection("users").findOneAndUpdate(
         { uid: userId },
         [
@@ -52,6 +57,42 @@ router.post("/postEnergize", async (req, res) => {
         { upsert: true }
       );
 
+      const updatedUser = await db.collection("users").findOne({ uid: userId });
+
+      const earnedSigils = [];
+
+      if (updatedUser.totalEnergized === 20 && !userBefore.vanguard) {
+        earnedSigils.push("Vanguard");
+      }
+      if (updatedUser.totalEnergized === 40 && !userBefore.paragon) {
+        earnedSigils.push("Paragon");
+      }
+
+      if (earnedSigils.length > 0) {
+        for (const sigil of earnedSigils) {
+          let sigilImage = "../../src/assets/fallback.png";
+          if (sigil === "Vanguard") sigilImage = "/sigils/vanguard.png";
+          if (sigil === "Paragon") sigilImage = "/sigils/paragon.png";
+
+          const pingData = {
+            pingId: `ping-${uuidv4()}`,
+            type: "sigil",
+            senderId: "system",
+            senderName: "Nexus",
+            senderImage: sigilImage,
+            userId,
+            message: `just awarded you the ${sigil} sigil, congrats!`,
+            date: new Date(),
+            isRead: false,
+          };
+
+          await db.collection("pings").insertOne(pingData);
+
+          io.to(userId).emit("ping", pingData);
+          console.log(`ping sent to ${userId}`);
+        }
+      }
+
       update = { $addToSet: { energized: userId } };
     }
 
@@ -68,6 +109,8 @@ router.post("/postEnergize", async (req, res) => {
 router.post("/postEcho", async (req, res) => {
   try {
     const { postId, userId } = req.body;
+
+    const io = req.app.get("io");
     const client = await clientPromise;
     const db = client.db("nexus");
 
@@ -87,6 +130,8 @@ router.post("/postEcho", async (req, res) => {
 
       update = { $pull: { echoed: userId } };
     } else {
+      const userBefore = await db.collection("users").findOne({ uid: userId });
+
       await db.collection("users").findOneAndUpdate(
         { uid: userId },
         [
@@ -110,6 +155,44 @@ router.post("/postEcho", async (req, res) => {
         ],
         { upsert: true }
       );
+
+      const updatedUser = await db.collection("users").findOne({ uid: userId });
+
+      const earnedSigils = [];
+
+      if (updatedUser.totalEchoed === 15 && !userBefore.insightScout) {
+        earnedSigils.push("Insight Scout");
+      }
+      if (updatedUser.totalEchoed === 30 && !userBefore.loreGuardian) {
+        earnedSigils.push("Lore Guardian");
+      }
+
+      if (earnedSigils.length > 0) {
+        for (const sigil of earnedSigils) {
+          let sigilImage = "../../src/assets/fallback.png";
+          if (sigil === "Insight Scout")
+            sigilImage = "/sigils/insightScout.png";
+          if (sigil === "Lore Guardian")
+            sigilImage = "/sigils/loreGuardian.png";
+
+          const pingData = {
+            pingId: `ping-${uuidv4()}`,
+            type: "sigil",
+            senderId: "system",
+            senderName: "Nexus",
+            senderImage: sigilImage,
+            userId,
+            message: `just awarded you the ${sigil} sigil, congrats!`,
+            date: new Date(),
+            isRead: false,
+          };
+
+          await db.collection("pings").insertOne(pingData);
+
+          io.to(userId).emit("ping", pingData);
+          console.log(`ping sent to ${userId}`);
+        }
+      }
 
       update = { $addToSet: { echoed: userId } };
     }

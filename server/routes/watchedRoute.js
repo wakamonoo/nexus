@@ -1,11 +1,15 @@
 import express from "express";
 import clientPromise from "../lib/mongodb.js";
+import { v4 as uuidv4 } from "uuid";
+
 
 const router = express.Router();
 
 router.post("/watchRoute", async (req, res) => {
   try {
     const { userId, userName, title, titleId, poster } = req.body;
+
+    const io = req.app.get("io");
     const client = await clientPromise;
     const db = client.db("nexus");
 
@@ -71,6 +75,8 @@ router.post("/watchRoute", async (req, res) => {
         { $pull: { watchCount: userId } }
       );
     } else {
+      const userBefore = await db.collection("users").findOne({ uid: userId });
+
       await db.collection("watchList").updateOne(
         {
           userId,
@@ -114,6 +120,49 @@ router.post("/watchRoute", async (req, res) => {
         ],
         { upsert: true }
       );
+
+      const updatedUser = await db.collection("users").findOne({ uid: userId });
+
+      const earnedSigils = [];
+
+      if (updatedUser.totalWatched === 20 && !userBefore.vigilante) {
+        earnedSigils.push("Vigilante");
+      }
+      if (updatedUser.totalWatched === 40 && !userBefore.ascendant) {
+        earnedSigils.push("Ascendant");
+      }
+      if (updatedUser.totalWatched === titlesCount && !userBefore.cosmic) {
+        earnedSigils.push("Cosmic");
+      }
+
+      if (earnedSigils.length > 0) {
+        for (const sigil of earnedSigils) {
+          let sigilImage = "../../src/assets/fallback.png";
+          if (sigil === "Vigilante")
+            sigilImage = "/sigils/vigilante.png";
+          if (sigil === "Ascendant")
+            sigilImage = "/sigils/ascendant.png";
+          if (sigil === "Cosmic")
+            sigilImage = "/sigils/cosmic.png";
+
+          const pingData = {
+            pingId: `ping-${uuidv4()}`,
+            type: "sigil",
+            senderId: "system",
+            senderName: "Nexus",
+            senderImage: sigilImage,
+            userId,
+            message: `just awarded you the ${sigil} sigil, congrats!`,
+            date: new Date(),
+            isRead: false,
+          };
+
+          await db.collection("pings").insertOne(pingData);
+
+          io.to(userId).emit("ping", pingData);
+          console.log(`ping sent to ${userId}`);
+        }
+      }
 
       await db.collection("titles").updateOne(
         {

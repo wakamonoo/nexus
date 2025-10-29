@@ -6,10 +6,14 @@ const router = express.Router();
 
 router.post("/addReview", async (req, res) => {
   try {
-    const { titleId, title, userId, userName, userImage, textReview } = req.body;
+    const { titleId, title, userId, userName, userImage, textReview } =
+      req.body;
 
+    const io = req.app.get("io");
     const client = await clientPromise;
     const db = client.db("nexus");
+
+    const userBefore = await db.collection("users").findOne({ uid: userId });
 
     await db.collection("users").findOneAndUpdate(
       { uid: userId },
@@ -36,6 +40,48 @@ router.post("/addReview", async (req, res) => {
       { upsert: true }
     );
 
+    const updatedUser = await db.collection("users").findOne({ uid: userId });
+
+    const earnedSigils = [];
+
+    if (updatedUser.totalReviews === 15 && !userBefore.taleCollector) {
+      earnedSigils.push("Tale Collector");
+    }
+    if (updatedUser.totalReviews === 30 && !userBefore.cinematicEye) {
+      earnedSigils.push("Cinematic Eye");
+    }
+    if (updatedUser.totalReviews === 60 && !userBefore.masterArchivist) {
+      earnedSigils.push("Master Archivist");
+    }
+
+    if (earnedSigils.length > 0) {
+      for (const sigil of earnedSigils) {
+        let sigilImage = "../../src/assets/fallback.png";
+        if (sigil === "Tale Collector")
+          sigilImage = "/sigils/taleCollector.png";
+        if (sigil === "Cinematic Eye")
+          sigilImage = "/sigils/cinematicEye.png";
+        if (sigil === "Master Archivist") sigilImage = "/sigils/masterArchivist.png";
+
+        const pingData = {
+          pingId: `ping-${uuidv4()}`,
+          type: "sigil",
+          senderId: "system",
+          senderName: "Nexus",
+          senderImage: sigilImage,
+          userId,
+          message: `just awarded you the ${sigil} sigil, congrats!`,
+          date: new Date(),
+          isRead: false,
+        };
+
+        await db.collection("pings").insertOne(pingData);
+
+        io.to(userId).emit("ping", pingData);
+        console.log(`ping sent to ${userId}`);
+      }
+    }
+
     const newReview = {
       reviewId: `review-${uuidv4()}`,
       userId,
@@ -48,8 +94,6 @@ router.post("/addReview", async (req, res) => {
     await db
       .collection("titles")
       .updateOne({ titleId }, { $push: { reviews: newReview } });
-
-    const io = req.app.get("io");
 
     const data = {
       titleId,
