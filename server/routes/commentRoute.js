@@ -88,6 +88,7 @@ router.post("/addReply", async (req, res) => {
     const {
       postId,
       postOwner,
+      postOwnerUserId,
       commentId,
       commentUserId,
       userId,
@@ -154,7 +155,13 @@ router.post("/addReply", async (req, res) => {
         senderImage: userImage,
         userId: commentOwner,
         postId,
-        message: `replied to your comment on ${postOwner === userName ? "their" : `${postOwner}'s`} post`,
+        message: `replied to your comment on ${
+          postOwnerUserId === commentOwner
+            ? "your"
+            : postOwner === userName
+            ? "their"
+            : `${postOwner}'s`
+        } post`,
         date: new Date(),
         isRead: false,
       };

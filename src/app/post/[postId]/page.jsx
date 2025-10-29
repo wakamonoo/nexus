@@ -98,6 +98,7 @@ export default function Post() {
       const newReply = {
         postId,
         postOwner: post.userName,
+        postOwnerUserId: post.userId,
         commentId: replyToCommentId,
         commentUserId: replyToCommentUserId,
         userId: user.uid,
@@ -515,9 +516,9 @@ export default function Post() {
                                   <p
                                     onClick={() => {
                                       setIsReplying(true);
-                                      setReplyToCommentId(comment.commentId);
-                                      setReplyToCommentUserId(comment.userId);
-                                      setReplyToUserName(comment.userName);
+                                      setReplyToCommentId(reply.commentId);
+                                      setReplyToCommentUserId(reply.userId);
+                                      setReplyToUserName(reply.userName);
                                       inputRef.current.focus();
                                     }}
                                     className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
