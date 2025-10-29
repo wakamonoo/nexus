@@ -8,10 +8,13 @@ router.post("/addComment", async (req, res) => {
   try {
     const { postId, userId, userName, userImage, textComment } = req.body;
 
+    const io = req.app.get("io");
     const client = await clientPromise;
     const db = client.db("nexus");
 
     const post = await db.collection("posts").findOne({ postId });
+
+    const userBefore = await db.collection("users").findOne({ uid: userId });
 
     await db.collection("users").findOneAndUpdate(
       { uid: userId },
@@ -38,6 +41,49 @@ router.post("/addComment", async (req, res) => {
       { upsert: true }
     );
 
+    const updatedUser = await db.collection("users").findOne({ uid: userId });
+
+    const earnedSigils = [];
+
+    if (updatedUser.totalComments === 1 && !userBefore.friendlyNeighbor) {
+      earnedSigils.push("Friendly Neighbor");
+    }
+    if (updatedUser.totalComments === 20 && !userBefore.alleySwinger) {
+      earnedSigils.push("Alley Swinger");
+    }
+    if (updatedUser.totalComments === 40 && !userBefore.webWalker) {
+      earnedSigils.push("Web Walker");
+    }
+
+    if (earnedSigils.length > 0) {
+      for (const sigil of earnedSigils) {
+        let sigilImage = "../../src/assets/fallback.png";
+        if (sigil === "Friendly Neighbor")
+          sigilImage = "/sigils/friendlyNeighbor.png";
+        if (sigil === "Alley Swinger")
+          sigilImage = "/sigils/alleySwinger.png";
+        if (sigil === "Web Walker")
+          sigilImage = "/sigils/webWalker.png";
+
+        const pingData = {
+          pingId: `ping-${uuidv4()}`,
+          type: "sigil",
+          senderId: "system",
+          senderName: "Nexus",
+          senderImage: sigilImage,
+          userId,
+          message: `just awarded you the ${sigil} sigil, congrats!`,
+          date: new Date(),
+          isRead: false,
+        };
+
+        await db.collection("pings").insertOne(pingData);
+
+        io.to(userId).emit("ping", pingData);
+        console.log(`ping sent to ${userName}`);
+      }
+    }
+
     const newComment = {
       commentId: `comment-${uuidv4()}`,
       userId,
@@ -51,7 +97,6 @@ router.post("/addComment", async (req, res) => {
       .collection("posts")
       .updateOne({ postId }, { $push: { comments: newComment } });
 
-    const io = req.app.get("io");
     const postOwner = post.userId;
 
     if (postOwner && postOwner !== userId) {
@@ -71,7 +116,7 @@ router.post("/addComment", async (req, res) => {
       await db.collection("pings").insertOne(pingData);
 
       io.to(postOwner).emit("ping", pingData);
-      console.log(`ping sent to ${postOwner}`);
+      console.log(`ping sent to ${userName}`);
     }
 
     res
@@ -169,7 +214,7 @@ router.post("/addReply", async (req, res) => {
       await db.collection("pings").insertOne(pingData);
 
       io.to(commentOwner).emit("ping", pingData);
-      console.log(`ping sent to ${commentOwner}`);
+      console.log(`ping sent to ${userName}`);
     }
 
     res.status(200).json({ message: "succes, reply posted", reply: newReply });

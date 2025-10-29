@@ -1,22 +1,22 @@
 "use client";
 import { createContext } from "react";
 
-import PrimeProspect from "@/assets/sigils/primeProspect.png";
-import EmergingLuminary from "@/assets/sigils/emergingLuminary.png";
-import HeroicScribe from "@/assets/sigils/heroicScribe.png";
-import FriendlyNeighbor from "@/assets/sigils/friendlyNeighbor.png";
-import AlleySwinger from "@/assets/sigils/alleySwinger.png";
-import WebWalker from "@/assets/sigils/webWalker.png";
-import TaleCollector from "@/assets/sigils/taleCollector.png";
-import CinematicEye from "@/assets/sigils/cinematicEye.png";
-import MasterArchivist from "@/assets/sigils/masterArchivist.png";
-import Vanguard from "@/assets/sigils/vanguard.png";
-import Paragon from "@/assets/sigils/paragon.png";
-import InsightScout from "@/assets/sigils/insightScout.png";
-import LoreGuardian from "@/assets/sigils/loreGuardian.png";
-import Vigilante from "@/assets/sigils/vigilante.png";
-import Ascendant from "@/assets/sigils/ascendant.png";
-import Cosmic from "@/assets/sigils/cosmic.png";
+const PrimeProspect = "/sigils/primeProspect.png";
+const EmergingLuminary = "/sigils/emergingLuminary.png";
+const HeroicScribe = "/sigils/heroicScribe.png";
+const FriendlyNeighbor = "/sigils/friendlyNeighbor.png";
+const AlleySwinger = "/sigils/alleySwinger.png";
+const WebWalker = "/sigils/webWalker.png";
+const TaleCollector = "/sigils/taleCollector.png";
+const CinematicEye = "/sigils/cinematicEye.png";
+const MasterArchivist = "/sigils/masterArchivist.png";
+const Vanguard = "/sigils/vanguard.png";
+const Paragon = "/sigils/paragon.png";
+const InsightScout = "/sigils/insightScout.png";
+const LoreGuardian = "/sigils/loreGuardian.png";
+const Vigilante = "/sigils/vigilante.png";
+const Ascendant = "/sigils/ascendant.png";
+const Cosmic = "/sigils/cosmic.png";
 
 export const SigilContext = createContext();
 
