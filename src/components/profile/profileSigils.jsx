@@ -2,7 +2,7 @@ import { SigilContext } from "@/context/sigilContext";
 import Image from "next/image";
 import { useContext } from "react";
 
-export default function ProfileBadges({ profileUser, user }) {
+export default function ProfileSigils({ profileUser, user }) {
   const { sigils } = useContext(SigilContext);
   return (
     <div className="p-2">

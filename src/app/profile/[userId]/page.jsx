@@ -2,11 +2,10 @@
 import { PostContext } from "@/context/postContext";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useState } from "react";
-import { FaAngleLeft, FaPen, FaUserSlash } from "react-icons/fa";
+import { FaAngleLeft, FaPen } from "react-icons/fa";
 import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
 import { useParams, useRouter } from "next/navigation";
-import { LuImageUp } from "react-icons/lu";
 import { TitleContext } from "@/context/titleContext";
 import { GiTrophy } from "react-icons/gi";
 import { WatchContext } from "@/context/watchContext";
@@ -16,7 +15,7 @@ import ProfileReviews from "@/components/profile/profileReviews";
 import EditProfile from "@/components/modals/editProfile";
 import Fallback from "@/assets/fallback.png";
 import ProfileEchoes from "@/components/profile/profileEchoes";
-import ProfileBadges from "@/components/profile/profileBadges";
+import ProfileSigils from "@/components/profile/profileSigils";
 import ProfileLoader from "@/components/loaders/profileLoader";
 
 export default function UserProfile() {
@@ -121,7 +120,7 @@ export default function UserProfile() {
               <div className="p-2">
                 <p className="text-sm text-vibe italic">{profileUser.bio}</p>
               </div>
-              <ProfileBadges profileUser={profileUser} user={user} />
+              <ProfileSigils profileUser={profileUser} user={user} />
 
               {profileUser.rankings ? (
                 <div className="w-full h-full p-2">

@@ -99,7 +99,7 @@ export const SocketProvider = ({ children }) => {
             </div>
           </div>
         ),
-        { duration: 3000 }
+        { duration: 5000 }
       );
     });
 
@@ -147,7 +147,7 @@ export const SocketProvider = ({ children }) => {
       }}
     >
       {children}
-      <Toaster position="bottom-left" toastOptions={{ duration: 3000 }} />
+      <Toaster position="bottom-left" toastOptions={{ duration: 5000 }} />
     </SocketContext.Provider>
   );
 };
