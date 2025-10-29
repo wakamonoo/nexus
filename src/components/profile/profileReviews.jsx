@@ -89,19 +89,19 @@ export default function ProfileReviews({ profileUser }) {
                     </p>
                     <p className="text-xs text-vibe">
                       {(() => {
-                                                  const diffWeeks = dayjs().diff(
-                                                    dayjs(review.date),
-                                                    "week"
-                                                  );
-                                                  if (diffWeeks < 1) {
-                                                    return dayjs(review.date).fromNow();
-                                                  }
-                                                  return new Date(review.date).toLocaleDateString([], {
-                                                    month: "short",
-                                                    day: "2-digit",
-                                                    year: "numeric",
-                                                  });
-                                                })()}
+                        const diffWeeks = dayjs().diff(
+                          dayjs(review.date),
+                          "week"
+                        );
+                        if (diffWeeks < 1) {
+                          return dayjs(review.date).fromNow();
+                        }
+                        return new Date(review.date).toLocaleDateString([], {
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                        });
+                      })()}
                     </p>
                   </div>
                 </div>

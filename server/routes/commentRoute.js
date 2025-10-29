@@ -106,7 +106,7 @@ router.post("/addComment", async (req, res) => {
         senderImage: userImage,
         userId: postOwner,
         postId,
-        message: "commented on you post.",
+        message: "commented on your post.",
         date: new Date(),
         isRead: false,
       };
@@ -114,7 +114,7 @@ router.post("/addComment", async (req, res) => {
       await db.collection("pings").insertOne(pingData);
 
       io.to(postOwner).emit("ping", pingData);
-      console.log(`ping sent to ${userName}`);
+      console.log(`ping sent to ${postOwner}`);
     }
 
     res
@@ -255,7 +255,7 @@ router.post("/addReply", async (req, res) => {
       await db.collection("pings").insertOne(pingData);
 
       io.to(commentOwner).emit("ping", pingData);
-      console.log(`ping sent to ${userName}`);
+      console.log(`ping sent to ${commentOwner}`);
     }
 
     res.status(200).json({ message: "succes, reply posted", reply: newReply });

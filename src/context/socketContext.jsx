@@ -1,6 +1,10 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { UserContext } from "./userContext";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export const SocketContext = createContext();
 
@@ -15,6 +19,7 @@ export const SocketProvider = ({ children }) => {
   const { user, socket } = useContext(UserContext);
   const [sortedReviews, setSortedReviews] = useState([]);
   const [pings, setPings] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -55,6 +60,47 @@ export const SocketProvider = ({ children }) => {
     socket.on("ping", (pingData) => {
       console.log("Received ping:", pingData);
       setPings((prev) => [...prev, pingData]);
+
+      toast.custom(
+        (t) => (
+          <div
+            onClick={() => {
+              {
+                if (
+                  pingData.type === "comment" ||
+                  pingData.type === "reply" ||
+                  pingData.type === "energize" ||
+                  pingData.type === "echo"
+                ) {
+                  router.push(`/post/${pingData.postId}`);
+                } else if (pingData.type === "sigil") {
+                  router.push(`/profile/${pingData.userId}`);
+                }
+              }
+              toast.dismiss(t.id);
+            }}
+            className={`${
+              t.visible ? "animate-enter" : "animate-leave"
+            } max-w-xs w-full bg-second border-1 border-panel text-normal rounded-lg shadow-lg p-4 flex items-center gap-3 cursor-pointer`}
+          >
+            <Image
+              src={pingData.senderImage || null}
+              alt="icon"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="cursor-pointer w-12 h-12 object-cover rounded-full"
+            />
+            <div className="flex-1">
+              <p className="text-sm font-semibold">
+                {pingData.senderName}{" "}
+                <span className="text-xs opacity-80">{pingData.message}</span>
+              </p>
+            </div>
+          </div>
+        ),
+        { duration: 3000 }
+      );
     });
 
     return () => {
@@ -101,6 +147,7 @@ export const SocketProvider = ({ children }) => {
       }}
     >
       {children}
+      <Toaster position="bottom-left" toastOptions={{ duration: 3000 }} />
     </SocketContext.Provider>
   );
 };

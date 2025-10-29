@@ -93,6 +93,28 @@ router.post("/postEnergize", async (req, res) => {
         }
       }
 
+      const postOwner = post.userId;
+
+      if (postOwner && postOwner !== userId) {
+        const pingData = {
+          pingId: `ping-${uuidv4()}`,
+          type: "energize",
+          senderId: userId,
+          senderName: updatedUser.name,
+          senderImage: updatedUser.picture,
+          userId: postOwner,
+          postId,
+          message: "energized your post.",
+          date: new Date(),
+          isRead: false,
+        };
+
+        await db.collection("pings").insertOne(pingData);
+
+        io.to(postOwner).emit("ping", pingData);
+        console.log(`ping sent to ${postOwner}`);
+      }
+
       update = { $addToSet: { energized: userId } };
     }
 
@@ -192,6 +214,28 @@ router.post("/postEcho", async (req, res) => {
           io.to(userId).emit("ping", pingData);
           console.log(`ping sent to ${userId}`);
         }
+      }
+
+      const postOwner = post.userId;
+
+      if (postOwner && postOwner !== userId) {
+        const pingData = {
+          pingId: `ping-${uuidv4()}`,
+          type: "echo",
+          senderId: userId,
+          senderName: updatedUser.name,
+          senderImage: updatedUser.picture,
+          userId: postOwner,
+          postId,
+          message: "echoed your post.",
+          date: new Date(),
+          isRead: false,
+        };
+
+        await db.collection("pings").insertOne(pingData);
+
+        io.to(postOwner).emit("ping", pingData);
+        console.log(`ping sent to ${postOwner}`);
       }
 
       update = { $addToSet: { echoed: userId } };
