@@ -128,7 +128,7 @@ export default function Rank() {
       if (rankings.length === 0) {
         Swal.fire({
           toast: true,
-          position: "bottom",
+          position: "bottom-start",
           title: "oops, atleast add 1 title!",
           icon: "warning",
           timer: 2000,
@@ -137,7 +137,7 @@ export default function Rank() {
           iconColor: "var(--color-zeus)",
           customClass: {
             popup:
-              "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
             title: "!text-base !font-semibold !text-[var(--color-text)]",
           },
         });
@@ -156,7 +156,7 @@ export default function Rank() {
 
       Swal.fire({
         toast: true,
-        position: "bottom",
+        position: "bottom-start",
         title: "Your ranking was saved!",
         icon: "success",
         timer: 2000,
@@ -165,7 +165,7 @@ export default function Rank() {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
           title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
@@ -173,7 +173,7 @@ export default function Rank() {
       console.error(err);
       Swal.fire({
         toast: true,
-        position: "bottom",
+        position: "bottom-start",
         title: "Ranking not saved, please try again later!",
         icon: "error",
         timer: 2000,
@@ -182,7 +182,7 @@ export default function Rank() {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
           title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });

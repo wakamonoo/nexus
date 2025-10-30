@@ -29,7 +29,7 @@ export default function SignIn() {
       await auth.signOut();
       Swal.fire({
         toast: true,
-        position: "bottom",
+        position: "bottom-start",
         title: "You've been logged-out!",
         icon: "success",
         timer: 2000,
@@ -38,7 +38,7 @@ export default function SignIn() {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
           title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
@@ -48,7 +48,7 @@ export default function SignIn() {
       if (error) {
         Swal.fire({
           toast: true,
-          position: "bottom",
+          position: "bottom-start",
           title: "Sign in failed, please try again later!",
           icon: "error",
           timer: 2000,
@@ -57,7 +57,7 @@ export default function SignIn() {
           iconColor: "var(--color-accent)",
           customClass: {
             popup:
-              "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
             title: "!text-base !font-semibold !text-[var(--color-text)]",
           },
         });
@@ -77,7 +77,7 @@ export default function SignIn() {
           await fetchUserData(user.uid);
           Swal.fire({
             toast: true,
-            position: "bottom",
+            position: "bottom-start",
             title: `Welcome, ${user.displayName}`,
             icon: "success",
             timer: 2000,
@@ -86,7 +86,7 @@ export default function SignIn() {
             iconColor: "var(--color-hulk)",
             customClass: {
               popup:
-                "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
               title: "!text-base !font-semibold !text-[var(--color-text)]",
             },
           });
@@ -94,7 +94,7 @@ export default function SignIn() {
           console.error(err);
           Swal.fire({
             toast: true,
-            position: "bottom",
+            position: "bottom-start",
             title: "Sign in failed, please try again later!",
             icon: "error",
             timer: 2000,
@@ -103,7 +103,7 @@ export default function SignIn() {
             iconColor: "var(--color-accent)",
             customClass: {
               popup:
-                "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
               title: "!text-base !font-semibold !text-[var(--color-text)]",
             },
           });

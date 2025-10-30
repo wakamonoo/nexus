@@ -81,7 +81,7 @@ export const SocketProvider = ({ children }) => {
             }}
             className={`${
               t.visible ? "animate-enter" : "animate-leave"
-            } max-w-xs w-full bg-second border-1 border-panel text-normal rounded-lg shadow-lg p-4 flex items-center gap-3 cursor-pointer`}
+            } max-w-xs w-full bg-second border-1 border-panel text-normal rounded-lg shadow-lg p-4 flex items-center justify-center gap-4 cursor-pointer`}
           >
             <Image
               src={pingData.senderImage || null}
