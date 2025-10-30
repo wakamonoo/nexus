@@ -38,8 +38,38 @@ export default function TitleMenu({
       await isWatchedFetch(user.uid, titleId);
     } catch (err) {
       console.error(err);
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "Change not saved, please try again later!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+        },
+      });
     } finally {
       setIsLoading(false);
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "Change was saved!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+        },
+      });
     }
   };
 

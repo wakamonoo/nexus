@@ -127,18 +127,18 @@ export default function Rank() {
 
       if (rankings.length === 0) {
         Swal.fire({
-          title: "Oops",
-          text: "Atleast rank 1 before saving",
+          toast: true,
+          position: "bottom-start",
+          title: "oops, atleast add 1 title!",
           icon: "warning",
           timer: 2000,
           showConfirmButton: false,
-          background: "var(--color-text)",
-          color: "var(--color-bg)",
+          background: "var(--color-secondary)",
           iconColor: "var(--color-zeus)",
           customClass: {
-            popup: "rounded-2xl shadow-lg",
+            popup:
+              "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
             title: "text-lg font-bold !text-[var(--color-zeus)]",
-            htmlContainer: "text-sm",
           },
         });
         return;
@@ -155,35 +155,35 @@ export default function Rank() {
       });
 
       Swal.fire({
-        title: "Success",
-        text: "Your ranking was saved!",
+        toast: true,
+        position: "bottom-start",
+        title: "Your ranking was saved!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
+        background: "var(--color-secondary)",
         iconColor: "var(--color-hulk)",
         customClass: {
-          popup: "rounded-2xl shadow-lg",
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
           title: "text-lg font-bold !text-[var(--color-hulk)]",
-          htmlContainer: "text-sm",
         },
       });
     } catch (err) {
       console.error(err);
       Swal.fire({
-        title: "Error",
-        text: "Ranking not saved, try again later!",
+        toast: true,
+        position: "bottom-start",
+        title: "Ranking not saved, please try again later!",
         icon: "error",
         timer: 2000,
         showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
+        background: "var(--color-secondary)",
         iconColor: "var(--color-accent)",
         customClass: {
-          popup: "rounded-2xl shadow-lg",
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
           title: "text-lg font-bold !text-[var(--color-accent)]",
-          htmlContainer: "text-sm",
         },
       });
     } finally {

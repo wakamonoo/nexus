@@ -72,36 +72,36 @@ export default function EditProfile({ setEditProfile, user }) {
     } catch (err) {
       console.error(err);
       Swal.fire({
-        title: "Error",
-        text: "Failed updating user!",
+        toast: true,
+        position: "bottom-start",
+        title: "Failed updating user info!",
         icon: "error",
         timer: 2000,
         showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
+        background: "var(--color-secondary)",
         iconColor: "var(--color-accent)",
         customClass: {
-          popup: "rounded-2xl shadow-lg",
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
           title: "text-lg font-bold !text-[var(--color-accent)]",
-          htmlContainer: "text-sm",
         },
       });
     } finally {
       setIsLoading(false);
       setEditProfile(false);
       Swal.fire({
-        title: "Success",
-        text: "User have been updated!",
+        toast: true,
+        position: "bottom-start",
+        title: "User info have been updated!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
+        background: "var(--color-secondary)",
         iconColor: "var(--color-hulk)",
         customClass: {
-          popup: "rounded-2xl shadow-lg",
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
           title: "text-lg font-bold !text-[var(--color-hulk)]",
-          htmlContainer: "text-sm",
         },
       });
     }

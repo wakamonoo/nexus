@@ -120,18 +120,18 @@ export default function HeroFund() {
                   onApprove={(data, actions) =>
                     actions.order.capture().then((details) => {
                       Swal.fire({
-                        title: "Success",
-                        text: `Thank you, ${details.payer.name.given_name}! your donation was received!`,
+                        toast: true,
+                        position: "bottom-start",
+                        title: `Thank you, ${details.payer.name.given_name}! your donation was received!`,
                         icon: "success",
                         timer: 2000,
                         showConfirmButton: false,
-                        background: "var(--color-text)",
-                        color: "var(--color-bg)",
+                        background: "var(--color-secondary)",
                         iconColor: "var(--color-hulk)",
                         customClass: {
-                          popup: "rounded-2xl shadow-lg",
+                          popup:
+                            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
                           title: "text-lg font-bold !text-[var(--color-hulk)]",
-                          htmlContainer: "text-sm",
                         },
                       });
                     })
@@ -139,18 +139,18 @@ export default function HeroFund() {
                   onError={(err) => {
                     console.error("Paypal checkout failed", err);
                     Swal.fire({
-                      title: "Error",
-                      text: "Donation failed. Please try again.",
+                      toast: true,
+                      position: "bottom-start",
+                      title: "Donation failed, kindly try again!",
                       icon: "error",
                       timer: 2000,
                       showConfirmButton: false,
-                      background: "var(--color-text)",
-                      color: "var(--color-bg)",
+                      background: "var(--color-secondary)",
                       iconColor: "var(--color-accent)",
                       customClass: {
-                        popup: "rounded-2xl shadow-lg",
+                        popup:
+                          "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
                         title: "text-lg font-bold !text-[var(--color-accent)]",
-                        htmlContainer: "text-sm",
                       },
                     });
                   }}

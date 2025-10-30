@@ -28,18 +28,18 @@ export default function SignIn() {
     if (isLogged) {
       await auth.signOut();
       Swal.fire({
-        title: "Success",
-        text: "You've been logged out!",
+        toast: true,
+        position: "bottom-start",
+        title: "Success you've been logged-out!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
+        background: "var(--color-secondary)",
         iconColor: "var(--color-hulk)",
         customClass: {
-          popup: "rounded-2xl shadow-lg",
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
           title: "text-lg font-bold !text-[var(--color-hulk)]",
-          htmlContainer: "text-sm",
         },
       });
       setShowSignIn(false);
@@ -47,18 +47,18 @@ export default function SignIn() {
       const { user, token, error } = await googleSignUp();
       if (error) {
         Swal.fire({
-          title: "Error",
-          text: "Sign-in Failed, please refresh and try again!",
+          toast: true,
+          position: "bottom-start",
+          title: "Sign in failed, please try again later!",
           icon: "error",
           timer: 2000,
           showConfirmButton: false,
-          background: "var(--color-text)",
-          color: "var(--color-bg)",
+          background: "var(--color-secondary)",
           iconColor: "var(--color-accent)",
           customClass: {
-            popup: "rounded-2xl shadow-lg",
+            popup:
+              "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
             title: "text-lg font-bold !text-[var(--color-accent)]",
-            htmlContainer: "text-sm",
           },
         });
       }
@@ -76,35 +76,35 @@ export default function SignIn() {
           setShowSignIn(false);
           await fetchUserData(user.uid);
           Swal.fire({
-            title: "Success",
-            text: `Welcome, ${user.displayName}`,
+            toast: true,
+            position: "bottom-start",
+            title: `Welcome, ${user.displayName}`,
             icon: "success",
             timer: 2000,
             showConfirmButton: false,
-            background: "var(--color-text)",
-            color: "var(--color-bg)",
+            background: "var(--color-secondary)",
             iconColor: "var(--color-hulk)",
             customClass: {
-              popup: "rounded-2xl shadow-lg",
+              popup:
+                "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
               title: "text-lg font-bold !text-[var(--color-hulk)]",
-              htmlContainer: "text-sm",
             },
           });
         } catch (err) {
           console.error(err);
           Swal.fire({
-            title: "Error",
-            text: "Sign-in Failed, please refresh and try again!",
+            toast: true,
+            position: "bottom-start",
+            title: "Sign in failed, please try again later!",
             icon: "error",
             timer: 2000,
             showConfirmButton: false,
-            background: "var(--color-text)",
-            color: "var(--color-bg)",
+            background: "var(--color-secondary)",
             iconColor: "var(--color-accent)",
             customClass: {
-              popup: "rounded-2xl shadow-lg",
+              popup:
+                "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
               title: "text-lg font-bold !text-[var(--color-accent)]",
-              htmlContainer: "text-sm",
             },
           });
         }

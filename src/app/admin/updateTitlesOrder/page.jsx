@@ -67,18 +67,18 @@ export default function UpdateOrder() {
     } catch (err) {
       console.error("failed to update order", err);
       Swal.fire({
-        title: "Error",
-        text: "Update Failed!",
+        toast: true,
+        position: "bottom-start",
+        title: "Update failed!",
         icon: "error",
         timer: 2000,
         showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
+        background: "var(--color-secondary)",
         iconColor: "var(--color-accent)",
         customClass: {
-          popup: "rounded-2xl shadow-lg",
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
           title: "text-lg font-bold !text-[var(--color-accent)]",
-          htmlContainer: "text-sm",
         },
       });
     } finally {
@@ -87,18 +87,18 @@ export default function UpdateOrder() {
         setRotate(false);
       }, 1500);
       Swal.fire({
-        title: "Success",
-        text: "MCU Chronological Order Updated!",
+        toast: true,
+        position: "bottom-start",
+        title: "MCU choronological order updated",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
-        background: "var(--color-text)",
-        color: "var(--color-bg)",
+        background: "var(--color-secondary)",
         iconColor: "var(--color-hulk)",
         customClass: {
-          popup: "rounded-2xl shadow-lg",
+          popup:
+            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
           title: "text-lg font-bold !text-[var(--color-hulk)]",
-          htmlContainer: "text-sm",
         },
       });
     }
