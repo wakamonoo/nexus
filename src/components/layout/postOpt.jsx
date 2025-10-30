@@ -37,10 +37,10 @@ export default function PostOpt({ postId }) {
           setPostToDelete(postId);
           setDelModal(true);
         }}
-        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 roundedcursor-pointer"
+        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
         <FaTrash className="text-xl shrink-0" />
-        <p className="text-base font-bold">Delete Post</p>
+        <p className="text-base font-bold">Delete post</p>
       </button>
     </div>
   );

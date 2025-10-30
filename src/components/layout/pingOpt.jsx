@@ -1,0 +1,137 @@
+import { LoaderContext } from "@/context/loaderContext";
+import { SocketContext } from "@/context/socketContext";
+import { useContext } from "react";
+import { FaEye, FaTrash } from "react-icons/fa";
+import Swal from "sweetalert2";
+
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://nexus-po8x.onrender.com"
+    : "http://localhost:4000";
+
+export default function PingOpt({ pingId, setSelectedPing }) {
+  const { setIsLoading } = useContext(LoaderContext);
+  const { setPings } = useContext(SocketContext);
+
+  const handleDeletePing = async (pingId) => {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/api/pings/deletePing/${pingId}`, {
+        method: "DELETE",
+      });
+
+      setPings((prev) => prev.filter((p) => p.pingId !== pingId));
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Failed deleting ping!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+      setSelectedPing(null);
+      Swal.fire({
+        title: "Success",
+        text: "Ping have been deleted!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    }
+  };
+
+  const handleReadPing = async (ping) => {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/api/pings/isReadPatch/${pingId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isRead: true }),
+      });
+
+      setPings((prev) =>
+        prev.map((p) => (p.pingId === pingId ? { ...p, isRead: true } : p))
+      );
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Failed marking ping as read!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+      setSelectedPing(null);
+      Swal.fire({
+        title: "Success",
+        text: "Ping have been marked as read!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    }
+  };
+  return (
+    <div className="flex flex-col absolute top-10 right-0 w-60 border-1 border-panel bg-second shadow-2xl rounded p-2 z-50">
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDeletePing(pingId);
+        }}
+        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
+      >
+        <FaTrash className="text-xl shrink-0" />
+        <p className="text-base font-bold">Delete ping</p>
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleReadPing(pingId);
+        }}
+        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
+      >
+        <FaEye className="text-xl shrink-0" />
+        <p className="text-base font-bold">Mark as read</p>
+      </button>
+    </div>
+  );
+}

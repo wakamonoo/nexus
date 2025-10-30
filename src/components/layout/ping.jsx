@@ -8,6 +8,11 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PiBellSimpleSlash } from "react-icons/pi";
 import { SocketContext } from "@/context/socketContext";
+import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
+import PingOpt from "./pingOpt";
+import SecondaryButtons from "../buttons/secBtns";
+import RegularButtons from "../buttons/regBtns";
+import Swal from "sweetalert2";
 
 dayjs.extend(relativeTime);
 
@@ -20,10 +25,13 @@ export default function Ping({ setShowPing }) {
   const { navHide } = useContext(ScrollContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { pings, setPings } = useContext(SocketContext);
+  const [selectedPing, setSelectedPing] = useState(null);
+  const { user } = useContext(UserContext);
   const router = useRouter();
 
   const handlePingClick = async (ping) => {
     try {
+      setIsLoading(true);
       await fetch(`${BASE_URL}/api/pings/isReadPatch/${ping.pingId}`, {
         method: "PATCH",
         headers: {
@@ -36,7 +44,6 @@ export default function Ping({ setShowPing }) {
         prev.map((p) => (p.pingId === ping.pingId ? { ...p, isRead: true } : p))
       );
 
-      setIsLoading(true);
       if (ping.type === "comment" || ping.type === "reply") {
         router.push(`/post/${ping.postId}`);
       } else if (ping.type === "sigil") {
@@ -44,6 +51,104 @@ export default function Ping({ setShowPing }) {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleDeleteAll = async (userId) => {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/api/pings/deleteAll/${userId}`, {
+        method: "DELETE",
+      });
+
+      setPings((prev) => prev.filter((p) => p.userId !== userId));
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Failed deleting pings!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+      setSelectedPing(null);
+      Swal.fire({
+        title: "Success",
+        text: "All pings have been deleted!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    }
+  };
+
+  const handleReadAllPing = async (userId) => {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/api/pings/markAllAsRead/${userId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isRead: true }),
+      });
+
+      setPings((prev) =>
+        prev.map((p) => (p.userId === userId ? { ...p, isRead: true } : p))
+      );
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Failed marking ping as read!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-accent)]",
+          htmlContainer: "text-sm",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+      setSelectedPing(null);
+      Swal.fire({
+        title: "Success",
+        text: "Ping have been marked as read!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-text)",
+        color: "var(--color-bg)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup: "rounded-2xl shadow-lg",
+          title: "text-lg font-bold !text-[var(--color-hulk)]",
+          htmlContainer: "text-sm",
+        },
+      });
     }
   };
   return (
@@ -59,6 +164,18 @@ export default function Ping({ setShowPing }) {
       >
         <div className="flex flex-col py-2">
           <h4 className="text-xl text-center">Pings</h4>
+          {pings.length > 0 && (
+            <div className="p-2">
+              <RegularButtons onClick={() => handleDeleteAll(user.uid)}>
+                <p className="font-bold text-normal text-base">Delete all</p>
+              </RegularButtons>
+              <RegularButtons onClick={() => handleReadAllPing(user.uid)}>
+                <p className="font-bold text-normal text-base">
+                  Mark all as read
+                </p>
+              </RegularButtons>
+            </div>
+          )}
           {pings.length === 0 ? (
             <div className="flex flex-col items-center justify-center">
               <PiBellSimpleSlash className="text-4xl text-vibe opacity-40 mt-16" />
@@ -71,7 +188,7 @@ export default function Ping({ setShowPing }) {
                 <div
                   key={ping.date}
                   onClick={() => handlePingClick(ping)}
-                  className={`border-b-1 p-4 cursor-pointer ${
+                  className={`relative flex border-b-1 p-4 cursor-pointer ${
                     ping.isRead
                       ? "bg-second border-panel"
                       : "bg-panel border-[var(--color-secondary)]"
@@ -113,6 +230,21 @@ export default function Ping({ setShowPing }) {
                       </p>
                     </div>
                   </div>
+                  <BiDotsHorizontalRounded
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedPing(
+                        selectedPing === ping.pingId ? null : ping.pingId
+                      );
+                    }}
+                    className="text-2xl shrink-0"
+                  />
+                  {selectedPing === ping.pingId && (
+                    <PingOpt
+                      pingId={ping.pingId}
+                      setSelectedPing={setSelectedPing}
+                    />
+                  )}
                 </div>
               ))
           )}
