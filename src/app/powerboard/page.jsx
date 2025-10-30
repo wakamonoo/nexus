@@ -128,7 +128,7 @@ export default function Rank() {
       if (rankings.length === 0) {
         Swal.fire({
           toast: true,
-          position: "bottom-start",
+          position: "bottom",
           title: "oops, atleast add 1 title!",
           icon: "warning",
           timer: 2000,
@@ -137,8 +137,8 @@ export default function Rank() {
           iconColor: "var(--color-zeus)",
           customClass: {
             popup:
-              "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-            title: "text-lg font-bold !text-[var(--color-zeus)]",
+              "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+            title: "!text-base !font-semibold !text-[var(--color-text)]",
           },
         });
         return;
@@ -156,7 +156,7 @@ export default function Rank() {
 
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "Your ranking was saved!",
         icon: "success",
         timer: 2000,
@@ -165,15 +165,15 @@ export default function Rank() {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-hulk)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     } catch (err) {
       console.error(err);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "Ranking not saved, please try again later!",
         icon: "error",
         timer: 2000,
@@ -182,8 +182,8 @@ export default function Rank() {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-accent)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     } finally {

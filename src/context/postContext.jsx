@@ -148,7 +148,7 @@ export const PostProvider = ({ children }) => {
       console.error(err);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "RPost deletion failed, please try again later!",
         icon: "error",
         timer: 2000,
@@ -157,8 +157,8 @@ export const PostProvider = ({ children }) => {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-accent)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
       console.error(err);
@@ -170,7 +170,7 @@ export const PostProvider = ({ children }) => {
       setIsLoading(false);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "Post deleted!",
         icon: "success",
         timer: 2000,
@@ -179,8 +179,8 @@ export const PostProvider = ({ children }) => {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-hulk)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     }

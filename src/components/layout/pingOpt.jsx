@@ -25,7 +25,7 @@ export default function PingOpt({ pingId, setSelectedPing }) {
       console.error(err);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "Failed deleting ping!",
         icon: "error",
         timer: 2000,
@@ -34,8 +34,8 @@ export default function PingOpt({ pingId, setSelectedPing }) {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-accent)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     } finally {
@@ -43,7 +43,7 @@ export default function PingOpt({ pingId, setSelectedPing }) {
       setSelectedPing(null);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "Ping have been deleted!",
         icon: "success",
         timer: 2000,
@@ -52,8 +52,8 @@ export default function PingOpt({ pingId, setSelectedPing }) {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-hulk)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     }
@@ -77,7 +77,7 @@ export default function PingOpt({ pingId, setSelectedPing }) {
       console.error(err);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "Failed marking ping as read!",
         icon: "error",
         timer: 2000,
@@ -86,8 +86,8 @@ export default function PingOpt({ pingId, setSelectedPing }) {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-accent)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     } finally {
@@ -95,7 +95,7 @@ export default function PingOpt({ pingId, setSelectedPing }) {
       setSelectedPing(null);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "Ping have been marked as read!",
         icon: "success",
         timer: 2000,
@@ -104,8 +104,8 @@ export default function PingOpt({ pingId, setSelectedPing }) {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-hulk)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     }

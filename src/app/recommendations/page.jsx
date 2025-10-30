@@ -19,7 +19,7 @@ export default function Recommendations() {
       () => {
         Swal.fire({
           toast: true,
-          position: "bottom-start",
+          position: "bottom",
           title: "Message sent!",
           icon: "success",
           timer: 2000,
@@ -28,8 +28,8 @@ export default function Recommendations() {
           iconColor: "var(--color-hulk)",
           customClass: {
             popup:
-              "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-            title: "text-lg font-bold !text-[var(--color-hulk)]",
+              "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+            title: "!text-base !font-semibold !text-[var(--color-text)]",
           },
         });
         contact.current.reset();
@@ -37,7 +37,7 @@ export default function Recommendations() {
       (error) => {
         Swal.fire({
           toast: true,
-          position: "bottom-start",
+          position: "bottom",
           title: "Message not sent, please try again later!",
           icon: "error",
           timer: 2000,
@@ -46,8 +46,8 @@ export default function Recommendations() {
           iconColor: "var(--color-accent)",
           customClass: {
             popup:
-              "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-            title: "text-lg font-bold !text-[var(--color-accent)]",
+              "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+            title: "!text-base !font-semibold !text-[var(--color-text)]",
           },
         });
         console.error("emailjs error:", error);

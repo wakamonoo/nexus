@@ -3,6 +3,7 @@ import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -40,7 +41,7 @@ export default function TitleMenu({
       console.error(err);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
+        position: "bottom",
         title: "Change not saved, please try again later!",
         icon: "error",
         timer: 2000,
@@ -49,16 +50,18 @@ export default function TitleMenu({
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-accent)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     } finally {
       setIsLoading(false);
       Swal.fire({
         toast: true,
-        position: "bottom-start",
-        title: "Change was saved!",
+        position: "bottom",
+        title: `${
+          isWatched === true ? "Title unwatched" : "Title marked as watched"
+        }`,
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -66,8 +69,8 @@ export default function TitleMenu({
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-          title: "text-lg font-bold !text-[var(--color-hulk)]",
+            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+          title: "!text-base !font-semibold !text-[var(--color-text)]",
         },
       });
     }

@@ -121,7 +121,7 @@ export default function HeroFund() {
                     actions.order.capture().then((details) => {
                       Swal.fire({
                         toast: true,
-                        position: "bottom-start",
+                        position: "bottom",
                         title: `Thank you, ${details.payer.name.given_name}! your donation was received!`,
                         icon: "success",
                         timer: 2000,
@@ -130,8 +130,9 @@ export default function HeroFund() {
                         iconColor: "var(--color-hulk)",
                         customClass: {
                           popup:
-                            "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-                          title: "text-lg font-bold !text-[var(--color-hulk)]",
+                            "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+                          title:
+                            "!text-base !font-semibold !text-[var(--color-text)]",
                         },
                       });
                     })
@@ -140,7 +141,7 @@ export default function HeroFund() {
                     console.error("Paypal checkout failed", err);
                     Swal.fire({
                       toast: true,
-                      position: "bottom-start",
+                      position: "bottom",
                       title: "Donation failed, kindly try again!",
                       icon: "error",
                       timer: 2000,
@@ -149,8 +150,9 @@ export default function HeroFund() {
                       iconColor: "var(--color-accent)",
                       customClass: {
                         popup:
-                          "max-w-xs w-full border-1 border-[var(--color-panel)] text-normal rounded-lg shadow-lg p-4",
-                        title: "text-lg font-bold !text-[var(--color-accent)]",
+                          "!w-fit !min-w-0 !max-w-none !inline-flex !items-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !py-2 !px-4",
+                        title:
+                          "!text-base !font-semibold !text-[var(--color-text)]",
                       },
                     });
                   }}

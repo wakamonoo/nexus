@@ -92,9 +92,8 @@ export const SocketProvider = ({ children }) => {
               className="cursor-pointer w-12 h-12 object-cover rounded-full"
             />
             <div className="flex-1">
-              <p className="text-sm font-semibold">
-                {pingData.senderName}{" "}
-                <span className="text-xs opacity-80">{pingData.message}</span>
+              <p className="text-base text-normal font-semibold">
+                {pingData.senderName} {pingData.message}
               </p>
             </div>
           </div>
