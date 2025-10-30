@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/addReview", async (req, res) => {
   try {
-    const { titleId, title, userId, userName, userImage, textReview } =
+    const { titleId, title, poster, userId, userName, userImage, textReview } =
       req.body;
 
     const io = req.app.get("io");
@@ -14,6 +14,7 @@ router.post("/addReview", async (req, res) => {
     const db = client.db("nexus");
 
     const userBefore = await db.collection("users").findOne({ uid: userId });
+    const titlesCount = await db.collection("titles").countDocuments();
 
     await db.collection("users").findOneAndUpdate(
       { uid: userId },
@@ -59,9 +60,9 @@ router.post("/addReview", async (req, res) => {
         let sigilImage = "../../src/assets/fallback.png";
         if (sigil === "Tale Collector")
           sigilImage = "/sigils/taleCollector.png";
-        if (sigil === "Cinematic Eye")
-          sigilImage = "/sigils/cinematicEye.png";
-        if (sigil === "Master Archivist") sigilImage = "/sigils/masterArchivist.png";
+        if (sigil === "Cinematic Eye") sigilImage = "/sigils/cinematicEye.png";
+        if (sigil === "Master Archivist")
+          sigilImage = "/sigils/masterArchivist.png";
 
         const pingData = {
           pingId: `ping-${uuidv4()}`,
@@ -106,6 +107,104 @@ router.post("/addReview", async (req, res) => {
     };
 
     io.emit("newReview", data);
+
+    const existingWatch = await db
+      .collection("watchList")
+      .findOne({ userId, titleId });
+
+    if (!existingWatch || !existingWatch.watched) {
+      await db.collection("watchList").updateOne(
+        {
+          userId,
+          titleId,
+        },
+        {
+          $setOnInsert: {
+            userName,
+            title,
+            poster,
+            createdAt: new Date(),
+          },
+          $set: {
+            watched: true,
+          },
+        },
+        { upsert: true }
+      );
+
+      await db.collection("users").findOneAndUpdate(
+        { uid: userId },
+        [
+          {
+            $set: {
+              totalWatched: { $add: [{ $ifNull: ["$totalWatched", 0] }, 1] },
+            },
+          },
+          {
+            $set: {
+              vigilante: {
+                $cond: [{ $gte: ["$totalWatched", 20] }, true, false],
+              },
+              ascendant: {
+                $cond: [{ $gte: ["$totalWatched", 40] }, true, false],
+              },
+              cosmic: {
+                $cond: [{ $gte: ["$totalWatched", titlesCount] }, true, false],
+              },
+            },
+          },
+        ],
+        { upsert: true }
+      );
+
+      const updatedUser = await db.collection("users").findOne({ uid: userId });
+
+      const earnedSigils = [];
+
+      if (updatedUser.totalWatched === 20 && !userBefore.vigilante) {
+        earnedSigils.push("Vigilante");
+      }
+      if (updatedUser.totalWatched === 40 && !userBefore.ascendant) {
+        earnedSigils.push("Ascendant");
+      }
+      if (updatedUser.totalWatched === titlesCount && !userBefore.cosmic) {
+        earnedSigils.push("Cosmic");
+      }
+
+      if (earnedSigils.length > 0) {
+        for (const sigil of earnedSigils) {
+          let sigilImage = "../../src/assets/fallback.png";
+          if (sigil === "Vigilante") sigilImage = "/sigils/vigilante.png";
+          if (sigil === "Ascendant") sigilImage = "/sigils/ascendant.png";
+          if (sigil === "Cosmic") sigilImage = "/sigils/cosmic.png";
+
+          const pingData = {
+            pingId: `ping-${uuidv4()}`,
+            type: "sigil",
+            senderId: "system",
+            senderName: "Nexus",
+            senderImage: sigilImage,
+            userId,
+            message: `just awarded you the ${sigil} sigil, congrats!`,
+            date: new Date(),
+            isRead: false,
+          };
+
+          await db.collection("pings").insertOne(pingData);
+
+          io.to(userId).emit("ping", pingData);
+          console.log(`ping sent to ${userId}`);
+        }
+      }
+
+      await db.collection("titles").updateOne(
+        {
+          titleId,
+        },
+        { $addToSet: { watchCount: userId } },
+        { upsert: true }
+      );
+    }
 
     res
       .status(200)
