@@ -7,7 +7,6 @@ const router = express.Router();
 router.post("/addMessage", async (req, res) => {
   try {
     const { picture, sender, senderId, email, text } = req.body;
-    const { messageId } = req.params;
 
     const io = req.app.get("io");
     const client = await clientPromise;

@@ -240,6 +240,39 @@ export default function Citadel() {
                 </div>
               </div>
             )}
+            <div className="w-full bg-second">
+              {messages.file && messages.file.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {Array.from(messages.file).map((file, index) => (
+                    <div key={index} className="w-20 h-20 relative">
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        alt={`preivew-${index}`}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover rounded"
+                      />
+                      <div className="absolute top-1 right-1">
+                        <button
+                          onClick={() => {
+                            const filesArray = Array.from(messages.file);
+                            filesArray.splice(index, 1);
+                            setPost({
+                              ...messages,
+                              file: filesArray.length ? filesArray : null,
+                            });
+                          }}
+                          className="cursor-pointer"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="w-full flex items-center gap-2 p-2 bg-second">
               <label htmlFor="fileUploadChat" className="cursor-pointer">
                 <RiImageAiFill className="text-2xl text-accent shrink-0" />
