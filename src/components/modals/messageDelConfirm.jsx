@@ -38,8 +38,8 @@ export default function MessageDelConfirm({
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
-          title: "!text-base !font-semibold !text-[var(--color-text)]",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     } finally {
@@ -55,8 +55,8 @@ export default function MessageDelConfirm({
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
-          title: "!text-base !font-semibold !text-[var(--color-text)]",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     }

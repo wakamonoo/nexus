@@ -113,30 +113,54 @@ export default function NavBar() {
         <div className="flex items-center gap-3.5 sm:gap-7 w-fit">
           <button
             onClick={handleHomeClick}
-            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
               "/"
             )}`}
           >
-            <HiMiniNewspaper className="text-2xl" />
-            <p className="text-xs">Portal</p>
+            <HiMiniNewspaper className="text-2xl group-hover:text-[var(--color-accent)]" />
+            <p
+              className={`text-xs group-hover:text-[var(--color-accent)] ${
+                pathname === "/" && !showPing && !showUserNav
+                  ? "text-accent"
+                  : "text-[var(--color-text)]/60"
+              }`}
+            >
+              Portal
+            </p>
           </button>
           <button
             onClick={() => handleNavClick("hex")}
-            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
               "/hex"
             )}`}
           >
-            <RiFilmAiFill className="text-2xl" />
-            <p className="text-xs">Hex</p>
+            <RiFilmAiFill className="text-2xl group-hover:text-[var(--color-accent)]" />
+            <p
+              className={`text-xs group-hover:text-[var(--color-accent)] ${
+                pathname === "/hex" && !showPing && !showUserNav
+                  ? "text-accent"
+                  : "text-[var(--color-text)]/60"
+              }`}
+            >
+              Hex
+            </p>
           </button>
           <button
             onClick={() => handleNavClick("citadel")}
-            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${isActive(
+            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
               "/citadel"
             )}`}
           >
-            <IoChatbubbleEllipsesSharp className="text-2xl" />
-            <p className="text-xs">Citadel</p>
+            <IoChatbubbleEllipsesSharp className="group-hover:text-[var(--color-accent)] text-2xl" />
+            <p
+              className={`text-xs group-hover:text-[var(--color-accent)] ${
+                pathname === "/citadel" && !showPing && !showUserNav
+                  ? "text-accent"
+                  : "text-[var(--color-text)]/60"
+              }`}
+            >
+              Citadel
+            </p>
           </button>
           <button
             onClick={(e) => {
@@ -144,15 +168,25 @@ export default function NavBar() {
               setShowUserNav(false);
               e.stopPropagation();
             }}
-            className={`relative flex flex-col flex-1 min-w-[25px] cursor-pointer items-center hover:text-[var(--color-accent)] ${
-              showPing ? "text-accent border-b-1" : "text-normal"
-            }`}
+            className="relative flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group"
           >
             <p className="absolute right-0 -top-2 text-xs text-accent">
               {pings?.filter((p) => !p.isRead).length || null}
             </p>
-            <HiBell className="text-2xl" />
-            <p className="text-xs">Ping</p>
+            <HiBell
+              className={`text-2xl cursor-pointer group-hover:text-[var(--color-accent)] ${
+                showPing ? "text-accent" : "text-normal"
+              }`}
+            />
+            <p
+              className={`text-xs group-hover:text-[var(--color-accent)] ${
+                showPing
+                  ? "text-accent border-b-1"
+                  : "text-[var(--color-text)]/60"
+              }`}
+            >
+              Ping
+            </p>
           </button>
           <button
             onClick={(e) => {
@@ -161,9 +195,7 @@ export default function NavBar() {
               setShowPing(false);
               e.stopPropagation();
             }}
-            className={`flex flex-col items-center hover:text-[var(--color-accent)] cursor-pointer group flex-1 min-w-[25px] justify-center ${
-              showUserNav ? "text-accent" : "text-normal"
-            }`}
+            className="flex flex-col items-center cursor-pointer group flex-1 min-w-[25px] justify-center"
           >
             {isLogged && user?.picture ? (
               loading ? (
@@ -176,14 +208,26 @@ export default function NavBar() {
                   height={0}
                   sizes="100vw"
                   className={`w-6 h-6 group-hover:border-[var(--color-accent)] border-1 rounded-full cursor-pointer ${
-                    showUserNav ? "border-accent border-1" : ""
+                    showUserNav ? "border-accent border-1" : "text-normal"
                   }`}
                 />
               )
             ) : (
-              <GiNinjaHead className="text-2xl cursor-pointer" />
+              <GiNinjaHead
+                className={`text-2xl cursor-pointer group-hover:text-[var(--color-accent)] ${
+                  showUserNav ? "text-accent" : "text-normal"
+                }`}
+              />
             )}
-            <p className="text-xs">You</p>
+            <p
+              className={`text-xs group-hover:text-[var(--color-accent)] ${
+                showUserNav
+                  ? "text-accent border-b-1"
+                  : "text-[var(--color-text)]/60"
+              }`}
+            >
+              You
+            </p>
           </button>
         </div>
       </div>

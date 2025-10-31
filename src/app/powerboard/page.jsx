@@ -137,8 +137,9 @@ export default function Rank() {
           iconColor: "var(--color-zeus)",
           customClass: {
             popup:
-              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
-            title: "!text-base !font-semibold !text-[var(--color-text)]",
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            title:
+              "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
           },
         });
         return;
@@ -165,8 +166,9 @@ export default function Rank() {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
-          title: "!text-base !font-semibold !text-[var(--color-text)]",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     } catch (err) {
@@ -182,8 +184,9 @@ export default function Rank() {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !p-4",
-          title: "!text-base !font-semibold !text-[var(--color-text)]",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     } finally {
