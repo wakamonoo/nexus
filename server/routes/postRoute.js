@@ -8,7 +8,7 @@ router.post("/addPost", async (req, res) => {
   try {
     const { topic, text, userId, userName, userImage, files = [] } = req.body;
 
-     const io = req.app.get("io");
+    const io = req.app.get("io");
     const client = await clientPromise;
     const db = client.db("nexus");
 
@@ -58,7 +58,8 @@ router.post("/addPost", async (req, res) => {
         let sigilImage = "../../src/assets/fallback.png";
         if (sigil === "Prime Prospect")
           sigilImage = "/sigils/primeProspect.png";
-        if (sigil === "Emerging Luminary") sigilImage = "/sigils/emergingLuminary.png";
+        if (sigil === "Emerging Luminary")
+          sigilImage = "/sigils/emergingLuminary.png";
         if (sigil === "Heroic Scribe") sigilImage = "/sigils/heroicScribe.png";
 
         const pingData = {

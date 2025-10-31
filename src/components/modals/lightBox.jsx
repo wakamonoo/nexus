@@ -235,7 +235,7 @@ export default function LightBox() {
                     : "text-normal"
                 }`}
               />
-              <p className="text-xs font-light text-vibe opacity-50">
+              <p className="text-xs font-light text-normal opacity-60">
                 {post?.energized ? post?.energized.length : 0} energized
               </p>
             </div>
@@ -258,7 +258,7 @@ export default function LightBox() {
                     : "text-normal"
                 }`}
               />
-              <p className="text-xs font-light text-vibe opacity-50">
+              <p className="text-xs font-light text-normal opacity-60">
                 {post.echoed ? post.echoed.length : 0} echoed
               </p>
             </div>
@@ -267,7 +267,7 @@ export default function LightBox() {
               className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <FaComment className="text-2xl transform -scale-x-100" />
-              <p className="text-xs font-light text-vibe opacity-50">
+              <p className="text-xs font-light text-normal opacity-60">
                 {post.comments
                   ? post.comments.length +
                     post.comments.reduce(

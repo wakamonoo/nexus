@@ -154,7 +154,7 @@ export default function NavBar() {
             <IoChatbubbleEllipsesSharp className="group-hover:text-[var(--color-accent)] text-2xl" />
             <p
               className={`text-xs group-hover:text-[var(--color-accent)] ${
-                pathname === "/citadel" && !showPing && !showUserNav
+                pathname === "/citadel" && !showPing && !showUserNav 
                   ? "text-accent"
                   : "text-[var(--color-text)]/60"
               }`}

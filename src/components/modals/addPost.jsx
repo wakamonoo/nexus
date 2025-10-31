@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButtons from "../buttons/secBtns";
+import { RiImageAiFill } from "react-icons/ri";
 
 const BASE_URL =
   process.env.NODE_ENV === "production"
@@ -141,13 +142,14 @@ export default function AddPost({ setShowAddPost }) {
                 className="bg-text text-brand w-full h-32 rounded p-2"
               />
               <div className="flex gap-2">
-                <SecondaryButtons htmlFor="fileUpload">
-                  <FaImage className="text-2xl" />
+                <SecondaryButtons htmlFor="fileUploadPost">
+                  <RiImageAiFill className="text-2xl" />
                   <p className="font-bold text-normal text-base">Add Media</p>
                 </SecondaryButtons>
                 <input
-                  id="fileUpload"
+                  id="fileUploadPost"
                   name="file"
+                  accept="image/*,video/*"
                   onChange={(e) => {
                     const newFiles = Array.from(e.target.files);
                     setPost({

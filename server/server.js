@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import http from "http";
 import { Server as SocketServer } from "socket.io";
-import clientPromise from "./lib/mongodb.js";
-import { v4 as uuid } from "uuid";
 
 import userRoute from "./routes/userRoute.js";
 import userGet from "./routes/userGet.js";
@@ -83,28 +81,6 @@ io.on("connection", (socket) => {
     if (userId) {
       socket.join(userId);
       console.log(`user ${userId} joined the private room`);
-    }
-  });
-
-  socket.on("citadel", async (data) => {
-    try {
-      const { picture, sender, senderId, email, text } = data;
-      const msg = {
-        picture,
-        sender,
-        senderId,
-        email,
-        text,
-        messagedAt: new Date(),
-        msgId: `msg-${uuid()}`,
-      };
-
-      const client = await clientPromise;
-      const db = client.db("nexus");
-      await db.collection("messages").insertOne(msg);
-      io.emit("citadel", msg);
-    } catch (err) {
-      console.error(err);
     }
   });
 

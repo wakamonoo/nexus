@@ -15,6 +15,7 @@ import MessageDelConfirm from "@/components/modals/messageDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
+import { RiImageAiFill } from "react-icons/ri";
 
 dayjs.extend(relativeTime);
 
@@ -22,8 +23,6 @@ const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://nexus-po8x.onrender.com"
     : "http://localhost:4000";
-
-const socket = io.connect(`${BASE_URL}`);
 
 export default function Citadel() {
   const { user, setShowSignIn } = useContext(UserContext);
@@ -37,7 +36,7 @@ export default function Citadel() {
   const [messageToDelete, setMessageToDelete] = useState(null);
   const router = useRouter();
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!input.trim()) return;
     const data = {
       picture: user?.picture,
@@ -47,7 +46,14 @@ export default function Citadel() {
       text: input,
     };
     justSentMessage.current = true;
-    socket.emit("citadel", data);
+
+    await fetch(`${BASE_URL}/api/messages/addMessage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     setInput("");
   };
 
@@ -235,13 +241,16 @@ export default function Citadel() {
               </div>
             )}
             <div className="w-full flex items-center gap-2 p-2 bg-second">
-              <Image
-                src={user?.picture || null}
-                alt="user"
-                width={0}
-                height={0}
-                sizes="100vw"
-                className="w-12 h-12 object-cover rounded-full"
+              <label htmlFor="fileUploadChat" className="cursor-pointer">
+                <RiImageAiFill className="text-2xl text-accent shrink-0" />
+              </label>
+              <input
+                id="fileUploadChat"
+                name="file"
+                accept="image/*,video/*"
+                type="file"
+                multiple
+                className="hidden"
               />
               <div className="flex items-center w-full gap-2 bg-panel rounded-full border-1 border-[var(--color-secondary)] py-2 px-4">
                 <input
