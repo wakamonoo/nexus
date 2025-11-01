@@ -2,7 +2,7 @@
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
-import { FaAngleLeft, FaComment, FaRegComment } from "react-icons/fa";
+import { FaAngleLeft, FaComment, FaRegComment, FaTrash } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
@@ -20,6 +20,14 @@ import GoatMinLoader from "@/components/loaders/goatMinLoader";
 import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
+import LightGallery from "lightgallery/react";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
+
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
 
 dayjs.extend(relativeTime);
 
@@ -41,6 +49,7 @@ export default function Post() {
   } = useContext(PostContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
+  const [files, setFiles] = useState([]);
   const [replyToCommentId, setReplyToCommentId] = useState(null);
   const [replyToCommentUserId, setReplyToCommentUserId] = useState(null);
   const [replyToUserName, setReplyToUserName] = useState(null);
@@ -62,7 +71,26 @@ export default function Post() {
 
   const handleSendComment = async () => {
     try {
-      if (!commentText.trim()) return;
+      setIsLoading(true);
+
+      if (!commentText.trim() && files.length === 0) return;
+
+      let uploadedUrls = [];
+
+      if (files.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("files", files[i]);
+        }
+
+        const uploadRes = await fetch(`${BASE_URL}/api/uploads/commentUpload`, {
+          method: "POST",
+          body: formData,
+        });
+
+        const { urls } = await uploadRes.json();
+        uploadedUrls = urls;
+      }
 
       const newComment = {
         postId,
@@ -70,6 +98,7 @@ export default function Post() {
         userName: user.name,
         userImage: user.picture,
         textComment: commentText,
+        files: uploadedUrls,
       };
 
       const res = await fetch(`${BASE_URL}/api/comments/addComment`, {
@@ -85,9 +114,13 @@ export default function Post() {
       post.comments = post?.comments
         ? [...post?.comments, data.comment]
         : [data.comment];
+
       setCommentText("");
+      setFiles([]);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -408,58 +441,93 @@ export default function Post() {
                           sizes="100vw"
                           className="w-12 h-12 object-cover rounded-full cursor-pointer"
                         />
-                        <div className="bg-second min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-                          <div className="flex justify-between items-start gap-4">
-                            <div className="flex flex-col">
+                        <div className="flex flex-col">
+                          <div className="bg-second min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                            <div className="flex justify-between items-start gap-4">
+                              <div className="flex flex-col">
+                                <p
+                                  onClick={() => {
+                                    router.push(`/profile/${comment.userId}`);
+                                    setIsLoading(true);
+                                  }}
+                                  className="text-base text-normal font-bold cursor-pointer"
+                                >
+                                  {comment.userName}
+                                </p>
+                                <p className="text-xs text-vibe">
+                                  {dayjs(comment.date).fromNow()}
+                                </p>
+                              </div>
+                              {comment.date === firstComment.date ? (
+                                <div className="flex top-2 right-2">
+                                  <Bs1CircleFill className="text-base text-zeus" />
+                                </div>
+                              ) : null}
+                            </div>
+                            <p className="text-base text-normal py-2">
+                              {comment.textComment}
+                            </p>
+                            <div className="flex items-center justify-end px-2 gap-2">
                               <p
                                 onClick={() => {
-                                  router.push(`/profile/${comment.userId}`);
-                                  setIsLoading(true);
+                                  setCommentToDelete(comment.commentId);
+                                  setCommentDelModal(true);
                                 }}
-                                className="text-base text-normal font-bold cursor-pointer"
+                                className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                  user?.uid === comment.userId
+                                    ? "block"
+                                    : "hidden"
+                                }`}
                               >
-                                {comment.userName}
+                                Delete
                               </p>
-                              <p className="text-xs text-vibe">
-                                {dayjs(comment.date).fromNow()}
+                              <p
+                                onClick={() => {
+                                  setIsReplying(true);
+                                  setReplyToCommentId(comment.commentId);
+                                  setReplyToCommentUserId(comment.userId);
+                                  setReplyToUserName(comment.userName);
+                                  inputRef.current.focus();
+                                }}
+                                className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
+                              >
+                                Reply
                               </p>
                             </div>
-                            {comment.date === firstComment.date ? (
-                              <div className="flex top-2 right-2">
-                                <Bs1CircleFill className="text-base text-zeus" />
-                              </div>
-                            ) : null}
                           </div>
-                          <p className="text-base text-normal py-2">
-                            {comment.textComment}
-                          </p>
-                          <div className="flex items-center justify-end px-2 gap-2">
-                            <p
-                              onClick={() => {
-                                setCommentToDelete(comment.commentId);
-                                setCommentDelModal(true);
-                              }}
-                              className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                user?.uid === comment.userId
-                                  ? "block"
-                                  : "hidden"
-                              }`}
+                          {comment.files && comment.files.length > 0 && (
+                            <LightGallery
+                              speed={500}
+                              plugins={[lgThumbnail, lgZoom]}
+                              elementClassNames="flex flex-wrap gap-2 mt-2"
                             >
-                              Delete
-                            </p>
-                            <p
-                              onClick={() => {
-                                setIsReplying(true);
-                                setReplyToCommentId(comment.commentId);
-                                setReplyToCommentUserId(comment.userId);
-                                setReplyToUserName(comment.userName);
-                                inputRef.current.focus();
-                              }}
-                              className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
-                            >
-                              Reply
-                            </p>
-                          </div>
+                              {comment.files.map((file, index) => (
+                                <a
+                                  key={index}
+                                  href={file}
+                                  data-src={file}
+                                  className="w-32 h-32 block relative"
+                                >
+                                  {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
+                                    <video
+                                      src={file}
+                                      controls
+                                      className="w-full h-full rounded"
+                                    />
+                                  ) : (
+                                    <Image
+                                      src={file}
+                                      alt={`files sent by ${comment.userName}`}
+                                      width={0}
+                                      height={0}
+                                      sizes="100vw"
+                                      className="w-full h-full object-cover rounded"
+                                    />
+                                  )}
+                                </a>
+                              ))}
+                            </LightGallery>
+                          )}
                         </div>
                       </div>
 
@@ -479,53 +547,92 @@ export default function Post() {
                                 sizes="100vw"
                                 className="w-12 h-12 object-cover rounded-full cursor-pointer"
                               />
-                              <div className="bg-panel min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-                                <div className="flex justify-between items-start gap-4">
-                                  <div className="flex flex-col">
+                              <div className="flex flex-col">
+                                <div className="bg-panel min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                                  <div className="flex justify-between items-start gap-4">
+                                    <div className="flex flex-col">
+                                      <p
+                                        onClick={() => {
+                                          router.push(
+                                            `/profile/${reply.userId}`
+                                          );
+                                          setIsLoading(true);
+                                        }}
+                                        className="text-base text-normal font-bold cursor-pointer"
+                                      >
+                                        {reply.userName}
+                                      </p>
+                                      <p className="text-xs text-vibe">
+                                        {dayjs(reply.date).fromNow()}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <p className="text-base text-normal py-2">
+                                    {reply.textReply}
+                                  </p>
+                                  <div className="flex items-center justify-end px-2 gap-2">
                                     <p
                                       onClick={() => {
-                                        router.push(`/profile/${reply.userId}`);
-                                        setIsLoading(true);
+                                        setCommentToDelete(reply.replyId);
+                                        setCommentDelModal(true);
                                       }}
-                                      className="text-base text-normal font-bold cursor-pointer"
+                                      className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                        user?.uid === reply.userId
+                                          ? "block"
+                                          : "hidden"
+                                      }`}
                                     >
-                                      {reply.userName}
+                                      Delete
                                     </p>
-                                    <p className="text-xs text-vibe">
-                                      {dayjs(reply.date).fromNow()}
+                                    <p
+                                      onClick={() => {
+                                        setIsReplying(true);
+                                        setReplyToCommentId(reply.commentId);
+                                        setReplyToCommentUserId(reply.userId);
+                                        setReplyToUserName(reply.userName);
+                                        inputRef.current.focus();
+                                      }}
+                                      className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
+                                    >
+                                      Reply
                                     </p>
                                   </div>
                                 </div>
-                                <p className="text-base text-normal py-2">
-                                  {reply.textReply}
-                                </p>
-                                <div className="flex items-center justify-end px-2 gap-2">
-                                  <p
-                                    onClick={() => {
-                                      setCommentToDelete(reply.replyId);
-                                      setCommentDelModal(true);
-                                    }}
-                                    className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                      user?.uid === reply.userId
-                                        ? "block"
-                                        : "hidden"
-                                    }`}
+                                {comment.files && comment.files.length > 0 && (
+                                  <LightGallery
+                                    speed={500}
+                                    plugins={[lgThumbnail, lgZoom]}
+                                    elementClassNames="flex flex-wrap gap-2 mt-2"
                                   >
-                                    Delete
-                                  </p>
-                                  <p
-                                    onClick={() => {
-                                      setIsReplying(true);
-                                      setReplyToCommentId(reply.commentId);
-                                      setReplyToCommentUserId(reply.userId);
-                                      setReplyToUserName(reply.userName);
-                                      inputRef.current.focus();
-                                    }}
-                                    className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
-                                  >
-                                    Reply
-                                  </p>
-                                </div>
+                                    {comment.files.map((file, index) => (
+                                      <a
+                                        key={index}
+                                        href={file}
+                                        data-src={file}
+                                        className="w-32 h-32 block relative"
+                                      >
+                                        {file.match(
+                                          /\.(mp4|mov|avi|webm)$/i
+                                        ) ? (
+                                          <video
+                                            src={file}
+                                            controls
+                                            className="w-full h-full rounded"
+                                          />
+                                        ) : (
+                                          <Image
+                                            src={file}
+                                            alt={`files sent by ${comment.userName}`}
+                                            width={0}
+                                            height={0}
+                                            sizes="100vw"
+                                            className="w-full h-full object-cover rounded"
+                                          />
+                                        )}
+                                      </a>
+                                    ))}
+                                  </LightGallery>
+                                )}
                               </div>
                             </div>
                           ))}
@@ -536,6 +643,35 @@ export default function Post() {
                 )}
               </div>
 
+              {files.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2 p-2 bg-second">
+                  {files.map((file, index) => (
+                    <div key={index} className="w-20 h-20 relative">
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        alt={`preivew-${index}`}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover rounded"
+                      />
+                      <div className="absolute top-1 right-1">
+                        <button
+                          onClick={() => {
+                            setFiles((prev) =>
+                              prev.filter((_, i) => i !== index)
+                            );
+                          }}
+                          className="cursor-pointer"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               <div className="flex sticky z-50 bottom-0 md:bottom-2 w-full gap-2 items-center p-2 md:rounded-full bg-second">
                 <Image
                   src={user?.picture || Fallback}
@@ -545,34 +681,58 @@ export default function Post() {
                   sizes="100vw"
                   className="w-12 h-12 object-cover rounded-full"
                 />
-                <div className="flex items-center w-full gap-2 bg-panel rounded-full border-1 border-[var(--color-secondary)] py-2 px-4">
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={commentText}
-                    onChange={(e) => setCommentText(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && !e.shiftKey) {
-                        e.preventDefault();
-                        if (!user) return setShowSignIn(true);
-                        if (isReplying) handleSendReply();
-                        else handleSendComment();
+                <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">
+                  <div className="flex items-center w-full gap-2">
+                    <input
+                      ref={inputRef}
+                      type="text"
+                      value={commentText}
+                      onChange={(e) => setCommentText(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          if (!user) return setShowSignIn(true);
+                          if (isReplying) handleSendReply();
+                          else handleSendComment();
+                        }
+                      }}
+                      className="w-full text-normal outline-none text-base font-normal truncate"
+                      placeholder={
+                        user
+                          ? isReplying
+                            ? `Reply to ${replyToUserName}...`
+                            : `Comment as ${user.name}...`
+                          : "Kindly signin to comment"
                       }
-                    }}
-                    className="w-full text-normal px-2 outline-none rounded-full text-base font-normal truncate"
-                    placeholder={
-                      user
-                        ? isReplying
-                          ? `Reply to ${replyToUserName}...`
-                          : `Comment as ${user.name}...`
-                        : "Kindly signin to comment"
-                    }
-                  />
-                  <button
-                    onClick={isReplying ? handleSendReply : handleSendComment}
-                  >
-                    <MdSend className="text-2xl cursor-pointer shrink-0" />
-                  </button>
+                    />
+
+                    <button
+                      onClick={isReplying ? handleSendReply : handleSendComment}
+                    >
+                      <MdSend className="text-2xl cursor-pointer shrink-0" />
+                    </button>
+                  </div>
+                  <div className="flex gap-2 mt-1">
+                    <label
+                      htmlFor="fileUploadComment"
+                      className="cursor-pointer"
+                    >
+                      <RiImageAiFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                    </label>
+                    <input
+                      id="fileUploadComment"
+                      name="file"
+                      accept="image/*,video/*"
+                      type="file"
+                      multiple
+                      className="hidden"
+                      onChange={(e) => {
+                        const selectedFiles = Array.from(e.target.files);
+                        setFiles((prev) => [...prev, ...selectedFiles]);
+                      }}
+                    />
+                    <RiFileGifFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                  </div>
                 </div>
               </div>
             </div>

@@ -20,7 +20,7 @@ import MessageDelConfirm from "@/components/modals/messageDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
-import { RiImageAiFill } from "react-icons/ri";
+import { RiFileGifFill, RiGiftFill, RiImageAiFill } from "react-icons/ri";
 import LightGallery from "lightgallery/react";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
@@ -28,6 +28,7 @@ import lgZoom from "lightgallery/plugins/zoom";
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
+import { BsFiletypeGif } from "react-icons/bs";
 
 dayjs.extend(relativeTime);
 
@@ -354,34 +355,47 @@ export default function Citadel() {
               </div>
             )}
             <div className="w-full flex items-center gap-2 p-2 bg-second">
-              <label htmlFor="fileUploadChat" className="cursor-pointer">
-                <RiImageAiFill className="text-2xl text-accent shrink-0" />
-              </label>
-              <input
-                id="fileUploadChat"
-                name="file"
-                accept="image/*,video/*"
-                type="file"
-                multiple
-                className="hidden"
-                onChange={(e) => {
-                  const selectedFiles = Array.from(e.target.files);
-                  setFiles((prev) => [...prev, ...selectedFiles]);
-                }}
+              <Image
+                src={user?.picture || Fallback}
+                alt="user"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-12 h-12 object-cover rounded-full"
               />
-              <div className="flex items-center w-full gap-2 bg-panel rounded-full border-1 border-[var(--color-secondary)] py-2 px-4">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                  placeholder={`Chat as ${user.name}...`}
-                  className="w-full px-2 text-normal outline-none rounded-full text-base font-normal truncate"
-                />
-                <MdSend
-                  className="text-2xl cursor-pointer shrink-0"
-                  onClick={sendMessage}
-                />
+              <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">
+                <div className="flex items-center w-full gap-2">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                    placeholder={`Chat as ${user.name}...`}
+                    className="w-full text-normal outline-none text-base font-normal truncate"
+                  />
+                  <MdSend
+                    className="text-2xl cursor-pointer shrink-0"
+                    onClick={sendMessage}
+                  />
+                </div>
+                <div className="flex gap-2 mt-1">
+                  <label htmlFor="fileUploadChat" className="cursor-pointer">
+                    <RiImageAiFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                  </label>
+                  <input
+                    id="fileUploadChat"
+                    name="file"
+                    accept="image/*,video/*"
+                    type="file"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => {
+                      const selectedFiles = Array.from(e.target.files);
+                      setFiles((prev) => [...prev, ...selectedFiles]);
+                    }}
+                  />
+                  <RiFileGifFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                </div>
               </div>
             </div>
           </div>

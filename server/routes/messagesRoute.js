@@ -13,6 +13,7 @@ router.post("/addMessage", async (req, res) => {
     const db = client.db("nexus");
 
     const newMessage = {
+      msgId: `msg-${uuid()}`,
       picture,
       sender,
       senderId,
@@ -20,7 +21,6 @@ router.post("/addMessage", async (req, res) => {
       text,
       files,
       messagedAt: new Date(),
-      msgId: `msg-${uuid()}`,
     };
 
     await db.collection("messages").insertOne(newMessage);

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/addComment", async (req, res) => {
   try {
-    const { postId, userId, userName, userImage, textComment } = req.body;
+    const { postId, userId, userName, userImage, textComment, files = [] } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
@@ -88,6 +88,7 @@ router.post("/addComment", async (req, res) => {
       userName,
       userImage,
       textComment,
+      files,
       date: new Date(),
     };
 
