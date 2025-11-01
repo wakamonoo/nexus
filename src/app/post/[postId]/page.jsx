@@ -672,7 +672,7 @@ export default function Post() {
                 </div>
               )}
 
-              <div className="flex sticky z-50 bottom-0 md:bottom-2 w-full gap-2 items-center p-2 md:rounded-full bg-second">
+              <div className="flex items-start sticky z-50 bottom-0 md:bottom-2 w-full gap-2 p-2 md:rounded-2xl bg-second">
                 <Image
                   src={user?.picture || Fallback}
                   alt="user"

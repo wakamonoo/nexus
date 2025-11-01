@@ -356,7 +356,7 @@ export default function Citadel() {
                 ))}
               </div>
             )}
-            <div className="w-full flex items-center gap-2 p-2 bg-second">
+            <div className="w-full flex items-start gap-2 p-2 bg-second">
               <Image
                 src={user?.picture || Fallback}
                 alt="user"
