@@ -254,17 +254,6 @@ export default function Citadel() {
                               >
                                 {msg.text}
                               </p>
-                              <p
-                                onClick={() => {
-                                  setMessageToDelete(msg.msgId);
-                                  setMessageDelModal(true);
-                                }}
-                                className={`text-sm text-vibe text-end hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                  ownMessage ? "block" : "hidden"
-                                }`}
-                              >
-                                Delete
-                              </p>
                             </div>
 
                             {msg.files && msg.files.length > 0 && (
@@ -278,7 +267,7 @@ export default function Citadel() {
                                     key={index}
                                     href={file}
                                     data-src={file}
-                                    className="w-32 h-32 block relative"
+                                    className="w-48 h-48 block relative"
                                   >
                                     {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
                                       <video
@@ -289,7 +278,7 @@ export default function Citadel() {
                                     ) : (
                                       <Image
                                         src={file}
-                                        alt={`files sent by ${msg.sender}`}
+                                        alt={`sent by ${msg.sender}`}
                                         width={0}
                                         height={0}
                                         sizes="100vw"
@@ -300,6 +289,19 @@ export default function Citadel() {
                                 ))}
                               </LightGallery>
                             )}
+                            <div className="flex items-center justify-end px-2">
+                              <p
+                                onClick={() => {
+                                  setMessageToDelete(msg.msgId);
+                                  setMessageDelModal(true);
+                                }}
+                                className={`text-sm text-vibe text-end hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                  ownMessage ? "block" : "hidden"
+                                }`}
+                              >
+                                Delete
+                              </p>
+                            </div>
                           </div>
 
                           {ownMessage && (

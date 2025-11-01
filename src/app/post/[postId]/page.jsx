@@ -467,33 +467,6 @@ export default function Post() {
                             <p className="text-base text-normal py-2">
                               {comment.textComment}
                             </p>
-                            <div className="flex items-center justify-end px-2 gap-2">
-                              <p
-                                onClick={() => {
-                                  setCommentToDelete(comment.commentId);
-                                  setCommentDelModal(true);
-                                }}
-                                className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                  user?.uid === comment.userId
-                                    ? "block"
-                                    : "hidden"
-                                }`}
-                              >
-                                Delete
-                              </p>
-                              <p
-                                onClick={() => {
-                                  setIsReplying(true);
-                                  setReplyToCommentId(comment.commentId);
-                                  setReplyToCommentUserId(comment.userId);
-                                  setReplyToUserName(comment.userName);
-                                  inputRef.current.focus();
-                                }}
-                                className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
-                              >
-                                Reply
-                              </p>
-                            </div>
                           </div>
                           {comment.files && comment.files.length > 0 && (
                             <LightGallery
@@ -506,7 +479,7 @@ export default function Post() {
                                   key={index}
                                   href={file}
                                   data-src={file}
-                                  className="w-32 h-32 block relative"
+                                  className="w-48 h-48 block relative"
                                 >
                                   {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
                                     <video
@@ -517,7 +490,7 @@ export default function Post() {
                                   ) : (
                                     <Image
                                       src={file}
-                                      alt={`files sent by ${comment.userName}`}
+                                      alt={`cpmment by ${comment.userName}`}
                                       width={0}
                                       height={0}
                                       sizes="100vw"
@@ -528,6 +501,33 @@ export default function Post() {
                               ))}
                             </LightGallery>
                           )}
+                          <div className="flex items-center justify-end px-2 gap-2">
+                            <p
+                              onClick={() => {
+                                setCommentToDelete(comment.commentId);
+                                setCommentDelModal(true);
+                              }}
+                              className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                user?.uid === comment.userId
+                                  ? "block"
+                                  : "hidden"
+                              }`}
+                            >
+                              Delete
+                            </p>
+                            <p
+                              onClick={() => {
+                                setIsReplying(true);
+                                setReplyToCommentId(comment.commentId);
+                                setReplyToCommentUserId(comment.userId);
+                                setReplyToUserName(comment.userName);
+                                inputRef.current.focus();
+                              }}
+                              className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
+                            >
+                              Reply
+                            </p>
+                          </div>
                         </div>
                       </div>
 
@@ -570,33 +570,6 @@ export default function Post() {
                                   <p className="text-base text-normal py-2">
                                     {reply.textReply}
                                   </p>
-                                  <div className="flex items-center justify-end px-2 gap-2">
-                                    <p
-                                      onClick={() => {
-                                        setCommentToDelete(reply.replyId);
-                                        setCommentDelModal(true);
-                                      }}
-                                      className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                        user?.uid === reply.userId
-                                          ? "block"
-                                          : "hidden"
-                                      }`}
-                                    >
-                                      Delete
-                                    </p>
-                                    <p
-                                      onClick={() => {
-                                        setIsReplying(true);
-                                        setReplyToCommentId(reply.commentId);
-                                        setReplyToCommentUserId(reply.userId);
-                                        setReplyToUserName(reply.userName);
-                                        inputRef.current.focus();
-                                      }}
-                                      className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
-                                    >
-                                      Reply
-                                    </p>
-                                  </div>
                                 </div>
                                 {comment.files && comment.files.length > 0 && (
                                   <LightGallery
@@ -609,7 +582,7 @@ export default function Post() {
                                         key={index}
                                         href={file}
                                         data-src={file}
-                                        className="w-32 h-32 block relative"
+                                        className="w-48 h-48 block relative"
                                       >
                                         {file.match(
                                           /\.(mp4|mov|avi|webm)$/i
@@ -622,7 +595,7 @@ export default function Post() {
                                         ) : (
                                           <Image
                                             src={file}
-                                            alt={`files sent by ${comment.userName}`}
+                                            alt={`comment by ${comment.userName}`}
                                             width={0}
                                             height={0}
                                             sizes="100vw"
@@ -633,6 +606,33 @@ export default function Post() {
                                     ))}
                                   </LightGallery>
                                 )}
+                                <div className="flex items-center justify-end px-2 gap-2">
+                                  <p
+                                    onClick={() => {
+                                      setCommentToDelete(reply.replyId);
+                                      setCommentDelModal(true);
+                                    }}
+                                    className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                      user?.uid === reply.userId
+                                        ? "block"
+                                        : "hidden"
+                                    }`}
+                                  >
+                                    Delete
+                                  </p>
+                                  <p
+                                    onClick={() => {
+                                      setIsReplying(true);
+                                      setReplyToCommentId(reply.commentId);
+                                      setReplyToCommentUserId(reply.userId);
+                                      setReplyToUserName(reply.userName);
+                                      inputRef.current.focus();
+                                    }}
+                                    className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
+                                  >
+                                    Reply
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           ))}
