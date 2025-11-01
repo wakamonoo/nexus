@@ -6,7 +6,12 @@ import NavBar from "@/components/layout/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
-import { FaArrowDown, FaRegComments, FaUserSlash } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaRegComments,
+  FaTrash,
+  FaUserSlash,
+} from "react-icons/fa";
 import ShowLoader from "@/components/loaders/showLoader";
 import ChatLoader from "@/components/loaders/chatLoder";
 import { useRouter } from "next/navigation";
@@ -29,6 +34,7 @@ export default function Citadel() {
   const { setIsLoading } = useContext(LoaderContext);
   const { messages, setMessages, chatLoad } = useContext(SocketContext);
   const [input, setInput] = useState("");
+  const [files, setFiles] = useState([]);
   const msgEndRef = useRef();
   const justSentMessage = useRef(false);
   const initialLoad = useRef(true);
@@ -37,24 +43,54 @@ export default function Citadel() {
   const router = useRouter();
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
-    const data = {
-      picture: user?.picture,
-      sender: user?.name,
-      senderId: user?.uid,
-      email: user?.email,
-      text: input,
-    };
-    justSentMessage.current = true;
+    try {
+      setIsLoading(true);
 
-    await fetch(`${BASE_URL}/api/messages/addMessage`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    setInput("");
+      if (!input.trim() && files.length === 0) return;
+
+      justSentMessage.current = true;
+
+      let uploadedUrls = [];
+
+      if (files.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("files", files[i]);
+        }
+
+        const uploadRes = await fetch(`${BASE_URL}/api/uploads/citadelUpload`, {
+          method: "POST",
+          body: formData,
+        });
+
+        const { urls } = await uploadRes.json();
+        uploadedUrls = urls;
+      }
+
+      const data = {
+        picture: user?.picture,
+        sender: user?.name,
+        senderId: user?.uid,
+        email: user?.email,
+        text: input,
+        files: uploadedUrls,
+      };
+
+      await fetch(`${BASE_URL}/api/messages/addMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      setInput("");
+      setFiles([]);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -164,59 +200,94 @@ export default function Citadel() {
                             />
                           )}
                           <div
-                            className={`px-4 py-2 min-w-32 max-w-60 md:max-w-90 rounded-2xl ${
-                              ownMessage ? "bg-second" : "bg-panel"
+                            className={`flex flex-col ${
+                              ownMessage ? "items-end" : "items-start"
                             }`}
                           >
-                            <p
-                              className={`text-base font-bold flex ${
-                                ownMessage ? "justify-end" : "justify-start"
+                            <div
+                              className={`px-4 py-2 min-w-32 max-w-60 md:max-w-90 rounded-2xl ${
+                                ownMessage ? "bg-second" : "bg-panel"
                               }`}
                             >
-                              {ownMessage ? "you" : msg.sender}
-                            </p>
-                            <p
-                              className={`text-xs text-vibe flex ${
-                                ownMessage ? "justify-end" : "justify-start"
-                              }`}
-                            >
-                              {(() => {
-                                const diffMinutes = dayjs().diff(
-                                  dayjs(msg.messagedAt),
-                                  "minutes"
-                                );
-                                if (diffMinutes < 60) {
-                                  return dayjs(msg.messagedAt).fromNow();
-                                }
-                                return new Date(
-                                  msg.messagedAt
-                                ).toLocaleTimeString([], {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                });
-                              })()}
-                            </p>
-                            <p
-                              className={`text-base text-normal py-2 flex border-t-1 mt-2 ${
-                                ownMessage
-                                  ? "justify-end border-[var(--color-panel)]"
-                                  : "justify-start border-[var(--color-secondary)]"
-                              }`}
-                            >
-                              {msg.text}
-                            </p>
-                            <p
-                              onClick={() => {
-                                setMessageToDelete(msg.msgId);
-                                setMessageDelModal(true);
-                              }}
-                              className={`text-sm text-vibe text-end hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                ownMessage ? "block" : "hidden"
-                              }`}
-                            >
-                              Delete
-                            </p>
+                              <p
+                                className={`text-base font-bold flex ${
+                                  ownMessage ? "justify-end" : "justify-start"
+                                }`}
+                              >
+                                {ownMessage ? "you" : msg.sender}
+                              </p>
+                              <p
+                                className={`text-xs text-vibe flex ${
+                                  ownMessage ? "justify-end" : "justify-start"
+                                }`}
+                              >
+                                {(() => {
+                                  const diffMinutes = dayjs().diff(
+                                    dayjs(msg.messagedAt),
+                                    "minutes"
+                                  );
+                                  if (diffMinutes < 60) {
+                                    return dayjs(msg.messagedAt).fromNow();
+                                  }
+                                  return new Date(
+                                    msg.messagedAt
+                                  ).toLocaleTimeString([], {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  });
+                                })()}
+                              </p>
+                              <p
+                                className={`text-base text-normal py-2 flex border-t-1 mt-2 ${
+                                  ownMessage
+                                    ? "justify-end border-[var(--color-panel)]"
+                                    : "justify-start border-[var(--color-secondary)]"
+                                }`}
+                              >
+                                {msg.text}
+                              </p>
+                              <p
+                                onClick={() => {
+                                  setMessageToDelete(msg.msgId);
+                                  setMessageDelModal(true);
+                                }}
+                                className={`text-sm text-vibe text-end hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
+                                  ownMessage ? "block" : "hidden"
+                                }`}
+                              >
+                                Delete
+                              </p>
+                            </div>
+
+                            {msg.files && msg.files.length > 0 && (
+                              <div className="flex flex-wrap gap-2 mt-2">
+                                {msg.files.map((file, index) => (
+                                  <div
+                                    key={index}
+                                    className="w-32 h-32 relative"
+                                  >
+                                    {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
+                                      <video
+                                        src={file}
+                                        controls
+                                        className="w-full h-full rounded"
+                                      />
+                                    ) : (
+                                      <Image
+                                        src={file}
+                                        alt="uploaded"
+                                        width={0}
+                                        height={0}
+                                        sizes="100vw"
+                                        className="w-full h-full object-cover rounded"
+                                      />
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
+
                           {ownMessage && (
                             <Image
                               onClick={(e) => {
@@ -240,39 +311,35 @@ export default function Citadel() {
                 </div>
               </div>
             )}
-            <div className="w-full bg-second">
-              {messages.file && messages.file.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {Array.from(messages.file).map((file, index) => (
-                    <div key={index} className="w-20 h-20 relative">
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt={`preivew-${index}`}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-cover rounded"
-                      />
-                      <div className="absolute top-1 right-1">
-                        <button
-                          onClick={() => {
-                            const filesArray = Array.from(messages.file);
-                            filesArray.splice(index, 1);
-                            setPost({
-                              ...messages,
-                              file: filesArray.length ? filesArray : null,
-                            });
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
+
+            {files.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2 p-2 bg-second">
+                {files.map((file, index) => (
+                  <div key={index} className="w-20 h-20 relative">
+                    <Image
+                      src={URL.createObjectURL(file)}
+                      alt={`preivew-${index}`}
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className="w-full h-full object-cover rounded"
+                    />
+                    <div className="absolute top-1 right-1">
+                      <button
+                        onClick={() => {
+                          setFiles((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          );
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <FaTrash />
+                      </button>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="w-full flex items-center gap-2 p-2 bg-second">
               <label htmlFor="fileUploadChat" className="cursor-pointer">
                 <RiImageAiFill className="text-2xl text-accent shrink-0" />
@@ -284,6 +351,10 @@ export default function Citadel() {
                 type="file"
                 multiple
                 className="hidden"
+                onChange={(e) => {
+                  const selectedFiles = Array.from(e.target.files);
+                  setFiles((prev) => [...prev, ...selectedFiles]);
+                }}
               />
               <div className="flex items-center w-full gap-2 bg-panel rounded-full border-1 border-[var(--color-secondary)] py-2 px-4">
                 <input
