@@ -464,9 +464,11 @@ export default function Post() {
                                 </div>
                               ) : null}
                             </div>
-                            <p className="text-base text-normal py-2">
-                              {comment.textComment}
-                            </p>
+                            {comment.textComment && (
+                              <p className="text-base text-normal py-2">
+                                {comment.textComment}
+                              </p>
+                            )}
                           </div>
                           {comment.files && comment.files.length > 0 && (
                             <LightGallery
@@ -490,7 +492,7 @@ export default function Post() {
                                   ) : (
                                     <Image
                                       src={file}
-                                      alt={`cpmment by ${comment.userName}`}
+                                      alt={`comment by ${comment.userName}`}
                                       width={0}
                                       height={0}
                                       sizes="100vw"
@@ -501,7 +503,7 @@ export default function Post() {
                               ))}
                             </LightGallery>
                           )}
-                          <div className="flex items-center justify-end px-2 gap-2">
+                          <div className="flex items-center justify-start px-2 gap-2">
                             <p
                               onClick={() => {
                                 setCommentToDelete(comment.commentId);
@@ -606,7 +608,7 @@ export default function Post() {
                                     ))}
                                   </LightGallery>
                                 )}
-                                <div className="flex items-center justify-end px-2 gap-2">
+                                <div className="flex items-center justify-start px-2 gap-2">
                                   <p
                                     onClick={() => {
                                       setCommentToDelete(reply.replyId);
@@ -643,34 +645,36 @@ export default function Post() {
                 )}
               </div>
 
-              {files.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2 p-2 bg-second">
-                  {files.map((file, index) => (
-                    <div key={index} className="w-20 h-20 relative">
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt={`preivew-${index}`}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-cover rounded"
-                      />
-                      <div className="absolute top-1 right-1">
-                        <button
-                          onClick={() => {
-                            setFiles((prev) =>
-                              prev.filter((_, i) => i !== index)
-                            );
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <FaTrash />
-                        </button>
+              <div className="px-2 sticky bottom-22 md:bottom-24">
+                {files.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2 py-2 px-4 bg-second border-1 border-panel rounded-2xl">
+                    {files.map((file, index) => (
+                      <div key={index} className="w-20 h-20 relative">
+                        <Image
+                          src={URL.createObjectURL(file)}
+                          alt={`preivew-${index}`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover rounded"
+                        />
+                        <div className="absolute top-1 right-1">
+                          <button
+                            onClick={() => {
+                              setFiles((prev) =>
+                                prev.filter((_, i) => i !== index)
+                              );
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <div className="flex items-start sticky z-50 bottom-0 md:bottom-2 w-full gap-2 p-2 md:rounded-2xl bg-second">
                 <Image

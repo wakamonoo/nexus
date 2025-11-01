@@ -245,15 +245,17 @@ export default function Citadel() {
                                   });
                                 })()}
                               </p>
-                              <p
-                                className={`text-base text-normal py-2 flex border-t-1 mt-2 ${
-                                  ownMessage
-                                    ? "justify-end border-[var(--color-panel)]"
-                                    : "justify-start border-[var(--color-secondary)]"
-                                }`}
-                              >
-                                {msg.text}
-                              </p>
+                              {msg.text && (
+                                <p
+                                  className={`text-base text-normal py-2 flex border-t-1 mt-2 ${
+                                    ownMessage
+                                      ? "justify-end border-[var(--color-panel)]"
+                                      : "justify-start border-[var(--color-secondary)]"
+                                  }`}
+                                >
+                                  {msg.text}
+                                </p>
+                              )}
                             </div>
 
                             {msg.files && msg.files.length > 0 && (
@@ -328,34 +330,36 @@ export default function Citadel() {
               </div>
             )}
 
-            {files.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-2 p-2 bg-second">
-                {files.map((file, index) => (
-                  <div key={index} className="w-20 h-20 relative">
-                    <Image
-                      src={URL.createObjectURL(file)}
-                      alt={`preivew-${index}`}
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full h-full object-cover rounded"
-                    />
-                    <div className="absolute top-1 right-1">
-                      <button
-                        onClick={() => {
-                          setFiles((prev) =>
-                            prev.filter((_, i) => i !== index)
-                          );
-                        }}
-                        className="cursor-pointer"
-                      >
-                        <FaTrash />
-                      </button>
+            <div className="px-2 mb-2">
+              {files.length > 0 && (
+                <div className="flex flex-wrap gap-2 border-1 border-panel py-2 px-4 bg-second rounded-2xl">
+                  {files.map((file, index) => (
+                    <div key={index} className="w-20 h-20 relative">
+                      <Image
+                        src={URL.createObjectURL(file)}
+                        alt={`preivew-${index}`}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover rounded"
+                      />
+                      <div className="absolute top-1 right-1">
+                        <button
+                          onClick={() => {
+                            setFiles((prev) =>
+                              prev.filter((_, i) => i !== index)
+                            );
+                          }}
+                          className="cursor-pointer"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="w-full flex items-start gap-2 p-2 bg-second">
               <Image
                 src={user?.picture || Fallback}
