@@ -103,7 +103,7 @@ export default function LightBox() {
           <>
             <button
               onClick={(e) => {
-                e.stopPropagation;
+                e.stopPropagation();
                 handlePrev();
               }}
               className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
@@ -112,7 +112,7 @@ export default function LightBox() {
             </button>
             <button
               onClick={(e) => {
-                e.stopPropagation;
+                e.stopPropagation();
                 handleNext();
               }}
               className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
