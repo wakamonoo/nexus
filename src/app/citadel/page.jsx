@@ -21,6 +21,13 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
 import { RiImageAiFill } from "react-icons/ri";
+import LightGallery from "lightgallery/react";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
+
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
 
 dayjs.extend(relativeTime);
 
@@ -260,11 +267,17 @@ export default function Citadel() {
                             </div>
 
                             {msg.files && msg.files.length > 0 && (
-                              <div className="flex flex-wrap gap-2 mt-2">
+                              <LightGallery
+                                speed={500}
+                                plugins={[lgThumbnail, lgZoom]}
+                                elementClassNames="flex flex-wrap gap-2 mt-2"
+                              >
                                 {msg.files.map((file, index) => (
-                                  <div
+                                  <a
                                     key={index}
-                                    className="w-32 h-32 relative"
+                                    href={file}
+                                    data-src={file}
+                                    className="w-32 h-32 block relative"
                                   >
                                     {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
                                       <video
@@ -275,16 +288,16 @@ export default function Citadel() {
                                     ) : (
                                       <Image
                                         src={file}
-                                        alt="uploaded"
+                                        alt={`files sent by ${msg.sender}`}
                                         width={0}
                                         height={0}
                                         sizes="100vw"
                                         className="w-full h-full object-cover rounded"
                                       />
                                     )}
-                                  </div>
+                                  </a>
                                 ))}
-                              </div>
+                              </LightGallery>
                             )}
                           </div>
 
