@@ -298,7 +298,7 @@ export default function Post() {
                                   handleFileClick(post?.files, index, post);
                                   e.stopPropagation();
                                 }}
-                                className="flex-shrink-0 w-full h-full snap-center"
+                                className="flex-shrink-0 w-full h-full snap-center cursor-pointer"
                               >
                                 {["jpg", "jpeg", "png", "gif", "webp"].includes(
                                   ext

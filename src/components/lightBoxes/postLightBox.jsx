@@ -9,8 +9,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-export default function LightBox() {
+dayjs.extend(relativeTime);
+
+export default function PostLightBox() {
   const {
     posts,
     handleEnergize,
@@ -20,9 +24,9 @@ export default function LightBox() {
     showDetails,
     setShowDetails,
     initialIndex,
-    lightboxOpen,
-    setLightboxOpen,
-    lightboxRef,
+    postLightBoxOpen,
+    setPostLightboxOpen,
+    postLightboxRef,
   } = useContext(PostContext);
   const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
@@ -33,7 +37,7 @@ export default function LightBox() {
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
 
   const handlePostNav = (id, focusInput = false) => {
-    setLightboxOpen(false);
+    setPostLightboxOpen(false);
     if (pathname == `/post/${id}`) {
       return;
     }
@@ -43,11 +47,11 @@ export default function LightBox() {
   };
 
   useEffect(() => {
-    if (!lightboxOpen) return;
+    if (!postLightBoxOpen) return;
 
     window.history.pushState(null, "");
     const onPopState = () => {
-      setLightboxOpen(false);
+      setPostLightboxOpen(false);
     };
 
     window.addEventListener("popstate", onPopState);
@@ -55,27 +59,27 @@ export default function LightBox() {
     return () => {
       window.removeEventListener("popstate", onPopState);
     };
-  }, [lightboxOpen]);
+  }, [postLightBoxOpen]);
 
   const handleNext = () => {
-    if (!lightboxRef.current) return;
+    if (!postLightboxRef.current) return;
     if (currentIndex < currentPost.length - 1) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
-      lightboxRef.current.scrollTo({
-        left: lightboxRef.current.clientWidth * newIndex,
+      postLightboxRef.current.scrollTo({
+        left: postLightboxRef.current.clientWidth * newIndex,
         behavior: "smooth",
       });
     }
   };
 
   const handlePrev = () => {
-    if (!lightboxRef.current) return;
+    if (!postLightboxRef.current) return;
     if (currentIndex > 0) {
       const newIndex = currentIndex - 1;
       setCurrentIndex(newIndex);
-      lightboxRef.current.scrollTo({
-        left: lightboxRef.current.clientWidth * newIndex,
+      postLightboxRef.current.scrollTo({
+        left: postLightboxRef.current.clientWidth * newIndex,
         behavior: "smooth",
       });
     }
@@ -94,7 +98,7 @@ export default function LightBox() {
         {showDetails && (
           <button className="absolute cursor-pointer top-4 right-4">
             <MdClose
-              onClick={() => setLightboxOpen(false)}
+              onClick={() => setPostLightboxOpen(false)}
               className="text-2xl font-bold duration-200 hover:scale-110 active:scale-110"
             />
           </button>
@@ -133,7 +137,7 @@ export default function LightBox() {
           e.stopPropagation();
           setShowDetails((prev) => !prev);
         }}
-        ref={lightboxRef}
+        ref={postLightboxRef}
         className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-[100%] h-[100%] scrollbar-hide"
       >
         {currentPost.map((file, index) => {
@@ -167,7 +171,7 @@ export default function LightBox() {
               onClick={(e) => {
                 e.stopPropagation();
                 setIsLoading(true);
-                setLightboxOpen(false);
+                setPostLightboxOpen(false);
                 router.push(`/profile/${post.userId}`);
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
@@ -175,16 +179,20 @@ export default function LightBox() {
               {currentPostInfo.userName}
             </p>
             <p className="text-xs text-vibe">
-              {new Date(currentPostInfo.date)
-                .toLocaleString("en-us", {
+              {(() => {
+                const diffWeeks = dayjs().diff(
+                  dayjs(currentPostInfo.date),
+                  "week"
+                );
+                if (diffWeeks < 1) {
+                  return dayjs(currentPostInfo.date).fromNow();
+                }
+                return new Date(currentPostInfo.date).toLocaleDateString([], {
                   month: "short",
-                  day: "numeric",
+                  day: "2-digit",
                   year: "numeric",
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: true,
-                })
-                .replace(/^(\w{3})/, "$1.")}
+                });
+              })()}
             </p>
           </div>
           <div
@@ -195,7 +203,7 @@ export default function LightBox() {
               onClick={(e) => {
                 setIsLoading(true);
                 e.stopPropagation();
-                setLightboxOpen(false);
+                setPostLightboxOpen(false);
                 router.push(`/posts/${currentPostInfo.topic}`);
               }}
               className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] ${
@@ -222,7 +230,7 @@ export default function LightBox() {
                 if (user) {
                   handleEnergize(post);
                 } else {
-                  setLightboxOpen(false);
+                  setPostLightboxOpen(false);
                   setShowSignIn(true);
                 }
               }}
@@ -245,7 +253,7 @@ export default function LightBox() {
                 if (user) {
                   handleEcho(post);
                 } else {
-                  setLightboxOpen(false);
+                  setPostLightboxOpen(false);
                   setShowSignIn(true);
                 }
               }}

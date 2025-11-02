@@ -20,7 +20,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
 import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
-
+import CitadelLightBox from "@/components/lightBoxes/citadelLightBox";
 
 dayjs.extend(relativeTime);
 
@@ -40,6 +40,13 @@ export default function Citadel() {
   const initialLoad = useRef(true);
   const [messageDelModal, setMessageDelModal] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState(null);
+  const [citadelLightBoxOpen, setCitadelLightBoxOpen] = useState(false);
+  const [citadelLightBoxFiles, setCitadelLightBoxFiles] = useState([]);
+  const [citadelLightBoxSenderId, setCitadelLightBoxSenderId] = useState(null);
+  const [citadelLightBoxSenderName, setCitadelLightBoxSenderName] =
+    useState(null);
+  const [citadelLightBoxSentDate, setCitadelLightBoxSentDate] = useState(null);
+  const [initialIndex, setInitialIndex] = useState(0);
   const router = useRouter();
 
   const sendMessage = async () => {
@@ -108,6 +115,21 @@ export default function Citadel() {
 
   const handleLocalMessageDelete = (msgId) => {
     setMessages((prev) => prev.filter((m) => m.msgId !== msgId));
+  };
+
+  const openCitadelLightBox = (
+    files,
+    senderId,
+    senderName,
+    sentDate,
+    index
+  ) => {
+    setCitadelLightBoxFiles(files);
+    setCitadelLightBoxSenderId(senderId);
+    setCitadelLightBoxSenderName(senderName);
+    setCitadelLightBoxSentDate(sentDate);
+    setInitialIndex(index);
+    setCitadelLightBoxOpen(true);
   };
 
   return (
@@ -251,15 +273,20 @@ export default function Citadel() {
                             </div>
 
                             {msg.files && msg.files.length > 0 && (
-                              <div
-                                className="flex flex-wrap gap-2 mt-2"
-                              >
+                              <div className="flex flex-wrap gap-2 mt-2">
                                 {msg.files.map((file, index) => (
-                                  <a
+                                  <div
+                                    onClick={() =>
+                                      openCitadelLightBox(
+                                        msg.files,
+                                        msg.senderId,
+                                        msg.sender,
+                                        msg.messagedAt,
+                                        index
+                                      )
+                                    }
                                     key={index}
-                                    href={file}
-                                    data-src={file}
-                                    className="w-48 h-48 block relative"
+                                    className="w-48 h-48 block relative cursor-pointer"
                                   >
                                     {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
                                       <video
@@ -277,7 +304,7 @@ export default function Citadel() {
                                         className="w-full h-full object-cover rounded"
                                       />
                                     )}
-                                  </a>
+                                  </div>
                                 ))}
                               </div>
                             )}
@@ -402,6 +429,17 @@ export default function Citadel() {
           setMessageDelModal={setMessageDelModal}
           messageToDelete={messageToDelete}
           onDelete={handleLocalMessageDelete}
+        />
+      )}
+      {citadelLightBoxOpen && (
+        <CitadelLightBox
+          citadelLightBoxFiles={citadelLightBoxFiles}
+          citadelLightBoxSenderId={citadelLightBoxSenderId}
+          citadelLightBoxSenderName={citadelLightBoxSenderName}
+          citadelLightBoxSentDate={citadelLightBoxSentDate}
+          initialIndex={initialIndex}
+          citadelLightBoxOpen={citadelLightBoxOpen}
+          setCitadelLightBoxOpen={setCitadelLightBoxOpen}
         />
       )}
     </>

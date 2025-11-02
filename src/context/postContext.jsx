@@ -1,5 +1,5 @@
 "use client";
-import LightBox from "@/components/modals/lightBox";
+import PostLightBox from "@/components/lightBoxes/postLightBox";
 import { createContext, useEffect, useState, useRef, useContext } from "react";
 import { UserContext } from "./userContext";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ export const PostContext = createContext();
 export const PostProvider = ({ children }) => {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [postLightboxOpen, setPostLightboxOpen] = useState(false);
   const [currentPost, setCurrentPost] = useState([]);
   const [currentPostInfo, setCurrentPostInfo] = useState(null);
   const [showDetails, setShowDetails] = useState(true);
@@ -25,7 +25,7 @@ export const PostProvider = ({ children }) => {
   const [delModal, setDelModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [postToDelete, setPostToDelete] = useState(null);
-  const lightboxRef = useRef();
+  const postLightboxRef = useRef();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -49,18 +49,24 @@ export const PostProvider = ({ children }) => {
     setCurrentPost(files);
     setInitialIndex(index);
     setCurrentPostInfo(post);
-    setLightboxOpen(true);
+    setPostLightboxOpen(true);
 
-    setTimeout(() => {
-      if (lightboxRef.current) {
-        const fileWidth = lightboxRef.current.children[0].offsetWidth;
-        lightboxRef.current.scrollLeft = fileWidth * index;
-      }
-    }, 50);
+    const scrollToIndex = () => {
+      postLightboxRef.current.scrollTo({
+        left: postLightboxRef.current.clientWidth * index,
+        behavior: "instant",
+      });
+    };
+
+    const timeout = setTimeout(() => {
+      scrollToIndex();
+    }, 0);
+
+    return () => clearTimeout(timeout);
   };
 
   useEffect(() => {
-    if (lightboxOpen) {
+    if (postLightboxOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -69,7 +75,7 @@ export const PostProvider = ({ children }) => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [lightboxOpen]);
+  }, [postLightboxOpen]);
 
   const handleEnergize = async (post) => {
     try {
@@ -158,12 +164,13 @@ export const PostProvider = ({ children }) => {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
       console.error(err);
     } finally {
-      setLightboxOpen(false);
+      setPostLightboxOpen(false);
       if (pathname.startsWith("/post")) {
         router.back();
       }
@@ -180,7 +187,8 @@ export const PostProvider = ({ children }) => {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     }
@@ -199,9 +207,9 @@ export const PostProvider = ({ children }) => {
         showDetails,
         setShowDetails,
         initialIndex,
-        lightboxOpen,
-        setLightboxOpen,
-        lightboxRef,
+        postLightboxOpen,
+        setPostLightboxOpen,
+        postLightboxRef,
         coldLoad,
         handlePostDelete,
         delModal,
@@ -212,7 +220,7 @@ export const PostProvider = ({ children }) => {
       }}
     >
       {children}
-      {lightboxOpen && <LightBox />}
+      {postLightboxOpen && <PostLightBox />}
       {delModal && (
         <DelConfirm
           onDelete={() => {
