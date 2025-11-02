@@ -25,7 +25,7 @@ export default function PostLightBox() {
     setShowDetails,
     initialIndex,
     postLightBoxOpen,
-    setPostLightboxOpen,
+    setPostLightBoxOpen,
     postLightboxRef,
   } = useContext(PostContext);
   const { user, setShowSignIn } = useContext(UserContext);
@@ -37,7 +37,7 @@ export default function PostLightBox() {
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
 
   const handlePostNav = (id, focusInput = false) => {
-    setPostLightboxOpen(false);
+    setPostLightBoxOpen(false);
     if (pathname == `/post/${id}`) {
       return;
     }
@@ -51,7 +51,7 @@ export default function PostLightBox() {
 
     window.history.pushState(null, "");
     const onPopState = () => {
-      setPostLightboxOpen(false);
+      setPostLightBoxOpen(false);
     };
 
     window.addEventListener("popstate", onPopState);
@@ -98,7 +98,7 @@ export default function PostLightBox() {
         {showDetails && (
           <button className="absolute cursor-pointer top-4 right-4">
             <MdClose
-              onClick={() => setPostLightboxOpen(false)}
+              onClick={() => setPostLightBoxOpen(false)}
               className="text-2xl font-bold duration-200 hover:scale-110 active:scale-110"
             />
           </button>
@@ -171,7 +171,7 @@ export default function PostLightBox() {
               onClick={(e) => {
                 e.stopPropagation();
                 setIsLoading(true);
-                setPostLightboxOpen(false);
+                setPostLightBoxOpen(false);
                 router.push(`/profile/${post.userId}`);
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
@@ -203,7 +203,7 @@ export default function PostLightBox() {
               onClick={(e) => {
                 setIsLoading(true);
                 e.stopPropagation();
-                setPostLightboxOpen(false);
+                setPostLightBoxOpen(false);
                 router.push(`/posts/${currentPostInfo.topic}`);
               }}
               className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] ${
@@ -230,7 +230,7 @@ export default function PostLightBox() {
                 if (user) {
                   handleEnergize(post);
                 } else {
-                  setPostLightboxOpen(false);
+                  setPostLightBoxOpen(false);
                   setShowSignIn(true);
                 }
               }}
@@ -253,7 +253,7 @@ export default function PostLightBox() {
                 if (user) {
                   handleEcho(post);
                 } else {
-                  setPostLightboxOpen(false);
+                  setPostLightBoxOpen(false);
                   setShowSignIn(true);
                 }
               }}

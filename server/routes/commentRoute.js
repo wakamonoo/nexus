@@ -146,6 +146,7 @@ router.post("/addReply", async (req, res) => {
       userName,
       userImage,
       textReply,
+      files = [],
     } = req.body;
 
     const io = req.app.get("io");
@@ -227,6 +228,7 @@ router.post("/addReply", async (req, res) => {
       userName,
       userImage,
       textReply,
+      files,
       date: new Date(),
     };
 

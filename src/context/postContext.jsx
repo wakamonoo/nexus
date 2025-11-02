@@ -15,7 +15,7 @@ export const PostContext = createContext();
 export const PostProvider = ({ children }) => {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
-  const [postLightboxOpen, setPostLightboxOpen] = useState(false);
+  const [postLightBoxOpen, setPostLightBoxOpen] = useState(false);
   const [currentPost, setCurrentPost] = useState([]);
   const [currentPostInfo, setCurrentPostInfo] = useState(null);
   const [showDetails, setShowDetails] = useState(true);
@@ -49,7 +49,7 @@ export const PostProvider = ({ children }) => {
     setCurrentPost(files);
     setInitialIndex(index);
     setCurrentPostInfo(post);
-    setPostLightboxOpen(true);
+    setPostLightBoxOpen(true);
 
     const scrollToIndex = () => {
       postLightboxRef.current.scrollTo({
@@ -66,7 +66,7 @@ export const PostProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (postLightboxOpen) {
+    if (postLightBoxOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -75,7 +75,7 @@ export const PostProvider = ({ children }) => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [postLightboxOpen]);
+  }, [postLightBoxOpen]);
 
   const handleEnergize = async (post) => {
     try {
@@ -170,7 +170,7 @@ export const PostProvider = ({ children }) => {
       });
       console.error(err);
     } finally {
-      setPostLightboxOpen(false);
+      setPostLightBoxOpen(false);
       if (pathname.startsWith("/post")) {
         router.back();
       }
@@ -207,8 +207,8 @@ export const PostProvider = ({ children }) => {
         showDetails,
         setShowDetails,
         initialIndex,
-        postLightboxOpen,
-        setPostLightboxOpen,
+        postLightBoxOpen,
+        setPostLightBoxOpen,
         postLightboxRef,
         coldLoad,
         handlePostDelete,
@@ -220,7 +220,7 @@ export const PostProvider = ({ children }) => {
       }}
     >
       {children}
-      {postLightboxOpen && <PostLightBox />}
+      {postLightBoxOpen && <PostLightBox />}
       {delModal && (
         <DelConfirm
           onDelete={() => {

@@ -21,6 +21,7 @@ import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
+import CommentLightBox from "@/components/lightBoxes/commentLightBox";
 
 dayjs.extend(relativeTime);
 
@@ -52,7 +53,15 @@ export default function Post() {
   const [commentDelModal, setCommentDelModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
   const searchParams = useSearchParams();
+  const [commentLightBoxOpen, setCommentLightBoxOpen] = useState(false);
+  const [commentLightBoxFiles, setCommentLightBoxFiles] = useState([]);
+  const [commentLightBoxSenderId, setCommentLightBoxSenderId] = useState(null);
+  const [commentLightBoxSenderName, setCommentLightBoxSenderName] =
+    useState(null);
+  const [commentLightBoxSentDate, setCommentLightBoxSentDate] = useState(null);
+  const [initialIndex, setInitialIndex] = useState(0);
   const inputRef = useRef();
+
   useEffect(() => {
     setIsLoading(false);
     if (searchParams.get("focus") === "comment" && inputRef.current) {
@@ -119,7 +128,26 @@ export default function Post() {
 
   const handleSendReply = async () => {
     try {
-      if (!commentText.trim()) return;
+      setIsLoading(true);
+
+      if (!commentText.trim() && files.length === 0) return;
+
+      let uploadedUrls = [];
+
+      if (files.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+          formData.append("files", files[i]);
+        }
+
+        const uploadRes = await fetch(`${BASE_URL}/api/uploads/commentUpload`, {
+          method: "POST",
+          body: formData,
+        });
+
+        const { urls } = await uploadRes.json();
+        uploadedUrls = urls;
+      }
 
       const newReply = {
         postId,
@@ -131,6 +159,7 @@ export default function Post() {
         userName: user.name,
         userImage: user.picture,
         textReply: commentText,
+        files: uploadedUrls,
       };
 
       const res = await fetch(`${BASE_URL}/api/comments/addReply`, {
@@ -154,14 +183,32 @@ export default function Post() {
       setReplyToCommentId(null);
       setReplyToCommentUserId(null);
       setReplyToUserName(null);
+      setFiles([]);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const firstComment = post?.comments?.sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   )[0];
+
+  const openCommentLightBox = (
+    files,
+    senderId,
+    senderName,
+    sentDate,
+    index
+  ) => {
+    setCommentLightBoxFiles(files);
+    setCommentLightBoxSenderId(senderId);
+    setCommentLightBoxSenderName(senderName);
+    setCommentLightBoxSentDate(sentDate);
+    setInitialIndex(index);
+    setCommentLightBoxOpen(true);
+  };
 
   return (
     <>
@@ -434,8 +481,8 @@ export default function Post() {
                           sizes="100vw"
                           className="w-12 h-12 object-cover rounded-full cursor-pointer"
                         />
-                        <div className="flex flex-col">
-                          <div className="bg-second min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                        <div className="flex flex-col w-full">
+                          <div className="bg-second w-fit max-w-[80%] py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                             <div className="flex justify-between items-start gap-4">
                               <div className="flex flex-col">
                                 <p
@@ -458,20 +505,26 @@ export default function Post() {
                               ) : null}
                             </div>
                             {comment.textComment && (
-                              <p className="text-base text-normal py-2">
+                              <p className="text-base text-normal py-2 break-words">
                                 {comment.textComment}
                               </p>
                             )}
                           </div>
                           {comment.files && comment.files.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mt-2"
-                            >
+                            <div className="flex flex-wrap gap-2 mt-2">
                               {comment.files.map((file, index) => (
-                                <a
+                                <div
+                                  onClick={() =>
+                                    openCommentLightBox(
+                                      comment.files,
+                                      comment.userId,
+                                      comment.userName,
+                                      comment.date,
+                                      index
+                                    )
+                                  }
                                   key={index}
-                                  href={file}
-                                  data-src={file}
-                                  className="w-48 h-48 block relative"
+                                  className="w-48 h-48 block relative cursor-pointer"
                                 >
                                   {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
                                     <video
@@ -489,7 +542,7 @@ export default function Post() {
                                       className="w-full h-full object-cover rounded"
                                     />
                                   )}
-                                </a>
+                                </div>
                               ))}
                             </div>
                           )}
@@ -539,8 +592,8 @@ export default function Post() {
                                 sizes="100vw"
                                 className="w-12 h-12 object-cover rounded-full cursor-pointer"
                               />
-                              <div className="flex flex-col">
-                                <div className="bg-panel min-w-1/2 sm:min-w-1/3 md:min-w-1/4 py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                              <div className="flex flex-col w-full">
+                                <div className="bg-panel w-fit max-w-[80%] py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                                   <div className="flex justify-between items-start gap-4">
                                     <div className="flex flex-col">
                                       <p
@@ -559,19 +612,27 @@ export default function Post() {
                                       </p>
                                     </div>
                                   </div>
-                                  <p className="text-base text-normal py-2">
-                                    {reply.textReply}
-                                  </p>
+                                  {reply.textReply && (
+                                    <p className="text-base text-normal py-2 break-words">
+                                      {reply.textReply}
+                                    </p>
+                                  )}
                                 </div>
-                                {comment.files && comment.files.length > 0 && (
-                                  <div className="flex flex-wrap gap-2 mt-2"
-                                  >
-                                    {comment.files.map((file, index) => (
-                                      <a
+                                {reply.files && reply.files.length > 0 && (
+                                  <div className="flex flex-wrap gap-2 mt-2">
+                                    {reply.files.map((file, index) => (
+                                      <div
+                                        onClick={() =>
+                                          openCommentLightBox(
+                                            reply.files,
+                                            reply.userId,
+                                            reply.userName,
+                                            reply.date,
+                                            index
+                                          )
+                                        }
                                         key={index}
-                                        href={file}
-                                        data-src={file}
-                                        className="w-48 h-48 block relative"
+                                        className="w-48 h-48 block relative cursor-pointer"
                                       >
                                         {file.match(
                                           /\.(mp4|mov|avi|webm)$/i
@@ -584,14 +645,14 @@ export default function Post() {
                                         ) : (
                                           <Image
                                             src={file}
-                                            alt={`comment by ${comment.userName}`}
+                                            alt={`reply by ${reply.userName}`}
                                             width={0}
                                             height={0}
                                             sizes="100vw"
                                             className="w-full h-full object-cover rounded"
                                           />
                                         )}
-                                      </a>
+                                      </div>
                                     ))}
                                   </div>
                                 )}
@@ -679,12 +740,12 @@ export default function Post() {
                       type="text"
                       value={commentText}
                       onChange={(e) => setCommentText(e.target.value)}
-                      onKeyDown={(e) => {
+                      onKeyDown={async (e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
                           if (!user) return setShowSignIn(true);
-                          if (isReplying) handleSendReply();
-                          else handleSendComment();
+                          if (isReplying) await handleSendReply();
+                          else await handleSendComment();
                         }
                       }}
                       className="w-full text-normal outline-none text-base font-normal truncate"
@@ -721,6 +782,14 @@ export default function Post() {
                         const selectedFiles = Array.from(e.target.files);
                         setFiles((prev) => [...prev, ...selectedFiles]);
                       }}
+                      onKeyDown={async (e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          if (!user) return setShowSignIn(true);
+                          if (isReplying) await handleSendReply();
+                          else await handleSendComment();
+                        }
+                      }}
                     />
                     <RiFileGifFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
                   </div>
@@ -747,6 +816,18 @@ export default function Post() {
           commentToDelete={commentToDelete}
           post={post}
           userId={user?.uid}
+        />
+      )}
+
+      {commentLightBoxOpen && (
+        <CommentLightBox
+          commentLightBoxFiles={commentLightBoxFiles}
+          commentLightBoxSenderId={commentLightBoxSenderId}
+          commentLightBoxSenderName={commentLightBoxSenderName}
+          commentLightBoxSentDate={commentLightBoxSentDate}
+          initialIndex={initialIndex}
+          commentLightBoxOpen={commentLightBoxOpen}
+          setCommentLightBoxOpen={setCommentLightBoxOpen}
         />
       )}
     </>

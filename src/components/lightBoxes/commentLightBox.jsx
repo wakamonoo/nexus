@@ -10,27 +10,27 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-export default function CitadelLightBox({
-  citadelLightBoxFiles,
-  citadelLightBoxSenderId,
-  citadelLightBoxSenderName,
-  citadelLightBoxSentDate,
+export default function CommentLightBox({
+  commentLightBoxFiles,
+  commentLightBoxSenderId,
+  commentLightBoxSenderName,
+  commentLightBoxSentDate,
   initialIndex,
-  citadelLightBoxOpen,
-  setCitadelLightBoxOpen,
+  commentLightBoxOpen,
+  setCommentLightBoxOpen,
 }) {
   const [showDetails, setShowDetails] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { setIsLoading } = useContext(LoaderContext);
-  const citadelLightBoxRef = useRef();
+  const commentLightBoxRef = useRef();
   const router = useRouter();
 
   useEffect(() => {
-    if (!citadelLightBoxOpen) return;
+    if (!commentLightBoxOpen) return;
 
     window.history.pushState(null, "");
     const onPopState = () => {
-      setCitadelLightBoxOpen(false);
+      setCommentLightBoxOpen(false);
     };
 
     window.addEventListener("popstate", onPopState);
@@ -38,14 +38,14 @@ export default function CitadelLightBox({
     return () => {
       window.removeEventListener("popstate", onPopState);
     };
-  }, [citadelLightBoxOpen]);
+  }, [commentLightBoxOpen]);
 
   useEffect(() => {
-    if (!citadelLightBoxOpen || !citadelLightBoxRef.current) return;
+    if (!commentLightBoxOpen || !commentLightBoxRef.current) return;
 
     const scrollToIndex = () => {
-      citadelLightBoxRef.current.scrollTo({
-        left: citadelLightBoxRef.current.clientWidth * initialIndex,
+      commentLightBoxRef.current.scrollTo({
+        left: commentLightBoxRef.current.clientWidth * initialIndex,
         behavior: "instant",
       });
     };
@@ -55,27 +55,27 @@ export default function CitadelLightBox({
     }, 0);
 
     return () => clearTimeout(timeout);
-  }, [citadelLightBoxOpen, initialIndex]);
+  }, [commentLightBoxOpen, initialIndex]);
 
   const handleNext = () => {
-    if (!citadelLightBoxRef.current) return;
-    if (currentIndex < citadelLightBoxFiles.length - 1) {
+    if (!commentLightBoxRef.current) return;
+    if (currentIndex < commentLightBoxFiles.length - 1) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
-      citadelLightBoxRef.current.scrollTo({
-        left: citadelLightBoxRef.current.clientWidth * newIndex,
+      commentLightBoxRef.current.scrollTo({
+        left: commentLightBoxRef.current.clientWidth * newIndex,
         behavior: "smooth",
       });
     }
   };
 
   const handlePrev = () => {
-    if (!citadelLightBoxRef.current) return;
+    if (!commentLightBoxRef.current) return;
     if (currentIndex > 0) {
       const newIndex = currentIndex - 1;
       setCurrentIndex(newIndex);
-      citadelLightBoxRef.current.scrollTo({
-        left: citadelLightBoxRef.current.clientWidth * newIndex,
+      commentLightBoxRef.current.scrollTo({
+        left: commentLightBoxRef.current.clientWidth * newIndex,
         behavior: "smooth",
       });
     }
@@ -84,22 +84,22 @@ export default function CitadelLightBox({
   return (
     <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
       <div className="z-50 inset-0">
-        {showDetails && citadelLightBoxFiles.length > 1 ? (
+        {showDetails && commentLightBoxFiles.length > 1 ? (
           <div className="absolute top-5 left-4">
             <p className="text-xs text-vibe">
-              {currentIndex + 1}/{citadelLightBoxFiles.length}
+              {currentIndex + 1}/{commentLightBoxFiles.length}
             </p>
           </div>
         ) : null}
         {showDetails && (
           <button className="absolute cursor-pointer top-4 right-4">
             <MdClose
-              onClick={() => setCitadelLightBoxOpen(false)}
+              onClick={() => setCommentLightBoxOpen(false)}
               className="text-2xl font-bold duration-200 hover:scale-110 active:scale-110"
             />
           </button>
         )}
-        {showDetails && citadelLightBoxFiles.length > 1 && (
+        {showDetails && commentLightBoxFiles.length > 1 && (
           <>
             <button
               onClick={(e) => {
@@ -133,10 +133,10 @@ export default function CitadelLightBox({
           e.stopPropagation();
           setShowDetails((prev) => !prev);
         }}
-        ref={citadelLightBoxRef}
+        ref={commentLightBoxRef}
         className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-[100%] h-[100%] scrollbar-hide"
       >
-        {citadelLightBoxFiles.map((file, index) => {
+        {commentLightBoxFiles.map((file, index) => {
           const ext = file.split(".").pop().toLowerCase();
 
           return (
@@ -166,23 +166,23 @@ export default function CitadelLightBox({
               onClick={(e) => {
                 e.stopPropagation();
                 setIsLoading(true);
-                setCitadelLightBoxOpen(false);
-                router.push(`/profile/${citadelLightBoxSenderId}`);
+                setCommentLightBoxOpen(false);
+                router.push(`/profile/${commentLightBoxSenderId}`);
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
             >
-              {citadelLightBoxSenderName}
+              {commentLightBoxSenderName}
             </p>
             <p className="text-xs text-vibe">
               {(() => {
                 const diffWeeks = dayjs().diff(
-                  dayjs(citadelLightBoxSentDate),
+                  dayjs(commentLightBoxSentDate),
                   "week"
                 );
                 if (diffWeeks < 1) {
-                  return dayjs(citadelLightBoxSentDate).fromNow();
+                  return dayjs(commentLightBoxSentDate).fromNow();
                 }
-                return new Date(citadelLightBoxSentDate).toLocaleDateString(
+                return new Date(commentLightBoxSentDate).toLocaleDateString(
                   [],
                   {
                     month: "short",
