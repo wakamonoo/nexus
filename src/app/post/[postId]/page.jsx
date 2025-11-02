@@ -21,13 +21,6 @@ import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
-import LightGallery from "lightgallery/react";
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgZoom from "lightgallery/plugins/zoom";
-
-import "lightgallery/css/lightgallery.css";
-import "lightgallery/css/lg-zoom.css";
-import "lightgallery/css/lg-thumbnail.css";
 
 dayjs.extend(relativeTime);
 
@@ -471,10 +464,7 @@ export default function Post() {
                             )}
                           </div>
                           {comment.files && comment.files.length > 0 && (
-                            <LightGallery
-                              speed={500}
-                              plugins={[lgThumbnail, lgZoom]}
-                              elementClassNames="flex flex-wrap gap-2 mt-2"
+                            <div className="flex flex-wrap gap-2 mt-2"
                             >
                               {comment.files.map((file, index) => (
                                 <a
@@ -501,7 +491,7 @@ export default function Post() {
                                   )}
                                 </a>
                               ))}
-                            </LightGallery>
+                            </div>
                           )}
                           <div className="flex items-center justify-start px-2 gap-2">
                             <p
@@ -574,10 +564,7 @@ export default function Post() {
                                   </p>
                                 </div>
                                 {comment.files && comment.files.length > 0 && (
-                                  <LightGallery
-                                    speed={500}
-                                    plugins={[lgThumbnail, lgZoom]}
-                                    elementClassNames="flex flex-wrap gap-2 mt-2"
+                                  <div className="flex flex-wrap gap-2 mt-2"
                                   >
                                     {comment.files.map((file, index) => (
                                       <a
@@ -606,7 +593,7 @@ export default function Post() {
                                         )}
                                       </a>
                                     ))}
-                                  </LightGallery>
+                                  </div>
                                 )}
                                 <div className="flex items-center justify-start px-2 gap-2">
                                   <p

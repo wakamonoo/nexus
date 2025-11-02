@@ -12,7 +12,6 @@ import {
   FaTrash,
   FaUserSlash,
 } from "react-icons/fa";
-import ShowLoader from "@/components/loaders/showLoader";
 import ChatLoader from "@/components/loaders/chatLoder";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
@@ -20,15 +19,8 @@ import MessageDelConfirm from "@/components/modals/messageDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
-import { RiFileGifFill, RiGiftFill, RiImageAiFill } from "react-icons/ri";
-import LightGallery from "lightgallery/react";
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgZoom from "lightgallery/plugins/zoom";
+import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
 
-import "lightgallery/css/lightgallery.css";
-import "lightgallery/css/lg-zoom.css";
-import "lightgallery/css/lg-thumbnail.css";
-import { BsFiletypeGif } from "react-icons/bs";
 
 dayjs.extend(relativeTime);
 
@@ -259,10 +251,8 @@ export default function Citadel() {
                             </div>
 
                             {msg.files && msg.files.length > 0 && (
-                              <LightGallery
-                                speed={500}
-                                plugins={[lgThumbnail, lgZoom]}
-                                elementClassNames="flex flex-wrap gap-2 mt-2"
+                              <div
+                                className="flex flex-wrap gap-2 mt-2"
                               >
                                 {msg.files.map((file, index) => (
                                   <a
@@ -289,7 +279,7 @@ export default function Citadel() {
                                     )}
                                   </a>
                                 ))}
-                              </LightGallery>
+                              </div>
                             )}
                             <div className="flex items-center justify-end px-2">
                               <p

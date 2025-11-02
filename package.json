@@ -29,8 +29,6 @@
     "express": "^5.1.0",
     "firebase": "^12.2.1",
     "firebase-admin": "^13.5.0",
-    "lg-react": "^0.0.0",
-    "lightgallery": "^2.9.0",
     "lineicons-react": "^2.0.0",
     "mongodb": "^6.19.0",
     "multer": "^2.0.2",
