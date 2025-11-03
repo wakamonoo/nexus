@@ -481,7 +481,7 @@ export default function Post() {
                           sizes="100vw"
                           className="w-12 h-12 object-cover rounded-full cursor-pointer"
                         />
-                        <div className="flex flex-col w-full">
+                        <div className="flex flex-col w-[85%] sm:w-full">
                           <div className="bg-second w-fit max-w-[80%] py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                             <div className="flex justify-between items-start gap-4">
                               <div className="flex flex-col">
@@ -592,7 +592,7 @@ export default function Post() {
                                 sizes="100vw"
                                 className="w-12 h-12 object-cover rounded-full cursor-pointer"
                               />
-                              <div className="flex flex-col w-full">
+                              <div className="flex flex-col w-[85%] sm:w-full">
                                 <div className="bg-panel w-fit max-w-[80%] py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                                   <div className="flex justify-between items-start gap-4">
                                     <div className="flex flex-col">
