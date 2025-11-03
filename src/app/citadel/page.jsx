@@ -21,6 +21,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
 import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
 import CitadelLightBox from "@/components/lightBoxes/citadelLightBox";
+import GifPicker from "@/components/modals/gifPicker";
 
 dayjs.extend(relativeTime);
 
@@ -47,6 +48,7 @@ export default function Citadel() {
     useState(null);
   const [citadelLightBoxSentDate, setCitadelLightBoxSentDate] = useState(null);
   const [initialIndex, setInitialIndex] = useState(0);
+  const [showGifPicker, setShowGifPicker] = useState(false);
   const router = useRouter();
 
   const sendMessage = async () => {
@@ -274,38 +276,51 @@ export default function Citadel() {
 
                             {msg.files && msg.files.length > 0 && (
                               <div className="flex flex-wrap gap-2 mt-2">
-                                {msg.files.map((file, index) => (
-                                  <div
-                                    onClick={() =>
-                                      openCitadelLightBox(
-                                        msg.files,
-                                        msg.senderId,
-                                        msg.sender,
-                                        msg.messagedAt,
-                                        index
-                                      )
-                                    }
-                                    key={index}
-                                    className="w-48 h-48 block relative cursor-pointer"
-                                  >
-                                    {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
-                                      <video
-                                        src={file}
-                                        controls
-                                        className="w-full h-full rounded"
-                                      />
-                                    ) : (
-                                      <Image
-                                        src={file}
-                                        alt={`sent by ${msg.sender}`}
-                                        width={0}
-                                        height={0}
-                                        sizes="100vw"
-                                        className="w-full h-full object-cover rounded"
-                                      />
-                                    )}
-                                  </div>
-                                ))}
+                                {msg.files.map((file, index) => {
+                                 
+
+                                  const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
+                                    file
+                                  );
+                                  const isImage =
+                                    /\.(jpg|peg|png|gif|webp)$/i.test(file);
+                                  const isGif =
+                                    file.includes("tenor.com") ||
+                                    file.includes("media.tenor.com");
+
+                                  return (
+                                    <div
+                                      onClick={() =>
+                                        openCitadelLightBox(
+                                          msg.files,
+                                          msg.senderId,
+                                          msg.sender,
+                                          msg.messagedAt,
+                                          index
+                                        )
+                                      }
+                                      key={index}
+                                      className="w-48 h-48 block relative cursor-pointer"
+                                    >
+                                      {isVideo ? (
+                                        <video
+                                          src={file}
+                                          controls
+                                          className="w-full h-full rounded"
+                                        />
+                                      ) : isImage || isGif ? (
+                                        <Image
+                                          src={file}
+                                          alt={`sent by ${msg.sender}`}
+                                          width={0}
+                                          height={0}
+                                          sizes="100vw"
+                                          className="w-full h-full object-cover rounded"
+                                        />
+                                      ) : null}
+                                    </div>
+                                  );
+                                })}
                               </div>
                             )}
                             <div className="flex items-center justify-end px-2">
@@ -350,30 +365,37 @@ export default function Citadel() {
             <div className="px-2 mb-2">
               {files.length > 0 && (
                 <div className="flex flex-wrap gap-2 border-1 border-panel py-2 px-4 bg-second rounded-2xl">
-                  {files.map((file, index) => (
-                    <div key={index} className="w-20 h-20 relative">
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt={`preivew-${index}`}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-cover rounded"
-                      />
-                      <div className="absolute top-1 right-1">
-                        <button
-                          onClick={() => {
-                            setFiles((prev) =>
-                              prev.filter((_, i) => i !== index)
-                            );
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <FaTrash />
-                        </button>
+                  {files.map((file, index) => {
+                    const previewSrc =
+                      typeof file === "string"
+                        ? file
+                        : URL.createObjectURL(file);
+
+                    return (
+                      <div key={index} className="w-20 h-20 relative">
+                        <Image
+                          src={previewSrc}
+                          alt={`preivew-${index}`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover rounded"
+                        />
+                        <div className="absolute top-1 right-1">
+                          <button
+                            onClick={() => {
+                              setFiles((prev) =>
+                                prev.filter((_, i) => i !== index)
+                              );
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <FaTrash />
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -417,7 +439,10 @@ export default function Citadel() {
                       setFiles((prev) => [...prev, ...selectedFiles]);
                     }}
                   />
-                  <RiFileGifFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                  <RiFileGifFill
+                    onClick={() => setShowGifPicker((prev) => !prev)}
+                    className="text-xl text-[var(--color-text)]/60 shrink-0 cursor-pointer"
+                  />
                 </div>
               </div>
             </div>
@@ -440,6 +465,15 @@ export default function Citadel() {
           initialIndex={initialIndex}
           citadelLightBoxOpen={citadelLightBoxOpen}
           setCitadelLightBoxOpen={setCitadelLightBoxOpen}
+        />
+      )}
+      {showGifPicker && (
+        <GifPicker
+          onSelect={(gifUrl) => {
+            setFiles((prev) => [...prev, gifUrl]);
+            setShowGifPicker(false);
+          }}
+          setShowGifPicker={setShowGifPicker}
         />
       )}
     </>
