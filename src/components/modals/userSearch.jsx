@@ -123,12 +123,14 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                     sizes="100vw"
                     className="w-12 h-12 object-fill rounded-full"
                   />
-                  <p
-                    className="text-normal text-base font-bold
-                  "
-                  >
-                    {profile.name}
-                  </p>
+                  <div className="flex flex-col">
+                    <p className="text-normal text-base font-bold">
+                      {profile.name}
+                    </p>
+                    <p className="text-vibe text-sm truncate w-64">
+                      {profile.bio || null}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))
