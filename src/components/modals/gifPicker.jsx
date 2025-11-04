@@ -13,6 +13,7 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
   const [gifs, setGifs] = useState([]);
   const [query, setQuery] = useState("trending");
   const [isLoading, setIsLoading] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const fetchGifs = async () => {
@@ -60,10 +61,25 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
             <div className="flex w-full justify-between items-center gap-2 bg-panel px-4 py-2 rounded-full">
               <input
                 type="text"
-                onChange={(e) => setQuery(e.target.value || "trending")}
-                placeholder="Search for GIFS.."
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Search tenor.."
                 className="w-full outline-none text-base text-normal"
+                onKeyDown={(e) => {
+                  if ((e.key === "Enter") & !e.shiftKey) {
+                    e.preventDefault();
+                    setQuery(inputValue || "trending");
+                  }
+                }}
               />
+              <button
+                onClick={() => {
+                  setQuery(inputValue || "trending");
+                }}
+                className="cursor-pointer"
+              >
+                <HiOutlineSearch className="text-2xl text-normal" />
+              </button>
             </div>
             {isLoading ? (
               <div className="w-full mt-4">

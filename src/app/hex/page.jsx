@@ -246,7 +246,7 @@ export default function Main() {
                 placeholder="Search for your favorite marvel titles.."
                 className="w-full outline-none text-base text-normal"
               />
-              <button onClick={handleTitleSearch}>
+              <button onClick={handleTitleSearch} className="cursor-pointer">
                 <HiOutlineSearch className="text-2xl text-normal" />
               </button>
             </div>
