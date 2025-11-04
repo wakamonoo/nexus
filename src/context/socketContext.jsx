@@ -89,7 +89,7 @@ export const SocketProvider = ({ children }) => {
               width={0}
               height={0}
               sizes="100vw"
-              className="cursor-pointer w-12 h-12 object-cover rounded-full"
+               className={`cursor-pointer w-12 h-12 shrink-0 object-cover ${pingData.type === "sigil" ? "rounded-none" : "rounded-full "}`}
             />
             <div className="flex-1">
               <p className="text-base text-normal font-semibold">

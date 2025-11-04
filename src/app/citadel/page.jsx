@@ -411,7 +411,7 @@ export default function Citadel() {
                 width={0}
                 height={0}
                 sizes="100vw"
-                className="w-12 h-12 object-cover rounded-full"
+                className="w-12 h-12 object-cover rounded-full shrink-0"
               />
               <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">
                 <div className="flex items-center w-full gap-2">
