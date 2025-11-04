@@ -57,8 +57,7 @@ export default function Post() {
   const [commentLightBoxOpen, setCommentLightBoxOpen] = useState(false);
   const [commentLightBoxFiles, setCommentLightBoxFiles] = useState([]);
   const [commentLightBoxUserId, setCommentLightBoxUserId] = useState(null);
-  const [commentLightBoxUserName, setCommentLightBoxUserName] =
-    useState(null);
+  const [commentLightBoxUserName, setCommentLightBoxUserName] = useState(null);
   const [commentLightBoxDate, setCommentLightBoxDate] = useState(null);
   const [initialIndex, setInitialIndex] = useState(0);
   const [showGifPicker, setShowGifPicker] = useState(false);
@@ -211,13 +210,7 @@ export default function Post() {
     (a, b) => new Date(a.date) - new Date(b.date)
   )[0];
 
-  const openCommentLightBox = (
-    files,
-    userId,
-    userName,
-    date,
-    index
-  ) => {
+  const openCommentLightBox = (files, userId, userName, date, index) => {
     setCommentLightBoxFiles(files);
     setCommentLightBoxUserId(userId);
     setCommentLightBoxUserName(userName);
@@ -228,7 +221,7 @@ export default function Post() {
 
   return (
     <>
-      <div className="bg-brand">
+      <div className="bg-brand w-full">
         <div className="relative bg-panel border-b-1 border-[var(--color-secondary)] p-6 flex justify-center items-center">
           <FaAngleLeft
             onClick={() => router.back()}
@@ -471,7 +464,7 @@ export default function Post() {
                 )}
               </aside>
 
-              <div className="flex flex-col gap-4 p-4">
+              <div className="flex flex-col gap-4 p-2 w-full">
                 {post?.comments?.length === 0 ? (
                   <div className="flex items-center justify-center py-16">
                     <div className="flex items-center gap-2">
@@ -497,8 +490,8 @@ export default function Post() {
                           sizes="100vw"
                           className="w-12 h-12 object-cover rounded-full cursor-pointer"
                         />
-                        <div className="flex flex-col w-[85%] sm:w-full">
-                          <div className="bg-second w-fit max-w-[80%] py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                        <div className="flex flex-col w-full">
+                          <div className="bg-second w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                             <div className="flex justify-between items-start gap-4">
                               <div className="flex flex-col">
                                 <p
@@ -521,7 +514,10 @@ export default function Post() {
                               ) : null}
                             </div>
                             {comment.textComment && (
-                              <p className="text-base text-normal py-2 break-words">
+                              <p
+                                className="text-base text-normal py-2 max-w-full whitespace-pre-wrap"
+                                style={{ overflowWrap: "anywhere" }}
+                              >
                                 {comment.textComment}
                               </p>
                             )}
@@ -620,8 +616,8 @@ export default function Post() {
                                 sizes="100vw"
                                 className="w-12 h-12 object-cover rounded-full cursor-pointer"
                               />
-                              <div className="flex flex-col w-[85%] sm:w-full">
-                                <div className="bg-panel w-fit max-w-[80%] py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                              <div className="flex flex-col w-full">
+                                <div className="bg-panel w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                                   <div className="flex justify-between items-start gap-4">
                                     <div className="flex flex-col">
                                       <p
@@ -641,7 +637,10 @@ export default function Post() {
                                     </div>
                                   </div>
                                   {reply.textReply && (
-                                    <p className="text-base text-normal py-2 break-words">
+                                    <p
+                                      className="text-base text-normal py-2 max-w-full whitespace-pre-wrap"
+                                      style={{ overflowWrap: "anywhere" }}
+                                    >
                                       {reply.textReply}
                                     </p>
                                   )}
