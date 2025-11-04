@@ -12,9 +12,9 @@ dayjs.extend(relativeTime);
 
 export default function CommentLightBox({
   commentLightBoxFiles,
-  commentLightBoxSenderId,
-  commentLightBoxSenderName,
-  commentLightBoxSentDate,
+  commentLightBoxUserId,
+  commentLightBoxUserName,
+  commentLightBoxDate,
   initialIndex,
   commentLightBoxOpen,
   setCommentLightBoxOpen,
@@ -167,22 +167,22 @@ export default function CommentLightBox({
                 e.stopPropagation();
                 setIsLoading(true);
                 setCommentLightBoxOpen(false);
-                router.push(`/profile/${commentLightBoxSenderId}`);
+                router.push(`/profile/${commentLightBoxUserId}`);
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
             >
-              {commentLightBoxSenderName}
+              {commentLightBoxUserName}
             </p>
             <p className="text-xs text-vibe">
               {(() => {
                 const diffWeeks = dayjs().diff(
-                  dayjs(commentLightBoxSentDate),
+                  dayjs(commentLightBoxDate),
                   "week"
                 );
                 if (diffWeeks < 1) {
-                  return dayjs(commentLightBoxSentDate).fromNow();
+                  return dayjs(commentLightBoxDate).fromNow();
                 }
-                return new Date(commentLightBoxSentDate).toLocaleDateString(
+                return new Date(commentLightBoxDate).toLocaleDateString(
                   [],
                   {
                     month: "short",

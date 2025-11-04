@@ -22,6 +22,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
 import CommentLightBox from "@/components/lightBoxes/commentLightBox";
+import GifPicker from "@/components/modals/gifPicker";
 
 dayjs.extend(relativeTime);
 
@@ -55,11 +56,12 @@ export default function Post() {
   const searchParams = useSearchParams();
   const [commentLightBoxOpen, setCommentLightBoxOpen] = useState(false);
   const [commentLightBoxFiles, setCommentLightBoxFiles] = useState([]);
-  const [commentLightBoxSenderId, setCommentLightBoxSenderId] = useState(null);
-  const [commentLightBoxSenderName, setCommentLightBoxSenderName] =
+  const [commentLightBoxUserId, setCommentLightBoxUserId] = useState(null);
+  const [commentLightBoxUserName, setCommentLightBoxUserName] =
     useState(null);
-  const [commentLightBoxSentDate, setCommentLightBoxSentDate] = useState(null);
+  const [commentLightBoxDate, setCommentLightBoxDate] = useState(null);
   const [initialIndex, setInitialIndex] = useState(0);
+  const [showGifPicker, setShowGifPicker] = useState(false);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -77,12 +79,19 @@ export default function Post() {
 
       if (!commentText.trim() && files.length === 0) return;
 
-      let uploadedUrls = [];
+      const uploadedFiles = files.filter((file) => typeof file !== "string");
+      const gifUrls = files.filter(
+        (file) =>
+          typeof file === "string" &&
+          (file.includes("tenor.com") || file.includes("media.tenor.com"))
+      );
 
-      if (files.length > 0) {
+      let uploadedUrls = [...gifUrls];
+
+      if (uploadedFiles.length > 0) {
         const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-          formData.append("files", files[i]);
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          formData.append("files", uploadedFiles[i]);
         }
 
         const uploadRes = await fetch(`${BASE_URL}/api/uploads/commentUpload`, {
@@ -91,7 +100,7 @@ export default function Post() {
         });
 
         const { urls } = await uploadRes.json();
-        uploadedUrls = urls;
+        uploadedUrls = [...uploadedUrls, ...urls];
       }
 
       const newComment = {
@@ -132,12 +141,19 @@ export default function Post() {
 
       if (!commentText.trim() && files.length === 0) return;
 
-      let uploadedUrls = [];
+      const uploadedFiles = files.filter((file) => typeof file !== "string");
+      const gifUrls = files.filter(
+        (file) =>
+          typeof file === "string" &&
+          (file.includes("tenor.com") || file.includes("media.tenor.com"))
+      );
 
-      if (files.length > 0) {
+      let uploadedUrls = [...gifUrls];
+
+      if (uploadedFiles.length > 0) {
         const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-          formData.append("files", files[i]);
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          formData.append("files", uploadedFiles[i]);
         }
 
         const uploadRes = await fetch(`${BASE_URL}/api/uploads/commentUpload`, {
@@ -146,7 +162,7 @@ export default function Post() {
         });
 
         const { urls } = await uploadRes.json();
-        uploadedUrls = urls;
+        uploadedUrls = [...uploadedUrls, ...urls];
       }
 
       const newReply = {
@@ -197,15 +213,15 @@ export default function Post() {
 
   const openCommentLightBox = (
     files,
-    senderId,
-    senderName,
-    sentDate,
+    userId,
+    userName,
+    date,
     index
   ) => {
     setCommentLightBoxFiles(files);
-    setCommentLightBoxSenderId(senderId);
-    setCommentLightBoxSenderName(senderName);
-    setCommentLightBoxSentDate(sentDate);
+    setCommentLightBoxUserId(userId);
+    setCommentLightBoxUserName(userName);
+    setCommentLightBoxDate(date);
     setInitialIndex(index);
     setCommentLightBoxOpen(true);
   };
@@ -510,40 +526,52 @@ export default function Post() {
                               </p>
                             )}
                           </div>
+
                           {comment.files && comment.files.length > 0 && (
                             <div className="flex flex-wrap gap-2 mt-2">
-                              {comment.files.map((file, index) => (
-                                <div
-                                  onClick={() =>
-                                    openCommentLightBox(
-                                      comment.files,
-                                      comment.userId,
-                                      comment.userName,
-                                      comment.date,
-                                      index
-                                    )
-                                  }
-                                  key={index}
-                                  className="w-48 h-48 block relative cursor-pointer"
-                                >
-                                  {file.match(/\.(mp4|mov|avi|webm)$/i) ? (
-                                    <video
-                                      src={file}
-                                      controls
-                                      className="w-full h-full rounded"
-                                    />
-                                  ) : (
-                                    <Image
-                                      src={file}
-                                      alt={`comment by ${comment.userName}`}
-                                      width={0}
-                                      height={0}
-                                      sizes="100vw"
-                                      className="w-full h-full object-cover rounded"
-                                    />
-                                  )}
-                                </div>
-                              ))}
+                              {comment.files.map((file, index) => {
+                                const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
+                                  file
+                                );
+                                const isImage =
+                                  /\.(jpg|peg|png|gif|webp)$/i.test(file);
+                                const isGif =
+                                  file.includes("tenor.com") ||
+                                  file.includes("media.tenor.com");
+
+                                return (
+                                  <div
+                                    onClick={() =>
+                                      openCommentLightBox(
+                                        comment.files,
+                                        comment.userId,
+                                        comment.userName,
+                                        comment.date,
+                                        index
+                                      )
+                                    }
+                                    key={index}
+                                    className="w-48 h-48 block relative cursor-pointer"
+                                  >
+                                    {isVideo ? (
+                                      <video
+                                        src={file}
+                                        controls
+                                        className="w-full h-full rounded"
+                                      />
+                                    ) : isImage || isGif ? (
+                                      <Image
+                                        src={file}
+                                        alt={`sent by ${comment.sender}`}
+                                        width={0}
+                                        height={0}
+                                        sizes="100vw"
+                                        className="w-full h-full object-cover rounded"
+                                      />
+                                    ) : null}
+                                  </div>
+                                );
+                              })}
                             </div>
                           )}
                           <div className="flex items-center justify-start px-2 gap-2">
@@ -618,42 +646,51 @@ export default function Post() {
                                     </p>
                                   )}
                                 </div>
+
                                 {reply.files && reply.files.length > 0 && (
                                   <div className="flex flex-wrap gap-2 mt-2">
-                                    {reply.files.map((file, index) => (
-                                      <div
-                                        onClick={() =>
-                                          openCommentLightBox(
-                                            reply.files,
-                                            reply.userId,
-                                            reply.userName,
-                                            reply.date,
-                                            index
-                                          )
-                                        }
-                                        key={index}
-                                        className="w-48 h-48 block relative cursor-pointer"
-                                      >
-                                        {file.match(
-                                          /\.(mp4|mov|avi|webm)$/i
-                                        ) ? (
-                                          <video
-                                            src={file}
-                                            controls
-                                            className="w-full h-full rounded"
-                                          />
-                                        ) : (
-                                          <Image
-                                            src={file}
-                                            alt={`reply by ${reply.userName}`}
-                                            width={0}
-                                            height={0}
-                                            sizes="100vw"
-                                            className="w-full h-full object-cover rounded"
-                                          />
-                                        )}
-                                      </div>
-                                    ))}
+                                    {reply.files.map((file, index) => {
+                                      const isVideo =
+                                        /\.(mp4|mov|avi|webm)$/i.test(file);
+                                      const isImage =
+                                        /\.(jpg|peg|png|gif|webp)$/i.test(file);
+                                      const isGif =
+                                        file.includes("tenor.com") ||
+                                        file.includes("media.tenor.com");
+
+                                      return (
+                                        <div
+                                          onClick={() =>
+                                            openCommentLightBox(
+                                              reply.files,
+                                              reply.userId,
+                                              reply.userName,
+                                              reply.date,
+                                              index
+                                            )
+                                          }
+                                          key={index}
+                                          className="w-48 h-48 block relative cursor-pointer"
+                                        >
+                                          {isVideo ? (
+                                            <video
+                                              src={file}
+                                              controls
+                                              className="w-full h-full rounded"
+                                            />
+                                          ) : isImage || isGif ? (
+                                            <Image
+                                              src={file}
+                                              alt={`sent by ${reply.sender}`}
+                                              width={0}
+                                              height={0}
+                                              sizes="100vw"
+                                              className="w-full h-full object-cover rounded"
+                                            />
+                                          ) : null}
+                                        </div>
+                                      );
+                                    })}
                                   </div>
                                 )}
                                 <div className="flex items-center justify-start px-2 gap-2">
@@ -695,31 +732,38 @@ export default function Post() {
 
               <div className="px-2 sticky bottom-22 md:bottom-24">
                 {files.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2 py-2 px-4 bg-second border-1 border-panel rounded-2xl">
-                    {files.map((file, index) => (
-                      <div key={index} className="w-20 h-20 relative">
-                        <Image
-                          src={URL.createObjectURL(file)}
-                          alt={`preivew-${index}`}
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="w-full h-full object-cover rounded"
-                        />
-                        <div className="absolute top-1 right-1">
-                          <button
-                            onClick={() => {
-                              setFiles((prev) =>
-                                prev.filter((_, i) => i !== index)
-                              );
-                            }}
-                            className="cursor-pointer"
-                          >
-                            <FaTrash />
-                          </button>
+                  <div className="flex flex-wrap gap-2 border-1 border-panel py-2 px-4 bg-second rounded-2xl">
+                    {files.map((file, index) => {
+                      const previewSrc =
+                        typeof file === "string"
+                          ? file
+                          : URL.createObjectURL(file);
+
+                      return (
+                        <div key={index} className="w-20 h-20 relative">
+                          <Image
+                            src={previewSrc}
+                            alt={`preivew-${index}`}
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-full h-full object-cover rounded"
+                          />
+                          <div className="absolute top-1 right-1">
+                            <button
+                              onClick={() => {
+                                setFiles((prev) =>
+                                  prev.filter((_, i) => i !== index)
+                                );
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <FaTrash />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -791,7 +835,10 @@ export default function Post() {
                         }
                       }}
                     />
-                    <RiFileGifFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                    <RiFileGifFill
+                      onClick={() => setShowGifPicker((prev) => !prev)}
+                      className="text-xl text-[var(--color-text)]/60 shrink-0 cursor-pointer"
+                    />
                   </div>
                 </div>
               </div>
@@ -822,12 +869,22 @@ export default function Post() {
       {commentLightBoxOpen && (
         <CommentLightBox
           commentLightBoxFiles={commentLightBoxFiles}
-          commentLightBoxSenderId={commentLightBoxSenderId}
-          commentLightBoxSenderName={commentLightBoxSenderName}
-          commentLightBoxSentDate={commentLightBoxSentDate}
+          commentLightBoxUserId={commentLightBoxUserId}
+          commentLightBoxUserName={commentLightBoxUserName}
+          commentLightBoxDate={commentLightBoxDate}
           initialIndex={initialIndex}
           commentLightBoxOpen={commentLightBoxOpen}
           setCommentLightBoxOpen={setCommentLightBoxOpen}
+        />
+      )}
+
+      {showGifPicker && (
+        <GifPicker
+          onSelect={(gifUrl) => {
+            setFiles((prev) => [...prev, gifUrl]);
+            setShowGifPicker(false);
+          }}
+          setShowGifPicker={setShowGifPicker}
         />
       )}
     </>
