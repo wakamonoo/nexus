@@ -94,7 +94,7 @@ export default function PostStructure({ post }) {
                 router.push(`/profile/${post.userId}`);
               }
             }}
-            className="text-base mt-2 font-bold leading-3.5"
+            className="text-base mt-2 font-bold leading-3.5 truncate"
           >
             {post.userName}
           </p>

@@ -289,7 +289,7 @@ export default function Post() {
                             setIsLoading(true);
                             router.push(`/profile/${post?.userId}`);
                           }}
-                          className="cursor-pointer text-base mt-2 font-bold leading-3.5"
+                          className="cursor-pointer text-base mt-2 font-bold leading-3.5 truncate"
                         >
                           {post?.userName}
                         </p>

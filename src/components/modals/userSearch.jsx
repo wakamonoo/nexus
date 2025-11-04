@@ -112,7 +112,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                   setIsLoading(true);
                   router.push(`profile/${profile.uid}`);
                 }}
-                className="w-full rounded-full bg-panel p-2"
+                className="w-full rounded-full bg-second border-1 border-panel p-2"
               >
                 <div className="flex gap-2 items-center cursor-pointer">
                   <Image
@@ -124,7 +124,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                     className="w-12 h-12 object-fill rounded-full"
                   />
                   <div className="flex flex-col">
-                    <p className="text-normal text-base font-bold">
+                    <p className="text-normal text-base font-bold truncate">
                       {profile.name}
                     </p>
                     <p className="text-vibe text-sm truncate w-64">
