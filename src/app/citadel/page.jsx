@@ -59,12 +59,19 @@ export default function Citadel() {
 
       justSentMessage.current = true;
 
-      let uploadedUrls = [];
+      const uploadedFiles = files.filter((file) => typeof file !== "string");
+      const gifUrls = files.filter(
+        (file) =>
+          typeof file === "string" &&
+          (file.includes("tenor.com") || file.includes("media.tenor.com"))
+      );
 
-      if (files.length > 0) {
+      let uploadedUrls = [...gifUrls];
+
+      if (uploadedFiles.length > 0) {
         const formData = new FormData();
-        for (let i = 0; i < files.length; i++) {
-          formData.append("files", files[i]);
+        for (let i = 0; i < uploadedFiles.length; i++) {
+          formData.append("files", uploadedFiles[i]);
         }
 
         const uploadRes = await fetch(`${BASE_URL}/api/uploads/citadelUpload`, {
@@ -73,7 +80,7 @@ export default function Citadel() {
         });
 
         const { urls } = await uploadRes.json();
-        uploadedUrls = urls;
+        uploadedUrls = [...uploadedUrls, ...urls];
       }
 
       const data = {
@@ -277,8 +284,6 @@ export default function Citadel() {
                             {msg.files && msg.files.length > 0 && (
                               <div className="flex flex-wrap gap-2 mt-2">
                                 {msg.files.map((file, index) => {
-                                 
-
                                   const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
                                     file
                                   );
