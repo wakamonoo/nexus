@@ -101,7 +101,7 @@ export default function AccountDelConfirm({
             <span className="text-sm text-vibe opacity-80">
               All data associated with this account will also be deleted,
               including your posts, comments, reviews, reactions (Energized and
-              Echoed), and your watch count in the database. Do you still wish
+              Echoed), watch count and list, and pings in the database. Do you still wish
               to continue?
             </span>
           </p>

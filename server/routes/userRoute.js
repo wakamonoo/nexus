@@ -124,6 +124,8 @@ router.delete("/deleteUser/:uid", async (req, res) => {
     await db.collection("users").deleteOne({ uid });
     await db.collection("messages").deleteMany({ senderId: uid });
     await db.collection("posts").deleteMany({ userId: uid });
+    await db.collection("pings").deleteMany({ userId: uid });
+    await db.collection("watchList").deleteMany({ userId: uid });
     await db
       .collection("posts")
       .updateMany(

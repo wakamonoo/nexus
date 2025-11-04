@@ -29,8 +29,9 @@ export default function UserNav({ setShowUserNav }) {
         <div className="flex flex-col p-4">
           <button
             onClick={() => {
-              setIsLoading(true);
-              router.push(`/profile/${user.uid}`);
+              user
+                ? (setIsLoading(true), router.push(`/profile/${user.uid}`))
+                : setShowSignIn(true);
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
