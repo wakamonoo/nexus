@@ -29,7 +29,7 @@ export default function Hero() {
             ))}
             <div className="flex justify-center py-8">
               <p className="text-xs text-vibe text-normal opacity-25">
-                oopss, that's the end of time.
+                huhu.
               </p>
             </div>
           </div>
