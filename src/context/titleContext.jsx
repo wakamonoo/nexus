@@ -3,10 +3,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { LoaderContext } from "./loaderContext";
 import Swal from "sweetalert2";
 
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
+const APP_ENV = process.env.APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export const TitleContext = createContext();
 
@@ -57,7 +64,8 @@ export const TitleProvider = ({ children }) => {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     } finally {
@@ -74,7 +82,8 @@ export const TitleProvider = ({ children }) => {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     }

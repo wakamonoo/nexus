@@ -6,12 +6,12 @@ const APP_ENV = process.env.APP_ENV;
 
 let BASE_URL;
 
-if(APP_ENV === "production") {
-  BASE_URL = "https://nexus-po8x.onrender.com"
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
 } else if (APP_ENV === "staging") {
-  BASE_URL = "https://nexus-po8x.onrender.com"
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
 } else {
-  "http://localhost:4000"
+  BASE_URL = "http://localhost:4000";
 }
 
 export const WatchContext = createContext();

@@ -34,6 +34,7 @@ const allowedOrigin = [
   "http://localhost:3000",
   "https://nexus-wakamonoo.vercel.app",
   "https://nexus-po8x.onrender.com",
+  "https://nexus-test-xxhl.onrender.com",
 ];
 
 const io = new SocketServer(server, {

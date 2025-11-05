@@ -25,10 +25,17 @@ import { LoaderContext } from "@/context/loaderContext";
 import { HiOutlineSearch } from "react-icons/hi";
 import RegularButtons from "@/components/buttons/regBtns";
 
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
+const APP_ENV = process.env.APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export default function Rank() {
   const { titles } = useContext(TitleContext);

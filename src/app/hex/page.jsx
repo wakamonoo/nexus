@@ -15,12 +15,18 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
-import { Html } from "next/document";
 
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
+const APP_ENV = process.env.APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export default function Main() {
   const { titles, pageLoad } = useContext(TitleContext);

@@ -10,10 +10,17 @@ import { GoogleAuthProvider, reauthenticateWithPopup } from "firebase/auth";
 import { auth } from "@/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";
 
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
+const APP_ENV = process.env.APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export default function AccountDelConfirm({
   setAccountDelModal,
@@ -53,7 +60,8 @@ export default function AccountDelConfirm({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     } finally {
@@ -70,7 +78,8 @@ export default function AccountDelConfirm({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     }
@@ -101,8 +110,8 @@ export default function AccountDelConfirm({
             <span className="text-sm text-vibe opacity-80">
               All data associated with this account will also be deleted,
               including your posts, comments, reviews, reactions (Energized and
-              Echoed), watch count and list, and pings in the database. Do you still wish
-              to continue?
+              Echoed), watch count and list, and pings in the database. Do you
+              still wish to continue?
             </span>
           </p>
           <div className="w-full flex gap-2">

@@ -3,14 +3,22 @@ import PostLightBox from "@/components/lightBoxes/postLightBox";
 import { createContext, useEffect, useState, useRef, useContext } from "react";
 import { UserContext } from "./userContext";
 import { usePathname, useRouter } from "next/navigation";
-const BASE_URL =
-  process.env.NODE_ENV === "production"
-    ? "https://nexus-po8x.onrender.com"
-    : "http://localhost:4000";
 import Swal from "sweetalert2";
 import { LoaderContext } from "./loaderContext";
 import DelConfirm from "@/components/modals/delConfirmation";
 export const PostContext = createContext();
+
+const APP_ENV = process.env.APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export const PostProvider = ({ children }) => {
   const { user } = useContext(UserContext);
