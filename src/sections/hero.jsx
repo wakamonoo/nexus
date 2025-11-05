@@ -19,7 +19,7 @@ export default function Hero() {
           <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="flex flex-col items-center justify-center">
               <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
-              <p className="text-xs text-vibe opacity-40">jajaja</p>
+              <p className="text-xs text-vibe opacity-40">No posts yet</p>
             </div>
           </div>
         ) : (
