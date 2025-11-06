@@ -23,7 +23,8 @@ router.post("/addTitle", async (req, res) => {
   } = req.body;
   try {
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const newId = `title-${uuidv4()}`;
     await db.collection("titles").updateOne(
@@ -76,7 +77,8 @@ router.put("/updateTitle/:titleId", async (req, res) => {
   } = req.body;
   try {
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     await db.collection("titles").updateOne(
       { titleId },
@@ -110,7 +112,8 @@ router.delete("/deleteTitle/:titleId", async (req, res) => {
   try {
     const { titleId } = req.params;
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     await db.collection("posts").deleteOne({ titleId });
 

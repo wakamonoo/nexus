@@ -7,7 +7,8 @@ router.get("/userGet/:uid", async (req, res) => {
   const { uid } = req.params;
   try {
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const result = await db.collection("users").findOne({ uid });
 
@@ -21,7 +22,8 @@ router.get("/userGet/:uid", async (req, res) => {
 router.get("/allUsersGet", async (req, res) => {
   try {
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const { query } = req.query;
 

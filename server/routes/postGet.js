@@ -6,7 +6,8 @@ const router = express.Router();
 router.get("/postGet", async (req, res) => {
   try {
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const result = await db
       .collection("posts")

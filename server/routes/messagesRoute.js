@@ -10,7 +10,8 @@ router.post("/addMessage", async (req, res) => {
 
     const io = req.app.get("io");
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const newMessage = {
       msgId: `msg-${uuid()}`,
@@ -39,7 +40,8 @@ router.delete("/deleteMessage/:messageId", async (req, res) => {
     const { messageId } = req.params;
 
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     await db.collection("messages").deleteOne({ msgId: messageId });
 

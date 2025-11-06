@@ -11,7 +11,8 @@ router.post("/watchRoute", async (req, res) => {
 
     const io = req.app.get("io");
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const titlesCount = await db.collection("titles").countDocuments();
 

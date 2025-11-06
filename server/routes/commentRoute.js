@@ -17,7 +17,8 @@ router.post("/addComment", async (req, res) => {
 
     const io = req.app.get("io");
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const post = await db.collection("posts").findOne({ postId });
 
@@ -151,7 +152,8 @@ router.post("/addReply", async (req, res) => {
 
     const io = req.app.get("io");
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const userBefore = await db.collection("users").findOne({ uid: userId });
 

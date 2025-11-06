@@ -6,8 +6,9 @@ const router = express.Router();
 router.post("/updateOrder", async (req, res) => {
   const { updates } = req.body;
   try {
-    const cliet = await clientPromise;
-    const db = cliet.db("nexus");
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const bulkOps = updates.map((u) => ({
       updateOne: {

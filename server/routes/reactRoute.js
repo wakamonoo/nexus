@@ -10,7 +10,8 @@ router.post("/postEnergize", async (req, res) => {
 
     const io = req.app.get("io");
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const post = await db.collection("posts").findOne({ postId });
 
@@ -134,7 +135,8 @@ router.post("/postEcho", async (req, res) => {
 
     const io = req.app.get("io");
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const post = await db.collection("posts").findOne({ postId });
 

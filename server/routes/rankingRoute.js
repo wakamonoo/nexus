@@ -7,7 +7,8 @@ router.post("/saveRanking", async (req, res) => {
   try {
     const { userId, rankings } = req.body;
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     await db.collection("users").updateOne(
       {

@@ -6,7 +6,8 @@ const router = express.Router();
 router.get("/latestReviewsGet", async (req, res) => {
   try {
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const titles = await db.collection("titles").find({}).toArray();
 

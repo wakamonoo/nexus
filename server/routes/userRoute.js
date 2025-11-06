@@ -11,7 +11,8 @@ router.post("/signup", async (req, res) => {
     const { uid, email, name, picture } = decoded;
 
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     await db.collection("users").updateOne(
       { uid },
@@ -39,7 +40,8 @@ router.put("/updateUser/:uid", async (req, res) => {
   const { picture, name, bio } = req.body;
   try {
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     await db.collection("users").updateOne(
       { uid },
@@ -116,7 +118,8 @@ router.delete("/deleteUser/:uid", async (req, res) => {
     const { uid } = req.params;
 
     const client = await clientPromise;
-    const db = client.db("nexus");
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
 
     const userData = await db.collection("users").findOne({ uid });
     const userRankings = userData?.rankings || [];
