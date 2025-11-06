@@ -13,7 +13,7 @@ import PopUp from "@/assets/pop-up.png";
 import { LoaderContext } from "@/context/loaderContext";
 import CircledButtons from "../buttons/circledBtns";
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 

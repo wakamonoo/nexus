@@ -25,7 +25,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import { HiOutlineSearch } from "react-icons/hi";
 import RegularButtons from "@/components/buttons/regBtns";
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 
@@ -37,7 +37,7 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function Rank() {
+export default function Powerboard() {
   const { titles } = useContext(TitleContext);
   const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);

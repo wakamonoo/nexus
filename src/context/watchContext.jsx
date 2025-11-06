@@ -2,7 +2,7 @@
 import { createContext, useContext, useState } from "react";
 import { TitleContext } from "./titleContext";
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 

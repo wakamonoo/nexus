@@ -10,7 +10,7 @@ import { GoogleAuthProvider, reauthenticateWithPopup } from "firebase/auth";
 import { auth } from "@/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 

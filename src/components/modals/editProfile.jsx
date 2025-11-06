@@ -9,7 +9,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import RegularButtons from "../buttons/regBtns";
 import AccountDelConfirm from "./accountDelConfirm";
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 

@@ -6,7 +6,7 @@ import CircledButtons from "../buttons/circledBtns";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 

@@ -26,7 +26,7 @@ import GifPicker from "@/components/modals/gifPicker";
 
 dayjs.extend(relativeTime);
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 

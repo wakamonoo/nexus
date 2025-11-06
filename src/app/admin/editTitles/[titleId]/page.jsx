@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { FaAngleLeft } from "react-icons/fa";
 import RegularButtons from "@/components/buttons/regBtns";
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 

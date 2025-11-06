@@ -8,7 +8,7 @@ import { LoaderContext } from "./loaderContext";
 import DelConfirm from "@/components/modals/delConfirmation";
 export const PostContext = createContext();
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 

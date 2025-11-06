@@ -16,7 +16,7 @@ import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
 
-const APP_ENV = process.env.APP_ENV;
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
 
