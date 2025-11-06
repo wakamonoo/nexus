@@ -204,7 +204,7 @@ export default function AddPost({ setShowAddPost }) {
                           }}
                           className="cursor-pointer"
                         >
-                          <FaTrash />
+                          <FaTrash className="text-base" />
                         </button>
                       </div>
                     </div>

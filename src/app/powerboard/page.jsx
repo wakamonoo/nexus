@@ -9,6 +9,7 @@ import {
   FaCaretRight,
   FaRegSave,
   FaSearch,
+  FaTrash,
 } from "react-icons/fa";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import { BiReset } from "react-icons/bi";
@@ -18,7 +19,7 @@ import Slot from "@/components/dnd/slot";
 import Image from "next/image";
 import { GiTrophy } from "react-icons/gi";
 import RankLoader from "@/components/loaders/powerboardLoader";
-import { MdSearchOff } from "react-icons/md";
+import { MdClose, MdSearchOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
@@ -51,15 +52,6 @@ export default function Powerboard() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    if (titles && titles.length > 0) {
-      const sorted = [...titles].sort(
-        (a, b) => new Date(b.date) - new Date(a.date)
-      );
-      setItems(sorted);
-    }
-  }, [titles]);
 
   const handleDragEnd = ({ active, over }) => {
     setDraggedItem(null);
@@ -214,10 +206,39 @@ export default function Powerboard() {
 
     setSlots(restoredSlots);
 
-    setItems((prev) =>
-      prev.filter((i) => !user.rankings?.some((r) => r.titleId === i.titleId))
+    const assignedTitleIds = Object.values(restoredSlots).map((s) => s.titleId);
+    const unrankedItems = titles.filter(
+      (t) => !assignedTitleIds.includes(t.titleId)
     );
-  }, [user]);
+
+    const sortedUnranked = unrankedItems.sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
+
+    setItems(sortedUnranked);
+  }, [user, titles]);
+
+  const handleRemoveSlot = (slotId) => {
+    setSlots((prevSlots) => {
+      const removedItems = prevSlots[slotId];
+      if (!removedItems) return;
+
+      const fullItem = titles.find((t) => t.titleId === removedItems.titleId);
+      if (fullItem) {
+        setItems((prevItems) => {
+          if (prevItems.some((i) => i.titleId === fullItem.titleId))
+            return prevItems;
+
+          return [...prevItems, fullItem].sort(
+            (a, b) => new Date(b.date) - new Date(a.date)
+          );
+        });
+      }
+
+      const { [slotId]: _, ...rest } = prevSlots;
+      return rest;
+    });
+  };
 
   return (
     <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
@@ -315,14 +336,22 @@ export default function Powerboard() {
               return (
                 <Slot key={slotId} id={slotId}>
                   {slots[slotId] ? (
-                    <Image
-                      src={slots[slotId].image}
-                      alt="image"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-full h-full object-fill rounded"
-                    />
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={slots[slotId].image}
+                        alt="image"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-fill rounded"
+                      />
+                      <button
+                        onClick={() => handleRemoveSlot(slotId)}
+                        className="absolute top-1 right-1 cursor-pointer"
+                      >
+                        <FaTrash className="text-base" />
+                      </button>
+                    </div>
                   ) : (
                     <p className="text-5xl text-vibe opacity-25">
                       {index === 0 ? <GiTrophy /> : index + 1}
