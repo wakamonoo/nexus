@@ -103,7 +103,7 @@ export const metadata = {
     title: "nexus",
     description:
       "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
-    url: "https://wakamonoo.vercel.app",
+    url: "https://nexus-wakamonoo.vercel.app",
     siteName: "nexus",
     locale: "en-us",
     type: "website",
@@ -118,7 +118,7 @@ export const metadata = {
 
   category: "Entertainment",
 
-  metadataBase: new URL("https://wakamonoo.vercel.app"),
+  metadataBase: new URL("https://nexus-wakamonoo.vercel.app"),
 };
 
 export default function RootLayout({ children }) {
