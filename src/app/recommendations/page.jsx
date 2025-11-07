@@ -27,10 +27,11 @@ export default function Recommendations() {
           background: "var(--color-secondary)",
           iconColor: "var(--color-hulk)",
           customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
+            popup:
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            title:
+              "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          },
         });
         contact.current.reset();
       },
@@ -45,10 +46,11 @@ export default function Recommendations() {
           background: "var(--color-secondary)",
           iconColor: "var(--color-accent)",
           customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
+            popup:
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            title:
+              "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          },
         });
         console.error("emailjs error:", error);
       }
@@ -63,10 +65,11 @@ export default function Recommendations() {
           Feedback & Suggestions
         </h1>
         <p className="text-normal font-normal text-base text-justify">
-          Spotted an Easter egg, found a bug even Doctor Strange missed, or have
-          an idea to make this MCU fan hub better? Your feedback helps the
-          project grow stronger than the Infinity Stones. Every suggestion,
-          question or friendly “Excelsior!” keeps the community mighty.
+          Found an issue or have an idea to enhance the platform? We value your
+          feedback, it helps us refine features, resolve issues, and shape
+          upcoming improvements. Every suggestion, report, and insight you share
+          contributes to building a better, more seamless experience for
+          everyone in the Nexus community.
         </p>
         <div className="py-4">
           <form
