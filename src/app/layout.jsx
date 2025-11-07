@@ -116,9 +116,9 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://i.imgur.com/e2unHxa.png",
-        width: 1249,
-        height: 339,
+        url: "https://i.imgur.com/WCCf5AW.png",
+        width: 1024,
+        height: 1024,
       },
     ],
   },
@@ -128,7 +128,7 @@ export const metadata = {
     title: "nexus",
     description:
       "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
-    images: "https://i.imgur.com/e2unHxa.png",
+    images: "https://i.imgur.com/WCCf5AW.png",
   },
 
   metadataBase: new URL("https://nexus-wakamonoo.vercel.app"),
