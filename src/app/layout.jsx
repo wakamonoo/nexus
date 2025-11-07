@@ -117,8 +117,8 @@ export const metadata = {
     images: [
       {
         url: "https://i.imgur.com/e2unHxa.png",
-        width: 1200,
-        height: 630,
+        width: 1249,
+        height: 339,
       },
     ],
   },
