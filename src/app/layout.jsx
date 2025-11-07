@@ -38,8 +38,87 @@ const orbitron = Orbitron({
 
 // Metadata
 export const metadata = {
-  title: "nexus",
-  description: "Explore the MCU in chronological order",
+  title: {
+    default: "nexus",
+    template: "%s | nexus",
+  },
+  description:
+    "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
+
+  keywords: [
+    "Nexus",
+    "Marvel",
+    "Marvel Cinematic Universe",
+    "MCU",
+    "MCU Watch Guide",
+    "Marvel Watch Order",
+    "MCU Release Order",
+    "MCU Chronological Order",
+    "MCU Timeline",
+    "Marvel Timeline",
+    "Marvel Movies List",
+    "MCU Series Guide",
+    "MCU Watch Tracker",
+    "MCU Rankings",
+    "Marvel Rankings",
+    "Marvel Universe Guide",
+    "MCU Community",
+    "Marvel Fan Hub",
+    "Marvel Discussion",
+    "Marvel Fansite",
+    "Marvel Phase Guide",
+    "MCU Phase Timeline",
+    "Marvel Universe Timeline",
+    "Marvel Phases Explained",
+    "MCU Database",
+    "Marvel Multiverse",
+    "Marvel Fan Portal",
+    "MCU Companion",
+    "MCU Platform",
+    "Marvel Streaming Order",
+    "Marvel Shows and Movies",
+    "Marvel Watch Platform",
+  ],
+
+  authors: [
+    { name: "wakamono of the night" },
+    { name: "Joven Bataller", url: "https://wakamonoo.vercel.app" },
+  ],
+  creator: "Joven Bataller",
+  publisher: "nexus",
+
+  applicationName: "nexus",
+
+  icons: {
+    icon: [
+      { url: "/alt_logo.png" },
+      { url: "/alt_logo.png", sizes: "32x32", type: "image/png" },
+      { url: "/alt_logo.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/alt_logo.png",
+    shortcut: "/alt_logo.png",
+  },
+
+  openGraph: {
+    title: "nexus",
+    description:
+      "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
+    url: "https://wakamonoo.vercel.app",
+    siteName: "nexus",
+    locale: "en-us",
+    type: "website",
+    images: [
+      {
+        url: "https://imgur.com/e2unHxa.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+
+  category: "Entertainment",
+
+  metadataBase: new URL("https://wakamonoo.vercel.app"),
 };
 
 export default function RootLayout({ children }) {
