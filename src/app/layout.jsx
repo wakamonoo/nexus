@@ -89,6 +89,13 @@ export const metadata = {
 
   applicationName: "nexus",
 
+  category: "Entertainment",
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
   icons: {
     icon: [
       { url: "/alt_logo.png" },
@@ -105,7 +112,7 @@ export const metadata = {
       "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
     url: "https://nexus-wakamonoo.vercel.app",
     siteName: "nexus",
-    locale: "en-us",
+    locale: "en-US",
     type: "website",
     images: [
       {
@@ -116,7 +123,13 @@ export const metadata = {
     ],
   },
 
-  category: "Entertainment",
+  twitter: {
+    card: "summary_large_image",
+    title: "nexus",
+    description:
+      "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
+    images: "https://i.imgur.com/e2unHxa.png",
+  },
 
   metadataBase: new URL("https://nexus-wakamonoo.vercel.app"),
 };
