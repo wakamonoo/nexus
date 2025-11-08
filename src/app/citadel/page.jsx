@@ -277,11 +277,12 @@ export default function Citadel() {
                               </p>
                               {msg.text && (
                                 <p
-                                  className={`text-base text-normal py-2 flex border-t-1 mt-2 ${
+                                  className={`text-base text-normal py-2 flex border-t-1 mt-2 whitespace-pre-wrap max-w-full ${
                                     ownMessage
                                       ? "justify-end border-[var(--color-panel)]"
                                       : "justify-start border-[var(--color-secondary)]"
                                   }`}
+                                  style={{ overflowWrap: "anywhere" }}
                                 >
                                   {msg.text}
                                 </p>
@@ -289,7 +290,11 @@ export default function Citadel() {
                             </div>
 
                             {msg.files && msg.files.length > 0 && (
-                              <div className="flex flex-wrap gap-2 mt-2">
+                              <div
+                                className={`flex flex-wrap gap-2 mt-2 ${
+                                  ownMessage ? "justify-end" : "justify-start"
+                                }`}
+                              >
                                 {msg.files.map((file, index) => {
                                   const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
                                     file
@@ -312,7 +317,7 @@ export default function Citadel() {
                                         )
                                       }
                                       key={index}
-                                      className="w-48 h-48 block relative cursor-pointer"
+                                      className="w-full min-w-32 max-w-60 md:max-w-90 h-auto block relative cursor-pointer"
                                     >
                                       {isVideo ? (
                                         <video

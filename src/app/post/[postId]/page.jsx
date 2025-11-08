@@ -554,7 +554,7 @@ export default function Post() {
                                       )
                                     }
                                     key={index}
-                                    className="w-48 h-48 block relative cursor-pointer"
+                                    className="w-full min-w-auto max-w-full h-auto block relative cursor-pointer"
                                   >
                                     {isVideo ? (
                                       <video
@@ -676,7 +676,7 @@ export default function Post() {
                                             )
                                           }
                                           key={index}
-                                          className="w-48 h-48 block relative cursor-pointer"
+                                          className="w-full min-w-auto max-w-full h-auto block relative cursor-pointer"
                                         >
                                           {isVideo ? (
                                             <video
