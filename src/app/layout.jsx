@@ -99,15 +99,17 @@ export const metadata = {
   verification: {
     google: "iYKOhXEC4XjkkIKgKZzvAmLnQtaQsCHa8-HREmlTjU8",
   },
-  
+
+  manifest: "/manifest.json",
+
   icons: {
     icon: [
-      { url: "/alt_logo.png" },
-      { url: "/alt_logo.png", sizes: "32x32", type: "image/png" },
-      { url: "/alt_logo.png", sizes: "16x16", type: "image/png" },
+      { url: "/icons/alt_logo.png" },
+      { url: "/icons/alt_logo.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/alt_logo.png", sizes: "16x16", type: "image/png" },
     ],
-    apple: "/alt_logo.png",
-    shortcut: "/alt_logo.png",
+    apple: "/icons/alt_logo.png",
+    shortcut: "/icons/alt_logo.png",
   },
 
   openGraph: {
@@ -136,6 +138,10 @@ export const metadata = {
   },
 
   metadataBase: new URL("https://nexus-wakamonoo.vercel.app"),
+};
+
+export const viewport = {
+  themeColor: "#1c1c1c",
 };
 
 export default function RootLayout({ children }) {
