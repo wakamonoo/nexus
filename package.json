@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "concurrently \"next dev --turbopack\" \"nodemon server/server.js\"",
     "build": "next build --turbopack",
+    "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "start": "next start",
     "lint": "eslint"
   },
@@ -33,6 +34,7 @@
     "mongodb": "^6.19.0",
     "multer": "^2.0.2",
     "next": "15.5.3",
+    "next-sitemap": "^4.2.3",
     "nodemon": "^3.1.10",
     "react": "19.1.0",
     "react-countup": "^6.5.3",

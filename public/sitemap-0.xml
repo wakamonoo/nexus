@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://nexus-wakamonoo.vercel.app/hex/release</loc><lastmod>2025-11-08T03:07:17.197Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/hex</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/powerboard</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/recommendations</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/about</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/privacyPolicy</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/sigils</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/admin/editTitles</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/trustAndLegality</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/terms&amp;Conditions</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/hex/chrono</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/heroFund</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/admin</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/admin/addTitle</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/hex/goat</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/hex/latest</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/citadel</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://nexus-wakamonoo.vercel.app/admin/updateTitlesOrder</loc><lastmod>2025-11-08T03:07:17.198Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+</urlset>
