@@ -96,6 +96,10 @@ export const metadata = {
     follow: true,
   },
 
+  verification: {
+    google: "iYKOhXEC4XjkkIKgKZzvAmLnQtaQsCHa8-HREmlTjU8",
+  },
+  
   icons: {
     icon: [
       { url: "/alt_logo.png" },
