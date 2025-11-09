@@ -194,7 +194,14 @@ export default function Powerboard() {
   };
 
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!user?.uid) {
+      const sorted = [...titles].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+      setItems(sorted);
+      setSlots({});
+      return;
+    }
 
     const restoredSlots = {};
     user.rankings?.forEach((r) => {
