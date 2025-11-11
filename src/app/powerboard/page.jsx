@@ -333,7 +333,7 @@ export default function Powerboard() {
           <div className="py-4">
             <div className="flex w-full bg-second justify-center p-2">
               <p className="font-bold text-lg text-normal uppercase">
-                Who is your goat?
+                Crown your GOAT!
               </p>
             </div>
           </div>
