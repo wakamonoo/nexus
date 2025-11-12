@@ -261,8 +261,8 @@ export default function Powerboard() {
           type="text"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search for your favorite marvel titles.."
-          className="w-full outline-none text-base text-normal"
+          placeholder="Locate the title worthy of your rank..."
+          className="w-full outline-none text-base text-normal truncate"
         />
         <button>
           <HiOutlineSearch className="text-2xl text-normal" />

@@ -100,8 +100,8 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                   handleUserSearch();
                 }
               }}
-              placeholder="Search for a user.."
-              className="w-full outline-none text-base text-normal"
+              placeholder="Locate variants across timelines..."
+              className="w-full outline-none text-base text-normal truncate"
             />
             <button onClick={handleUserSearch}>
               <HiOutlineSearch className="text-2xl text-normal" />

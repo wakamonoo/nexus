@@ -249,8 +249,8 @@ export default function Main() {
                     handleTitleSearch();
                   }
                 }}
-                placeholder="Search for your favorite marvel titles.."
-                className="w-full outline-none text-base text-normal"
+                placeholder="Locate titles accross Marvel Sagas..."
+                className="w-full outline-none text-base text-normal truncate"
               />
               <button onClick={handleTitleSearch} className="cursor-pointer">
                 <HiOutlineSearch className="text-2xl text-normal" />
