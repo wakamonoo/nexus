@@ -263,7 +263,7 @@ export default function Main() {
               <div>
                 <div className="p-2 py-2">
                   <p className="text-sm text-vibe w-full line-clamp-1">
-                    Here's the search results for{" "}
+                    Search results for{" "}
                     <span className="font-bold">"{searchInput}"</span>
                   </p>
                 </div>

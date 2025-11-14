@@ -64,6 +64,7 @@ export const metadata = {
     "Marvel Universe Guide",
     "MCU Community",
     "Marvel Fan Hub",
+    "Marvel Fanbase",
     "Marvel Discussion",
     "Marvel Fansite",
     "Marvel Phase Guide",
