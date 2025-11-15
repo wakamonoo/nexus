@@ -160,7 +160,7 @@ export default function Citadel() {
             <div className="flex flex-col items-center justify-center">
               <FaUserSlash className="text-4xl text-vibe opacity-40" />
               <p className="text-xs text-vibe opacity-40">
-                You're not logged in
+                Kindly login first
               </p>
               <div className="p-2">
                 <button
