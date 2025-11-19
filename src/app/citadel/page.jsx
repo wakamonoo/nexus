@@ -181,7 +181,7 @@ export default function Citadel() {
                 <div className="flex flex-col items-center justify-center">
                   <FaRegComments className="text-4xl text-vibe opacity-40" />
                   <p className="text-xs text-vibe opacity-40">
-                    no chats in here yet
+                    no chats yet
                   </p>
                 </div>
               </div>

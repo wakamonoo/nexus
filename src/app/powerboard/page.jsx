@@ -395,7 +395,7 @@ export default function Powerboard() {
           }}
         >
           <BiReset className="text-2xl" />
-          <p className="text-base text-normal font-bold">Reset Ranking</p>
+          <p className="text-base text-normal font-bold">Reset Rankings</p>
         </RegularButtons>
         <RegularButtons
           onClick={() => {
