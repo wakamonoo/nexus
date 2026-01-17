@@ -58,7 +58,7 @@ export default function UserProfile() {
 
   const profileUserWatch =
     watchInfo?.filter(
-      (w) => w.userId === profileUser?.uid && w.watched === true
+      (w) => w.userId === profileUser?.uid && w.watched === true,
     ) || [];
   const latestWatch = [...profileUserWatch]
     .sort((a, b) => {
@@ -165,7 +165,7 @@ export default function UserProfile() {
               ) : (
                 <div className="flex flex-col justify-center">
                   <p className="text-xs text-vibe opacity-40">
-                    {profileUser.name} haven't ranked any title yet.
+                     {`${profileUser?.name ? "you" : profileUser.name } haven't ranked any titles yet.`}
                   </p>
                 </div>
               )}
@@ -199,7 +199,7 @@ export default function UserProfile() {
               ) : (
                 <div className="flex flex-col justify-center">
                   <p className="text-xs text-vibe opacity-40">
-                    {profileUser.name} haven't watched anything yet.
+                    {`${profileUser?.name ? "you" : profileUser.name } haven't watched anything yet.`}
                   </p>
                 </div>
               )}
