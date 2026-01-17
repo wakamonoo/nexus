@@ -104,7 +104,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
               className="w-full outline-none text-base text-normal truncate"
             />
             <button onClick={handleUserSearch}>
-              <HiOutlineSearch className="text-2xl text-normal" />
+              <HiOutlineSearch className="text-2xl text-normal cursor-pointer" />
             </button>
           </div>
         </div>
