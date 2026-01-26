@@ -38,7 +38,8 @@ export const UserProvider = ({ children }) => {
       setUser(data.result);
       setIsLogged(true);
       setAdminBtn(
-        auth.currentUser.email === "joven.serdanbataller21@gmail.com"
+        auth.currentUser.email === "joven.serdanbataller21@gmail.com" ||
+          auth.currentUser.email === "wakamonoo9@gmail.com",
       );
     } catch (err) {
       console.error("error fetching user data:", err);

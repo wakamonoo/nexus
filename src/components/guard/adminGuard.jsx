@@ -13,7 +13,10 @@ export default function AdminGuard({ children }) {
     if (!user) {
       setIsAuthorized(false);
     }
-    setIsAuthorized(user?.email == "joven.serdanbataller21@gmail.com");
+    setIsAuthorized(
+      user?.email == "joven.serdanbataller21@gmail.com" ||
+        user?.email === "wakamonoo9@gmail.com",
+    );
   }, [user]);
 
   useEffect(() => {
