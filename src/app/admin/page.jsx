@@ -102,20 +102,25 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="col-span-1 mt-4">
+          <div className="col-span-1 mt-4 p-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {allUsers.map((user, i) => {
                 return (
-                  <div key={i} className="flex flex-col justify-center items-center overflow-y-auto">
+                  <div
+                    key={i}
+                    className="flex flex-col justify-center items-center overflow-y-auto"
+                  >
                     <Image
                       src={user?.picture || Fallback}
                       alt="user"
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="w-full h-full object-cover rounded-full"
+                      className="w-full h-full object-cover rounded"
                     />
-                    <p className="truncate w-16 text-center text-sm opacity-60">{user?.name}</p>
+                    <p className="truncate w-16 text-center text-sm opacity-60">
+                      {user?.name}
+                    </p>
                   </div>
                 );
               })}
