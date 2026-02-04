@@ -118,7 +118,7 @@ export default function Page() {
                       sizes="100vw"
                       className="w-full h-full object-cover rounded"
                     />
-                    <p className="truncate w-16 text-center text-sm opacity-60">
+                    <p className="truncate w-12 sm:w-14 md:w-16 lg:w-24 text-center text-sm opacity-60">
                       {user?.name}
                     </p>
                   </div>
