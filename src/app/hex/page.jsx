@@ -15,6 +15,7 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
+import { FaCircleCheck } from "react-icons/fa6";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -131,8 +132,8 @@ export default function Main() {
       setLoading(true);
       const res = await fetch(
         `${BASE_URL}/api/titles/titleGet?query=${encodeURIComponent(
-          searchInput
-        )}`
+          searchInput,
+        )}`,
       );
       const data = await res.json();
       setSearchResults(data.result);
@@ -238,23 +239,30 @@ export default function Main() {
           <TitleLoader />
         ) : (
           <>
-            <div className="flex justify-between items-center gap-2 bg-panel px-4 py-2 rounded-full">
-              <input
-                type="text"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter") & !e.shiftKey) {
-                    e.preventDefault();
-                    handleTitleSearch();
-                  }
-                }}
-                placeholder="Locate titles accross Marvel Sagas..."
-                className="w-full outline-none text-base text-normal truncate"
-              />
-              <button onClick={handleTitleSearch} className="cursor-pointer">
-                <HiOutlineSearch className="text-2xl text-normal" />
-              </button>
+            <div className="flex w-full justify-between items-center gap-2">
+              <div className="flex flex-1 items-center gap-2 bg-panel px-4 py-2 rounded-full">
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if ((e.key === "Enter") & !e.shiftKey) {
+                      e.preventDefault();
+                      handleTitleSearch();
+                    }
+                  }}
+                  placeholder="Locate titles accross Marvel Sagas..."
+                  className="w-full outline-none text-base text-normal truncate"
+                />
+                <button onClick={handleTitleSearch} className="cursor-pointer">
+                  <HiOutlineSearch className="text-2xl text-normal" />
+                </button>
+              </div>
+              <div>
+                <button className="cursor-pointer">
+                  <FaCircleCheck className="text-2xl text-normal" />
+                </button>
+              </div>
             </div>
 
             {loading ? (
