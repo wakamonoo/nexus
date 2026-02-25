@@ -1,10 +1,14 @@
 "use client";
+import { TitleContext } from "@/context/titleContext";
+import { useContext } from "react";
 import { MdClose } from "react-icons/md";
 
 export default function MarkTitlesAsWatched({ setMarkTitles }) {
+  const { titles } = useContext(TitleContext);
+
   return (
     <div className="inset-0 z-[150] backdrop-blur-xs flex items-center justify-center fixed">
-      <div className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-fit rounded-2xl overflow-hidden p-2">
+      <div className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-[80%] rounded-2xl overflow-hidden p-2">
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -14,17 +18,14 @@ export default function MarkTitlesAsWatched({ setMarkTitles }) {
         >
           <MdClose className="text-2xl" />
         </button>
-        <div className="mt-6 p-2 h-full w-full">
-          <p className="text-center text-normal font-bold py-2">
-            Are you sure you want to permanently delete your account?
-            <br />
-            <span className="text-sm text-vibe opacity-80">
-              All data associated with this account will also be deleted,
-              including your posts, comments, reviews, reactions (Energized and
-              Echoed), watch count and list, and pings in the database. Do you
-              still wish to continue?
-            </span>
-          </p>
+        <div className="mt-6 p-2 h-full w-full overflow-auto">
+          {titles.map((title) => {
+            return (
+              <div className="">
+                <p>{title.title}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
