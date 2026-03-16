@@ -18,11 +18,15 @@ export default function MarkTitlesAsWatched({ setMarkTitles }) {
         >
           <MdClose className="text-2xl" />
         </button>
-        <div className="mt-6 p-2 h-full w-full overflow-auto">
+        <div className="mt-6 px-2 py-8 h-full w-full overflow-auto">
           {titles.map((title) => {
             return (
-              <div className="">
-                <p>{title.title}</p>
+              <div key={title.titleId} className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 accent-[var(--color-accent)]"
+                />
+                <p className="truncate w-full text-base">{title.title}</p>
               </div>
             );
           })}
