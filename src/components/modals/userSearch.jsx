@@ -119,7 +119,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                   setIsLoading(true);
                   router.push(`profile/${profile.uid}`);
                 }}
-                className="w-full rounded-full bg-second border-1 border-panel p-2"
+                className="w-full rounded-full bg-second hover:bg-[var(--color-panel)] border-1 border-panel p-2"
               >
                 <div className="flex gap-2 items-center cursor-pointer">
                   <Image
