@@ -6,7 +6,15 @@ import CircledButtons from "../buttons/circledBtns";
 
 export default function MarkTitlesAsWatched({ setMarkTitles }) {
   const { titles } = useContext(TitleContext);
-  const [marked, SetMarked] = useState(false);
+  const [marked, SetMarked] = useState([]);
+
+  const toggleMarked = (title) => {
+    SetMarked((prev) =>
+      prev.some((t) => t.titleId === title.titleId)
+        ? prev.filter((t) => t.titleId !== title.titleId)
+        : [...prev, title],
+    );
+  };
 
   return (
     <div
@@ -25,11 +33,14 @@ export default function MarkTitlesAsWatched({ setMarkTitles }) {
         </button>
         <div className="mt-6 px-2 py-8 h-full w-full overflow-auto custom-scroll">
           {titles.map((title) => {
+            const isChecked = marked.some((t) => t.titleId === title.titleId);
+
             return (
               <div key={title.titleId} className="flex items-center gap-2">
                 <input
-                  onClick={(prev) => SetMarked(!prev)}
                   type="checkbox"
+                  checked={isChecked}
+                  onChange={() => toggleMarked(title)}
                   className="w-4 h-4 accent-[var(--color-accent)]"
                 />
                 <p className="truncate w-full text-base">{title.title}</p>
