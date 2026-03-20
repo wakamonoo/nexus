@@ -1,10 +1,12 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
+import CircledButtons from "../buttons/circledBtns";
 
 export default function MarkTitlesAsWatched({ setMarkTitles }) {
   const { titles } = useContext(TitleContext);
+  const [marked, SetMarked] = useState(false);
 
   return (
     <div className="inset-0 z-[150] backdrop-blur-xs flex items-center justify-center fixed">
@@ -18,11 +20,12 @@ export default function MarkTitlesAsWatched({ setMarkTitles }) {
         >
           <MdClose className="text-2xl" />
         </button>
-        <div className="mt-6 px-2 py-8 h-full w-full overflow-auto">
+        <div className="mt-6 px-2 py-8 h-full w-full overflow-auto custom-scroll">
           {titles.map((title) => {
             return (
               <div key={title.titleId} className="flex items-center gap-2">
                 <input
+                  onClick={(prev) => SetMarked(!prev)}
                   type="checkbox"
                   className="w-4 h-4 accent-[var(--color-accent)]"
                 />
@@ -30,6 +33,11 @@ export default function MarkTitlesAsWatched({ setMarkTitles }) {
               </div>
             );
           })}
+          <div className="py-4">
+            <CircledButtons>
+              <p>Mark as watched</p>
+            </CircledButtons>
+          </div>
         </div>
       </div>
     </div>
