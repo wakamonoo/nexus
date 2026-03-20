@@ -21,7 +21,10 @@ export default function MarkTitlesAsWatched({ setMarkTitles }) {
       onClick={() => setMarkTitles(false)}
       className="inset-0 z-[150] backdrop-blur-xs flex items-center justify-center fixed"
     >
-      <div className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-[80%] rounded-2xl overflow-hidden p-2">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-[80%] rounded-2xl overflow-hidden p-2"
+      >
         <button
           onClick={(e) => {
             e.stopPropagation();
