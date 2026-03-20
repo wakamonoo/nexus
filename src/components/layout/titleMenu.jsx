@@ -18,7 +18,6 @@ if (APP_ENV === "production") {
 }
 
 export default function TitleMenu({
-  setShowTitleMenu,
   title,
   titleId,
   poster,
