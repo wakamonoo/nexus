@@ -15,7 +15,6 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
-import { FaCircleCheck } from "react-icons/fa6";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
