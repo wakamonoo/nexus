@@ -16,7 +16,6 @@ import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
 import { FaCircleCheck } from "react-icons/fa6";
-import MarkTitlesAsWatched from "@/components/modals/markTitlesAsWatched";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -50,7 +49,6 @@ export default function Main() {
   const [showArrows2, setShowArrors2] = useState(false);
   const [showArrows3, setShowArrors3] = useState(false);
   const [showArrows4, setShowArrors4] = useState(false);
-  const [markTitles, setMarkTitles] = useState(false);
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -236,8 +234,7 @@ export default function Main() {
   return (
     <>
       <NavBar />
-      {markTitles && <MarkTitlesAsWatched setMarkTitles={setMarkTitles} />}
-      
+
       <div className="relative bg-brand w-full pt-24 p-2 sm:px-4 md:px-8 lg:px-16">
         {pageLoad ? (
           <TitleLoader />
@@ -260,14 +257,6 @@ export default function Main() {
                 />
                 <button onClick={handleTitleSearch} className="cursor-pointer">
                   <HiOutlineSearch className="text-2xl text-normal" />
-                </button>
-              </div>
-              <div>
-                <button
-                  onClick={() => setMarkTitles(true)}
-                  className="cursor-pointer"
-                >
-                  <FaCircleCheck className="text-2xl text-normal" />
                 </button>
               </div>
             </div>
