@@ -3,9 +3,25 @@ import { TitleContext } from "@/context/titleContext";
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
 import CircledButtons from "../buttons/circledBtns";
+import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
+
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export default function MarkTitlesAsWatched({ setMarkTitles }) {
+  const { user } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [marked, SetMarked] = useState([]);
 
   const toggleMarked = (title) => {
@@ -14,6 +30,27 @@ export default function MarkTitlesAsWatched({ setMarkTitles }) {
         ? prev.filter((t) => t.titleId !== title.titleId)
         : [...prev, title],
     );
+  };
+
+  const handleBulkWatch = async () => {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/api/watched/watchBulk`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.uid,
+          userName: user.userName,
+          titles: marked,
+        }),
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -51,7 +88,7 @@ export default function MarkTitlesAsWatched({ setMarkTitles }) {
             );
           })}
           <div className="py-4">
-            <CircledButtons>
+            <CircledButtons onClick={handleBulkWatch}>
               <p>Mark as watched</p>
             </CircledButtons>
           </div>
