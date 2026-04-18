@@ -327,7 +327,7 @@ export default function Post() {
                         </p>
                       </div>
                     </div>
-                    <p className="text-base text-normal leading-5 py-1 px-4">
+                    <p className="text-base text-normal leading-5 py-1 px-4 whitespace-pre-wrap">
                       {post?.text}
                     </p>
                     {post?.files && post?.files.length > 0 ? (
