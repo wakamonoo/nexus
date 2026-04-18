@@ -142,7 +142,7 @@ export default function PostStructure({ post }) {
             setShowFull(!showFull);
             e.stopPropagation();
           }}
-          className={`text-base text-justify leading-5 cursor-pointer ${
+          className={`text-base text-justify leading-5 cursor-pointer whitespace-pre-wrap ${
             !showFull ? "line-clamp-5" : ""
           }`}
         >
