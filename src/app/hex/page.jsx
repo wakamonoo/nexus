@@ -692,8 +692,8 @@ export default function Main() {
 
                   <div
                     className="relative"
-                    onMouseEnter={() => setShowArrows3(true)}
-                    onMouseLeave={() => setShowArrows3(false)}
+                    onMouseEnter={() => setShowArrows5(true)}
+                    onMouseLeave={() => setShowArrows5(false)}
                   >
                     <div
                       className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
