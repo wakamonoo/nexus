@@ -77,7 +77,7 @@ app.use("/api/pings", pingRoute);
 app.use("/api/pings", pingGet);
 
 app.get("/health", (req, res) => {
-  res.status(200).send("ok");
+  res.status(200).send("uptimerobot restarter working");
 });
 
 io.on("connection", (socket) => {
