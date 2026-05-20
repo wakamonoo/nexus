@@ -37,17 +37,20 @@ export default function Main() {
   const [isScrolled2, setIsScrolled2] = useState(false);
   const [isScrolled3, setIsScrolled3] = useState(false);
   const [isScrolled4, setIsScrolled4] = useState(false);
+  const [isScrolled5, setIsScrolled5] = useState(false);
   const scrollRef1 = useRef(null);
   const scrollRef2 = useRef(null);
   const scrollRef3 = useRef(null);
   const scrollRef4 = useRef(null);
+  const scrollRef5 = useRef(null);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showArrows1, setShowArrors1] = useState(false);
-  const [showArrows2, setShowArrors2] = useState(false);
-  const [showArrows3, setShowArrors3] = useState(false);
-  const [showArrows4, setShowArrors4] = useState(false);
+  const [showArrows1, setShowArrows1] = useState(false);
+  const [showArrows2, setShowArrows2] = useState(false);
+  const [showArrows3, setShowArrows3] = useState(false);
+  const [showArrows4, setShowArrows4] = useState(false);
+  const [showArrows5, setShowArrows5] = useState(false);
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -107,6 +110,20 @@ export default function Main() {
 
     const handleScroll = () => {
       setIsScrolled4(current.scrollLeft > 50);
+    };
+
+    current.addEventListener("scroll", handleScroll);
+    return () => {
+      current.removeEventListener("scroll", handleScroll);
+    };
+  }, [titles]);
+
+   useEffect(() => {
+    const current = scrollRef5.current;
+    if (!current) return;
+
+    const handleScroll = () => {
+      setIsScrolled5(current.scrollLeft > 50);
     };
 
     current.addEventListener("scroll", handleScroll);
@@ -230,6 +247,24 @@ export default function Main() {
     }
   };
 
+  const handleScrollLeft5 = () => {
+    if (scrollRef5.current) {
+      scrollRef4.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight5 = () => {
+    if (scrollRef5.current) {
+      scrollRef4.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -325,8 +360,8 @@ export default function Main() {
 
                   <div
                     className="relative"
-                    onMouseEnter={() => setShowArrors1(true)}
-                    onMouseLeave={() => setShowArrors1(false)}
+                    onMouseEnter={() => setShowArrows1(true)}
+                    onMouseLeave={() => setShowArrows1(false)}
                   >
                     <div
                       className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
@@ -412,8 +447,8 @@ export default function Main() {
                   </div>
                   <div
                     className="relative"
-                    onMouseEnter={() => setShowArrors2(true)}
-                    onMouseLeave={() => setShowArrors2(false)}
+                    onMouseEnter={() => setShowArrows2(true)}
+                    onMouseLeave={() => setShowArrows2(false)}
                   >
                     <div
                       className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
@@ -499,8 +534,8 @@ export default function Main() {
 
                   <div
                     className="relative"
-                    onMouseEnter={() => setShowArrors3(true)}
-                    onMouseLeave={() => setShowArrors3(false)}
+                    onMouseEnter={() => setShowArrows3(true)}
+                    onMouseLeave={() => setShowArrows3(false)}
                   >
                     <div
                       className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
@@ -586,8 +621,8 @@ export default function Main() {
 
                   <div
                     className="relative"
-                    onMouseEnter={() => setShowArrors4(true)}
-                    onMouseLeave={() => setShowArrors4(false)}
+                    onMouseEnter={() => setShowArrows4(true)}
+                    onMouseLeave={() => setShowArrows4(false)}
                   >
                     <div
                       className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
@@ -621,6 +656,93 @@ export default function Main() {
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <GoatTitlesStructureMin />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="py-4">
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-xl">MOST WATCHED</h1>
+                    <div
+                      onClick={() => handleShowListNav("release")}
+                      className={`flex items-center cursor-pointer ${
+                        isScrolled5 ? "flex" : "hidden"
+                      }`}
+                    >
+                      <p className="text-xs text-vibe">View All</p>
+                      <FaAngleRight className="text-vibe text-base" />
+                    </div>
+                  </div>
+
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setShowArrows3(true)}
+                    onMouseLeave={() => setShowArrows3(false)}
+                  >
+                    <div
+                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                        showArrows5 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                        showArrows5 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+
+                    {showArrows5 && (
+                      <>
+                        <button
+                          onClick={handleScrollLeft5}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                        >
+                          <RiArrowLeftWideFill className="text-2xl" />
+                        </button>
+                        <button
+                          onClick={handleScrollRight5}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                        >
+                          <RiArrowRightWideFill className="text-2xl" />
+                        </button>
+                      </>
+                    )}
+                    <div
+                      ref={scrollRef5}
+                      className="overflow-x-auto scrollbar-hide"
+                    >
+                      <div className="flex gap-2">
+                        {titles.length > 0 ? (
+                          [...titles]
+                            .sort((a, b) => b.watchCount.length - a.watchCount.length)
+                            .map((unit) => (
+                              <div
+                                key={unit.date}
+                                onClick={() => handleShowNav(unit.titleId)}
+                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                              >
+                                <Image
+                                  src={unit.image || Fallback}
+                                  alt="image"
+                                  width={0}
+                                  height={0}
+                                  sizes="100vw"
+                                  className={`w-full h-full object-fill rounded ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "grayscale-0"
+                                      : "grayscale-90"
+                                  }`}
+                                />
+                              </div>
+                            ))
+                        ) : (
+                          <div className="flex flex-col w-full justify-center items-center">
+                            <FaBoxOpen className="text-6xl text-panel" />
+                            <p className="text-sm text-panel font-normal">
+                              Sorry, no data to display!
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
