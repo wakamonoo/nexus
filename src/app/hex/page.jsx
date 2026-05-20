@@ -250,7 +250,7 @@ export default function Main() {
 
   const handleScrollLeft5 = () => {
     if (scrollRef5.current) {
-      scrollRef4.current.scrollBy({
+      scrollRef5.current.scrollBy({
         left: -200,
         behavior: "smooth",
       });
@@ -259,7 +259,7 @@ export default function Main() {
 
   const handleScrollRight5 = () => {
     if (scrollRef5.current) {
-      scrollRef4.current.scrollBy({
+      scrollRef5.current.scrollBy({
         left: 200,
         behavior: "smooth",
       });
