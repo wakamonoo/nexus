@@ -270,13 +270,13 @@ export default function Main() {
     .filter?.((t) => t.watchCount.length > 0)
     .sort((a, b) => b.watchCount.length - a.watchCount.length);
 
-  let previousPoints = null;
+  let previousCount = null;
   let currentRank = 0;
 
   const ranked = mostWatchedRank.map((t, index) => {
-    if (t.totalPoints !== previousPoints) {
+    if (t.watchCount.lenght !== previousCount) {
       currentRank = index + 1;
-      previousPoints = t.totalPoints;
+      previousCount = t.watchCount.lenght;
     }
     return { ...t, rank: currentRank };
   });
