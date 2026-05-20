@@ -1,31 +1,21 @@
 "use client";
-import PostStructure from "@/components/layout/postStructure";
 import { LoaderContext } from "@/context/loaderContext";
-import { PostContext } from "@/context/postContext";
 import { TitleContext } from "@/context/titleContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
-import { useParams, useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
-import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
+import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import Image from "next/image";
-import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
-import GoatMaxLoader from "../loaders/goatMaxLoader";
 import Fallback from "@/assets/fallback.png";
 
-export default function GoatTitlesStructureMax() {
-  const { topic } = useParams();
-  const { posts } = useContext(PostContext);
+export default function MostWatchedTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
-  const router = useRouter();
   const { user } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
-
-  const isLoading = titles === undefined || titles === null || titles.length === 0;
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -37,19 +27,17 @@ export default function GoatTitlesStructureMax() {
     fetchWathced();
   }, [user]);
 
-  
+  const mostWatchedRank = titles
+    .filter?.((t) => t.watchCount.length > 0)
+    .sort((a, b) => b.watchCount.length - a.watchCount.length);
 
-  const rankedTitles = titles
-    ?.filter((t) => t.totalPoints > 0)
-    .sort((a, b) => b.totalPoints - a.totalPoints);
-
-  let previousPoints = null;
+  let previousCount = null;
   let currentRank = 0;
 
-  const ranked = rankedTitles.map((t, index) => {
-    if (t.totalPoints !== previousPoints) {
+  const ranked = mostWatchedRank.map((t, index) => {
+    if (t.watchCount.length !== previousCount) {
       currentRank = index + 1;
-      previousPoints = t.totalPoints;
+      previousCount = t.watchCount.length;
     }
     return { ...t, rank: currentRank };
   });
@@ -58,9 +46,8 @@ export default function GoatTitlesStructureMax() {
     setIsLoading(false);
   }, []);
 
-
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex gap-2">
       {ranked.length > 0 ? (
         ranked.map((unit) => (
           <div

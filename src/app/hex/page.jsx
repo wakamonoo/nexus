@@ -8,14 +8,14 @@ import Loader from "@/components/loaders/searchLoader";
 import { useContext } from "react";
 import { TitleContext } from "@/context/titleContext";
 import NavBar from "@/components/layout/navBar";
-import { TitleNavContext } from "@/context/titlesNavContext";
+import { TitleNavContext } from "@/context/titleNavContext";
 import { MdSearchOff } from "react-icons/md";
 import { HiOutlineSearch } from "react-icons/hi";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
-import { GiTrophy } from "react-icons/gi";
+import MostWatchedTitlesStructureMin from "@/components/layout/mostWatchedTitlesStructureMin";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -265,21 +265,6 @@ export default function Main() {
       });
     }
   };
-
-  const mostWatchedRank = titles
-    .filter?.((t) => t.watchCount.length > 0)
-    .sort((a, b) => b.watchCount.length - a.watchCount.length);
-
-  let previousCount = null;
-  let currentRank = 0;
-
-  const ranked = mostWatchedRank.map((t, index) => {
-    if (t.watchCount.lenght !== previousCount) {
-      currentRank = index + 1;
-      previousCount = t.watchCount.lenght;
-    }
-    return { ...t, rank: currentRank };
-  });
 
   return (
     <>
@@ -680,7 +665,7 @@ export default function Main() {
                   <div className="flex justify-between items-center">
                     <h1 className="text-xl">MOST WATCHED</h1>
                     <div
-                      onClick={() => handleShowListNav("release")}
+                      onClick={() => handleShowListNav("mostWatched")}
                       className={`flex items-center cursor-pointer ${
                         isScrolled5 ? "flex" : "hidden"
                       }`}
@@ -726,52 +711,7 @@ export default function Main() {
                       ref={scrollRef5}
                       className="overflow-x-auto scrollbar-hide"
                     >
-                      <div className="flex gap-2">
-                        {ranked.length > 0 ? (
-                          ranked.map((unit) => (
-                            <div
-                              key={unit.titleId}
-                              onClick={() => handleShowNav(unit.titleId)}
-                              className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                            >
-                              <Image
-                                src={unit.image || Fallback}
-                                alt="image"
-                                width={0}
-                                height={0}
-                                sizes="100vw"
-                                className={`w-full h-full object-fill rounded ${
-                                  isTitleWatched(unit.titleId)
-                                    ? "grayscale-0"
-                                    : "grayscale-90"
-                                }`}
-                              />
-                              <div
-                                className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                                  unit.rank === 1 ? "bg-hulk" : "bg-accent"
-                                }`}
-                              >
-                                <p
-                                  className={`font-bold text-sm ${
-                                    unit.rank === 1
-                                      ? "text-zeus"
-                                      : "text-normal"
-                                  }`}
-                                >
-                                  {unit.rank === 1 ? <GiTrophy /> : unit.rank}
-                                </p>
-                              </div>
-                            </div>
-                          ))
-                        ) : (
-                          <div className="flex flex-col w-full justify-center items-center">
-                            <FaBoxOpen className="text-6xl text-panel" />
-                            <p className="text-sm text-panel font-normal">
-                              Sorry, no data to display!
-                            </p>
-                          </div>
-                        )}
-                      </div>
+                      <MostWatchedTitlesStructureMin />
                     </div>
                   </div>
                 </div>

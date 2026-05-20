@@ -1,13 +1,14 @@
 "use client";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
-import { TitleNavContext } from "@/context/titlesNavContext";
+import { TitleNavContext } from "@/context/titleNavContext";
 import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import Image from "next/image";
+import Fallback from "@/assets/fallback.png";
 
 export default function GoatTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);

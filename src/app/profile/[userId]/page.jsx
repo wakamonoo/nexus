@@ -9,7 +9,7 @@ import { useParams, useRouter } from "next/navigation";
 import { TitleContext } from "@/context/titleContext";
 import { GiTrophy } from "react-icons/gi";
 import { WatchContext } from "@/context/watchContext";
-import { TitleNavContext } from "@/context/titlesNavContext";
+import { TitleNavContext } from "@/context/titleNavContext";
 import ProfilePosts from "@/components/profile/profilePosts";
 import ProfileReviews from "@/components/profile/profileReviews";
 import EditProfile from "@/components/modals/editProfile";

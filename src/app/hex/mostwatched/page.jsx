@@ -5,7 +5,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
-import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
+import MostWatchedTitlesStructureMax from "@/components/layout/mostWatchedTitlesStructureMax";
 
 export default function MostWatched() {
   const { titles } = useContext(TitleContext);
@@ -27,13 +27,13 @@ export default function MostWatched() {
           onClick={() => router.back()}
           className="text-2xl cursor-pointer"
         />
-        <h4 className="text-xl">GOAT STATUS</h4>
+        <h4 className="text-xl">MOST WATCHED</h4>
       </div>
       {!titles || titles.length === 0 ? (
         <ShowListLoader />
       ) : (
         <div className="w-full">
-          <GoatTitlesStructureMax />
+          <MostWatchedTitlesStructureMax />
         </div>
       )}
       <div className="w-full flex justify-center p-8 opacity-70">

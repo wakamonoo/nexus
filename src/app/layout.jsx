@@ -5,7 +5,7 @@ import { MenuProvider } from "@/context/menuContext";
 import { TitleProvider } from "@/context/titleContext";
 import { PostProvider } from "@/context/postContext";
 import { LoaderProvider } from "@/context/loaderContext";
-import { TitleNavProvider } from "@/context/titlesNavContext";
+import { TitleNavProvider } from "@/context/titleNavContext";
 import { WatchProvider } from "@/context/watchContext";
 import { SigilProvider } from "@/context/sigilContext";
 import { SocketProvider } from "@/context/socketContext";
