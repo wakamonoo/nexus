@@ -25,8 +25,7 @@ export default function MostWatchedTitlesStructureMax() {
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
 
-  const isLoading =
-    titles === undefined || titles === null || titles.length === 0;
+  const isLoading = titles === undefined || titles === null || titles.length === 0;
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -38,17 +37,19 @@ export default function MostWatchedTitlesStructureMax() {
     fetchWathced();
   }, [user]);
 
-  const mostWatchedRank = titles
-    .filter?.((t) => t.watchCount.length > 0)
-    .sort((a, b) => b.watchCount.length - a.watchCount.length);
+  
 
-  let previousCount = null;
+  const rankedTitles = titles
+    ?.filter((t) => t.totalPoints > 0)
+    .sort((a, b) => b.totalPoints - a.totalPoints);
+
+  let previousPoints = null;
   let currentRank = 0;
 
-  const ranked = mostWatchedRank.map((t, index) => {
-    if (t.watchCount.length !== previousCount) {
+  const ranked = rankedTitles.map((t, index) => {
+    if (t.totalPoints !== previousPoints) {
       currentRank = index + 1;
-      previousCount = t.watchCount.length;
+      previousPoints = t.totalPoints;
     }
     return { ...t, rank: currentRank };
   });
@@ -56,6 +57,7 @@ export default function MostWatchedTitlesStructureMax() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
+
 
   return (
     <div className="flex flex-wrap justify-center gap-2">
