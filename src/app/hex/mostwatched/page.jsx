@@ -36,17 +36,6 @@ export default function MostWatched() {
           <MostWatchedTitlesStructureMax />
         </div>
       )}
-      <div className="w-full flex justify-center p-8 opacity-70">
-        <p className="text-xs text-vibe">
-          Your fav not here?{" "}
-          <span
-            onClick={() => router.push("/powerboard")}
-            className="cursor-pointer underline"
-          >
-            Rank it
-          </span>
-        </p>
-      </div>
     </div>
   );
 }

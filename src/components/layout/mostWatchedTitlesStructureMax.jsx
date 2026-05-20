@@ -1,61 +1,61 @@
 "use client";
-import PostStructure from "@/components/layout/postStructure";
-import { LoaderContext } from "@/context/loaderContext";
-import { PostContext } from "@/context/postContext";
+
+import { useContext, useEffect, useMemo } from "react";
 import { TitleContext } from "@/context/titleContext";
-import { TitleNavContext } from "@/context/titleNavContext";
+import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
-import { useParams, useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
-import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
-import { GiTrophy } from "react-icons/gi";
+import { TitleNavContext } from "@/context/titleNavContext";
 import Image from "next/image";
-import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
-import GoatMaxLoader from "../loaders/goatMaxLoader";
+import { FaBoxOpen } from "react-icons/fa";
+import { GiTrophy } from "react-icons/gi";
 import Fallback from "@/assets/fallback.png";
 
 export default function MostWatchedTitlesStructureMax() {
-  const { topic } = useParams();
-  const { posts } = useContext(PostContext);
-  const { setIsLoading } = useContext(LoaderContext);
-  const router = useRouter();
-  const { user } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const { user } = useContext(UserContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
 
-  const isLoading =
-    titles === undefined || titles === null || titles.length === 0;
-
+  // fetch watched info safely
   useEffect(() => {
-    const fetchWathced = async () => {
+    const fetchWatched = async () => {
       if (user?.uid) {
-        await watchedInfoFetch(user?.uid);
+        await watchedInfoFetch(user.uid);
       }
     };
+    fetchWatched();
+  }, [user, watchedInfoFetch]);
 
-    fetchWathced();
-  }, [user]);
-
-  const mostWatchedRank = titles
-    .filter?.((t) => t.watchCount.length > 0)
-    .sort((a, b) => b.watchCount.length - a.watchCount.length);
-
-  let previousCount = null;
-  let currentRank = 0;
-
-  const ranked = mostWatchedRank.map((t, index) => {
-    if (t.watchCount.length !== previousCount) {
-      currentRank = index + 1;
-      previousCount = t.watchCount.length;
-    }
-    return { ...t, rank: currentRank };
-  });
-
+  // stop loader once mounted
   useEffect(() => {
     setIsLoading(false);
-  }, []);
+  }, [setIsLoading]);
+
+  // ✅ SAFE fallback (THIS IS THE KEY FIX)
+  const safeTitles = titles ?? [];
+
+  // ✅ compute ranked list safely
+  const ranked = useMemo(() => {
+    const filtered = safeTitles
+      .filter((t) => (t.watchCount?.length ?? 0) > 0)
+      .sort((a, b) => (b.watchCount?.length ?? 0) - (a.watchCount?.length ?? 0));
+
+    return filtered.map((t, index) => ({
+      ...t,
+      rank: index + 1,
+    }));
+  }, [safeTitles]);
+
+  // loading guard (ONLY for undefined state)
+  if (!titles) {
+    return (
+      <div className="flex flex-col w-full justify-center items-center">
+        <p className="text-sm text-panel">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-wrap justify-center gap-2">
@@ -73,9 +73,12 @@ export default function MostWatchedTitlesStructureMax() {
               height={0}
               sizes="100vw"
               className={`w-full h-full object-fill rounded ${
-                isTitleWatched(unit.titleId) ? "grayscale-0" : "grayscale-90"
+                isTitleWatched(unit.titleId)
+                  ? "grayscale-0"
+                  : "grayscale-90"
               }`}
             />
+
             <div
               className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
                 unit.rank === 1 ? "bg-hulk" : "bg-accent"
