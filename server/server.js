@@ -49,7 +49,7 @@ app.use(
   cors({
     origin: allowedOrigin,
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 
@@ -76,6 +76,10 @@ app.use("/api/watched", watchGet);
 app.use("/api/pings", pingRoute);
 app.use("/api/pings", pingGet);
 
+app.get("/health", (req, res) => {
+  res.status(200).send("ok");
+});
+
 io.on("connection", (socket) => {
   console.log("a user is connected", socket.id);
 
@@ -93,5 +97,5 @@ io.on("connection", (socket) => {
 
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () =>
-  console.log(`server running on http://localhost:${PORT}`)
+  console.log(`server running on http://localhost:${PORT}`),
 );
