@@ -15,6 +15,7 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
+import { GiTrophy } from "react-icons/gi";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -118,7 +119,7 @@ export default function Main() {
     };
   }, [titles]);
 
-   useEffect(() => {
+  useEffect(() => {
     const current = scrollRef5.current;
     if (!current) return;
 
@@ -264,6 +265,21 @@ export default function Main() {
       });
     }
   };
+
+  const mostWatchedRank = titles
+    .filter?.((t) => t.watchCount.length > 0)
+    .sort((a, b) => b.watchCount.length - a.watchCount.length);
+
+  let previousPoints = null;
+  let currentRank = 0;
+
+  const ranked = mostWatchedRank.map((t, index) => {
+    if (t.totalPoints !== previousPoints) {
+      currentRank = index + 1;
+      previousPoints = t.totalPoints;
+    }
+    return { ...t, rank: currentRank };
+  });
 
   return (
     <>
@@ -711,29 +727,42 @@ export default function Main() {
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <div className="flex gap-2">
-                        {titles.length > 0 ? (
-                          [...titles]
-                            .sort((a, b) => b.watchCount.length - a.watchCount.length)
-                            .map((unit) => (
+                        {ranked.length > 0 ? (
+                          ranked.map((unit) => (
+                            <div
+                              key={unit.titleId}
+                              onClick={() => handleShowNav(unit.titleId)}
+                              className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                            >
+                              <Image
+                                src={unit.image || Fallback}
+                                alt="image"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className={`w-full h-full object-fill rounded ${
+                                  isTitleWatched(unit.titleId)
+                                    ? "grayscale-0"
+                                    : "grayscale-90"
+                                }`}
+                              />
                               <div
-                                key={unit.date}
-                                onClick={() => handleShowNav(unit.titleId)}
-                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                                className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+                                  unit.rank === 1 ? "bg-hulk" : "bg-accent"
+                                }`}
                               >
-                                <Image
-                                  src={unit.image || Fallback}
-                                  alt="image"
-                                  width={0}
-                                  height={0}
-                                  sizes="100vw"
-                                  className={`w-full h-full object-fill rounded ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "grayscale-0"
-                                      : "grayscale-90"
+                                <p
+                                  className={`font-bold text-sm ${
+                                    unit.rank === 1
+                                      ? "text-zeus"
+                                      : "text-normal"
                                   }`}
-                                />
+                                >
+                                  {unit.rank === 1 ? <GiTrophy /> : unit.rank}
+                                </p>
                               </div>
-                            ))
+                            </div>
+                          ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
                             <FaBoxOpen className="text-6xl text-panel" />
