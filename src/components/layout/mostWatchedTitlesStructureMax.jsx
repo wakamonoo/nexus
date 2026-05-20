@@ -38,25 +38,21 @@ export default function MostWatchedTitlesStructureMax() {
     fetchWathced();
   }, [user]);
 
-  const safeTitles = Array.isArray(titles) ? titles : [];
+  const mostWatchedRank = titles
+    .filter?.((t) => t.watchCount.length > 0)
+    .sort((a, b) => b.watchCount.length - a.watchCount.length);
 
-const mostWatchedRank = safeTitles
-  .filter((t) => Array.isArray(t.watchCount) && t.watchCount.length > 0)
-  .sort((a, b) => (b.watchCount?.length || 0) - (a.watchCount?.length || 0));
+  let previousCount = null;
+  let currentRank = 0;
 
-let previousCount = null;
-let currentRank = 0;
+  const ranked = mostWatchedRank.map((t, index) => {
+    if (t.watchCount.length !== previousCount) {
+      currentRank = index + 1;
+      previousCount = t.watchCount.length;
+    }
+    return { ...t, rank: currentRank };
+  });
 
-const ranked = mostWatchedRank.map((t, index) => {
-  const count = t.watchCount?.length || 0;
-
-  if (count !== previousCount) {
-    currentRank = index + 1;
-    previousCount = count;
-  }
-
-  return { ...t, rank: currentRank };
-});
   useEffect(() => {
     setIsLoading(false);
   }, []);
