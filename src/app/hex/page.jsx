@@ -663,9 +663,9 @@ export default function Main() {
 
                 <div className="py-4">
                   <div className="flex justify-between items-center">
-                    <h1 className="text-xl">MOST WATCHED</h1>
+                    <h1 className="text-xl">Popular</h1>
                     <div
-                      onClick={() => handleShowListNav("mostWatched")}
+                      onClick={() => handleShowListNav("popular")}
                       className={`flex items-center cursor-pointer ${
                         isScrolled5 ? "flex" : "hidden"
                       }`}

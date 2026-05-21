@@ -7,7 +7,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import MostWatchedTitlesStructureMax from "@/components/layout/mostWatchedTitlesStructureMax";
 
-export default function MostWatched() {
+export default function Popular() {
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function MostWatched() {
           onClick={() => router.back()}
           className="text-2xl cursor-pointer"
         />
-        <h4 className="text-xl">MOST WATCHED</h4>
+        <h4 className="text-xl">POPULAR</h4>
       </div>
       {!titles || titles.length === 0 ? (
         <ShowListLoader />
