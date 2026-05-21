@@ -1,15 +1,12 @@
 "use client";
-
-import { useContext, useEffect } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
-
+import { useContext, useEffect } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
-
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
 
@@ -17,30 +14,21 @@ export default function MostWatchedTitlesStructureMax() {
   const { setIsLoading } = useContext(LoaderContext);
   const { user } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
-  const { isTitleWatched, watchedInfoFetch } =
-    useContext(WatchContext);
+  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
 
   useEffect(() => {
-    const fetchWatched = async () => {
+    const fetchWathced = async () => {
       if (user?.uid) {
-        await watchedInfoFetch(user.uid);
+        await watchedInfoFetch(user?.uid);
       }
     };
 
-    fetchWatched();
+    fetchWathced();
   }, [user]);
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
-
-  if (!titles) {
-    return null;
-  }
-
-  const mostWatchedRank = [...titles]
-    .filter((t) => Array.isArray(t.watchCount) && t.watchCount.length > 0)
+  const mostWatchedRank = titles
+    .filter?.((t) => t.watchCount.length > 0)
     .sort((a, b) => b.watchCount.length - a.watchCount.length);
 
   let previousCount = null;
@@ -51,12 +39,12 @@ export default function MostWatchedTitlesStructureMax() {
       currentRank = index + 1;
       previousCount = t.watchCount.length;
     }
-
-    return {
-      ...t,
-      rank: currentRank,
-    };
+    return { ...t, rank: currentRank };
   });
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   return (
     <div className="flex flex-wrap justify-center gap-2">
@@ -74,12 +62,9 @@ export default function MostWatchedTitlesStructureMax() {
               height={0}
               sizes="100vw"
               className={`w-full h-full object-fill rounded ${
-                isTitleWatched(unit.titleId)
-                  ? "grayscale-0"
-                  : "grayscale-90"
+                isTitleWatched(unit.titleId) ? "grayscale-0" : "grayscale-90"
               }`}
             />
-
             <div
               className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
                 unit.rank === 1 ? "bg-hulk" : "bg-accent"
@@ -87,9 +72,7 @@ export default function MostWatchedTitlesStructureMax() {
             >
               <p
                 className={`font-bold text-sm ${
-                  unit.rank === 1
-                    ? "text-zeus"
-                    : "text-normal"
+                  unit.rank === 1 ? "text-zeus" : "text-normal"
                 }`}
               >
                 {unit.rank === 1 ? <GiTrophy /> : unit.rank}
