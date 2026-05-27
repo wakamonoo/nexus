@@ -165,7 +165,7 @@ export default function UserProfile() {
               ) : (
                 <div className="flex flex-col justify-center">
                   <p className="text-xs text-vibe opacity-40">
-                     {`${profileUser?.name ? "you" : profileUser.name } haven't ranked any titles yet.`}
+                     {`${profileUser?.uid === user?.uid ? "you" : profileUser.name } haven't ranked any titles yet.`}
                   </p>
                 </div>
               )}
@@ -199,7 +199,7 @@ export default function UserProfile() {
               ) : (
                 <div className="flex flex-col justify-center">
                   <p className="text-xs text-vibe opacity-40">
-                    {`${profileUser?.name ? "you" : profileUser.name } haven't watched anything yet.`}
+                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name } haven't watched anything yet.`}
                   </p>
                 </div>
               )}
