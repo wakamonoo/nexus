@@ -48,7 +48,7 @@ export default function PostStructure({ post }) {
             onClick={(e) => {
               e.stopPropagation();
               setSelectedPost(
-                selectedPost === post.postId ? null : post.postId
+                selectedPost === post.postId ? null : post.postId,
               );
             }}
             className="cursor-pointer"
@@ -147,6 +147,14 @@ export default function PostStructure({ post }) {
           }`}
         >
           {post.text}
+        </p>
+        <p
+          onClick={(e) => {
+            setShowFull(!showFull);
+            e.stopPropagation();
+          }}
+        >
+          {showFull ? "more" : "less"}
         </p>
       </div>
 
@@ -264,7 +272,7 @@ export default function PostStructure({ post }) {
               ? post.comments.length +
                 post.comments.reduce(
                   (total, comment) => total + (comment.replies?.length || 0),
-                  0
+                  0,
                 )
               : 0}{" "}
             commented
