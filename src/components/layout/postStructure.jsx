@@ -137,24 +137,39 @@ export default function PostStructure({ post }) {
       </div>
 
       <div className="px-4 py-2">
-        <p
-          onClick={(e) => {
-            setShowFull(!showFull);
-            e.stopPropagation();
-          }}
-          className={`text-base text-justify leading-5 cursor-pointer whitespace-pre-wrap ${
-            !showFull ? "line-clamp-5" : ""
-          }`}
-        >
-          {post.text}
-        </p>
-        <p
-          onClick={(e) => {
-            setShowFull(!showFull);
-            e.stopPropagation();
-          }}
-        >
-          {showFull ? "more" : "less"}
+        <p className="text-base text-justify leading-5 whitespace-pre-wrap">
+          {!showFull ? (
+            <>
+              {post.text.split(" ").slice(0, 40).join(" ")}{" "}
+              {post.text.split(" ").length > 40 && (
+                <>
+                  ...{" "}
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowFull(true);
+                    }}
+                    className="cursor-pointer text-base font-light text-normal opacity-60"
+                  >
+                    see more
+                  </span>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              {post.text}{" "}
+              <span
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowFull(false);
+                }}
+                className="cursor-pointer text-base font-light text-normal opacity-60"
+              >
+                see less
+              </span>
+            </>
+          )}
         </p>
       </div>
 
