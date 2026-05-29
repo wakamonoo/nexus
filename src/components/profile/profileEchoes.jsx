@@ -2,12 +2,14 @@ import { PostContext } from "@/context/postContext";
 import { useContext } from "react";
 import { MdSensorsOff } from "react-icons/md";
 import PostStructure from "../layout/postStructure";
+import { UserContext } from "@/context/userContext";
 
 export default function ProfileEchoes({ profileUser }) {
   const { posts } = useContext(PostContext);
+  const { user } = useContext(UserContext);
 
   const profileUserEchoes = posts?.filter((p) =>
-    p.echoed?.includes(profileUser.uid)
+    p.echoed?.includes(profileUser.uid),
   );
 
   return (
@@ -17,7 +19,7 @@ export default function ProfileEchoes({ profileUser }) {
           <div className="flex flex-col items-center justify-center">
             <MdSensorsOff className="text-4xl text-vibe opacity-40" />
             <p className="text-xs text-vibe opacity-40">
-              You have no echoed posts yet
+              {`${profileUser?.uid === user?.uid ? "you" : profileUser.name } have no echoed posts yet`}
             </p>
           </div>
         </div>
