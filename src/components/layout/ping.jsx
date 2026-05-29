@@ -51,7 +51,7 @@ export default function Ping({ setShowPing }) {
         prev.map((p) => (p.pingId === ping.pingId ? { ...p, isRead: true } : p))
       );
 
-      if (ping.type === "comment" || ping.type === "reply") {
+      if (ping.type === "comment" || ping.type === "reply" || ping.type == "energized") {
         router.push(`/post/${ping.postId}`);
       } else if (ping.type === "sigil") {
         router.push(`/profile/${ping.userId}`);
