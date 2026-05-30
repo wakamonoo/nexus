@@ -55,7 +55,7 @@ router.put("/updateUser/:uid", async (req, res) => {
       }
     );
 
-    await db.collection("posts").updateOne(
+    await db.collection("posts").updateMany(
       { userId: uid },
       {
         $set: {
@@ -65,7 +65,7 @@ router.put("/updateUser/:uid", async (req, res) => {
       }
     );
 
-    await db.collection("watchList").updateOne(
+    await db.collection("watchList").updateMany(
       { userId: uid },
       {
         $set: {
@@ -74,7 +74,7 @@ router.put("/updateUser/:uid", async (req, res) => {
       }
     );
 
-    await db.collection("messages").updateOne(
+    await db.collection("messages").updateMany(
       { senderId: uid },
       {
         $set: {
