@@ -95,6 +95,7 @@ export const UserProvider = ({ children }) => {
       value={{
         isLogged,
         user,
+        setUser,
         firebaseUser,
         adminBtn,
         fetchUserData,

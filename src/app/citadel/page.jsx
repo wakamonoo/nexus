@@ -38,7 +38,7 @@ if (APP_ENV === "production") {
 }
 
 export default function Citadel() {
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { user, setUser, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { messages, setMessages, chatLoad } = useContext(SocketContext);
   const [input, setInput] = useState("");
@@ -58,6 +58,27 @@ export default function Citadel() {
   const [showGifPicker, setShowGifPicker] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    if (!user) return;
+
+    const markRead = async () => {
+      try {
+        await fetch(`${BASE_URL}/api/users/citadelRead/${user.uid}`, {
+          method: "PATCH",
+        });
+
+        setUser((prev) => ({
+          ...prev,
+          lastCheckCitadel: new Date(),
+        }));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    markRead();
+  }, [user]);
+
   const sendMessage = async () => {
     try {
       setIsLoading(true);
@@ -70,7 +91,7 @@ export default function Citadel() {
       const gifUrls = files.filter(
         (file) =>
           typeof file === "string" &&
-          (file.includes("tenor.com") || file.includes("media.tenor.com"))
+          (file.includes("tenor.com") || file.includes("media.tenor.com")),
       );
 
       let uploadedUrls = [...gifUrls];
@@ -138,7 +159,7 @@ export default function Citadel() {
     senderId,
     senderName,
     sentDate,
-    index
+    index,
   ) => {
     setCitadelLightBoxFiles(files);
     setCitadelLightBoxSenderId(senderId);
@@ -159,9 +180,7 @@ export default function Citadel() {
           >
             <div className="flex flex-col items-center justify-center">
               <FaUserSlash className="text-4xl text-vibe opacity-40" />
-              <p className="text-xs text-vibe opacity-40">
-                Kindly login first
-              </p>
+              <p className="text-xs text-vibe opacity-40">Kindly login first</p>
               <div className="p-2">
                 <button
                   onClick={() => setShowSignIn(true)}
@@ -180,9 +199,7 @@ export default function Citadel() {
               <div className="flex h-full w-full justify-center items-center">
                 <div className="flex flex-col items-center justify-center">
                   <FaRegComments className="text-4xl text-vibe opacity-40" />
-                  <p className="text-xs text-vibe opacity-40">
-                    no chats yet
-                  </p>
+                  <p className="text-xs text-vibe opacity-40">no chats yet</p>
                 </div>
               </div>
             ) : (
@@ -191,7 +208,7 @@ export default function Citadel() {
                   {messages.map((msg, i) => {
                     const ownMessage = user.uid === msg.senderId;
                     const currentDate = new Date(
-                      msg.messagedAt
+                      msg.messagedAt,
                     ).toLocaleDateString([], {
                       month: "short",
                       day: "2-digit",
@@ -200,7 +217,7 @@ export default function Citadel() {
                     const prevDate =
                       i > 0
                         ? new Date(
-                            messages[i - 1].messagedAt
+                            messages[i - 1].messagedAt,
                           ).toLocaleDateString([], {
                             month: "short",
                             day: "2-digit",
@@ -262,13 +279,13 @@ export default function Citadel() {
                                 {(() => {
                                   const diffMinutes = dayjs().diff(
                                     dayjs(msg.messagedAt),
-                                    "minutes"
+                                    "minutes",
                                   );
                                   if (diffMinutes < 60) {
                                     return dayjs(msg.messagedAt).fromNow();
                                   }
                                   return new Date(
-                                    msg.messagedAt
+                                    msg.messagedAt,
                                   ).toLocaleTimeString([], {
                                     hour: "2-digit",
                                     minute: "2-digit",
@@ -297,7 +314,7 @@ export default function Citadel() {
                               >
                                 {msg.files.map((file, index) => {
                                   const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
-                                    file
+                                    file,
                                   );
                                   const isImage =
                                     /\.(jpg|peg|png|gif|webp)$/i.test(file);
@@ -313,7 +330,7 @@ export default function Citadel() {
                                           msg.senderId,
                                           msg.sender,
                                           msg.messagedAt,
-                                          index
+                                          index,
                                         )
                                       }
                                       key={index}
@@ -402,7 +419,7 @@ export default function Citadel() {
                           <button
                             onClick={() => {
                               setFiles((prev) =>
-                                prev.filter((_, i) => i !== index)
+                                prev.filter((_, i) => i !== index),
                               );
                             }}
                             className="cursor-pointer"

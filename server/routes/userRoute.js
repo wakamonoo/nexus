@@ -22,10 +22,11 @@ router.post("/signup", async (req, res) => {
           email,
           name,
           picture,
+          lastCheckCitadel: null,
           createdAt: new Date(),
         },
       },
-      { upsert: true }
+      { upsert: true },
     );
 
     res.status(200).json({ message: "user signed up" });
@@ -52,7 +53,7 @@ router.put("/updateUser/:uid", async (req, res) => {
           bio,
           updatedAt: new Date(),
         },
-      }
+      },
     );
 
     await db.collection("posts").updateMany(
@@ -62,7 +63,7 @@ router.put("/updateUser/:uid", async (req, res) => {
           userName: name,
           userImage: picture,
         },
-      }
+      },
     );
 
     await db.collection("watchList").updateMany(
@@ -71,7 +72,7 @@ router.put("/updateUser/:uid", async (req, res) => {
         $set: {
           userName: name,
         },
-      }
+      },
     );
 
     await db.collection("messages").updateMany(
@@ -81,7 +82,7 @@ router.put("/updateUser/:uid", async (req, res) => {
           sender: name,
           picture,
         },
-      }
+      },
     );
 
     await db.collection("posts").updateMany(
@@ -92,7 +93,7 @@ router.put("/updateUser/:uid", async (req, res) => {
           "comments.$[elem].userImage": picture,
         },
       },
-      { arrayFilters: [{ "elem.userId": uid }] }
+      { arrayFilters: [{ "elem.userId": uid }] },
     );
 
     await db.collection("titles").updateMany(
@@ -103,7 +104,7 @@ router.put("/updateUser/:uid", async (req, res) => {
           "reviews.$[elem].userImage": picture,
         },
       },
-      { arrayFilters: [{ "elem.userId": uid }] }
+      { arrayFilters: [{ "elem.userId": uid }] },
     );
 
     res.status(200).json({ message: "user updated" });
@@ -133,13 +134,13 @@ router.delete("/deleteUser/:uid", async (req, res) => {
       .collection("posts")
       .updateMany(
         { "comments.userId": uid },
-        { $pull: { comments: { userId: uid } } }
+        { $pull: { comments: { userId: uid } } },
       );
     await db
       .collection("titles")
       .updateMany(
         { "reviews.userId": uid },
-        { $pull: { reviews: { userId: uid } } }
+        { $pull: { reviews: { userId: uid } } },
       );
     await db
       .collection("posts")
@@ -157,11 +158,30 @@ router.delete("/deleteUser/:uid", async (req, res) => {
         { titleId },
         {
           $inc: { totalPoints: -points, votes: -1 },
-        }
+        },
       );
     }
 
     res.status(200).json({ message: "user and its data deleted succesfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.patch("/citadelRead/:uid", async (req, res) => {
+  try {
+    const { uid } = req.params;
+
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
+
+    await db
+      .collection("users")
+      .updateOne({ uid }, { $set: { lastCheckCitadel: new Date() } });
+
+    res.status(200).json({ message: "user's citadel last read updated" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });

@@ -22,8 +22,6 @@ import UserSearch from "../modals/userSearch";
 import Ping from "./ping";
 import { SocketContext } from "@/context/socketContext";
 
-
-
 export default function NavBar() {
   const pathname = usePathname();
   const { isLogged, user, loading } = useContext(UserContext);
@@ -33,7 +31,7 @@ export default function NavBar() {
   const { postFetch } = useContext(PostContext);
   const [showUserNav, setShowUserNav] = useState(false);
   const [showPing, setShowPing] = useState(false);
-  const { pings } = useContext(SocketContext);
+  const { pings, messages } = useContext(SocketContext);
   const router = useRouter();
 
   const isActive = (target) => {
@@ -43,6 +41,12 @@ export default function NavBar() {
       ? "text-[var(--color-accent)] border-b-1"
       : "text-inherit";
   };
+
+  const unReadCitadelCount = messages?.filter((m) => {
+    if (!user?.lastCheckCitadel) return true;
+
+    return new Date(m.messagedAt) > new Date(user.lastCheckCitadel);
+  }).length;
 
   const handleHomeClick = async () => {
     if (pathname === "/") {
@@ -111,7 +115,7 @@ export default function NavBar() {
           <button
             onClick={handleHomeClick}
             className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
-              "/"
+              "/",
             )}`}
           >
             <HiMiniNewspaper className="text-2xl group-hover:text-[var(--color-accent)]" />
@@ -128,7 +132,7 @@ export default function NavBar() {
           <button
             onClick={() => handleNavClick("hex")}
             className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
-              "/hex"
+              "/hex",
             )}`}
           >
             <RiFilmAiFill className="text-2xl group-hover:text-[var(--color-accent)]" />
@@ -144,14 +148,19 @@ export default function NavBar() {
           </button>
           <button
             onClick={() => handleNavClick("citadel")}
-            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
-              "/citadel"
+            className={`relative flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
+              "/citadel",
             )}`}
           >
+            {unReadCitadelCount > 0 && (
+              <p className="absolute right-0 -top-2 text-xs text-accent">
+                {unReadCitadelCount}
+              </p>
+            )}
             <IoChatbubbleEllipsesSharp className="group-hover:text-[var(--color-accent)] text-2xl" />
             <p
               className={`text-xs group-hover:text-[var(--color-accent)] ${
-                pathname === "/citadel" && !showPing && !showUserNav 
+                pathname === "/citadel" && !showPing && !showUserNav
                   ? "text-accent"
                   : "text-[var(--color-text)]/60"
               }`}
