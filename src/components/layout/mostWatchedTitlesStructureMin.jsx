@@ -28,7 +28,7 @@ export default function MostWatchedTitlesStructureMin() {
   }, [user]);
 
   const mostWatchedRank = titles
-    .filter?.((t) => t.watchCount.length > 0)
+    .filter?.((t) => Array.isArray(t.watchCount) && t.watchCount.length > 0)
     .sort((a, b) => b.watchCount.length - a.watchCount.length);
 
   let previousCount = null;
