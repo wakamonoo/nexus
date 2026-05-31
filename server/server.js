@@ -36,7 +36,6 @@ const allowedOrigin = [
   "https://nexus-po8x.onrender.com",
   "https://nexus-git-test-wakamonoos-projects.vercel.app",
   "https://nexus-test-xxhl.onrender.com",
-  "https://www.ournexus.space",
   "https://ournexus.space"
 ];
 
