@@ -152,7 +152,7 @@ export default function NavBar() {
               "/citadel",
             )}`}
           >
-            {unReadCitadelCount > 0 && (
+            {unReadCitadelCount > 0 && user && (
               <p className="absolute right-0 -top-2 text-xs text-accent">
                 {unReadCitadelCount}
               </p>
