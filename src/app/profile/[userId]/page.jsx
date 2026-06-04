@@ -254,7 +254,13 @@ export default function UserProfile() {
               )}
 
               {loadingMemory && <p>generating</p>}
-              {memory && <div>{memory}</div>}
+              {memory && (
+                <div className="p-3 mt-3">
+                  <p className="text-base text-vibe opacity-40 text-justify leading-5 whitespace-pre-wrap">
+                    {memory}
+                  </p>
+                </div>
+              )}
             </aside>
 
             <main className="flex flex-col justify-center items-center">
@@ -274,7 +280,7 @@ export default function UserProfile() {
                   <p
                     className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
                       showProfilePosts
-                        ? "font-bold text-accent border-b-2 border-accent"  
+                        ? "font-bold text-accent border-b-2 border-accent"
                         : "text-normal"
                     }`}
                   >

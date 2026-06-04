@@ -14,87 +14,57 @@ router.post("/memoryFeed", async (req, res) => {
       .map((t, i) => `${i + 1}. ${t}`)
       .join("\n");
 
-    const prompt = `
-You are Nexus Memory Agent.
+    const prompt = `you are nexus memory agent. user recently watched ${formattedTitles}. 
 
-User recently watched:
-${formattedTitles}
+    Task:
+    - Summarize the user's recent Marvel watch history in ONE paragraph
+    - The goal is MEMORY REFRESH, not storytelling or narration
+    - Focus on what the user actually watched and what each title is about
+    - Keep it simple, direct, and factual
+    - Do NOT create a flowing story or connect events like a movie script
+    - Mention each title separately in the same paragraph
+    - Only use the provided titles
+    - Do not suggest new movies
 
-Task:
-- Give short continuity reminders
-- Only use provided titles
-- No new movie suggestions
-- Keep it concise
+    Style:
+    - Think: "recap notes in human form"
+    - Not cinematic, not poetic, not storytelling
 
-Return STRICT JSON:
-{
-  "memory": {
-    "Title": ["point 1", "point 2"]
-  }
-}
-`;
+    Return only one paragraph.
+    `;
 
-    const aiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+    const aiRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-type": "application/json",
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
+
       body: JSON.stringify({
-        model: "gpt-4o",
+        model: "z-ai/glm-4.5-air:free",
         messages: [
           {
             role: "system",
             content:
-              "You are a precise memory assistant for a media tracking app.",
+              "you are a precise memory assistant for a marvel cinematic universe tracking website.",
           },
-          { role: "user", content: prompt },
+          {
+            role: "user",
+            content: prompt,
+          },
         ],
         temperature: 0.4,
       }),
     });
 
-    // 🔴 IMPORTANT: check OpenAI response status
-    const raw = await aiRes.text();
-
-    if (!aiRes.ok) {
-      console.error("OpenAI API ERROR:", raw);
-      return res.status(500).json({
-        error: "OpenAI request failed",
-        details: raw,
-      });
-    }
-
-    let data;
-    try {
-      data = JSON.parse(raw);
-    } catch (e) {
-      console.error("FAILED TO PARSE OPENAI RESPONSE:", raw);
-      return res.status(500).json({
-        error: "Invalid JSON from OpenAI",
-        raw,
-      });
-    }
+    const data = await aiRes.json();
 
     const output = data?.choices?.[0]?.message?.content;
 
-    if (!output) {
-      console.error("NO OUTPUT FROM OPENAI:", data);
-      return res.status(500).json({
-        error: "Empty AI response",
-        data,
-      });
-    }
-
-    console.log("AI OUTPUT:", output);
-
-    return res.status(200).json({ result: output });
+    res.status(200).json({ result: output });
   } catch (err) {
-    console.error("MEMORY ROUTE CRASH:", err);
-    return res.status(500).json({
-      error: "memory route crashed",
-      message: err.message,
-    });
+    console.error(err);
+    res.status(500).json({ error: "memory route failed" });
   }
 });
 
