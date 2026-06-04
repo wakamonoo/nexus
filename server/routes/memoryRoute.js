@@ -14,53 +14,87 @@ router.post("/memoryFeed", async (req, res) => {
       .map((t, i) => `${i + 1}. ${t}`)
       .join("\n");
 
-    const prompt = `you are nexus memory agent. user recently watched ${formattedTitles}. 
+    const prompt = `
+You are Nexus Memory Agent.
 
-    task:
-    - give short continuity reminders
-    - only use provided titles
-    - no new movie suggestions
-    - keep it concise and accurate
-    
-    Return JSON:
-    {
-      "memory": {
-        "Title": ["point 1", "point 2"]
-      }
-    }`;
+User recently watched:
+${formattedTitles}
+
+Task:
+- Give short continuity reminders
+- Only use provided titles
+- No new movie suggestions
+- Keep it concise
+
+Return STRICT JSON:
+{
+  "memory": {
+    "Title": ["point 1", "point 2"]
+  }
+}
+`;
 
     const aiRes = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       },
-
       body: JSON.stringify({
         model: "gpt-4o",
         messages: [
           {
             role: "system",
             content:
-              "you are a precise memory assistant for a marvel cinematic universe tracking website.",
+              "You are a precise memory assistant for a media tracking app.",
           },
-          {
-            role: "user",
-            content: prompt,
-          },
+          { role: "user", content: prompt },
         ],
         temperature: 0.4,
       }),
     });
 
-    const data = await aiRes.json();
+    // 🔴 IMPORTANT: check OpenAI response status
+    const raw = await aiRes.text();
+
+    if (!aiRes.ok) {
+      console.error("OpenAI API ERROR:", raw);
+      return res.status(500).json({
+        error: "OpenAI request failed",
+        details: raw,
+      });
+    }
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch (e) {
+      console.error("FAILED TO PARSE OPENAI RESPONSE:", raw);
+      return res.status(500).json({
+        error: "Invalid JSON from OpenAI",
+        raw,
+      });
+    }
 
     const output = data?.choices?.[0]?.message?.content;
 
-    res.status(200).json({ result: output });
+    if (!output) {
+      console.error("NO OUTPUT FROM OPENAI:", data);
+      return res.status(500).json({
+        error: "Empty AI response",
+        data,
+      });
+    }
+
+    console.log("AI OUTPUT:", output);
+
+    return res.status(200).json({ result: output });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "memory route failed" });
+    console.error("MEMORY ROUTE CRASH:", err);
+    return res.status(500).json({
+      error: "memory route crashed",
+      message: err.message,
+    });
   }
 });
 
