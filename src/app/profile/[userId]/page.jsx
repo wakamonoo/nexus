@@ -18,6 +18,18 @@ import ProfileEchoes from "@/components/profile/profileEchoes";
 import ProfileSigils from "@/components/profile/profileSigils";
 import ProfileLoader from "@/components/loaders/profileLoader";
 
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
+
 export default function UserProfile() {
   const { userId } = useParams();
   const { allUsers, user } = useContext(UserContext);
@@ -30,6 +42,8 @@ export default function UserProfile() {
   const [showProfileReviews, setShowProfileReviews] = useState(false);
   const [showProfileEchoes, setShowProfileEchoes] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
+  const [memory, setMemory] = useState(null);
+  const [loadingMemory, setLoadingMemory] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -70,6 +84,31 @@ export default function UserProfile() {
 
   const progress =
     showNum > 0 ? ((user?.totalWatched || 0) / showNum) * 100 : 0;
+
+  const memoryInput = latestWatch.map((m) => m.title).filter(Boolean);
+
+  useEffect(() => {
+    const runMemory = async () => {
+      if (!memoryInput?.length) return;
+
+      setLoadingMemory(true);
+      try {
+        const res = await fetch(`${BASE_URL}/api/memory/memoryFeed`, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ recentTitles: memoryInput }),
+        });
+
+        const data = await res.json();
+        setMemory(data?.result);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingMemory(false);
+      }
+    };
+    runMemory();
+  }, [profileUser, watchInfo]);
 
   return (
     <>
@@ -213,6 +252,9 @@ export default function UserProfile() {
                   </p>
                 </div>
               )}
+
+              {loadingMemory && <p>generating</p>}
+              {memory && <div>{memory}</div>}
             </aside>
 
             <main className="flex flex-col justify-center items-center">
@@ -232,7 +274,7 @@ export default function UserProfile() {
                   <p
                     className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
                       showProfilePosts
-                        ? "font-bold text-accent border-b-2 border-accent"
+                        ? "font-bold text-accent border-b-2 border-accent"  
                         : "text-normal"
                     }`}
                   >

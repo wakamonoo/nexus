@@ -24,6 +24,7 @@ import watchRoute from "./routes/watchedRoute.js";
 import watchGet from "./routes/watchedGet.js";
 import pingRoute from "./routes/pingRoute.js";
 import pingGet from "./routes/pingGet.js";
+import memoryRoute from "./routes/memoryRoute.js";
 
 dotenv.config();
 
@@ -36,7 +37,7 @@ const allowedOrigin = [
   "https://nexus-po8x.onrender.com",
   "https://nexus-git-test-wakamonoos-projects.vercel.app",
   "https://nexus-test-xxhl.onrender.com",
-  "https://ournexus.space"
+  "https://ournexus.space",
 ];
 
 const io = new SocketServer(server, {
@@ -76,6 +77,7 @@ app.use("/api/watched", watchRoute);
 app.use("/api/watched", watchGet);
 app.use("/api/pings", pingRoute);
 app.use("/api/pings", pingGet);
+app.use("/api/memory", memoryRoute);
 
 app.get("/health", (req, res) => {
   res.status(200).send("uptimerobot restarter working");
