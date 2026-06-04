@@ -119,9 +119,9 @@ export default function UserProfile() {
                     <span>{showNum}</span> watched
                   </p>
 
-                  <div className="relative h-2 w-full overflow-hidden bg-panel rounded-full">
+                  <div className="h-2 w-full overflow-hidden bg-panel rounded-full">
                     <div
-                      className="absolute h-full bg-accent transition-all duration-500"
+                      className="h-full bg-accent transition-all duration-500"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
