@@ -68,6 +68,9 @@ export default function UserProfile() {
     })
     .slice(0, 3);
 
+  const progress =
+    showNum > 0 ? ((user?.totalWatched || 0) / showNum) * 100 : 0;
+
   return (
     <>
       {editProfile && (
@@ -115,6 +118,13 @@ export default function UserProfile() {
                     {profileUser.totalWatched ? profileUser.totalWatched : 0}/
                     <span>{showNum}</span> watched
                   </p>
+
+                  <div className="relative h-2 w-full overflow-hidden bg-panel rounded-full">
+                    <div
+                      className="absolute h-full bg-accent transition-all duration-500"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="p-2">
@@ -165,7 +175,7 @@ export default function UserProfile() {
               ) : (
                 <div className="flex flex-col justify-center">
                   <p className="text-xs text-vibe opacity-40">
-                     {`${profileUser?.uid === user?.uid ? "you" : profileUser.name } haven't ranked any titles yet.`}
+                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} haven't ranked any titles yet.`}
                   </p>
                 </div>
               )}
@@ -199,7 +209,7 @@ export default function UserProfile() {
               ) : (
                 <div className="flex flex-col justify-center">
                   <p className="text-xs text-vibe opacity-40">
-                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name } haven't watched anything yet.`}
+                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} haven't watched anything yet.`}
                   </p>
                 </div>
               )}
