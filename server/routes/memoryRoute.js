@@ -59,9 +59,30 @@ router.post("/memoryFeed", async (req, res) => {
       }),
     });
 
+    console.log("OpenRouter Status:", aiRes.status);
+
     const data = await aiRes.json();
 
+    console.log("OpenRouter Response:");
+    console.dir(data, { depth: null });
+
+    if (!aiRes.ok) {
+      return res.status(aiRes.status).json({
+        error: "OpenRouter request failed",
+        details: data,
+      });
+    }
+
     const output = data?.choices?.[0]?.message?.content;
+
+    console.log("Output:", output);
+
+    if (!output) {
+      return res.status(500).json({
+        error: "No output returned",
+        data,
+      });
+    }
 
     res.status(200).json({ result: output });
   } catch (err) {
