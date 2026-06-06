@@ -257,21 +257,32 @@ export default function UserProfile() {
                 </div>
               )}
 
-              <div className="bg-panel rounded my-4">
-                {loadingMemory && (
-                  <div className="p-4">
-                    <RinaLoader />
-                  </div>
-                )}
-                {memory && (
-                  <div className="p-4">
-                    <h4 className="text-center w-full bg-accent rounded-2xl my-2 font-bold text-lg">Archive Log</h4>
-                    <p className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
-                      {memory}
-                    </p>
-                  </div>
-                )}
-              </div>
+              {profileUser?.totalWatched > 0 && (
+                <div className="bg-panel rounded my-4">
+                  {loadingMemory && (
+                    <div className="p-4">
+                      <RinaLoader />
+                    </div>
+                  )}
+                  {!loadingMemory && memory && (
+                    <div className="p-4">
+                      <h4 className="text-center w-full bg-accent rounded-2xl my-2 font-bold text-lg">
+                        Archive Log
+                      </h4>
+                      <p className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
+                        {memory}
+                      </p>
+                    </div>
+                  )}
+                  {!loadingMemory && !memory && (
+                    <div className="p-4">
+                      <p className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
+                        Memory not available.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
             </aside>
 
             <main className="flex flex-col justify-center items-center">
