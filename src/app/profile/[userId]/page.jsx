@@ -17,6 +17,7 @@ import Fallback from "@/assets/fallback.png";
 import ProfileEchoes from "@/components/profile/profileEchoes";
 import ProfileSigils from "@/components/profile/profileSigils";
 import ProfileLoader from "@/components/loaders/profileLoader";
+import RinaLoader from "@/components/loaders/rinaLoader";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -100,7 +101,10 @@ export default function UserProfile() {
         });
 
         const data = await res.json();
-        setMemory(data?.result);
+
+        if (data?.result) {
+          setMemory(data.result);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -253,14 +257,21 @@ export default function UserProfile() {
                 </div>
               )}
 
-              {loadingMemory && <p>generating</p>}
-              {memory && (
-                <div className="p-3 mt-3">
-                  <p className="text-base text-vibe opacity-40 text-justify leading-5 whitespace-pre-wrap">
-                    {memory}
-                  </p>
-                </div>
-              )}
+              <div className="bg-panel rounded my-4">
+                {loadingMemory && (
+                  <div className="p-4">
+                    <RinaLoader />
+                  </div>
+                )}
+                {memory && (
+                  <div className="p-4">
+                    <h4 className="text-center w-full bg-accent rounded-2xl my-2 font-bold text-lg">Archive Log</h4>
+                    <p className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
+                      {memory}
+                    </p>
+                  </div>
+                )}
+              </div>
             </aside>
 
             <main className="flex flex-col justify-center items-center">

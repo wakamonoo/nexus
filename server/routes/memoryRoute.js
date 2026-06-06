@@ -25,6 +25,8 @@ router.post("/memoryFeed", async (req, res) => {
     - Mention each title separately in the same paragraph
     - Only use the provided titles
     - Do not suggest new movies
+    - Do not say "user", always talk like you are recapping the user. Like "You watched blahblah recenty and so on"
+    - Describe what happened in that title, not just a one sentence title description. It's a recap not a description.
 
     Style:
     - Think: "recap notes in human form"
