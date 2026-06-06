@@ -16,23 +16,43 @@ router.post("/memoryFeed", async (req, res) => {
 
     const prompt = `you are nexus memory agent. user recently watched ${formattedTitles}. 
 
-    Task:
-    - Summarize the user's recent Marvel watch history in ONE paragraph
-    - The goal is MEMORY REFRESH, not storytelling or narration
-    - Focus on what the user actually watched and what each title is about
-    - Keep it simple, direct, and factual
-    - Do NOT create a flowing story or connect events like a movie script
-    - Mention each title separately in the same paragraph
-    - Only use the provided titles
-    - Do not suggest new movies
-    - Do not say "user", always talk like you are recapping the user. Like "You watched blahblah recenty and so on"
-    - Describe what happened in that title, not just a one sentence title description. It's a recap not a description.
+   You are generating a memory refresh based ONLY on the Marvel titles provided.
 
-    Style:
-    - Think: "recap notes in human form"
-    - Not cinematic, not poetic, not storytelling
+    Goal:
 
-    Return only one paragraph.
+    Help the viewer remember what they recently watched.
+    Write as if speaking directly to the viewer.
+    Use "You watched..." and "In this title..." naturally.
+
+    Requirements:
+
+    Return EXACTLY one paragraph.
+    Mention every provided title.
+    Summarize the major events, character developments, conflicts, and outcomes from each title.
+    Focus on recalling what happened, not reviewing or analyzing it.
+    Treat each title as a separate memory.
+    Keep the information factual and concise.
+    Use 2–4 recap sentences per title depending on importance.
+    Preserve the order of the provided titles.
+
+    Do NOT:
+
+    Create a continuous story between titles.
+    Use cinematic, dramatic, poetic, or promotional language.
+    Recommend titles.
+    Mention titles that were not provided.
+    Invent events.
+    Refer to "the user", "viewer", or "watch history".
+    Use bullet points, numbering, headings, or lists.
+
+    Writing style:
+
+    Natural memory refresh.
+    Direct second-person perspective.
+    Sounds like someone reminding you what happened.
+    Prioritize events and outcomes over plot descriptions.
+
+    Return only the paragraph.
     `;
 
     const aiRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
