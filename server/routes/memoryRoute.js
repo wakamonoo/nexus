@@ -56,33 +56,56 @@ router.post("/memoryFeed", async (req, res) => {
     Return only the paragraph.
     `;
 
-    const aiRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      },
+    const aiRes = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
 
-      body: JSON.stringify({
-        model: "z-ai/glm-4.5-air:free",
-        messages: [
-          {
-            role: "system",
-            content:
-              "you are a precise memory assistant for a marvel cinematic universe tracking website.",
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: prompt,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.4,
           },
-          {
-            role: "user",
-            content: prompt,
-          },
-        ],
-        temperature: 0.4,
-      }),
-    });
+        }),
+      },
+    );
+
+    console.log("Gemini Status:", aiRes.status);
 
     const data = await aiRes.json();
 
-    const output = data?.choices?.[0]?.message?.content;
+    console.log("Gemini Response:");
+    console.dir(data, { depth: null });
+
+    if (!aiRes.ok) {
+      return res.status(aiRes.status).json({
+        error: "Gemini request failed",
+        details: data,
+      });
+    }
+
+    const output = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+    console.log("Output:", output);
+
+    if (!output) {
+      return res.status(500).json({
+        error: "No output returned",
+        data,
+      });
+    }
 
     res.status(200).json({ result: output });
   } catch (err) {
