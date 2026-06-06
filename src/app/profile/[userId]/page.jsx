@@ -18,7 +18,6 @@ import ProfileEchoes from "@/components/profile/profileEchoes";
 import ProfileSigils from "@/components/profile/profileSigils";
 import ProfileLoader from "@/components/loaders/profileLoader";
 import RinaLoader from "@/components/loaders/rinaLoader";
-import ReactMarkdown from "react-markdown";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -266,12 +265,10 @@ export default function UserProfile() {
                 )}
                 {memory && (
                   <div className="p-4">
-                    <h4 className="text-center w-full bg-accent rounded-2xl my-2 font-bold text-lg">
-                      Archive Log
-                    </h4>
-                    <div className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
-                      <ReactMarkdown>{memory}</ReactMarkdown>
-                    </div>
+                    <h4 className="text-center w-full bg-accent rounded-2xl my-2 font-bold text-lg">Archive Log</h4>
+                    <p className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
+                      {memory}
+                    </p>
                   </div>
                 )}
               </div>
