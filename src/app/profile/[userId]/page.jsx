@@ -19,6 +19,7 @@ import ProfileSigils from "@/components/profile/profileSigils";
 import ProfileLoader from "@/components/loaders/profileLoader";
 import RinaLoader from "@/components/loaders/rinaLoader";
 import ReactMarkdown from "react-markdown";
+import { SigilContext } from "@/context/sigilContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -47,6 +48,7 @@ export default function UserProfile() {
   const [memory, setMemory] = useState(null);
   const [loadingMemory, setLoadingMemory] = useState(false);
   const [memoryCache, setMemoryCache] = useState({});
+  const { sigils } = useContext(SigilContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -131,6 +133,8 @@ export default function UserProfile() {
     runMemory();
   }, [memoryKey]);
 
+  const userSigils = sigils?.filter((s) => profileUser?.[s.key] === true) || [];
+
   return (
     <>
       {editProfile && (
@@ -190,7 +194,7 @@ export default function UserProfile() {
               <div className="p-2">
                 <p className="text-sm text-vibe italic">{profileUser.bio}</p>
               </div>
-              {ProfileSigils.length > 0 ? (
+              {userSigils.length > 0 ? (
                 <ProfileSigils profileUser={profileUser} user={user} />
               ) : (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
