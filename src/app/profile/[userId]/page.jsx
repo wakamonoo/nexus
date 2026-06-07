@@ -46,6 +46,7 @@ export default function UserProfile() {
   const [editProfile, setEditProfile] = useState(false);
   const [memory, setMemory] = useState(null);
   const [loadingMemory, setLoadingMemory] = useState(false);
+  const [memoryCache, setMemoryCache] = useState({});
   const router = useRouter();
 
   useEffect(() => {
@@ -89,22 +90,37 @@ export default function UserProfile() {
 
   const memoryInput = latestWatch.map((m) => m.title).filter(Boolean);
 
+  const memoryKey = JSON.stringify(memoryInput);
+
   useEffect(() => {
     const runMemory = async () => {
       if (!memoryInput?.length) return;
+
+      const cacheKey = `${profileUser.uid}-${memoryKey}`;
+
+      if (memoryCache[cacheKey]) {
+        setMemory(memoryCache[cacheKey]);
+        return;
+      }
 
       setLoadingMemory(true);
       try {
         const res = await fetch(`${BASE_URL}/api/memory/memoryFeed`, {
           method: "POST",
           headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ recentTitles: memoryInput }),
+          body: JSON.stringify({
+            recentTitles: memoryInput,
+            user,
+            profileUser,
+          }),
         });
 
         const data = await res.json();
 
         if (data?.result) {
           setMemory(data.result);
+
+          setMemoryCache((prev) => ({ ...prev, [cacheKey]: data.result }));
         }
       } catch (err) {
         console.error(err);
@@ -113,7 +129,7 @@ export default function UserProfile() {
       }
     };
     runMemory();
-  }, [profileUser, watchInfo]);
+  }, [memoryKey]);
 
   return (
     <>

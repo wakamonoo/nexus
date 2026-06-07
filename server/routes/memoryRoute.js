@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post("/memoryFeed", async (req, res) => {
   try {
-    const { recentTitles } = req.body;
+    const { recentTitles, user, profileUser } = req.body;
 
     if (!recentTitles || !recentTitles.length) {
       return res.status(400).json({ error: "no recent watch for you" });
@@ -14,15 +14,21 @@ router.post("/memoryFeed", async (req, res) => {
       .map((t, i) => `${i + 1}. ${t}`)
       .join("\n");
 
-    const prompt = `you are nexus memory agent. user recently watched ${formattedTitles}. 
+    const isOwnProfile = user?.uid === profileUser?.uid;
+
+    const perspective = isOwnProfile
+      ? `Use "You watched..." when referring to the recent titles.`
+      : `Use "${profileUser.name} watched..." when referring to the recent titles.`;
+
+    const prompt = `you are nexus memory agent. 
+
+    The recent titles are:
+    ${formattedTitles}
 
    You are generating a memory refresh based ONLY on the Marvel titles provided.
-
-    Goal:
-    Help the viewer remember what they recently watched.
-    Write as if speaking directly to the viewer.
-    Use "You watched..." and "In this title..." naturally.
-
+    
+    ${perspective}
+    
     Requirements:
     Return EXACTLY one paragraph.
     Mention every provided title.
@@ -41,12 +47,8 @@ router.post("/memoryFeed", async (req, res) => {
     Invent events.
     Refer to "the user", "viewer", or "watch history".
     Use bullet points, numbering, headings, or lists.
+    Do not user "user" watched... on every title introduction, be creative and use also watched, etc.
 
-    Writing style:
-    Natural memory refresh.
-    Direct second-person perspective.
-    Sounds like someone reminding you what happened.
-    Prioritize events and outcomes over plot descriptions.
 
     Formatting:
     - Whenever you mention a title, wrap it with double asterisks.
@@ -57,7 +59,7 @@ router.post("/memoryFeed", async (req, res) => {
     `;
 
     const aiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: {
