@@ -31,10 +31,6 @@ router.post("/memoryFeed", async (req, res) => {
 
     Strict rules to follow:
     ${perspective}
-    Only use the provided titles. Do not invent, modify, or extend titles.
-    Do not assuem sequels, seasons, or alternative versions unless explicity listed in ${formattedTitles}.
-    If a detail is not explicitly in the provided input, omit it completely.
-    If you are unsure about any detail, do not guess. Only restate the provided information.
     
     Requirements:
     Always introduce yourself first in a funny way.
