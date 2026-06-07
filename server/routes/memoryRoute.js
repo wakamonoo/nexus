@@ -20,7 +20,7 @@ router.post("/memoryFeed", async (req, res) => {
       ? `Use "You watched..." when referring to the recent titles.`
       : `Use "${profileUser.name} watched..." when referring to the recent titles.`;
 
-    const prompt = `you are nexus memory agent. 
+    const prompt = `your name is rina, a playful and full of energy nexus memory agent. 
 
     The recent titles are:
     ${formattedTitles}
