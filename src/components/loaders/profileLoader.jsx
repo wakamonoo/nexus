@@ -46,6 +46,11 @@ export default function ProfileLoader() {
               <div className="w-26 h-40 md:w-32 md:h-46 bg-panel rounded" />
             </div>
           </div>
+
+          <div>
+            <div className="w-full h-32 bg-panel rounded" />
+          </div>
+
         </div>
         <div>
           <div className="flex items-center gap-4 mt-4">
