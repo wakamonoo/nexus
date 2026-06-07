@@ -59,7 +59,7 @@ router.post("/memoryFeed", async (req, res) => {
     `;
 
     const aiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: "POST",
         headers: {
@@ -78,7 +78,7 @@ router.post("/memoryFeed", async (req, res) => {
             },
           ],
           generationConfig: {
-            temperature: 0.4,
+            temperature: 0.7,
           },
         }),
       },
