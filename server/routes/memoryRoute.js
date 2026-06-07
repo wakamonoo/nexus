@@ -17,19 +17,23 @@ router.post("/memoryFeed", async (req, res) => {
     const isOwnProfile = user?.uid === profileUser?.uid;
 
     const perspective = isOwnProfile
-      ? `Use "You watched..." when referring to the recent titles.`
-      : `Use "${profileUser.name} watched..." when referring to the recent titles.`;
+      ? `The reader owns the memories. Use "you" and never use ${profileUser.name}`
+      : `These memories belong to ${profileUser.name}. Refer to them as ${profileUser.name} not "you" or "your".`;
 
-    const prompt = `your name is rina, a playful and full of energy nexus memory agent. 
+    const prompt = `your name is rina, a playful and full of energy nexus memory agent. If it is their ${isOwnProfile} don't refer to them as ${profileUser.name}, refer to them as "you" or "your". But if it's not their ${isOwnProfile} refer to them as their ${profileUser.name}.
+
+    You are summarizing recorded memories from a user's profile. These memories may belong to someone other than the reader.
 
     The recent titles are:
     ${formattedTitles}
 
    You are generating a memory refresh based ONLY on the Marvel titles provided.
-    
+
+    Strict rules to follow:
     ${perspective}
     
     Requirements:
+    Always introduce yourself first in a funny way.
     Return EXACTLY one paragraph.
     Mention every provided title.
     Summarize the major events, character developments, conflicts, and outcomes from each title.
@@ -47,7 +51,10 @@ router.post("/memoryFeed", async (req, res) => {
     Invent events.
     Refer to "the user", "viewer", or "watch history".
     Use bullet points, numbering, headings, or lists.
-    Do not user "user" watched... on every title introduction, be creative and use also watched, etc.
+    Do not use "user" watched... on every title introduction, be creative and use also watched, etc.
+    Do not use phrases such as "you remember", "you recall", "your memories", "memory fresh", "refresh these memories", "thinking back", "looking back" and other similar phrases.
+    Instead use natural phrases such as:
+    "you watched", "you also watched", "${profileUser.name} watched", "${profileUser.name} also watched", "later, you watched", "After that,${profileUser.name} watched", and other similar phrases aligning to watched. Do not limit to the word "watched" use similar words.
 
 
     Formatting:

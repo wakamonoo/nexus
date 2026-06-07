@@ -86,7 +86,7 @@ export default function UserProfile() {
     .slice(0, 3);
 
   const progress =
-    showNum > 0 ? ((user?.totalWatched || 0) / showNum) * 100 : 0;
+    showNum > 0 ? ((profileUser?.totalWatched || 0) / showNum) * 100 : 0;
 
   const memoryInput = latestWatch.map((m) => m.title).filter(Boolean);
 
@@ -275,7 +275,7 @@ export default function UserProfile() {
               )}
 
               {profileUser?.totalWatched > 0 && (
-                <div className="bg-panel rounded my-4">
+                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-4">
                   {loadingMemory && (
                     <div className="p-4">
                       <RinaLoader />
