@@ -190,7 +190,7 @@ export default function UserProfile() {
               <div className="p-2">
                 <p className="text-sm text-vibe italic">{profileUser.bio}</p>
               </div>
-              {ProfileSigils < 0 ? (
+              {ProfileSigils.length > 0 ? (
                 <ProfileSigils profileUser={profileUser} user={user} />
               ) : (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
