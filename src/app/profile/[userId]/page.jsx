@@ -190,7 +190,15 @@ export default function UserProfile() {
               <div className="p-2">
                 <p className="text-sm text-vibe italic">{profileUser.bio}</p>
               </div>
-              <ProfileSigils profileUser={profileUser} user={user} />
+              {ProfileSigils < 0 ? (
+                <ProfileSigils profileUser={profileUser} user={user} />
+              ) : (
+                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
+                  <p className="text-xs text-vibe opacity-40 text-center">
+                    you have no available sigils to show.
+                  </p>
+                </div>
+              )}
 
               {profileUser.rankings ? (
                 <div className="w-full h-full p-2">
@@ -233,8 +241,8 @@ export default function UserProfile() {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col justify-center">
-                  <p className="text-xs text-vibe opacity-40">
+                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
+                  <p className="text-xs text-vibe opacity-40 text-center">
                     {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} haven't ranked any titles yet.`}
                   </p>
                 </div>
@@ -267,14 +275,14 @@ export default function UserProfile() {
                   </div>
                 </div>
               ) : (
-                <div className="flex flex-col justify-center">
-                  <p className="text-xs text-vibe opacity-40">
+                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
+                  <p className="text-xs text-vibe opacity-40 text-center">
                     {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} haven't watched anything yet.`}
                   </p>
                 </div>
               )}
 
-              {profileUser?.totalWatched > 0 && (
+              {profileUser?.totalWatched > 0 ? (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-4">
                   {loadingMemory && (
                     <div className="p-4">
@@ -298,6 +306,12 @@ export default function UserProfile() {
                       </p>
                     </div>
                   )}
+                </div>
+              ) : (
+                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
+                  <p className="text-xs text-vibe opacity-40 text-center">
+                    watch titles to see archive log.
+                  </p>
                 </div>
               )}
             </aside>
