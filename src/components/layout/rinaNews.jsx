@@ -57,7 +57,7 @@ export default function RinaNews() {
         </div>
       ) : (
         <div className="mt-2 w-full">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 pb-2">
             <p className="text-base font-bold text-vibe opacity-60">Intel Feed</p>
             <div className="flex-1 border-t-2 border-panel" />
           </div>

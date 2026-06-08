@@ -11,7 +11,7 @@ export default function Hero() {
   return (
     <div>
       <div className="bg-brand w-full">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pb-2">
           <p className="text-base font-bold text-vibe opacity-60">The Timeline</p>
           <div className="flex-1 border-t-2 border-panel" />
         </div>
@@ -27,7 +27,7 @@ export default function Hero() {
             </div>
           </div>
         ) : (
-          <div className="py-2 flex flex-col gap-1">
+          <div className="flex flex-col gap-1">
             {posts.map((post, index) => (
               <PostStructure key={index} post={post} />
             ))}
