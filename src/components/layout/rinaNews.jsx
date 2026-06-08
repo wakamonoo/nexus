@@ -20,7 +20,6 @@ if (APP_ENV === "production") {
 
 export default function RinaNews() {
   const [news, setNews] = useState(null);
-  const [showNews, setShowNews] = useState(true);
   const [showFull, setShowFull] = useState(false);
   const [showAllArticles, setShowAllArticles] = useState(false);
   const router = useRouter();
@@ -57,7 +56,11 @@ export default function RinaNews() {
           <RinaLoaderNews />
         </div>
       ) : (
-        <div className="pt-2 w-full">
+        <div className="mt-2 w-full">
+          <div className="flex items-center gap-2">
+            <p className="text-base font-bold text-vibe opacity-60">Intel Feed</p>
+            <div className="flex-1 border-t-2 border-panel" />
+          </div>
           <div className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]">
             <div className="text-base text-justify leading-5 whitespace-pre-wrap p-4">
               {!showFull ? (
@@ -147,7 +150,6 @@ export default function RinaNews() {
                 )}
               </div>
             )}
-            <div className="border-b-2 border-panel mb-2" />
           </div>
         </div>
       )}

@@ -11,6 +11,10 @@ export default function Hero() {
   return (
     <div>
       <div className="bg-brand w-full">
+        <div className="flex items-center gap-2">
+          <p className="text-base font-bold text-vibe opacity-60">The Timeline</p>
+          <div className="flex-1 border-t-2 border-panel" />
+        </div>
         {coldLoad ? (
           <div className="py-2">
             <HeroLoader />
