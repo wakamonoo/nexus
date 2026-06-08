@@ -20,6 +20,7 @@ import ProfileLoader from "@/components/loaders/profileLoader";
 import ReactMarkdown from "react-markdown";
 import { SigilContext } from "@/context/sigilContext";
 import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";
+import Rina from "../../../assets/rina.png";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -295,9 +296,24 @@ export default function UserProfile() {
                   )}
                   {!loadingMemory && memory && (
                     <div className="p-4">
-                      <h4 className="text-center w-full bg-accent rounded-2xl my-2 font-bold text-lg">
-                        Archive Log
-                      </h4>
+                      <div className="flex gap-3 pb-4">
+                        <Image
+                          src={Rina}
+                          alt="file"
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
+                        <div>
+                          <p className="text-base mt-2 font-bold leading-3.5 truncate">
+                            Rina
+                          </p>
+                          <p className="text-xs text-vibe">
+                            gemini-3.1-flash-lite
+                          </p>
+                        </div>
+                      </div>
                       <div className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
                         <ReactMarkdown>{memory}</ReactMarkdown>
                       </div>

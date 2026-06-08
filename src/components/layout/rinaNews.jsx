@@ -1,8 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
-import CircledButtons from "../buttons/circledBtns";
+import Rina from "../../assets/rina.png";
 import RinaLoaderNews from "../loaders/rinaLoaderNews";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
@@ -58,11 +59,29 @@ export default function RinaNews() {
       ) : (
         <div className="mt-2 w-full">
           <div className="flex items-center gap-2 pb-2">
-            <p className="text-base font-bold text-vibe opacity-60">Intel Feed</p>
+            <p className="text-base font-bold text-vibe opacity-60">
+              Intel Feed
+            </p>
             <div className="flex-1 border-t-2 border-panel" />
           </div>
-          <div className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]">
-            <div className="text-base text-justify leading-5 whitespace-pre-wrap p-4">
+          <div className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] p-4">
+            <div className="flex gap-3 pb-4">
+              <Image
+                src={Rina}
+                alt="file"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-12 h-12 rounded-full object-cover"
+              />
+              <div>
+                <p className="text-base mt-2 font-bold leading-3.5 truncate">
+                  Rina
+                </p>
+                <p className="text-xs text-vibe">gemini-3.1-flash-lite</p>
+              </div>
+            </div>
+            <div className="text-base text-justify leading-5 whitespace-pre-wrap">
               {!showFull ? (
                 <>
                   <ReactMarkdown>{getPreview(news?.report, 40)}</ReactMarkdown>
