@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import CircledButtons from "../buttons/circledBtns";
 import RinaLoaderNews from "../loaders/rinaLoaderNews";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -20,6 +21,8 @@ if (APP_ENV === "production") {
 export default function RinaNews() {
   const [news, setNews] = useState(null);
   const [showNews, setShowNews] = useState(true);
+  const [showFull, setShowFull] = useState(false);
+  const [showAllArticles, setShowAllArticles] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -36,6 +39,17 @@ export default function RinaNews() {
     }
   }, []);
 
+  const getPreview = (text, wordLimit = 40) => {
+    if (!text) return "";
+
+    const words = text.split(" ");
+    return words.slice(0, wordLimit).join(" ");
+  };
+
+  const visibleArticles = showAllArticles
+    ? news?.articles
+    : news?.articles?.slice(0, 2);
+
   return (
     <>
       {!news ? (
@@ -43,61 +57,99 @@ export default function RinaNews() {
           <RinaLoaderNews />
         </div>
       ) : (
-        <>
-          {showNews && (
-            <div className="py-2 w-full">
-              <div className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]">
-                <div className="p-4 text-base font-normal text-justify">
-                  <ReactMarkdown>{news?.report}</ReactMarkdown>
+        <div className="pt-2 w-full">
+          <div className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]">
+            <div className="text-base text-justify leading-5 whitespace-pre-wrap p-4">
+              {!showFull ? (
+                <>
+                  <ReactMarkdown>{getPreview(news?.report, 40)}</ReactMarkdown>
+                  {news?.report.split(" ").length > 40 && (
+                    <>
+                      ...{" "}
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowFull(true);
+                        }}
+                        className="cursor-pointer text-base font-light text-normal opacity-60"
+                      >
+                        see more
+                      </span>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <ReactMarkdown>{news?.report}</ReactMarkdown>{" "}
+                  <span
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowFull(false);
+                    }}
+                    className="cursor-pointer text-base font-light text-normal opacity-60"
+                  >
+                    see less
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="mt-2">
+            {visibleArticles.map((article, index) => (
+              <div
+                key={index}
+                onClick={() => router.push(`${article?.url}`)}
+                className="bg-second flex gap-4 p-2 border-y border-panel cursor-pointer hover:bg-[var(--color-panel)]"
+              >
+                <img
+                  src={article.image}
+                  alt="article image"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="w-[24vh] h-auto object-cover"
+                />
+                <div className="flex flex-col">
+                  <p className="text-base text-zeus font-bold text-justify leading-5 whitespace-pre-wrap">
+                    {article?.title}
+                  </p>
+                  <p className="text-sm text-vibe line-clamp-2">
+                    {article?.description}
+                  </p>
+                  <p className="text-xs text-end mt-1 text-[var(--color-vibranium)]/60">
+                    via {article.source} on{" "}
+                    <span>
+                      {new Date(article?.publishedAt).toLocaleDateString([], {
+                        month: "short",
+                        day: "2-digit",
+                        year: "numeric",
+                      })}
+                    </span>
+                  </p>
                 </div>
               </div>
-              <div className="mt-2">
-                {news?.articles?.map((article, index) => (
-                  <div
-                    key={index}
-                    onClick={() => router.push(`${article?.url}`)}
-                    className="bg-second flex gap-4 p-2 border-y border-panel cursor-pointer hover:bg-[var(--color-panel)]"
-                  >
-                    <img
-                      src={article.image}
-                      alt="article image"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className="w-32 h-auto object-cover"
-                    />
-                    <div className="flex flex-col">
-                      <p className="text-base text-zeus font-bold text-justify leading-5 whitespace-pre-wrap">
-                        {article?.title}
-                      </p>
-                      <p className="text-sm text-vibe line-clamp-2">
-                        {article?.description}
-                      </p>
-                      <p className="text-xs text-end mt-1 text-[var(--color-vibranium)]/60">
-                        via {article.source} on{" "}
-                        <span>
-                          {new Date(article?.publishedAt).toLocaleDateString(
-                            [],
-                            {
-                              month: "short",
-                              day: "2-digit",
-                              year: "numeric",
-                            },
-                          )}
-                        </span>
-                      </p>
-                    </div>
+            ))}
+            {news?.articles?.length > 2 && (
+              <div
+                onClick={() => setShowAllArticles((prev) => !prev)}
+                className="w-full flex justify-center items-center cursor-pointer"
+              >
+                {!showAllArticles ? (
+                  <div className="flex flex-col justify-center items-center p-2 text-[var(--color-text)]/60 hover:text-[var(--color-text)]/40">
+                    <p className="text-xs">show all articles</p>
+                    <FaAngleDown className="text-lg" />
                   </div>
-                ))}
+                ) : (
+                  <div className="flex flex-col justify-center items-center p-2 text-[var(--color-text)]/60 hover:text-[var(--color-text)]/40">
+                    <p className="text-xs">show less articles</p>
+                    <FaAngleUp className="text-lg" />
+                  </div>
+                )}
               </div>
-            </div>
-          )}
-          <div className={!showNews ? "mt-2" : ""}>
-            <CircledButtons onClick={() => setShowNews((prev) => !prev)}>
-              {showNews ? "Hide News" : "View News"}
-            </CircledButtons>
+            )}
+            <div className="border-b-2 border-panel mb-2" />
           </div>
-        </>
+        </div>
       )}
     </>
   );

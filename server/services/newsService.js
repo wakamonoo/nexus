@@ -2,7 +2,7 @@ import clientPromise from "../lib/mongodb.js";
 
 export async function newsRefresh() {
   const response = await fetch(
-    `https://newsapi.org/v2/everything?q="Marvel Studios"&language=en&sortBy=publishedAt&pageSize=5&apiKey=${process.env.NEWS_API_KEY}`,
+    `https://newsapi.org/v2/everything?q="Marvel Studios"&language=en&sortBy=publishedAt&pageSize=10&apiKey=${process.env.NEWS_API_KEY}`,
   );
 
   const data = await response.json();
