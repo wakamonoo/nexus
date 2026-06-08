@@ -4,6 +4,7 @@ import Hero from "../components/layout/hero";
 import NavBar from "@/components/layout/navBar";
 import MenuStructure from "@/components/layout/menuStructure";
 import LatestReviews from "@/components/layout/latestReviews";
+import RinaNews from "@/components/layout/rinaNews";
 
 export default function Page() {
   return (
@@ -15,6 +16,7 @@ export default function Page() {
         </aside>
         <div className="w-full md:w-[65%] lg:w-[50%] md:pt-2 md:ml-4 lg:px-8 xl:px-16">
           <Banner />
+          <RinaNews />
           <Hero />
         </div>
         <aside className="hidden lg:block lg:w-[25%] pt-18 h-screen sticky top-0">

@@ -17,9 +17,9 @@ import Fallback from "@/assets/fallback.png";
 import ProfileEchoes from "@/components/profile/profileEchoes";
 import ProfileSigils from "@/components/profile/profileSigils";
 import ProfileLoader from "@/components/loaders/profileLoader";
-import RinaLoader from "@/components/loaders/rinaLoader";
 import ReactMarkdown from "react-markdown";
 import { SigilContext } from "@/context/sigilContext";
+import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -290,7 +290,7 @@ export default function UserProfile() {
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-4">
                   {loadingMemory && (
                     <div className="p-4">
-                      <RinaLoader />
+                      <RinaLoaderMemory />
                     </div>
                   )}
                   {!loadingMemory && memory && (

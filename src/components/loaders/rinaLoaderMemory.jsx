@@ -1,4 +1,4 @@
-export default function RinaLoader() {
+export default function RinaLoaderMemory() {
   return (
     <div className="text-center">
       <div className="flex gap-2 justify-center">
