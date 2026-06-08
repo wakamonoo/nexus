@@ -40,11 +40,11 @@ router.post("/memoryFeed", async (req, res) => {
     Focus on recalling what happened, not reviewing or analyzing it.
     Treat each title as a separate memory.
     Keep the information factual and concise.
-    Use 2–4 recap sentences per title depending on importance.
+    Use 4-6 recap sentences per title depending on importance.
     Preserve the order of the provided titles.
 
     Do NOT:
-    Do not give storyline that is not based on that movie or tv series season, be factual it's okay to give spoilers as long as it happened in the title.
+    Give storyline that is not based on that movie or tv series season, be factual it's okay to give spoilers as long as it happened in the title.
     Create a continuous story between titles.
     Use cinematic, dramatic, poetic, or promotional language.
     Recommend titles.
@@ -52,8 +52,8 @@ router.post("/memoryFeed", async (req, res) => {
     Invent events.
     Refer to "the user", "viewer", or "watch history".
     Use bullet points, numbering, headings, or lists.
-    Do not use "user" watched... on every title introduction, be creative and use also watched, etc.
-    Do not use phrases such as "you remember", "you recall", "your memories", "memory fresh", "refresh these memories", "thinking back", "looking back" and other similar phrases.
+    Use "user" watched... on every title introduction, be creative and use also watched, etc.
+    Use phrases such as "you remember", "you recall", "your memories", "memory fresh", "refresh these memories", "thinking back", "looking back" and other similar phrases.
     Instead use natural phrases such as:
     "you watched", "you also watched", "${profileUser.name} watched", "${profileUser.name} also watched", "later, you watched", "After that,${profileUser.name} watched", and other similar phrases aligning to watched. Do not limit to the word "watched" use similar words but only use it sometimes, still most of the time use "watched" just give other wording options.
 

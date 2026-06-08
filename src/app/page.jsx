@@ -1,6 +1,6 @@
 "use client";
 import Banner from "@/components/layout/banner";
-import Hero from "../sections/hero";
+import Hero from "../components/layout/hero";
 import NavBar from "@/components/layout/navBar";
 import MenuStructure from "@/components/layout/menuStructure";
 import LatestReviews from "@/components/layout/latestReviews";
