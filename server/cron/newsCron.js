@@ -1,14 +1,25 @@
-import dotenv from "dotenv";
+import cron from "node-cron";
 import { newsRefresh } from "../services/newsService.js";
 
-dotenv.config();
+let isRunning = false;
 
-try {
-  console.log("[CRON] refreshing news...");
+export function startNewsCron() {
+  console.log("[CRON] News cron initialized");
 
-  await newsRefresh();
+  cron.schedule("0 */2 * * *", async () => {
+    if (isRunning) return;
 
-  console.log("[CRON] News updated succesfully");
-} catch (err) {
-  console.error("[CRON ERRON]", err.message);
+    try {
+      isRunning = true;
+      console.log("[CRON] refreshing news...");
+
+      await newsRefresh();
+
+      console.log("[CRON] News updated succesfully");
+    } catch (err) {
+      console.error("[CRON ERRON]", err.message);
+    } finally {
+      isRunning = false;
+    }
+  });
 }
