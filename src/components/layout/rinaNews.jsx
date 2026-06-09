@@ -78,15 +78,7 @@ export default function RinaNews() {
                 <p className="text-base mt-2 font-bold leading-3.5 truncate">
                   Rina
                 </p>
-                <p className="text-xs text-vibe">
-                  {new Date(news.createdAt).toLocaleDateString([], {
-                    month: "short",
-                    day: "2-digit",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
+                <p className="text-xs text-vibe">gemini-3.1-flash-lite</p>
               </div>
             </div>
             <div className="text-base text-justify leading-5 whitespace-pre-wrap">

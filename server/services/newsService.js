@@ -11,7 +11,9 @@ export async function newsRefresh() {
     .filter(
       (article) =>
         article.title?.toLowerCase().includes("marvel") ||
-        article.description?.toLowerCase().includes("marvel"),
+        article.description?.toLowerCase().includes("marvel") ||
+        article.title?.toLowerCase().includes("mcu") ||
+        article.description?.toLowerCase().includes("mcu"),
     )
     .map((article) => ({
       title: article.title,
