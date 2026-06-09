@@ -2,19 +2,25 @@ import clientPromise from "../lib/mongodb.js";
 
 export async function newsRefresh() {
   const response = await fetch(
-    `https://api.currentsapi.services/v1/search?keywords=Marvel%20Studios&language=en&limit=10&apiKey=${process.env.CURRENTS_API_KEY}`,
+    `https://api.currentsapi.services/v1/search?keywords=Marvel%20Studios&language=en&apiKey=${process.env.CURRENTS_API_KEY}`,
   );
 
   const data = await response.json();
 
-  const articles = data.news.map((article) => ({
-    title: article.title,
-    description: article.description,
-    image: article.image,
-    source: article.author || unknown,
-    publishedAt: article.published,
-    url: article.url,
-  }));
+  const articles = data.news
+    .filter(
+      (article) =>
+        article.title?.toLowerCase().includes("marvel") ||
+        article.description?.toLowerCase().includes("marvel"),
+    )
+    .map((article) => ({
+      title: article.title,
+      description: article.description,
+      image: article.image,
+      source: article.author || "unknown",
+      publishedAt: article.published,
+      url: article.url,
+    }));
 
   const prompt = `you are rina, a playful and funny nexus ai chatbot and now you are an MCU news reporter.
 
