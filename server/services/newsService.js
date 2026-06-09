@@ -2,17 +2,17 @@ import clientPromise from "../lib/mongodb.js";
 
 export async function newsRefresh() {
   const response = await fetch(
-    `https://newsapi.org/v2/everything?q="Marvel Studios"&language=en&sortBy=publishedAt&pageSize=10&apiKey=${process.env.NEWS_API_KEY}`,
+    `https://api.currentsapi.services/v1/search?keywords=Marvel%20Studios&language=en&limit=10&apiKey=${process.env.CURRENTS_API_KEY}`,
   );
 
   const data = await response.json();
 
-  const articles = data.articles.map((article) => ({
+  const articles = data.news.map((article) => ({
     title: article.title,
     description: article.description,
-    image: article.urlToImage,
-    source: article.source.name,
-    publishedAt: article.publishedAt,
+    image: article.image,
+    source: article.author || unknown,
+    publishedAt: article.published,
     url: article.url,
   }));
 
