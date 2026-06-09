@@ -26,7 +26,6 @@ import pingRoute from "./routes/pingRoute.js";
 import pingGet from "./routes/pingGet.js";
 import memoryRoute from "./routes/memoryRoute.js";
 import newsRoute from "./routes/newsGet.js";
-import { startNewsCron } from "./cron/newsCron.js";
 
 dotenv.config();
 
@@ -85,8 +84,6 @@ app.use("/api/news", newsRoute);
 app.get("/health", (req, res) => {
   res.status(200).send("uptimerobot restarter working");
 });
-
-startNewsCron();
 
 io.on("connection", (socket) => {
   console.log("a user is connected", socket.id);
