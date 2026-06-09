@@ -6,7 +6,7 @@ let isRunning = false;
 export function startNewsCron() {
   console.log("[CRON] News cron initialized");
 
-  cron.schedule("* * * * *", async () => {
+  cron.schedule("0 */2 * * *", async () => {
     if (isRunning) return;
 
     try {
@@ -17,7 +17,7 @@ export function startNewsCron() {
 
       console.log("[CRON] News updated succesfully");
     } catch (err) {
-      console.error("[CRON ERRON]", err.message);
+      console.error("[CRON ERROR]", err.message);
     } finally {
       isRunning = false;
     }
