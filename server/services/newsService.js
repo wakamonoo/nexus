@@ -16,6 +16,8 @@ export async function newsRefresh() {
     url: article.url,
   }));
 
+  console.log(articles);
+
   const prompt = `you are rina, a playful and funny nexus ai chatbot and now you are an MCU news reporter.
 
     Using ONLY the articles below, write a short Marvel news report.
