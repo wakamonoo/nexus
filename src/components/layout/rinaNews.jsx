@@ -5,6 +5,7 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import Rina from "../../assets/rina.png";
 import RinaLoaderNews from "../loaders/rinaLoaderNews";
+import Fallback from "../../assets/fallback.png"
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -125,6 +126,7 @@ export default function RinaNews() {
               >
                 <img
                   src={article.image}
+                  onError={(e) => e.currentTarget.src = Fallback.src}
                   alt="article image"
                   width={0}
                   height={0}
@@ -132,7 +134,7 @@ export default function RinaNews() {
                   className="w-[24vh] h-auto object-cover"
                 />
                 <div className="flex flex-col">
-                  <p className="text-base text-zeus font-bold text-justify leading-5 whitespace-pre-wrap">
+                  <p className="text-base text-zeus font-bold text-justify leading-5 whitespace-pre-wrap line-clamp-2">
                     {article?.title}
                   </p>
                   <p className="text-sm text-vibe line-clamp-2">

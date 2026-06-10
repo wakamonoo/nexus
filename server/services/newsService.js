@@ -2,12 +2,12 @@ import clientPromise from "../lib/mongodb.js";
 
 export async function newsRefresh() {
   const response = await fetch(
-    `https://api.currentsapi.services/v1/search?keywords=Marvel%20Studios&language=en&apiKey=${process.env.CURRENTS_API_KEY}`,
+    `https://api.currentsapi.services/v1/search?keywords=Marvel%20Studios%20OR%20MCU%20OR%20Marvel%20Cinematic%20Universe&language=en&apiKey=${process.env.CURRENTS_API_KEY}`,
   );
 
   const data = await response.json();
 
-  const articles = data.news.map((article) => ({
+  const articles = data.news.slice(0, 10).map((article) => ({
     title: article.title,
     description: article.description,
     image: article.image,
