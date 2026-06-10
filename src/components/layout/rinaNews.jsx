@@ -134,7 +134,7 @@ export default function RinaNews() {
                   className="w-[24vh] h-auto object-cover"
                 />
                 <div className="flex flex-col">
-                  <p className="text-base text-zeus font-bold text-justify leading-5 whitespace-pre-wrap line-clamp-2">
+                  <p className="text-base text-zeus font-bold text-justify leading-5 whitespace-pre-wrap line-clamp-4">
                     {article?.title}
                   </p>
                   <p className="text-sm text-vibe line-clamp-2">
