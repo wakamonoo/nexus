@@ -7,22 +7,14 @@ export async function newsRefresh() {
 
   const data = await response.json();
 
-  const articles = data.news
-    .filter(
-      (article) =>
-        article.title?.toLowerCase().includes("marvel") ||
-        article.description?.toLowerCase().includes("marvel") ||
-        article.title?.toLowerCase().includes("mcu") ||
-        article.description?.toLowerCase().includes("mcu"),
-    )
-    .map((article) => ({
-      title: article.title,
-      description: article.description,
-      image: article.image,
-      source: article.author || "unknown",
-      publishedAt: article.published,
-      url: article.url,
-    }));
+  const articles = data.news.map((article) => ({
+    title: article.title,
+    description: article.description,
+    image: article.image,
+    source: article.author || "unknown",
+    publishedAt: article.published,
+    url: article.url,
+  }));
 
   const prompt = `you are rina, a playful and funny nexus ai chatbot and now you are an MCU news reporter.
 
