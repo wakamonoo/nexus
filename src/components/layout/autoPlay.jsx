@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function AutoPlay({ src }) {
+export default function AutoPlay({ src, onLoadedMetadata }) {
   const vidRef = useRef(null);
 
   useEffect(() => {
@@ -31,6 +31,7 @@ export default function AutoPlay({ src }) {
       playsInline
       loop
       preload="metadata"
+      onLoadedMetadata={onLoadedMetadata}
       className="w-full h-full object-cover"
     />
   );
