@@ -312,7 +312,7 @@ export default function Post() {
                         </p>
                       </div>
                     </div>
-                    <div className="px-2">
+                    <div className="px-4">
                       <div
                         onClick={(e) => {
                           e.stopPropagation();
