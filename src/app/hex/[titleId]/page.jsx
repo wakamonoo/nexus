@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import {
   FaAngleLeft,
   FaCrown,
+  FaHourglassHalf,
   FaPlay,
   FaQuoteLeft,
   FaVideoSlash,
@@ -272,10 +273,23 @@ export default function Title() {
             <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide">
               {!title.reviews || title.reviews?.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-4 h-full">
-                  <MdRateReview className="text-4xl text-vibe opacity-40" />
-                  <p className="text-xs text-vibe opacity-40">
-                    claim the first review
-                  </p>
+                  <>
+                    {title?.status === "released" ? (
+                      <>
+                        <MdRateReview className="text-4xl text-vibe opacity-40" />
+                        <p className="text-xs text-vibe opacity-40">
+                          claim the first review
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <FaHourglassHalf className="text-4xl text-vibe opacity-40" />
+                        <p className="text-xs text-vibe opacity-40">
+                          title coming soon
+                        </p>
+                      </>
+                    )}
+                  </>
                 </div>
               ) : (
                 title.reviews?.map((review, index) => (
