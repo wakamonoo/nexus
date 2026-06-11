@@ -36,6 +36,7 @@ export default function EditTitle() {
     order: "",
     episode: "",
     duration: "",
+    status: "",
     trailer: "",
     summary: "",
   });
@@ -62,6 +63,7 @@ export default function EditTitle() {
         order: title.order || "",
         episode: title.episode || "",
         duration: title.duration || "",
+        status: title.status || "",
         trailer: title.trailer || "",
         summary: title.summary || "",
       });
@@ -126,7 +128,8 @@ export default function EditTitle() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     } finally {
@@ -143,7 +146,8 @@ export default function EditTitle() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     }
@@ -300,6 +304,17 @@ export default function EditTitle() {
             placeholder="Runtime (Movies & One Shots)"
             className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
           />
+          <select
+            name="status"
+            required
+            value={data.status}
+            onChange={handleChange}
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
+          >
+            <option value="null">Select Status</option>
+            <option value="released">Released</option>
+            <option value="upcoming">Upcoming</option>
+          </select>
           <input
             type="text"
             name="trailer"

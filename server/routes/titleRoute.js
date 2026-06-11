@@ -48,7 +48,7 @@ router.post("/addTitle", async (req, res) => {
           reviews: [],
         },
       },
-      { upsert: true }
+      { upsert: true },
     );
     res.status(200).json({ message: "success" });
   } catch (err) {
@@ -72,6 +72,7 @@ router.put("/updateTitle/:titleId", async (req, res) => {
     order,
     episode,
     duration,
+    status,
     trailer,
     summary,
   } = req.body;
@@ -96,10 +97,11 @@ router.put("/updateTitle/:titleId", async (req, res) => {
           order: Number(order) || null,
           episode: Number(episode) || null,
           duration: Number(duration) || null,
+          status,
           trailer,
           summary,
         },
-      }
+      },
     );
     res.status(200).json({ message: "update success" });
   } catch (err) {

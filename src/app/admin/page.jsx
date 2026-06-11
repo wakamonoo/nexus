@@ -24,7 +24,12 @@ if (APP_ENV === "production") {
 
 export default function Page() {
   const router = useRouter();
-  const [count, setCount] = useState({ usersCount: 0, titlesCount: 0 });
+  const [count, setCount] = useState({
+    usersCount: 0,
+    titlesCount: 0,
+    releasedCount: 0,
+    upcomingCount: 0,
+  });
   const { setShowSignIn, allUsers } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
 
@@ -78,9 +83,32 @@ export default function Page() {
                     className="text-7xl font-extrabold text-accent"
                   />
                 </div>
-                <h2 className="text-xl font-extrabold">TITLES</h2>
+                <h2 className="text-xl font-extrabold">ALL TITLES</h2>
+              </div>
+
+              <div className="flex items-center gap-2 justify-center">
+                <div className="flex items-center justify-center w-24 h-24">
+                  <CountUp
+                    end={count.releasedCount}
+                    duration={1.5}
+                    className="text-7xl font-extrabold text-accent"
+                  />
+                </div>
+                <h2 className="text-xl font-extrabold">RELEASED TITLES</h2>
+              </div>
+
+              <div className="flex items-center gap-2 justify-center">
+                <div className="flex items-center justify-center w-24 h-24">
+                  <CountUp
+                    end={count.upcomingCount}
+                    duration={1.5}
+                    className="text-7xl font-extrabold text-accent"
+                  />
+                </div>
+                <h2 className="text-xl font-extrabold">UPCOMING TITLES</h2>
               </div>
             </div>
+
             <div className="flex flex-col gap-2">
               <RegularButtons onClick={() => router.push("/admin/addTitle")}>
                 <p className="font-bold text-normal text-base uppercase">

@@ -14,7 +14,7 @@ import { GoDotFill } from "react-icons/go";
 
 export default function Chrono() {
   const { user } = useContext(UserContext);
-  const { titles } = useContext(TitleContext);
+  const { release } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
@@ -34,7 +34,6 @@ export default function Chrono() {
     fetchWathced();
   }, [user]);
 
-
   return (
     <>
       <div className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
@@ -45,11 +44,12 @@ export default function Chrono() {
           />
           <h4 className="text-xl">MCU Release Order</h4>
         </div>
-        {!titles || titles.length === 0 ? <ShowListLoader /> : (<div className="w-full">
-          <div className="flex flex-wrap justify-center gap-2">
-            {...titles
-              .sort((a, b) => new Date(a.date) - new Date(b.date))
-              .map((unit) => (
+        {!release ? (
+          <ShowListLoader />
+        ) : (
+          <div className="w-full">
+            <div className="flex flex-wrap justify-center gap-2">
+              {...release.map((unit) => (
                 <div
                   key={unit.date}
                   onClick={() => handleShowNav(unit.titleId)}
@@ -69,8 +69,9 @@ export default function Chrono() {
                   />
                 </div>
               ))}
+            </div>
           </div>
-        </div>)}
+        )}
       </div>
     </>
   );

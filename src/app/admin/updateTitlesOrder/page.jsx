@@ -24,18 +24,18 @@ if (APP_ENV === "production") {
 }
 
 export default function UpdateOrder() {
-  const { titles } = useContext(TitleContext);
+  const { releasedTitles } = useContext(TitleContext);
   const [items, setItems] = useState([]);
   const [rotate, setRotate] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   useEffect(() => {
-    if (titles && titles.length > 0) {
-      const sorted = [...titles].sort((a, b) => a.order - b.order);
+    if (releasedTitles && releasedTitles.length > 0) {
+      const sorted = [...releasedTitles].sort((a, b) => a.order - b.order);
       setItems(sorted);
     }
-  }, [titles]);
+  }, [releasedTitles]);
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -49,7 +49,7 @@ export default function UpdateOrder() {
       (item, index) => ({
         ...item,
         order: index + 1,
-      })
+      }),
     );
 
     setItems(newItems);
@@ -85,7 +85,8 @@ export default function UpdateOrder() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     } finally {
@@ -105,7 +106,8 @@ export default function UpdateOrder() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title: "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
     }

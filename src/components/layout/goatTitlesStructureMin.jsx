@@ -13,7 +13,7 @@ import Fallback from "@/assets/fallback.png";
 export default function GoatTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
   const { user } = useContext(UserContext);
-  const { titles } = useContext(TitleContext);
+  const { goat } = useContext(TitleContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
 
@@ -27,14 +27,10 @@ export default function GoatTitlesStructureMin() {
     fetchWathced();
   }, [user]);
 
-  const rankedTitles = titles
-    ?.filter((t) => t.totalPoints > 0)
-    .sort((a, b) => b.totalPoints - a.totalPoints);
-
   let previousPoints = null;
   let currentRank = 0;
 
-  const ranked = rankedTitles.map((t, index) => {
+  const ranked = goat.map((t, index) => {
     if (t.totalPoints !== previousPoints) {
       currentRank = index + 1;
       previousPoints = t.totalPoints;

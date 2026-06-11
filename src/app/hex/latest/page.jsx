@@ -13,7 +13,7 @@ import { GoDotFill } from "react-icons/go";
 
 export default function Latest() {
   const { user } = useContext(UserContext);
-  const { titles } = useContext(TitleContext);
+  const { latest } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
@@ -43,13 +43,12 @@ export default function Latest() {
           />
           <h4 className="text-xl">Latest Releases</h4>
         </div>
-        {!titles || titles.length === 0 ? <ShowListLoader /> : (
+        {!latest ? (
+          <ShowListLoader />
+        ) : (
           <div className="w-full">
-          <div className="flex flex-wrap justify-center gap-2">
-            {...titles
-              .sort((a, b) => new Date(b.date) - new Date(a.date))
-              .slice(0, 15)
-              .map((unit, index) => (
+            <div className="flex flex-wrap justify-center gap-2">
+              {...latest.map((unit, index) => (
                 <div
                   key={index}
                   onClick={() => handleShowNav(unit.titleId)}
@@ -69,8 +68,8 @@ export default function Latest() {
                   />
                 </div>
               ))}
+            </div>
           </div>
-        </div>
         )}
       </div>
     </>

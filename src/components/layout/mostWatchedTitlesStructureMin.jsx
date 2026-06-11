@@ -13,7 +13,7 @@ import Fallback from "@/assets/fallback.png";
 export default function MostWatchedTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
   const { user } = useContext(UserContext);
-  const { titles } = useContext(TitleContext);
+  const { popular } = useContext(TitleContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
 
@@ -27,14 +27,10 @@ export default function MostWatchedTitlesStructureMin() {
     fetchWathced();
   }, [user]);
 
-  const mostWatchedRank = titles
-    .filter?.((t) => Array.isArray(t.watchCount) && t.watchCount.length > 0)
-    .sort((a, b) => b.watchCount.length - a.watchCount.length);
-
   let previousCount = null;
   let currentRank = 0;
 
-  const ranked = mostWatchedRank.map((t, index) => {
+  const ranked = popular.map((t, index) => {
     if (t.watchCount.length !== previousCount) {
       currentRank = index + 1;
       previousCount = t.watchCount.length;

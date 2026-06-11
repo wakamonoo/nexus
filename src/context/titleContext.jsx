@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { LoaderContext } from "./loaderContext";
 import Swal from "sweetalert2";
 
@@ -19,6 +19,8 @@ export const TitleContext = createContext();
 
 export const TitleProvider = ({ children }) => {
   const [titles, setTitles] = useState([]);
+  const [releasedTitles, setReleasedTitles] = useState([]);
+  const [upcomingTitles, setUpcomingTitles] = useState([]);
   const [pageLoad, setPageLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
   const [reviewToDelete, setReviewToDelete] = useState(null);
@@ -32,9 +34,13 @@ export const TitleProvider = ({ children }) => {
 
         const data = await res.json();
         setTitles(data.result);
+        setReleasedTitles(data.result.filter((t) => t.status === "released"));
+        setUpcomingTitles(data.result.filter((t) => t.status === "upcoming"));
       } catch (err) {
         console.error("failed to fetch titles", err);
         setTitles([]);
+        setReleasedTitles([]);
+        setUpcomingTitles([]);
       } finally {
         setPageLoad(false);
       }
@@ -89,10 +95,53 @@ export const TitleProvider = ({ children }) => {
     }
   };
 
+  const latest = useMemo(() => {
+    if (!releasedTitles) return;
+
+    return releasedTitles
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 15);
+  }, [titles]);
+
+  const chrono = useMemo(() => {
+    if (!releasedTitles) return;
+
+    return releasedTitles.sort((a, b) => a.order - b.order);
+  }, [titles]);
+
+  const release = useMemo(() => {
+    if (!releasedTitles) return;
+
+    return releasedTitles.sort((a, b) => new Date(a.date) - new Date(b.date));
+  }, [titles]);
+
+  const goat = useMemo(() => {
+    if (!titles) return;
+
+    return titles
+      .filter((t) => t.totalPoints > 0)
+      .sort((a, b) => b.totalPoints - a.totalPoints);
+  }, [titles]);
+
+  const popular = useMemo(() => {
+    if (!titles) return;
+
+    return titles
+      .filter?.((t) => Array.isArray(t.watchCount) && t.watchCount.length > 0)
+      .sort((a, b) => b.watchCount.length - a.watchCount.length);
+  }, [titles]);
+
   return (
     <TitleContext.Provider
       value={{
         titles,
+        releasedTitles,
+        upcomingTitles,
+        latest,
+        chrono,
+        release,
+        goat,
+        popular,
         pageLoad,
         handleTitleDelete,
         reviewToDelete,

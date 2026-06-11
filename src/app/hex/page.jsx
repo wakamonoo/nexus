@@ -30,7 +30,8 @@ if (APP_ENV === "production") {
 }
 
 export default function Main() {
-  const { titles, pageLoad } = useContext(TitleContext);
+  const { titles, latest, chrono, release, upcomingTitles, pageLoad } =
+    useContext(TitleContext);
   const { user } = useContext(UserContext);
   const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
@@ -396,30 +397,27 @@ export default function Main() {
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <div className="flex gap-2">
-                        {titles.length > 0 ? (
-                          [...titles]
-                            .sort((a, b) => new Date(b.date) - new Date(a.date))
-                            .slice(0, 15)
-                            .map((unit) => (
-                              <div
-                                key={unit.date}
-                                onClick={() => handleShowNav(unit.titleId)}
-                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                              >
-                                <Image
-                                  src={unit.image || Fallback}
-                                  alt="image"
-                                  width={0}
-                                  height={0}
-                                  sizes="100vw"
-                                  className={`w-full h-full object-fill rounded ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "grayscale-0"
-                                      : "grayscale-90"
-                                  }`}
-                                />
-                              </div>
-                            ))
+                        {latest.length > 0 ? (
+                          latest.map((unit) => (
+                            <div
+                              key={unit.titleId}
+                              onClick={() => handleShowNav(unit.titleId)}
+                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                            >
+                              <Image
+                                src={unit.image || Fallback}
+                                alt="image"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className={`w-full h-full object-fill rounded ${
+                                  isTitleWatched(unit.titleId)
+                                    ? "grayscale-0"
+                                    : "grayscale-90"
+                                }`}
+                              />
+                            </div>
+                          ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
                             <FaBoxOpen className="text-6xl text-panel" />
@@ -483,29 +481,27 @@ export default function Main() {
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <div className="flex gap-2">
-                        {titles.length > 0 ? (
-                          [...titles]
-                            .sort((a, b) => a.order - b.order)
-                            .map((unit) => (
-                              <div
-                                key={unit.order}
-                                onClick={() => handleShowNav(unit.titleId)}
-                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                              >
-                                <Image
-                                  src={unit.image || Fallback}
-                                  alt="image"
-                                  width={0}
-                                  height={0}
-                                  sizes="100vw"
-                                  className={`w-full h-full object-fill rounded ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "grayscale-0"
-                                      : "grayscale-90"
-                                  }`}
-                                />
-                              </div>
-                            ))
+                        {chrono.length > 0 ? (
+                          chrono.map((unit) => (
+                            <div
+                              key={unit.order}
+                              onClick={() => handleShowNav(unit.titleId)}
+                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                            >
+                              <Image
+                                src={unit.image || Fallback}
+                                alt="image"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className={`w-full h-full object-fill rounded ${
+                                  isTitleWatched(unit.titleId)
+                                    ? "grayscale-0"
+                                    : "grayscale-90"
+                                }`}
+                              />
+                            </div>
+                          ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
                             <FaBoxOpen className="text-6xl text-panel" />
@@ -570,29 +566,27 @@ export default function Main() {
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <div className="flex gap-2">
-                        {titles.length > 0 ? (
-                          [...titles]
-                            .sort((a, b) => new Date(a.date) - new Date(b.date))
-                            .map((unit) => (
-                              <div
-                                key={unit.date}
-                                onClick={() => handleShowNav(unit.titleId)}
-                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                              >
-                                <Image
-                                  src={unit.image || Fallback}
-                                  alt="image"
-                                  width={0}
-                                  height={0}
-                                  sizes="100vw"
-                                  className={`w-full h-full object-fill rounded ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "grayscale-0"
-                                      : "grayscale-90"
-                                  }`}
-                                />
-                              </div>
-                            ))
+                        {release.length > 0 ? (
+                          release.map((unit) => (
+                            <div
+                              key={unit.date}
+                              onClick={() => handleShowNav(unit.titleId)}
+                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                            >
+                              <Image
+                                src={unit.image || Fallback}
+                                alt="image"
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className={`w-full h-full object-fill rounded ${
+                                  isTitleWatched(unit.titleId)
+                                    ? "grayscale-0"
+                                    : "grayscale-90"
+                                }`}
+                              />
+                            </div>
+                          ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
                             <FaBoxOpen className="text-6xl text-panel" />
@@ -712,6 +706,93 @@ export default function Main() {
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <MostWatchedTitlesStructureMin />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="py-4">
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-xl">UPCOMING TITLES</h1>
+                    <div
+                      onClick={() => handleShowListNav("release")}
+                      className={`flex items-center cursor-pointer ${
+                        isScrolled3 ? "flex" : "hidden"
+                      }`}
+                    >
+                      <p className="text-xs text-vibe">View All</p>
+                      <FaAngleRight className="text-vibe text-base" />
+                    </div>
+                  </div>
+
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setShowArrows3(true)}
+                    onMouseLeave={() => setShowArrows3(false)}
+                  >
+                    <div
+                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                        showArrows3 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                        showArrows3 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+
+                    {showArrows3 && (
+                      <>
+                        <button
+                          onClick={handleScrollLeft3}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                        >
+                          <RiArrowLeftWideFill className="text-2xl" />
+                        </button>
+                        <button
+                          onClick={handleScrollRight3}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                        >
+                          <RiArrowRightWideFill className="text-2xl" />
+                        </button>
+                      </>
+                    )}
+                    <div
+                      ref={scrollRef3}
+                      className="overflow-x-auto scrollbar-hide"
+                    >
+                      <div className="flex gap-2">
+                        {upcomingTitles.length > 0 ? (
+                          upcomingTitles
+                            .sort((a, b) => new Date(b.date) - new Date(a.date))
+                            .map((unit) => (
+                              <div
+                                key={unit.date}
+                                onClick={() => handleShowNav(unit.titleId)}
+                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                              >
+                                <Image
+                                  src={unit.image || Fallback}
+                                  alt="image"
+                                  width={0}
+                                  height={0}
+                                  sizes="100vw"
+                                  className={`w-full h-full object-fill rounded ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "grayscale-0"
+                                      : "grayscale-90"
+                                  }`}
+                                />
+                              </div>
+                            ))
+                        ) : (
+                          <div className="flex flex-col w-full justify-center items-center">
+                            <FaBoxOpen className="text-6xl text-panel" />
+                            <p className="text-sm text-panel font-normal">
+                              Sorry, no data to display!
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

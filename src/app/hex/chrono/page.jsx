@@ -13,7 +13,7 @@ import { UserContext } from "@/context/userContext";
 
 export default function Chrono() {
   const { user } = useContext(UserContext);
-  const { titles } = useContext(TitleContext);
+  const { chrono } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
@@ -43,10 +43,9 @@ export default function Chrono() {
           />
           <h4 className="text-xl">MCU Choronological Order</h4>
         </div>
-        {!titles || titles.length === 0 ? <ShowListLoader /> : (<div className="w-full">
+        {!chrono ? <ShowListLoader /> : (<div className="w-full">
           <div className="flex flex-wrap justify-center gap-2">
-            {...titles
-              .sort((a, b) => a.order - b.order)
+            {...chrono
               .map((unit) => (
                 <div
                   key={unit.order}
