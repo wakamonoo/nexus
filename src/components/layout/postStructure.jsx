@@ -27,6 +27,7 @@ export default function PostStructure({ post }) {
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -174,7 +175,10 @@ export default function PostStructure({ post }) {
       </div>
 
       {post.files && post.files.length > 0 ? (
-        <div className="relative w-full h-auto">
+        <div
+          className="relative w-full overflow-hidden"
+          style={aspectRatio ? { aspectRatio: aspectRatio } : {}}
+        >
           {post.files.length > 1 ? (
             <div className="absolute top-2 left-4">
               <p className="text-xs text-vibe">
@@ -213,13 +217,25 @@ export default function PostStructure({ post }) {
                       width={0}
                       height={0}
                       sizes="100vw"
+                      onLoadingComplete={(img) => {
+                        if (index === 0 && !aspectRatio) {
+                          setAspectRatio(img.naturalWidth / img.naturalHeight);
+                        }
+                      }}
                       className="w-full h-full object-cover"
                     />
                   ) : ["mp4", "webm", "ogg"].includes(ext) ? (
                     <video
                       key={index}
                       src={file || Fallback}
-                      controls
+                      onLoadingComplete={(e) => {
+                        if (index === 0 && !aspectRatio) {
+                          const video = e.target;
+                          setAspectRatio(
+                            video.naturalWidth / video.naturalHeight,
+                          );
+                        }
+                      }}
                       className="w-full h-full object-cover"
                     />
                   ) : null}

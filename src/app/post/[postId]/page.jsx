@@ -68,6 +68,7 @@ export default function Post() {
   const [commentLightBoxDate, setCommentLightBoxDate] = useState(null);
   const [initialIndex, setInitialIndex] = useState(0);
   const [showGifPicker, setShowGifPicker] = useState(false);
+  const [aspectRatio, setAspectRatio] = useState(null);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -89,7 +90,7 @@ export default function Post() {
       const gifUrls = files.filter(
         (file) =>
           typeof file === "string" &&
-          (file.includes("tenor.com") || file.includes("media.tenor.com"))
+          (file.includes("tenor.com") || file.includes("media.tenor.com")),
       );
 
       let uploadedUrls = [...gifUrls];
@@ -151,7 +152,7 @@ export default function Post() {
       const gifUrls = files.filter(
         (file) =>
           typeof file === "string" &&
-          (file.includes("tenor.com") || file.includes("media.tenor.com"))
+          (file.includes("tenor.com") || file.includes("media.tenor.com")),
       );
 
       let uploadedUrls = [...gifUrls];
@@ -197,7 +198,7 @@ export default function Post() {
       post.comments = post.comments.map((c) =>
         c.commentId === replyToCommentId
           ? { ...c, replies: [...(c.replies || []), data.reply] }
-          : c
+          : c,
       );
 
       setCommentText("");
@@ -214,7 +215,7 @@ export default function Post() {
   };
 
   const firstComment = post?.comments?.sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+    (a, b) => new Date(a.date) - new Date(b.date),
   )[0];
 
   const openCommentLightBox = (files, userId, userName, date, index) => {
@@ -255,7 +256,7 @@ export default function Post() {
                             setSelectedPost(
                               selectedPost === post?.postId
                                 ? null
-                                : post?.postId
+                                : post?.postId,
                             );
                           }}
                           className="cursor-pointer"
@@ -297,7 +298,7 @@ export default function Post() {
                           {(() => {
                             const diffWeeks = dayjs().diff(
                               dayjs(post.date),
-                              "week"
+                              "week",
                             );
                             if (diffWeeks < 1) {
                               return dayjs(post.date).fromNow();
@@ -331,7 +332,10 @@ export default function Post() {
                       {post?.text}
                     </p>
                     {post?.files && post?.files.length > 0 ? (
-                      <div className="relative w-full h-auto">
+                      <div
+                        className="relative w-full overflow-hidden"
+                        style={aspectRatio ? { aspectRatio: aspectRatio } : {}}
+                      >
                         {post?.files.length > 1 ? (
                           <div className="absolute top-2 left-4">
                             <p className="text-xs text-vibe">
@@ -364,7 +368,7 @@ export default function Post() {
                                 className="flex-shrink-0 w-full h-full snap-center cursor-pointer"
                               >
                                 {["jpg", "jpeg", "png", "gif", "webp"].includes(
-                                  ext
+                                  ext,
                                 ) ? (
                                   <Image
                                     src={file}
@@ -372,6 +376,13 @@ export default function Post() {
                                     width={0}
                                     height={0}
                                     sizes="100vw"
+                                    onLoadingComplete={(img) => {
+                                      if (index === 0 && !aspectRatio) {
+                                        setAspectRatio(
+                                          img.naturalWidth / img.naturalHeight,
+                                        );
+                                      }
+                                    }}
                                     className="w-full h-full object-cover"
                                   />
                                 ) : ["mp4", "webm", "ogg"].includes(ext) ? (
@@ -379,6 +390,15 @@ export default function Post() {
                                     key={index}
                                     src={file}
                                     controls
+                                    onLoadingComplete={(e) => {
+                                      if (index === 0 && !aspectRatio) {
+                                        const video = e.target;
+                                        setAspectRatio(
+                                          video.naturalWidth /
+                                            video.naturalHeight,
+                                        );
+                                      }
+                                    }}
                                     className="w-full h-full object-cover"
                                   />
                                 ) : null}
@@ -450,7 +470,7 @@ export default function Post() {
                               post.comments.reduce(
                                 (total, comment) =>
                                   total + (comment?.replies?.length || 0),
-                                0
+                                0,
                               )
                             : 0}{" "}
                           commented
@@ -534,7 +554,7 @@ export default function Post() {
                             <div className="flex flex-wrap gap-2 mt-2">
                               {comment.files.map((file, index) => {
                                 const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
-                                  file
+                                  file,
                                 );
                                 const isImage =
                                   /\.(jpg|peg|png|gif|webp)$/i.test(file);
@@ -550,7 +570,7 @@ export default function Post() {
                                         comment.userId,
                                         comment.userName,
                                         comment.date,
-                                        index
+                                        index,
                                       )
                                     }
                                     key={index}
@@ -630,7 +650,7 @@ export default function Post() {
                                       <p
                                         onClick={() => {
                                           router.push(
-                                            `/profile/${reply.userId}`
+                                            `/profile/${reply.userId}`,
                                           );
                                           setIsLoading(true);
                                         }}
@@ -672,7 +692,7 @@ export default function Post() {
                                               reply.userId,
                                               reply.userName,
                                               reply.date,
-                                              index
+                                              index,
                                             )
                                           }
                                           key={index}
@@ -759,7 +779,7 @@ export default function Post() {
                             <button
                               onClick={() => {
                                 setFiles((prev) =>
-                                  prev.filter((_, i) => i !== index)
+                                  prev.filter((_, i) => i !== index),
                                 );
                               }}
                               className="cursor-pointer"
