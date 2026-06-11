@@ -23,6 +23,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
 import CommentLightBox from "@/components/lightBoxes/commentLightBox";
 import GifPicker from "@/components/modals/gifPicker";
+import AutoPlay from "@/components/layout/autoPlay";
 
 dayjs.extend(relativeTime);
 
@@ -386,20 +387,17 @@ export default function Post() {
                                     className="w-full h-full object-cover"
                                   />
                                 ) : ["mp4", "webm", "ogg"].includes(ext) ? (
-                                  <video
+                                  <AutoPlay
                                     key={index}
                                     src={file}
-                                    controls
-                                    onLoadingComplete={(e) => {
+                                    onLoadedMetadata={(e) => {
                                       if (index === 0 && !aspectRatio) {
                                         const video = e.target;
                                         setAspectRatio(
-                                          video.naturalWidth /
-                                            video.naturalHeight,
+                                          video.videoWidth / video.videoHeight,
                                         );
                                       }
                                     }}
-                                    className="w-full h-full object-cover"
                                   />
                                 ) : null}
                               </div>

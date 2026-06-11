@@ -1,6 +1,6 @@
 import { PostContext } from "@/context/postContext";
 import { UserContext } from "@/context/userContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { FaComment } from "react-icons/fa";
 import { MdOutlineSensors } from "react-icons/md";
@@ -12,6 +12,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import { usePathname, useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import AutoPlay from "./autoPlay";
 
 dayjs.extend(relativeTime);
 
@@ -28,6 +29,7 @@ export default function PostStructure({ post }) {
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(null);
+  const vidRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -225,18 +227,15 @@ export default function PostStructure({ post }) {
                       className="w-full h-full object-cover"
                     />
                   ) : ["mp4", "webm", "ogg"].includes(ext) ? (
-                    <video
+                    <AutoPlay
                       key={index}
-                      src={file || Fallback}
-                      onLoadingComplete={(e) => {
+                      src={file}
+                      onLoadedMetadata={(e) => {
                         if (index === 0 && !aspectRatio) {
                           const video = e.target;
-                          setAspectRatio(
-                            video.naturalWidth / video.naturalHeight,
-                          );
+                          setAspectRatio(video.videoWidth / video.videoHeight);
                         }
                       }}
-                      className="w-full h-full object-cover"
                     />
                   ) : null}
                 </div>
