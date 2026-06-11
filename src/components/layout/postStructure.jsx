@@ -174,7 +174,7 @@ export default function PostStructure({ post }) {
       </div>
 
       {post.files && post.files.length > 0 ? (
-        <div className="relative w-full h-96">
+        <div className="relative w-full h-auto">
           {post.files.length > 1 ? (
             <div className="absolute top-2 left-4">
               <p className="text-xs text-vibe">
