@@ -55,11 +55,11 @@ export default function Title() {
   const title = titles.find((t) => t.titleId === titleId);
 
   const doneReview = title?.reviews?.some(
-    (review) => review.userId === user?.uid
+    (review) => review.userId === user?.uid,
   );
 
   const firstReview = title?.reviews?.sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+    (a, b) => new Date(a.date) - new Date(b.date),
   )[0];
 
   const rankedTitles = titles
@@ -101,7 +101,7 @@ export default function Title() {
                 e.stopPropagation();
                 setShowTitleMenu((prev) => !prev);
               }}
-              className="text-2xl cursor-pointer"
+              className={`text-2xl cursor-pointer ${title?.status === "released" ? "flex" : "hidden"}`}
             />
             {showTitleMenu && (
               <TitleMenu
@@ -242,7 +242,9 @@ export default function Title() {
                 </p>
               </div>
 
-              <div className="flex gap-2 justify-between py-2 border-t-1 border-[var(--color-vibranium)]/20 border-b-1">
+              <div
+                className={`gap-2 justify-between py-2 border-t-1 border-[var(--color-vibranium)]/20 border-b-1 ${title?.status === "released" ? "flex" : "hidden"}`}
+              >
                 <SecondaryCircledButtons
                   onClick={() => setShowAddReview(true)}
                   disabled={doneReview}
@@ -315,7 +317,7 @@ export default function Title() {
                           {(() => {
                             const diffWeeks = dayjs().diff(
                               dayjs(review.date),
-                              "week"
+                              "week",
                             );
                             if (diffWeeks < 1) {
                               return dayjs(review.date).fromNow();
@@ -326,7 +328,7 @@ export default function Title() {
                                 month: "short",
                                 day: "2-digit",
                                 year: "numeric",
-                              }
+                              },
                             );
                           })()}
                         </p>

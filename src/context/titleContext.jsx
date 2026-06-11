@@ -101,19 +101,19 @@ export const TitleProvider = ({ children }) => {
     return releasedTitles
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 15);
-  }, [titles]);
+  }, [releasedTitles]);
 
   const chrono = useMemo(() => {
     if (!releasedTitles) return;
 
     return releasedTitles.sort((a, b) => a.order - b.order);
-  }, [titles]);
+  }, [releasedTitles]);
 
   const release = useMemo(() => {
     if (!releasedTitles) return;
 
     return releasedTitles.sort((a, b) => new Date(a.date) - new Date(b.date));
-  }, [titles]);
+  }, [releasedTitles]);
 
   const goat = useMemo(() => {
     if (!titles) return;

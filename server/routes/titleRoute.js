@@ -18,6 +18,7 @@ router.post("/addTitle", async (req, res) => {
     order,
     episode,
     duration,
+    status,
     trailer,
     summary,
   } = req.body;
@@ -43,6 +44,7 @@ router.post("/addTitle", async (req, res) => {
           order: Number(order) || null,
           episode: Number(episode) || null,
           duration: Number(duration) || null,
+          status,
           trailer,
           summary,
           reviews: [],
