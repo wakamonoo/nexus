@@ -277,7 +277,6 @@ export default function AddTitle() {
           />
           <input
             type="number"
-            required
             name="order"
             value={data.order}
             onWheel={(e) => e.target.blur()}
