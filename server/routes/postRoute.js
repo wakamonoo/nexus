@@ -37,7 +37,7 @@ router.post("/addPost", async (req, res) => {
           },
         },
       ],
-      { upsert: true }
+      { upsert: true },
     );
 
     const updatedUser = await db.collection("users").findOne({ uid: userId });
@@ -97,7 +97,7 @@ router.post("/addPost", async (req, res) => {
           date: new Date(),
         },
       },
-      { upsert: true }
+      { upsert: true },
     );
     res.status(200).json({ message: "success" });
   } catch (err) {
@@ -127,6 +127,39 @@ router.delete("/deletePost/:postId", async (req, res) => {
     await db.collection("posts").deleteOne({ postId });
 
     res.status(200).json({ message: "post delete success" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err });
+  }
+});
+
+router.post("/editPost/:postId", async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    const { topic, text, files } = req.body;
+
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
+
+    const result = await db.collection("posts").updateOne(
+      { postId },
+      {
+        $set: {
+          topic,
+          text,
+          files,
+          updatedAt: new Date(),
+        },
+      },
+    );
+
+    if (result.matchCount === 0) {
+      return res.status(404).json({ error: "post not found" });
+    }
+
+    res.status(200).json({ message: "post updated succesfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });

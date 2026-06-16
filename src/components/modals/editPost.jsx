@@ -8,6 +8,7 @@ import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButtons from "../buttons/secBtns";
 import { RiImageAiFill } from "react-icons/ri";
+import Fallback from "../../assets/fallback.png";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -23,18 +24,29 @@ if (APP_ENV === "production") {
 
 export default function EditPost({ setShowEditModal, postToEdit }) {
   const { user } = useContext(UserContext);
-  const [post, setPost] = useState({ topic: "", text: "", file: null });
+  const [post, setPost] = useState({
+    userImage: null,
+    userName: null,
+    topic: "",
+    text: "",
+  });
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [showTopics, setShowTopics] = useState(false);
+  const [existingFiles, setExistingFiles] = useState([]);
+  const [newFiles, setNewFiles] = useState([]);
 
   useEffect(() => {
     if (postToEdit) {
       setPost({
+        userImage: postToEdit.userImage || null,
+        userName: postToEdit.userName || null,
         topic: postToEdit.topic || "",
         text: postToEdit.text || "",
-        file: postToEdit.file || null,
       });
+
+      setExistingFiles(Array.isArray(postToEdit.file) ? postToEdit.file : []);
+      setNewFiles([]);
     }
   }, [postToEdit]);
 
@@ -49,15 +61,17 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
           formData.append("files", post.file[i]);
         }
 
-        const uploadRes = await fetch(`${BASE_URL}/api/uploads/postEdit`, {
+        const uploadRes = await fetch(`${BASE_URL}/api/uploads/postUpload}`, {
           method: "POST",
           body: formData,
         });
 
-        const { urls } = await uploadRes.json();
-        uploadedUrls = urls;
+        const data = await uploadRes.json();
+        uploadedUrls = data.urls || [];
       }
-      await fetch(`${BASE_URL}/api/posts/addPost`, {
+
+      const finalFiles = { ...existingFiles, ...uploadedUrls };
+      await fetch(`${BASE_URL}/api/posts/editPost/${postToEdit.postId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -68,7 +82,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
           userId: user.uid,
           userName: user.name,
           userImage: user.picture,
-          files: uploadedUrls,
+          files: finalFiles,
         }),
       });
 
@@ -96,7 +110,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "Your post is live!",
+        title: "Your post is was updated!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -132,14 +146,14 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
           <div className="mt-4 p-2 h-full w-full">
             <div className="flex py-2 justify-start items-center gap-2">
               <Image
-                src={user?.picture}
+                src={post?.userImage || Fallback}
                 alt="user"
                 width={0}
                 height={0}
                 sizes="100vw"
                 className="w-10 h-10 rounded-full"
               />
-              <p className="text-base text-normal font-bold">{user?.name}</p>
+              <p className="text-base text-normal font-bold">{post.userName}</p>
             </div>
             <div className="pb-2">
               <div className="relative">
@@ -170,11 +184,8 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
                   name="file"
                   accept="image/*,video/*"
                   onChange={(e) => {
-                    const newFiles = Array.from(e.target.files);
-                    setPost({
-                      ...post,
-                      file: post.file ? [...post.file, ...newFiles] : newFiles,
-                    });
+                    const files = Array.from(e.target.files);
+                    setNewFiles((prev) => [...prev, ...files]);
                   }}
                   type="file"
                   multiple
@@ -190,13 +201,13 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
                 </SecondaryButtons>
               </div>
 
-              {post.file && post.file.length > 0 && (
+              {newFiles.length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {Array.from(post.file).map((file, index) => (
+                  {newFiles.map((file, index) => (
                     <div key={index} className="w-20 h-20 relative">
                       <Image
                         src={URL.createObjectURL(file)}
-                        alt={`preivew-${index}`}
+                        alt={`preview-${index}`}
                         width={0}
                         height={0}
                         sizes="100vw"
@@ -205,12 +216,38 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
                       <div className="absolute top-1 right-1">
                         <button
                           onClick={() => {
-                            const filesArray = Array.from(post.file);
-                            filesArray.splice(index, 1);
-                            setPost({
-                              ...post,
-                              file: filesArray.length ? filesArray : null,
-                            });
+                            setNewFiles((prev) =>
+                              prev.filter((_, i) => i !== index),
+                            );
+                          }}
+                          className="cursor-pointer"
+                        >
+                          <FaTrash className="text-base" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {existingFiles.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {existingFiles.map((url, index) => (
+                    <div key={index} className="w-20 h-20 relative">
+                      <Image
+                        src={url}
+                        alt={`existing-${index}`}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover rounded"
+                      />
+                      <div className="absolute top-1 right-1">
+                        <button
+                          onClick={() => {
+                            setExistingFiles((prev) =>
+                              prev.filter((_, i) => i !== index),
+                            );
                           }}
                           className="cursor-pointer"
                         >
@@ -248,9 +285,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
 
               <button
                 onClick={editPost}
-                disabled={
-                  !(post.text.trim() || (post.file && post.file.length > 0))
-                }
+                disabled={!(post.text.trim() || newFiles.length > 0)}
                 className={`bg-accent hover:bg-[var(--color-accent)]/80 w-full p-2 rounded flex justify-center items-center gap-1 ${
                   !(post.text.trim() || (post.file && post.file.length > 0))
                     ? "opacity-50 cursor-not-allowed"
