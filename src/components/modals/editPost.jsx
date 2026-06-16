@@ -70,7 +70,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
         uploadedUrls = data.urls || [];
       }
 
-      const finalFiles = { ...existingFiles, ...uploadedUrls };
+      const finalFiles = [ ...existingFiles, ...uploadedUrls ];
       await fetch(`${BASE_URL}/api/posts/editPost/${postToEdit.postId}`, {
         method: "POST",
         headers: {

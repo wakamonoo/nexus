@@ -149,7 +149,7 @@ router.post("/editPost/:postId", async (req, res) => {
         $set: {
           topic,
           text,
-          files,
+          files: Array.isArray(files) ? files : [],
           updatedAt: new Date(),
         },
       },
