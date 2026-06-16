@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { LoaderContext } from "./loaderContext";
 import DelConfirm from "@/components/modals/delConfirmation";
+import EditPost from "@/components/modals/editPost";
 export const PostContext = createContext();
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -30,9 +31,11 @@ export const PostProvider = ({ children }) => {
   const [initialIndex, setInitialIndex] = useState(0);
   const [coldLoad, setColdLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
-  const [delModal, setDelModal] = useState(false);
+  const [showDelModal, setShowDelModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false)
   const [selectedPost, setSelectedPost] = useState(null);
   const [postToDelete, setPostToDelete] = useState(null);
+  const [postToEdit, setPostToEdit] = useState(null);
   const postLightboxRef = useRef();
   const router = useRouter();
   const pathname = usePathname();
@@ -220,22 +223,27 @@ export const PostProvider = ({ children }) => {
         postLightboxRef,
         coldLoad,
         handlePostDelete,
-        delModal,
-        setDelModal,
+        showDelModal,
+        setShowDelModal,
+        setShowEditModal,
         selectedPost,
         setSelectedPost,
         setPostToDelete,
+        setPostToEdit
       }}
     >
       {children}
       {postLightBoxOpen && <PostLightBox />}
-      {delModal && (
+      {showDelModal && (
         <DelConfirm
           onDelete={() => {
             handlePostDelete(postToDelete);
-            setDelModal(false);
+            setShowDelModal(false);
           }}
         />
+      )}
+      {showEditModal && (
+        <EditPost setShowEditModal={setShowEditModal} postToEdit={postToEdit}  />
       )}
     </PostContext.Provider>
   );

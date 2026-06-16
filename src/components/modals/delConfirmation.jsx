@@ -5,11 +5,11 @@ import { MdClose } from "react-icons/md";
 import RegularButtons from "../buttons/regBtns";
 
 export default function DelConfirm({ onDelete }) {
-  const { setDelModal } = useContext(PostContext);
+  const { setShowDelModal } = useContext(PostContext);
 
   return (
     <div
-      onClick={() => setDelModal(false)}
+      onClick={() => setShowDelModal(false)}
       className="inset-0 z-[150] backdrop-blur-xs flex items-center justify-center fixed"
     >
       <div
@@ -19,7 +19,7 @@ export default function DelConfirm({ onDelete }) {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            setDelModal(false);
+            setShowDelModal(false);
           }}
           className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
         >

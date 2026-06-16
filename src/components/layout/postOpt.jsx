@@ -1,10 +1,15 @@
 import { PostContext } from "@/context/postContext";
 import { useContext, useEffect, useRef } from "react";
-import { FaTrash } from "react-icons/fa";
+import { FaPen, FaTrash } from "react-icons/fa";
 
 export default function PostOpt({ postId }) {
-  const { setDelModal, setSelectedPost, setPostToDelete } =
-    useContext(PostContext);
+  const {
+    setShowDelModal,
+    setShowEditModal,
+    setSelectedPost,
+    setPostToDelete,
+    setPostToEdit,
+  } = useContext(PostContext);
   const optRef = useRef();
 
   useEffect(() => {
@@ -35,12 +40,23 @@ export default function PostOpt({ postId }) {
         onClick={(e) => {
           e.stopPropagation();
           setPostToDelete(postId);
-          setDelModal(true);
+          setShowDelModal(true);
         }}
         className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
         <FaTrash className="text-xl shrink-0" />
         <p className="text-base font-bold">Delete post</p>
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setPostToEdit(postId);
+          setShowEditModal(true);
+        }}
+        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
+      >
+        <FaPen className="text-xl shrink-0" />
+        <p className="text-base font-bold">Edit post</p>
       </button>
     </div>
   );
