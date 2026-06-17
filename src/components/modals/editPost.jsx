@@ -45,7 +45,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
         text: postToEdit.text || "",
       });
 
-      setExistingFiles(Array.isArray(postToEdit.file) ? postToEdit.file : []);
+      setExistingFiles(Array.isArray(postToEdit.files) ? postToEdit.files : []);
       setNewFiles([]);
     }
   }, [postToEdit]);
@@ -55,13 +55,14 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
       setIsLoading(true);
       let uploadedUrls = [];
 
-      if (post.file && post.file.length > 0) {
+      if (newFiles.length > 0) {
         const formData = new FormData();
-        for (let i = 0; i < post.file.length; i++) {
-          formData.append("files", post.file[i]);
-        }
 
-        const uploadRes = await fetch(`${BASE_URL}/api/uploads/postUpload}`, {
+        newFiles.forEach((file) => {
+          formData.append("files", file);
+        });
+
+        const uploadRes = await fetch(`${BASE_URL}/api/uploads/postUpload`, {
           method: "POST",
           body: formData,
         });
@@ -70,7 +71,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
         uploadedUrls = data.urls || [];
       }
 
-      const finalFiles = [ ...existingFiles, ...uploadedUrls ];
+      const finalFiles = [...existingFiles, ...uploadedUrls];
       await fetch(`${BASE_URL}/api/posts/editPost/${postToEdit.postId}`, {
         method: "POST",
         headers: {
@@ -201,63 +202,93 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
                 </SecondaryButtons>
               </div>
 
-              {newFiles.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {newFiles.map((file, index) => (
-                    <div key={index} className="w-20 h-20 relative">
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt={`preview-${index}`}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-cover rounded"
-                      />
-                      <div className="absolute top-1 right-1">
-                        <button
-                          onClick={() => {
-                            setNewFiles((prev) =>
-                              prev.filter((_, i) => i !== index),
-                            );
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <FaTrash className="text-base" />
-                        </button>
+              <div className="flex gap-2">
+                {existingFiles.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {existingFiles.map((file, index) => {
+                      const isImage =
+                        file.includes(".jpg") ||
+                        file.includes(".jpeg") ||
+                        file.includes(".png") ||
+                        file.includes(".webp");
+                      return (
+                        <div key={index} className="w-20 h-20 relative">
+                          {isImage ? (
+                            <Image
+                              src={file}
+                              alt={`preivew-${index}`}
+                              width={0}
+                              height={0}
+                              sizes="100vw"
+                              className="w-full h-full object-cover rounded"
+                            />
+                          ) : (
+                            <video
+                              src={file}
+                              alt={`preivew-${index}`}
+                              width={0}
+                              height={0}
+                              sizes="100vw"
+                              className="w-full h-full object-cover rounded"
+                            />
+                          )}
+                          <div className="absolute top-1 right-1">
+                            <button
+                              onClick={() => {
+                                setExistingFiles((prev) =>
+                                  prev.filter((_, i) => i !== index),
+                                );
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <FaTrash className="text-base" />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                {newFiles.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {newFiles.map((file, index) => (
+                      <div key={index} className="w-20 h-20 relative">
+                        {file.type.startsWith("image/") ? (
+                          <Image
+                            src={URL.createObjectURL(file)}
+                            alt={`preivew-${index}`}
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-full h-full object-cover rounded"
+                          />
+                        ) : (
+                          <video
+                            src={URL.createObjectURL(file)}
+                            alt={`preivew-${index}`}
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-full h-full object-cover rounded"
+                          />
+                        )}
+                        <div className="absolute top-1 right-1">
+                          <button
+                            onClick={() => {
+                              setNewFiles((prev) =>
+                                prev.filter((_, i) => i !== index),
+                              );
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <FaTrash className="text-base" />
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {existingFiles.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {existingFiles.map((url, index) => (
-                    <div key={index} className="w-20 h-20 relative">
-                      <Image
-                        src={url}
-                        alt={`existing-${index}`}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-cover rounded"
-                      />
-                      <div className="absolute top-1 right-1">
-                        <button
-                          onClick={() => {
-                            setExistingFiles((prev) =>
-                              prev.filter((_, i) => i !== index),
-                            );
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <FaTrash className="text-base" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <div className="py-2">
                 {showTopics && (
@@ -287,7 +318,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
                 onClick={editPost}
                 disabled={!(post.text.trim() || newFiles.length > 0)}
                 className={`bg-accent hover:bg-[var(--color-accent)]/80 w-full p-2 rounded flex justify-center items-center gap-1 ${
-                  !(post.text.trim() || (post.file && post.file.length > 0))
+                  !(post.text.trim() || newFiles.length > 0)
                     ? "opacity-50 cursor-not-allowed"
                     : "cursor-pointer"
                 }`}

@@ -184,14 +184,25 @@ export default function AddPost({ setShowAddPost }) {
                 <div className="flex flex-wrap gap-2 mt-2">
                   {Array.from(post.file).map((file, index) => (
                     <div key={index} className="w-20 h-20 relative">
-                      <Image
-                        src={URL.createObjectURL(file)}
-                        alt={`preivew-${index}`}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-cover rounded"
-                      />
+                      {file.type.startsWith("image/") ? (
+                        <Image
+                          src={URL.createObjectURL(file)}
+                          alt={`preivew-${index}`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover rounded"
+                        />
+                      ) : (
+                        <video
+                          src={URL.createObjectURL(file)}
+                          alt={`preivew-${index}`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover rounded"
+                        />
+                      )}
                       <div className="absolute top-1 right-1">
                         <button
                           onClick={() => {

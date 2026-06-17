@@ -43,7 +43,7 @@ export default function PostOpt({ postId }) {
           setPostToEdit(posts?.find((p) => p.postId === postId));
           setShowEditModal(true);
         }}
-        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer hidden"
+        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
         <FaPen className="text-xl shrink-0" />
         <p className="text-base font-bold">Edit post</p>
