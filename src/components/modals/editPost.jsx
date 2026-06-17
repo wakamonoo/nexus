@@ -323,7 +323,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
                     : "cursor-pointer"
                 }`}
               >
-                <p className="font-bold text-normal text-base">Post</p>
+                <p className="font-bold text-normal text-base">Update</p>
               </button>
             </div>
           </div>
