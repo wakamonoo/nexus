@@ -85,15 +85,28 @@ router.put("/updateUser/:uid", async (req, res) => {
       },
     );
 
-    await db.collection("posts").updateMany(
-      { "comments.userId": uid },
-      {
-        $set: {
-          "comments.$[elem].userName": name,
-          "comments.$[elem].userImage": picture,
-        },
-      },
-      { arrayFilters: [{ "elem.userId": uid }] },
+    const posts = await db
+      .collection("posts")
+      .find({ "comments.replies.userId": uid })
+      .toArray();
+
+    await Promise.all(
+      posts.map(({ _id, comments }) => {
+        const updatedComments = comments.map((c) => ({
+          ...c,
+          userName: c.userId === uid ? name : c.userName,
+          userImage: c.userId === uid ? picture : c.userImage,
+          replies: (c.replies || []).map((r) => ({
+            ...r,
+            userName: r.userId === uid ? name : r.userName,
+            userImage: r.userId === uid ? picture : r.userImage,
+          })),
+        }));
+
+        return db
+          .collection("posts")
+          .updateOne({ _id }, { $set: { comments: updatedComments } });
+      }),
     );
 
     await db.collection("titles").updateMany(
