@@ -749,9 +749,9 @@ export default function Main() {
                   <div className="flex justify-between items-center">
                     <h1 className="text-xl">UPCOMING TITLES</h1>
                     <div
-                      onClick={() => handleShowListNav("release")}
+                      onClick={() => handleShowListNav("upcomming")}
                       className={`flex items-center cursor-pointer ${
-                        isScrolled3 ? "flex" : "hidden"
+                        isScrolled6 ? "flex" : "hidden"
                       }`}
                     >
                       <p className="text-xs text-vibe">View All</p>
@@ -798,7 +798,7 @@ export default function Main() {
                       <div className="flex gap-2">
                         {upcomingTitles.length > 0 ? (
                           upcomingTitles
-                            .sort((a, b) => new Date(b.date) - new Date(a.date))
+                            .sort((a, b) => new Date(a.date) - new Date(b.date))
                             .map((unit) => (
                               <div
                                 key={unit.date}

@@ -12,9 +12,9 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { GoDotFill } from "react-icons/go";
 
-export default function Release() {
+export default function Upcomming() {
   const { user } = useContext(UserContext);
-  const { release } = useContext(TitleContext);
+  const { upcomming } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
@@ -49,26 +49,28 @@ export default function Release() {
         ) : (
           <div className="w-full">
             <div className="flex flex-wrap justify-center gap-2">
-              {...release.map((unit) => (
-                <div
-                  key={unit.date}
-                  onClick={() => handleShowNav(unit.titleId)}
-                  className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                >
-                  <Image
-                    src={unit.image || Fallback}
-                    alt="image"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className={`w-full h-full object-fill rounded ${
-                      isTitleWatched(unit.titleId)
-                        ? "grayscale-0"
-                        : "grayscale-90"
-                    }`}
-                  />
-                </div>
-              ))}
+              {...upcomming
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .map((unit) => (
+                  <div
+                    key={unit.date}
+                    onClick={() => handleShowNav(unit.titleId)}
+                    className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                  >
+                    <Image
+                      src={unit.image || Fallback}
+                      alt="image"
+                      width={0}
+                      height={0}
+                      sizes="100vw"
+                      className={`w-full h-full object-fill rounded ${
+                        isTitleWatched(unit.titleId)
+                          ? "grayscale-0"
+                          : "grayscale-90"
+                      }`}
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         )}
