@@ -6,7 +6,6 @@ import { PiRankingDuotone } from "react-icons/pi";
 import { MdLogin, MdLogout } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { GiNinjaHead } from "react-icons/gi";
-import Rina from "@/assets/rina.png"
 import Image from "next/image";
 
 export default function UserNav({ setShowUserNav }) {
@@ -53,23 +52,6 @@ export default function UserNav({ setShowUserNav }) {
                 <p className="text-base font-bold text-normal">Profile</p>
               </>
             )}
-          </button>
-          <button
-            onClick={() => {
-              setIsLoading(true);
-              router.push("/powerboard");
-            }}
-            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
-          >
-            <Image
-              src={Rina}
-              alt="user"
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-6 h-6 object-cover rounded-full"
-            />
-            <p className="text-base font-bold text-normal">Ask Rina!</p>
           </button>
           <button
             onClick={() => {

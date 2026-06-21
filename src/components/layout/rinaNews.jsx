@@ -5,7 +5,7 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import Rina from "../../assets/rina.png";
 import RinaLoaderNews from "../loaders/rinaLoaderNews";
-import Fallback from "../../assets/fallback.png"
+import Fallback from "../../assets/fallback.png";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -52,19 +52,17 @@ export default function RinaNews() {
     : news?.articles?.slice(0, 2);
 
   return (
-    <>
+    <div className="mt-2 w-full">
+      <div className="flex items-center gap-2 pb-2">
+        <p className="text-base font-bold text-vibe opacity-60">Intel Feed</p>
+        <div className="flex-1 border-t-2 border-panel" />
+      </div>
       {!news ? (
         <div className="p-8">
           <RinaLoaderNews />
         </div>
       ) : (
-        <div className="mt-2 w-full">
-          <div className="flex items-center gap-2 pb-2">
-            <p className="text-base font-bold text-vibe opacity-60">
-              Intel Feed
-            </p>
-            <div className="flex-1 border-t-2 border-panel" />
-          </div>
+        <>
           <div className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] p-4">
             <div className="flex gap-3 pb-4">
               <Image
@@ -126,7 +124,7 @@ export default function RinaNews() {
               >
                 <img
                   src={article.image}
-                  onError={(e) => e.currentTarget.src = Fallback.src}
+                  onError={(e) => (e.currentTarget.src = Fallback.src)}
                   alt="article image"
                   width={0}
                   height={0}
@@ -172,8 +170,8 @@ export default function RinaNews() {
               </div>
             )}
           </div>
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
