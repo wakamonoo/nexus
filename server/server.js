@@ -27,6 +27,7 @@ import pingGet from "./routes/pingGet.js";
 import memoryRoute from "./routes/memoryRoute.js";
 import newsRoute from "./routes/newsGet.js";
 import { startNewsCron } from "./cron/newsCron.js";
+import { startTitleUpdateCron } from "./cron/titleUpdateCron.js";
 
 dotenv.config();
 
@@ -87,6 +88,7 @@ app.get("/health", (req, res) => {
 });
 
 startNewsCron();
+startTitleUpdateCron();
 
 io.on("connection", (socket) => {
   console.log("a user is connected", socket.id);
