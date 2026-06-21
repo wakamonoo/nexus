@@ -44,7 +44,7 @@ export default function Countdown() {
           backgroundPosition: "center",
         }}
       >
-        <h1 className="text-2xl text-center">Countdown to {nextOne?.title}</h1>
+        <h1 className="text-xl text-center">Countdown to {nextOne?.title}</h1>
         <div className="flex flex-wrap items-center justify-center gap-2 w-full">
           <div className="w-14 h-14 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
             <p className="font-alt text-2xl font-bold">{months}</p>
