@@ -70,7 +70,7 @@ export default function Countdown() {
         <div className="flex items-center gap-2 px-4">
           <div className="flex-1 border-t border-vibe" />
           <p className="text-xs text-center text-vibe mt-2">
-            {new Date(nextOne.date).toLocaleDateString([], {
+            {new Date(nextOne?.date).toLocaleDateString([], {
               month: "short",
               day: "2-digit",
               year: "numeric",
