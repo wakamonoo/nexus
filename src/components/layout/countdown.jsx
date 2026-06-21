@@ -67,15 +67,15 @@ export default function Countdown() {
             <p className="text-xs">Seconds</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 px-4">
+        <div className="flex items-center justify-center gap-2 px-4 mt-2">
           <div className="flex-1 border-t border-vibe" />
-          <p className="text-xs text-center text-vibe mt-2">
+          <p className="text-xs text-center text-vibe">
             {new Date(nextOne?.date).toLocaleDateString([], {
               month: "short",
               day: "2-digit",
               year: "numeric",
             })}{" "}
-            GLOBAL RELEASE DATE
+            global relese date
           </p>
           <div className="flex-1 border-t border-vibe" />
         </div>
