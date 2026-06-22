@@ -4,8 +4,10 @@ import { TitleContext } from "@/context/titleContext";
 import { useContext, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
+import utc from "dayjs/plugin/utc.js";
 
 dayjs.extend(duration);
+dayjs.extend(utc);
 
 export default function Countdown() {
   const { upcomingTitles } = useContext(TitleContext);
@@ -20,10 +22,10 @@ export default function Countdown() {
   }, []);
 
   const nextOne = upcomingTitles
-    ?.filter((title) => new Date(title.date) > now.toDate())
-    ?.sort((a, b) => new Date(a.date) - new Date(b.date))[0];
+    ?.filter((title) => dayjs(title.date).isAfter(now))
+    ?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)))[0];
 
-  const target = dayjs(nextOne?.date);
+  const target = dayjs.utc(nextOne?.date);
   const timeLeft = dayjs.duration(target.diff(now));
 
   const months = timeLeft.months();
