@@ -1,14 +1,8 @@
 import express from "express";
 import clientPromise from "../lib/mongodb.js";
 import { v4 as uuidv4 } from "uuid";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc.js";
-import timezone from "dayjs/plugin/timezone.js";
 
 const router = express.Router();
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 router.post("/addTitle", async (req, res) => {
   const {
@@ -42,7 +36,7 @@ router.post("/addTitle", async (req, res) => {
           image,
           posterCredit,
           posterCreditUrl,
-          date: dayjs.tz(date, "America/Los_Angeles").startOf("day").toDate(),
+          date: new Date(date),
           timeline,
           phase,
           type,
@@ -97,7 +91,7 @@ router.put("/updateTitle/:titleId", async (req, res) => {
           image,
           posterCredit,
           posterCreditUrl,
-          date: dayjs.tz(date, "America/Los_Angeles").startOf("day").toDate(),
+          date: new Date(date),
           timeline,
           phase,
           type,

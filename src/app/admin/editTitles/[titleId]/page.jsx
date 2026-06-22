@@ -221,7 +221,7 @@ export default function EditTitle() {
           />
           <div className="flex items-center w-full">
             <label className="text-normal font-normal text-base w-[30%]">
-              Release Date
+              Release Date (UTC+7):
             </label>
             <input
               type="date"
