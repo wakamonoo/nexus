@@ -84,22 +84,20 @@ export default function Countdown() {
           </div>
         </div>
         <div className="relative w-full flex items-center justify-center gap-2 p-2 mt-2">
-        
-            <p
-              className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
-            >
-              {dayjs.utc(nextOne?.date).format("MMM DD, YYYY HH:mm")} global
-              relese date | UTC
-            </p>
-            <p
-              className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}
-            >
-              {dayjs
-                .utc(nextOne?.date)
-                .tz(userTimeZone)
-                .format("MMM DD, YYYY HH:mm")}{" "}
-              local time release
-            </p>
+          <p
+            className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
+          >
+            UTC: {dayjs.utc(nextOne?.date).format("MMM DD, YYYY HH:mm")}
+          </p>
+          <p
+            className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}
+          >
+            LOCAL:
+            {dayjs
+              .utc(nextOne?.date)
+              .tz(userTimeZone)
+              .format("MMM DD, YYYY HH:mm")}{" "}
+          </p>
         </div>
       </div>
     </div>
