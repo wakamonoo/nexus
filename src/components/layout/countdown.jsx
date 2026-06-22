@@ -4,10 +4,8 @@ import { TitleContext } from "@/context/titleContext";
 import { useContext, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
-import utc from "dayjs/plugin/utc.js";
 
 dayjs.extend(duration);
-dayjs.extend(utc);
 
 export default function Countdown() {
   const { upcomingTitles } = useContext(TitleContext);
@@ -25,7 +23,9 @@ export default function Countdown() {
     ?.filter((title) => dayjs(title.date).isAfter(now))
     ?.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)))[0];
 
-  const target = dayjs.utc(nextOne?.date);
+  if (!nextOne) return null;
+
+  const target = dayjs(nextOne?.date);
   const timeLeft = dayjs.duration(target.diff(now));
 
   const months = timeLeft.months();
@@ -75,7 +75,7 @@ export default function Countdown() {
               day: "2-digit",
               year: "numeric",
             })}{" "}
-            global relese date
+            global relese date | UTC+7
           </p>
           <div className="flex-1 border-t border-vibe" />
         </div>
