@@ -87,12 +87,12 @@ export default function Countdown() {
           <p
             className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
           >
-            UTC: {dayjs.utc(nextOne?.date).format("MMM DD, YYYY HH:mm")}
+            <span className="font-bold">UTC: </span>{dayjs.utc(nextOne?.date).format("MMM DD, YYYY HH:mm")}
           </p>
           <p
             className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}
           >
-            LOCAL:
+            <span className="font-bold">Local: </span>
             {dayjs
               .utc(nextOne?.date)
               .tz(userTimeZone)

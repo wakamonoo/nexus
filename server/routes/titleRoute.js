@@ -119,7 +119,7 @@ router.delete("/deleteTitle/:titleId", async (req, res) => {
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
-    await db.collection("posts").deleteOne({ titleId });
+    await db.collection("titles").deleteOne({ titleId });
 
     res.status(200).json({ message: "title delete success" });
   } catch (err) {
