@@ -6,12 +6,13 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { Countdown, useCountdown } from "../ui/countdown";
 
 dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export default function Countdown() {
+export default function TitleCountdown() {
   const { upcomingTitles } = useContext(TitleContext);
   const [now, setNow] = useState(dayjs.utc());
   const [globalShow, setGlobalShow] = useState(true);
@@ -67,19 +68,27 @@ export default function Countdown() {
         <h1 className="text-xl text-center">Countdown to {nextOne?.title}</h1>
         <div className="flex flex-wrap items-center justify-center gap-2 w-full">
           <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-            <p className="font-alt text-2xl font-bold">{days}</p>
+            <Countdown className="font-alt text-2xl font-bold">
+              <Countdown.Value value={days} />
+            </Countdown>
             <p className="text-xs">Days</p>
           </div>
           <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-            <p className="font-alt text-2xl font-bold">{hours}</p>
+            <Countdown className="font-alt text-2xl font-bold">
+              <Countdown.Value value={hours} />
+            </Countdown>
             <p className="text-xs">Hours</p>
           </div>
           <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-            <p className="font-alt text-2xl font-bold">{minutes}</p>
+            <Countdown className="font-alt text-2xl font-bold">
+              <Countdown.Value value={minutes} />
+            </Countdown>
             <p className="text-xs">Minutes</p>
           </div>
           <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-            <p className="font-alt text-2xl font-bold">{seconds}</p>
+            <Countdown className="font-alt text-2xl font-bold">
+              <Countdown.Value value={seconds} />
+            </Countdown>
             <p className="text-xs">Seconds</p>
           </div>
         </div>
@@ -87,7 +96,8 @@ export default function Countdown() {
           <p
             className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
           >
-            <span className="font-bold">UTC: </span>{dayjs.utc(nextOne?.date).format("MMM DD, YYYY HH:mm")}
+            <span className="font-bold">UTC: </span>
+            {dayjs.utc(nextOne?.date).format("MMM DD, YYYY HH:mm")}
           </p>
           <p
             className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}
