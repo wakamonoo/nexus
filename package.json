@@ -48,18 +48,13 @@
     "socket.io-client": "^4.8.1",
     "stream": "^0.0.3",
     "sweetalert2": "^11.23.0",
-    "tailwind-merge": "^3.6.0",
-    "tailwind-variants": "^3.2.2",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^26.0.0",
-    "@types/react": "^19.2.17",
     "eslint": "^9",
     "eslint-config-next": "^15.5.7",
-    "tailwindcss": "^4",
-    "typescript": "^6.0.3"
+    "tailwindcss": "^4"
   }
 }

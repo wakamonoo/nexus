@@ -5,7 +5,7 @@ import NavBar from "@/components/layout/navBar";
 import MenuStructure from "@/components/layout/menuStructure";
 import LatestReviews from "@/components/layout/latestReviews";
 import RinaNews from "@/components/layout/rinaNews";
-import TitleCountdown from "@/components/layout/titleCountdown";
+import TitleCountdown from "@/components/layout/countdown";
 
 export default function Page() {
   return (
