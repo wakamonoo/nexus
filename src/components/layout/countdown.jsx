@@ -67,19 +67,43 @@ export default function Countdown() {
         <h1 className="text-xl text-center">Countdown to {nextOne?.title}</h1>
         <div className="flex flex-wrap items-center justify-center gap-2 w-full">
           <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-            <p className="font-alt text-2xl font-bold">{days}</p>
+            <span className="countdown text-3xl font-bold">
+              <span
+                style={{ "--value": days, "--digits": 2 }}
+                aria-live="polite"
+                aria-label={days}
+              />
+            </span>
             <p className="text-xs">Days</p>
           </div>
           <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-            <p className="font-alt text-2xl font-bold">{hours}</p>
+            <span className="countdown text-3xl font-bold">
+              <span
+                style={{ "--value": hours, "--digits": 2 }}
+                aria-live="polite"
+                aria-label={hours}
+              />
+            </span>
             <p className="text-xs">Hours</p>
           </div>
           <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-            <p className="font-alt text-2xl font-bold">{minutes}</p>
+            <span className="countdown text-3xl font-bold">
+              <span
+                style={{ "--value": minutes, "--digits": 2 }}
+                aria-live="polite"
+                aria-label={minutes}
+              />
+            </span>
             <p className="text-xs">Minutes</p>
           </div>
           <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-            <p className="font-alt text-2xl font-bold">{seconds}</p>
+            <span className="countdown text-3xl font-bold">
+              <span
+                style={{ "--value": seconds, "--digits": 2 }}
+                aria-live="polite"
+                aria-label={seconds}
+              />
+            </span>
             <p className="text-xs">Seconds</p>
           </div>
         </div>
@@ -87,7 +111,8 @@ export default function Countdown() {
           <p
             className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
           >
-            <span className="font-bold">UTC: </span>{dayjs.utc(nextOne?.date).format("MMM DD, YYYY HH:mm")}
+            <span className="font-bold">UTC: </span>
+            {dayjs.utc(nextOne?.date).format("MMM DD, YYYY HH:mm")}
           </p>
           <p
             className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}

@@ -4,6 +4,10 @@
 /* ———————————————————————————————————— tailwind ——— */
 @import "tailwindcss";
 
+/* ———————————————————————————————————— daisyui ——— */
+@plugin "daisyui" {
+  themes: false;
+}
 /* ———————————————————————————————————— base layer ——— */
 @layer base {
   :root {
@@ -16,10 +20,14 @@
     --color-hulk: #3a9d23; /* ———————————————————————————————————— hulk green ——— */
     --color-zeus: #d97706; /* ———————————————————————————————————— thunderbolt ——— */
 
-    --font-heading: "Bebas Neue", sans-serif; /* ———————————————————————————————————— headings ——— */
-    --font-body: "Roboto", sans-serif; /* ———————————————————————————————————— normal text ——— */
-    --font-alt: "Orbitron", sans-serif; /* ———————————————————————————————————— tech accents ——— */
-    --font-tall: "Anton", sans-serif; /* ———————————————————————————————————— big titles ——— */
+    --font-heading:
+      "Bebas Neue", sans-serif; /* ———————————————————————————————————— headings ——— */
+    --font-body:
+      "Roboto", sans-serif; /* ———————————————————————————————————— normal text ——— */
+    --font-alt:
+      "Orbitron", sans-serif; /* ———————————————————————————————————— tech accents ——— */
+    --font-tall:
+      "Anton", sans-serif; /* ———————————————————————————————————— big titles ——— */
   }
 
   body {
