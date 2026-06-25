@@ -13,6 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import AutoPlay from "./autoPlay";
+import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 
 dayjs.extend(relativeTime);
 
@@ -20,6 +21,7 @@ export default function PostStructure({ post }) {
   const { user, setShowSignIn } = useContext(UserContext);
   const {
     selectedPost,
+    currentPost,
     handleEnergize,
     handleEcho,
     handleFileClick,
@@ -29,14 +31,38 @@ export default function PostStructure({ post }) {
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(null);
-  const vidRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
+  const postCarouselRef = useRef(null);
 
   const handlePostNavMain = (id, focusInput = false) => {
     setIsLoading(true);
     const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
     router.push(url);
+  };
+
+  const handleNext = () => {
+    if (currentIndex < post.files.length - 1) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+
+      postCarouselRef.current?.scrollTo({
+        left: postCarouselRef.current?.clientWidth * newIndex,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      const newIndex = currentIndex - 1;
+      setCurrentIndex(newIndex);
+
+      postCarouselRef.current?.scrollTo({
+        left: postCarouselRef.current?.clientWidth * newIndex,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -61,6 +87,33 @@ export default function PostStructure({ post }) {
           {selectedPost === post.postId && <PostOpt postId={post.postId} />}
         </div>
       ) : null}
+
+      {post.files?.length > 1 && (
+        <>
+          {currentIndex > 0 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrev();
+              }}
+              className="hidden md:block cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+            >
+              <RiArrowLeftWideFill className="text-2xl" />
+            </button>
+          )}
+          {currentIndex < post.files.length - 1 && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNext();
+              }}
+              className="hidden md:block cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+            >
+              <RiArrowRightWideFill className="text-2xl" />
+            </button>
+          )}
+        </>
+      )}
 
       <div className="flex gap-3 px-4 items-center py-2">
         <Image
@@ -189,6 +242,7 @@ export default function PostStructure({ post }) {
             </div>
           ) : null}
           <div
+            ref={postCarouselRef}
             onScroll={(e) => {
               const width = e.target.clientWidth;
               const scrollLeft = e.target.scrollLeft;
@@ -210,7 +264,7 @@ export default function PostStructure({ post }) {
                     handleFileClick(post.files, index, post);
                     e.stopPropagation();
                   }}
-                  className="flex-shrink-0 w-full h-full snap-center"
+                  className="flex-shrink-0 w-full h-full snap-center snap-always"
                 >
                   {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
                     <Image
