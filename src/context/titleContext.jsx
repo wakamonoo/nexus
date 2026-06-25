@@ -98,7 +98,7 @@ export const TitleProvider = ({ children }) => {
   const latest = useMemo(() => {
     if (!releasedTitles) return;
 
-    return releasedTitles
+    return [...releasedTitles]
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 15);
   }, [releasedTitles]);
@@ -106,19 +106,19 @@ export const TitleProvider = ({ children }) => {
   const chrono = useMemo(() => {
     if (!releasedTitles) return;
 
-    return releasedTitles.sort((a, b) => a.order - b.order);
+    return [...releasedTitles].sort((a, b) => a.order - b.order);
   }, [releasedTitles]);
 
   const release = useMemo(() => {
     if (!releasedTitles) return;
 
-    return releasedTitles.sort((a, b) => new Date(a.date) - new Date(b.date));
+    return [...releasedTitles].sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [releasedTitles]);
 
   const goat = useMemo(() => {
     if (!titles) return;
 
-    return titles
+    return [...titles]
       .filter((t) => t.totalPoints > 0)
       .sort((a, b) => b.totalPoints - a.totalPoints);
   }, [titles]);
@@ -126,7 +126,7 @@ export const TitleProvider = ({ children }) => {
   const popular = useMemo(() => {
     if (!titles) return;
 
-    return titles
+    return [...titles]
       .filter?.((t) => Array.isArray(t.watchCount) && t.watchCount.length > 0)
       .sort((a, b) => b.watchCount.length - a.watchCount.length);
   }, [titles]);

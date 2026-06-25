@@ -24,18 +24,17 @@ if (APP_ENV === "production") {
 }
 
 export default function UpdateOrder() {
-  const { releasedTitles } = useContext(TitleContext);
+  const { chrono } = useContext(TitleContext);
   const [items, setItems] = useState([]);
   const [rotate, setRotate] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   useEffect(() => {
-    if (releasedTitles && releasedTitles.length > 0) {
-      const sorted = [...releasedTitles].sort((a, b) => a.order - b.order);
-      setItems(sorted);
+    if (chrono && chrono.length > 0) {
+      setItems(chrono);
     }
-  }, [releasedTitles]);
+  }, [chrono]);
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
