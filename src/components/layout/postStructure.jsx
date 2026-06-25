@@ -21,7 +21,6 @@ export default function PostStructure({ post }) {
   const { user, setShowSignIn } = useContext(UserContext);
   const {
     selectedPost,
-    currentPost,
     handleEnergize,
     handleEcho,
     handleFileClick,
@@ -70,24 +69,6 @@ export default function PostStructure({ post }) {
       onClick={() => handlePostNavMain(post.postId)}
       className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
     >
-      {user?.uid === post.userId ? (
-        <div className="absolute top-4 right-4">
-          <button
-            id={`btn-${post.postId}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedPost(
-                selectedPost === post.postId ? null : post.postId,
-              );
-            }}
-            className="cursor-pointer"
-          >
-            <BiDotsHorizontalRounded className="text-2xl" />
-          </button>
-          {selectedPost === post.postId && <PostOpt postId={post.postId} />}
-        </div>
-      ) : null}
-
       {post.files?.length > 1 && (
         <>
           {currentIndex > 0 && (
@@ -114,6 +95,23 @@ export default function PostStructure({ post }) {
           )}
         </>
       )}
+      {user?.uid === post.userId ? (
+        <div className="absolute top-4 right-4">
+          <button
+            id={`btn-${post.postId}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedPost(
+                selectedPost === post.postId ? null : post.postId,
+              );
+            }}
+            className="cursor-pointer"
+          >
+            <BiDotsHorizontalRounded className="text-2xl" />
+          </button>
+          {selectedPost === post.postId && <PostOpt postId={post.postId} />}
+        </div>
+      ) : null}
 
       <div className="flex gap-3 px-4 items-center py-2">
         <Image

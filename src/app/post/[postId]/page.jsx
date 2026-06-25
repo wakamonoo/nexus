@@ -20,7 +20,12 @@ import GoatMinLoader from "@/components/loaders/goatMinLoader";
 import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
+import {
+  RiArrowLeftWideFill,
+  RiArrowRightWideFill,
+  RiFileGifFill,
+  RiImageAiFill,
+} from "react-icons/ri";
 import CommentLightBox from "@/components/lightBoxes/commentLightBox";
 import GifPicker from "@/components/modals/gifPicker";
 import AutoPlay from "@/components/layout/autoPlay";
@@ -71,6 +76,7 @@ export default function Post() {
   const [showGifPicker, setShowGifPicker] = useState(false);
   const [aspectRatio, setAspectRatio] = useState(null);
   const inputRef = useRef();
+  const postCarouselRef = useRef(null);
 
   useEffect(() => {
     setIsLoading(false);
@@ -80,6 +86,30 @@ export default function Post() {
   }, []);
 
   const post = posts.find((p) => p.postId === postId);
+
+  const handleNext = () => {
+    if (currentIndex < post.files.length - 1) {
+      const newIndex = currentIndex + 1;
+      setCurrentIndex(newIndex);
+
+      postCarouselRef.current?.scrollTo({
+        left: postCarouselRef.current?.clientWidth * newIndex,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      const newIndex = currentIndex - 1;
+      setCurrentIndex(newIndex);
+
+      postCarouselRef.current?.scrollTo({
+        left: postCarouselRef.current?.clientWidth * newIndex,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const handleSendComment = async () => {
     try {
@@ -248,6 +278,32 @@ export default function Post() {
               ) : (
                 <>
                   <div className="relative bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] md:rounded-2xl">
+                    {post.files?.length > 1 && (
+                      <>
+                        {currentIndex > 0 && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handlePrev();
+                            }}
+                            className="hidden md:block cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                          >
+                            <RiArrowLeftWideFill className="text-2xl" />
+                          </button>
+                        )}
+                        {currentIndex < post.files.length - 1 && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleNext();
+                            }}
+                            className="hidden md:block cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                          >
+                            <RiArrowRightWideFill className="text-2xl" />
+                          </button>
+                        )}
+                      </>
+                    )}
                     {user?.uid === post?.userId ? (
                       <div className="absolute top-4 right-4">
                         <button
@@ -345,6 +401,7 @@ export default function Post() {
                           </div>
                         ) : null}
                         <div
+                          ref={postCarouselRef}
                           onScroll={(e) => {
                             const width = e.target.clientWidth;
                             const scrollLeft = e.target.scrollLeft;
@@ -366,7 +423,7 @@ export default function Post() {
                                   handleFileClick(post?.files, index, post);
                                   e.stopPropagation();
                                 }}
-                                className="flex-shrink-0 w-full h-full snap-center cursor-pointer"
+                                className="flex-shrink-0 w-full h-full snap-center snap-always cursor-pointer"
                               >
                                 {["jpg", "jpeg", "png", "gif", "webp"].includes(
                                   ext,
