@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://nexus-wakamonoo.vercel.app
+Host: https://ournexus.space
 
 # Sitemaps
-Sitemap: https://nexus-wakamonoo.vercel.app/sitemap.xml
+Sitemap: https://ournexus.space/sitemap.xml

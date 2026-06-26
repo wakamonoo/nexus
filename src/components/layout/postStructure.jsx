@@ -41,6 +41,8 @@ export default function PostStructure({ post }) {
   };
 
   const handleNext = () => {
+    if (!post?.files) return;
+
     if (currentIndex < post.files.length - 1) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
@@ -53,6 +55,8 @@ export default function PostStructure({ post }) {
   };
 
   const handlePrev = () => {
+    if (!post?.files) return;
+
     if (currentIndex > 0) {
       const newIndex = currentIndex - 1;
       setCurrentIndex(newIndex);

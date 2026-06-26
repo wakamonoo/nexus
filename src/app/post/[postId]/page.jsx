@@ -88,6 +88,8 @@ export default function Post() {
   const post = posts.find((p) => p.postId === postId);
 
   const handleNext = () => {
+    if (!post?.files) return;
+
     if (currentIndex < post.files.length - 1) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
@@ -100,6 +102,8 @@ export default function Post() {
   };
 
   const handlePrev = () => {
+    if (!post?.files) return;
+
     if (currentIndex > 0) {
       const newIndex = currentIndex - 1;
       setCurrentIndex(newIndex);

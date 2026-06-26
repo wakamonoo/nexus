@@ -117,7 +117,7 @@ export const metadata = {
     title: "nexus",
     description:
       "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
-    url: "https://nexus-wakamonoo.vercel.app",
+    url: "https://ournexus.space",
     siteName: "nexus",
     locale: "en-US",
     type: "website",
@@ -138,7 +138,7 @@ export const metadata = {
     images: "https://i.imgur.com/WCCf5AW.png",
   },
 
-  metadataBase: new URL("https://nexus-wakamonoo.vercel.app"),
+  metadataBase: new URL("https://ournexus.space"),
 };
 
 export const viewport = {

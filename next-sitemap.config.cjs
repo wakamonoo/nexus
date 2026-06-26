@@ -1,5 +1,5 @@
 /**@type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: "https://nexus-wakamonoo.vercel.app",
+  siteUrl: "https://ournexus.space",
   generateRobotsTxt: true,
 };
