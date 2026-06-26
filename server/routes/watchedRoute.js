@@ -15,6 +15,11 @@ router.post("/watchRoute", async (req, res) => {
 
     const titlesCount = await db.collection("titles").countDocuments();
 
+    const watchedTitle = await db.collection("titles").findOne({ titleId });
+
+    const isMCU = watchedTitle?.category === "mcu";
+    const isLegacy = watchedTitle?.category === "legacy";
+
     await db.collection("users").updateOne(
       {
         uid: userId,
@@ -22,6 +27,8 @@ router.post("/watchRoute", async (req, res) => {
       {
         $setOnInsert: {
           totalWatched: 0,
+          totalMCUWatched: 0,
+          totalLegacyWatched: 0,
         },
       },
       { upsert: true },
@@ -64,6 +71,30 @@ router.post("/watchRoute", async (req, res) => {
             totalWatched: {
               $max: [{ $subtract: [{ $ifNull: ["$totalWatched", 0] }, 1] }, 0],
             },
+
+            totalMCUWatched: {
+              $max: [
+                {
+                  $subtract: [
+                    { $ifNull: ["$totalMCUWatched", 0] },
+                    isMCU ? 1 : 0,
+                  ],
+                },
+                0,
+              ],
+            },
+
+            totalLegacyWatched: {
+              $max: [
+                {
+                  $subtract: [
+                    { $ifNull: ["$totalLegacyWatched", 0] },
+                    isLegacy ? 1 : 0,
+                  ],
+                },
+                0,
+              ],
+            },
           },
         },
       ]);
@@ -102,6 +133,12 @@ router.post("/watchRoute", async (req, res) => {
           {
             $set: {
               totalWatched: { $add: [{ $ifNull: ["$totalWatched", 0] }, 1] },
+              totalMCUWatched: {
+                $add: [{ $ifNull: ["$totalMCUWatched", 0] }, isMCU ? 1 : 0],
+              },
+              totalLegacyWatched: {
+                $add: [{ $ifNull: ["$totalLegacyWatched", 0] }, isLegacy ? 1 : 0],
+              },
             },
           },
           {

@@ -38,7 +38,8 @@ export default function UserProfile() {
   const { userId } = useParams();
   const { allUsers, user } = useContext(UserContext);
   const { posts } = useContext(PostContext);
-  const { releasedMCUTitles } = useContext(TitleContext);
+  const { titles, releasedMCUTitles, releasedLegacyTitles } =
+    useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { watchedInfoFetch, watchInfo } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
@@ -64,7 +65,10 @@ export default function UserProfile() {
   const topRanks = profileUser?.rankings
     ? [...profileUser.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
     : [];
-  const showNum = releasedMCUTitles?.length;
+
+  const showNumAll = releasedMCUTitles?.length + releasedLegacyTitles?.length;
+  const showNumMCU = releasedMCUTitles?.length;
+  const showNumLegacy = releasedLegacyTitles?.length;
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -88,8 +92,18 @@ export default function UserProfile() {
     })
     .slice(0, 3);
 
-  const progress =
-    showNum > 0 ? ((profileUser?.totalWatched || 0) / showNum) * 100 : 0;
+  const progressAll =
+    showNumAll > 0 ? ((profileUser?.totalWatched || 0) / showNumAll) * 100 : 0;
+
+  const progressMCU =
+    showNumMCU > 0
+      ? ((profileUser?.totalMCUWatched || 0) / showNumMCU) * 100
+      : 0;
+
+  const progressLegacy =
+    showNumLegacy > 0
+      ? ((profileUser?.totalLegacyWatched || 0) / showNumLegacy) * 100
+      : 0;
 
   const memoryInput = latestWatch.map((m) => m.title).filter(Boolean);
 
@@ -157,7 +171,7 @@ export default function UserProfile() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
             <aside className="flex flex-col lg:sticky lg:top-0">
               <div className="flex items-center w-full gap-2 py-4">
-                <div className="w-16 h-16">
+                <div className="w-24 h-24">
                   <Image
                     src={profileUser.picture || Fallback}
                     alt="user"
@@ -179,16 +193,52 @@ export default function UserProfile() {
                       }`}
                     />
                   </div>
-                  <p className="text-xs text-vibe">
-                    {profileUser.totalWatched ? profileUser.totalWatched : 0}/
-                    <span>{showNum}</span> watched
-                  </p>
 
-                  <div className="h-2 w-full overflow-hidden bg-panel rounded-full">
-                    <div
-                      className="h-full bg-accent transition-all duration-500"
-                      style={{ width: `${progress}%` }}
-                    />
+                  <div className="w-[150] flex flex-col gap-1 mt-1">
+                    <div className="h-6 w-full overflow-hidden bg-panel rounded-full relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-xs text-vibe">
+                          {profileUser.totalMCUWatched
+                            ? profileUser.totalMCUWatched
+                            : 0}
+                          /<span>{showNumMCU}</span> mcu watched
+                        </p>
+                      </div>
+                      <div
+                        className="h-full bg-accent transition-all duration-500"
+                        style={{ width: `${progressMCU}%` }}
+                      />
+                    </div>
+
+                    <div className="h-6 w-full overflow-hidden bg-panel rounded-full relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-xs text-vibe">
+                          {profileUser.totalLegacyWatched
+                            ? profileUser.totalLegacyWatched
+                            : 0}
+                          /<span>{showNumLegacy}</span> legacy watched
+                        </p>
+                      </div>
+                      <div
+                        className="h-full bg-accent transition-all duration-500"
+                        style={{ width: `${progressLegacy}%` }}
+                      />
+                    </div>
+
+                    <div className="h-6 w-full overflow-hidden bg-panel rounded-full relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-xs text-vibe">
+                          {profileUser.totalWatched
+                            ? profileUser.totalWatched
+                            : 0}
+                          /<span>{showNumAll}</span> overall watched
+                        </p>
+                      </div>
+                      <div
+                        className="h-full bg-accent transition-all duration-500"
+                        style={{ width: `${progressAll}%` }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
