@@ -48,12 +48,14 @@ export default function Main() {
   const [isScrolled4, setIsScrolled4] = useState(false);
   const [isScrolled5, setIsScrolled5] = useState(false);
   const [isScrolled6, setIsScrolled6] = useState(false);
+  const [isScrolled7, setIsScrolled7] = useState(false);
   const scrollRef1 = useRef(null);
   const scrollRef2 = useRef(null);
   const scrollRef3 = useRef(null);
   const scrollRef4 = useRef(null);
   const scrollRef5 = useRef(null);
   const scrollRef6 = useRef(null);
+   const scrollRef7 = useRef(null);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -63,6 +65,7 @@ export default function Main() {
   const [showArrows4, setShowArrows4] = useState(false);
   const [showArrows5, setShowArrows5] = useState(false);
   const [showArrows6, setShowArrows6] = useState(false);
+  const [showArrows7, setShowArrows7] = useState(false);
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -157,6 +160,21 @@ export default function Main() {
       current.removeEventListener("scroll", handleScroll);
     };
   }, [titles]);
+
+  useEffect(() => {
+    const current = scrollRef7.current;
+    if (!current) return;
+
+    const handleScroll = () => {
+      setIsScrolled7(current.scrollLeft > 50);
+    };
+
+    current.addEventListener("scroll", handleScroll);
+    return () => {
+      current.removeEventListener("scroll", handleScroll);
+    };
+  }, [titles]);
+
 
   useEffect(() => {
     if (!titles) return;
@@ -292,7 +310,7 @@ export default function Main() {
   };
 
   const handleScrollLeft6 = () => {
-    if (scrollRef5.current) {
+    if (scrollRef6.current) {
       scrollRef5.current.scrollBy({
         left: -200,
         behavior: "smooth",
@@ -303,6 +321,24 @@ export default function Main() {
   const handleScrollRight6 = () => {
     if (scrollRef6.current) {
       scrollRef6.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+   const handleScrollLeft7 = () => {
+    if (scrollRef5.current) {
+      scrollRef5.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight7 = () => {
+    if (scrollRef7.current) {
+      scrollRef7.current.scrollBy({
         left: 200,
         behavior: "smooth",
       });
@@ -754,7 +790,7 @@ export default function Main() {
 
                 <div className="py-4">
                   <div className="flex justify-between items-center">
-                    <h1 className="text-xl">LEGACY</h1>
+                    <h1 className="text-xl">MULTIVERSAL CANNON</h1>
                     <div
                       onClick={() => handleShowListNav("upcomming")}
                       className={`flex items-center cursor-pointer ${
@@ -845,7 +881,7 @@ export default function Main() {
                     <div
                       onClick={() => handleShowListNav("upcomming")}
                       className={`flex items-center cursor-pointer ${
-                        isScrolled6 ? "flex" : "hidden"
+                        isScrolled7 ? "flex" : "hidden"
                       }`}
                     >
                       <p className="text-xs text-vibe">View All</p>
@@ -855,30 +891,30 @@ export default function Main() {
 
                   <div
                     className="relative"
-                    onMouseEnter={() => setShowArrows6(true)}
-                    onMouseLeave={() => setShowArrows6(false)}
+                    onMouseEnter={() => setShowArrows7(true)}
+                    onMouseLeave={() => setShowArrows7(false)}
                   >
                     <div
                       className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows6 ? "opacity-100" : "opacity-0"
+                        showArrows7 ? "opacity-100" : "opacity-0"
                       }`}
                     />
                     <div
                       className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows6 ? "opacity-100" : "opacity-0"
+                        showArrows7 ? "opacity-100" : "opacity-0"
                       }`}
                     />
 
-                    {showArrows6 && (
+                    {showArrows7 && (
                       <>
                         <button
-                          onClick={handleScrollLeft6}
+                          onClick={handleScrollLeft7}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                         >
                           <RiArrowLeftWideFill className="text-2xl" />
                         </button>
                         <button
-                          onClick={handleScrollRight6}
+                          onClick={handleScrollRight7}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
                         >
                           <RiArrowRightWideFill className="text-2xl" />
@@ -886,7 +922,7 @@ export default function Main() {
                       </>
                     )}
                     <div
-                      ref={scrollRef6}
+                      ref={scrollRef7}
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <div className="flex gap-2">
