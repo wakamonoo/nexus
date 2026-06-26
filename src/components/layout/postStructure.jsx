@@ -14,11 +14,13 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import AutoPlay from "./autoPlay";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
+import { TitleContext } from "@/context/titleContext";
 
 dayjs.extend(relativeTime);
 
 export default function PostStructure({ post }) {
   const { user, setShowSignIn } = useContext(UserContext);
+  const {titles} = useContext(TitleContext)
   const {
     selectedPost,
     handleEnergize,
@@ -67,6 +69,9 @@ export default function PostStructure({ post }) {
       });
     }
   };
+
+
+  const currentTopic = titles.find((t) => t.title === post?.topic)
 
   return (
     <div
@@ -186,7 +191,7 @@ export default function PostStructure({ post }) {
               router.push(`/posts/${post.topic}`);
             }
           }}
-          className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] ${
+          className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : "from-[var(--color-hulk)]"} to-[var(--color-zeus)] ${
             post.topic ? "block" : "hidden"
           }`}
         >

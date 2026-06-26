@@ -171,7 +171,7 @@ export default function UserProfile() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
             <aside className="flex flex-col lg:sticky lg:top-0">
               <div className="flex items-center w-full gap-2 py-4">
-                <div className="w-24 h-24">
+                <div className="w-22 h-22">
                   <Image
                     src={profileUser.picture || Fallback}
                     alt="user"
@@ -194,40 +194,40 @@ export default function UserProfile() {
                     />
                   </div>
 
-                  <div className="w-[150] flex flex-col gap-1 mt-1">
-                    <div className="h-6 w-full overflow-hidden bg-panel rounded-full relative">
+                  <div className="w-[200] flex flex-col gap-1 mt-1">
+                    <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <p className="text-xs text-vibe">
+                        <p className="text-xs text-vibe opacity-60">
                           {profileUser.totalMCUWatched
                             ? profileUser.totalMCUWatched
                             : 0}
-                          /<span>{showNumMCU}</span> mcu watched
+                          /<span>{showNumMCU}</span> mcu titles watched
                         </p>
                       </div>
                       <div
-                        className="h-full bg-accent transition-all duration-500"
+                        className="h-full bg-zeus transition-all duration-500"
                         style={{ width: `${progressMCU}%` }}
                       />
                     </div>
 
-                    <div className="h-6 w-full overflow-hidden bg-panel rounded-full relative">
+                    <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <p className="text-xs text-vibe">
+                        <p className="text-xs text-vibe opacity-60">
                           {profileUser.totalLegacyWatched
                             ? profileUser.totalLegacyWatched
                             : 0}
-                          /<span>{showNumLegacy}</span> legacy watched
+                          /<span>{showNumLegacy}</span> multiversal cannon watched
                         </p>
                       </div>
                       <div
-                        className="h-full bg-accent transition-all duration-500"
+                        className="h-full bg-hulk transition-all duration-500"
                         style={{ width: `${progressLegacy}%` }}
                       />
                     </div>
 
-                    <div className="h-6 w-full overflow-hidden bg-panel rounded-full relative">
+                    <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <p className="text-xs text-vibe">
+                        <p className="text-xs text-vibe opacity-60">
                           {profileUser.totalWatched
                             ? profileUser.totalWatched
                             : 0}
