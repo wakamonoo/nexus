@@ -44,7 +44,7 @@ export default function Upcomming() {
           />
           <h4 className="text-xl">MCU Release Order</h4>
         </div>
-        {!release ? (
+        {!upcomming ? (
           <ShowListLoader />
         ) : (
           <div className="w-full">

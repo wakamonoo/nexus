@@ -792,7 +792,7 @@ export default function Main() {
                   <div className="flex justify-between items-center">
                     <h1 className="text-xl">MULTIVERSAL CANNON</h1>
                     <div
-                      onClick={() => handleShowListNav("upcomming")}
+                      onClick={() => handleShowListNav("multiversalCannon")}
                       className={`flex items-center cursor-pointer ${
                         isScrolled6 ? "flex" : "hidden"
                       }`}
