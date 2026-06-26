@@ -233,7 +233,6 @@ export default function AddTitle() {
           <input
             type="text"
             name="timeline"
-            required
             value={data.timeline}
             onChange={handleChange}
             placeholder="Timeline Date"
@@ -313,7 +312,7 @@ export default function AddTitle() {
             onChange={handleChange}
             className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
           >
-            <option value="null">Select Universe</option>
+            <option value="null">Select Category</option>
             <option value="mcu">mcu</option>
             <option value="legacy">legacy</option>
           </select>

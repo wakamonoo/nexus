@@ -310,18 +310,16 @@ export default function EditTitle() {
           />
           <select
             name="category"
-            required
             value={data.category}
             onChange={handleChange}
             className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
           >
-            <option value="null">Select Universe</option>
+            <option value="null">Select Category</option>
             <option value="mcu">mcu</option>
             <option value="legacy">legacy</option>
           </select>
           <input
             type="text"
-            required
             name="universe"
             value={data.universe}
             onChange={handleChange}
@@ -330,7 +328,6 @@ export default function EditTitle() {
           />
           <select
             name="status"
-            required
             value={data.status}
             onChange={handleChange}
             className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"

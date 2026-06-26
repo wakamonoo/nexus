@@ -205,7 +205,7 @@ export default function UserProfile() {
                         </p>
                       </div>
                       <div
-                        className="h-full bg-zeus transition-all duration-500"
+                        className="h-full bg-accent transition-all duration-500"
                         style={{ width: `${progressMCU}%` }}
                       />
                     </div>
@@ -235,7 +235,7 @@ export default function UserProfile() {
                         </p>
                       </div>
                       <div
-                        className="h-full bg-accent transition-all duration-500"
+                        className="h-full bg-zeus transition-all duration-500"
                         style={{ width: `${progressAll}%` }}
                       />
                     </div>
