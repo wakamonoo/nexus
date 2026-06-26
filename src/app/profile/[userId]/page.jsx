@@ -38,7 +38,7 @@ export default function UserProfile() {
   const { userId } = useParams();
   const { allUsers, user } = useContext(UserContext);
   const { posts } = useContext(PostContext);
-  const { releasedTitles } = useContext(TitleContext);
+  const { releasedMCUTitles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { watchedInfoFetch, watchInfo } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
@@ -64,7 +64,7 @@ export default function UserProfile() {
   const topRanks = profileUser?.rankings
     ? [...profileUser.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
     : [];
-  const showNum = releasedTitles?.length;
+  const showNum = releasedMCUTitles?.length;
 
   useEffect(() => {
     const fetchWathced = async () => {

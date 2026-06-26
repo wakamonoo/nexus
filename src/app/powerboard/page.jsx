@@ -39,7 +39,7 @@ if (APP_ENV === "production") {
 }
 
 export default function Powerboard() {
-  const { releasedTitles } = useContext(TitleContext);
+  const { releasedMCUTitles } = useContext(TitleContext);
   const { user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [items, setItems] = useState([]);
@@ -195,7 +195,7 @@ export default function Powerboard() {
 
   useEffect(() => {
     if (!user?.uid) {
-      const sorted = [...releasedTitles].sort(
+      const sorted = [...releasedMCUTitles].sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
       setItems(sorted);
@@ -214,7 +214,7 @@ export default function Powerboard() {
     setSlots(restoredSlots);
 
     const assignedTitleIds = Object.values(restoredSlots).map((s) => s.titleId);
-    const unrankedItems = releasedTitles.filter(
+    const unrankedItems = releasedMCUTitles.filter(
       (t) => !assignedTitleIds.includes(t.titleId)
     );
 
@@ -223,14 +223,14 @@ export default function Powerboard() {
     );
 
     setItems(sortedUnranked);
-  }, [user, releasedTitles]);
+  }, [user, releasedMCUTitles]);
 
   const handleRemoveSlot = (slotId) => {
     setSlots((prevSlots) => {
       const removedItems = prevSlots[slotId];
       if (!removedItems) return;
 
-      const fullItem = releasedTitles.find((t) => t.titleId === removedItems.titleId);
+      const fullItem = releasedMCUTitles.find((t) => t.titleId === removedItems.titleId);
       if (fullItem) {
         setItems((prevItems) => {
           if (prevItems.some((i) => i.titleId === fullItem.titleId))
@@ -283,7 +283,7 @@ export default function Powerboard() {
           <button
             onClick={handleScrollLeft}
             className={`cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1 ${
-              releasedTitles.length === 0 || filteredItems.length < 5
+              releasedMCUTitles.length === 0 || filteredItems.length < 5
                 ? "hidden"
                 : "block"
             }`}
@@ -293,7 +293,7 @@ export default function Powerboard() {
           <button
             onClick={handleScrollRight}
             className={`cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1 ${
-              releasedTitles.length === 0 || filteredItems.length < 5
+              releasedMCUTitles.length === 0 || filteredItems.length < 5
                 ? "hidden"
                 : "block"
             }`}
@@ -304,7 +304,7 @@ export default function Powerboard() {
             ref={scrollRef}
             className="flex gap-2 overflow-x-auto scrollbar-hide mt-8"
           >
-            {releasedTitles.length > 0 ? (
+            {releasedMCUTitles.length > 0 ? (
               filteredItems.length > 0 ? (
                 filteredItems.map((unit) => (
                   <SortableRank
@@ -390,7 +390,7 @@ export default function Powerboard() {
           onClick={() => {
             setSlots({});
             setItems(
-              [...releasedTitles].sort((a, b) => new Date(b.date) - new Date(a.date))
+              [...releasedMCUTitles].sort((a, b) => new Date(b.date) - new Date(a.date))
             );
           }}
         >

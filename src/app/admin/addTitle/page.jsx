@@ -35,6 +35,8 @@ export default function AddTitle() {
     order: "",
     episode: "",
     duration: "",
+    category: "",
+    universe: "",
     status: "",
     trailer: "",
     summary: "",
@@ -96,6 +98,8 @@ export default function AddTitle() {
         order: "",
         episode: "",
         duration: "",
+        category: "",
+        universe: "",
         status: "",
         trailer: "",
         summary: "",
@@ -300,6 +304,26 @@ export default function AddTitle() {
             onWheel={(e) => e.target.blur()}
             onChange={handleChange}
             placeholder="Runtime (Movies & One Shots)"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
+          <select
+            name="category"
+            required
+            value={data.category}
+            onChange={handleChange}
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
+          >
+            <option value="null">Select Universe</option>
+            <option value="mcu">mcu</option>
+            <option value="legacy">legacy</option>
+          </select>
+          <input
+            type="text"
+            required
+            name="universe"
+            value={data.universe}
+            onChange={handleChange}
+            placeholder="Universe: (ex. Earth-616)"
             className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
           />
           <select

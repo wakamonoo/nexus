@@ -19,7 +19,8 @@ export const TitleContext = createContext();
 
 export const TitleProvider = ({ children }) => {
   const [titles, setTitles] = useState([]);
-  const [releasedTitles, setReleasedTitles] = useState([]);
+  const [releasedMCUTitles, setReleasedMCUTitles] = useState([]);
+  const [releasedLegacyTitles, setReleasedLegacyTitles] = useState([])
   const [upcomingTitles, setUpcomingTitles] = useState([]);
   const [pageLoad, setPageLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
@@ -34,12 +35,13 @@ export const TitleProvider = ({ children }) => {
 
         const data = await res.json();
         setTitles(data.result);
-        setReleasedTitles(data.result.filter((t) => t.status === "released"));
+        setReleasedMCUTitles(data.result.filter((t) => t.status === "released" && t.category === "mcu"));
+        setReleasedLegacyTitles(data.result.filter((t) => t.status === "released" && t.category === "legacy"));
         setUpcomingTitles(data.result.filter((t) => t.status === "upcoming"));
       } catch (err) {
         console.error("failed to fetch titles", err);
         setTitles([]);
-        setReleasedTitles([]);
+        setReleasedMCUTitles([]);
         setUpcomingTitles([]);
       } finally {
         setPageLoad(false);
@@ -96,24 +98,24 @@ export const TitleProvider = ({ children }) => {
   };
 
   const latest = useMemo(() => {
-    if (!releasedTitles) return;
+    if (!releasedMCUTitles) return;
 
-    return [...releasedTitles]
+    return [...releasedMCUTitles]
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 15);
-  }, [releasedTitles]);
+  }, [releasedMCUTitles]);
 
   const chrono = useMemo(() => {
-    if (!releasedTitles) return;
+    if (!releasedMCUTitles) return;
 
-    return [...releasedTitles].sort((a, b) => a.order - b.order);
-  }, [releasedTitles]);
+    return [...releasedMCUTitles].sort((a, b) => a.order - b.order);
+  }, [releasedMCUTitles]);
 
   const release = useMemo(() => {
-    if (!releasedTitles) return;
+    if (!releasedMCUTitles) return;
 
-    return [...releasedTitles].sort((a, b) => new Date(a.date) - new Date(b.date));
-  }, [releasedTitles]);
+    return [...releasedMCUTitles].sort((a, b) => new Date(a.date) - new Date(b.date));
+  }, [releasedMCUTitles]);
 
   const goat = useMemo(() => {
     if (!titles) return;
@@ -135,7 +137,8 @@ export const TitleProvider = ({ children }) => {
     <TitleContext.Provider
       value={{
         titles,
-        releasedTitles,
+        releasedMCUTitles,
+        releasedLegacyTitles,
         upcomingTitles,
         latest,
         chrono,

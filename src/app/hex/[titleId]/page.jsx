@@ -151,17 +151,27 @@ export default function Title() {
                     </p>
                     <div className="flex flex-col py-2">
                       <p className="text-xs text-vibe">
-                        MCU Timeline{" "}
+                        Universe{" "}
                         <span className="font-bold text-sm capitalize">
-                          {title.timeline}
+                          {title.universe}
                         </span>
                       </p>
-                      <p className="text-xs text-vibe">
-                        Chronological Order{" "}
-                        <span className="font-bold text-sm capitalize">
-                          {title.order}
-                        </span>
-                      </p>
+                      {titles.category === "mcu" && (
+                        <>
+                          <p className="text-xs text-vibe">
+                            MCU Timeline{" "}
+                            <span className="font-bold text-sm capitalize">
+                              {title.timeline}
+                            </span>
+                          </p>
+                          <p className="text-xs text-vibe">
+                            Chronological Order{" "}
+                            <span className="font-bold text-sm capitalize">
+                              {title.order}
+                            </span>
+                          </p>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

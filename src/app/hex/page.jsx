@@ -30,8 +30,15 @@ if (APP_ENV === "production") {
 }
 
 export default function Main() {
-  const { titles, latest, chrono, release, upcomingTitles, pageLoad } =
-    useContext(TitleContext);
+  const {
+    titles,
+    latest,
+    chrono,
+    release,
+    upcomingTitles,
+    releasedLegacyTitles,
+    pageLoad,
+  } = useContext(TitleContext);
   const { user } = useContext(UserContext);
   const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
@@ -741,6 +748,93 @@ export default function Main() {
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <MostWatchedTitlesStructureMin />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="py-4">
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-xl">LEGACY</h1>
+                    <div
+                      onClick={() => handleShowListNav("upcomming")}
+                      className={`flex items-center cursor-pointer ${
+                        isScrolled6 ? "flex" : "hidden"
+                      }`}
+                    >
+                      <p className="text-xs text-vibe">View All</p>
+                      <FaAngleRight className="text-vibe text-base" />
+                    </div>
+                  </div>
+
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setShowArrows6(true)}
+                    onMouseLeave={() => setShowArrows6(false)}
+                  >
+                    <div
+                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                        showArrows6 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                        showArrows6 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+
+                    {showArrows6 && (
+                      <>
+                        <button
+                          onClick={handleScrollLeft6}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                        >
+                          <RiArrowLeftWideFill className="text-2xl" />
+                        </button>
+                        <button
+                          onClick={handleScrollRight6}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                        >
+                          <RiArrowRightWideFill className="text-2xl" />
+                        </button>
+                      </>
+                    )}
+                    <div
+                      ref={scrollRef6}
+                      className="overflow-x-auto scrollbar-hide"
+                    >
+                      <div className="flex gap-2">
+                        {releasedLegacyTitles.length > 0 ? (
+                          releasedLegacyTitles
+                            .sort((a, b) => new Date(a.date) - new Date(b.date))
+                            .map((unit) => (
+                              <div
+                                key={unit.date}
+                                onClick={() => handleShowNav(unit.titleId)}
+                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                              >
+                                <Image
+                                  src={unit.image || Fallback}
+                                  alt="image"
+                                  width={0}
+                                  height={0}
+                                  sizes="100vw"
+                                  className={`w-full h-full object-fill rounded ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "grayscale-0"
+                                      : "grayscale-90"
+                                  }`}
+                                />
+                              </div>
+                            ))
+                        ) : (
+                          <div className="flex flex-col w-full justify-center items-center">
+                            <FaBoxOpen className="text-6xl text-panel" />
+                            <p className="text-sm text-panel font-normal">
+                              Sorry, no data to display!
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
