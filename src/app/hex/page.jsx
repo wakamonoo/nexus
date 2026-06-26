@@ -311,7 +311,7 @@ export default function Main() {
 
   const handleScrollLeft6 = () => {
     if (scrollRef6.current) {
-      scrollRef5.current.scrollBy({
+      scrollRef6.current.scrollBy({
         left: -200,
         behavior: "smooth",
       });
@@ -328,8 +328,8 @@ export default function Main() {
   };
 
    const handleScrollLeft7 = () => {
-    if (scrollRef5.current) {
-      scrollRef5.current.scrollBy({
+    if (scrollRef7.current) {
+      scrollRef7.current.scrollBy({
         left: -200,
         behavior: "smooth",
       });
