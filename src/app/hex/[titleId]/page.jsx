@@ -156,7 +156,7 @@ export default function Title() {
                           {title.universe}
                         </span>
                       </p>
-                      {titles.category === "mcu" && (
+                      {title?.category === "mcu" ? (
                         <>
                           <p className="text-xs text-vibe">
                             MCU Timeline{" "}
@@ -168,6 +168,15 @@ export default function Title() {
                             Chronological Order{" "}
                             <span className="font-bold text-sm capitalize">
                               {title.order}
+                            </span>
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-xs text-vibe">
+                            Connections{" "}
+                            <span className="font-bold text-sm capitalize">
+                              {title.connections}
                             </span>
                           </p>
                         </>

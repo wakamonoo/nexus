@@ -39,6 +39,7 @@ export default function EditTitle() {
     category: "",
     universe: "",
     status: "",
+    connections: "",
     trailer: "",
     summary: "",
   });
@@ -68,6 +69,7 @@ export default function EditTitle() {
         category: title.category || "",
         universe: title.universe || "",
         status: title.status || "",
+        connections: title.connections || "",
         trailer: title.trailer || "",
         summary: title.summary || "",
       });
@@ -336,6 +338,14 @@ export default function EditTitle() {
             <option value="released">Released</option>
             <option value="upcoming">Upcoming</option>
           </select>
+          <input
+            type="text"
+            name="connections"
+            value={data.connections}
+            onChange={handleChange}
+            placeholder="Connections"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
           <input
             type="text"
             name="trailer"

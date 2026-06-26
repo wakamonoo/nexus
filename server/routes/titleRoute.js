@@ -21,6 +21,7 @@ router.post("/addTitle", async (req, res) => {
     category,
     universe,
     status,
+    connections,
     trailer,
     summary,
   } = req.body;
@@ -50,6 +51,7 @@ router.post("/addTitle", async (req, res) => {
           universe,
           status,
           trailer,
+          connections,
           summary,
           reviews: [],
         },
@@ -81,6 +83,7 @@ router.put("/updateTitle/:titleId", async (req, res) => {
     category,
     universe,
     status,
+    connections,
     trailer,
     summary,
   } = req.body;
@@ -108,6 +111,7 @@ router.put("/updateTitle/:titleId", async (req, res) => {
           category,
           universe,
           status,
+          connections,
           trailer,
           summary,
         },

@@ -38,6 +38,7 @@ export default function AddTitle() {
     category: "",
     universe: "",
     status: "",
+    connections: "",
     trailer: "",
     summary: "",
   });
@@ -101,6 +102,7 @@ export default function AddTitle() {
         category: "",
         universe: "",
         status: "",
+        connections: "",
         trailer: "",
         summary: "",
       });
@@ -336,6 +338,14 @@ export default function AddTitle() {
             <option value="released">Released</option>
             <option value="upcoming">Upcoming</option>
           </select>
+          <input
+            type="text"
+            name="connections"
+            value={data.connections}
+            onChange={handleChange}
+            placeholder="Connections"
+            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+          />
           <input
             type="text"
             name="trailer"
