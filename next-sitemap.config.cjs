@@ -2,4 +2,8 @@
 module.exports = {
   siteUrl: "https://ournexus.space",
   generateRobotsTxt: true,
+  exclude: [
+    "/admin",
+    "/admin/*"
+  ]
 };
