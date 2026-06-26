@@ -11,16 +11,29 @@ router.get("/countData", async (req, res) => {
 
     const usersCount = await db.collection("users").countDocuments();
     const titlesCount = await db.collection("titles").countDocuments();
-    const releasedCount = await db
+    const releasedTitlesCount = await db
       .collection("titles")
       .countDocuments({ status: "released" });
-    const upcomingCount = await db
+    const upcomingTitlesCount = await db
       .collection("titles")
       .countDocuments({ status: "upcoming" });
+    const mcuTitlesCount = await db
+      .collection("titles")
+      .countDocuments({ category: "mcu" });
+    const legacyTitlesCount = await db
+      .collection("titles")
+      .countDocuments({ category: "legacy" });
 
     res
       .status(200)
-      .json({ usersCount, titlesCount, releasedCount, upcomingCount });
+      .json({
+        usersCount,
+        titlesCount,
+        releasedTitlesCount,
+        upcomingTitlesCount,
+        mcuTitlesCount,
+        legacyTitlesCount,
+      });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "error fetching count" });

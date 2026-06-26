@@ -27,8 +27,10 @@ export default function Page() {
   const [count, setCount] = useState({
     usersCount: 0,
     titlesCount: 0,
-    releasedCount: 0,
-    upcomingCount: 0,
+    mcuTitlesCount: 0,
+    legacyTitlesCount: 0,
+    releasedTitlesCount: 0,
+    upcomingTitlesCount: 0,
   });
   const { setShowSignIn, allUsers } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
@@ -83,13 +85,35 @@ export default function Page() {
                     className="text-7xl font-extrabold text-accent"
                   />
                 </div>
-                <h2 className="text-xl font-extrabold">ALL TITLES</h2>
+                <h2 className="text-xl font-extrabold">OVERALL TITLES</h2>
               </div>
 
               <div className="flex items-center gap-2 justify-center">
                 <div className="flex items-center justify-center w-24 h-24">
                   <CountUp
-                    end={count.releasedCount}
+                    end={count.mcuTitlesCount}
+                    duration={1.5}
+                    className="text-7xl font-extrabold text-accent"
+                  />
+                </div>
+                <h2 className="text-xl font-extrabold">MCU TITLES</h2>
+              </div>
+
+              <div className="flex items-center gap-2 justify-center">
+                <div className="flex items-center justify-center w-24 h-24">
+                  <CountUp
+                    end={count.legacyTitlesCount}
+                    duration={1.5}
+                    className="text-7xl font-extrabold text-accent"
+                  />
+                </div>
+                <h2 className="text-xl font-extrabold">LEGACY TITLES</h2>
+              </div>
+
+              <div className="flex items-center gap-2 justify-center">
+                <div className="flex items-center justify-center w-24 h-24">
+                  <CountUp
+                    end={count.releasedTitlesCount}
                     duration={1.5}
                     className="text-7xl font-extrabold text-accent"
                   />
@@ -100,7 +124,7 @@ export default function Page() {
               <div className="flex items-center gap-2 justify-center">
                 <div className="flex items-center justify-center w-24 h-24">
                   <CountUp
-                    end={count.upcomingCount}
+                    end={count.upcomingTitlesCount}
                     duration={1.5}
                     className="text-7xl font-extrabold text-accent"
                   />
