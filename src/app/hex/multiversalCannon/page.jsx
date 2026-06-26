@@ -44,7 +44,7 @@ export default function MultiversalCannon() {
           />
           <h4 className="text-xl">Multiversal Cannon</h4>
         </div>
-        {!release ? (
+        {!releasedLegacyTitles?.length === 0 ? (
           <ShowListLoader />
         ) : (
           <div className="w-full">
