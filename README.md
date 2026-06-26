@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ✨ Features
 
-## Getting Started
+## 🎬 Multiple MCU Watch Orders
 
-First, run the development server:
+Experience the Marvel Cinematic Universe your way.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* 📅 Chronological Order
+* 🎞️ Release Order
+* 🔥 Popular Order
+* 👑 GOAT Order
+* ⚡ Latest Releases
+* 🚀 Upcoming Titles
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 📌 Watch Tracker
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Keep track of your Marvel journey.
 
-## Learn More
+* Remember your most recently watched title
+* Resume your journey effortlessly
+* Personalized experience based on your watch history
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🤖 Rina AI Assistant
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Meet **Rina**, Nexus' built-in AI companion.
 
-## Deploy on Vercel
+Rina can:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* 📝 Recap your last **three watched** Marvel titles
+* 📰 Summarize the latest Marvel news
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📰 Latest Marvel News
+
+Stay updated with everything happening in the Marvel universe.
+
+* Latest Marvel news articles
+* AI-powered summaries by **Rina**
+* Quick, easy-to-read updates
+
+---
+
+## ⚡ Community
+
+A Marvel community with its own unique identity.
+
+* ⚡ **Energize** posts (likes)
+* 🔊 **Echo** posts (reposts)
+* 💬 Comment on discussions
+* Share your thoughts with fellow Marvel fans
+
+---
+
+## 🏆 Rankings
+
+Rank every Marvel movie and Disney+ series.
+
+* Create your personal rankings
+* Compare with the community
+* Discover fan favorites
+
+---
+
+## 💬 Real-Time Messaging
+
+Powered by **Socket.IO**
+
+* Instant private messaging
+* Real-time notifications
+* Seamless conversations
+
+---
+
+## 👤 User Profiles
+
+Every member has a customizable profile featuring:
+
+* Avatar
+* Bio
+* Watch history
+* Posts
+* Rankings
+* Community activity
+
+---
+
+## 🔐 Authentication
+
+Simple and secure sign in.
+
+* Google Authentication
+* Firebase Authentication
+* Protected user accounts
+
+---
+
+## ☁️ Media Uploads
+
+Powered by Cloudinary.
+
+* Upload profile pictures
+* Optimized image delivery
+* Fast cloud storage
+
+---
+
+## 📱 Fully Responsive
+
+Designed for every device.
+
+* Desktop
+* Tablet
+* Mobile
