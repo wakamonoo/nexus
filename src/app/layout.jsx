@@ -43,7 +43,7 @@ export const metadata = {
     template: "%s | nexus",
   },
   description:
-    "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
+    "Nexus is the ultimate Marvel fan platform where you can discover MCU watch orders, track your Marvel journey, rank movies and series, discuss the Marvel Cinematic Universe, and connect with other Marvel fans.",
 
   keywords: [
     "Nexus",
@@ -83,7 +83,7 @@ export const metadata = {
 
   authors: [
     { name: "wakamono of the night" },
-    { name: "Joven Bataller", url: "https://wakamonoo.vercel.app" },
+    { name: "Joven Bataller", url: "https://wakamonoo.site" },
   ],
   creator: "Joven Bataller",
   publisher: "nexus",
@@ -116,7 +116,7 @@ export const metadata = {
   openGraph: {
     title: "nexus",
     description:
-      "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
+      "Nexus is the ultimate Marvel fan platform where you can discover MCU watch orders, track your Marvel journey, rank movies and series, discuss the Marvel Cinematic Universe, and connect with other Marvel fans.",
     url: "https://ournexus.space",
     siteName: "nexus",
     locale: "en-US",
@@ -134,7 +134,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "nexus",
     description:
-      "Nexus is a fan-driven MCU platform offering multiple watch orders, rankings, and community spaces where fans can explore, discuss, and connect across the Marvel Cinematic Universe.",
+      "Nexus is the ultimate Marvel fan platform where you can discover MCU watch orders, track your Marvel journey, rank movies and series, discuss the Marvel Cinematic Universe, and connect with other Marvel fans.",
     images: "https://i.imgur.com/WCCf5AW.png",
   },
 
