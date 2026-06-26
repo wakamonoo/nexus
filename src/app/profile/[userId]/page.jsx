@@ -200,7 +200,7 @@ export default function UserProfile() {
               ) : (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
                   <p className="text-xs text-vibe opacity-40 text-center">
-                    you have no available sigils to show.
+                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} have no sigils to show.`}
                   </p>
                 </div>
               )}
@@ -330,7 +330,7 @@ export default function UserProfile() {
               ) : (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
                   <p className="text-xs text-vibe opacity-40 text-center">
-                    watch titles to see archive log.
+                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} have no archive available.`}
                   </p>
                 </div>
               )}
