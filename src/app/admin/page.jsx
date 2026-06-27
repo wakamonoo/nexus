@@ -69,7 +69,7 @@ export default function Page() {
           </h4>
           <p className="text-sm">Welcome to the Dashboard</p>
         </div>
-        <div className="md:grid md:grid-cols-4 gap-4 mt-4">
+        <div className="flex flex-col md:grid md:grid-cols-4 gap-4 mt-4">
           <div className="md:col-span-3">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 items-start justify-center">
               <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
