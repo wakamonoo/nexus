@@ -169,7 +169,7 @@ export default function Page() {
         </div>
         <div className="my-8">
           <p className="font-bold text-lg mb-2">Registered Users</p>
-          <div className="flex overflow-auto scrollbar-hide">
+          <div className="flex overflow-auto scrollbar-hide md:scrollbar">
             <div className="flex gap-2">
               {allUsers.map((user, i) => {
                 return (
