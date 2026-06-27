@@ -23,6 +23,7 @@ if (APP_ENV === "production") {
 }
 
 export default function Page() {
+  const { user } = useContext(UserContext);
   const router = useRouter();
   const [count, setCount] = useState({
     usersCount: 0,
@@ -62,105 +63,119 @@ export default function Page() {
           title="Back"
           className="text-2xl cursor-pointer"
         />
-
-        <div className="grid grid-cols-4 gap-4">
-          <div className="col-span-3">
-            <div className="flex flex-col gap-2 p-4 items-start justify-center">
-              <div className="flex items-center gap-2 justify-center">
-                <div className="flex items-center justify-center w-24 h-24">
+        <div className="p-4 w-full text-center">
+          <h4 className="text-xl">
+            Hello {user?.name}
+          </h4>
+          <p className="text-sm">Welcome to the Dashboard</p>
+        </div>
+        <div className="md:grid md:grid-cols-4 gap-4 mt-4">
+          <div className="md:col-span-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 items-start justify-center">
+              <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
+                <div className="flex flex-col items-center justify-center">
                   <CountUp
                     end={count.usersCount}
                     duration={1.5}
-                    className="text-7xl font-extrabold text-accent"
+                    className="text-6xl font-extrabold text-accent"
                   />
+                  <h2 className="text-xs">Registered Users</h2>
                 </div>
-                <h2 className="text-xl font-extrabold">USERS</h2>
               </div>
 
-              <div className="flex items-center gap-2 justify-center">
-                <div className="flex items-center justify-center w-24 h-24">
+              <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
+                <div className="flex flex-col items-center justify-center">
                   <CountUp
                     end={count.titlesCount}
                     duration={1.5}
-                    className="text-7xl font-extrabold text-accent"
+                    className="text-6xl font-extrabold text-accent"
                   />
+                  <h2 className="text-xs">Overall Titles</h2>
                 </div>
-                <h2 className="text-xl font-extrabold">OVERALL TITLES</h2>
               </div>
 
-              <div className="flex items-center gap-2 justify-center">
-                <div className="flex items-center justify-center w-24 h-24">
+              <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
+                <div className="flex flex-col items-center justify-center">
                   <CountUp
                     end={count.mcuTitlesCount}
                     duration={1.5}
-                    className="text-7xl font-extrabold text-accent"
+                    className="text-6xl font-extrabold text-accent"
                   />
+                  <h2 className="text-xs">MCU Titles</h2>
                 </div>
-                <h2 className="text-xl font-extrabold">MCU TITLES</h2>
               </div>
 
-              <div className="flex items-center gap-2 justify-center">
-                <div className="flex items-center justify-center w-24 h-24">
+              <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
+                <div className="flex flex-col items-center justify-center">
                   <CountUp
                     end={count.legacyTitlesCount}
                     duration={1.5}
-                    className="text-7xl font-extrabold text-accent"
+                    className="text-6xl font-extrabold text-accent"
                   />
+                  <h2 className="text-xs">Legacy Titles</h2>
                 </div>
-                <h2 className="text-xl font-extrabold">LEGACY TITLES</h2>
               </div>
 
-              <div className="flex items-center gap-2 justify-center">
-                <div className="flex items-center justify-center w-24 h-24">
+              <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
+                <div className="flex flex-col items-center justify-center">
                   <CountUp
                     end={count.releasedTitlesCount}
                     duration={1.5}
-                    className="text-7xl font-extrabold text-accent"
+                    className="text-6xl font-extrabold text-accent"
                   />
+                  <h2 className="text-xs">Released Titles</h2>
                 </div>
-                <h2 className="text-xl font-extrabold">RELEASED TITLES</h2>
               </div>
 
-              <div className="flex items-center gap-2 justify-center">
-                <div className="flex items-center justify-center w-24 h-24">
+              <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
+                <div className="flex flex-col items-center justify-center">
                   <CountUp
                     end={count.upcomingTitlesCount}
                     duration={1.5}
-                    className="text-7xl font-extrabold text-accent"
+                    className="text-6xl font-extrabold text-accent"
                   />
+                  <h2 className="text-xs">Upcoming Titles</h2>
                 </div>
-                <h2 className="text-xl font-extrabold">UPCOMING TITLES</h2>
               </div>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <RegularButtons onClick={() => router.push("/admin/addTitle")}>
-                <p className="font-bold text-normal text-base uppercase">
-                  Add new title
-                </p>
-              </RegularButtons>
-              <RegularButtons onClick={() => router.push("/admin/editTitles")}>
-                <p className="font-bold text-normal text-base uppercase">
-                  Edit Titles
-                </p>
-              </RegularButtons>
-              <RegularButtons
-                onClick={() => router.push("/admin/updateTitlesOrder")}
-              >
-                <p className="font-bold text-normal text-base uppercase">
-                  Update Order
-                </p>
-              </RegularButtons>
             </div>
           </div>
 
-          <div className="col-span-1 mt-4 p-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="col-span-1">
+            <div className="bg-second p-4 rounded-2xl border border-panel">
+              <p className="font-bold text-lg">Quick Actions</p>
+              <div className="flex flex-col gap-2">
+                <RegularButtons onClick={() => router.push("/admin/addTitle")}>
+                  <p className="font-bold text-normal text-base uppercase">
+                    Add new title
+                  </p>
+                </RegularButtons>
+                <RegularButtons
+                  onClick={() => router.push("/admin/editTitles")}
+                >
+                  <p className="font-bold text-normal text-base uppercase">
+                    Edit Titles
+                  </p>
+                </RegularButtons>
+                <RegularButtons
+                  onClick={() => router.push("/admin/updateTitlesOrder")}
+                >
+                  <p className="font-bold text-normal text-base uppercase">
+                    Update Order
+                  </p>
+                </RegularButtons>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="my-8">
+          <p className="font-bold text-lg mb-2">Registered Users</p>
+          <div className="flex overflow-auto scrollbar-hide">
+            <div className="flex gap-2">
               {allUsers.map((user, i) => {
                 return (
                   <div
                     key={i}
-                    className="flex flex-col justify-center items-center overflow-y-auto"
+                    className="flex flex-col justify-center p-2 bg-second rounded-2xl border border-panel items-center w-50 h-auto"
                   >
                     <Image
                       src={user?.picture || Fallback}
@@ -168,10 +183,22 @@ export default function Page() {
                       width={0}
                       height={0}
                       sizes="100vw"
-                      className="w-full h-full object-cover rounded"
+                      className="w-full h-full object-cover rounded-2xl"
                     />
-                    <p className="truncate w-12 sm:w-14 md:w-16 lg:w-24 text-center text-sm opacity-60">
+                    <p className="truncate h-10 w-full text-center text-sm font-bold border-b border-panel mb-2">
                       {user?.name}
+                    </p>
+                    <p className="text-xs text-center opacity-60">
+                      <span className="font-bold">Joined </span>
+                      {new Date(user?.createdAt).toLocaleDateString([], {
+                        month: "short",
+                        day: "2-digit",
+                        year: "numeric",
+                      })}
+                    </p>
+                    <p className="text-xs text-center opacity-60">
+                      {user?.totalWatched ? user?.totalWatched : "0"}{" "}
+                      <span className="font-bold">Titles watched</span>
                     </p>
                   </div>
                 );

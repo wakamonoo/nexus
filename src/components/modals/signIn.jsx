@@ -26,7 +26,7 @@ if (APP_ENV === "production") {
 }
 
 export default function SignIn() {
-  const { isLogged, adminBtn, fetchUserData, setShowSignIn } =
+  const { isLogged, fetchUserData, setShowSignIn } =
     useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
@@ -164,24 +164,6 @@ export default function SignIn() {
               </div>
             )}
           </CircledButtons>
-          {adminBtn && (
-            <>
-              <p className="text-xs text-vibe mt-2">Hi wakamonoo:</p>
-              <CircledButtons
-                onClick={() => {
-                  setIsLoading(true);
-                  router.push("/admin");
-                }}
-              >
-                <div className="flex gap-2 items-center justify-center">
-                  <p className="font-bold text-normal text-base">
-                    Visit Admin Page
-                  </p>
-                  <MdAdminPanelSettings className="text-2xl" />
-                </div>
-              </CircledButtons>
-            </>
-          )}
           <div className="mt-4">
             {!isLogged ? (
               <div className="flex flex-col gap-1 items-center justify-center">
