@@ -304,85 +304,91 @@ export default function Citadel() {
                               )}
                             </p>
 
-                            {msg.text && (
-                              <div className="flex group">
+                            <div className="flex group">
+                              <div>
                                 {ownMessage && (
                                   <BiDotsVerticalRounded
                                     onClick={() => setSelectedMessage(msg)}
                                     className="text-xl opacity-60 mt-2 cursor-pointer md:hidden md:group-hover:block"
                                   />
                                 )}
-                                <div
-                                  className={`px-4 py-2 min-w-32 max-w-60 md:max-w-90 rounded-2xl ${
-                                    ownMessage ? "bg-second" : "bg-panel"
-                                  }`}
-                                >
-                                  <p
-                                    className={`text-base text-normal py-2 flex whitespace-pre-wrap max-w-full ${
-                                      ownMessage
-                                        ? "justify-end border-[var(--color-panel)]"
-                                        : "justify-start border-[var(--color-secondary)]"
+                              </div>
+
+                              <div>
+                                {msg.text && (
+                                  <div
+                                    className={`px-4 py-2 min-w-32 max-w-60 md:max-w-90 rounded-2xl ${
+                                      ownMessage ? "bg-second" : "bg-panel"
                                     }`}
-                                    style={{ overflowWrap: "anywhere" }}
                                   >
-                                    {msg.text}
-                                  </p>
-                                </div>
-                              </div>
-                            )}
-
-                            {msg.files && msg.files.length > 0 && (
-                              <div
-                                className={`flex flex-wrap gap-2 mt-2 ${
-                                  ownMessage ? "justify-end" : "justify-start"
-                                }`}
-                              >
-                                {msg.files.map((file, index) => {
-                                  const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
-                                    file,
-                                  );
-                                  const isImage =
-                                    /\.(jpg|peg|png|gif|webp)$/i.test(file);
-                                  const isGif =
-                                    file.includes("tenor.com") ||
-                                    file.includes("media.tenor.com") ||
-                                    file.includes("static.klipy.com");
-
-                                  return (
-                                    <div
-                                      onClick={() =>
-                                        openCitadelLightBox(
-                                          msg.files,
-                                          msg.senderId,
-                                          msg.sender,
-                                          msg.messagedAt,
-                                          index,
-                                        )
-                                      }
-                                      key={index}
-                                      className="w-full min-w-32 max-w-60 md:max-w-90 h-auto block relative cursor-pointer"
+                                    <p
+                                      className={`text-base text-normal py-2 flex whitespace-pre-wrap max-w-full ${
+                                        ownMessage
+                                          ? "justify-end border-[var(--color-panel)]"
+                                          : "justify-start border-[var(--color-secondary)]"
+                                      }`}
+                                      style={{ overflowWrap: "anywhere" }}
                                     >
-                                      {isVideo ? (
-                                        <video
-                                          src={file}
-                                          controls
-                                          className="w-full h-full rounded"
-                                        />
-                                      ) : isImage || isGif ? (
-                                        <Image
-                                          src={file}
-                                          alt={`sent by ${msg.sender}`}
-                                          width={0}
-                                          height={0}
-                                          sizes="100vw"
-                                          className="w-full h-full object-cover rounded"
-                                        />
-                                      ) : null}
-                                    </div>
-                                  );
-                                })}
+                                      {msg.text}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {msg.files && msg.files.length > 0 && (
+                                  <div
+                                    className={`flex flex-wrap gap-2 mt-2 ${
+                                      ownMessage
+                                        ? "justify-end"
+                                        : "justify-start"
+                                    }`}
+                                  >
+                                    {msg.files.map((file, index) => {
+                                      const isVideo =
+                                        /\.(mp4|mov|avi|webm)$/i.test(file);
+                                      const isImage =
+                                        /\.(jpg|peg|png|gif|webp)$/i.test(file);
+                                      const isGif =
+                                        file.includes("tenor.com") ||
+                                        file.includes("media.tenor.com") ||
+                                        file.includes("static.klipy.com");
+
+                                      return (
+                                        <div
+                                          onClick={() =>
+                                            openCitadelLightBox(
+                                              msg.files,
+                                              msg.senderId,
+                                              msg.sender,
+                                              msg.messagedAt,
+                                              index,
+                                            )
+                                          }
+                                          key={index}
+                                          className="w-full min-w-32 max-w-60 md:max-w-90 h-auto block relative cursor-pointer"
+                                        >
+                                          {isVideo ? (
+                                            <video
+                                              src={file}
+                                              controls
+                                              className="w-full h-full rounded"
+                                            />
+                                          ) : isImage || isGif ? (
+                                            <Image
+                                              src={file}
+                                              alt={`sent by ${msg.sender}`}
+                                              width={0}
+                                              height={0}
+                                              sizes="100vw"
+                                              className="w-full h-full object-cover rounded"
+                                            />
+                                          ) : null}
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                )}
                               </div>
-                            )}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -474,27 +480,29 @@ export default function Citadel() {
                     }
                   />
                 </div>
-                <div className="flex gap-2 mt-1">
-                  <label htmlFor="fileUploadChat" className="cursor-pointer">
-                    <RiImageAiFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
-                  </label>
-                  <input
-                    id="fileUploadChat"
-                    name="file"
-                    accept="image/*,video/*"
-                    type="file"
-                    multiple
-                    className="hidden"
-                    onChange={(e) => {
-                      const selectedFiles = Array.from(e.target.files);
-                      setFiles((prev) => [...prev, ...selectedFiles]);
-                    }}
-                  />
-                  <RiFileGifFill
-                    onClick={() => setShowGifPicker((prev) => !prev)}
-                    className="text-xl text-[var(--color-text)]/60 shrink-0 cursor-pointer"
-                  />
-                </div>
+                {!editingMessage && (
+                  <div className="flex gap-2 mt-1">
+                    <label htmlFor="fileUploadChat" className="cursor-pointer">
+                      <RiImageAiFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                    </label>
+                    <input
+                      id="fileUploadChat"
+                      name="file"
+                      accept="image/*,video/*"
+                      type="file"
+                      multiple
+                      className="hidden"
+                      onChange={(e) => {
+                        const selectedFiles = Array.from(e.target.files);
+                        setFiles((prev) => [...prev, ...selectedFiles]);
+                      }}
+                    />
+                    <RiFileGifFill
+                      onClick={() => setShowGifPicker((prev) => !prev)}
+                      className="text-xl text-[var(--color-text)]/60 shrink-0 cursor-pointer"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>

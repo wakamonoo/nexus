@@ -22,7 +22,7 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
         setGifs([]);
 
         const res = await fetch(
-          `https://api.klipy.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_KLIPY_KEY}&limit=12`
+          `https://api.klipy.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_KLIPY_KEY}`
         );
 
         const data = await res.json();
