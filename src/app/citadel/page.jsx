@@ -262,7 +262,7 @@ export default function Citadel() {
                         )}
 
                         <div
-                          className={`flex gap-2 ${
+                          className={`flex gap-2 items-end ${
                             user.uid === msg.senderId
                               ? "justify-end"
                               : "justify-start"
@@ -288,16 +288,22 @@ export default function Citadel() {
                               ownMessage ? "items-end" : "items-start"
                             }`}
                           >
-                            <p
-                              className={`text-sm py-1 px-2 opacity-60 flex ${
-                                ownMessage ? "justify-end" : "justify-start"
-                              }`}
-                            >
-                              {ownMessage ? "you" : msg.sender}
+                            <p className="text-sm items-center py-1 px-2 opacity-60 flex justify-start">
+                              {!ownMessage && <span>{msg.sender}</span>}
+                              {msg.edited === true && (
+                                <>
+                                  {!ownMessage && (
+                                    <span className="flex text-sm px-1">•</span>
+                                  )}
+                                  <span className="flex text-sm text-accent opacity-60">
+                                    Edited
+                                  </span>
+                                </>
+                              )}
                             </p>
 
                             {msg.text && (
-                              <div className="flex flex-col">
+                              <div className="flex group">
                                 {ownMessage && (
                                   <BiDotsVerticalRounded
                                     onClick={() => setSelectedMessage(msg)}
@@ -320,13 +326,6 @@ export default function Citadel() {
                                     {msg.text}
                                   </p>
                                 </div>
-                                {msg.edited === true && (
-                                  <p
-                                    className={`flex text-xs px-2 text-accent opacity-60 ${ownMessage ? "justify-end" : "justify-start"}`}
-                                  >
-                                    Edited
-                                  </p>
-                                )}
                               </div>
                             )}
 
@@ -382,22 +381,6 @@ export default function Citadel() {
                               </div>
                             )}
                           </div>
-
-                          {ownMessage && (
-                            <Image
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsLoading(true);
-                                router.push(`/profile/${msg.senderId}`);
-                              }}
-                              src={msg.picture || ironman}
-                              alt="user"
-                              width={0}
-                              height={0}
-                              sizes="100vw"
-                              className="cursor-pointer w-8 h-8 rounded-full"
-                            />
-                          )}
                         </div>
                       </div>
                     );
