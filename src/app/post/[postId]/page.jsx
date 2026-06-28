@@ -125,7 +125,9 @@ export default function Post() {
       const gifUrls = files.filter(
         (file) =>
           typeof file === "string" &&
-          (file.includes("tenor.com") || file.includes("media.tenor.com")  || file.includes("static.klipy.com")),
+          (file.includes("tenor.com") ||
+            file.includes("media.tenor.com") ||
+            file.includes("static.klipy.com")),
       );
 
       let uploadedUrls = [...gifUrls];
@@ -187,7 +189,9 @@ export default function Post() {
       const gifUrls = files.filter(
         (file) =>
           typeof file === "string" &&
-          (file.includes("tenor.com") || file.includes("media.tenor.com")  || file.includes("static.klipy.com")),
+          (file.includes("tenor.com") ||
+            file.includes("media.tenor.com") ||
+            file.includes("static.klipy.com")),
       );
 
       let uploadedUrls = [...gifUrls];
@@ -619,7 +623,8 @@ export default function Post() {
                                   /\.(jpg|peg|png|gif|webp)$/i.test(file);
                                 const isGif =
                                   file.includes("tenor.com") ||
-                                  file.includes("media.tenor.com")  || file.includes("static.klipy.com");
+                                  file.includes("media.tenor.com") ||
+                                  file.includes("static.klipy.com");
 
                                 return (
                                   <div
@@ -741,7 +746,8 @@ export default function Post() {
                                         /\.(jpg|peg|png|gif|webp)$/i.test(file);
                                       const isGif =
                                         file.includes("tenor.com") ||
-                                        file.includes("media.tenor.com")  || file.includes("static.klipy.com");
+                                        file.includes("media.tenor.com") ||
+                                        file.includes("static.klipy.com");
 
                                       return (
                                         <div
