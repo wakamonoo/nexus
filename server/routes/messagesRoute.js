@@ -26,7 +26,7 @@ router.post("/addMessage", async (req, res) => {
 
     await db.collection("messages").insertOne(newMessage);
 
-    io.emit("citadel", newMessage);
+    io.emit("messageSent", newMessage);
 
     res.status(200).json({ message: "Message sent succesfully" });
   } catch (err) {
@@ -39,13 +39,53 @@ router.delete("/deleteMessage/:messageId", async (req, res) => {
   try {
     const { messageId } = req.params;
 
+    const io = req.app.get("io");
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
     await db.collection("messages").deleteOne({ msgId: messageId });
 
+    io.emit("messageDeleted", {
+      msgId: messageId,
+    });
+
     res.status(200).json({ message: "Message deleted succesfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.patch("/editMessage/:messageId", async (req, res) => {
+  try {
+    const io = req.app.get("io");
+    const { messageId } = req.params;
+    const { text } = req.body;
+
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
+
+    await db.collection("messages").updateOne(
+      { msgId: messageId },
+      {
+        $set: {
+          text,
+          edited: true,
+          editAt: new Date(),
+        },
+      },
+    );
+
+    io.emit("messageEdited", {
+      msgId: messageId,
+      text,
+      edited: true,
+      editedAt: new Date(),
+    });
+
+    res.status(200).json({ message: "Message updated succesfully" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });

@@ -40,11 +40,33 @@ export const SocketProvider = ({ children }) => {
       }
     };
     fetchMessages();
-    socket.on("citadel", (data) => {
+
+    socket.on("messageSent", (data) => {
       setMessages((prev) => [...prev, data]);
     });
+
+    socket.on("messageEdited", (updatedMessage) => {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.msgId === updatedMessage.msgId
+            ? {
+                ...msg,
+                text: updatedMessage.text,
+                edited: true,
+                editedAt: updatedMessage.editedAt,
+              }
+            : msg,
+        ),
+      );
+    });
+
+    socket.on("messageDeleted", ({ msgId }) => {
+      setMessages((prev) => prev.filter((msg) => msg.msgId !== msgId));
+    });
     return () => {
-      socket.off("citadel");
+      socket.off("messageSent");
+      socket.off("messageEdited");
+      socket.off("messageDeleted");
     };
   }, []);
 
@@ -107,7 +129,7 @@ export const SocketProvider = ({ children }) => {
             </div>
           </div>
         ),
-        { duration: 5000 }
+        { duration: 5000 },
       );
     });
 

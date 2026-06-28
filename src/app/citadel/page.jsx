@@ -1,5 +1,5 @@
 "use client";
-import { MdOutlineChatBubbleOutline, MdSend } from "react-icons/md";
+import { MdClose, MdOutlineChatBubbleOutline, MdSend } from "react-icons/md";
 import ironman from "@/assets/tony.jpg";
 import Image from "next/image";
 import NavBar from "@/components/layout/navBar";
@@ -22,6 +22,9 @@ import { SocketContext } from "@/context/socketContext";
 import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
 import CitadelLightBox from "@/components/lightBoxes/citadelLightBox";
 import GifPicker from "@/components/modals/gifPicker";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { FaPencil } from "react-icons/fa6";
+import CircledButtons from "@/components/buttons/circledBtns";
 
 dayjs.extend(relativeTime);
 
@@ -56,6 +59,9 @@ export default function Citadel() {
   const [citadelLightBoxSentDate, setCitadelLightBoxSentDate] = useState(null);
   const [initialIndex, setInitialIndex] = useState(0);
   const [showGifPicker, setShowGifPicker] = useState(false);
+  const [editingMessage, setEditingMessage] = useState(null);
+  const [editInput, setEditInput] = useState("");
+  const [selectedMessage, setSelectedMessage] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -137,6 +143,29 @@ export default function Citadel() {
     }
   };
 
+  const editMessage = async (msgId) => {
+    try {
+      setIsLoading(true);
+
+      await fetch(`${BASE_URL}/api/messages/editMessage/${msgId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: editInput,
+        }),
+      });
+
+      setEditingMessage(null);
+      setEditInput("");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (messages.length && initialLoad.current) {
       msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -207,31 +236,31 @@ export default function Citadel() {
                 <div className="flex flex-col gap-4">
                   {messages.map((msg, i) => {
                     const ownMessage = user.uid === msg.senderId;
-                    const currentDate = new Date(
-                      msg.messagedAt,
-                    ).toLocaleDateString([], {
-                      month: "short",
-                      day: "2-digit",
-                      year: "numeric",
-                    });
-                    const prevDate =
-                      i > 0
-                        ? new Date(
-                            messages[i - 1].messagedAt,
-                          ).toLocaleDateString([], {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                          })
-                        : null;
-                    const showDate = currentDate !== prevDate;
+
+                    const prevMessage = i > 0 ? messages[i - 1] : null;
+
+                    const currentDate = dayjs(msg.messagedAt).format(
+                      "MMM DD, YYYY",
+                    );
+                    const showTimeStamp =
+                      !prevMessage ||
+                      currentDate !==
+                        dayjs(prevMessage.messagedAt).format("MMM DD, YYYY") ||
+                      dayjs(msg.messagedAt).diff(
+                        dayjs(prevMessage.messagedAt),
+                        "minute",
+                      ) >= 30;
+
                     return (
                       <div key={i}>
-                        {showDate && (
+                        {showTimeStamp && (
                           <p className="text-xs text-vibe font-extralight text-center py-2">
-                            {currentDate}
+                            {dayjs(msg.messagedAt).format(
+                              "MMM DD, YYYY [at] h:mm A",
+                            )}
                           </p>
                         )}
+
                         <div
                           className={`flex gap-2 ${
                             user.uid === msg.senderId
@@ -259,52 +288,47 @@ export default function Citadel() {
                               ownMessage ? "items-end" : "items-start"
                             }`}
                           >
-                            <div
-                              className={`px-4 py-2 min-w-32 max-w-60 md:max-w-90 rounded-2xl ${
-                                ownMessage ? "bg-second" : "bg-panel"
+                            <p
+                              className={`text-sm py-1 px-2 opacity-60 flex ${
+                                ownMessage ? "justify-end" : "justify-start"
                               }`}
                             >
-                              <p
-                                className={`text-base font-bold flex ${
-                                  ownMessage ? "justify-end" : "justify-start"
-                                }`}
-                              >
-                                {ownMessage ? "you" : msg.sender}
-                              </p>
-                              <p
-                                className={`text-xs text-vibe flex ${
-                                  ownMessage ? "justify-end" : "justify-start"
-                                }`}
-                              >
-                                {(() => {
-                                  const diffMinutes = dayjs().diff(
-                                    dayjs(msg.messagedAt),
-                                    "minutes",
-                                  );
-                                  if (diffMinutes < 60) {
-                                    return dayjs(msg.messagedAt).fromNow();
-                                  }
-                                  return new Date(
-                                    msg.messagedAt,
-                                  ).toLocaleTimeString([], {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  });
-                                })()}
-                              </p>
-                              {msg.text && (
-                                <p
-                                  className={`text-base text-normal py-2 flex border-t-1 mt-2 whitespace-pre-wrap max-w-full ${
-                                    ownMessage
-                                      ? "justify-end border-[var(--color-panel)]"
-                                      : "justify-start border-[var(--color-secondary)]"
+                              {ownMessage ? "you" : msg.sender}
+                            </p>
+
+                            {msg.text && (
+                              <div className="flex flex-col">
+                                {ownMessage && (
+                                  <BiDotsVerticalRounded
+                                    onClick={() => setSelectedMessage(msg)}
+                                    className="text-xl opacity-60 mt-2 cursor-pointer md:hidden md:group-hover:block"
+                                  />
+                                )}
+                                <div
+                                  className={`px-4 py-2 min-w-32 max-w-60 md:max-w-90 rounded-2xl ${
+                                    ownMessage ? "bg-second" : "bg-panel"
                                   }`}
-                                  style={{ overflowWrap: "anywhere" }}
                                 >
-                                  {msg.text}
-                                </p>
-                              )}
-                            </div>
+                                  <p
+                                    className={`text-base text-normal py-2 flex whitespace-pre-wrap max-w-full ${
+                                      ownMessage
+                                        ? "justify-end border-[var(--color-panel)]"
+                                        : "justify-start border-[var(--color-secondary)]"
+                                    }`}
+                                    style={{ overflowWrap: "anywhere" }}
+                                  >
+                                    {msg.text}
+                                  </p>
+                                </div>
+                                {msg.edited === true && (
+                                  <p
+                                    className={`flex text-xs px-2 text-accent opacity-60 ${ownMessage ? "justify-end" : "justify-start"}`}
+                                  >
+                                    Edited
+                                  </p>
+                                )}
+                              </div>
+                            )}
 
                             {msg.files && msg.files.length > 0 && (
                               <div
@@ -357,19 +381,6 @@ export default function Citadel() {
                                 })}
                               </div>
                             )}
-                            <div className="flex items-center justify-end px-2">
-                              <p
-                                onClick={() => {
-                                  setMessageToDelete(msg.msgId);
-                                  setMessageDelModal(true);
-                                }}
-                                className={`text-sm text-vibe text-end hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                  ownMessage ? "block" : "hidden"
-                                }`}
-                              >
-                                Delete
-                              </p>
-                            </div>
                           </div>
 
                           {ownMessage && (
@@ -446,15 +457,35 @@ export default function Citadel() {
                 <div className="flex items-center w-full gap-2">
                   <input
                     type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                    placeholder={`Chat as ${user.name}...`}
+                    value={editingMessage ? editInput : input}
+                    onChange={(e) => {
+                      if (editingMessage) {
+                        setEditInput(e.target.value);
+                      } else {
+                        setInput(e.target.value);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        editingMessage
+                          ? editMessage(editingMessage)
+                          : sendMessage();
+                      }
+                    }}
+                    placeholder={
+                      editingMessage
+                        ? "Edit your message"
+                        : `Chat as ${user.name}...`
+                    }
                     className="w-full text-normal outline-none text-base font-normal truncate"
                   />
                   <MdSend
                     className="text-2xl cursor-pointer shrink-0"
-                    onClick={sendMessage}
+                    onClick={() =>
+                      editingMessage
+                        ? editMessage(editingMessage)
+                        : sendMessage()
+                    }
                   />
                 </div>
                 <div className="flex gap-2 mt-1">
@@ -509,6 +540,53 @@ export default function Citadel() {
           }}
           setShowGifPicker={setShowGifPicker}
         />
+      )}
+      {selectedMessage && (
+        <div
+          onClick={() => setShowGifPicker(false)}
+          className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+          >
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedMessage(null);
+              }}
+              className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+            >
+              <MdClose className="text-2xl" />
+            </button>
+            <div className="mt-8 p-2 h-full w-full">
+              <div className="w-full flex gap-2">
+                <CircledButtons
+                  onClick={() => {
+                    setEditingMessage(selectedMessage.msgId);
+                    setEditInput(selectedMessage.text);
+                    setSelectedMessage(null);
+                  }}
+                >
+                  <p className="font-bold text-normal text-base">
+                    Edit Message
+                  </p>
+                </CircledButtons>
+                <CircledButtons
+                  onClick={() => {
+                    setMessageToDelete(selectedMessage.msgId);
+                    setMessageDelModal(true);
+                    setSelectedMessage(null);
+                  }}
+                >
+                  <p className="font-bold text-normal text-base">
+                    Delete Message
+                  </p>
+                </CircledButtons>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
