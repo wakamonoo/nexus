@@ -22,7 +22,7 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
         setGifs([]);
 
         const res = await fetch(
-          `https://tenor.googleapis.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_TENOR_KEY}&limit=12`
+          `https://api.klipy.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_KLIPY_KEY}&limit=12`
         );
 
         const data = await res.json();
@@ -63,7 +63,7 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Search tenor.."
+                placeholder="Search KLIPY.."
                 className="w-full outline-none text-base text-normal"
                 onKeyDown={(e) => {
                   if ((e.key === "Enter") & !e.shiftKey) {
