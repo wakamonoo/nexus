@@ -314,15 +314,15 @@ export default function Citadel() {
                                 )}
                               </div>
 
-                              <div>
+                              <div className={`flex flex-col ${ownMessage ? "items-end" : "items-start"}`}>
                                 {msg.text && (
                                   <div
-                                    className={`px-4 py-2 min-w-32 max-w-60 md:max-w-90 rounded-2xl ${
+                                    className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl ${
                                       ownMessage ? "bg-second" : "bg-panel"
                                     }`}
                                   >
                                     <p
-                                      className={`text-base text-normal py-2 flex whitespace-pre-wrap max-w-full ${
+                                      className={`text-base text-normal flex whitespace-pre-wrap max-w-full ${
                                         ownMessage
                                           ? "justify-end border-[var(--color-panel)]"
                                           : "justify-start border-[var(--color-secondary)]"
