@@ -1,13 +1,10 @@
 "use client";
-import { UserContext } from "@/context/userContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MdClose, MdSearchOff } from "react-icons/md";
 import Image from "next/image";
-import Loader from "../loaders/loader";
-import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
 import { HiOutlineSearch } from "react-icons/hi";
 import GifLoader from "../loaders/gifLoader";
+import Masonry from "react-masonry-css";
 
 export default function GifPicker({ onSelect, setShowGifPicker }) {
   const [gifs, setGifs] = useState([]);
@@ -22,7 +19,7 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
         setGifs([]);
 
         const res = await fetch(
-          `https://api.klipy.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_KLIPY_KEY}`
+          `https://api.klipy.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_KLIPY_KEY}`,
         );
 
         const data = await res.json();
@@ -95,7 +92,7 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-2 overflow-y-auto custom-scroll w-full h-full mt-4">
+              <Masonry breakpointCols={2} className="flex gap-2 mt-2 overflow-y-auto custom-scroll" columnClassName="space-y-2">
                 {gifs.map((gif) => (
                   <Image
                     key={gif.id}
@@ -105,11 +102,11 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
                     height={0}
                     sizes="100vw"
                     unoptimized
-                    className="w-full h-auto cursor-pointer rounded hover:opacity-80"
+                    className="w-full break-inside-avoid cursor-pointer rounded hover:opacity-80"
                     onClick={() => onSelect(gif.media_formats.gif.url)}
                   />
                 ))}
-              </div>
+              </Masonry>
             )}
           </div>
         </div>
