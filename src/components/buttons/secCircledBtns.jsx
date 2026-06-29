@@ -9,7 +9,7 @@ export default function SecondaryCircledButtons({
       disabled={disabled}
       className={`w-full p-2 rounded-full flex justify-center items-center gap-1 ${
         disabled
-          ? "bg-zeus cursor-not-allowed"
+          ? "bg-second cursor-not-allowed opacity-40"
           : "bg-panel hover:bg-[var(--color-panel)]/80 cursor-pointer"
       }`}
     >

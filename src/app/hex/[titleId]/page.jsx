@@ -33,6 +33,7 @@ import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import CircledNotAllowedButtons from "@/components/buttons/circledNotAllowedBtns";
+import { RiLockFill } from "react-icons/ri";
 
 dayjs.extend(relativeTime);
 
@@ -279,13 +280,20 @@ export default function Title() {
                   </p>
                 </SecondaryCircledButtons>
                 <SecondaryCircledButtons
+                  disabled={title?.category === "legacy"}
                   onClick={() => {
                     setIsLoading(true);
                     router.push("/powerboard");
                   }}
                 >
-                  <FaCrown className="text-2xl" />
-                  <p className="font-bold text-normal text-base">Rank It</p>
+                  {title?.category === "mcu" ? (
+                    <FaCrown className="text-2xl" />
+                  ) : (
+                    <RiLockFill className="text-2xl" />
+                  )}
+                  <p className="font-bold text-normal text-base">
+                    {title?.category === "mcu" ? "Rank It" : "Legacy Title"}
+                  </p>
                 </SecondaryCircledButtons>
               </div>
             </div>
