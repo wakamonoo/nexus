@@ -19,7 +19,7 @@ export function buildGraph(titles) {
       .filter(Boolean);
 
     connections.forEach((connection) => {
-      if (!childrenMap[connections]) {
+      if (!childrenMap[connection]) {
         childrenMap[connection] = [];
       }
 
