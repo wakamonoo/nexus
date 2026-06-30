@@ -33,6 +33,7 @@ function BranchNode({ node, titles }) {
             className="w-full h-full object-cover rounded"
           />
         </div>
+        {children.length > 0 && <div className="h-6 w-1 bg-accent" />}
       </div>
 
       {children.length > 0 && (
