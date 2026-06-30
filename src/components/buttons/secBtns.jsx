@@ -3,7 +3,7 @@ export default function SecondaryButtons({ onClick, htmlFor, children }) {
     return (
       <label
         htmlFor={htmlFor}
-        className="cursor-pointer mt-2 bg-panel hover:bg-[var(--color-panel)]/80 w-full p-2 rounded flex justify-center items-center gap-1"
+        className="cursor-pointer mt-2 bg-panel hover:bg-[var(--color-panel)]/80 w-full py-2 px-4 rounded flex justify-center items-center gap-1"
       >
         {children}
       </label>
@@ -13,7 +13,7 @@ export default function SecondaryButtons({ onClick, htmlFor, children }) {
     return (
       <button
         onClick={onClick}
-        className="cursor-pointer mt-2 bg-panel hover:bg-[var(--color-panel)]/80 w-full p-2 rounded flex justify-center items-center gap-1"
+        className="cursor-pointer mt-2 bg-panel hover:bg-[var(--color-panel)]/80 w-full py-2 px-4 rounded flex justify-center items-center gap-1"
       >
         {children}
       </button>

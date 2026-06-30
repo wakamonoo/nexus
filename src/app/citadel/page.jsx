@@ -206,19 +206,30 @@ export default function Citadel() {
       <div>
         {!user ? (
           <div
-            className="flex w-full items-center justify-center"
+            className="relative flex w-full items-center justify-center overflow-hidden px-4"
             style={{ height: "100dvh" }}
           >
-            <div className="flex flex-col items-center justify-center">
-              <FaUserSlash className="text-4xl text-vibe opacity-40" />
-              <p className="text-xs text-vibe opacity-40">Kindly login first</p>
-              <div className="p-2">
-                <button
-                  onClick={() => setShowSignIn(true)}
-                  className="px-4 py-2 bg-accent rounded-full font-bold"
-                >
-                  <p>Continue to login</p>
-                </button>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(237,29,36,0.12),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_45%)]" />
+            <div className="absolute inset-x-8 top-1/2 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/35 to-transparent" />
+
+            <div className="relative flex w-full max-w-sm flex-col items-center justify-center rounded-lg border border-panel bg-[var(--color-secondary)]/60 p-8 text-center shadow-2xl backdrop-blur-md">
+              <div className="mb-4 grid h-16 w-16 place-items-center rounded-full border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 shadow-[0_0_32px_rgba(237,29,36,0.18)]">
+                <FaUserSlash className="text-4xl text-accent" />
+              </div>
+
+              <p className="font-bold text-base uppercase text-vibe border-b border-panel">
+                Citadel Access
+              </p>
+
+              <h1 className="text-2xl">Login Required</h1>
+              <p className="mt-2 text-sm opacity-60">
+                Sign in to enter the Citadel and start your conversations.
+              </p>
+
+              <div className="mt-2">
+                <CircledButtons onClick={() => setShowSignIn(true)}>
+                  <p className="text-base font-bold text-normal">Continue to login</p>
+                </CircledButtons>
               </div>
             </div>
           </div>
@@ -314,7 +325,9 @@ export default function Citadel() {
                                 )}
                               </div>
 
-                              <div className={`flex flex-col ${ownMessage ? "items-end" : "items-start"}`}>
+                              <div
+                                className={`flex flex-col ${ownMessage ? "items-end" : "items-start"}`}
+                              >
                                 {msg.text && (
                                   <div
                                     className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl ${
