@@ -790,9 +790,9 @@ export default function Main() {
 
                 <div className="py-4">
                   <div className="flex justify-between items-center">
-                    <h1 className="text-xl">MULTIVERSAL CANNON</h1>
+                    <h1 className="text-xl">MULTIVERSAL CANON</h1>
                     <div
-                      onClick={() => handleShowListNav("multiversalCannon")}
+                      onClick={() => handleShowListNav("multiversalCanon")}
                       className={`flex items-center cursor-pointer ${
                         isScrolled6 ? "flex" : "hidden"
                       }`}

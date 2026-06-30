@@ -19,7 +19,7 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
         setGifs([]);
 
         const res = await fetch(
-          `https://api.klipy.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_KLIPY_KEY}`,
+          `https://api.klipy.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_KLIPY_KEY}&limit=50`,
         );
 
         const data = await res.json();
@@ -79,7 +79,7 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
               </button>
             </div>
             {isLoading ? (
-              <div className="w-full mt-4">
+              <div className="w-full mt-2">
                 <GifLoader />
               </div>
             ) : gifs.length === 0 ? (

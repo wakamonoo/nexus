@@ -12,7 +12,7 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { GoDotFill } from "react-icons/go";
 
-export default function MultiversalCannon() {
+export default function MultiversalCanon() {
   const { user } = useContext(UserContext);
   const { releasedLegacyTitles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
@@ -42,7 +42,7 @@ export default function MultiversalCannon() {
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <h4 className="text-xl">Multiversal Cannon</h4>
+          <h4 className="text-xl">Multiversal Canon</h4>
         </div>
         {!releasedLegacyTitles?.length === 0 ? (
           <ShowListLoader />
