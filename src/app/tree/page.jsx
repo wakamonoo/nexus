@@ -15,7 +15,7 @@ function BranchNode({ node, titles }) {
   return (
     <div className="flex flex-col items-center">
       {children.length > 0 && (
-        <div className="flex items-end justify-center gap-6 mb-6">
+        <div className="flex items-start justify-center gap-6 mb-6">
           {children.map((child) => (
             <BranchNode key={child.titleId} node={child} titles={titles} />
           ))}
@@ -48,9 +48,9 @@ export default function Tree() {
     .sort((a, b) => a.date - b.date);
 
   return (
-    <div className="p-4 overflow-x-auto">
-      <div className="flex min-h-screen items-end mb-12">
-        <div className="flex items-center justify-center gap-2 mr-2">
+    <div className="p-2 sm:p-4 md:p-8 lg:p-16 xl:p-32 overflow-x-auto">
+      <div className="flex min-h-screen items-start mb-12">
+        <div className="flex items-center justify-center gap-2">
           <div>
             <p className="text-4xl text-center font-alt whitespace-nowrap">
               Earth-616
@@ -69,10 +69,28 @@ export default function Tree() {
               .includes(unit.title),
           );
           return (
-            <div key={unit.titleId} className="flex flex-col items-center mx-2">
+            <div key={unit.titleId} className="flex flex-col items-center">
+              <div className="flex items-start">
+                <div className="flex mt-6">
+                  <GoDot className="text-xl text-accent" />
+                  <div className="w-6 h-px bg-accent mt-2" />
+                </div>
+                <div className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1">
+                  <Image
+                    src={unit.image}
+                    alt={unit.title}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="w-full h-full object-cover rounded"
+                  />
+                </div>
+                  <div className="w-6 h-px bg-accent mt-8" />
+             
+              </div>
               {roots.length > 0 && (
                 <>
-                  <div className="flex items-end gap-8 mb-8">
+                  <div className="flex items-start gap-8 mb-8">
                     {roots.map((branch) => (
                       <BranchNode
                         key={branch.titleId}
@@ -83,17 +101,6 @@ export default function Tree() {
                   </div>
                 </>
               )}
-
-              <div className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer">
-                <Image
-                  src={unit.image}
-                  alt={unit.title}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="w-full h-full object-cover rounded"
-                />
-              </div>
             </div>
           );
         })}
