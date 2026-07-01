@@ -79,12 +79,12 @@ export default function Tree() {
 
   const TVA =
     titles
-      ?.filter((t) => t?.timeline === "TVA")
+      ?.filter((t) => t?.universe === "TVA")
       .sort((a, b) => a.order - b.order) || [];
 
   const Multiverse =
     titles
-      ?.filter((t) => t?.timeline === "Multiverse")
+      ?.filter((t) => t?.universe === "Multiverse")
       .sort((a, b) => a.order - b.order) || [];
 
   const earth616 =
@@ -132,7 +132,7 @@ export default function Tree() {
                     {unit.title}
                   </p>
                   <p className="text-xs text-vibe text-center">
-                    {unit.timeline}
+                    {unit.universe}
                   </p>
                 </div>
               </div>
@@ -143,8 +143,8 @@ export default function Tree() {
           <div className="absolute left-0 top-8 h-80 w-1 bg-hulk" />
           <div className="ml-10 flex flex-col gap-16">
             <div className="flex items-start">
-              <div className="w-12 h-1 bg-hulk mt-8" />
-              <div className="flex flex-col items-center justify-center m-2">
+              <div className="relative flex flex-col items-center justify-center m-2">
+                <div className="absolute right-full top-6 w-12 h-1 bg-hulk" />
                 <p className="text-4xl text-center font-alt whitespace-nowrap">
                   Multiverse
                 </p>
@@ -178,7 +178,7 @@ export default function Tree() {
                           {unit.title}
                         </p>
                         <p className="text-xs text-vibe text-center">
-                          {unit.timeline}
+                          {unit.universe}
                         </p>
                       </div>
                     </div>
@@ -187,8 +187,8 @@ export default function Tree() {
               })}
             </div>
             <div className="flex items-start">
-              <div className="w-12 h-1 bg-hulk mt-8" />
-              <div className="flex flex-col items-center justify-center m-2">
+              <div className="relative flex flex-col items-center justify-center m-2">
+                <div className="absolute right-full top-6 w-12 h-1 bg-hulk" />
                 <p className="text-4xl text-center font-alt whitespace-nowrap">
                   Earth-616
                 </p>
