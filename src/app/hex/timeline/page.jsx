@@ -114,7 +114,7 @@ export default function Timeline() {
         <h4 className="text-xl">Timeline</h4>
       </div>
       <ScrollContainer
-        className="w-screen h-screen overflow-auto cursor-grab active:cursor-grabbing select-none p-2 sm:p-4 md:p-8 lg:p-16 xl:p-32"
+        className="w-screen h-screen overflow-auto cursor-grab active:cursor-grabbing select-none p-16 py-32 xl:p-32"
         vertical
         horizontal
       >
