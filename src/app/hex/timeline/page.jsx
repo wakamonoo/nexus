@@ -4,6 +4,10 @@ import Image from "next/image";
 import { useContext } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
+import StarBackground from "./starBackground";
+import { FaAngleLeft } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { TitleNavContext } from "@/context/titleNavContext";
 
 const getConnections = (connections) => {
   if (!connections) return [];
@@ -15,7 +19,7 @@ const getConnections = (connections) => {
     .filter(Boolean);
 };
 
-function BranchNode({ node, titles }) {
+function BranchNode({ node, titles, handleShowNav }) {
   const children = titles.filter((title) =>
     getConnections(title.connections).includes(node.title),
   );
@@ -24,7 +28,7 @@ function BranchNode({ node, titles }) {
     <div className="relative flex flex-col items-center">
       <div className="flex flex-col items-center">
         <div className="h-6 w-1 bg-accent" />
-        <div className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer">
+        <div onClick={() => handleShowNav(node.titleId)} className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer">
           <Image
             src={node.image}
             alt={node.title}
@@ -66,7 +70,7 @@ function BranchNode({ node, titles }) {
             >
               <div className="h-6 w-1 bg-accent" />
 
-              <BranchNode node={child} titles={titles} />
+              <BranchNode node={child} titles={titles} handleShowNav={handleShowNav} />
             </div>
           ))}
         </div>
@@ -77,6 +81,8 @@ function BranchNode({ node, titles }) {
 
 export default function Timeline() {
   const { titles } = useContext(TitleContext);
+  const { handleShowNav } = useContext(TitleNavContext);
+  const router = useRouter();
 
   const TVA =
     titles
@@ -99,8 +105,19 @@ export default function Timeline() {
       .sort((a, b) => new Date(a.date) - new Date(b.date)) || [];
 
   return (
-    <ScrollContainer className="w-screen h-screen overflow-auto cursor-grab active:cursor-grabbing select-none" vertical horizontal>
-      <div className="p-2 sm:p-4 md:p-8 lg:p-16 xl:p-32">
+    <StarBackground>
+      <div className="flex fixed justify-between items-center py-4 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 w-full z-10">
+        <FaAngleLeft
+          onClick={() => router.back()}
+          className="text-2xl cursor-pointer"
+        />
+        <h4 className="text-xl">Timeline</h4>
+      </div>
+      <ScrollContainer
+        className="w-screen h-screen overflow-auto cursor-grab active:cursor-grabbing select-none p-2 sm:p-4 md:p-8 lg:p-16 xl:p-32"
+        vertical
+        horizontal
+      >
         <div className="flex min-h-screen items-start mb-12">
           <div className="flex flex-col items-center justify-center m-2">
             <p className="text-4xl text-center font-alt whitespace-nowrap">
@@ -119,7 +136,10 @@ export default function Timeline() {
                 <div className="flex items-center flex-col w-full">
                   <div className="flex items-start w-full">
                     <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
-                    <div className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1">
+                    <div
+                      onClick={() => handleShowNav(unit.titleId)}
+                      className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
+                    >
                       <Image
                         src={unit.image}
                         alt={unit.title}
@@ -160,12 +180,16 @@ export default function Timeline() {
                   return (
                     <div
                       key={unit.titleId}
+                      onClick={() => handleShowNav(unit.titleId)}
                       className="relative flex flex-col items-center"
                     >
                       <div className="flex items-center flex-col w-full">
                         <div className="flex items-start w-full">
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
-                          <div className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1">
+                          <div
+                            onClick={() => handleShowNav(unit.titleId)}
+                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
+                          >
                             <Image
                               src={unit.image}
                               alt={unit.title}
@@ -213,7 +237,10 @@ export default function Timeline() {
                       <div className="flex items-center flex-col w-full">
                         <div className="flex items-start w-full">
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
-                          <div className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1">
+                          <div
+                            onClick={() => handleShowNav(unit.titleId)}
+                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
+                          >
                             <Image
                               src={unit.image}
                               alt={unit.title}
@@ -251,7 +278,7 @@ export default function Timeline() {
                               className="relative flex flex-col items-center"
                             >
                               <div className="h-6 w-1 bg-accent" />
-                              <BranchNode node={branch} titles={nonEarth616} />
+                              <BranchNode node={branch} titles={nonEarth616} handleShowNav={handleShowNav} />
                             </div>
                           ))}
                         </div>
@@ -263,7 +290,7 @@ export default function Timeline() {
             </div>
           </div>
         </div>
-      </div>
-    </ScrollContainer>
+      </ScrollContainer>
+    </StarBackground>
   );
 }
