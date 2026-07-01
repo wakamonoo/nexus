@@ -75,7 +75,7 @@ function BranchNode({ node, titles }) {
   );
 }
 
-export default function Tree() {
+export default function Timeline() {
   const { titles } = useContext(TitleContext);
 
   const TVA =

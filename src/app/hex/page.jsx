@@ -10,13 +10,14 @@ import { TitleContext } from "@/context/titleContext";
 import NavBar from "@/components/layout/navBar";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { MdSearchOff } from "react-icons/md";
-import { HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineMap, HiOutlineSearch } from "react-icons/hi";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
 import MostWatchedTitlesStructureMin from "@/components/layout/mostWatchedTitlesStructureMin";
-
+import CustomButton from "@/components/buttons/customBtn";
+import { useRouter } from "next/navigation";
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
@@ -55,7 +56,7 @@ export default function Main() {
   const scrollRef4 = useRef(null);
   const scrollRef5 = useRef(null);
   const scrollRef6 = useRef(null);
-   const scrollRef7 = useRef(null);
+  const scrollRef7 = useRef(null);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -66,6 +67,7 @@ export default function Main() {
   const [showArrows5, setShowArrows5] = useState(false);
   const [showArrows6, setShowArrows6] = useState(false);
   const [showArrows7, setShowArrows7] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -174,7 +176,6 @@ export default function Main() {
       current.removeEventListener("scroll", handleScroll);
     };
   }, [titles]);
-
 
   useEffect(() => {
     if (!titles) return;
@@ -327,7 +328,7 @@ export default function Main() {
     }
   };
 
-   const handleScrollLeft7 = () => {
+  const handleScrollLeft7 = () => {
     if (scrollRef7.current) {
       scrollRef7.current.scrollBy({
         left: -200,
@@ -373,6 +374,12 @@ export default function Main() {
                   <HiOutlineSearch className="text-2xl text-normal" />
                 </button>
               </div>
+              <CustomButton onClick={() => router.push("/hex/timeline")}>
+                <div className="flex items-center justify-center">
+                  <HiOutlineMap className="text-2xl text-normal" />
+                  <p className="font-bold text-normal text-base">Timeline</p>
+                </div>
+              </CustomButton>
             </div>
 
             {loading ? (
