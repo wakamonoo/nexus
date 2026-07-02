@@ -1,13 +1,14 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
 import StarBackground from "./starBackground";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titleNavContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 const getConnections = (connections) => {
   if (!connections) return [];
@@ -28,7 +29,10 @@ function BranchNode({ node, titles, handleShowNav }) {
     <div className="relative flex flex-col items-center">
       <div className="flex flex-col items-center">
         <div className="h-6 w-1 bg-accent" />
-        <div onClick={() => handleShowNav(node.titleId)} className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer">
+        <div
+          onClick={() => handleShowNav(node.titleId)}
+          className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+        >
           <Image
             src={node.image}
             alt={node.title}
@@ -70,7 +74,11 @@ function BranchNode({ node, titles, handleShowNav }) {
             >
               <div className="h-6 w-1 bg-accent" />
 
-              <BranchNode node={child} titles={titles} handleShowNav={handleShowNav} />
+              <BranchNode
+                node={child}
+                titles={titles}
+                handleShowNav={handleShowNav}
+              />
             </div>
           ))}
         </div>
@@ -81,8 +89,13 @@ function BranchNode({ node, titles, handleShowNav }) {
 
 export default function Timeline() {
   const { titles } = useContext(TitleContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const router = useRouter();
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const TVA =
     titles
@@ -278,7 +291,11 @@ export default function Timeline() {
                               className="relative flex flex-col items-center"
                             >
                               <div className="h-6 w-1 bg-accent" />
-                              <BranchNode node={branch} titles={nonEarth616} handleShowNav={handleShowNav} />
+                              <BranchNode
+                                node={branch}
+                                titles={nonEarth616}
+                                handleShowNav={handleShowNav}
+                              />
                             </div>
                           ))}
                         </div>

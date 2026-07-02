@@ -18,6 +18,7 @@ import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
 import MostWatchedTitlesStructureMin from "@/components/layout/mostWatchedTitlesStructureMin";
 import CustomButton from "@/components/buttons/customBtn";
 import { useRouter } from "next/navigation";
+import { LoaderContext } from "@/context/loaderContext";
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
@@ -43,6 +44,7 @@ export default function Main() {
   const { user } = useContext(UserContext);
   const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [isScrolled1, setIsScrolled1] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
   const [isScrolled3, setIsScrolled3] = useState(false);
@@ -374,7 +376,12 @@ export default function Main() {
                   <HiOutlineSearch className="text-2xl text-normal" />
                 </button>
               </div>
-              <CustomButton onClick={() => router.push("/hex/timeline")}>
+              <CustomButton
+                onClick={() => {
+                  setIsLoading(true);
+                  router.push("/hex/timeline");
+                }}
+              >
                 <div className="flex items-center justify-center">
                   <HiOutlineMap className="text-2xl text-normal" />
                   <p className="font-bold text-normal text-base">Timeline</p>
