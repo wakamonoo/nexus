@@ -21,6 +21,7 @@ import ReactMarkdown from "react-markdown";
 import { SigilContext } from "@/context/sigilContext";
 import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";
 import Rina from "../../../assets/rina.png";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -271,7 +272,7 @@ export default function UserProfile() {
                         className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
                       >
                         <Image
-                          src={rank?.poster}
+                          src={optimizeCloudinary(rank?.poster, 300) || Fallback}
                           alt="profileUser"
                           width={0}
                           height={0}
@@ -318,7 +319,7 @@ export default function UserProfile() {
                         className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
                       >
                         <Image
-                          src={item?.poster}
+                          src={optimizeCloudinary(item?.poster, 300) || Fallback}
                           alt="profileUser"
                           width={0}
                           height={0}

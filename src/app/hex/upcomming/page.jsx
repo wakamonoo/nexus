@@ -10,7 +10,8 @@ import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
-import { GoDotFill } from "react-icons/go";
+import Fallback from "@/assets/fallback.png";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 
 export default function Upcomming() {
   const { user } = useContext(UserContext);
@@ -58,7 +59,7 @@ export default function Upcomming() {
                     className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                   >
                     <Image
-                      src={unit.image || Fallback}
+                      src={optimizeCloudinary(unit.image, 300) || Fallback}
                       alt="image"
                       width={0}
                       height={0}

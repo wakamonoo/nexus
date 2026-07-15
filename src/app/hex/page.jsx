@@ -19,6 +19,7 @@ import MostWatchedTitlesStructureMin from "@/components/layout/mostWatchedTitles
 import CustomButton from "@/components/buttons/customBtn";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
@@ -410,7 +411,7 @@ export default function Main() {
                           className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                         >
                           <Image
-                            src={unit.image || Fallback}
+                            src={optimizeCloudinary(unit.image, 300) || Fallback}
                             alt="image"
                             width={0}
                             height={0}
@@ -497,7 +498,7 @@ export default function Main() {
                               className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                             >
                               <Image
-                                src={unit.image || Fallback}
+                                src={optimizeCloudinary(unit.image, 300) || Fallback}
                                 alt="image"
                                 width={0}
                                 height={0}
@@ -581,7 +582,7 @@ export default function Main() {
                               className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                             >
                               <Image
-                                src={unit.image || Fallback}
+                                src={optimizeCloudinary(unit.image, 300) || Fallback}
                                 alt="image"
                                 width={0}
                                 height={0}
@@ -666,7 +667,7 @@ export default function Main() {
                               className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                             >
                               <Image
-                                src={unit.image || Fallback}
+                                src={optimizeCloudinary(unit.image, 300) || Fallback}
                                 alt="image"
                                 width={0}
                                 height={0}
@@ -863,7 +864,7 @@ export default function Main() {
                                 className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                               >
                                 <Image
-                                  src={unit.image || Fallback}
+                                  src={optimizeCloudinary(unit.image, 300) || Fallback}
                                   alt="image"
                                   width={0}
                                   height={0}
@@ -950,7 +951,7 @@ export default function Main() {
                                 className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                               >
                                 <Image
-                                  src={unit.image || Fallback}
+                                  src={optimizeCloudinary(unit.image, 300) || Fallback}
                                   alt="image"
                                   width={0}
                                   height={0}

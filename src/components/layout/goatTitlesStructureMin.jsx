@@ -9,6 +9,7 @@ import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 
 export default function GoatTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
@@ -52,7 +53,7 @@ export default function GoatTitlesStructureMin() {
             className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
           >
             <Image
-              src={unit.image || Fallback}
+              src={optimizeCloudinary(unit.image, 300) || Fallback}
               alt="image"
               width={0}
               height={0}

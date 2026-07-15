@@ -20,11 +20,13 @@ import Image from "next/image";
 import { GiTrophy } from "react-icons/gi";
 import RankLoader from "@/components/loaders/powerboardLoader";
 import { MdClose, MdSearchOff } from "react-icons/md";
+import Fallback from "@/assets/fallback.png";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import { HiOutlineSearch } from "react-icons/hi";
 import RegularButtons from "@/components/buttons/regBtns";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -75,7 +77,7 @@ export default function Powerboard() {
   };
 
   const filteredItems = items.filter((unit) =>
-    unit.title?.toLowerCase().includes(searchInput.toLowerCase())
+    unit.title?.toLowerCase().includes(searchInput.toLowerCase()),
   );
 
   const handleScrollLeft = () => {
@@ -196,7 +198,7 @@ export default function Powerboard() {
   useEffect(() => {
     if (!user?.uid) {
       const sorted = [...releasedMCUTitles].sort(
-        (a, b) => new Date(b.date) - new Date(a.date)
+        (a, b) => new Date(b.date) - new Date(a.date),
       );
       setItems(sorted);
       setSlots({});
@@ -215,11 +217,11 @@ export default function Powerboard() {
 
     const assignedTitleIds = Object.values(restoredSlots).map((s) => s.titleId);
     const unrankedItems = releasedMCUTitles.filter(
-      (t) => !assignedTitleIds.includes(t.titleId)
+      (t) => !assignedTitleIds.includes(t.titleId),
     );
 
     const sortedUnranked = unrankedItems.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
+      (a, b) => new Date(b.date) - new Date(a.date),
     );
 
     setItems(sortedUnranked);
@@ -230,14 +232,16 @@ export default function Powerboard() {
       const removedItems = prevSlots[slotId];
       if (!removedItems) return;
 
-      const fullItem = releasedMCUTitles.find((t) => t.titleId === removedItems.titleId);
+      const fullItem = releasedMCUTitles.find(
+        (t) => t.titleId === removedItems.titleId,
+      );
       if (fullItem) {
         setItems((prevItems) => {
           if (prevItems.some((i) => i.titleId === fullItem.titleId))
             return prevItems;
 
           return [...prevItems, fullItem].sort(
-            (a, b) => new Date(b.date) - new Date(a.date)
+            (a, b) => new Date(b.date) - new Date(a.date),
           );
         });
       }
@@ -310,7 +314,7 @@ export default function Powerboard() {
                   <SortableRank
                     key={unit.titleId}
                     id={unit.titleId}
-                    image={unit.image}
+                    image={optimizeCloudinary(unit.image, 300) || Fallback}
                   />
                 ))
               ) : searchInput ? (
@@ -345,7 +349,10 @@ export default function Powerboard() {
                   {slots[slotId] ? (
                     <div className="relative w-full h-full">
                       <Image
-                        src={slots[slotId].image}
+                        src={
+                          optimizeCloudinary(slots[slotId].image, 300) ||
+                          Fallback
+                        }
                         alt="image"
                         width={0}
                         height={0}
@@ -390,7 +397,9 @@ export default function Powerboard() {
           onClick={() => {
             setSlots({});
             setItems(
-              [...releasedMCUTitles].sort((a, b) => new Date(b.date) - new Date(a.date))
+              [...releasedMCUTitles].sort(
+                (a, b) => new Date(b.date) - new Date(a.date),
+              ),
             );
           }}
         >

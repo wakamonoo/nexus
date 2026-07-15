@@ -17,6 +17,7 @@ import {
   BsThreeDotsVertical,
 } from "react-icons/bs";
 import { TbEyeSpark } from "react-icons/tb";
+import Fallback from "@/assets/fallback.png";
 import { FiCheckCircle } from "react-icons/fi";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -34,6 +35,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import CircledNotAllowedButtons from "@/components/buttons/circledNotAllowedBtns";
 import { RiLockFill } from "react-icons/ri";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 
 dayjs.extend(relativeTime);
 
@@ -188,7 +190,7 @@ export default function Title() {
                 <div className="w-48 md:w-56 lg:w-72 h-full">
                   <div className="flex relative items-center">
                     <Image
-                      src={title.image}
+                      src={optimizeCloudinary(title.image, 300) || Fallback}
                       alt="poster"
                       width={0}
                       height={0}
