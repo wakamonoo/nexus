@@ -10,6 +10,7 @@ import { MdAutorenew, MdUpdate } from "react-icons/md";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import AdminGuard from "@/components/guard/adminGuard";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -146,7 +147,7 @@ export default function UpdateOrder() {
                   <SortableItem
                     key={unit.titleId}
                     id={unit.titleId}
-                    image={unit.image}
+                    image={optimizeCloudinary(unit.image, 300) || Fallback}
                   />
                 ))}
               </div>

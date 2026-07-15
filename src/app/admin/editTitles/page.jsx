@@ -8,6 +8,7 @@ import Fallback from "@/assets/fallback.png";
 import TitleDelConfirm from "@/components/modals/titleDelConfirm";
 import AdminGuard from "@/components/guard/adminGuard";
 import CircledButtons from "@/components/buttons/circledBtns";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 
 export default function EditTitleMain() {
   const { titles } = useContext(TitleContext);
@@ -43,7 +44,7 @@ export default function EditTitleMain() {
             {titles.map((title, index) => (
               <div key={index} className="flex gap-4 items-center">
                 <Image
-                  src={title?.image || Fallback}
+                  src={optimizeCloudinary(title.image, 300) || Fallback}
                   alt="image"
                   width={0}
                   height={0}
