@@ -9,6 +9,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { LoaderContext } from "@/context/loaderContext";
+import { optimizeCloudinary } from "@/utils/cloudinary";
 
 const getConnections = (connections) => {
   if (!connections) return [];
@@ -34,7 +35,7 @@ function BranchNode({ node, titles, handleShowNav }) {
           className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
         >
           <Image
-            src={node.image}
+            src={optimizeCloudinary(node.image, 300) || Fallback}
             alt={node.title}
             width={0}
             height={0}
@@ -154,7 +155,7 @@ export default function Timeline() {
                       className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                     >
                       <Image
-                        src={unit.image}
+                        src={optimizeCloudinary(unit.image, 300) || Fallback}
                         alt={unit.title}
                         width={0}
                         height={0}
@@ -204,7 +205,7 @@ export default function Timeline() {
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                           >
                             <Image
-                              src={unit.image}
+                              src={optimizeCloudinary(unit.image, 300) || Fallback}
                               alt={unit.title}
                               width={0}
                               height={0}
@@ -255,7 +256,7 @@ export default function Timeline() {
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                           >
                             <Image
-                              src={unit.image}
+                              src={optimizeCloudinary(unit.image, 300) || Fallback}
                               alt={unit.title}
                               width={0}
                               height={0}
