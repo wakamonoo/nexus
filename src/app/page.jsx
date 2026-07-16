@@ -6,6 +6,7 @@ import MenuStructure from "@/components/layout/menuStructure";
 import LatestReviews from "@/components/layout/latestReviews";
 import RinaNews from "@/components/layout/rinaNews";
 import TitleCountdown from "@/components/layout/countdown";
+import ScreenTime from "@/components/layout/screenTime";
 
 export default function Page() {
   return (
@@ -18,6 +19,7 @@ export default function Page() {
         <div className="w-full md:w-[65%] lg:w-[50%] md:pt-2 md:ml-4 lg:px-8 xl:px-16">
           <Banner />
           <TitleCountdown />
+          <ScreenTime />
           <RinaNews />
           <Hero />
         </div>

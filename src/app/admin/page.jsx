@@ -9,6 +9,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import RegularButtons from "@/components/buttons/regBtns";
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -64,9 +65,7 @@ export default function Page() {
           className="text-2xl cursor-pointer"
         />
         <div className="p-4 w-full text-center">
-          <h4 className="text-xl">
-            Hello {user?.name}
-          </h4>
+          <h4 className="text-xl">Hello {user?.name}</h4>
           <p className="text-sm">Welcome to the Dashboard</p>
         </div>
         <div className="flex flex-col md:grid md:grid-cols-4 gap-4 mt-4">
@@ -169,7 +168,11 @@ export default function Page() {
         </div>
         <div className="my-8">
           <p className="font-bold text-lg mb-2">Registered Users</p>
-          <div className="flex overflow-auto scrollbar-hide md:scrollbar">
+          <ScrollContainer
+            className="flex overflow-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar"
+            vertical
+            horizontal
+          >
             <div className="flex gap-2">
               {allUsers.map((user, i) => {
                 return (
@@ -204,7 +207,7 @@ export default function Page() {
                 );
               })}
             </div>
-          </div>
+          </ScrollContainer>
         </div>
       </div>
     </AdminGuard>
