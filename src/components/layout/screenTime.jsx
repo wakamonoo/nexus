@@ -56,7 +56,7 @@ export default function ScreenTime() {
                   setIsLoading(true);
                   router.push(`/profile/${user.uid}`);
                 }}
-                className="w-full cursor-pointer rounded-xl border bg-panel border-[var(--color-secondary)] p-3 transition-all duration-200 hover:bg-[var(--color-secondary)] hover:-translate-y-0.5"
+                className="w-full cursor-pointer rounded-xl border bg-panel border-[var(--color-secondary)] p-3 transition-all duration-200 active:bg-[var(--color-secondary)] active:-translate-y-0.5 active:border-[var(--color-panel)] hover:bg-[var(--color-secondary)] hover:-translate-y-0.5 hover:border-[var(--color-panel)]"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
