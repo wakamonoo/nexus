@@ -27,6 +27,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
+  const [allUsersLoading, setAllUsersLoading] = useState(true)
   const [firebaseUser, setFirebaseUser] = useState(null);
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -84,6 +85,9 @@ export const UserProvider = ({ children }) => {
         setAllUsers(data.result);
       } catch (err) {
         console.error(err);
+        setAllUsers([])
+      } finally {
+        setAllUsersLoading(false)
       }
     };
 
@@ -102,6 +106,7 @@ export const UserProvider = ({ children }) => {
         setShowSignIn,
         showSignIn,
         allUsers,
+        allUsersLoading,
         loading,
         socket,
       }}

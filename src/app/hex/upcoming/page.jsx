@@ -13,9 +13,9 @@ import { UserContext } from "@/context/userContext";
 import Fallback from "@/assets/fallback.png";
 import { optimizeCloudinary } from "@/utils/cloudinary";
 
-export default function Upcomming() {
+export default function Upcoming() {
   const { user } = useContext(UserContext);
-  const { upcomming } = useContext(TitleContext);
+  const { upcomingTitles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
@@ -43,14 +43,14 @@ export default function Upcomming() {
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <h4 className="text-xl">MCU Release Order</h4>
+          <h4 className="text-xl">Upcoming</h4>
         </div>
-        {!upcomming ? (
+        {!upcomingTitles ? (
           <ShowListLoader />
         ) : (
           <div className="w-full">
             <div className="flex flex-wrap justify-center gap-2">
-              {...upcomming
+              {...upcomingTitles
                 .sort((a, b) => new Date(a.date) - new Date(b.date))
                 .map((unit) => (
                   <div

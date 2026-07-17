@@ -11,11 +11,11 @@ import { FaMedal } from "react-icons/fa";
 import ScreenTimeLoader from "../loaders/screenTimeLoader";
 
 export default function ScreenTime() {
-  const { allUsers } = useContext(UserContext);
+  const { allUsers, allUsersLoading } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
-  const topWatchers = [...(allUsers || [])]
+  const topWatchers = [...allUsers]
     .sort((a, b) => (b.totalWatched || 0) - (a.totalWatched || 0))
     .slice(0, 3);
 
@@ -35,7 +35,7 @@ export default function ScreenTime() {
 
   return (
     <div className="mt-2 w-full">
-      {!topWatchers ? (
+      {allUsersLoading ? (
         <ScreenTimeLoader />
       ) : (
         <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] p-4">
