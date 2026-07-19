@@ -15,9 +15,28 @@ export default function ScreenTime() {
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
-  const topWatchers = [...allUsers]
-    .sort((a, b) => (b.totalWatched || 0) - (a.totalWatched || 0))
-    .slice(0, 3);
+  const sortedUsers = [...allUsers].sort(
+    (a, b) => (b.totalWatched || 0) - (a.totalWatched || 0),
+  );
+
+  let previousScrore = null;
+  let currentRank = 0;
+
+  const rankedUsers = sortedUsers.map((user, index) => {
+    const score = user.totalWatched || 0;
+
+    if (score !== previousScrore) {
+      currentRank = index + 1;
+      previousScrore = score;
+    }
+
+    return {
+      ...user,
+      rank: currentRank,
+    };
+  });
+  
+  const topWatchers = rankedUsers.filter((user) => user.rank <= 3);
 
   const rankIcon = (rank) => {
     if (rank === 1) {
@@ -31,6 +50,8 @@ export default function ScreenTime() {
     if (rank === 3) {
       return <FaMedal className="text-amber-600 text-xl" />;
     }
+
+    return <span className="font-bold text-accent">#{rank}</span>;
   };
 
   return (
@@ -61,7 +82,7 @@ export default function ScreenTime() {
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
                     <div className="w-7 flex justify-center">
-                      {rankIcon(index + 1)}
+                      {rankIcon(user.rank)}
                     </div>
                     <Image
                       src={user.picture || Fallback}
@@ -75,7 +96,7 @@ export default function ScreenTime() {
                       <p className="font-bold text-base truncate max-w-[140px]">
                         {user.name}
                       </p>
-                      <p className="text-xs text-vibe">Rank #{index + 1}</p>
+                      <p className="text-xs text-vibe">Rank #{user.rank}</p>
                     </div>
                   </div>
                   <div className="text-right">
