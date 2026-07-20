@@ -151,6 +151,8 @@ export default function AddPost({ setShowAddPost }) {
     }
   };
 
+ 
+
   return (
     <>
       <div

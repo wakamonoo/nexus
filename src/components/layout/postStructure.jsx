@@ -20,7 +20,7 @@ dayjs.extend(relativeTime);
 
 export default function PostStructure({ post }) {
   const { user, setShowSignIn } = useContext(UserContext);
-  const {titles} = useContext(TitleContext)
+  const { titles } = useContext(TitleContext);
   const {
     selectedPost,
     handleEnergize,
@@ -43,9 +43,9 @@ export default function PostStructure({ post }) {
   };
 
   const handleNext = () => {
-    if (!post?.files) return;
+    if (attachments.length === 0) return;
 
-    if (currentIndex < post.files.length - 1) {
+    if (currentIndex < attachments.length - 1) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
 
@@ -57,7 +57,7 @@ export default function PostStructure({ post }) {
   };
 
   const handlePrev = () => {
-    if (!post?.files) return;
+    if (attachments.length === 0) return;
 
     if (currentIndex > 0) {
       const newIndex = currentIndex - 1;
@@ -70,15 +70,32 @@ export default function PostStructure({ post }) {
     }
   };
 
+  const currentTopic = titles.find((t) => t.title === post?.topic);
 
-  const currentTopic = titles.find((t) => t.title === post?.topic)
+  const attachments = [];
+
+  if (post.embed) {
+    attachments.push({
+      type: "embed",
+      ...post.embed,
+    });
+  }
+
+  if (post.files?.length) {
+    post.files.forEach((file) => {
+      attachments.push({
+        type: "file",
+        url: file,
+      });
+    });
+  }
 
   return (
     <div
       onClick={() => handlePostNavMain(post.postId)}
       className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
     >
-      {post.files?.length > 1 && (
+      {attachments.length > 1 && (
         <>
           {currentIndex > 0 && (
             <button
@@ -91,7 +108,7 @@ export default function PostStructure({ post }) {
               <RiArrowLeftWideFill className="text-2xl" />
             </button>
           )}
-          {currentIndex < post.files.length - 1 && (
+          {currentIndex < attachments.length - 1 && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -236,15 +253,15 @@ export default function PostStructure({ post }) {
         </p>
       </div>
 
-      {post.files && post.files.length > 0 ? (
+      {attachments.length > 0 ? (
         <div
           className="relative w-full overflow-hidden"
           style={aspectRatio ? { aspectRatio: aspectRatio } : {}}
         >
-          {post.files.length > 1 ? (
+          {attachments.length > 1 ? (
             <div className="absolute top-2 left-4">
               <p className="text-xs text-vibe">
-                {currentIndex + 1}/{post.files.length}
+                {currentIndex + 1}/{attachments.length}
               </p>
             </div>
           ) : null}
@@ -258,24 +275,46 @@ export default function PostStructure({ post }) {
             }}
             className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
           >
-            {post.files.map((file, index) => {
-              const ext =
-                typeof file === "string"
-                  ? file.split(".").pop().toLowerCase()
-                  : "";
+            {attachments.map((attachment, index) => {
+              if (attachment.type === "embed") {
+                return (
+                  <div
+                    key={index}
+                    className="flex-shrink-0 w-full snap-center snap-always"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <iframe
+                      className="w-full h-full aspect-video"
+                      src={`https://www.youtube.com/embed/${attachment.id}`}
+                      title="YouTube Video"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                );
+              }
+
+              const ext = attachment.url.split(".").pop().toLowerCase();
 
               return (
                 <div
                   key={index}
                   onClick={(e) => {
-                    handleFileClick(post.files, index, post);
                     e.stopPropagation();
+
+                    if (attachment.type === "file") {
+                      handleFileClick(
+                        post.files,
+                        index - (post.embed ? 1 : 0),
+                        post,
+                      );
+                    }
                   }}
                   className="flex-shrink-0 w-full h-full snap-center snap-always"
                 >
                   {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
                     <Image
-                      src={file || Fallback}
+                      src={attachment.url || Fallback}
                       alt="file"
                       width={0}
                       height={0}
@@ -290,7 +329,7 @@ export default function PostStructure({ post }) {
                   ) : ["mp4", "webm", "ogg"].includes(ext) ? (
                     <AutoPlay
                       key={index}
-                      src={file}
+                      src={attachment.url}
                       onLoadedMetadata={(e) => {
                         if (index === 0 && !aspectRatio) {
                           const video = e.target;
