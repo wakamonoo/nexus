@@ -2,7 +2,7 @@
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
-import { FaAngleLeft, FaComment, FaRegComment, FaTrash } from "react-icons/fa";
+import { FaAngleLeft, FaComment, FaPlay, FaRegComment, FaTrash } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
@@ -396,6 +396,39 @@ export default function Post() {
                     <p className="text-base text-normal leading-5 py-1 px-4 whitespace-pre-wrap">
                       {post?.text}
                     </p>
+                    {post.file && post.file.length > 0 ? (
+                      <iframe
+                        className="w-full h-full aspect-video"
+                        src={`https://www.youtube.com/embed/${post.embed?.id}`}
+                        title="YouTube Video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    ) : post.embed?.url ? (
+                      <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-[var(--color-secondary)]/80 active:bg-[var(--color-secondary)]/80">
+                        <div className="flex items-center gap-2 overflow-hidden">
+                          <div className="flex p-2 shrink-0 items-center justify-center rounded-full bg-red-500">
+                            <FaPlay className="text-lg text-white" />
+                          </div>
+
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium">YouTube Video</p>
+                            <p className="truncate text-xs opacity-60">
+                              {post.embed?.url}
+                            </p>
+                          </div>
+                        </div>
+                        <a
+                          href={post.embed?.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="ml-3 rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-normal transition hover:bg-blue-600 active:bg-blue-600"
+                        >
+                          Open
+                        </a>
+                      </div>
+                    ) : null}
+
                     {post?.files && post?.files.length > 0 ? (
                       <div
                         className="relative w-full overflow-hidden"

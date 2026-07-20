@@ -2,7 +2,7 @@ import { PostContext } from "@/context/postContext";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AiFillThunderbolt } from "react-icons/ai";
-import { FaComment } from "react-icons/fa";
+import { FaComment, FaPlay } from "react-icons/fa";
 import { MdOutlineSensors } from "react-icons/md";
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
@@ -43,9 +43,9 @@ export default function PostStructure({ post }) {
   };
 
   const handleNext = () => {
-    if (attachments.length === 0) return;
+    if (!post?.files) return;
 
-    if (currentIndex < attachments.length - 1) {
+    if (currentIndex < post.files.length - 1) {
       const newIndex = currentIndex + 1;
       setCurrentIndex(newIndex);
 
@@ -57,7 +57,7 @@ export default function PostStructure({ post }) {
   };
 
   const handlePrev = () => {
-    if (attachments.length === 0) return;
+    if (!post?.files) return;
 
     if (currentIndex > 0) {
       const newIndex = currentIndex - 1;
@@ -72,30 +72,12 @@ export default function PostStructure({ post }) {
 
   const currentTopic = titles.find((t) => t.title === post?.topic);
 
-  const attachments = [];
-
-  if (post.embed) {
-    attachments.push({
-      type: "embed",
-      ...post.embed,
-    });
-  }
-
-  if (post.files?.length) {
-    post.files.forEach((file) => {
-      attachments.push({
-        type: "file",
-        url: file,
-      });
-    });
-  }
-
   return (
     <div
       onClick={() => handlePostNavMain(post.postId)}
       className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
     >
-      {attachments.length > 1 && (
+      {post.files?.length > 1 && (
         <>
           {currentIndex > 0 && (
             <button
@@ -108,7 +90,7 @@ export default function PostStructure({ post }) {
               <RiArrowLeftWideFill className="text-2xl" />
             </button>
           )}
-          {currentIndex < attachments.length - 1 && (
+          {currentIndex < post.files.length - 1 && (
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -253,15 +235,46 @@ export default function PostStructure({ post }) {
         </p>
       </div>
 
-      {attachments.length > 0 ? (
+      {post.file && post.file.length > 0 ? (
+        <iframe
+          className="w-full h-full aspect-video"
+          src={`https://www.youtube.com/embed/${post.embed?.id}`}
+          title="YouTube Video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      ) : post.embed?.url ? (
+        <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-[var(--color-secondary)]/80 active:bg-[var(--color-secondary)]/80">
+          <div className="flex items-center gap-2 overflow-hidden">
+            <div className="flex p-2 shrink-0 items-center justify-center rounded-full bg-red-500">
+              <FaPlay className="text-lg text-white" />
+            </div>
+
+            <div className="min-w-0">
+              <p className="text-sm font-medium">YouTube Video</p>
+              <p className="truncate text-xs opacity-60">{post.embed?.url}</p>
+            </div>
+          </div>
+          <a
+            href={post.embed?.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-3 rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-normal transition hover:bg-blue-600 active:bg-blue-600"
+          >
+            Open
+          </a>
+        </div>
+      ) : null}
+
+      {post.files && post.files.length > 0 ? (
         <div
           className="relative w-full overflow-hidden"
           style={aspectRatio ? { aspectRatio: aspectRatio } : {}}
         >
-          {attachments.length > 1 ? (
+          {post.files.length > 1 ? (
             <div className="absolute top-2 left-4">
               <p className="text-xs text-vibe">
-                {currentIndex + 1}/{attachments.length}
+                {currentIndex + 1}/{post.files.length}
               </p>
             </div>
           ) : null}
@@ -275,46 +288,24 @@ export default function PostStructure({ post }) {
             }}
             className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
           >
-            {attachments.map((attachment, index) => {
-              if (attachment.type === "embed") {
-                return (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 w-full snap-center snap-always"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <iframe
-                      className="w-full h-full aspect-video"
-                      src={`https://www.youtube.com/embed/${attachment.id}`}
-                      title="YouTube Video"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                );
-              }
-
-              const ext = attachment.url.split(".").pop().toLowerCase();
+            {post.files.map((file, index) => {
+              const ext =
+                typeof file === "string"
+                  ? file.split(".").pop().toLowerCase()
+                  : "";
 
               return (
                 <div
                   key={index}
                   onClick={(e) => {
+                    handleFileClick(post.files, index, post);
                     e.stopPropagation();
-
-                    if (attachment.type === "file") {
-                      handleFileClick(
-                        post.files,
-                        index - (post.embed ? 1 : 0),
-                        post,
-                      );
-                    }
                   }}
                   className="flex-shrink-0 w-full h-full snap-center snap-always"
                 >
                   {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
                     <Image
-                      src={attachment.url || Fallback}
+                      src={file || Fallback}
                       alt="file"
                       width={0}
                       height={0}
@@ -329,7 +320,7 @@ export default function PostStructure({ post }) {
                   ) : ["mp4", "webm", "ogg"].includes(ext) ? (
                     <AutoPlay
                       key={index}
-                      src={attachment.url}
+                      src={file}
                       onLoadedMetadata={(e) => {
                         if (index === 0 && !aspectRatio) {
                           const video = e.target;
