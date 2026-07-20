@@ -26,6 +26,8 @@ import pingRoute from "./routes/pingRoute.js";
 import pingGet from "./routes/pingGet.js";
 import memoryRoute from "./routes/memoryRoute.js";
 import newsRoute from "./routes/newsGet.js";
+import tmdbGet from "./routes/tmdbGet.js"
+
 import { startNewsCron } from "./cron/newsCron.js";
 import { startTitleUpdateCron } from "./cron/titleUpdateCron.js";
 
@@ -82,6 +84,7 @@ app.use("/api/pings", pingRoute);
 app.use("/api/pings", pingGet);
 app.use("/api/memory", memoryRoute);
 app.use("/api/news", newsRoute);
+app.use("/api/tmdb", tmdbGet);
 
 app.get("/health", (req, res) => {
   res.status(200).send("uptimerobot restarter working");

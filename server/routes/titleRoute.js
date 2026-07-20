@@ -6,24 +6,16 @@ const router = express.Router();
 
 router.post("/addTitle", async (req, res) => {
   const {
-    title,
-    image,
-    posterCredit,
-    posterCreditUrl,
-    date,
+    tmdbId,
+    mediaType,
     timeline,
     phase,
     type,
-    director,
     order,
-    episode,
-    duration,
     category,
     universe,
     status,
     connections,
-    trailer,
-    summary,
   } = req.body;
   try {
     const client = await clientPromise;
@@ -35,24 +27,16 @@ router.post("/addTitle", async (req, res) => {
       { titleId: newId },
       {
         $setOnInsert: {
-          title,
-          image,
-          posterCredit,
-          posterCreditUrl,
-          date: new Date(date),
+          tmdbId,
+          mediaType,
           timeline,
           phase,
           type,
-          director,
           order: Number(order) || null,
-          episode: Number(episode) || null,
-          duration: Number(duration) || null,
           category,
           universe,
           status,
-          trailer,
           connections,
-          summary,
           reviews: [],
         },
       },

@@ -19,6 +19,9 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "static.klipy.com",
+      },{
+        protocol: "https",
+        hostname: "image.tmdb.org",
       },
     ],
   },
