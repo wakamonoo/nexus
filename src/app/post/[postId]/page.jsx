@@ -396,15 +396,8 @@ export default function Post() {
                     <p className="text-base text-normal leading-5 py-1 px-4 whitespace-pre-wrap">
                       {post?.text}
                     </p>
-                    {post.file && post.file.length > 0 ? (
-                      <iframe
-                        className="w-full h-full aspect-video"
-                        src={`https://www.youtube.com/embed/${post.embed?.id}`}
-                        title="YouTube Video"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                      />
-                    ) : post.embed?.url ? (
+
+                    {post.files && post.files.length > 0 ? (
                       <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-[var(--color-secondary)]/80 active:bg-[var(--color-secondary)]/80">
                         <div className="flex items-center gap-2 overflow-hidden">
                           <div className="flex p-2 shrink-0 items-center justify-center rounded-full bg-red-500">
@@ -427,6 +420,14 @@ export default function Post() {
                           Open
                         </a>
                       </div>
+                    ) : post.embed?.url ? (
+                      <iframe
+                        className="w-full h-full aspect-video"
+                        src={`https://www.youtube.com/embed/${post.embed?.id}`}
+                        title="YouTube Video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
                     ) : null}
 
                     {post?.files && post?.files.length > 0 ? (
