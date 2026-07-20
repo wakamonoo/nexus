@@ -8,6 +8,8 @@ import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButtons from "../buttons/secBtns";
 import { RiImageAiFill } from "react-icons/ri";
+import { TbCodeDots } from "react-icons/tb";
+import { LuCodeXml } from "react-icons/lu";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -23,7 +25,12 @@ if (APP_ENV === "production") {
 
 export default function AddPost({ setShowAddPost }) {
   const { user } = useContext(UserContext);
-  const [post, setPost] = useState({ topic: "", text: "", file: null });
+  const [post, setPost] = useState({
+    topic: "",
+    text: "",
+    embed: "",
+    file: null,
+  });
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [showTopics, setShowTopics] = useState(false);
@@ -31,6 +38,7 @@ export default function AddPost({ setShowAddPost }) {
   const submitPost = async () => {
     try {
       setIsLoading(true);
+
       let uploadedUrls = [];
 
       if (post.file && post.file.length > 0) {
@@ -47,17 +55,58 @@ export default function AddPost({ setShowAddPost }) {
         const { urls } = await uploadRes.json();
         uploadedUrls = urls;
       }
+
+      const getYoutubeId = (url) => {
+        const regex =
+          /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/;
+
+        return url.match(regex)?.[1] || null;
+      };
+
+      let embed = null;
+
+      if (post.embed.trim()) {
+        const id = getYoutubeId(post.embed);
+
+        if (!id) {
+          Swal.fire({
+            toast: true,
+            position: "bottom-start",
+            title: "Invalid YouTube link!",
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+            background: "var(--color-secondary)",
+            iconColor: "var(--color-accent)",
+            customClass: {
+              popup:
+                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+              title:
+                "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            },
+          });
+          setIsLoading(false);
+          return;
+        }
+        embed = {
+          provider: "youtube",
+          id,
+          url: post.embed.trim(),
+        };
+      }
+
       await fetch(`${BASE_URL}/api/posts/addPost`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          topic: post.topic,
-          text: post.text,
           userId: user.uid,
           userName: user.name,
           userImage: user.picture,
+          topic: post.topic,
+          text: post.text,
+          embed: embed,
           files: uploadedUrls,
         }),
       });
@@ -150,6 +199,17 @@ export default function AddPost({ setShowAddPost }) {
                 placeholder="share your thoughts"
                 className="bg-text text-brand w-full h-32 rounded p-2"
               />
+              <div className="flex items-center justify-center rounded bg-zeus p-2 gap-2">
+                <div className="bg-panel p-2 rounded">
+                  <LuCodeXml className="text-2xl" />
+                </div>
+                <input
+                  value={post.embed}
+                  onChange={(e) => setPost({ ...post, embed: e.target.value })}
+                  placeholder="embed youtube post..."
+                  className="bg-text text-brand w-full  rounded p-2"
+                />
+              </div>
               <div className="flex gap-2">
                 <SecondaryButtons htmlFor="fileUploadPost">
                   <RiImageAiFill className="text-2xl" />
@@ -250,7 +310,11 @@ export default function AddPost({ setShowAddPost }) {
               <button
                 onClick={submitPost}
                 disabled={
-                  !(post.text.trim() || (post.file && post.file.length > 0))
+                  !(
+                    post.text.trim() ||
+                    post.embed.trim() ||
+                    (post.file && post.file.length > 0)
+                  )
                 }
                 className={`bg-accent hover:bg-[var(--color-accent)]/80 w-full p-2 rounded flex justify-center items-center gap-1 ${
                   !(post.text.trim() || (post.file && post.file.length > 0))
