@@ -26,11 +26,21 @@ export default function TrustAndLegality() {
             This website is an independent, fan-made project created solely for
             entertainment and educational purposes. I am not affiliated with,
             sponsored by, or in any way officially connected to{" "}
-            <a href="" className="font-bold">
+            <a
+              href="https://www.marvel.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold hover:underline"
+            >
               Marvel Studios
             </a>
             ,{" "}
-            <a href="" className="font-bold">
+            <a
+              href="https://thewaltdisneycompany.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold hover:underline"
+            >
               The Walt Disney Company
             </a>
             , or any of their subsidiaries or affiliates. All trademarks,
@@ -44,11 +54,21 @@ export default function TrustAndLegality() {
             creation of the site’s developer and are shared for the enjoyment of
             the global MCU fan community. This site makes no claim of ownership
             over any{" "}
-            <a href="" className="font-bold">
+            <a
+              href="https://www.marvel.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold hover:underline"
+            >
               Marvel
             </a>{" "}
             or{" "}
-            <a href="" className="font-bold">
+            <a
+              href="https://thewaltdisneycompany.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold hover:underline"
+            >
               Disney
             </a>{" "}
             intellectual property.
@@ -61,7 +81,12 @@ export default function TrustAndLegality() {
           <p className="text-base text-justify">
             All movie poster artwork featured on this site has been sourced from
             publicly available entries on{" "}
-            <a href="" className="font-bold">
+            <a
+              href="https://theposterdb.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold hover:underline"
+            >
               The Poster Database (TPDb)
             </a>
             . Full credit is given to the original artists, and links to their
@@ -86,7 +111,9 @@ export default function TrustAndLegality() {
                     sizes="100vw"
                     className="w-14 h-auto rounded"
                   />
-                  <p className="text-base font-bold truncate">/{title.posterCredit}</p>
+                  <p className="text-base font-bold truncate">
+                    /{title.posterCredit}
+                  </p>
                 </div>
               </a>
             ))}

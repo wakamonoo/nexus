@@ -7,6 +7,7 @@ import LatestReviews from "@/components/layout/latestReviews";
 import RinaNews from "@/components/layout/rinaNews";
 import TitleCountdown from "@/components/layout/countdown";
 import ScreenTime from "@/components/layout/screenTime";
+import Footer from "@/components/layout/footer";
 
 export default function Page() {
   return (
@@ -21,12 +22,13 @@ export default function Page() {
           <TitleCountdown />
           <ScreenTime />
           <RinaNews />
-          <Hero />
+          <Hero /> 
         </div>
         <aside className="hidden lg:block lg:w-[25%] pt-18 h-screen sticky top-0">
           <LatestReviews />
         </aside>
       </div>
+      <Footer />
     </>
   );
 }
