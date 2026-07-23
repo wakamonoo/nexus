@@ -17,12 +17,8 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function TitleMenu({
-  title,
-  titleId,
-  poster,
-}) {
-  const { user } = useContext(UserContext);
+export default function TitleMenu({ title, titleId, poster }) {
+  const { user, setShowSignIn } = useContext(UserContext);
   const { isWatchedFetch, isWatched } = useContext(WatchContext);
   const { setIsLoading } = useContext(LoaderContext);
 
@@ -91,7 +87,13 @@ export default function TitleMenu({
   return (
     <div className="flex flex-col w-60 border-1 border-panel absolute top-full right-2 mt-2 p-2 rounded bg-second shadow-2xl z-50 overflow-hidden">
       <button
-        onClick={handleWatch}
+        onClick={() => {
+          if (user) {
+            handleWatch();
+          } else {
+            setShowSignIn(true);
+          }
+        }}
         className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
         {isWatched === true ? (
