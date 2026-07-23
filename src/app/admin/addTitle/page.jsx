@@ -25,6 +25,7 @@ if (APP_ENV === "production") {
 
 export default function AddTitle() {
   const [data, setData] = useState({
+    title: "",
     tmdbId: "",
     mediaType: "",
     timeline: "",
@@ -84,6 +85,7 @@ export default function AddTitle() {
       });
 
       setData({
+        title: "",
         tmdbId: "",
         mediaType: "",
         timeline: "",
@@ -155,6 +157,16 @@ export default function AddTitle() {
               handleAddNewTitle(fileRef);
             }}
           >
+            {" "}
+            <input
+              type="text"
+              name="title"
+              value={data.title}
+              required
+              onChange={handleChange}
+              placeholder="Enter Title"
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+            />
             <SecondaryButtons onClick={() => setShowTMDBSearch(true)}>
               <p className="font-bold text-normal text-base">Locate in TMDB</p>
             </SecondaryButtons>
