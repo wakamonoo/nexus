@@ -22,6 +22,7 @@ import { SigilContext } from "@/context/sigilContext";
 import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";
 import Rina from "../../../assets/rina.png";
 import { optimizeCloudinary } from "@/utils/cloudinary";
+import ProfileLibrary from "@/components/profile/profileLibrary";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -47,6 +48,7 @@ export default function UserProfile() {
   const [showProfilePosts, setShowProfilePosts] = useState(true);
   const [showProfileReviews, setShowProfileReviews] = useState(false);
   const [showProfileEchoes, setShowProfileEchoes] = useState(false);
+  const [showProfileLibrary, setShowProfileLibrary] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
   const [memory, setMemory] = useState(null);
   const [loadingMemory, setLoadingMemory] = useState(false);
@@ -85,6 +87,7 @@ export default function UserProfile() {
     watchInfo?.filter(
       (w) => w.userId === profileUser?.uid && w.watched === true,
     ) || [];
+
   const latestWatch = [...profileUserWatch]
     .sort((a, b) => {
       const aDate = new Date(a.updatedAt || a.createdAt);
@@ -217,7 +220,8 @@ export default function UserProfile() {
                           {profileUser.totalLegacyWatched
                             ? profileUser.totalLegacyWatched
                             : 0}
-                          /<span>{showNumLegacy}</span> multiversal cannon watched
+                          /<span>{showNumLegacy}</span> multiversal cannon
+                          watched
                         </p>
                       </div>
                       <div
@@ -272,7 +276,9 @@ export default function UserProfile() {
                         className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
                       >
                         <Image
-                          src={optimizeCloudinary(rank?.poster, 300) || Fallback}
+                          src={
+                            optimizeCloudinary(rank?.poster, 300) || Fallback
+                          }
                           alt="profileUser"
                           width={0}
                           height={0}
@@ -319,7 +325,9 @@ export default function UserProfile() {
                         className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
                       >
                         <Image
-                          src={optimizeCloudinary(item?.poster, 300) || Fallback}
+                          src={
+                            optimizeCloudinary(item?.poster, 300) || Fallback
+                          }
                           alt="profileUser"
                           width={0}
                           height={0}
@@ -398,6 +406,7 @@ export default function UserProfile() {
                     setShowProfilePosts(true);
                     setShowProfileReviews(false);
                     setShowProfileEchoes(false);
+                    setShowProfileLibrary(false);
                   }}
                   className="cursor-pointer flex flex-1"
                 >
@@ -416,6 +425,7 @@ export default function UserProfile() {
                     setShowProfileReviews(true);
                     setShowProfilePosts(false);
                     setShowProfileEchoes(false);
+                    setShowProfileLibrary(false);
                   }}
                   className="cursor-pointer flex flex-1"
                 >
@@ -434,6 +444,7 @@ export default function UserProfile() {
                     setShowProfileEchoes(true);
                     setShowProfileReviews(false);
                     setShowProfilePosts(false);
+                    setShowProfileLibrary(false);
                   }}
                   className="cursor-pointer flex flex-1"
                 >
@@ -447,6 +458,25 @@ export default function UserProfile() {
                     Echoes
                   </p>
                 </button>
+                <button
+                  onClick={() => {
+                    setShowProfileLibrary(true);
+                    setShowProfileReviews(false);
+                    setShowProfilePosts(false);
+                    setShowProfileEchoes(false);
+                  }}
+                  className="cursor-pointer flex flex-1"
+                >
+                  <p
+                    className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                      showProfileLibrary
+                        ? "font-bold text-accent border-b-2 border-accent"
+                        : "text-normal"
+                    }`}
+                  >
+                    Library
+                  </p>
+                </button>
               </div>
               <div className="flex justify-center w-full">
                 {showProfilePosts && profileUser && (
@@ -457,6 +487,9 @@ export default function UserProfile() {
                 )}
                 {showProfileEchoes && profileUser && (
                   <ProfileEchoes profileUser={profileUser} />
+                )}
+                {showProfileLibrary && profileUser && (
+                  <ProfileLibrary profileUserWatch={profileUserWatch} profileUser={profileUser} />
                 )}
               </div>
             </main>

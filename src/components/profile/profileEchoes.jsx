@@ -11,6 +11,7 @@ export default function ProfileEchoes({ profileUser }) {
   const profileUserEchoes = posts?.filter((p) =>
     p.echoed?.includes(profileUser.uid),
   );
+  
 
   return (
     <div className="w-full">
@@ -24,7 +25,7 @@ export default function ProfileEchoes({ profileUser }) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+        <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16">
           {profileUserEchoes.map((post, index) => (
             <PostStructure key={index} post={post} />
           ))}

@@ -57,8 +57,9 @@ export default function ProfileLoader() {
             <div className="w-full h-8 bg-panel rounded" />
             <div className="w-full h-8 bg-panel rounded" />
             <div className="w-full h-8 bg-panel rounded" />
+            <div className="w-full h-8 bg-panel rounded" />
           </div>
-          <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+          <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16">
             <PostsLoader />
           </div>
         </div>
