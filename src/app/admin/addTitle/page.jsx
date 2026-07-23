@@ -226,6 +226,16 @@ export default function AddTitle() {
               placeholder="Universe: (ex. Earth-616)"
               className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
             />
+            <select
+              name="status"
+              value={data.status}
+              onChange={handleChange}
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
+            >
+              <option value="null">Select Status</option>
+              <option value="released">Released</option>
+              <option value="upcoming">Upcoming</option>
+            </select>
             <input
               type="text"
               name="connections"

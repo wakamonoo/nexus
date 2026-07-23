@@ -52,24 +52,16 @@ router.post("/addTitle", async (req, res) => {
 router.put("/updateTitle/:titleId", async (req, res) => {
   const { titleId } = req.params;
   const {
-    title,
-    image,
-    posterCredit,
-    posterCreditUrl,
-    date,
+    tmdbId,
+    mediaType,
     timeline,
     phase,
     type,
-    director,
     order,
-    episode,
-    duration,
     category,
     universe,
     status,
     connections,
-    trailer,
-    summary,
   } = req.body;
   try {
     const client = await clientPromise;
@@ -80,24 +72,16 @@ router.put("/updateTitle/:titleId", async (req, res) => {
       { titleId },
       {
         $set: {
-          title,
-          image,
-          posterCredit,
-          posterCreditUrl,
-          date: new Date(date),
+          tmdbId,
+          mediaType,
           timeline,
           phase,
           type,
-          director,
           order: Number(order) || null,
-          episode: Number(episode) || null,
-          duration: Number(duration) || null,
           category,
           universe,
           status,
           connections,
-          trailer,
-          summary,
         },
       },
     );

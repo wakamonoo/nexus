@@ -9,6 +9,8 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { FaAngleLeft } from "react-icons/fa";
 import RegularButtons from "@/components/buttons/regBtns";
+import SecondaryButtons from "@/components/buttons/secBtns";
+import TMDBSearch from "@/components/modals/tmdbSearch";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -24,29 +26,22 @@ if (APP_ENV === "production") {
 
 export default function EditTitle() {
   const [data, setData] = useState({
-    title: "",
-    image: null,
-    posterCredit: "",
-    posterCreditUrl: "",
-    date: "",
+    tmdbId: "",
+    mediaType: "",
     timeline: "",
     phase: "",
     type: "",
-    director: "",
     order: "",
-    episode: "",
-    duration: "",
     category: "",
     universe: "",
     status: "",
     connections: "",
-    trailer: "",
     summary: "",
   });
   const { titleId } = useParams();
   const { setIsLoading } = useContext(LoaderContext);
   const { titles } = useContext(TitleContext);
-  const fileRef = useRef();
+  const [showTMDBSearch, setShowTMDBSearch] = useState(false);
   const router = useRouter();
 
   const title = titles.find((t) => t.titleId === titleId);
@@ -54,24 +49,16 @@ export default function EditTitle() {
   useEffect(() => {
     if (title) {
       setData({
-        title: title.title || "",
-        image: title.image || null,
-        posterCredit: title.posterCredit || "",
-        posterCreditUrl: title.posterCreditUrl || "",
-        date: title.date || "",
+        tmdbId: title.tmdbId || "",
+        mediaType: title.mediaType || "",
         timeline: title.timeline || "",
         phase: title.phase || "",
         type: title.type || "",
-        director: title.director || "",
         order: title.order || "",
-        episode: title.episode || "",
-        duration: title.duration || "",
         category: title.category || "",
         universe: title.universe || "",
         status: title.status || "",
         connections: title.connections || "",
-        trailer: title.trailer || "",
-        summary: title.summary || "",
       });
     }
   }, [title]);
@@ -161,212 +148,124 @@ export default function EditTitle() {
 
   return (
     <AdminGuard>
-      <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
-        <div className="flex justify-between items-center">
-          <FaAngleLeft
-            onClick={() => router.back()}
-            className="text-2xl cursor-pointer"
-          />
-          <h1 className="text-xl">Edit Title</h1>
+      <>
+        <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+          <div className="flex justify-between items-center">
+            <FaAngleLeft
+              onClick={() => router.back()}
+              className="text-2xl cursor-pointer"
+            />
+            <h1 className="text-xl">Edit Title</h1>
+          </div>
+          <form
+            className="flex flex-col items-start justify-center gap-4 w-full pt-8"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleUpdateTitle(titleId);
+            }}
+          >
+            <SecondaryButtons onClick={() => setShowTMDBSearch(true)}>
+              <p className="font-bold text-normal text-base">Locate in TMDB</p>
+            </SecondaryButtons>
+            <input
+              type="text"
+              name="timeline"
+              value={data.timeline}
+              onChange={handleChange}
+              placeholder="Timeline Date"
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+            />
+            <select
+              name="phase"
+              required
+              value={data.phase}
+              onChange={handleChange}
+              className="bg-panel text-base text-normal font-normal p-4 cursor-pointer rounded w-full"
+            >
+              <option value="null">Select Phase</option>
+              <option value="Phase 1">Phase 1</option>
+              <option value="Phase 2">Phase 2</option>
+              <option value="Phase 3">Phase 3</option>
+              <option value="Phase 4">Phase 4</option>
+              <option value="Phase 5">Phase 5</option>
+              <option value="Phase 6">Phase 6</option>
+              <option value="Not Part">Not Part</option>
+            </select>
+            <select
+              name="type"
+              required
+              value={data.type}
+              onChange={handleChange}
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
+            >
+              <option value="null">Select Type</option>
+              <option value="Film">Film</option>
+              <option value="One Shot">One Shot</option>
+              <option value="TV Series">TV Series</option>
+              <option value="Mini-Series">Mini-Series</option>
+              <option value="Animated Series">Animated Series</option>
+              <option value="Special Presentaion">Special Presentaion</option>
+            </select>
+            <input
+              type="number"
+              name="order"
+              value={data.order}
+              onWheel={(e) => e.target.blur()}
+              onChange={handleChange}
+              placeholder="Order in Timeline"
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+            />
+            <select
+              name="category"
+              required
+              value={data.category}
+              onChange={handleChange}
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
+            >
+              <option value="null">Select Category</option>
+              <option value="mcu">MCU</option>
+              <option value="legacy">Legacy</option>
+            </select>
+            <input
+              type="text"
+              required
+              name="universe"
+              value={data.universe}
+              onChange={handleChange}
+              placeholder="Universe: (ex. Earth-616)"
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+            />
+            <select
+              name="status"
+              value={data.status}
+              onChange={handleChange}
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
+            >
+              <option value="null">Select Status</option>
+              <option value="released">Released</option>
+              <option value="upcoming">Upcoming</option>
+            </select>
+            <input
+              type="text"
+              name="connections"
+              value={data.connections}
+              onChange={handleChange}
+              placeholder="Connections"
+              className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+            />
+            <RegularButtons type="submit">
+              <p className="font-bold text-normal text-base">Update Title</p>
+            </RegularButtons>
+          </form>
         </div>
-        <form
-          className="flex flex-col items-start justify-center gap-4 w-full pt-8"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleUpdateTitle(titleId);
-          }}
-        >
-          <div className="flex justify-center items-center w-full">
-            <label htmlFor="addPoster">
-              <Image
-                src={
-                  data.image instanceof File
-                    ? URL.createObjectURL(data.image)
-                    : data.image || Fallback
-                }
-                alt="user"
-                width={0}
-                height={0}
-                sizes="100vw"
-                name="userImage"
-                className="object-cover w-26 h-40 md:w-32 md:h-46 cursor-pointer rounded"
-              />
-            </label>
-            <input
-              id="addPoster"
-              type="file"
-              name="image"
-              ref={fileRef}
-              onChange={handleChange}
-              className="bg-panel p-4 rounded w-[72%] cursor-pointer hidden"
-            />
-          </div>
-          <input
-            type="text"
-            name="title"
-            value={data.title}
-            onChange={handleChange}
-            placeholder="Enter Title"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
+        {showTMDBSearch && (
+          <TMDBSearch
+            BASE_URL={BASE_URL}
+            setShowTMDBSearch={setShowTMDBSearch}
+            setData={setData}
           />
-          <input
-            type="text"
-            name="posterCredit"
-            value={data.posterCredit}
-            onChange={handleChange}
-            placeholder="Poster Credit"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <input
-            type="text"
-            name="posterCreditUrl"
-            value={data.posterCreditUrl}
-            onChange={handleChange}
-            placeholder="Poster Credit Url"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <div className="flex items-center w-full">
-            <label className="text-normal font-normal text-base w-[30%]">
-              Release Date (UTC+7):
-            </label>
-            <input
-              type="date"
-              name="date"
-              value={data.date}
-              onChange={handleChange}
-              placeholder="Release Date"
-              className="bg-panel text-base text-normal font-normal p-4 rounded w-[70%]"
-            />
-          </div>
-          <input
-            type="text"
-            name="timeline"
-            value={data.timeline}
-            onChange={handleChange}
-            placeholder="Timeline Date"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <select
-            name="phase"
-            value={data.phase}
-            onChange={handleChange}
-            className="bg-panel text-base text-normal font-normal p-4 cursor-pointer rounded w-full"
-          >
-            <option value="null">Select Phase</option>
-            <option value="Phase 1">Phase 1</option>
-            <option value="Phase 2">Phase 2</option>
-            <option value="Phase 3">Phase 3</option>
-            <option value="Phase 4">Phase 4</option>
-            <option value="Phase 5">Phase 5</option>
-            <option value="Phase 6">Phase 6</option>
-            <option value="Not Part">Not Part</option>
-          </select>
-          <select
-            name="type"
-            value={data.type}
-            onChange={handleChange}
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
-          >
-            <option value="null">Select Type</option>
-            <option value="Film">Film</option>
-            <option value="One Shot">One Shot</option>
-            <option value="TV Series">TV Series</option>
-            <option value="Mini-Series">Mini-Series</option>
-            <option value="Animated Series">Animated Series</option>
-            <option value="Special Presentaion">Special Presentaion</option>
-          </select>
-          <input
-            type="text"
-            name="director"
-            value={data.director}
-            onChange={handleChange}
-            placeholder="Director/s"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <input
-            type="number"
-            name="order"
-            value={data.order}
-            onWheel={(e) => e.target.blur()}
-            onChange={handleChange}
-            placeholder="Order in Timeline"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <input
-            type="number"
-            name="episode"
-            value={data.episode}
-            onWheel={(e) => e.target.blur()}
-            onChange={handleChange}
-            placeholder="Number of Episodes (TV Series)"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <input
-            type="number"
-            name="duration"
-            value={data.duration}
-            onWheel={(e) => e.target.blur()}
-            onChange={handleChange}
-            placeholder="Runtime (Movies & One Shots)"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <select
-            name="category"
-            value={data.category}
-            onChange={handleChange}
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
-          >
-            <option value="null">Select Category</option>
-            <option value="mcu">mcu</option>
-            <option value="legacy">legacy</option>
-          </select>
-          <input
-            type="text"
-            name="universe"
-            value={data.universe}
-            onChange={handleChange}
-            placeholder="Universe: (ex. Earth-616)"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <select
-            name="status"
-            value={data.status}
-            onChange={handleChange}
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full cursor-pointer"
-          >
-            <option value="null">Select Status</option>
-            <option value="released">Released</option>
-            <option value="upcoming">Upcoming</option>
-          </select>
-          <input
-            type="text"
-            name="connections"
-            value={data.connections}
-            onChange={handleChange}
-            placeholder="Connections"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <input
-            type="text"
-            name="trailer"
-            value={data.trailer}
-            onChange={handleChange}
-            placeholder="Trailer Url"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <textarea
-            type="text"
-            name="summary"
-            value={data.summary}
-            onChange={handleChange}
-            placeholder="Synopsis"
-            className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
-          />
-          <RegularButtons type="submit">
-            <p className="font-bold text-normal text-base">Update Title</p>
-          </RegularButtons>
-        </form>
-      </div>
+        )}
+      </>
     </AdminGuard>
   );
 }

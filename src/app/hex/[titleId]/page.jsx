@@ -190,7 +190,7 @@ export default function Title() {
                 <div className="w-48 md:w-56 lg:w-72 h-full">
                   <div className="flex relative items-center">
                     <Image
-                      src={optimizeCloudinary(title.image, 300) || Fallback}
+                      src={`https://image.tmdb.org/t/p/w500${title.poster}` || Fallback}
                       alt="poster"
                       width={0}
                       height={0}
