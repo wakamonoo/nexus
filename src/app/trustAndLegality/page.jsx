@@ -76,48 +76,22 @@ export default function TrustAndLegality() {
         </div>
         <div>
           <h1 className="text-2xl py-4 text-accent text-center">
-            Poster & Artwork
+            TMDB Attribution
           </h1>
           <p className="text-base text-justify">
-            All movie poster artwork featured on this site has been sourced from
-            publicly available entries on{" "}
+            This website uses the{" "}
             <a
-              href="https://theposterdb.com/"
+              href="https://www.themoviedb.org/"
               target="_blank"
               rel="noopener noreferrer"
               className="font-bold hover:underline"
             >
-              The Poster Database (TPDb)
-            </a>
-            . Full credit is given to the original artists, and links to their
-            TPDb profiles or other public portfolios are provided below. If you
-            are an artist and would like your work removed or updated, please
-            contact me and we will respond promptly.
+              The Movie Database (TMDB)
+            </a>{" "}
+            API to provide movie and television metadata, including titles,
+            release information, posters, backdrops, and other related
+            information. This website is not endorsed or certified by TMDB.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-2 py-2">
-            {titles.map((title, index) => (
-              <a
-                href={title.posterCreditUrl}
-                key={index}
-                className="flex gap-4 p-2 bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-bg)] rounded-l-full"
-              >
-                <p className="truncate w-[40%] font-bold">{title.title}</p>
-                <div className="flex items-center">
-                  <Image
-                    src={TDBP}
-                    alt="poster"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    className="w-14 h-auto rounded"
-                  />
-                  <p className="text-base font-bold truncate">
-                    /{title.posterCredit}
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
         </div>
       </div>
     </>
