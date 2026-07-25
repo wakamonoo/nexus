@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { optimizeCloudinary } from "@/utils/cloudinary";
+import Fallback from "@/assets/fallback.png";
 
 const getConnections = (connections) => {
   if (!connections) return [];
@@ -212,7 +213,11 @@ export default function Timeline() {
                           >
                             <Image
                               src={
-                                optimizeCloudinary(unit.image, 300) || Fallback
+                                unit.poster
+                                  ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                                  : unit.image
+                                    ? optimizeCloudinary(unit.image, 300)
+                                    : Fallback
                               }
                               alt={unit.title}
                               width={0}
@@ -265,7 +270,11 @@ export default function Timeline() {
                           >
                             <Image
                               src={
-                                optimizeCloudinary(unit.image, 300) || Fallback
+                                unit.poster
+                                  ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                                  : unit.image
+                                    ? optimizeCloudinary(unit.image, 300)
+                                    : Fallback
                               }
                               alt={unit.title}
                               width={0}

@@ -20,6 +20,7 @@ import CustomButton from "@/components/buttons/customBtn";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { optimizeCloudinary } from "@/utils/cloudinary";
+
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
