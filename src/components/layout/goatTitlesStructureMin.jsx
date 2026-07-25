@@ -52,18 +52,15 @@ export default function GoatTitlesStructureMin() {
             onClick={() => handleShowNav(unit.titleId)}
             className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
           >
-            <Image
+            <img
               src={
                 unit.poster
                   ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                  : unit.image
-                    ? optimizeCloudinary(unit.image, 300)
-                    : Fallback
+                  : "/fallback.png"
               }
-              alt="image"
-              width={0}
-              height={0}
-              sizes="100vw"
+              alt={unit.title}
+              loading="lazy"
+              decoding="async"
               className={`w-full h-full object-fill rounded ${
                 isTitleWatched(unit.titleId) ? "grayscale-0" : "grayscale-90"
               }`}

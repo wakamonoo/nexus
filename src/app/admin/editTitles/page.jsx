@@ -125,18 +125,15 @@ export default function EditTitleMain() {
                     .sort((a, b) => new Date(a.date) - new Date(b.date))
                     .map((title, index) => (
                       <div key={index} className="flex gap-4 items-center">
-                        <Image
+                        <img
                           src={
                             title.poster
                               ? `https://image.tmdb.org/t/p/w500${title.poster}`
-                              : title.image
-                                ? optimizeCloudinary(title.image, 300)
-                                : Fallback
+                              : "/fallback.png"
                           }
-                          alt="image"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
+                          alt={title.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-26 h-40 md:w-32 md:h-46 object-fill rounded"
                         />
                         <div className="w-full flex flex-col gap-2">
@@ -182,18 +179,15 @@ export default function EditTitleMain() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-8 p-2">
               {titles.map((title, index) => (
                 <div key={index} className="flex gap-4 items-center">
-                  <Image
+                  <img
                     src={
                       title.poster
                         ? `https://image.tmdb.org/t/p/w500${title.poster}`
-                        : title.image
-                          ? optimizeCloudinary(title.image, 300)
-                          : Fallback
+                        : "/fallback.png"
                     }
-                    alt="image"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
+                    alt={title.title}
+                    loading="lazy"
+                    decoding="async"
                     className="w-26 h-40 md:w-32 md:h-46 object-fill rounded"
                   />
                   <div className="w-full flex flex-col gap-2">

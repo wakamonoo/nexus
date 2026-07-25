@@ -275,14 +275,15 @@ export default function UserProfile() {
                         onClick={() => handleShowNav(rank.titleId)}
                         className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
                       >
-                        <Image
+                        <img
                           src={
-                            optimizeCloudinary(rank?.poster, 300) || Fallback
+                            rank.poster
+                              ? `https://image.tmdb.org/t/p/w500${rank.poster}`
+                              : "/fallback.png"
                           }
-                          alt="profileUser"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
+                          alt={rank.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-fill rounded"
                         />
                         <div
@@ -324,14 +325,15 @@ export default function UserProfile() {
                         onClick={() => handleShowNav(item.titleId)}
                         className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
                       >
-                        <Image
+                        <img
                           src={
-                            optimizeCloudinary(item?.poster, 300) || Fallback
+                            item.poster
+                              ? `https://image.tmdb.org/t/p/w500${item.poster}`
+                              : "/fallback.png"
                           }
-                          alt="profileUser"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
+                          alt={item.title}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-fill rounded"
                         />
                       </div>
@@ -489,7 +491,10 @@ export default function UserProfile() {
                   <ProfileEchoes profileUser={profileUser} />
                 )}
                 {showProfileLibrary && profileUser && (
-                  <ProfileLibrary profileUserWatch={profileUserWatch} profileUser={profileUser} />
+                  <ProfileLibrary
+                    profileUserWatch={profileUserWatch}
+                    profileUser={profileUser}
+                  />
                 )}
               </div>
             </main>

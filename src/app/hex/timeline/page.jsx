@@ -1,6 +1,5 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
-import Image from "next/image";
 import { useContext, useEffect } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import "react-indiana-drag-scroll/dist/style.css";
@@ -35,12 +34,15 @@ function BranchNode({ node, titles, handleShowNav }) {
           onClick={() => handleShowNav(node.titleId)}
           className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
         >
-          <Image
-            src={optimizeCloudinary(node.image, 300) || Fallback}
+          <img
+            src={
+              node.poster
+                ? `https://image.tmdb.org/t/p/w500${node.poster}`
+                : "/fallback.png"
+            }
             alt={node.title}
-            width={0}
-            height={0}
-            sizes="100vw"
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover rounded"
           />
         </div>
@@ -155,18 +157,15 @@ export default function Timeline() {
                       onClick={() => handleShowNav(unit.titleId)}
                       className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                     >
-                      <Image
+                      <img
                         src={
                           unit.poster
                             ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                            : unit.image
-                              ? optimizeCloudinary(unit.image, 300)
-                              : Fallback
+                            : "/fallback.png"
                         }
                         alt={unit.title}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover rounded"
                       />
                     </div>
@@ -211,18 +210,15 @@ export default function Timeline() {
                             onClick={() => handleShowNav(unit.titleId)}
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                           >
-                            <Image
+                            <img
                               src={
                                 unit.poster
                                   ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                  : unit.image
-                                    ? optimizeCloudinary(unit.image, 300)
-                                    : Fallback
+                                  : "/fallback.png"
                               }
                               alt={unit.title}
-                              width={0}
-                              height={0}
-                              sizes="100vw"
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover rounded"
                             />
                           </div>
@@ -268,18 +264,15 @@ export default function Timeline() {
                             onClick={() => handleShowNav(unit.titleId)}
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                           >
-                            <Image
+                            <img
                               src={
                                 unit.poster
                                   ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                  : unit.image
-                                    ? optimizeCloudinary(unit.image, 300)
-                                    : Fallback
+                                  : "/fallback.png"
                               }
                               alt={unit.title}
-                              width={0}
-                              height={0}
-                              sizes="100vw"
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover rounded"
                             />
                           </div>

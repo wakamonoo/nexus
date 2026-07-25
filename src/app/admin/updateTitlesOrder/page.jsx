@@ -151,9 +151,7 @@ export default function UpdateOrder() {
                     image={
                       unit.poster
                         ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                        : unit.image
-                          ? optimizeCloudinary(unit.image, 300)
-                          : Fallback
+                        : "/fallback.png"
                     }
                   />
                 ))}

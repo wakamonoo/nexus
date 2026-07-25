@@ -131,12 +131,15 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
                 onClick={() => handleShowNav(unit.titleId)}
                 className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
               >
-                <Image
-                  src={optimizeCloudinary(unit.poster, 300) || Fallback}
-                  alt="image"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
+                <img
+                  src={
+                    unit.poster
+                      ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                      : "/fallback.png"
+                  }
+                  alt={unit.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-fill rounded"
                 />
               </div>

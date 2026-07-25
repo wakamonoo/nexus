@@ -317,9 +317,7 @@ export default function Powerboard() {
                     image={
                       unit.poster
                         ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                        : unit.image
-                          ? optimizeCloudinary(unit.image, 300)
-                          : Fallback
+                        : "/fallback.png"
                     }
                   />
                 ))
@@ -354,18 +352,15 @@ export default function Powerboard() {
                 <Slot key={slotId} id={slotId}>
                   {slots[slotId] ? (
                     <div className="relative w-full h-full">
-                      <Image
+                      <img
                         src={
                           slots[slotId].poster
                             ? `https://image.tmdb.org/t/p/w500${slots[slotId].poster}`
-                            : slots[slotId].image
-                              ? optimizeCloudinary(slots[slotId].image, 300)
-                              : Fallback
+                            : "/fallback.png"
                         }
-                        alt="image"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
+                        alt={slots[slotId].title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-fill rounded"
                       />
                       <button
