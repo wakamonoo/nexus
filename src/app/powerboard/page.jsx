@@ -209,7 +209,7 @@ export default function Powerboard() {
     user.rankings?.forEach((r) => {
       restoredSlots[`slot-${r.rank}`] = {
         titleId: r.titleId,
-        image: r.poster,
+        poster: r.poster,
       };
     });
 
