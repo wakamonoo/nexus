@@ -110,8 +110,6 @@ export default function Powerboard() {
 
         return {
           titleId: item.titleId,
-          title: item.title,
-          poster: item.poster,
           rank: slotNumber,
           points,
         };
@@ -207,10 +205,14 @@ export default function Powerboard() {
 
     const restoredSlots = {};
     user.rankings?.forEach((r) => {
-      restoredSlots[`slot-${r.rank}`] = {
-        titleId: r.titleId,
-        poster: r.poster,
-      };
+      const title = releasedMCUTitles.find((t) => t.titleId === r.titleId);
+
+      if (title) {
+        restoredSlots[`slot-${r.rank}`] = {
+          titleId: r.titleId,
+          poster: title.poster,
+        };
+      }
     });
 
     setSlots(restoredSlots);
