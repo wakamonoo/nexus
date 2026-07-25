@@ -35,10 +35,15 @@ export default function Countdown() {
     return () => clearInterval(interval);
   }, []);
 
-  const titles = upcomingTitles?.map((title) => ({
-    ...title,
-    dateUTC: dayjs.utc(title.date),
-  }));
+  const titles = upcomingTitles?.map((title) => {
+    const releaseDate =
+      title.mediaType === "tv" ? title.first_air_date : title.release_date;
+
+    return {
+      ...title,
+      dateUTC: dayjs.utc(releaseDate),
+    };
+  });
 
   const latestRelased = titles
     ?.filter((title) => title.dateUTC.isBefore(now))
