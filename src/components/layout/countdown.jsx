@@ -78,7 +78,7 @@ export default function Countdown() {
       <div
         className="p-2"
         style={{
-          backgroundImage: `url(${displayTitle?.image})`,
+          backgroundImage: `url(${displayTitle?.poster})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
