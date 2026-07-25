@@ -111,7 +111,7 @@ export default function Powerboard() {
         return {
           titleId: item.titleId,
           title: item.title,
-          poster: item.image,
+          poster: item.poster,
           rank: slotNumber,
           points,
         };
@@ -384,7 +384,11 @@ export default function Powerboard() {
           {draggedItem ? (
             <div className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer">
               <Image
-                src={draggedItem.image}
+                src={
+                  draggedItem.poster
+                    ? `https://image.tmdb.org/t/p/w500${draggedItem.poster}`
+                    : "/fallback.png"
+                }
                 alt="image"
                 width={0}
                 height={0}
