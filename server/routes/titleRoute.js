@@ -26,8 +26,28 @@ const getTMDBDetails = async (tmdbId, mediaType, seasonNumber) => {
       throw new Error(`TMDB request failed ${response.status}`);
     }
 
+    const details = await response.json();
+
+    let releaseDates = null;
+
+    if (mediaType === "movie") {
+      const releaseDatesResponse = await fetch(
+        `https://api.themoviedb.org/3/movie/${tmdbId}/release_dates`,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
+            accept: "application/json",
+          },
+        },
+      );
+      if (releaseDatesResponse.ok) {
+        releaseDates = await releaseDatesResponse.json();
+      }
+    }
+
     return {
-      details: await response.json(),
+      details,
+      releaseDates,
       season: null,
     };
   }
@@ -61,11 +81,12 @@ const getTMDBDetails = async (tmdbId, mediaType, seasonNumber) => {
   return {
     details: await seriesResponse.json(),
     season: await seasonResponse.json(),
+    releaseDates: null,
   };
 };
 
 const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
-  const { details, season } = tmdbData;
+  const { details, season, releaseDates } = tmdbData;
 
   const isSeason = mediaType === "tv" && seasonNumber !== null;
 
@@ -116,6 +137,26 @@ const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
     .sort()
     .at(-1);
 
+  const usTheatricalReleaseDate = releaseDates?.results
+    ?.find((country) => country.iso_3166_1 === "US")
+    ?.release_dates?.filter((release) => release.type === 3)
+    ?.map((release) => release.release_date)
+    ?.sort()
+    ?.at(0);
+
+  const latestTheatricalReleaseDate = releaseDates?.results
+    ?.flatMap((country) =>
+      country.release_dates
+        ?.filter((release) => release.type === 3)
+        ?.map((release) => release.release_date),
+    )
+    ?.filter(Boolean)
+    ?.sort()
+    ?.at(-1);
+
+  const theatricalReleaseDate =
+    usTheatricalReleaseDate || latestTheatricalReleaseDate || "";
+
   return {
     tmdbId: tmdb.id,
     mediaType,
@@ -125,7 +166,7 @@ const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
     poster: seasonData?.poster_path || tmdb.poster_path || null,
     backdrop: tmdb.backdrop_path,
     trailer: trailer?.key || null,
-    release_date: tmdb.release_date || "",
+    release_date: mediaType === "movie" ? theatricalReleaseDate : "",
     duration: tmdb.runtime || null,
     first_air_date: isSeason
       ? firstEpisodeDate || null
