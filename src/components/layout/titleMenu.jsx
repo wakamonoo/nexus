@@ -17,7 +17,7 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function TitleMenu({ title, titleId, poster }) {
+export default function TitleMenu({ titleId }) {
   const { user, setShowSignIn } = useContext(UserContext);
   const { isWatchedFetch, isWatched } = useContext(WatchContext);
   const { setIsLoading } = useContext(LoaderContext);
@@ -33,9 +33,7 @@ export default function TitleMenu({ title, titleId, poster }) {
         body: JSON.stringify({
           userId: user.uid,
           userName: user.name,
-          title,
           titleId,
-          poster,
         }),
       });
       await isWatchedFetch(user.uid, titleId);

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/watchRoute", async (req, res) => {
   try {
-    const { userId, userName, title, titleId, poster } = req.body;
+    const { userId, userName, titleId } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
@@ -116,8 +116,6 @@ router.post("/watchRoute", async (req, res) => {
         {
           $setOnInsert: {
             userName,
-            title,
-            poster,
             createdAt: new Date(),
           },
           $set: {

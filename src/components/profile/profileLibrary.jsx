@@ -125,25 +125,28 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
             </select>
           </div>
           <div className="flex flex-wrap justify-center gap-2">
-            {sortedWatch.map((unit, index) => (
-              <div
-                key={index}
-                onClick={() => handleShowNav(unit.titleId)}
-                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-              >
-                <img
-                  src={
-                    unit.poster
-                      ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                      : "/fallback.png"
-                  }
-                  alt={unit.title}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-fill rounded"
-                />
-              </div>
-            ))}
+            {sortedWatch.map((unit, index) => {
+              const title = titles.find((t) => t.titleId === unit.titleId)
+              return (
+                <div
+                  key={index}
+                  onClick={() => handleShowNav(unit.titleId)}
+                  className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                >
+                  <img
+                    src={
+                      title?.poster
+                        ? `https://image.tmdb.org/t/p/w500${title.poster}`
+                        : "/fallback.png"
+                    }
+                    alt={title?.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-fill rounded"
+                  />
+                </div>
+              );
+            })}
           </div>{" "}
         </div>
       )}

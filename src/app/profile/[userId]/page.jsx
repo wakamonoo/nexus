@@ -269,38 +269,43 @@ export default function UserProfile() {
                     holy trinity
                   </h4>
                   <div className="flex gap-2 justify-start">
-                    {topRanks.map((rank, index) => (
-                      <div
-                        key={index}
-                        onClick={() => handleShowNav(rank.titleId)}
-                        className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
-                      >
-                        <img
-                          src={
-                            rank.poster
-                              ? `https://image.tmdb.org/t/p/w500${rank.poster}`
-                              : "/fallback.png"
-                          }
-                          alt={rank.title}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-fill rounded"
-                        />
+                    {topRanks.map((rank, index) => {
+                      const title = titles.find(
+                        (t) => t.titleId === rank.titleId,
+                      );
+                      return (
                         <div
-                          className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                            rank?.rank === 1 ? "bg-hulk" : "bg-accent"
-                          }`}
+                          key={index}
+                          onClick={() => handleShowNav(rank.titleId)}
+                          className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
                         >
-                          <p
-                            className={`font-bold text-sm ${
-                              rank?.rank === 1 ? "text-zeus" : "text-normal"
+                          <img
+                            src={
+                              title?.poster
+                                ? `https://image.tmdb.org/t/p/w500${title?.poster}`
+                                : "/fallback.png"
+                            }
+                            alt={title?.title}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-fill rounded"
+                          />
+                          <div
+                            className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+                              rank?.rank === 1 ? "bg-hulk" : "bg-accent"
                             }`}
                           >
-                            {rank?.rank === 1 ? <GiTrophy /> : rank?.rank}
-                          </p>
+                            <p
+                              className={`font-bold text-sm ${
+                                rank?.rank === 1 ? "text-zeus" : "text-normal"
+                              }`}
+                            >
+                              {rank?.rank === 1 ? <GiTrophy /> : rank?.rank}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               ) : (
@@ -319,25 +324,31 @@ export default function UserProfile() {
                     latest watch
                   </h4>
                   <div className="flex gap-2 justify-start">
-                    {latestWatch.map((item, index) => (
-                      <div
-                        key={index}
-                        onClick={() => handleShowNav(item.titleId)}
-                        className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
-                      >
-                        <img
-                          src={
-                            item.poster
-                              ? `https://image.tmdb.org/t/p/w500${item.poster}`
-                              : "/fallback.png"
-                          }
-                          alt={item.title}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-fill rounded"
-                        />
-                      </div>
-                    ))}
+                    {latestWatch.map((item, index) => {
+                      const title = titles.find(
+                        (t) => t.titleId === item.titleId,
+                      );
+
+                      return (
+                        <div
+                          key={index}
+                          onClick={() => handleShowNav(item.titleId)}
+                          className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
+                        >
+                          <img
+                            src={
+                              title?.poster
+                                ? `https://image.tmdb.org/t/p/w500${title.poster}`
+                                : "/fallback.png"
+                            }
+                            alt={title?.title}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-fill rounded"
+                          />
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ) : (

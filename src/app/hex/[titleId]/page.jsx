@@ -110,9 +110,7 @@ export default function Title() {
             {showTitleMenu && (
               <TitleMenu
                 setShowTitleMenu={setShowTitleMenu}
-                title={title.title}
                 titleId={title.titleId}
-                poster={title.image}
               />
             )}
           </div>
