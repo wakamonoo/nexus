@@ -406,7 +406,7 @@ export default function Main() {
                       .sort((a, b) => new Date(a.date) - new Date(b.date))
                       .map((unit) => (
                         <div
-                          key={unit.date}
+                          key={unit.titleId}
                           onClick={() => handleShowNav(unit.titleId)}
                           className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                         >
@@ -662,7 +662,7 @@ export default function Main() {
                         {release.length > 0 ? (
                           release.map((unit) => (
                             <div
-                              key={unit.date}
+                              key={unit.titleId}
                               onClick={() => handleShowNav(unit.titleId)}
                               className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                             >
@@ -859,7 +859,7 @@ export default function Main() {
                             .sort((a, b) => new Date(a.date) - new Date(b.date))
                             .map((unit) => (
                               <div
-                                key={unit.date}
+                                key={unit.titleId}
                                 onClick={() => handleShowNav(unit.titleId)}
                                 className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                               >
@@ -946,7 +946,7 @@ export default function Main() {
                             .sort((a, b) => new Date(a.date) - new Date(b.date))
                             .map((unit) => (
                               <div
-                                key={unit.date}
+                                key={unit.titleId}
                                 onClick={() => handleShowNav(unit.titleId)}
                                 className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                               >

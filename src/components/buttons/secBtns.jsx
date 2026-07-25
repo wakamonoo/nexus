@@ -1,4 +1,9 @@
-export default function SecondaryButtons({ onClick, htmlFor, children }) {
+export default function SecondaryButtons({
+  onClick,
+  htmlFor,
+  children,
+  type = "button",
+}) {
   if (htmlFor) {
     return (
       <label
@@ -12,6 +17,7 @@ export default function SecondaryButtons({ onClick, htmlFor, children }) {
   if (onClick) {
     return (
       <button
+        type={type}
         onClick={onClick}
         className="cursor-pointer mt-2 bg-panel hover:bg-[var(--color-panel)]/80 w-full py-2 px-4 rounded flex justify-center items-center gap-1"
       >

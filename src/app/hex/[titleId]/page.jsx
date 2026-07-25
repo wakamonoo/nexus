@@ -128,8 +128,19 @@ export default function Title() {
                   <div>
                     <h4 className="text-xl font-bold text-normal leading-4.5 max-w-[80%]">
                       {title.title}{" "}
+                     
                       <span className="font-normal text-sm">
-                        {format(new Date(title.date), "yyyy")}
+                        {title.mediaType === "tv"
+                          ? title.first_air_date && title.last_air_date
+                            ? title.first_air_date === title.last_air_date
+                              ? format(new Date(title.first_air_date), "yyyy")
+                              : `${format(new Date(title.first_air_date), "yyyy")} - ${format(new Date(title.last_air_date), "yyyy")}`
+                            : title.first_air_date
+                              ? format(new Date(title.first_air_date), "yyyy")
+                              : ""
+                          : title.release_date
+                            ? format(new Date(title.release_date), "yyyy")
+                            : ""}
                       </span>
                     </h4>
                     <p className="text-sm text-vibe">
@@ -149,7 +160,7 @@ export default function Title() {
                         }`}
                         onClick={() => setShowFull(!showFull)}
                       >
-                        {title.director}
+                        {title.directors}
                       </span>
                     </p>
                     <div className="flex flex-col py-2">
@@ -190,7 +201,11 @@ export default function Title() {
                 <div className="w-48 md:w-56 lg:w-72 h-full">
                   <div className="flex relative items-center">
                     <Image
-                      src={optimizeCloudinary(title.image, 300) || Fallback}
+                      src={
+                        `https://image.tmdb.org/t/p/w500${title.poster}` ||
+                        optimizeCloudinary(title.image, 300) ||
+                        Fallback
+                      }
                       alt="poster"
                       width={0}
                       height={0}
