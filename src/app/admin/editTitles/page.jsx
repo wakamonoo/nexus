@@ -44,7 +44,13 @@ export default function EditTitleMain() {
             {titles.map((title, index) => (
               <div key={index} className="flex gap-4 items-center">
                 <Image
-                  src={optimizeCloudinary(title.image, 300) || Fallback}
+                  src={
+                    title.poster
+                      ? `https://image.tmdb.org/t/p/w500${title.poster}`
+                      : title.image
+                        ? optimizeCloudinary(title.image, 300)
+                        : Fallback
+                  }
                   alt="image"
                   width={0}
                   height={0}

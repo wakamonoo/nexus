@@ -128,11 +128,11 @@ export default function Title() {
                   <div>
                     <h4 className="text-xl font-bold text-normal leading-4.5 max-w-[80%]">
                       {title.title}{" "}
-                     
                       <span className="font-normal text-sm">
                         {title.mediaType === "tv"
                           ? title.first_air_date && title.last_air_date
-                            ? title.first_air_date === title.last_air_date
+                            ? new Date(title.first_air_date).getFullYear() ===
+                              new Date(title.last_air_date).getFullYear()
                               ? format(new Date(title.first_air_date), "yyyy")
                               : `${format(new Date(title.first_air_date), "yyyy")} - ${format(new Date(title.last_air_date), "yyyy")}`
                             : title.first_air_date
@@ -152,17 +152,49 @@ export default function Title() {
                   </div>
 
                   <div className="flex flex-col mt-2 border-t-1 border-[var(--color-vibranium)]/20 py-2">
-                    <p className="text-sm text-vibe">
-                      Directed by{" "}
-                      <span
-                        className={`font-bold text-base capitalize cursor-pointer leading-4.5 ${
-                          !showFull ? "line-clamp-1" : ""
-                        }`}
-                        onClick={() => setShowFull(!showFull)}
-                      >
-                        {title.directors}
-                      </span>
-                    </p>
+                    {title.mediaType === "tv" ? (
+                      <p className="text-sm text-vibe">
+                        Created by{" "}
+                        <span
+                          className={`font-bold text-base capitalize cursor-pointer leading-4.5 ${
+                            !showFull ? "line-clamp-1" : ""
+                          }`}
+                          onClick={() => setShowFull(!showFull)}
+                        >
+                          {title.creators?.length
+                            ? title.creators.map((director, index) => (
+                                <span key={director.tmdbId || index}>
+                                  {director.name}
+                                  {index < title.creators.length - 1
+                                    ? ", "
+                                    : ""}
+                                </span>
+                              ))
+                            : "N/A"}
+                        </span>
+                      </p>
+                    ) : (
+                      <p className="text-sm text-vibe">
+                        Directed by{" "}
+                        <span
+                          className={`font-bold text-base capitalize cursor-pointer leading-4.5 ${
+                            !showFull ? "line-clamp-1" : ""
+                          }`}
+                          onClick={() => setShowFull(!showFull)}
+                        >
+                          {title.directors?.length
+                            ? title.directors.map((director, index) => (
+                                <span key={director.tmdbId || index}>
+                                  {director.name}
+                                  {index < title.directors.length - 1
+                                    ? ", "
+                                    : ""}
+                                </span>
+                              ))
+                            : "N/A"}
+                        </span>
+                      </p>
+                    )}
                     <div className="flex flex-col py-2">
                       <p className="text-xs text-vibe">
                         Universe{" "}
@@ -202,9 +234,11 @@ export default function Title() {
                   <div className="flex relative items-center">
                     <Image
                       src={
-                        `https://image.tmdb.org/t/p/w500${title.poster}` ||
-                        optimizeCloudinary(title.image, 300) ||
-                        Fallback
+                        title.poster
+                          ? `https://image.tmdb.org/t/p/w500${title.poster}`
+                          : title.image
+                            ? optimizeCloudinary(title.image, 300)
+                            : Fallback
                       }
                       alt="poster"
                       width={0}
@@ -241,7 +275,13 @@ export default function Title() {
               <div className="flex justify-between gap-2 mt-2 items-center">
                 <div className="min-w-44">
                   {title.trailer ? (
-                    <a href={title.trailer}>
+                    <a
+                      href={
+                        title.trailer.startsWith("http")
+                          ? title.trailer
+                          : `https://www.youtube.com/watch?v=${title.trailer}`
+                      }
+                    >
                       <CircledButtons>
                         <FaPlay className="text-2xl" />
                         <span className="font-bold text-normal text-base">

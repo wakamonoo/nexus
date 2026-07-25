@@ -33,7 +33,7 @@ const tmdb = {
   },
 
   tvDetails(id) {
-    return request(`/tv/${id}??append_to_response=credits,videos`);
+    return request(`/tv/${id}?append_to_response=credits,videos`);
   },
 };
 

@@ -155,7 +155,13 @@ export default function Timeline() {
                       className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                     >
                       <Image
-                        src={optimizeCloudinary(unit.image, 300) || Fallback}
+                        src={
+                          unit.poster
+                            ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                            : unit.image
+                              ? optimizeCloudinary(unit.image, 300)
+                              : Fallback
+                        }
                         alt={unit.title}
                         width={0}
                         height={0}
@@ -205,7 +211,9 @@ export default function Timeline() {
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                           >
                             <Image
-                              src={optimizeCloudinary(unit.image, 300) || Fallback}
+                              src={
+                                optimizeCloudinary(unit.image, 300) || Fallback
+                              }
                               alt={unit.title}
                               width={0}
                               height={0}
@@ -256,7 +264,9 @@ export default function Timeline() {
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
                           >
                             <Image
-                              src={optimizeCloudinary(unit.image, 300) || Fallback}
+                              src={
+                                optimizeCloudinary(unit.image, 300) || Fallback
+                              }
                               alt={unit.title}
                               width={0}
                               height={0}

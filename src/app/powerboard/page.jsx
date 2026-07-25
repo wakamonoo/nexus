@@ -314,7 +314,13 @@ export default function Powerboard() {
                   <SortableRank
                     key={unit.titleId}
                     id={unit.titleId}
-                    image={optimizeCloudinary(unit.image, 300) || Fallback}
+                    image={
+                      unit.poster
+                        ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                        : unit.image
+                          ? optimizeCloudinary(unit.image, 300)
+                          : Fallback
+                    }
                   />
                 ))
               ) : searchInput ? (
@@ -350,8 +356,11 @@ export default function Powerboard() {
                     <div className="relative w-full h-full">
                       <Image
                         src={
-                          optimizeCloudinary(slots[slotId].image, 300) ||
-                          Fallback
+                          slots[slotId].poster
+                            ? `https://image.tmdb.org/t/p/w500${slots[slotId].poster}`
+                            : slots[slotId].image
+                              ? optimizeCloudinary(slots[slotId].image, 300)
+                              : Fallback
                         }
                         alt="image"
                         width={0}

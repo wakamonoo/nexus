@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import AdminGuard from "@/components/guard/adminGuard";
 import { optimizeCloudinary } from "@/utils/cloudinary";
+import Fallback from "@/assets/fallback.png";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -147,7 +148,13 @@ export default function UpdateOrder() {
                   <SortableItem
                     key={unit.titleId}
                     id={unit.titleId}
-                    image={optimizeCloudinary(unit.image, 300) || Fallback}
+                    image={
+                      unit.poster
+                        ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                        : unit.image
+                          ? optimizeCloudinary(unit.image, 300)
+                          : Fallback
+                    }
                   />
                 ))}
               </div>

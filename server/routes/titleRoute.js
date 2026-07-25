@@ -9,32 +9,69 @@ const getTMDBDetails = async (tmdbId, mediaType, seasonNumber) => {
     throw new Error("TMDB ID and media type required");
   }
 
-  let endpoint;
+  if (mediaType !== "tv" || seasonNumber === null) {
+    const endpoint = `${mediaType === "tv" ? "tv" : "movie"}/${tmdbId}`;
 
-  if (mediaType == "tv" && seasonNumber !== null) {
-    endpoint = `tv/${tmdbId}/season/${seasonNumber}`;
-  } else {
-    endpoint = `${mediaType === "tv" ? "tv" : "movie"}/${tmdbId}`;
-  }
-
-  const response = await fetch(
-    `https://api.themoviedb.org/3/${endpoint}?language=en-US&append_to_response=credits, videos`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
-        accept: "application/json",
+    const response = await fetch(
+      `https://api.themoviedb.org/3/${endpoint}?language=en-US&append_to_response=credits,videos`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
+          accept: "application/json",
+        },
       },
-    },
-  );
+    );
 
-  if (!response.ok) {
-    throw new Error(`TMDB request failed ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`TMDB request failed ${response.status}`);
+    }
+
+    return {
+      details: await response.json(),
+      season: null,
+    };
   }
 
-  return response.json();
+  const [seriesResponse, seasonResponse] = await Promise.all([
+    fetch(
+      `https://api.themoviedb.org/3/tv/${tmdbId}?language=en-US&append_to_response=credits,videos`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
+          accept: "application/json",
+        },
+      },
+    ),
+
+    fetch(
+      `https://api.themoviedb.org/3/tv/${tmdbId}/season/${seasonNumber}?language=en-US&append_to_response=credits,videos`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
+          accept: "application/json",
+        },
+      },
+    ),
+  ]);
+
+  if (!seriesResponse.ok || !seasonResponse.ok) {
+    throw new Error("TMDB request failed");
+  }
+
+  return {
+    details: await seriesResponse.json(),
+    season: await seasonResponse.json(),
+  };
 };
 
-const buildTMDBData = (tmdb, mediaType, seasonNumber, parentSeriesId) => {
+const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
+  const { details, season } = tmdbData;
+
+  const isSeason = mediaType === "tv" && seasonNumber !== null;
+
+  const tmdb = details;
+  const seasonData = isSeason ? season : null;
+
   const cast = tmdb.credits?.cast?.slice(0, 30).map((person) => ({
     tmdbId: person.id,
     name: person.name,
@@ -56,26 +93,47 @@ const buildTMDBData = (tmdb, mediaType, seasonNumber, parentSeriesId) => {
     profilePath: person.profile_path || null,
   }));
 
-  const trailer = tmdb.videos?.results?.find(
+  const trailer = (
+    seasonData?.videos?.results?.length
+      ? seasonData.videos.results
+      : tmdb.videos?.results || []
+  ).find(
     (video) =>
       video.site === "YouTube" &&
       video.type === "Trailer" &&
-      video.official == true,
+      video.official === true,
   );
+
+  const firstEpisodeDate = seasonData?.episodes
+    ?.map((episode) => episode.air_date)
+    .filter(Boolean)
+    .sort()
+    .at(0);
+
+  const lastEpisodeDate = seasonData?.episodes
+    ?.map((episode) => episode.air_date)
+    .filter(Boolean)
+    .sort()
+    .at(-1);
+
   return {
     tmdbId: tmdb.id,
     mediaType,
     seasonNumber: seasonNumber ?? null,
     parentSeriesId: parentSeriesId ?? null,
-    summary: tmdb.overview || "",
-    poster: tmdb.poster_path || null,
+    summary: seasonData?.overview || tmdb.overview || "",
+    poster: seasonData?.poster_path || tmdb.poster_path || null,
     backdrop: tmdb.backdrop_path,
     trailer: trailer?.key || null,
     release_date: tmdb.release_date || "",
     duration: tmdb.runtime || null,
-    first_air_date: tmdb.first_air_date || null,
-    last_air_date: tmdb.last_air_date || null,
-    episode: tmdb.number_of_episodes || null,
+    first_air_date: isSeason
+      ? firstEpisodeDate || null
+      : tmdb.first_air_date || null,
+    last_air_date: isSeason
+      ? lastEpisodeDate || null
+      : tmdb.last_air_date || null,
+    episode: seasonData?.episodes?.length || tmdb.number_of_episodes || null,
     genres: tmdb.genres || [],
     cast,
     directors,
