@@ -260,7 +260,7 @@ export default function UserProfile() {
                 </div>
               )}
 
-              {profileUser.rankings ? (
+              {profileUser.rankings?.length > 0 ? (
                 <div className="w-full h-full p-2">
                   <h4 className="font-bold text-lg">
                     {profileUser.uid === user?.uid

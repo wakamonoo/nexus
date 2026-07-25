@@ -140,14 +140,14 @@ export default function Countdown() {
                 className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
               >
                 <span className="font-bold">UTC: </span>
-                {dayjs.utc(displayTitle?.date).format("MMM DD, YYYY HH:mm")}
+                {dayjs.utc(displayTitle?.release_date).format("MMM DD, YYYY HH:mm")}
               </p>
               <p
                 className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}
               >
                 <span className="font-bold">Local: </span>
                 {dayjs
-                  .utc(displayTitle?.date)
+                  .utc(displayTitle?.release_date)
                   .tz(userTimeZone)
                   .format("MMM DD, YYYY HH:mm")}{" "}
               </p>
