@@ -40,7 +40,29 @@ export default function Footer() {
           , or any other rights holders. All characters, titles, trademarks, and
           related intellectual property belong to their respective owners.
         </p>
-        <p className="mx-auto max-w-5xl text-xs text-vibe text-center mt-2">
+
+        <div className="flex flex-col items-center justify-center gap-2 mt-4">
+          <a
+            href="https://www.themoviedb.org/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="The Movie Database"
+          >
+            <Image
+              src="/tmdb_logo.svg"
+              alt="The Movie Database"
+              width={0}
+              height={0}
+              sizes="100vw"
+              className="w-12 h-auto"
+            />
+          </a>
+          <p className="mx-auto max-w-5xl text-xs text-vibe text-center">
+            This website uses the <strong>TMDB API</strong> but is not endorsed
+            or certified by <strong>TMDB</strong>
+          </p>
+        </div>
+        <p className="mx-auto max-w-5xl text-xs text-vibe opacity-60 text-center mt-2">
           © 2025 - {new Date().getFullYear()} nexus. Built by a marvel fan, for
           the community.
         </p>

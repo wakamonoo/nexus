@@ -52,46 +52,53 @@ export default function TrustAndLegality() {
             <br />
             The site’s original code, tools, and written content are the sole
             creation of the site’s developer and are shared for the enjoyment of
-            the global MCU fan community. This site makes no claim of ownership
-            over any{" "}
-            <a
-              href="https://www.marvel.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold hover:underline"
-            >
-              Marvel
-            </a>{" "}
-            or{" "}
-            <a
-              href="https://thewaltdisneycompany.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold hover:underline"
-            >
-              Disney
-            </a>{" "}
-            intellectual property.
+            the global MCU fan community. This site{" "}
+            <strong>makes no claim of ownership</strong> over any third-party
+            intellectual property referenced on this website.
           </p>
         </div>
-        <div>
+        <div className="">
           <h1 className="text-2xl py-4 text-accent text-center">
             TMDB Attribution
           </h1>
-          <p className="text-base text-justify">
-            This website uses the{" "}
+          <div className="w-full">
             <a
               href="https://www.themoviedb.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold hover:underline"
+              aria-label="The Movie Database"
+              className="float-left w-32 mr-2"
             >
-              The Movie Database (TMDB)
-            </a>{" "}
-            API to provide movie and television metadata, including titles,
-            release information, posters, backdrops, and other related
-            information. This website is not endorsed or certified by TMDB.
-          </p>
+              <Image
+                src="/tmdb_logo.svg"
+                alt="The Movie Database"
+                width={0}
+                height={0}
+                sizes="100vw"
+                className="w-full h-auto"
+              />
+            </a>
+            <p className="text-base text-justify">
+              This website uses the{" "}
+              <a
+                href="https://www.themoviedb.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold hover:underline"
+              >
+                The Movie Database (TMDB)
+              </a>{" "}
+              API to provide movie and television metadata, including titles,
+              release information, posters, backdrops, descriptions, and other
+              related information. The information provided through the TMDB API
+              is used to help users discover and explore movies and television
+              shows throughout the site. Nexus is an independent, fan-made
+              project and is not affiliated with, endorsed by, sponsored by, or
+              officially connected to TMDB. This website uses the TMDB API but
+              is not endorsed or certified by TMDB. TMDB names, logos, and
+              related trademarks belong to their respective owners.
+            </p>
+          </div>
         </div>
       </div>
     </>
