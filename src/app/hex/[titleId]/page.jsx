@@ -288,9 +288,9 @@ export default function Title() {
                   </p>
                 ) : (
                   <p className="text-base text-normal text-vibe">
-                    <span className="text-2xl font-bold">"</span>
-                    Set in <span>{title.universe}</span> made a connection via{" "}
-                    <span>{title.connections}</span>
+                    Connected to{" "}
+                    <span className="font-bold">{title.connections}</span>{" "}
+                    through <span className="font-bold">{title.universe}</span>
                   </p>
                 )}
                 <p
