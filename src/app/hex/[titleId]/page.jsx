@@ -36,6 +36,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import CircledNotAllowedButtons from "@/components/buttons/circledNotAllowedBtns";
 import { RiLockFill } from "react-icons/ri";
 import { optimizeCloudinary } from "@/utils/cloudinary";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 dayjs.extend(relativeTime);
 
@@ -150,10 +151,17 @@ export default function Title() {
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {title?.genres?.length > 0 ? (
                         title?.genres.map((genre) => (
-                          <span key={genre.id} className="px-2 py-1 text-xs bg-panel text-vibe whitespace-nowrap rounded-full">{genre.name}</span>
+                          <span
+                            key={genre.id}
+                            className="px-2 py-1 text-xs bg-panel text-vibe whitespace-nowrap rounded-full"
+                          >
+                            {genre.name}
+                          </span>
                         ))
                       ) : (
-                        <span className="text-xs text-vibe opacity-60">No genres available</span>
+                        <span className="text-xs text-vibe opacity-60">
+                          No genres available
+                        </span>
                       )}
                     </div>
                   </div>
@@ -279,13 +287,17 @@ export default function Title() {
 
               <div className="mt-2">
                 <p className="text-sm text-vibe">Cast</p>
-                <div className="w-full overflow-x-auto custom-scroll">
+                <ScrollContainer
+                  className="flex overflow-x-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar w-full"
+                  vertical
+                  horizontal
+                >
                   {title.cast?.length > 0 ? (
                     <div className="flex gap-4 w-max">
                       {title.cast?.map((unit) => (
                         <div
                           key={unit.tmdbId}
-                          className="flex flex-col w-32 flex-shrink-0 gap-2 bg-second rounded"
+                          className="flex flex-col w-24 flex-shrink-0 gap-2 bg-second rounded"
                         >
                           <img
                             src={
@@ -296,7 +308,7 @@ export default function Title() {
                             alt={unit.name}
                             loading="lazy"
                             decoding="async"
-                            className="w--full aspect-[2/3] object-cover rounded"
+                            className="w-full h-24 object-cover rounded"
                           />
                           <div className="px-2 pb-2">
                             <p className="text-sm truncate">{unit.name}</p>
@@ -314,7 +326,7 @@ export default function Title() {
                       </p>
                     </div>
                   )}
-                </div>
+                </ScrollContainer>
               </div>
               <div className="flex justify-between gap-2 mt-2 items-center">
                 <div className="min-w-44">
