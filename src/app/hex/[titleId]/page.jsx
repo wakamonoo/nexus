@@ -191,7 +191,7 @@ export default function Title() {
                         title?.genres.map((genre) => (
                           <span
                             key={genre.id}
-                            className="px-2 py-1 text-xs bg-panel text-vibe whitespace-nowrap rounded-full"
+                            className="px-2 py-1 text-xs border border-panel text-vibe whitespace-nowrap rounded-full"
                           >
                             {genre.name}
                           </span>
