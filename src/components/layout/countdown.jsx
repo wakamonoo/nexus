@@ -83,7 +83,7 @@ export default function Countdown() {
       <div
         className="p-2"
         style={{
-          backgroundImage: `url(https://image.tmdb.org/t/p/w500${displayTitle?.poster})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/w500${displayTitle?.backdrop})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

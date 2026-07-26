@@ -169,13 +169,8 @@ export default function Title() {
                   <div className="flex flex-col mt-2 border-t-1 border-[var(--color-vibranium)]/20 py-2">
                     {title.mediaType === "tv" ? (
                       <p className="text-sm text-vibe">
-                        Created by{" "}
-                        <span
-                          className={`font-bold text-base capitalize cursor-pointer leading-4.5 ${
-                            !showFull ? "line-clamp-1" : ""
-                          }`}
-                          onClick={() => setShowFull(!showFull)}
-                        >
+                        Created by<br></br>
+                        <span className="font-bold text-base capitalize cursor-pointer leading-4.5">
                           {title.creators?.length
                             ? title.creators.map((director, index) => (
                                 <span key={director.tmdbId || index}>
@@ -190,13 +185,8 @@ export default function Title() {
                       </p>
                     ) : (
                       <p className="text-sm text-vibe">
-                        Directed by{" "}
-                        <span
-                          className={`font-bold text-base capitalize cursor-pointer leading-4.5 ${
-                            !showFull ? "line-clamp-1" : ""
-                          }`}
-                          onClick={() => setShowFull(!showFull)}
-                        >
+                        Directed by<br></br>
+                        <span className="font-bold text-base capitalize cursor-pointer leading-4.5">
                           {title.directors?.length
                             ? title.directors.map((director, index) => (
                                 <span key={director.tmdbId || index}>
@@ -210,39 +200,6 @@ export default function Title() {
                         </span>
                       </p>
                     )}
-                    <div className="flex flex-col py-2">
-                      <p className="text-xs text-vibe">
-                        Universe{" "}
-                        <span className="font-bold text-sm capitalize">
-                          {title.universe}
-                        </span>
-                      </p>
-                      {title?.category === "mcu" ? (
-                        <>
-                          <p className="text-xs text-vibe">
-                            MCU Timeline{" "}
-                            <span className="font-bold text-sm capitalize">
-                              {title.timeline}
-                            </span>
-                          </p>
-                          <p className="text-xs text-vibe">
-                            Chronological Order{" "}
-                            <span className="font-bold text-sm capitalize">
-                              {title.order}
-                            </span>
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <p className="text-xs text-vibe">
-                            Connections{" "}
-                            <span className="font-bold text-sm capitalize">
-                              {title.connections}
-                            </span>
-                          </p>
-                        </>
-                      )}
-                    </div>
                   </div>
                 </div>
                 <div className="w-48 md:w-56 lg:w-72 h-full">
@@ -285,8 +242,69 @@ export default function Title() {
                 </div>
               </div>
 
+              <div className="flex justify-between gap-2 mt-2 items-center">
+                <div className="min-w-44">
+                  {title.trailer ? (
+                    <a
+                      href={
+                        title.trailer.startsWith("http")
+                          ? title.trailer
+                          : `https://www.youtube.com/watch?v=${title.trailer}`
+                      }
+                    >
+                      <SecondaryCircledButtons>
+                        <FaPlay className="text-base" />
+                        <span className="font-bold text-normal text-base">
+                          Watch Trailer
+                        </span>
+                      </SecondaryCircledButtons>
+                    </a>
+                  ) : (
+                    <CircledNotAllowedButtons>
+                      <FaVideoSlash className="text-2xl" />
+                      <span className="font-bold text-normal text-base">
+                        Unavailable
+                      </span>
+                    </CircledNotAllowedButtons>
+                  )}
+                </div>
+                {currentTitleRank ? (
+                  <h1 className="text-base uppercase">
+                    Ranked
+                    <span className="text-2xl font-bold">
+                      {currentTitleRank}
+                    </span>
+                  </h1>
+                ) : (
+                  <h1 className="text-base uppercase">Unranked</h1>
+                )}
+              </div>
               <div className="mt-2">
-                <p className="text-sm text-vibe">Cast</p>
+                {title.category === "mcu" ? (
+                  <p className="text-base text-normal text-vibe">
+                    Takes place during{" "}
+                    <span className="font-bold">{title.timeline}</span>, within{" "}
+                    <span className="font-bold">{title.universe}</span>
+                  </p>
+                ) : (
+                  <p className="text-base text-normal text-vibe">
+                    <span className="text-2xl font-bold">"</span>
+                    Set in <span>{title.universe}</span> made a connection via{" "}
+                    <span>{title.connections}</span>
+                  </p>
+                )}
+                <p
+                  onClick={() => setShowSum(!showSum)}
+                  className={`leading-4.5 mt-4 text-base text-normal text-vibe text-justify cursor-pointer ${
+                    !showSum ? "line-clamp-4" : ""
+                  }`}
+                >
+                  {title.summary}
+                </p>
+              </div>
+
+              <div className="mt-2 mb-4 border-t-1 border-[var(--color-vibranium)]/20">
+                <p className="text-sm font-bold p-2 text-vibe">Cast</p>
                 <ScrollContainer
                   className="flex overflow-x-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar w-full"
                   vertical
@@ -328,56 +346,8 @@ export default function Title() {
                   )}
                 </ScrollContainer>
               </div>
-              <div className="flex justify-between gap-2 mt-2 items-center">
-                <div className="min-w-44">
-                  {title.trailer ? (
-                    <a
-                      href={
-                        title.trailer.startsWith("http")
-                          ? title.trailer
-                          : `https://www.youtube.com/watch?v=${title.trailer}`
-                      }
-                    >
-                      <CircledButtons>
-                        <FaPlay className="text-2xl" />
-                        <span className="font-bold text-normal text-base">
-                          Watch Trailer
-                        </span>
-                      </CircledButtons>
-                    </a>
-                  ) : (
-                    <CircledNotAllowedButtons>
-                      <FaVideoSlash className="text-2xl" />
-                      <span className="font-bold text-normal text-base">
-                        Unavailable
-                      </span>
-                    </CircledNotAllowedButtons>
-                  )}
-                </div>
-                {currentTitleRank ? (
-                  <h1 className="text-base uppercase">
-                    Ranked
-                    <span className="text-2xl font-bold">
-                      {currentTitleRank}
-                    </span>
-                  </h1>
-                ) : (
-                  <h1 className="text-base uppercase">Unranked</h1>
-                )}
-              </div>
-              <div className="py-4">
-                <p
-                  onClick={() => setShowSum(!showSum)}
-                  className={`leading-4.5 text-base text-normal text-vibe text-justify cursor-pointer ${
-                    !showSum ? "line-clamp-4" : ""
-                  }`}
-                >
-                  {title.summary}
-                </p>
-              </div>
-
               <div
-                className={`gap-2 justify-between py-2 border-t-1 border-[var(--color-vibranium)]/20 border-b-1 ${title?.status === "released" ? "flex" : "hidden"}`}
+                className={`gap-2 justify-between py-2 md:mb-8 border-t-1 border-[var(--color-vibranium)]/20 border-b-1 ${title?.status === "released" ? "flex" : "hidden"}`}
               >
                 <SecondaryCircledButtons
                   onClick={() => setShowAddReview(true)}
