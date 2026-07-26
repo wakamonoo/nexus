@@ -122,7 +122,45 @@ export default function Title() {
         ) : (
           <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">
             <div className="md:sticky md:top-0 min-w-0">
-              <div className="flex justify-between gap-2 w-full">
+              <div className="flex justify-between items-center gap-2 w-full">
+                <div className="w-48 md:w-56 lg:w-72 h-full float-right">
+                  <div className="flex relative items-center">
+                    <img
+                      src={
+                        title.poster
+                          ? `https://image.tmdb.org/t/p/w500${title.poster}`
+                          : "/fallback.png"
+                      }
+                      alt={title.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-auto rounded"
+                    />
+                    <div
+                      onClick={() => {
+                        setIsLoading(true);
+                        router.push("/trustAndLegality");
+                      }}
+                      className="absolute top-2 right-2 cursor-pointer opacity-70"
+                    >
+                      <BsInfoCircle className="text-normal" />
+                    </div>
+                    <div className="flex flex-col absolute top-2 left-2 gap-2 opacity-70">
+                      <div className="flex items-center gap-1">
+                        <GiTrophy className="text-xs" />
+                        <p className="text-xs text-vibe font-extralight">
+                          {topRankedNumber}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <TbEyeSpark className="text-xs" />
+                        <p className="text-xs text-vibe font-extralight">
+                          {title.watchCount ? title.watchCount.length : 0}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className="w-full">
                   <div>
                     <h4 className="text-xl font-bold text-normal leading-4.5 max-w-[80%]">
@@ -166,120 +204,77 @@ export default function Title() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col mt-2 border-t-1 border-[var(--color-vibranium)]/20 py-2">
-                    {title.mediaType === "tv" ? (
-                      <p className="text-sm text-vibe">
-                        Created by<br></br>
-                        <span className="font-bold text-base capitalize cursor-pointer leading-4.5">
-                          {title.creators?.length
-                            ? title.creators.map((director, index) => (
-                                <span key={director.tmdbId || index}>
-                                  {director.name}
-                                  {index < title.creators.length - 1
-                                    ? ", "
-                                    : ""}
-                                </span>
-                              ))
-                            : "N/A"}
-                        </span>
-                      </p>
+                  <div className="flex flex-wrap gap-2 mt-2 items-center">
+                    {title.trailer ? (
+                      <a
+                        href={
+                          title.trailer.startsWith("http")
+                            ? title.trailer
+                            : `https://www.youtube.com/watch?v=${title.trailer}`
+                        }
+                      >
+                        <SecondaryCircledButtons>
+                          <FaPlay className="text-xs" />
+                          <span className="font-bold text-normal text-xs">
+                            Watch Trailer
+                          </span>
+                        </SecondaryCircledButtons>
+                      </a>
                     ) : (
-                      <p className="text-sm text-vibe">
-                        Directed by<br></br>
-                        <span className="font-bold text-base capitalize cursor-pointer leading-4.5">
-                          {title.directors?.length
-                            ? title.directors.map((director, index) => (
-                                <span key={director.tmdbId || index}>
-                                  {director.name}
-                                  {index < title.directors.length - 1
-                                    ? ", "
-                                    : ""}
-                                </span>
-                              ))
-                            : "N/A"}
+                      <SecondaryCircledButtons disabled>
+                        <FaVideoSlash className="text-xs" />
+                        <span className="font-bold text-normal text-xs">
+                          Unavailable
                         </span>
-                      </p>
+                      </SecondaryCircledButtons>
                     )}
-                  </div>
-                </div>
-                <div className="w-48 md:w-56 lg:w-72 h-full">
-                  <div className="flex relative items-center">
-                    <img
-                      src={
-                        title.poster
-                          ? `https://image.tmdb.org/t/p/w500${title.poster}`
-                          : "/fallback.png"
-                      }
-                      alt={title.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-auto rounded"
-                    />
-                    <div
+                    <SecondaryCircledButtons
+                      onClick={() => setShowAddReview(true)}
+                      disabled={doneReview}
+                    >
+                      {doneReview ? (
+                        <FiCheckCircle className="text-xs" />
+                      ) : (
+                        <MdOutlineReviews className="text-xs" />
+                      )}
+                      <p className="font-bold text-normal text-xs">
+                        {doneReview ? "Reviewed" : "Add Review"}
+                      </p>
+                    </SecondaryCircledButtons>
+                    <SecondaryCircledButtons
+                      disabled={title?.category === "legacy"}
                       onClick={() => {
                         setIsLoading(true);
-                        router.push("/trustAndLegality");
+                        router.push("/powerboard");
                       }}
-                      className="absolute top-2 right-2 cursor-pointer opacity-70"
                     >
-                      <BsInfoCircle className="text-normal" />
-                    </div>
-                    <div className="flex flex-col absolute top-2 left-2 gap-2 opacity-70">
-                      <div className="flex items-center gap-1">
-                        <GiTrophy className="text-xs" />
-                        <p className="text-xs text-vibe font-extralight">
-                          {topRankedNumber}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <TbEyeSpark className="text-xs" />
-                        <p className="text-xs text-vibe font-extralight">
-                          {title.watchCount ? title.watchCount.length : 0}
-                        </p>
-                      </div>
-                    </div>
+                      {title?.category === "mcu" ? (
+                        <FaCrown className="text-xs" />
+                      ) : (
+                        <RiLockFill className="text-xs" />
+                      )}
+                      <p className="font-bold text-normal text-xs">
+                        {title?.category === "mcu" ? "Rank It" : "Legacy Title"}
+                      </p>
+                    </SecondaryCircledButtons>
                   </div>
+
+                  {currentTitleRank && (
+                    <div className="flex items-center gap-2 bg-zeus w-fit px-2 py-1 my-2 rounded-lg">
+                      <GiTrophy className="text-sm text-vibe opacity-70" />
+                      <span className="text-xs uppercase tracking-[0.2em] text-vibe">
+                        #{currentTitleRank} Ranked
+                      </span>
+                    </div>
+                  )}
+
+                  <div
+                    className={`gap-2 py-2  items-center  ${title?.status === "released" ? "flex" : "hidden"}`}
+                  ></div>
                 </div>
               </div>
 
-              <div className="flex justify-between gap-2 mt-2 items-center">
-                <div className="min-w-44">
-                  {title.trailer ? (
-                    <a
-                      href={
-                        title.trailer.startsWith("http")
-                          ? title.trailer
-                          : `https://www.youtube.com/watch?v=${title.trailer}`
-                      }
-                    >
-                      <SecondaryCircledButtons>
-                        <FaPlay className="text-base" />
-                        <span className="font-bold text-normal text-base">
-                          Watch Trailer
-                        </span>
-                      </SecondaryCircledButtons>
-                    </a>
-                  ) : (
-                    <CircledNotAllowedButtons>
-                      <FaVideoSlash className="text-2xl" />
-                      <span className="font-bold text-normal text-base">
-                        Unavailable
-                      </span>
-                    </CircledNotAllowedButtons>
-                  )}
-                </div>
-                {currentTitleRank ? (
-                  <h1 className="text-base uppercase">
-                    Ranked
-                    <span className="text-2xl font-bold">
-                      {currentTitleRank}
-                    </span>
-                  </h1>
-                ) : (
-                  <h1 className="text-base uppercase">Unranked</h1>
-                )}
-              </div>
-              <div className="mt-2">
+              <div className="py-2">
                 {title.category === "mcu" ? (
                   <p className="text-base text-normal text-vibe">
                     Takes place during{" "}
@@ -302,8 +297,58 @@ export default function Title() {
                   {title.summary}
                 </p>
               </div>
+              <div className="mt-2 mb-4">
+                <p className="text-sm font-bold p-2 text-vibe">
+                  {title.mediaType === "tv" ? "Created by" : "Directed by"}
+                </p>
+                <ScrollContainer
+                  className="flex overflow-x-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar w-full"
+                  vertical
+                  horizontal
+                >
+                  {(title.mediaType === "tv" ? title.creators : title.directors)
+                    ?.length > 0 ? (
+                    <div className="flex gap-4 w-max">
+                      {(title.mediaType === "tv"
+                        ? title.creators
+                        : title.directors
+                      )?.map((unit) => (
+                        <div
+                          key={unit.tmdbId}
+                          className="flex flex-col w-24 flex-shrink-0 gap-2 bg-second rounded"
+                        >
+                          <img
+                            src={
+                              unit.profilePath
+                                ? `https://image.tmdb.org/t/p/w500${unit.profilePath}`
+                                : "/fallback.png"
+                            }
+                            alt={unit.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-24 object-cover rounded"
+                          />
+                          <div className="px-2 pb-2">
+                            <p className="text-sm truncate">{unit.name}</p>
+                            <p className="text-xs text-vibe opacity-60 line-clamp-2">
+                              {unit.character}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col w-full justify-center items-center bg-second p-4 rounded">
+                      <p className="text-sm text-panel font-normal">
+                        No {title.mediaType === "tv" ? "creator" : "director"}{" "}
+                        information available
+                      </p>
+                    </div>
+                  )}
+                </ScrollContainer>
+              </div>
 
-              <div className="mt-2 mb-4 border-t-1 border-[var(--color-vibranium)]/20">
+              <div className="mt-2 mb-4 ">
                 <p className="text-sm font-bold p-2 text-vibe">Cast</p>
                 <ScrollContainer
                   className="flex overflow-x-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar w-full"
@@ -338,46 +383,13 @@ export default function Title() {
                       ))}
                     </div>
                   ) : (
-                    <div className="flex flex-col w-full justify-center items-center bg-second p-4 rouned">
+                    <div className="flex flex-col w-full justify-center items-center bg-second p-4 rounded">
                       <p className="text-sm text-panel font-normal">
                         No cast information available
                       </p>
                     </div>
                   )}
                 </ScrollContainer>
-              </div>
-              <div
-                className={`gap-2 justify-between py-2 md:mb-8 border-t-1 border-[var(--color-vibranium)]/20 border-b-1 ${title?.status === "released" ? "flex" : "hidden"}`}
-              >
-                <SecondaryCircledButtons
-                  onClick={() => setShowAddReview(true)}
-                  disabled={doneReview}
-                >
-                  {doneReview ? (
-                    <FiCheckCircle className="text-2xl" />
-                  ) : (
-                    <MdOutlineReviews className="text-2xl" />
-                  )}
-                  <p className="font-bold text-normal text-base">
-                    {doneReview ? "Reviewed" : "Add Review"}
-                  </p>
-                </SecondaryCircledButtons>
-                <SecondaryCircledButtons
-                  disabled={title?.category === "legacy"}
-                  onClick={() => {
-                    setIsLoading(true);
-                    router.push("/powerboard");
-                  }}
-                >
-                  {title?.category === "mcu" ? (
-                    <FaCrown className="text-2xl" />
-                  ) : (
-                    <RiLockFill className="text-2xl" />
-                  )}
-                  <p className="font-bold text-normal text-base">
-                    {title?.category === "mcu" ? "Rank It" : "Legacy Title"}
-                  </p>
-                </SecondaryCircledButtons>
               </div>
             </div>
             <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide">

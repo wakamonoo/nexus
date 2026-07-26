@@ -7,9 +7,9 @@ export default function SecondaryCircledButtons({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`w-full py-2 px-4 rounded-full flex justify-center items-center gap-1 ${
+      className={`w-fit py-2 px-4 rounded-full flex justify-center items-center gap-1 ${
         disabled
-          ? "bg-second cursor-not-allowed opacity-40"
+          ? "bg-second cursor-not-allowed bg-[var(--color-panel)]/60"
           : "bg-panel hover:bg-[var(--color-panel)]/80 cursor-pointer"
       }`}
     >
