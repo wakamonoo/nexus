@@ -49,7 +49,7 @@ export default function Latest() {
           <ShowListLoader />
         ) : (
           <div className="w-full">
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
               {...latest.map((unit, index) => (
                 <div
                   key={index}

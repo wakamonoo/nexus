@@ -49,7 +49,7 @@ export default function Release() {
           <ShowListLoader />
         ) : (
           <div className="w-full">
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
               {...release.map((unit) => (
                 <div
                   key={unit.date}

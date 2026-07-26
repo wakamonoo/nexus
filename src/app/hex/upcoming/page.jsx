@@ -49,7 +49,7 @@ export default function Upcoming() {
           <ShowListLoader />
         ) : (
           <div className="w-full">
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
               {...upcomingTitles
                 .sort((a, b) => new Date(a.date) - new Date(b.date))
                 .map((unit) => (

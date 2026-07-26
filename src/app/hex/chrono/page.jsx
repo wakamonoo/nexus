@@ -48,7 +48,7 @@ export default function Chrono() {
           <ShowListLoader />
         ) : (
           <div className="w-full">
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
               {...chrono.map((unit) => (
                 <div
                   key={unit.order}

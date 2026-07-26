@@ -36,17 +36,19 @@ export default function ActorProjects() {
     fetchWathced();
   }, [user]);
 
+  const personData = titles
+    ?.flatMap((title) => [
+      ...(title.creators || []),
+      ...(title.directors || []),
+      ...(title.cast || []),
+    ])
+    .find((p) => String(p.tmdbId) === String(person));
+
   const projects = titles.filter(
     (title) =>
-      title.creators?.some(
-        (p) => String(p.tmdbId) === String(person),
-      ) ||
-      title.directors?.some(
-        (p) => String(p.tmdbId) === String(person),
-      ) ||
-      title.cast?.some(
-        (p) => String(p.tmdbId) === String(person),
-      ),
+      title.creators?.some((p) => String(p.tmdbId) === String(person)) ||
+      title.directors?.some((p) => String(p.tmdbId) === String(person)) ||
+      title.cast?.some((p) => String(p.tmdbId) === String(person)),
   );
 
   return (
@@ -57,13 +59,13 @@ export default function ActorProjects() {
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <h4 className="text-xl">MCU Release Order</h4>
+          <h4 className="text-xl">{personData?.name} Projects</h4>
         </div>
         {!titles ? (
           <ShowListLoader />
         ) : (
           <div className="w-full">
-            <div className="flex flex-wrap justify-center gap-2">
+            <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
               {projects?.map((unit) => (
                 <div
                   key={unit.titleId}
