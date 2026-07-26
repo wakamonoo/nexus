@@ -399,7 +399,7 @@ export default function Post() {
                         </p>
                       </div>
                     </div>
-                    <p className="text-base text-normal leading-5 py-1 px-4 whitespace-pre-wrap">
+                    <p className="text-base text-normal leading-5 py-2 px-4 whitespace-pre-wrap">
                       {post?.text}
                     </p>
 
