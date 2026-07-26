@@ -119,7 +119,8 @@ export default function Timeline() {
   const nonEarth616 =
     titles
       ?.filter((t) => t?.universe !== "Earth-616")
-      .sort((a, b) => new Date(a.date) - new Date(b.date)) || [];
+      .sort((a, b) => new Date(a.release_date) - new Date(b.release_date)) ||
+    [];
 
   return (
     <StarBackground>

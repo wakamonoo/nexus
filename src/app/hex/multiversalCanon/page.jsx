@@ -51,7 +51,9 @@ export default function MultiversalCanon() {
           <div className="w-full">
             <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
               {releasedLegacyTitles
-                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .sort(
+                  (a, b) => new Date(a.release_date) - new Date(b.release_date),
+                )
                 .map((unit) => (
                   <div
                     key={unit.date}

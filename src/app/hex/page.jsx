@@ -869,7 +869,7 @@ export default function Main() {
                       <div className="flex gap-2">
                         {releasedLegacyTitles.length > 0 ? (
                           releasedLegacyTitles
-                            .sort((a, b) => new Date(a.date) - new Date(b.date))
+                            .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))
                             .map((unit) => (
                               <div
                                 key={unit.titleId}
