@@ -2,7 +2,13 @@
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
-import { FaAngleLeft, FaComment, FaPlay, FaRegComment, FaTrash } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaComment,
+  FaPlay,
+  FaRegComment,
+  FaTrash,
+} from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
@@ -397,7 +403,7 @@ export default function Post() {
                       {post?.text}
                     </p>
 
-                    {post.files && post.files.length > 0 ? (
+                    {post.embed?.id && post.files && post.files.length > 0 ? (
                       <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-[var(--color-secondary)]/80 active:bg-[var(--color-secondary)]/80">
                         <div className="flex items-center gap-2 overflow-hidden">
                           <div className="flex p-2 shrink-0 items-center justify-center rounded-full bg-red-500">
@@ -420,7 +426,7 @@ export default function Post() {
                           Open
                         </a>
                       </div>
-                    ) : post.embed?.url ? (
+                    ) : post.embed?.id ? (
                       <iframe
                         className="w-full h-full aspect-video"
                         src={`https://www.youtube.com/embed/${post.embed?.id}`}
