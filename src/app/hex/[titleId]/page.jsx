@@ -120,7 +120,7 @@ export default function Title() {
           <ShowLoader />
         ) : (
           <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">
-            <div className="md:sticky md:top-0">
+            <div className="md:sticky md:top-0 min-w-0">
               <div className="flex justify-between gap-2 w-full">
                 <div className="w-full">
                   <div>
@@ -147,6 +147,15 @@ export default function Title() {
                         : `${title.episode} episodes`}{" "}
                       | {title.type}
                     </p>
+                    <div className="flex flex-wrap gap-1.5 mt-2">
+                      {title?.genres?.length > 0 ? (
+                        title?.genres.map((genre) => (
+                          <span key={genre.id} className="px-2 py-1 text-xs bg-panel text-vibe whitespace-nowrap rounded-full">{genre.name}</span>
+                        ))
+                      ) : (
+                        <span className="text-xs text-vibe opacity-60">No genres available</span>
+                      )}
+                    </div>
                   </div>
 
                   <div className="flex flex-col mt-2 border-t-1 border-[var(--color-vibranium)]/20 py-2">
@@ -265,6 +274,46 @@ export default function Title() {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              <div className="mt-2">
+                <p className="text-sm text-vibe">Cast</p>
+                <div className="w-full overflow-x-auto custom-scroll">
+                  {title.cast?.length > 0 ? (
+                    <div className="flex gap-4 w-max">
+                      {title.cast?.map((unit) => (
+                        <div
+                          key={unit.tmdbId}
+                          className="flex flex-col w-32 flex-shrink-0 gap-2 bg-second rounded"
+                        >
+                          <img
+                            src={
+                              unit.profilePath
+                                ? `https://image.tmdb.org/t/p/w500${unit.profilePath}`
+                                : "/fallback.png"
+                            }
+                            alt={unit.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="w--full aspect-[2/3] object-cover rounded"
+                          />
+                          <div className="px-2 pb-2">
+                            <p className="text-sm truncate">{unit.name}</p>
+                            <p className="text-xs text-vibe opacity-60 line-clamp-2">
+                              {unit.character}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="flex flex-col w-full justify-center items-center bg-second p-4 rouned">
+                      <p className="text-sm text-panel font-normal">
+                        No cast information available
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex justify-between gap-2 mt-2 items-center">
