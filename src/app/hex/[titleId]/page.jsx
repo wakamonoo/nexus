@@ -122,8 +122,8 @@ export default function Title() {
         ) : (
           <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">
             <div className="md:sticky md:top-0 min-w-0">
-              <div className="flex justify-between items-center gap-2 w-full">
-                <div className="w-48 md:w-56 lg:w-72 h-full float-right">
+              <div className="flex justify-between items-start md:items-center gap-2 w-full">
+                <div className="w-56 md:w-56 lg:w-72 h-full float-right">
                   <div className="flex relative items-center">
                     <img
                       src={
@@ -315,6 +315,11 @@ export default function Title() {
                       )?.map((unit) => (
                         <div
                           key={unit.tmdbId}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsLoading(true);
+                            router.push(`/titles/${unit.tmdbId}`);
+                          }}
                           className="flex flex-col w-24 flex-shrink-0 gap-2 bg-second rounded"
                         >
                           <img
@@ -360,7 +365,12 @@ export default function Title() {
                       {title.cast?.map((unit) => (
                         <div
                           key={unit.tmdbId}
-                          className="flex flex-col w-24 flex-shrink-0 gap-2 bg-second rounded"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsLoading(true);
+                            router.push(`/titles/${unit.tmdbId}`);
+                          }}
+                          className="flex flex-col w-24 flex-shrink-0 gap-2 cursor-pointer bg-second rounded"
                         >
                           <img
                             src={
