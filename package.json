@@ -32,6 +32,7 @@
     "firebase": "^12.2.1",
     "firebase-admin": "^13.5.0",
     "lineicons-react": "^2.0.0",
+    "modern-screenshot": "^4.7.0",
     "mongodb": "^6.19.0",
     "multer": "^2.0.2",
     "next": "16.1.3",

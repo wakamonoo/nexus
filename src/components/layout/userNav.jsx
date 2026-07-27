@@ -3,7 +3,7 @@ import { ScrollContext } from "@/context/scrollContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
 import { PiRankingDuotone } from "react-icons/pi";
-import { MdAdminPanelSettings, MdLogin, MdLogout } from "react-icons/md";
+import { MdAdminPanelSettings, MdCheckBox, MdLogin, MdLogout } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { GiNinjaHead } from "react-icons/gi";
 import Image from "next/image";
@@ -65,6 +65,16 @@ export default function UserNav({ setShowUserNav }) {
               <p className="text-base font-bold text-normal">Admin</p>
             </button>
           )}
+          <button
+            onClick={() => {
+              setIsLoading(true);
+              router.push("/portfolio");
+            }}
+            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
+          >
+            <MdCheckBox className="text-2xl" />
+            <p className="text-base font-bold text-normal">Portfolio</p>
+          </button>
           <button
             onClick={() => {
               setIsLoading(true);
