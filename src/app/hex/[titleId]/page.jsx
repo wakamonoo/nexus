@@ -242,7 +242,10 @@ export default function Title() {
                       </p>
                     </SecondaryCircledButtons>
                     <SecondaryCircledButtons
-                      disabled={title?.category === "legacy"}
+                      disabled={
+                        title?.category === "legacy" ||
+                        title?.category === "adjacent"
+                      }
                       onClick={() => {
                         setIsLoading(true);
                         router.push("/powerboard");
@@ -254,7 +257,11 @@ export default function Title() {
                         <RiLockFill className="text-xs" />
                       )}
                       <p className="font-bold text-normal text-xs">
-                        {title?.category === "mcu" ? "Rank It" : "Legacy Title"}
+                        {title?.category === "mcu"
+                          ? "Rank It"
+                          : title?.category === "legacy"
+                            ? "Legacy Title"
+                            : "Adjacent Title"}
                       </p>
                     </SecondaryCircledButtons>
                   </div>
@@ -281,11 +288,15 @@ export default function Title() {
                     <span className="font-bold">{title.timeline}</span>, within{" "}
                     <span className="font-bold">{title.universe}</span>
                   </p>
-                ) : (
+                ) : title.category === "legacy" ? (
                   <p className="text-base text-normal text-vibe">
                     Connected to{" "}
                     <span className="font-bold">{title.connections}</span>{" "}
                     through <span className="font-bold">{title.universe}</span>
+                  </p>
+                ) : (
+                  <p className="text-base text-normal text-vibe">
+                    Universe not yet confirmed
                   </p>
                 )}
                 <p

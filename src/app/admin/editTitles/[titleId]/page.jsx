@@ -227,6 +227,7 @@ export default function EditTitle() {
               <option value="null">Select Category</option>
               <option value="mcu">MCU</option>
               <option value="legacy">Legacy</option>
+              <option value="adjacent">Marvel Adjacent</option>
             </select>
             <input
               type="text"
