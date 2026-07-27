@@ -201,7 +201,7 @@ export default function Timeline() {
             );
           })}
           <div className="relative flex flex-col items-center">
-            <div className="absolute left-0 top-8 h-200 w-1 bg-hulk" />
+            <div className="absolute left-0 top-8 h-[43.5%] md:h-[42.5%] w-1 bg-hulk" />
             <div className="ml-10 flex flex-col gap-16">
               <div className="flex items-start">
                 <div className="relative flex flex-col items-center justify-center m-2">

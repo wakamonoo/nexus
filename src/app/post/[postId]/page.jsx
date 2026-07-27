@@ -910,11 +910,16 @@ export default function Post() {
                 />
                 <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">
                   <div className="flex items-center w-full gap-2">
-                    <input
+                    <textarea
                       ref={inputRef}
                       type="text"
                       value={commentText}
-                      onChange={(e) => setCommentText(e.target.value)}
+                      onChange={(e) => {
+                        setCommentText(e.target.value);
+                        e.target.style.height = "auto";
+
+                        e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+                      }}
                       onKeyDown={async (e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
@@ -923,7 +928,9 @@ export default function Post() {
                           else await handleSendComment();
                         }
                       }}
-                      className="w-full text-normal outline-none text-base font-normal truncate"
+                      rows={1}
+                      style={{ maxHeight: "120px" }}
+                      className="w-full resize-none overflow-y-auto text-normal outline-none text-base font-normal bg-transparent"
                       placeholder={
                         user
                           ? isReplying
