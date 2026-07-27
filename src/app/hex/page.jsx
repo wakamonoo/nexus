@@ -41,6 +41,7 @@ export default function Main() {
     release,
     upcomingTitles,
     releasedLegacyTitles,
+    releasedAdjacentTitles,
     pageLoad,
   } = useContext(TitleContext);
   const { user } = useContext(UserContext);
@@ -54,6 +55,7 @@ export default function Main() {
   const [isScrolled5, setIsScrolled5] = useState(false);
   const [isScrolled6, setIsScrolled6] = useState(false);
   const [isScrolled7, setIsScrolled7] = useState(false);
+  const [isScrolled8, setIsScrolled8] = useState(false);
   const scrollRef1 = useRef(null);
   const scrollRef2 = useRef(null);
   const scrollRef3 = useRef(null);
@@ -61,6 +63,7 @@ export default function Main() {
   const scrollRef5 = useRef(null);
   const scrollRef6 = useRef(null);
   const scrollRef7 = useRef(null);
+  const scrollRef8 = useRef(null);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -71,6 +74,7 @@ export default function Main() {
   const [showArrows5, setShowArrows5] = useState(false);
   const [showArrows6, setShowArrows6] = useState(false);
   const [showArrows7, setShowArrows7] = useState(false);
+  const [showArrows8, setShowArrows8] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -173,6 +177,20 @@ export default function Main() {
 
     const handleScroll = () => {
       setIsScrolled7(current.scrollLeft > 50);
+    };
+
+    current.addEventListener("scroll", handleScroll);
+    return () => {
+      current.removeEventListener("scroll", handleScroll);
+    };
+  }, [titles]);
+
+  useEffect(() => {
+    const current = scrollRef8.current;
+    if (!current) return;
+
+    const handleScroll = () => {
+      setIsScrolled8(current.scrollLeft > 50);
     };
 
     current.addEventListener("scroll", handleScroll);
@@ -344,6 +362,24 @@ export default function Main() {
   const handleScrollRight7 = () => {
     if (scrollRef7.current) {
       scrollRef7.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollLeft8 = () => {
+    if (scrollRef8.current) {
+      scrollRef8.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight8 = () => {
+    if (scrollRef8.current) {
+      scrollRef8.current.scrollBy({
         left: 200,
         behavior: "smooth",
       });
@@ -869,7 +905,11 @@ export default function Main() {
                       <div className="flex gap-2">
                         {releasedLegacyTitles.length > 0 ? (
                           releasedLegacyTitles
-                            .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))
+                            .sort(
+                              (a, b) =>
+                                new Date(a.release_date) -
+                                new Date(b.release_date),
+                            )
                             .map((unit) => (
                               <div
                                 key={unit.titleId}
@@ -908,9 +948,9 @@ export default function Main() {
 
                 <div className="py-4">
                   <div className="flex justify-between items-center">
-                    <h1 className="text-xl">UPCOMING TITLES</h1>
+                    <h1 className="text-xl">MARVEL ADJACENT</h1>
                     <div
-                      onClick={() => handleShowListNav("upcoming")}
+                      onClick={() => handleShowListNav("marvelAdjacent")}
                       className={`flex items-center cursor-pointer ${
                         isScrolled7 ? "flex" : "hidden"
                       }`}
@@ -954,6 +994,100 @@ export default function Main() {
                     )}
                     <div
                       ref={scrollRef7}
+                      className="overflow-x-auto scrollbar-hide"
+                    >
+                      <div className="flex gap-2">
+                        {releasedAdjacentTitles.length > 0 ? (
+                          releasedAdjacentTitles
+                            .sort(
+                              (a, b) =>
+                                new Date(a.release_date) -
+                                new Date(b.release_date),
+                            )
+                            .map((unit) => (
+                              <div
+                                key={unit.titleId}
+                                onClick={() => handleShowNav(unit.titleId)}
+                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                              >
+                                <img
+                                  src={
+                                    unit.poster
+                                      ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                                      : "/fallback.png"
+                                  }
+                                  alt={unit.title}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className={`w-full h-full object-fill rounded ${
+                                    isTitleWatched(unit.titleId)
+                                      ? "grayscale-0"
+                                      : "grayscale-90"
+                                  }`}
+                                />
+                              </div>
+                            ))
+                        ) : (
+                          <div className="flex flex-col w-full justify-center items-center">
+                            <FaBoxOpen className="text-6xl text-panel" />
+                            <p className="text-sm text-panel font-normal">
+                              Sorry, no data to display!
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="py-4">
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-xl">UPCOMING TITLES</h1>
+                    <div
+                      onClick={() => handleShowListNav("upcoming")}
+                      className={`flex items-center cursor-pointer ${
+                        isScrolled8 ? "flex" : "hidden"
+                      }`}
+                    >
+                      <p className="text-xs text-vibe">View All</p>
+                      <FaAngleRight className="text-vibe text-base" />
+                    </div>
+                  </div>
+
+                  <div
+                    className="relative"
+                    onMouseEnter={() => setShowArrows8(true)}
+                    onMouseLeave={() => setShowArrows8(false)}
+                  >
+                    <div
+                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                        showArrows8 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                        showArrows8 ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+
+                    {showArrows8 && (
+                      <>
+                        <button
+                          onClick={handleScrollLeft8}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                        >
+                          <RiArrowLeftWideFill className="text-2xl" />
+                        </button>
+                        <button
+                          onClick={handleScrollRight8}
+                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                        >
+                          <RiArrowRightWideFill className="text-2xl" />
+                        </button>
+                      </>
+                    )}
+                    <div
+                      ref={scrollRef8}
                       className="overflow-x-auto scrollbar-hide"
                     >
                       <div className="flex gap-2">

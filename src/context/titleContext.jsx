@@ -21,6 +21,7 @@ export const TitleProvider = ({ children }) => {
   const [titles, setTitles] = useState([]);
   const [releasedMCUTitles, setReleasedMCUTitles] = useState([]);
   const [releasedLegacyTitles, setReleasedLegacyTitles] = useState([]);
+  const [releasedAdjacentTitles, setReleasedAdjacentTitles] = useState([]);
   const [upcomingTitles, setUpcomingTitles] = useState([]);
   const [pageLoad, setPageLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
@@ -43,6 +44,11 @@ export const TitleProvider = ({ children }) => {
         setReleasedLegacyTitles(
           data.result.filter(
             (t) => t.status === "released" && t.category === "legacy",
+          ),
+        );
+        setReleasedAdjacentTitles(
+          data.result.filter(
+            (t) => t.status === "released" && t.category === "adjacent",
           ),
         );
         setUpcomingTitles(data.result.filter((t) => t.status === "upcoming"));
@@ -153,6 +159,7 @@ export const TitleProvider = ({ children }) => {
         titles,
         releasedMCUTitles,
         releasedLegacyTitles,
+        releasedAdjacentTitles,
         upcomingTitles,
         latest,
         chrono,
