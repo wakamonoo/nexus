@@ -109,7 +109,12 @@ export default function UserProfile() {
       ? ((profileUser?.totalLegacyWatched || 0) / showNumLegacy) * 100
       : 0;
 
-  const memoryInput = latestWatch.map((m) => m.title).filter(Boolean);
+  const memoryInput = latestWatch
+    .map((watch) => {
+      const title = titles.find((t) => t.titleId === watch.titleId);
+      return title?.title;
+    })
+    .filter(Boolean);
 
   const memoryKey = JSON.stringify(memoryInput);
 
