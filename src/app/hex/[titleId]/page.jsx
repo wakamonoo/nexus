@@ -299,18 +299,28 @@ export default function Title() {
               </div>
               <div className="mt-2 mb-4">
                 <p className="text-sm font-bold p-2 text-vibe">
-                  {title.mediaType === "tv" ? "Created by" : "Directed by"}
+                  {title.mediaType === "tv"
+                    ? title.creators?.length > 0
+                      ? "Created by"
+                      : "Executive Producers"
+                    : "Directed by"}
                 </p>
                 <ScrollContainer
                   className="flex overflow-x-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar w-full"
                   vertical
                   horizontal
                 >
-                  {(title.mediaType === "tv" ? title.creators : title.directors)
-                    ?.length > 0 ? (
+                  {(title.mediaType === "tv"
+                    ? title.creators?.length > 0
+                      ? title.creators
+                      : title.execProducers
+                    : title.directors
+                  )?.length > 0 ? (
                     <div className="flex gap-4 w-max">
                       {(title.mediaType === "tv"
-                        ? title.creators
+                        ? title.creators?.length > 0
+                          ? title.creators
+                          : title.execProducers
                         : title.directors
                       )?.map((unit) => (
                         <div

@@ -12,8 +12,13 @@ const getTMDBDetails = async (tmdbId, mediaType, seasonNumber) => {
   if (mediaType !== "tv" || seasonNumber === null) {
     const endpoint = `${mediaType === "tv" ? "tv" : "movie"}/${tmdbId}`;
 
+    const appendParams =
+      mediaType === "tv"
+        ? "credits,aggregate_credits,videos"
+        : "credits,videos";
+
     const response = await fetch(
-      `https://api.themoviedb.org/3/${endpoint}?language=en-US&append_to_response=credits,videos`,
+      `https://api.themoviedb.org/3/${endpoint}?language=en-US&append_to_response=${appendParams}`,
       {
         headers: {
           Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
@@ -54,7 +59,7 @@ const getTMDBDetails = async (tmdbId, mediaType, seasonNumber) => {
 
   const [seriesResponse, seasonResponse] = await Promise.all([
     fetch(
-      `https://api.themoviedb.org/3/tv/${tmdbId}?language=en-US&append_to_response=credits,videos`,
+      `https://api.themoviedb.org/3/tv/${tmdbId}?language=en-US&append_to_response=aggregate_credits,videos`,
       {
         headers: {
           Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
@@ -93,26 +98,55 @@ const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
   const tmdb = details;
   const seasonData = isSeason ? season : null;
 
-  const cast = tmdb.credits?.cast?.slice(0, 30).map((person) => ({
-    tmdbId: person.id,
-    name: person.name,
-    character: person.character || "",
-    profilePath: person.profile_path || null,
-  }));
+  const creditsSource =
+    seasonData?.credits ||
+    (mediaType === "tv" ? tmdb.aggregate_credits : null) ||
+    tmdb.credits;
 
-  const directors = tmdb.credits?.crew
-    ?.filter((person) => person.job === "Director")
-    .map((person) => ({
-      tmdbId: person.id,
-      name: person.name,
-      profilePath: person.profile_path,
-    }));
+  const cast = Array.isArray(creditsSource?.cast)
+    ? creditsSource.cast?.slice(0, 30).map((person) => ({
+        tmdbId: person.id,
+        name: person.name,
+        character: person.character || person.roles?.[0]?.character || "",
+        profilePath: person.profile_path || null,
+      }))
+    : [];
 
-  const creators = tmdb.created_by?.map((person) => ({
-    tmdbId: person.id,
-    name: person.name,
-    profilePath: person.profile_path || null,
-  }));
+  const directors = Array.isArray(creditsSource?.crew)
+    ? creditsSource.crew
+        ?.filter(
+          (person) =>
+            person.job === "Director" ||
+            person.jobs?.some((j) => j.job === "Director"),
+        )
+        .map((person) => ({
+          tmdbId: person.id,
+          name: person.name,
+          profilePath: person.profile_path,
+        }))
+    : [];
+
+  const creators = Array.isArray(tmdb.created_by)
+    ? tmdb.created_by.map((person) => ({
+        tmdbId: person.id,
+        name: person.name,
+        profilePath: person.profile_path || null,
+      }))
+    : [];
+
+  const execProducers = Array.isArray(tmdb.aggregate_credits?.crew)
+    ? tmdb.aggregate_credits.crew
+        ?.filter(
+          (person) =>
+            person.job === "Executive Producer" ||
+            person.jobs?.some((j) => j.job === "Executive Producer"),
+        )
+        .map((person) => ({
+          tmdbId: person.id,
+          name: person.name,
+          profilePath: person.profile_path,
+        }))
+    : [];
 
   const trailer = (
     seasonData?.videos?.results?.length
@@ -179,6 +213,7 @@ const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
     cast,
     directors,
     creators,
+    execProducers,
   };
 };
 
