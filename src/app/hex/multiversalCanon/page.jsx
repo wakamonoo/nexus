@@ -45,15 +45,21 @@ export default function MultiversalCanon() {
           />
           <h4 className="text-xl">Multiversal Canon</h4>
         </div>
-        {!releasedLegacyTitles?.length === 0 ? (
+        {!releasedLegacyTitles?.length ? (
           <ShowListLoader />
         ) : (
           <div className="w-full">
             <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
               {releasedLegacyTitles
-                .sort(
-                  (a, b) => new Date(a.release_date) - new Date(b.release_date),
-                )
+                .sort((a, b) => {
+                  const dateA =
+                    a.mediaType === "tv" ? a.first_air_date : a.release_date;
+
+                  const dateB =
+                    a.mediaType === "tv" ? b.first_air_date : b.release_date;
+
+                  return new Date(dateA) - new Date(dateB);
+                })
                 .map((unit) => (
                   <div
                     key={unit.date}
