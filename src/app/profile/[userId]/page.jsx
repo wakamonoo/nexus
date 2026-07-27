@@ -192,8 +192,8 @@ export default function UserProfile() {
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
             <aside className="flex flex-col lg:sticky lg:top-0">
-              <div className="flex items-center w-full gap-2 py-4">
-                <div className="w-22 h-22">
+              <div className="flex items-start w-full gap-2 py-4">
+                <div className="w-32 h-32">
                   <Image
                     src={profileUser.picture || Fallback}
                     alt="user"

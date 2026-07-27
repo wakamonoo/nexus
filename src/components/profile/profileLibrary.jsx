@@ -124,9 +124,9 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
               </option>
             </select>
           </div>
-          <div className="flex flex-wrap justify-center gap-2">
+          <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
             {sortedWatch.map((unit, index) => {
-              const title = titles.find((t) => t.titleId === unit.titleId)
+              const title = titles.find((t) => t.titleId === unit.titleId);
               return (
                 <div
                   key={index}

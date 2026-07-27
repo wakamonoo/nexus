@@ -5,13 +5,7 @@ import Image from "next/image";
 import NavBar from "@/components/layout/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
-import { io } from "socket.io-client";
-import {
-  FaArrowDown,
-  FaRegComments,
-  FaTrash,
-  FaUserSlash,
-} from "react-icons/fa";
+import { FaRegComments, FaTrash, FaUserSlash } from "react-icons/fa";
 import ChatLoader from "@/components/loaders/chatLoder";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
@@ -23,7 +17,6 @@ import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
 import CitadelLightBox from "@/components/lightBoxes/citadelLightBox";
 import GifPicker from "@/components/modals/gifPicker";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { FaPencil } from "react-icons/fa6";
 import CircledButtons from "@/components/buttons/circledBtns";
 
 dayjs.extend(relativeTime);
@@ -63,6 +56,7 @@ export default function Citadel() {
   const [editInput, setEditInput] = useState("");
   const [selectedMessage, setSelectedMessage] = useState(null);
   const router = useRouter();
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (!user) return;
@@ -84,6 +78,22 @@ export default function Citadel() {
 
     markRead();
   }, [user]);
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+
+    {
+      if (editingMessage) {
+        setEditInput(value);
+      } else {
+        setInput(value);
+      }
+    }
+
+    e.target.style.height = "auto";
+
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 120)}px`;
+  };
 
   const sendMessage = async () => {
     try {
@@ -228,7 +238,9 @@ export default function Citadel() {
 
               <div className="mt-2">
                 <CircledButtons onClick={() => setShowSignIn(true)}>
-                  <p className="text-base font-bold text-normal">Continue to login</p>
+                  <p className="text-base font-bold text-normal">
+                    Continue to login
+                  </p>
                 </CircledButtons>
               </div>
             </div>
@@ -460,18 +472,14 @@ export default function Citadel() {
               />
               <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">
                 <div className="flex items-center w-full gap-2">
-                  <input
-                    type="text"
+                  <textarea
+                    ref={inputRef}
                     value={editingMessage ? editInput : input}
-                    onChange={(e) => {
-                      if (editingMessage) {
-                        setEditInput(e.target.value);
-                      } else {
-                        setInput(e.target.value);
-                      }
-                    }}
+                    onChange={handleInputChange}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter") {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+
                         editingMessage
                           ? editMessage(editingMessage)
                           : sendMessage();
@@ -482,7 +490,9 @@ export default function Citadel() {
                         ? "Edit your message"
                         : `Chat as ${user.name}...`
                     }
-                    className="w-full text-normal outline-none text-base font-normal truncate"
+                    rows={1}
+                    style={{ maxHeight: "120px" }}
+                    className="w-full resize-none overflow-y-auto text-normal outline-none text-base font-normal bg-transparent"
                   />
                   <MdSend
                     className="text-2xl cursor-pointer shrink-0"
