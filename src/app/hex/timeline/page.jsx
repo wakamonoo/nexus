@@ -119,8 +119,24 @@ export default function Timeline() {
   const nonEarth616 =
     titles
       ?.filter((t) => t?.universe !== "Earth-616")
-      .sort((a, b) => new Date(a.release_date) - new Date(b.release_date)) ||
-    [];
+      .sort((a, b) => {
+        const dateA = a.mediaType === "tv" ? a.first_air_date : a.release_date;
+
+        const dateB = b.mediaType === "tv" ? b.first_air_date : b.release_date;
+
+        return new Date(dateA) - new Date(dateB);
+      }) || [];
+
+  const unknownUniverse =
+    titles
+      ?.filter((t) => t?.category === "adjacent")
+      .sort((a, b) => {
+        const dateA = a.mediaType === "tv" ? a.first_air_date : a.release_date;
+
+        const dateB = b.mediaType === "tv" ? b.first_air_date : b.release_date;
+
+        return new Date(dateA) - new Date(dateB);
+      }) || [];
 
   return (
     <StarBackground>
@@ -185,7 +201,7 @@ export default function Timeline() {
             );
           })}
           <div className="relative flex flex-col items-center">
-            <div className="absolute left-0 top-8 h-80 w-1 bg-hulk" />
+            <div className="absolute left-0 top-8 h-200 w-1 bg-hulk" />
             <div className="ml-10 flex flex-col gap-16">
               <div className="flex items-start">
                 <div className="relative flex flex-col items-center justify-center m-2">
@@ -231,6 +247,54 @@ export default function Timeline() {
                           </p>
                           <p className="text-xs text-vibe text-center">
                             {unit.universe}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex items-start">
+                <div className="relative flex flex-col items-center justify-center m-2">
+                  <div className="absolute right-full top-6 w-12 h-1 bg-hulk" />
+                  <p className="text-4xl text-center font-alt whitespace-nowrap">
+                    Unknown
+                  </p>
+                  <p className="text-base text-center whitespace-nowrap">
+                    Universe not known
+                  </p>
+                </div>
+                {unknownUniverse.map((unit) => {
+                  return (
+                    <div
+                      key={unit.titleId}
+                      onClick={() => handleShowNav(unit.titleId)}
+                      className="relative flex flex-col items-center"
+                    >
+                      <div className="flex items-center flex-col w-full">
+                        <div className="flex items-start w-full">
+                          <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
+                          <div
+                            onClick={() => handleShowNav(unit.titleId)}
+                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
+                          >
+                            <img
+                              src={
+                                unit.poster
+                                  ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                                  : "/fallback.png"
+                              }
+                              alt={unit.title}
+                              loading="lazy"
+                              decoding="async"
+                              className="w-full h-full object-cover rounded"
+                            />
+                          </div>
+                          <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
+                        </div>
+                        <div className="flex flex-col items-center px-2 mt-1">
+                          <p className="text-sm font-bold text-center leading-3.5 line-clamp-2">
+                            {unit.title}
                           </p>
                         </div>
                       </div>
