@@ -50,19 +50,19 @@ export default function MarvelAdjacent() {
         ) : (
           <div className="w-full">
             <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
-              {releasedAdjacentTitles
+              {...releasedAdjacentTitles
                 .sort((a, b) => {
                   const dateA =
                     a.mediaType === "tv" ? a.first_air_date : a.release_date;
 
                   const dateB =
-                    a.mediaType === "tv" ? b.first_air_date : b.release_date;
+                    b.mediaType === "tv" ? b.first_air_date : b.release_date;
 
                   return new Date(dateA) - new Date(dateB);
                 })
                 .map((unit) => (
                   <div
-                    key={unit.date}
+                    key={unit.titleId}
                     onClick={() => handleShowNav(unit.titleId)}
                     className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
                   >

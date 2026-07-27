@@ -904,7 +904,7 @@ export default function Main() {
                     >
                       <div className="flex gap-2">
                         {releasedLegacyTitles.length > 0 ? (
-                          releasedLegacyTitles
+                          [...releasedLegacyTitles]
                             .sort((a, b) => {
                               const dateA =
                                 a.mediaType === "tv"
@@ -912,7 +912,7 @@ export default function Main() {
                                   : a.release_date;
 
                               const dateB =
-                                a.mediaType === "tv"
+                                b.mediaType === "tv"
                                   ? b.first_air_date
                                   : b.release_date;
 
@@ -1006,7 +1006,7 @@ export default function Main() {
                     >
                       <div className="flex gap-2">
                         {releasedAdjacentTitles.length > 0 ? (
-                          releasedAdjacentTitles
+                          [...releasedAdjacentTitles]
                             .sort((a, b) => {
                               const dateA =
                                 a.mediaType === "tv"
@@ -1014,7 +1014,7 @@ export default function Main() {
                                   : a.release_date;
 
                               const dateB =
-                                a.mediaType === "tv"
+                                b.mediaType === "tv"
                                   ? b.first_air_date
                                   : b.release_date;
 
