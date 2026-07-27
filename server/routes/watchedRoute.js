@@ -19,6 +19,7 @@ router.post("/watchRoute", async (req, res) => {
 
     const isMCU = watchedTitle?.category === "mcu";
     const isLegacy = watchedTitle?.category === "legacy";
+    const isAdjacent = watchedTitle?.category === "adjacent";
 
     await db.collection("users").updateOne(
       {
@@ -29,6 +30,7 @@ router.post("/watchRoute", async (req, res) => {
           totalWatched: 0,
           totalMCUWatched: 0,
           totalLegacyWatched: 0,
+          totalAdjacentWatched: 0,
         },
       },
       { upsert: true },
@@ -95,6 +97,18 @@ router.post("/watchRoute", async (req, res) => {
                 0,
               ],
             },
+
+            totalAdjacentWatched: {
+              $max: [
+                {
+                  $subtract: [
+                    { $ifNull: ["$totalAdjacentWatched", 0] },
+                    isAdjacent ? 1 : 0,
+                  ],
+                },
+                0,
+              ],
+            },
           },
         },
       ]);
@@ -135,7 +149,16 @@ router.post("/watchRoute", async (req, res) => {
                 $add: [{ $ifNull: ["$totalMCUWatched", 0] }, isMCU ? 1 : 0],
               },
               totalLegacyWatched: {
-                $add: [{ $ifNull: ["$totalLegacyWatched", 0] }, isLegacy ? 1 : 0],
+                $add: [
+                  { $ifNull: ["$totalLegacyWatched", 0] },
+                  isLegacy ? 1 : 0,
+                ],
+              },
+              totalAdjacentWatched: {
+                $add: [
+                  { $ifNull: ["$totalAdjacentWatched", 0] },
+                  isAdjacent ? 1 : 0,
+                ],
               },
             },
           },
@@ -204,7 +227,7 @@ router.post("/watchRoute", async (req, res) => {
         { upsert: true },
       );
     }
-    res.status(200).json({ message: `${title} marked as watched` });
+    res.status(200).json({ message: `${watchedTitle?.title || titleId} marked as watched` });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });

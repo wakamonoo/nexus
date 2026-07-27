@@ -109,6 +109,11 @@ export default function UserProfile() {
       ? ((profileUser?.totalLegacyWatched || 0) / showNumLegacy) * 100
       : 0;
 
+  const progressAdjacentWatched =
+    showNumLegacy > 0
+      ? ((profileUser?.totalLegacyWatched || 0) / showNumLegacy) * 100
+      : 0;
+
   const memoryInput = latestWatch
     .map((watch) => {
       const title = titles.find((t) => t.titleId === watch.titleId);
