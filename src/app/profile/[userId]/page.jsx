@@ -40,8 +40,12 @@ export default function UserProfile() {
   const { userId } = useParams();
   const { allUsers, user } = useContext(UserContext);
   const { posts } = useContext(PostContext);
-  const { titles, releasedMCUTitles, releasedLegacyTitles } =
-    useContext(TitleContext);
+  const {
+    titles,
+    releasedMCUTitles,
+    releasedLegacyTitles,
+    releasedAdjacentTitles,
+  } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { watchedInfoFetch, watchInfo } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
@@ -69,9 +73,13 @@ export default function UserProfile() {
     ? [...profileUser.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
     : [];
 
-  const showNumAll = releasedMCUTitles?.length + releasedLegacyTitles?.length;
+  const showNumAll =
+    releasedMCUTitles?.length +
+    releasedLegacyTitles?.length +
+    releasedAdjacentTitles?.length;
   const showNumMCU = releasedMCUTitles?.length;
   const showNumLegacy = releasedLegacyTitles?.length;
+  const showNumAdjacent = releasedAdjacentTitles?.length;
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -109,9 +117,9 @@ export default function UserProfile() {
       ? ((profileUser?.totalLegacyWatched || 0) / showNumLegacy) * 100
       : 0;
 
-  const progressAdjacentWatched =
+  const progressAdjacent =
     showNumLegacy > 0
-      ? ((profileUser?.totalLegacyWatched || 0) / showNumLegacy) * 100
+      ? ((profileUser?.totalAdjacentWatched || 0) / showNumAdjacent) * 100
       : 0;
 
   const memoryInput = latestWatch
@@ -237,6 +245,22 @@ export default function UserProfile() {
                       <div
                         className="h-full bg-hulk transition-all duration-500"
                         style={{ width: `${progressLegacy}%` }}
+                      />
+                    </div>
+
+                    <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <p className="text-xs text-vibe opacity-60">
+                          {profileUser.totalAdjacentWatched
+                            ? profileUser.totalAdjacentWatched
+                            : 0}
+                          /<span>{showNumAdjacent}</span> marvel adjacent
+                          watched
+                        </p>
+                      </div>
+                      <div
+                        className="h-full bg-[var(--color-infinity)] transition-all duration-500"
+                        style={{ width: `${progressAdjacent}%` }}
                       />
                     </div>
 

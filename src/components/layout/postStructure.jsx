@@ -190,7 +190,7 @@ export default function PostStructure({ post }) {
               router.push(`/posts/${post.topic}`);
             }
           }}
-          className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : "from-[var(--color-hulk)]"} to-[var(--color-zeus)] ${
+          className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] ${
             post.topic ? "block" : "hidden"
           }`}
         >

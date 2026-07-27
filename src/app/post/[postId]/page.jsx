@@ -390,8 +390,8 @@ export default function Post() {
                           setIsLoading(true);
                           router.push(`/posts/${post?.topic}`);
                         }}
-                        className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] ${
-                          post?.topic ? "block" : "hidden"
+                        className={`h-fit w-fit rounded-full bg-gradient-to-r ${post?.category === "mcu" ? "from-[var(--color-accent)]" : post?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] ${
+                          post.topic ? "block" : "hidden"
                         }`}
                       >
                         <p className="font-bold text-sm text-vibe px-2">
