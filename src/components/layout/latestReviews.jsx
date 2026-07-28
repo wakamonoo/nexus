@@ -94,8 +94,9 @@ export default function LatestReviews() {
             }}
             src={review.userImage}
             alt={review.userName}
-            width={32}
-            height={32}
+            width={0}
+            height={0}
+            sizes="100vw"
             className="w-8 h-8 rounded-full object-cover cursor-pointer"
           />
           <div className="pr-2">

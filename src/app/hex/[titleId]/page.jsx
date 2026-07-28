@@ -464,9 +464,10 @@ export default function Title() {
                         }}
                         src={review.userImage}
                         alt={review.userName}
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 rounded-full object-cover cursor-pointer"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-12 h-12 object-cover rounded-full"
                       />
                       <div className="flex flex-col">
                         <p
@@ -475,7 +476,7 @@ export default function Title() {
                             setIsLoading(true);
                             router.push(`/profile/${review.userId}`);
                           }}
-                          className="cursor-pointer text-sm mt-2 font-bold leading-none"
+                          className="cursor-pointer text-base mt-2 font-bold leading-none"
                         >
                           {review.userName}
                         </p>
