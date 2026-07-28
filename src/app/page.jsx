@@ -21,8 +21,12 @@ export default function Page() {
           <Banner />
           <TitleCountdown />
           <ScreenTime />
+          <div className="lg:hidden">
+            <LatestReviews />
+          </div>
           <RinaNews />
-          <Hero /> 
+
+          <Hero />
         </div>
         <aside className="hidden lg:block lg:w-[25%] pt-18 h-screen sticky top-0">
           <LatestReviews />

@@ -1,10 +1,14 @@
 "use client";
+import RegularButtons from "@/components/buttons/regBtns";
+import SecondaryButtons from "@/components/buttons/secBtns";
 import ExportCard from "@/components/portfolio/exportCard";
 import { TitleContext } from "@/context/titleContext";
 import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
 import { domToPng } from "modern-screenshot";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { FaAngleLeft } from "react-icons/fa";
 
 export default function Portfolio() {
   const [exporting, setExporting] = useState(false);
@@ -12,6 +16,8 @@ export default function Portfolio() {
   const { user } = useContext(UserContext);
   const { watchedInfoFetch, isTitleWatched } = useContext(WatchContext);
   const [order, setOrder] = useState([]);
+  const [orderType, setOrderType] = useState("Chronological");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -60,45 +66,80 @@ export default function Portfolio() {
   };
 
   return (
-    <main>
-      <div>
-        <p>Nexus collection</p>
-      </div>
-      <div>
-        <button onClick={() => setOrder(chrono)}>Chrono</button>
-        <button onClick={() => setOrder(release)}>Release</button>
-      </div>
-      <button onClick={exportImage} disabled={exporting}>
-        {exporting ? "generating" : "export 4:5 image"}
-      </button>
-      <div
-        style={{
-          width: 1080,
-          height: 1350,
-          transformOrigin: "top left",
-          marginBottom: -(1350 * 0.65),
-          marginRight: -(1080 * 0.65),
-        }}
-        className="scale-[0.35] md:scale-[0.8]"
-      >
-        <ExportCard order={order} isTitleWatched={isTitleWatched} />
-      </div>
-      <div
-        style={{
-          position: "fixed",
-          left: "-100000px",
-          top: 0,
-          width: 1080,
-          height: 1350,
-          pointerEvents: "none",
-        }}
-      >
-        <ExportCard
-          order={order}
-          isTitleWatched={isTitleWatched}
-          id="nexus-portfolio-export"
+    <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 w-full">
+      <div className="flex justify-between py-4">
+        <FaAngleLeft
+          onClick={() => router.back()}
+          className="text-2xl cursor-pointer"
         />
+        <h4 className="text-xl">PORTFOLIO</h4>
       </div>
-    </main>
+      <div className="grid grid-cols-1 md:grid-cols-[280px_minmax(0,1fr)] md:gap-8">
+        <aside className="w-full">
+          <div className="flex gap-2">
+            <SecondaryButtons
+              onClick={() => {
+                setOrder(chrono);
+                setOrderType("Chronological");
+              }}
+            >
+              Chrono
+            </SecondaryButtons>
+            <SecondaryButtons
+              onClick={() => {
+                setOrder(release);
+                setOrderType("Release");
+              }}
+            >
+              Release
+            </SecondaryButtons>
+          </div>
+          <RegularButtons onClick={exportImage} disabled={exporting}>
+            {exporting ? "generating" : "export 4:5 image"}
+          </RegularButtons>
+        </aside>
+        <div>
+          <div className="flex justify-center mt-4">
+            <div className="relative h-[472.5px] w-[378px] md:h-[675px] md:w-[540px]">
+              <div
+                style={{
+                  width: 1080,
+                  height: 1350,
+                  transformOrigin: "top left",
+                  marginBottom: -(1350 * 0.65),
+                  marginRight: -(1080 * 0.65),
+                }}
+                className="scale-[0.35] md:scale-[0.5]"
+              >
+                <ExportCard
+                  user={user}
+                  order={order}
+                  orderType={orderType}
+                  isTitleWatched={isTitleWatched}
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            style={{
+              position: "fixed",
+              left: "-100000px",
+              top: 0,
+              width: 1080,
+              height: 1350,
+              pointerEvents: "none",
+            }}
+          >
+            <ExportCard
+              user={user}
+              order={order}
+              orderType={orderType}
+              isTitleWatched={isTitleWatched}
+              id="nexus-portfolio-export"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

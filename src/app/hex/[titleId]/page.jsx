@@ -448,7 +448,7 @@ export default function Title() {
                 title.reviews?.map((review, index) => (
                   <div
                     key={index}
-                    className="bg-second rounded-2xl border-1 border-panel p-2 relative mt-4 md:mt-0"
+                    className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative mt-4 md:mt-0"
                   >
                     {review.date === firstReview.date ? (
                       <div className="flex absolute top-2 right-2">
