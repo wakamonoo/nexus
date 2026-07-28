@@ -80,12 +80,11 @@ export default function LatestReviews() {
 
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-secondary)] to transparent" />
         <div className="absolute bottom-2 left-4 right-4">
-          <p className="text-vibe text-lg font-semibold leading-tight line-clamp-2">
+          <p className="text-vibe text-base font-semibold leading-tight line-clamp-2">
             {review.title}
           </p>
         </div>
 
-          
         <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-panel px-2 py-1.5">
           <Image
             onClick={(e) => {
@@ -97,7 +96,7 @@ export default function LatestReviews() {
             alt={review.userName}
             width={32}
             height={32}
-            className="w-8 h-8 rounded-full object-cover cursor-pointer transition-transform hover:scale-110"
+            className="w-8 h-8 rounded-full object-cover cursor-pointer"
           />
           <div className="pr-2">
             <p
@@ -106,7 +105,7 @@ export default function LatestReviews() {
                 setIsLoading(true);
                 router.push(`/profile/${review.userId}`);
               }}
-              className="max-w-32 truncate text-xs font-bold cursor-pointer hover:underline"
+              className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer hover:underline"
             >
               {review.userName}
             </p>
@@ -127,9 +126,9 @@ export default function LatestReviews() {
           </div>
         </div>
       </div>
-      <div className="px-2 pb-4">
+      <div className="p-2">
         <div className="flex items-start">
-          <div className="flex items-center justify-center w-8 h-8 shrink-0 rounded-full bg-[var(--color-secondary)]">
+          <div className="flex items-center justify-center w-8 h-8 shrink-0">
             <FaQuoteLeft className="text-xs opacity-60" />
           </div>
           <p className="text-base text-vibe leading-tight line-clamp-2 mt-2">

@@ -463,11 +463,10 @@ export default function Title() {
                           router.push(`/profile/${review.userId}`);
                         }}
                         src={review.userImage}
-                        alt="user"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="cursor-pointer w-12 h-12 rounded-full"
+                        alt={review.userName}
+                        width={32}
+                        height={32}
+                        className="w-8 h-8 rounded-full object-cover cursor-pointer"
                       />
                       <div className="flex flex-col">
                         <p
@@ -476,7 +475,7 @@ export default function Title() {
                             setIsLoading(true);
                             router.push(`/profile/${review.userId}`);
                           }}
-                          className="cursor-pointer text-base mt-2 font-bold leading-3.5"
+                          className="cursor-pointer text-sm mt-2 font-bold leading-none"
                         >
                           {review.userName}
                         </p>
@@ -501,10 +500,14 @@ export default function Title() {
                         </p>
                       </div>
                     </div>
-                    <div className="border-t border-[var(--color-vibranium)]/20 mt-4 py-4">
-                      <div className="flex items-start gap-2 text-normal leading-snug">
-                        <FaQuoteLeft className="text-xs shrink-0 opacity-50" />
-                        <p className="italic">{review.textReview}</p>
+                    <div className="border-t border-[var(--color-vibranium)]/20 mt-2">
+                      <div className="flex items-start">
+                        <div className="flex items-center justify-center w-8 h-8 shrink-0">
+                          <FaQuoteLeft className="text-xs opacity-60" />
+                        </div>
+                        <p className="text-base text-vibe leading-tight line-clamp-2 mt-2">
+                          {review.textReview}
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center justify-end px-2 gap-2">
