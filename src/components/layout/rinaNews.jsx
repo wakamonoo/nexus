@@ -67,7 +67,7 @@ export default function RinaNews() {
             <div className="flex gap-3 pb-4">
               <Image
                 src={Rina}
-                alt="file"
+                alt="rina"
                 width={0}
                 height={0}
                 sizes="100vw"

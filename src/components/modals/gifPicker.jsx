@@ -92,16 +92,18 @@ export default function GifPicker({ onSelect, setShowGifPicker }) {
                 </div>
               </div>
             ) : (
-              <Masonry breakpointCols={2} className="flex gap-2 mt-2 overflow-y-auto custom-scroll" columnClassName="space-y-2">
+              <Masonry
+                breakpointCols={2}
+                className="flex gap-2 mt-2 overflow-y-auto custom-scroll"
+                columnClassName="space-y-2"
+              >
                 {gifs.map((gif) => (
-                  <Image
+                  <img
                     key={gif.id}
                     src={gif.media_formats.tinygif.url}
                     alt="gif"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    unoptimized
+                    loading="lazy"
+                    decoding="async"
                     className="w-full break-inside-avoid cursor-pointer rounded hover:opacity-80"
                     onClick={() => onSelect(gif.media_formats.gif.url)}
                   />

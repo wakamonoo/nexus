@@ -146,12 +146,11 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
 
           <div className="mt-4 p-2 h-full w-full">
             <div className="flex py-2 justify-start items-center gap-2">
-              <Image
+              <img
                 src={post?.userImage || Fallback}
-                alt="user"
-                width={0}
-                height={0}
-                sizes="100vw"
+                alt={post?.userName}
+                loading="lazy"
+                decoding="async"
                 className="w-10 h-10 rounded-full"
               />
               <p className="text-base text-normal font-bold">{post.userName}</p>
@@ -214,12 +213,11 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
                       return (
                         <div key={index} className="w-20 h-20 relative">
                           {isImage ? (
-                            <Image
+                            <img
                               src={file}
                               alt={`preivew-${index}`}
-                              width={0}
-                              height={0}
-                              sizes="100vw"
+                              loading="lazy"
+                              decoding="async"
                               className="w-full h-full object-cover rounded"
                             />
                           ) : (
@@ -254,12 +252,11 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
                     {newFiles.map((file, index) => (
                       <div key={index} className="w-20 h-20 relative">
                         {file.type.startsWith("image/") ? (
-                          <Image
+                          <img
                             src={URL.createObjectURL(file)}
                             alt={`preivew-${index}`}
-                            width={0}
-                            height={0}
-                            sizes="100vw"
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover rounded"
                           />
                         ) : (

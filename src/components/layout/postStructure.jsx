@@ -122,7 +122,7 @@ export default function PostStructure({ post }) {
       ) : null}
 
       <div className="flex gap-3 px-4 items-center py-2">
-        <Image
+        <img
           onClick={(e) => {
             e.stopPropagation();
             if (pathname.startsWith("/profile")) {
@@ -136,10 +136,9 @@ export default function PostStructure({ post }) {
             }
           }}
           src={post.userImage || Fallback}
-          alt="user"
-          width={0}
-          height={0}
-          sizes="100vw"
+          alt={post.userName}
+          loading="lazy"
+          decoding="async"
           className="w-12 h-12 object-cover rounded-full"
         />
         <div className="flex flex-col">
@@ -304,13 +303,12 @@ export default function PostStructure({ post }) {
                   className="flex-shrink-0 w-full h-full snap-center snap-always"
                 >
                   {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
-                    <Image
+                    <img
                       src={file || Fallback}
                       alt="file"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      onLoadingComplete={(img) => {
+                      loading="lazy"
+                      decoding="async"
+                      onLoad={(img) => {
                         if (index === 0 && !aspectRatio) {
                           setAspectRatio(img.naturalWidth / img.naturalHeight);
                         }

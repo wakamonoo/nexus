@@ -180,12 +180,11 @@ export default function Page() {
                     key={i}
                     className="flex flex-col justify-center p-2 bg-second rounded-2xl border border-panel items-center w-50 h-auto"
                   >
-                    <Image
+                    <img
                       src={user?.picture || Fallback}
                       alt="user"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
+                       loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover rounded-2xl"
                     />
                     <p className="truncate h-10 w-full text-center text-sm font-bold border-b border-panel mb-2">

@@ -111,16 +111,15 @@ export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
                       type="button"
                       className="flex items-center gap-3 rounded-lg bg-panel p-3 text-left transition hover:bg-[var(--color-panel)]/80 cursor-pointer"
                     >
-                      <Image
+                      <img
                         src={
                           item.poster_path
                             ? `https://image.tmdb.org/t/p/w154${item.poster_path}`
                             : Fallback
                         }
                         alt={item.title || item.name}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
+                        loading="lazy"
+                        decoding="async"
                         className="w-24 h-32 object-cover rounded"
                       />
                       <div className="flex flex-col">

@@ -113,12 +113,11 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
           </button>
           <div className="mt-4 p-2 h-full w-full">
             <div className="flex py-2 justify-start items-center gap-2">
-              <Image
+              <img
                 src={user?.picture}
-                alt="user"
-                width={0}
-                height={0}
-                sizes="100vw"
+                alt={user?.name}
+                loading="lazy"
+                decoding="async"
                 className="w-10 h-10 rounded-full"
               />
               <p className="text-base text-normal font-bold">{user?.name}</p>

@@ -19,12 +19,11 @@ export default function SortableItem({ id, image }) {
       {...listeners}
       className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer touch-none"
     >
-      <Image
+      <img
         src={image}
         alt="image"
-        width={0}
-        height={0}
-        sizes="100vw"
+        loading="lazy"
+        decoding="async"
         className="w-full h-full object-fill rounded"
       />
     </div>

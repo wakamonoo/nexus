@@ -3,7 +3,12 @@ import { ScrollContext } from "@/context/scrollContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
 import { PiRankingDuotone } from "react-icons/pi";
-import { MdAdminPanelSettings, MdCheckBox, MdLogin, MdLogout } from "react-icons/md";
+import {
+  MdAdminPanelSettings,
+  MdCheckBox,
+  MdLogin,
+  MdLogout,
+} from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { GiNinjaHead } from "react-icons/gi";
 import Image from "next/image";
@@ -36,12 +41,11 @@ export default function UserNav({ setShowUserNav }) {
           >
             {user ? (
               <>
-                <Image
+                <img
                   src={user.picture}
-                  alt="user"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
+                  alt={user.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-6 h-6 object-cover rounded-full"
                 />
                 <p className="text-base font-bold text-normal">{user.name}</p>

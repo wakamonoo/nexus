@@ -194,12 +194,11 @@ export default function UserProfile() {
             <aside className="flex flex-col lg:sticky lg:top-0">
               <div className="flex items-start w-full gap-2 py-4">
                 <div className="w-32 h-32">
-                  <Image
+                  <img
                     src={profileUser.picture || Fallback}
-                    alt="user"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
+                    alt={profileUser.name}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover rounded-full"
                   />
                 </div>

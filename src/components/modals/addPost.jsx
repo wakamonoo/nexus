@@ -151,8 +151,6 @@ export default function AddPost({ setShowAddPost }) {
     }
   };
 
- 
-
   return (
     <>
       <div
@@ -172,12 +170,11 @@ export default function AddPost({ setShowAddPost }) {
 
           <div className="mt-4 p-2 h-full w-full">
             <div className="flex py-2 justify-start items-center gap-2">
-              <Image
+              <img
                 src={user?.picture}
-                alt="user"
-                width={0}
-                height={0}
-                sizes="100vw"
+                alt={user.name}
+                loading="lazy"
+                decoding="async"
                 className="w-10 h-10 rounded-full"
               />
               <p className="text-base text-normal font-bold">{user?.name}</p>
@@ -247,12 +244,11 @@ export default function AddPost({ setShowAddPost }) {
                   {Array.from(post.file).map((file, index) => (
                     <div key={index} className="w-20 h-20 relative">
                       {file.type.startsWith("image/") ? (
-                        <Image
+                        <img
                           src={URL.createObjectURL(file)}
                           alt={`preivew-${index}`}
-                          width={0}
-                          height={0}
-                          sizes="100vw"
+                           loading="lazy"
+                      decoding="async"
                           className="w-full h-full object-cover rounded"
                         />
                       ) : (

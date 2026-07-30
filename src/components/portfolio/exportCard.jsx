@@ -17,12 +17,11 @@ export default function ExportCard({
       className="p-10 bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]"
     >
       <div className="flex items-center justify-center gap-2 p-2">
-        <Image
+        <img
           src={user?.picture || Fallback}
           alt={user?.name}
-          width={0}
-          height={0}
-          sizes="100vw"
+           loading="lazy"
+                      decoding="async"
           className="w-12 h-12 rounded-full object-cover"
         />
         <p className="text-4xl font-tall uppercase">

@@ -86,7 +86,7 @@ export default function LatestReviews() {
         </div>
 
         <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-panel px-2 py-1.5">
-          <Image
+          <img
             onClick={(e) => {
               e.stopPropagation();
               setIsLoading(true);
@@ -94,9 +94,8 @@ export default function LatestReviews() {
             }}
             src={review.userImage}
             alt={review.userName}
-            width={0}
-            height={0}
-            sizes="100vw"
+            loading="lazy"
+            decoding="async"
             className="w-8 h-8 rounded-full object-cover cursor-pointer"
           />
           <div className="pr-2">

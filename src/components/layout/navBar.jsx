@@ -207,12 +207,11 @@ export default function NavBar() {
               loading ? (
                 <ImageLoader />
               ) : (
-                <Image
+                <img
                   src={user.picture || Fallback}
-                  alt="user"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
+                  alt={user.name}
+                  loading="lazy"
+                  decoding="async"
                   className={`w-6 h-6 group-hover:border-[var(--color-accent)] border-1 rounded-full cursor-pointer ${
                     showUserNav ? "border-accent border-1" : "text-normal"
                   }`}

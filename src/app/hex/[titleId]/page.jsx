@@ -456,7 +456,7 @@ export default function Title() {
                       </div>
                     ) : null}
                     <div className="flex items-center gap-2">
-                      <Image
+                      <img
                         onClick={(e) => {
                           e.stopPropagation();
                           setIsLoading(true);
@@ -464,9 +464,8 @@ export default function Title() {
                         }}
                         src={review.userImage}
                         alt={review.userName}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
+                        loading="lazy"
+                        decoding="async"
                         className="w-12 h-12 object-cover rounded-full"
                       />
                       <div className="flex flex-col">

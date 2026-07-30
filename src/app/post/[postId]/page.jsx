@@ -341,17 +341,16 @@ export default function Post() {
                     ) : null}
 
                     <div className="flex gap-3 px-4 py-2 items-center">
-                      <Image
+                      <img
                         onClick={(e) => {
                           e.stopPropagation();
                           setIsLoading(true);
                           router.push(`/profile/${post?.userId}`);
                         }}
                         src={post?.userImage || Fallback}
-                        alt="user"
-                        width={0}
-                        height={0}
-                        sizes="100vw"
+                        alt={post?.userName}
+                        loading="lazy"
+                        decoding="async"
                         className="cursor-pointer w-12 h-12 object-cover rounded-full"
                       />
                       <div className="flex flex-col">
@@ -476,12 +475,11 @@ export default function Post() {
                                 {["jpg", "jpeg", "png", "gif", "webp"].includes(
                                   ext,
                                 ) ? (
-                                  <Image
+                                  <img
                                     src={file}
                                     alt="file"
-                                    width={0}
-                                    height={0}
-                                    sizes="100vw"
+                                    loading="lazy"
+                                    decoding="async"
                                     onLoadingComplete={(img) => {
                                       if (index === 0 && !aspectRatio) {
                                         setAspectRatio(
@@ -608,16 +606,15 @@ export default function Post() {
                   post?.comments?.map((comment, index) => (
                     <div key={index} className="flex flex-col">
                       <div className="flex gap-2 relative">
-                        <Image
+                        <img
                           onClick={() => {
                             router.push(`/profile/${comment.userId}`);
                             setIsLoading(true);
                           }}
                           src={comment.userImage}
-                          alt="user"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
+                          alt={comment.userName}
+                          loading="lazy"
+                          decoding="async"
                           className="w-12 h-12 object-cover rounded-full cursor-pointer"
                         />
                         <div className="flex flex-col w-full">
@@ -687,12 +684,11 @@ export default function Post() {
                                         className="w-full h-full rounded"
                                       />
                                     ) : isImage || isGif ? (
-                                      <Image
+                                      <img
                                         src={file}
                                         alt={`sent by ${comment.sender}`}
-                                        width={0}
-                                        height={0}
-                                        sizes="100vw"
+                                        loading="lazy"
+                                        decoding="async"
                                         className="w-full h-full object-cover rounded"
                                       />
                                     ) : null}
@@ -735,16 +731,15 @@ export default function Post() {
                         <div className="flex flex-col  gap-2 mt-2 ml-12">
                           {comment.replies.map((reply, index) => (
                             <div key={index} className="flex gap-2 relative">
-                              <Image
+                              <img
                                 onClick={() => {
                                   router.push(`/profile/${reply.userId}`);
                                   setIsLoading(true);
                                 }}
                                 src={reply.userImage}
-                                alt="user"
-                                width={0}
-                                height={0}
-                                sizes="100vw"
+                                alt={reply.userName}
+                                loading="lazy"
+                                decoding="async"
                                 className="w-12 h-12 object-cover rounded-full cursor-pointer"
                               />
                               <div className="flex flex-col w-full">
@@ -810,12 +805,11 @@ export default function Post() {
                                               className="w-full h-full rounded"
                                             />
                                           ) : isImage || isGif ? (
-                                            <Image
+                                            <img
                                               src={file}
                                               alt={`sent by ${reply.sender}`}
-                                              width={0}
-                                              height={0}
-                                              sizes="100vw"
+                                              loading="lazy"
+                                              decoding="async"
                                               className="w-full h-full object-cover rounded"
                                             />
                                           ) : null}
@@ -872,12 +866,11 @@ export default function Post() {
 
                       return (
                         <div key={index} className="w-20 h-20 relative">
-                          <Image
+                          <img
                             src={previewSrc}
                             alt={`preivew-${index}`}
-                            width={0}
-                            height={0}
-                            sizes="100vw"
+                            loading="lazy"
+                            decoding="async"
                             className="w-full h-full object-cover rounded"
                           />
                           <div className="absolute top-1 right-1">
@@ -900,12 +893,11 @@ export default function Post() {
               </div>
 
               <div className="flex items-start sticky z-50 bottom-0 md:bottom-2 w-full gap-2 p-2 md:rounded-2xl bg-second">
-                <Image
+                <img
                   src={user?.picture || Fallback}
-                  alt="user"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
+                  alt={user?.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-12 h-12 object-cover rounded-full shrink-0"
                 />
                 <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">

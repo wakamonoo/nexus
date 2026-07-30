@@ -35,7 +35,7 @@ export default function ProfileReviews({ profileUser }) {
               titleId: t.titleId,
               type: t.type,
               timeline: t.timeline,
-            })) || []
+            })) || [],
       );
       setReviews(profileUserReviews);
     }
@@ -49,7 +49,7 @@ export default function ProfileReviews({ profileUser }) {
             <div className="flex flex-col items-center justify-center">
               <MdRateReview className="text-4xl text-vibe opacity-40" />
               <p className="text-xs text-vibe opacity-40">
-                 {`${profileUser?.uid === user?.uid ? "you" : profileUser.name } have no reviews yet`}
+                {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} have no reviews yet`}
               </p>
             </div>
           </div>
@@ -65,16 +65,15 @@ export default function ProfileReviews({ profileUser }) {
                 className="bg-second w-full rounded-2xl border-1 border-panel cursor-pointer p-2"
               >
                 <div className="flex gap-2 items-center py-2">
-                  <Image
+                  <img
                     onClick={(e) => {
                       e.stopPropagation();
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                     src={review.userImage}
-                    alt="user"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
+                    alt={review.userName}
+                    loading="lazy"
+                    decoding="async"
                     className="cursor-pointer w-12 h-12 object-cover rounded-full"
                   />
                   <div className="flex flex-col">
@@ -91,7 +90,7 @@ export default function ProfileReviews({ profileUser }) {
                       {(() => {
                         const diffWeeks = dayjs().diff(
                           dayjs(review.date),
-                          "week"
+                          "week",
                         );
                         if (diffWeeks < 1) {
                           return dayjs(review.date).fromNow();

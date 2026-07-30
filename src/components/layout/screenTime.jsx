@@ -35,7 +35,7 @@ export default function ScreenTime() {
       rank: currentRank,
     };
   });
-  
+
   const topWatchers = rankedUsers.filter((user) => user.rank <= 3);
 
   const rankIcon = (rank) => {
@@ -84,12 +84,11 @@ export default function ScreenTime() {
                     <div className="w-7 flex justify-center">
                       {rankIcon(user.rank)}
                     </div>
-                    <Image
+                    <img
                       src={user.picture || Fallback}
                       alt={user.name}
-                      width={0}
-                      height={0}
-                      sizes="100vw"
+                      loading="lazy"
+                      decoding="async"
                       className="w-12 h-12 object-cover rounded-full"
                     />
                     <div className="text-left">

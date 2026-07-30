@@ -41,8 +41,8 @@ export default function UserSearch({ showSearch, setShowSearch }) {
       setLoading(true);
       const res = await fetch(
         `${BASE_URL}/api/users/allUsersGet?query=${encodeURIComponent(
-          searchInput
-        )}`
+          searchInput,
+        )}`,
       );
       const data = await res.json();
       setSearchResults(data.result);
@@ -122,12 +122,12 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                 className="w-full rounded-full bg-second hover:bg-[var(--color-panel)] border-1 border-panel p-2"
               >
                 <div className="flex gap-2 items-center cursor-pointer">
-                  <Image
+                  <img
                     src={profile.picture || Fallback}
-                    alt="image"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
+                    alt={profile.name}
+                    w
+                    loading="lazy"
+                    decoding="async"
                     className="w-12 h-12 object-fill rounded-full"
                   />
                   <div className="flex flex-col">

@@ -294,7 +294,7 @@ export default function Citadel() {
                           }`}
                         >
                           {!ownMessage && (
-                            <Image
+                            <img
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setIsLoading(true);
@@ -302,9 +302,8 @@ export default function Citadel() {
                               }}
                               src={msg.picture || ironman}
                               alt="user"
-                              width={0}
-                              height={0}
-                              sizes="100vw"
+                              loading="lazy"
+                              decoding="async"
                               className="cursor-pointer w-8 h-8 rounded-full"
                             />
                           )}
@@ -398,12 +397,11 @@ export default function Citadel() {
                                               className="w-full h-full rounded"
                                             />
                                           ) : isImage || isGif ? (
-                                            <Image
+                                            <img
                                               src={file}
                                               alt={`sent by ${msg.sender}`}
-                                              width={0}
-                                              height={0}
-                                              sizes="100vw"
+                                              loading="lazy"
+                                              decoding="async"
                                               className="w-full h-full object-cover rounded"
                                             />
                                           ) : null}
@@ -435,12 +433,11 @@ export default function Citadel() {
 
                     return (
                       <div key={index} className="w-20 h-20 relative">
-                        <Image
+                        <img
                           src={previewSrc}
                           alt={`preivew-${index}`}
-                          width={0}
-                          height={0}
-                          sizes="100vw"
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover rounded"
                         />
                         <div className="absolute top-1 right-1">
@@ -462,12 +459,11 @@ export default function Citadel() {
               )}
             </div>
             <div className="w-full flex items-start gap-2 p-2 bg-second">
-              <Image
+              <img
                 src={user?.picture || Fallback}
-                alt="user"
-                width={0}
-                height={0}
-                sizes="100vw"
+                alt={user.name}
+                loading="lazy"
+                decoding="async"
                 className="w-12 h-12 object-cover rounded-full shrink-0"
               />
               <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">

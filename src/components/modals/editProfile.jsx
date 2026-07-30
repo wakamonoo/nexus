@@ -58,7 +58,7 @@ export default function EditProfile({ setEditProfile, user }) {
           {
             method: "POST",
             body: formData,
-          }
+          },
         );
 
         const cloudData = await cloudRes.json();
@@ -142,16 +142,15 @@ export default function EditProfile({ setEditProfile, user }) {
             >
               <div className="flex items-start gap-2">
                 <div className="w-24 aspect-square relative flex-shrink-0">
-                  <Image
+                  <img
                     src={
                       data.userImage instanceof File
                         ? URL.createObjectURL(data.userImage)
                         : data.userImage || Fallback
                     }
-                    alt="user"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
+                    alt={data.userName}
+                    loading="lazy"
+                    decoding="async"
                     name="userImage"
                     className="object-cover w-full h-full rounded-full"
                   />
