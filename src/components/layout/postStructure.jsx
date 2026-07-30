@@ -310,7 +310,7 @@ export default function PostStructure({ post }) {
                       decoding="async"
                       onLoad={(img) => {
                         if (index === 0 && !aspectRatio) {
-                          setAspectRatio(img.naturalWidth / img.naturalHeight);
+                          setAspectRatio(img.currentTarget.naturalWidth / img.currentTarget.naturalHeight);
                         }
                       }}
                       className="w-full h-full object-cover"
