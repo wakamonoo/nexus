@@ -46,11 +46,15 @@ export default function Countdown() {
   });
 
   const latestRelased = mappedTitles
-    ?.filter((title) => title.status === "released" && title.dateUTC.isBefore(now))
+    ?.filter(
+      (title) => title.status === "released" && title.dateUTC.isBefore(now),
+    )
     ?.sort((a, b) => b.dateUTC.diff(a.dateUTC))[0];
 
   const nextUpcomming = mappedTitles
-    ?.filter((title) => title.status === "upcoming" && title.dateUTC.isAfter(now))
+    ?.filter(
+      (title) => title.status === "upcoming" && title.dateUTC.isAfter(now),
+    )
     ?.sort((a, b) => a.dateUTC.diff(b.dateUTC))[0];
 
   const showReleased =
@@ -158,12 +162,20 @@ export default function Countdown() {
         )}
         {showReleased && latestRelased && (
           <div className="flex flex-col items-center justify-center leading-none">
+            <p className="uppercase text-xs text-vibe tracking-[0.3em]">
+              Now Showing
+            </p>
             <h1 className="text-4xl font-bold text-center tracking-tight">
               {displayTitle?.title}
             </h1>
-            <p className="uppercase text-sm font-alt text-vibe tracking-[0.35em]">
-              Is now showing
-            </p>
+            <div className="flex items-center gap-2 pb-2 w-[50%]">
+              <div className="flex-1 border-t-2 border-accent" />
+              <p className="text-xs text-vibe tracking-[0.3em]">
+                Released{" "}
+                <span>{latestRelased.dateUTC.format("MMM DD, YYYY")}</span>
+              </p>
+              <div className="flex-1 border-t-2 border-accent" />
+            </div>
           </div>
         )}
       </div>
