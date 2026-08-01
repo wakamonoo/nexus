@@ -149,7 +149,7 @@ export default function PostLightBox() {
               className="flex-shrink-0 w-full h-full snap-center flex items-center justify-center relative"
             >
               {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) && (
-                <Image src={file} alt="file" fill className="object-contain" />
+                <img src={file} alt="file" className="absolute inset-0 w-full h-full object-contain" />
               )}
               {["mp4", "webm", "ogg"].includes(ext) && (
                 <video

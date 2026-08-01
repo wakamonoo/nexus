@@ -5,13 +5,28 @@ export async function titleRefresh() {
   const mongodb = process.env.MONGODB;
   const db = client.db(mongodb);
 
-  await db.collection("titles").updateMany(
+  const now = new Date().toISOString().split("T")[0];
+
+  const result = await db.collection("titles").updateMany(
     {
       status: "upcoming",
-      date: { $lte: new Date() },
+      $or: [
+        {
+          mediaType: "movie",
+          release_date: { $ne: "", $lte: now },
+        },
+        {
+          mediaType: "tv",
+          first_air_date: { $ne: "", $lte: now },
+        },
+      ],
     },
     {
       $set: { status: "released" },
     },
   );
+
+  console.log(`[CRON] updated ${result.modifiedCount} titles`);
+
+  return result;
 }

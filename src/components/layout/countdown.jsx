@@ -13,7 +13,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function Countdown() {
-  const { upcomingTitles, pageLoad } = useContext(TitleContext);
+  const { titles, pageLoad } = useContext(TitleContext);
   const [now, setNow] = useState(dayjs.utc());
   const [globalShow, setGlobalShow] = useState(true);
   const [localShow, setLocalShow] = useState(false);
@@ -35,7 +35,7 @@ export default function Countdown() {
     return () => clearInterval(interval);
   }, []);
 
-  const titles = upcomingTitles?.map((title) => {
+  const mappedTitles = titles?.map((title) => {
     const releaseDate =
       title.mediaType === "tv" ? title.first_air_date : title.release_date;
 
@@ -45,12 +45,12 @@ export default function Countdown() {
     };
   });
 
-  const latestRelased = titles
-    ?.filter((title) => title.dateUTC.isBefore(now))
-    ?.sort((a, b) => a.dateUTC.diff(b.dateUTC))[0];
+  const latestRelased = mappedTitles
+    ?.filter((title) => title.status === "released" && title.dateUTC.isBefore(now))
+    ?.sort((a, b) => b.dateUTC.diff(a.dateUTC))[0];
 
-  const nextUpcomming = titles
-    ?.filter((title) => title.dateUTC.isAfter(now))
+  const nextUpcomming = mappedTitles
+    ?.filter((title) => title.status === "upcoming" && title.dateUTC.isAfter(now))
     ?.sort((a, b) => a.dateUTC.diff(b.dateUTC))[0];
 
   const showReleased =
@@ -88,7 +88,7 @@ export default function Countdown() {
           backgroundPosition: "center",
         }}
       >
-        {nextUpcomming && (
+        {!showReleased && nextUpcomming && (
           <>
             <h1 className="text-xl text-center">
               Countdown to {displayTitle?.title}
@@ -140,7 +140,9 @@ export default function Countdown() {
                 className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
               >
                 <span className="font-bold">UTC: </span>
-                {dayjs.utc(displayTitle?.release_date).format("MMM DD, YYYY HH:mm")}
+                {dayjs
+                  .utc(displayTitle?.release_date)
+                  .format("MMM DD, YYYY HH:mm")}
               </p>
               <p
                 className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}
@@ -154,7 +156,7 @@ export default function Countdown() {
             </div>
           </>
         )}
-        {latestRelased && (
+        {showReleased && latestRelased && (
           <div className="flex flex-col items-center justify-center leading-none">
             <h1 className="text-4xl font-bold text-center tracking-tight">
               {displayTitle?.title}

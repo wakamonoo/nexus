@@ -505,7 +505,7 @@ export default function Title() {
                         <div className="flex items-center justify-center w-8 h-8 shrink-0">
                           <FaQuoteLeft className="text-xs opacity-60" />
                         </div>
-                        <p className="text-base text-vibe leading-tight line-clamp-2 mt-2">
+                        <p className="text-base text-vibe leading-tight mt-2">
                           {review.textReview}
                         </p>
                       </div>
