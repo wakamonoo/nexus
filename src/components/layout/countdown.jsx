@@ -168,9 +168,9 @@ export default function Countdown() {
             <h1 className="text-4xl font-bold text-center tracking-tight">
               {displayTitle?.title}
             </h1>
-            <div className="flex items-center gap-2 pb-2 w-[50%]">
+            <div className="flex items-center gap-2 pb-2 w-3/4">
               <div className="flex-1 border-t-2 border-accent" />
-              <p className="text-xs text-vibe tracking-[0.3em]">
+              <p className="text-xs text-vibe tracking-[0.3em] shrink-0">
                 Released{" "}
                 <span>{latestRelased.dateUTC.format("MMM DD, YYYY")}</span>
               </p>
