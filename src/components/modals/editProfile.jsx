@@ -1,7 +1,6 @@
 "use client";
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
-import Image from "next/image";
 import { LuImageUp } from "react-icons/lu";
 import Fallback from "@/assets/fallback.png";
 import Swal from "sweetalert2";

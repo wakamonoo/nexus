@@ -1,5 +1,5 @@
 "use client";
-import { MdAdminPanelSettings, MdClose, MdLogout } from "react-icons/md";
+import { MdClose, MdLogout } from "react-icons/md";
 import { googleSignUp } from "@/firebase/firebaseConfig";
 import { auth } from "@/firebase/firebaseConfig";
 import { useRouter } from "next/navigation";

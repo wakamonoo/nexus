@@ -1,7 +1,6 @@
 import { MdClose } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
-import Image from "next/image";
 import { FaFlag, FaImage, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { TitleContext } from "@/context/titleContext";

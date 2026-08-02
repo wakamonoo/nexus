@@ -8,8 +8,6 @@ import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { LoaderContext } from "@/context/loaderContext";
-import { optimizeCloudinary } from "@/utils/cloudinary";
-import Fallback from "@/assets/fallback.png";
 
 const getConnections = (connections) => {
   if (!connections) return [];

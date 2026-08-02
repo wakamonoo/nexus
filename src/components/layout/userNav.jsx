@@ -11,7 +11,6 @@ import {
 } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { GiNinjaHead } from "react-icons/gi";
-import Image from "next/image";
 
 export default function UserNav({ setShowUserNav }) {
   const { navHide } = useContext(ScrollContext);

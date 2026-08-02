@@ -1,11 +1,9 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import Fallback from "@/assets/fallback.png";
 import AdminGuard from "@/components/guard/adminGuard";
-import Image from "next/image";
 import Swal from "sweetalert2";
 import RegularButtons from "@/components/buttons/regBtns";
 import TMDBSearch from "@/components/modals/tmdbSearch";

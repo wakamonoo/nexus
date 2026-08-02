@@ -7,7 +7,6 @@ import { UserContext } from "@/context/userContext";
 import AdminGuard from "@/components/guard/adminGuard";
 import { LoaderContext } from "@/context/loaderContext";
 import RegularButtons from "@/components/buttons/regBtns";
-import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
 import ScrollContainer from "react-indiana-drag-scroll";
 import Swal from "sweetalert2";

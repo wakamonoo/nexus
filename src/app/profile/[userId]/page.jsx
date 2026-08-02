@@ -21,7 +21,6 @@ import ReactMarkdown from "react-markdown";
 import { SigilContext } from "@/context/sigilContext";
 import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";
 import Rina from "../../../assets/rina.png";
-import { optimizeCloudinary } from "@/utils/cloudinary";
 import ProfileLibrary from "@/components/profile/profileLibrary";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;

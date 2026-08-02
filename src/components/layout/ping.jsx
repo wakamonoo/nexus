@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ScrollContext } from "@/context/scrollContext";
 import { UserContext } from "@/context/userContext";
 import Image from "next/image";
@@ -8,9 +8,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PiBellSimpleSlash } from "react-icons/pi";
 import { SocketContext } from "@/context/socketContext";
-import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PingOpt from "./pingOpt";
-import SecondaryButtons from "../buttons/secBtns";
 import RegularButtons from "../buttons/regBtns";
 import Swal from "sweetalert2";
 

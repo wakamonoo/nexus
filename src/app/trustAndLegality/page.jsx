@@ -1,13 +1,10 @@
 "use client";
 import NavBar from "@/components/layout/navBar";
-import TDBP from "@/assets/tpdb.svg";
 import Image from "next/image";
 import { useContext, useEffect } from "react";
-import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 
 export default function TrustAndLegality() {
-  const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {

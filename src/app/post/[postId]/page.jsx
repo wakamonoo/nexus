@@ -10,7 +10,6 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
-import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
 import { MdOutlineSensors, MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";

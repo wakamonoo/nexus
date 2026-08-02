@@ -1,11 +1,7 @@
 import { useContext, useState } from "react";
 import { MdSensorsOff } from "react-icons/md";
-import PostStructure from "../layout/postStructure";
 import { UserContext } from "@/context/userContext";
 import { TitleContext } from "@/context/titleContext";
-import { optimizeCloudinary } from "@/utils/cloudinary";
-import Fallback from "@/assets/fallback.png";
-import Image from "next/image";
 import { TitleNavContext } from "@/context/titleNavContext";
 
 export default function ProfileLibrary({ profileUserWatch, profileUser }) {

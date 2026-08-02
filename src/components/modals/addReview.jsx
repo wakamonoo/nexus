@@ -2,7 +2,6 @@
 import { UserContext } from "@/context/userContext";
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
-import Image from "next/image";
 import Loader from "../loaders/loader";
 import Swal from "sweetalert2";
 import RegularButtons from "../buttons/regBtns";

@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { ScrollContext } from "@/context/scrollContext";
 import { RiFilmAiFill } from "react-icons/ri";
-import { HiMiniFilm, HiMiniNewspaper } from "react-icons/hi2";
+import { HiMiniNewspaper } from "react-icons/hi2";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
-import { FaAngleDown, FaAngleRight, FaSearch, FaUser } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "../loaders/imageLoader";
 import Fallback from "@/assets/fallback.png";
@@ -16,9 +16,8 @@ import { MenuContext } from "@/context/menuContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { PostContext } from "@/context/postContext";
 import { GiNinjaHead } from "react-icons/gi";
-import { HiBell, HiOutlineSearch } from "react-icons/hi";
+import { HiBell } from "react-icons/hi";
 import UserNav from "./userNav";
-import UserSearch from "../modals/userSearch";
 import Ping from "./ping";
 import { SocketContext } from "@/context/socketContext";
 

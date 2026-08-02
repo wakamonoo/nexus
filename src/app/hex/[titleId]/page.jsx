@@ -17,7 +17,6 @@ import {
   BsThreeDotsVertical,
 } from "react-icons/bs";
 import { TbEyeSpark } from "react-icons/tb";
-import Fallback from "@/assets/fallback.png";
 import { FiCheckCircle } from "react-icons/fi";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -27,15 +26,12 @@ import AddReview from "@/components/modals/addReview";
 import { UserContext } from "@/context/userContext";
 import { MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/layout/titleMenu";
-import { GiGoat, GiTrophy } from "react-icons/gi";
-import CircledButtons from "@/components/buttons/circledBtns";
+import { GiTrophy } from "react-icons/gi";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
 import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import CircledNotAllowedButtons from "@/components/buttons/circledNotAllowedBtns";
 import { RiLockFill } from "react-icons/ri";
-import { optimizeCloudinary } from "@/utils/cloudinary";
 import ScrollContainer from "react-indiana-drag-scroll";
 
 dayjs.extend(relativeTime);

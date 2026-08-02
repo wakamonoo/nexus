@@ -1,6 +1,5 @@
 "use client";
 import { UserContext } from "@/context/userContext";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import Fallback from "@/assets/fallback.png";

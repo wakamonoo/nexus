@@ -2,10 +2,8 @@
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
 import { useParams, useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AdminGuard from "@/components/guard/adminGuard";
-import Fallback from "@/assets/fallback.png";
-import Image from "next/image";
 import Swal from "sweetalert2";
 import { FaAngleLeft } from "react-icons/fa";
 import RegularButtons from "@/components/buttons/regBtns";

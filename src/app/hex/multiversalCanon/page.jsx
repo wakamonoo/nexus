@@ -2,16 +2,12 @@
 import { useContext, useEffect } from "react";
 import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft, FaBoxOpen } from "react-icons/fa";
-import Image from "next/image";
-import Loader from "@/components/loaders/loader";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
-import Fallback from "@/assets/fallback.png";
-import { optimizeCloudinary } from "@/utils/cloudinary";
 
 export default function MultiversalCanon() {
   const { user } = useContext(UserContext);

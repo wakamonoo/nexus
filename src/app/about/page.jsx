@@ -1,12 +1,5 @@
 import NavBar from "@/components/layout/navBar";
-import {
-  MdAnnouncement,
-  MdCollections,
-  MdGroups,
-  MdLeaderboard,
-  MdTimeline,
-  MdWarningAmber,
-} from "react-icons/md";
+import { MdGroups, MdLeaderboard, MdTimeline } from "react-icons/md";
 
 export default function About() {
   return (

@@ -1,7 +1,7 @@
 import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Swal from "sweetalert2";
 

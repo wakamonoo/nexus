@@ -1,16 +1,13 @@
 "use client";
 import { useContext, useEffect } from "react";
 import { TitleContext } from "@/context/titleContext";
-import { FaAngleLeft, FaBoxOpen, FaDotCircle } from "react-icons/fa";
-import { GoDotFill } from "react-icons/go";
-import Image from "next/image";
+import { FaAngleLeft } from "react-icons/fa";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
-import { optimizeCloudinary } from "@/utils/cloudinary";
 
 export default function Chrono() {
   const { user } = useContext(UserContext);

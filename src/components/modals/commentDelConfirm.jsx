@@ -1,5 +1,4 @@
 "use client";
-import { TitleContext } from "@/context/titleContext";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
 import CircledButtons from "../buttons/circledBtns";

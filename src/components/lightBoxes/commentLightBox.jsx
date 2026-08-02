@@ -1,7 +1,6 @@
 "use client";
 import { useContext, useEffect, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";

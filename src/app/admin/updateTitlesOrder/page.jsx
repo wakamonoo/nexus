@@ -6,12 +6,10 @@ import { useRouter } from "next/navigation";
 import SortableItem from "@/components/dnd/sortableItem";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
-import { MdAutorenew, MdUpdate } from "react-icons/md";
+import { MdAutorenew } from "react-icons/md";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import AdminGuard from "@/components/guard/adminGuard";
-import { optimizeCloudinary } from "@/utils/cloudinary";
-import Fallback from "@/assets/fallback.png";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 

@@ -1,10 +1,9 @@
 import { PostContext } from "@/context/postContext";
 import { UserContext } from "@/context/userContext";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AiFillThunderbolt } from "react-icons/ai";
 import { FaComment, FaPlay } from "react-icons/fa";
 import { MdOutlineSensors } from "react-icons/md";
-import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "./postOpt";

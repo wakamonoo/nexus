@@ -1,7 +1,6 @@
 import { TitleContext } from "@/context/titleContext";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { MdRateReview } from "react-icons/md";

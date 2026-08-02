@@ -2,9 +2,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import { MdClose, MdOutlineSensors } from "react-icons/md";
-import { FaComment, FaShare } from "react-icons/fa";
+import { FaComment } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
@@ -149,7 +148,11 @@ export default function PostLightBox() {
               className="flex-shrink-0 w-full h-full snap-center flex items-center justify-center relative"
             >
               {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) && (
-                <img src={file} alt="file" className="absolute inset-0 w-full h-full object-contain" />
+                <img
+                  src={file}
+                  alt="file"
+                  className="absolute inset-0 w-full h-full object-contain"
+                />
               )}
               {["mp4", "webm", "ogg"].includes(ext) && (
                 <video
@@ -182,7 +185,7 @@ export default function PostLightBox() {
               {(() => {
                 const diffWeeks = dayjs().diff(
                   dayjs(currentPostInfo.date),
-                  "week"
+                  "week",
                 );
                 if (diffWeeks < 1) {
                   return dayjs(currentPostInfo.date).fromNow();
@@ -281,7 +284,7 @@ export default function PostLightBox() {
                     post.comments.reduce(
                       (total, comment) =>
                         total + (comment.replies?.length || 0),
-                      0
+                      0,
                     )
                   : 0}{" "}
                 commented

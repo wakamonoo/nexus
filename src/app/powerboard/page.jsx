@@ -4,11 +4,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   FaAngleLeft,
-  FaBoxOpen,
-  FaCaretLeft,
-  FaCaretRight,
   FaRegSave,
-  FaSearch,
   FaTrash,
 } from "react-icons/fa";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
@@ -16,17 +12,14 @@ import { BiReset } from "react-icons/bi";
 import SortableRank from "@/components/dnd/sortableRank";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import Slot from "@/components/dnd/slot";
-import Image from "next/image";
 import { GiTrophy } from "react-icons/gi";
 import RankLoader from "@/components/loaders/powerboardLoader";
-import { MdClose, MdSearchOff } from "react-icons/md";
-import Fallback from "@/assets/fallback.png";
+import { MdSearchOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import { HiOutlineSearch } from "react-icons/hi";
 import RegularButtons from "@/components/buttons/regBtns";
-import { optimizeCloudinary } from "@/utils/cloudinary";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 

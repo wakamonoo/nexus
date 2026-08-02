@@ -1,8 +1,6 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaAngleRight, FaBoxOpen } from "react-icons/fa";
-import Fallback from "@/assets/fallback.png";
 import TitleLoader from "@/components/loaders/titlesLoader";
 import Loader from "@/components/loaders/searchLoader";
 import { useContext } from "react";
@@ -19,7 +17,6 @@ import MostWatchedTitlesStructureMin from "@/components/layout/mostWatchedTitles
 import CustomButton from "@/components/buttons/customBtn";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import { optimizeCloudinary } from "@/utils/cloudinary";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 

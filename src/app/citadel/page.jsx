@@ -1,7 +1,6 @@
 "use client";
-import { MdClose, MdOutlineChatBubbleOutline, MdSend } from "react-icons/md";
+import { MdClose, MdSend } from "react-icons/md";
 import ironman from "@/assets/tony.jpg";
-import Image from "next/image";
 import NavBar from "@/components/layout/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";

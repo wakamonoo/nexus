@@ -1,14 +1,12 @@
 import { MdClose } from "react-icons/md";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "@/context/userContext";
-import Image from "next/image";
-import { FaFlag, FaImage, FaTrash } from "react-icons/fa";
+import { FaFlag, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButtons from "../buttons/secBtns";
 import { RiImageAiFill } from "react-icons/ri";
-import { TbCodeDots } from "react-icons/tb";
 import { LuCodeXml } from "react-icons/lu";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;

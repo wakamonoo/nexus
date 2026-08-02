@@ -7,9 +7,6 @@ import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
-import Image from "next/image";
-import Fallback from "@/assets/fallback.png";
-import { optimizeCloudinary } from "@/utils/cloudinary";
 
 export default function GoatTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);

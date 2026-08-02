@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { MdClose, MdSearchOff } from "react-icons/md";
-import Image from "next/image";
 import { HiOutlineSearch } from "react-icons/hi";
 import GifLoader from "../loaders/gifLoader";
 import Masonry from "react-masonry-css";
