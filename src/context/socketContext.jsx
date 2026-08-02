@@ -20,6 +20,25 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
+const showBrowserNotification = ({ title, body, icon }) => {
+  if (
+    typeof window === "undefined" ||
+    !("Notification" in window) ||
+    Notification.permission !== "granted"
+  ) {
+    return;
+  }
+
+  if (document.visibilityState === "visible") {
+    return;
+  }
+
+  new Notification(title, {
+    body,
+    icon,
+  });
+};
+
 export const SocketProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [chatLoad, setChatLoad] = useState(true);
@@ -27,6 +46,16 @@ export const SocketProvider = ({ children }) => {
   const [sortedReviews, setSortedReviews] = useState([]);
   const [pings, setPings] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      "Notification" in window &&
+      Notification.permission === "default"
+    ) {
+      Notification.requestPermission();
+    }
+  }, []);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -43,6 +72,12 @@ export const SocketProvider = ({ children }) => {
 
     socket.on("messageSent", (data) => {
       setMessages((prev) => [...prev, data]);
+
+      showBrowserNotification({
+        title: `New message from ${data.sender}`,
+        body: data.text,
+        icon: data.picture,
+      });
     });
 
     socket.on("messageEdited", (updatedMessage) => {
@@ -131,6 +166,11 @@ export const SocketProvider = ({ children }) => {
         ),
         { duration: 5000 },
       );
+      showBrowserNotification({
+        title: pingData.senderName,
+        body: pingData.message,
+        icon: pingData.senderImage,
+      });
     });
 
     return () => {

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"next dev --turbopack\" \"nodemon server/server.js\"",
-    "build": "next build --turbopack",
+    "build": "next build --webpack",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "start": "next start",
     "lint": "eslint"
