@@ -10,6 +10,7 @@ import RegularButtons from "@/components/buttons/regBtns";
 import Image from "next/image";
 import Fallback from "@/assets/fallback.png";
 import ScrollContainer from "react-indiana-drag-scroll";
+import Swal from "sweetalert2";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -31,6 +32,7 @@ export default function Page() {
     titlesCount: 0,
     mcuTitlesCount: 0,
     legacyTitlesCount: 0,
+    adjacentTitlesCountTitlesCount: 0,
     releasedTitlesCount: 0,
     upcomingTitlesCount: 0,
   });
@@ -55,6 +57,54 @@ export default function Page() {
   useEffect(() => {
     fetchCounts();
   }, []);
+
+  const handleSyncUsers = async () => {
+    setIsLoading(true);
+    try {
+      await fetch(`${BASE_URL}/api/users/sync`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error("failed to update order", err);
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "Sync failed!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup:
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+        },
+      });
+    } finally {
+      setIsLoading(false);
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "Users' watch stats synced",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup:
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+        },
+      });
+    }
+  };
 
   return (
     <AdminGuard>
@@ -118,6 +168,17 @@ export default function Page() {
               <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
                 <div className="flex flex-col items-center justify-center">
                   <CountUp
+                    end={count.adjacentTitlesCount}
+                    duration={1.5}
+                    className="text-6xl font-extrabold text-accent"
+                  />
+                  <h2 className="text-xs">Adjacent Titles</h2>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 p-4 w-full justify-center border border-panel bg-second rounded-2xl">
+                <div className="flex flex-col items-center justify-center">
+                  <CountUp
                     end={count.releasedTitlesCount}
                     duration={1.5}
                     className="text-6xl font-extrabold text-accent"
@@ -167,7 +228,16 @@ export default function Page() {
           </div>
         </div>
         <div className="my-8">
-          <p className="font-bold text-lg mb-2">Registered Users</p>
+          <div className="flex flex-col w-fit items-center justify-between mb-2">
+            <p className="font-bold text-lg w-full">Registered Users</p>
+            <RegularButtons
+              onClick={handleSyncUsers}
+            >
+              <p className="font-bold text-normal text-base uppercase">
+                Sync watch count
+              </p>
+            </RegularButtons>
+          </div>
           <ScrollContainer
             className="flex overflow-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar"
             vertical
@@ -183,12 +253,15 @@ export default function Page() {
                     <img
                       src={user?.picture || Fallback}
                       alt="user"
-                       loading="lazy"
+                      loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-cover rounded-2xl"
+                      className="w-full h-50 object-cover rounded-2xl"
                     />
-                    <p className="truncate h-10 w-full text-center text-sm font-bold border-b border-panel mb-2">
+                    <p className="truncate  w-full text-center text-sm font-bold">
                       {user?.name}
+                    </p>
+                    <p className="truncate w-full text-center text-xs text-vibe border-b border-panel pb-2 mb-2">
+                      {user?.email}
                     </p>
                     <p className="text-xs text-center opacity-60">
                       <span className="font-bold">Joined </span>

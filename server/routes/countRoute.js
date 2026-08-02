@@ -23,17 +23,19 @@ router.get("/countData", async (req, res) => {
     const legacyTitlesCount = await db
       .collection("titles")
       .countDocuments({ category: "legacy" });
+    const adjacentTitlesCount = await db
+      .collection("titles")
+      .countDocuments({ category: "adjacent" });
 
-    res
-      .status(200)
-      .json({
-        usersCount,
-        titlesCount,
-        releasedTitlesCount,
-        upcomingTitlesCount,
-        mcuTitlesCount,
-        legacyTitlesCount,
-      });
+    res.status(200).json({
+      usersCount,
+      titlesCount,
+      releasedTitlesCount,
+      upcomingTitlesCount,
+      mcuTitlesCount,
+      legacyTitlesCount,
+      adjacentTitlesCount,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "error fetching count" });

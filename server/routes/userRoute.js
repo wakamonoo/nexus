@@ -201,4 +201,77 @@ router.patch("/citadelRead/:uid", async (req, res) => {
   }
 });
 
+router.post("/sync", async (req, res) => {
+  try {
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
+
+    const users = await db.collection("users").find({}).toArray();
+
+    let updatedUsers = 0;
+
+    for (const user of users) {
+      const watchedTitles = await db
+        .collection("watchList")
+        .aggregate([
+          {
+            $match: {
+              userId: user.uid,
+              watched: true,
+            },
+          },
+          {
+            $lookup: {
+              from: "titles",
+              localField: "titleId",
+              foreignField: "titleId",
+              as: "title",
+            },
+          },
+          {
+            $unwind: "$title",
+          },
+        ])
+        .toArray();
+
+      const totalWatched = watchedTitles.length;
+
+      const totalMCUWatched = watchedTitles.filter(
+        (item) => item.title.category === "mcu",
+      ).length;
+
+      const totalLegacyWatched = watchedTitles.filter(
+        (item) => item.title.category === "legacy",
+      ).length;
+
+      const totalAdjacentWatched = watchedTitles.filter(
+        (item) => item.title.category === "adjacent",
+      ).length;
+
+      await db.collection("users").updateOne(
+        {
+          uid: user.uid,
+        },
+        {
+          $set: {
+            totalWatched,
+            totalMCUWatched,
+            totalLegacyWatched,
+            totalAdjacentWatched,
+          },
+        },
+      );
+
+      updatedUsers++;
+    }
+
+    res.status(200).json({ message: "all user watch stats succesfully synced", updatedUsers})
+  } catch (err) {
+    console.error("watched stats sync failed", err)
+
+    res.status(500).json({ error: "failed to sync watch stats"})
+  }
+});
+
 export default router;

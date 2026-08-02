@@ -2,6 +2,7 @@
 import RegularButtons from "@/components/buttons/regBtns";
 import SecondaryButtons from "@/components/buttons/secBtns";
 import ExportCard from "@/components/portfolio/exportCard";
+import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
 import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
@@ -17,7 +18,12 @@ export default function Portfolio() {
   const { watchedInfoFetch, isTitleWatched } = useContext(WatchContext);
   const [order, setOrder] = useState([]);
   const [orderType, setOrderType] = useState("Chronological");
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     const fetchWathced = async () => {
@@ -66,7 +72,7 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 w-full">
+    <main className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 w-full">
       <div className="flex justify-between py-4">
         <FaAngleLeft
           onClick={() => router.back()}
@@ -74,33 +80,80 @@ export default function Portfolio() {
         />
         <h4 className="text-xl">PORTFOLIO</h4>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-[280px_minmax(0,1fr)] md:gap-8">
-        <aside className="w-full">
-          <div className="flex gap-2">
-            <SecondaryButtons
-              onClick={() => {
-                setOrder(chrono);
-                setOrderType("Chronological");
-              }}
-            >
-              Chrono
-            </SecondaryButtons>
-            <SecondaryButtons
-              onClick={() => {
-                setOrder(release);
-                setOrderType("Release");
-              }}
-            >
-              Release
-            </SecondaryButtons>
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
+        <aside className="w-full bg-[var(--color-secondary)] h-fit rounded-2xl p-4">
+          <div className="mb-6">
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-vibe">
+              Your Journey
+            </p>
+            <p className="text-sm leading-relaxed">
+              Showcase your MCU journey with a visual checklist of the titles
+              you've watched on ournexus.space. Choose between chronological or
+              release order, export your progress, and share your journey with
+              friends or on social media.
+            </p>
+          </div>
+          <div className="mb-6">
+            <p className="mb-3 text-xs font-bold uppercase tracking-wider text-vibe">
+              Viewing Order
+            </p>
+            <div className="flex gap-2">
+              <SecondaryButtons
+                onClick={() => {
+                  setOrder(chrono);
+                  setOrderType("Chronological");
+                }}
+              >
+                Chrono
+              </SecondaryButtons>
+              <SecondaryButtons
+                onClick={() => {
+                  setOrder(release);
+                  setOrderType("Release");
+                }}
+              >
+                Release
+              </SecondaryButtons>
+            </div>
+          </div>
+          <div className="flex-1 border-t-2 border-panel" />
+          <div className="my-5">
+            <div className="flex items-center justify-between">
+              <p className="text-xs uppercase tracking-wider text-vibe">
+                Current Order
+              </p>
+              <p className="text-sm font-bold">{orderType}</p>
+            </div>
+            <div className="flex items-center justify-between">
+              <p className="text-xs uppercase tracking-wider text-vibe">
+                Titles
+              </p>
+              <p className="text-sm font-bold">{order.length}</p>
+            </div>
           </div>
           <RegularButtons onClick={exportImage} disabled={exporting}>
-            {exporting ? "generating" : "export 4:5 image"}
+            {exporting ? "generating" : "Export Image"}
           </RegularButtons>
         </aside>
-        <div>
-          <div className="flex justify-center mt-4">
-            <div className="relative h-[472.5px] w-[378px] md:h-[675px] md:w-[540px]">
+        <section className="min-w-0">
+          <div className="mb-4 flex items-center justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-vibe">
+                Preview
+              </p>
+              <h2 className="text-lg font-bold uppercase">
+                Your ournexus.space Checklist
+              </h2>
+            </div>
+            <div className="flex flex-col items-end">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-vibe">
+                Export Format
+              </p>
+              <p className="text-sm text-vibe">4:5 Scale</p>
+            </div>
+          </div>
+          <div className="flex min-h-[500px] items-start justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8">
+            <div className="relative h-[472.5px] w-[378px] md:h-[675px] md:w-[540px] shrink-0">
               <div
                 style={{
                   width: 1080,
@@ -138,8 +191,8 @@ export default function Portfolio() {
               id="nexus-portfolio-export"
             />
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

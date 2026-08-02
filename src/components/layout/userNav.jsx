@@ -74,7 +74,7 @@ export default function UserNav({ setShowUserNav }) {
               setIsLoading(true);
               router.push("/portfolio");
             }}
-            className="hidden items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
+            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
             <MdCheckBox className="text-2xl" />
             <p className="text-base font-bold text-normal">Portfolio</p>
