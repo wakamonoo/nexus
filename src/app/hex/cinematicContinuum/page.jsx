@@ -50,7 +50,8 @@ export default function CinematicContinuum() {
         ) : (
           <div className="w-full">
             <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
-              {...titles.filter((title) => title.status === "released")
+              {...titles
+                .filter((title) => title.status === "released")
                 .sort((a, b) => {
                   const dateA =
                     a.mediaType === "tv" ? a.first_air_date : a.release_date;
@@ -60,29 +61,42 @@ export default function CinematicContinuum() {
 
                   return new Date(dateA) - new Date(dateB);
                 })
-                .map((unit) => (
-                  <div
-                    key={unit.date}
-                    onClick={() => handleShowNav(unit.titleId)}
-                    className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                  >
-                    <img
-                      src={
-                        unit.poster
-                          ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                          : "/fallback.png"
-                      }
-                      alt={unit.title}
-                      loading="lazy"
-                      decoding="async"
-                      className={`w-full h-full object-fill rounded ${
-                        isTitleWatched(unit.titleId)
-                          ? "grayscale-0"
-                          : "grayscale-90"
-                      }`}
-                    />
-                  </div>
-                ))}
+                .map((unit) => {
+                  const mcu = unit.category === "mcu";
+                  const legacy = unit.category === "legacy";
+                  return (
+                    <div
+                      key={unit.date}
+                      onClick={() => handleShowNav(unit.titleId)}
+                      className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+                    >
+                      <img
+                        src={
+                          unit.poster
+                            ? `https://image.tmdb.org/t/p/w500${unit.poster}`
+                            : "/fallback.png"
+                        }
+                        alt={unit.title}
+                        loading="lazy"
+                        decoding="async"
+                        className={`w-full h-full object-fill rounded ${
+                          isTitleWatched(unit.titleId)
+                            ? "grayscale-0"
+                            : "grayscale-90"
+                        }`}
+                      />
+                      <div
+                        className={`absolute opacity-80 top-0 right-1 p-2 h-4 w-8 flex items-center justify-center rounded-b-full ${
+                          mcu
+                            ? "bg-accent"
+                            : legacy
+                              ? "bg-hulk"
+                              : "bg-[var(--color-infinity)]"
+                        }`}
+                      />
+                    </div>
+                  );
+                })}
             </div>
           </div>
         )}
