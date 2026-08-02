@@ -50,7 +50,7 @@ export default function CinematicContinuum() {
         ) : (
           <div className="w-full">
             <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
-              {...titles
+              {...titles.filter((title) => title.status === "released")
                 .sort((a, b) => {
                   const dateA =
                     a.mediaType === "tv" ? a.first_air_date : a.release_date;

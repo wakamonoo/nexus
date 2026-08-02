@@ -1155,7 +1155,7 @@ export default function Main() {
                     >
                       <div className="flex gap-2">
                         {titles.length > 0 ? (
-                          titles
+                          titles.filter((title) => title.status === "released")
                             .sort((a, b) => {
                               const dateA =
                                 a.mediaType === "tv"
