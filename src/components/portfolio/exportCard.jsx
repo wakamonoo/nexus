@@ -50,7 +50,7 @@ export default function ExportCard({
           <p className="text-sm uppercase tracking-[0.25em]">
             {order.length} Titles
           </p>
-          <p className="text-lg font-bold uppercase">
+          <p className="whitespace-nowrap text-lg font-bold uppercase">
             Marvel Cinematic Universe
           </p>
         </div>
