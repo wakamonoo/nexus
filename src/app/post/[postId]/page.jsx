@@ -35,6 +35,7 @@ import {
 import CommentLightBox from "@/components/lightBoxes/commentLightBox";
 import GifPicker from "@/components/modals/gifPicker";
 import AutoPlay from "@/components/layout/autoPlay";
+import { TitleContext } from "@/context/titleContext";
 
 dayjs.extend(relativeTime);
 
@@ -61,6 +62,7 @@ export default function Post() {
     selectedPost,
     setSelectedPost,
   } = useContext(PostContext);
+  const { titles } = useContext(TitleContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
   const [files, setFiles] = useState([]);
@@ -92,6 +94,8 @@ export default function Post() {
   }, []);
 
   const post = posts.find((p) => p.postId === postId);
+
+  const currentTopic = titles.find((t) => t.title === post?.topic);
 
   const handleNext = () => {
     if (!post?.files) return;
@@ -389,12 +393,12 @@ export default function Post() {
                           setIsLoading(true);
                           router.push(`/posts/${post?.topic}`);
                         }}
-                        className={`h-fit w-fit rounded-full bg-gradient-to-r ${post?.category === "mcu" ? "from-[var(--color-accent)]" : post?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] ${
+                        className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] ${
                           post.topic ? "block" : "hidden"
                         }`}
                       >
-                        <p className="font-bold text-sm text-vibe px-2">
-                          {post?.topic}
+                        <p className="font-bold text-vibe text-sm px-2">
+                          {post.topic}
                         </p>
                       </div>
                     </div>
@@ -438,7 +442,7 @@ export default function Post() {
                     {post?.files && post?.files.length > 0 ? (
                       <div
                         className="relative w-full overflow-hidden"
-                        style={aspectRatio ? { aspectRatio: aspectRatio } : {}}
+                        style={aspectRatio ? { aspectRatio } : undefined}
                       >
                         {post?.files.length > 1 ? (
                           <div className="absolute top-2 left-4">
@@ -455,7 +459,7 @@ export default function Post() {
                             const index = Math.round(scrollLeft / width);
                             setCurrentIndex(index);
                           }}
-                          className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
+                          className="flex w-full overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide"
                         >
                           {post?.files.map((file, index) => {
                             const ext =
@@ -470,20 +474,21 @@ export default function Post() {
                                   handleFileClick(post?.files, index, post);
                                   e.stopPropagation();
                                 }}
-                                className="flex-shrink-0 w-full h-full snap-center snap-always cursor-pointer"
+                                className="flex-shrink-0 w-full h-full snap-center snap-always"
                               >
                                 {["jpg", "jpeg", "png", "gif", "webp"].includes(
                                   ext,
                                 ) ? (
                                   <img
-                                    src={file}
+                                    src={file || Fallback}
                                     alt="file"
                                     loading="lazy"
                                     decoding="async"
-                                    onLoadingComplete={(img) => {
+                                    onLoad={(img) => {
                                       if (index === 0 && !aspectRatio) {
                                         setAspectRatio(
-                                          img.naturalWidth / img.naturalHeight,
+                                          img.currentTarget.naturalWidth /
+                                            img.currentTarget.naturalHeight,
                                         );
                                       }
                                     }}
