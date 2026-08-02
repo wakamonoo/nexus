@@ -49,7 +49,7 @@ export default function LatestReviews() {
 
   if (!titles || titles.length === 0) {
     return (
-      <div className="h-[calc(100vh-6rem)] overflow-y-auto custom-scroll">
+      <div>
         <AsideLoader />
       </div>
     );
