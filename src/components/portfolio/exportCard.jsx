@@ -22,17 +22,17 @@ export default function ExportCard({
   return (
     <div
       id={id}
-      style={{ width: 1080, height: 1350 }}
+      style={{ width: 1080, height: 1512 }}
       className="p-10 bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]"
     >
-      <div className="flex items-center justify-between border-b border-[var(--color-secondary)] pb-4">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between border-b border-[var(--color-secondary)] pb-12">
+        <div className="flex items-center gap-3.5">
           <img
             src={user?.picture || Fallback}
             alt={user?.name}
             loading="lazy"
             decoding="async"
-            className="w-16 h-16 rounded-full object-cover ring-2 ring-accent/50"
+            className="w-18 h-18 rounded-full object-cover ring-2 ring-accent/50"
           />
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.3em] text-accent">
@@ -55,7 +55,7 @@ export default function ExportCard({
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 content-start gap-x-4 gap-y-1 mt-4 bg-second p-4 rounded-2xl">
+      <div className="grid grid-cols-3 content-start gap-x-4 gap-y-1 mt-12 bg-second p-4 rounded-2xl">
         {columns.map((column, columnindex) => {
           const startIndex = columnindex * itemsPerColumn;
           return (
@@ -83,7 +83,7 @@ export default function ExportCard({
           );
         })}
       </div>
-      <div className="flex justify-between w-full mt-4 items-end">
+      <div className="flex justify-between w-full mt-12 items-end">
         <div className="max-w-[55%]">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em]">
             Disclaimer

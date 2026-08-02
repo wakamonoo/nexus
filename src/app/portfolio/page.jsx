@@ -149,18 +149,16 @@ export default function Portfolio() {
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-vibe text-end">
                 Export Format
               </p>
-              <p className="text-sm text-vibe">4:5 Scale</p>
+              <p className="text-sm text-vibe">5:7 Scale</p>
             </div>
           </div>
           <div className="flex min-h-[500px] items-start justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8">
-            <div className="relative h-[472.5px] w-[378px] md:h-[675px] md:w-[540px] shrink-0">
+            <div className="relative h-[529.2px] w-[378px] md:h-[756px] md:w-[540px] shrink-0">
               <div
                 style={{
                   width: 1080,
-                  height: 1350,
+                  height: 1512,
                   transformOrigin: "top left",
-                  marginBottom: -(1350 * 0.65),
-                  marginRight: -(1080 * 0.65),
                 }}
                 className="scale-[0.35] md:scale-[0.5]"
               >
@@ -179,7 +177,7 @@ export default function Portfolio() {
               left: "-100000px",
               top: 0,
               width: 1080,
-              height: 1350,
+              height: 1512,
               pointerEvents: "none",
             }}
           >
