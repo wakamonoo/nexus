@@ -423,9 +423,9 @@ export default function Title() {
                 </ScrollContainer>
               </div>
             </div>
-            <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide border-t-1 border-panel md:border-none mt-4">
+            <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide border-t-1 border-panel md:border-none mt-4 md:mt-0">
               {!title.reviews || title.reviews?.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-4 h-full mt-4 md:mt-0">
+                <div className="flex flex-col items-center justify-center py-4 h-full">
                   <>
                     {title?.status === "released" ? (
                       <>
@@ -448,7 +448,7 @@ export default function Title() {
                 title.reviews?.map((review, index) => (
                   <div
                     key={index}
-                    className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative mt-4 md:mt-0"
+                    className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative"
                   >
                     {review.date === firstReview.date ? (
                       <div className="flex absolute top-2 right-2">
