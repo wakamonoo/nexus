@@ -146,7 +146,7 @@ export default function Portfolio() {
               </h2>
             </div>
             <div className="flex flex-col items-end">
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-vibe">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-vibe text-end">
                 Export Format
               </p>
               <p className="text-sm text-vibe">4:5 Scale</p>

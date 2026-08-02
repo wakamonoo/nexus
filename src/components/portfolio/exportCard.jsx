@@ -89,7 +89,7 @@ export default function ExportCard({
             Disclaimer
           </p>
           <p className="text-sm leading-relaxed">
-            nexus is a fan-made, unofficial project and is not affiliated with,
+            ournexus.space is a fan-made, unofficial project and is not affiliated with,
             endorsed by, or sponsored by Marvel Studios The Walt Disney Company
             , or any other rights holders. All characters, titles, trademarks,
             and related intellectual property belong to their respective owners.
