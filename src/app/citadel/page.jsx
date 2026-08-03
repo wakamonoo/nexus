@@ -54,6 +54,7 @@ export default function Citadel() {
   const [editingMessage, setEditingMessage] = useState(null);
   const [editInput, setEditInput] = useState("");
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [activeMessage, setActiveMessage] = useState(null);
   const [replyingTo, setReplyingTo] = useState(null);
   const router = useRouter();
   const inputRef = useRef(null);
@@ -369,9 +370,9 @@ export default function Citadel() {
                                     : msg.replyTo.sender}
                                 </p>
                                 <div
-                                  className={`mb-2 px-3 py-2 rounded-lg bg-second border-accent opacity-80 ${ownMessage ? "border-l-2" : "border-r-2"}`}
+                                  className={`mb-2 bg-second border-accent opacity-80 px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl ${ownMessage ? "border-l-2" : "border-r-2"}`}
                                 >
-                                  <p className="text-base text-normal flex whitespace-pre-wrap max-w-full line-clamp-2">
+                                  <p className="text-base text-normal whitespace-pre-wrap max-w-full line-clamp-3">
                                     {msg.replyTo.text ||
                                       (msg.replyTo.files?.length
                                         ? "Attachment"
@@ -380,16 +381,27 @@ export default function Citadel() {
                                 </div>
                               </div>
                             )}
-                            <div className="flex group">
+                            <div
+                              className="flex group"
+                              onClick={() => {
+                                if (window.innerWidth < 768) {
+                                  setActiveMessage((prev) =>
+                                    prev === msg.msgId ? null : msg.msgId,
+                                  );
+                                }
+                              }}
+                            >
                               {ownMessage && (
-                                <div className="flex mr-2">
+                                <div
+                                  className={`mr-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
+                                >
                                   <BiDotsVerticalRounded
                                     onClick={() => setSelectedMessage(msg)}
-                                    className="text-xl opacity-60 mt-2 cursor-pointer md:hidden md:group-hover:block"
+                                    className="text-xl opacity-60 mt-2 cursor-pointer"
                                   />
                                   <FaReply
                                     onClick={() => handleReply(msg)}
-                                    className="text-xl opacity-60 mt-2 cursor-pointer md:hidden md:group-hover:block"
+                                    className="text-xl opacity-60 mt-2 cursor-pointer"
                                   />
                                 </div>
                               )}
@@ -471,10 +483,12 @@ export default function Citadel() {
                               </div>
 
                               {!ownMessage && (
-                                <div className="ml-2">
+                                <div
+                                  className={`ml-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
+                                >
                                   <FaReply
                                     onClick={() => handleReply(msg)}
-                                    className="text-xl opacity-60 mt-2 cursor-pointer md:hidden md:group-hover:block"
+                                    className="text-xl opacity-60 mt-2 cursor-pointer"
                                   />
                                 </div>
                               )}
