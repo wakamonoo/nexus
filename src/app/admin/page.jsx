@@ -10,6 +10,7 @@ import RegularButtons from "@/components/buttons/regBtns";
 import Fallback from "@/assets/fallback.png";
 import ScrollContainer from "react-indiana-drag-scroll";
 import Swal from "sweetalert2";
+import SecondaryButtons from "@/components/buttons/secBtns";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -227,15 +228,15 @@ export default function Page() {
           </div>
         </div>
         <div className="my-8">
-          <div className="flex flex-col w-fit items-center justify-between mb-2">
+          <div className="flex w-full items-center justify-between mb-2">
             <p className="font-bold text-lg w-full">Registered Users</p>
-            <RegularButtons
-              onClick={handleSyncUsers}
-            >
-              <p className="font-bold text-normal text-base uppercase">
-                Sync watch count
-              </p>
-            </RegularButtons>
+            <div className="w-fit">
+              <SecondaryButtons onClick={handleSyncUsers}>
+                <p className="font-bold text-normal text-base uppercase whitespace-nowrap">
+                  Sync watch count
+                </p>
+              </SecondaryButtons>
+            </div>
           </div>
           <ScrollContainer
             className="flex overflow-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar"

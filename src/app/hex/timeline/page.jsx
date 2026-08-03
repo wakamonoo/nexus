@@ -89,7 +89,7 @@ function BranchNode({ node, titles, handleShowNav }) {
   );
 }
 
-export default function Connections() {
+export default function Timeline() {
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
