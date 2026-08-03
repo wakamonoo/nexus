@@ -179,8 +179,8 @@ export default function Title() {
                     <p className="text-sm text-vibe">
                       {title.duration
                         ? `${title.duration} minutes`
-                        : `${title.episode} episodes`}{" "}
-                      | {title.type}
+                        : title.episode ? `${title.episode} episodes` : "No data"} {" "}
+                      | {title.type || "Unknown"}
                     </p>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {title?.genres?.length > 0 ? (
@@ -226,7 +226,7 @@ export default function Title() {
                     )}
                     <SecondaryCircledButtons
                       onClick={() => setShowAddReview(true)}
-                      disabled={doneReview}
+                      disabled={doneReview || title?.status === "upcoming"}
                     >
                       {doneReview ? (
                         <FiCheckCircle className="text-xs" />
@@ -234,13 +234,18 @@ export default function Title() {
                         <MdOutlineReviews className="text-xs" />
                       )}
                       <p className="font-bold text-normal text-xs">
-                        {doneReview ? "Reviewed" : "Add Review"}
+                        {title?.status === "upcoming"
+                          ? "Unavailable"
+                          : doneReview
+                            ? "Reviewed"
+                            : "Add Review"}
                       </p>
                     </SecondaryCircledButtons>
                     <SecondaryCircledButtons
                       disabled={
                         title?.category === "legacy" ||
-                        title?.category === "adjacent"
+                        title?.category === "adjacent" ||
+                        title?.status === "upcoming"
                       }
                       onClick={() => {
                         setIsLoading(true);
@@ -253,11 +258,13 @@ export default function Title() {
                         <RiLockFill className="text-xs" />
                       )}
                       <p className="font-bold text-normal text-xs">
-                        {title?.category === "mcu"
-                          ? "Rank It"
-                          : title?.category === "legacy"
-                            ? "Legacy Title"
-                            : "Adjacent Title"}
+                        {title?.status === "upcoming"
+                          ? "Unavailable"
+                          : title?.category === "mcu"
+                            ? "Rank It"
+                            : title?.category === "legacy"
+                              ? "Legacy Title"
+                              : "Adjacent Title"}
                       </p>
                     </SecondaryCircledButtons>
                   </div>
