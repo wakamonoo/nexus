@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/addMessage", async (req, res) => {
   try {
-    const { picture, sender, senderId, email, text, files = [] } = req.body;
+    const { picture, sender, senderId, email, text, files = [], replyTo = null } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
@@ -21,6 +21,7 @@ router.post("/addMessage", async (req, res) => {
       email,
       text,
       files,
+      replyTo,
       messagedAt: new Date(),
     };
 

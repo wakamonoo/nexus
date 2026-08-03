@@ -1,7 +1,7 @@
 export default function AsideLoader() {
   return (
     <div className="w-full h-full overflow-hidden animate-pulse">
-      <div className="py-2 flex flex-col gap-1 ">
+      <div className="py-2 flex flex-col gap-1 md:pr-2">
         <div className="w-[40%] h-6 bg-second rounded" />
 
         <div className="p-4 mt-2 w-full h-fit border-1 border-panel rounded-2xl">

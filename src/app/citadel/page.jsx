@@ -4,7 +4,7 @@ import ironman from "@/assets/tony.jpg";
 import NavBar from "@/components/layout/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
-import { FaRegComments, FaTrash, FaUserSlash } from "react-icons/fa";
+import { FaRegComments, FaReply, FaTrash, FaUserSlash } from "react-icons/fa";
 import ChatLoader from "@/components/loaders/chatLoder";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
@@ -54,6 +54,7 @@ export default function Citadel() {
   const [editingMessage, setEditingMessage] = useState(null);
   const [editInput, setEditInput] = useState("");
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [replyingTo, setReplyingTo] = useState(null);
   const router = useRouter();
   const inputRef = useRef(null);
 
@@ -96,9 +97,9 @@ export default function Citadel() {
 
   const sendMessage = async () => {
     try {
-      setIsLoading(true);
-
       if (!input.trim() && files.length === 0) return;
+
+      setIsLoading(true);
 
       justSentMessage.current = true;
 
@@ -135,6 +136,15 @@ export default function Citadel() {
         email: user?.email,
         text: input,
         files: uploadedUrls,
+        replyTo: replyingTo
+          ? {
+              msgId: replyingTo.msgId,
+              senderId: replyingTo.senderId,
+              sender: replyingTo.sender,
+              text: replyingTo.text,
+              files: replyingTo.files || [],
+            }
+          : null,
       };
 
       await fetch(`${BASE_URL}/api/messages/addMessage`, {
@@ -147,6 +157,11 @@ export default function Citadel() {
 
       setInput("");
       setFiles([]);
+      setReplyingTo(null);
+
+      if (inputRef.current) {
+        inputRef.current.style.height = "auto";
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -170,11 +185,27 @@ export default function Citadel() {
 
       setEditingMessage(null);
       setEditInput("");
+
+      if (inputRef.current) {
+        inputRef.current.style.height = "auto";
+      }
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleReply = (msg) => {
+    setReplyingTo(msg);
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
+
+  const cancelReply = () => {
+    setReplyingTo(null);
   };
 
   useEffect(() => {
@@ -312,7 +343,9 @@ export default function Citadel() {
                             }`}
                           >
                             <p className="text-sm items-center py-1 px-2 opacity-60 flex justify-start">
-                              {!ownMessage && <span>{msg.sender}</span>}
+                              {!ownMessage && !msg.replyTo && (
+                                <span>{msg.sender}</span>
+                              )}
                               {msg.edited === true && (
                                 <>
                                   {!ownMessage && (
@@ -325,15 +358,41 @@ export default function Citadel() {
                               )}
                             </p>
 
+                            {msg.replyTo && (
+                              <div
+                                className={`flex flex-col px-2 ${ownMessage ? "items-end" : "items-start"}`}
+                              >
+                                <p className="text-sm opacity-60 py-1">
+                                  {ownMessage ? "You" : msg.sender} replied to{" "}
+                                  {user.uid === msg.replyTo.senderId
+                                    ? "yourself"
+                                    : msg.replyTo.sender}
+                                </p>
+                                <div
+                                  className={`mb-2 px-3 py-2 rounded-lg bg-second border-accent opacity-80 ${ownMessage ? "border-l-2" : "border-r-2"}`}
+                                >
+                                  <p className="text-base text-normal flex whitespace-pre-wrap max-w-full line-clamp-2">
+                                    {msg.replyTo.text ||
+                                      (msg.replyTo.files?.length
+                                        ? "Attachment"
+                                        : "message")}
+                                  </p>
+                                </div>
+                              </div>
+                            )}
                             <div className="flex group">
-                              <div>
-                                {ownMessage && (
+                              {ownMessage && (
+                                <div className="flex mr-2">
                                   <BiDotsVerticalRounded
                                     onClick={() => setSelectedMessage(msg)}
                                     className="text-xl opacity-60 mt-2 cursor-pointer md:hidden md:group-hover:block"
                                   />
-                                )}
-                              </div>
+                                  <FaReply
+                                    onClick={() => handleReply(msg)}
+                                    className="text-xl opacity-60 mt-2 cursor-pointer md:hidden md:group-hover:block"
+                                  />
+                                </div>
+                              )}
 
                               <div
                                 className={`flex flex-col ${ownMessage ? "items-end" : "items-start"}`}
@@ -410,6 +469,15 @@ export default function Citadel() {
                                   </div>
                                 )}
                               </div>
+
+                              {!ownMessage && (
+                                <div className="ml-2">
+                                  <FaReply
+                                    onClick={() => handleReply(msg)}
+                                    className="text-xl opacity-60 mt-2 cursor-pointer md:hidden md:group-hover:block"
+                                  />
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -421,9 +489,29 @@ export default function Citadel() {
               </div>
             )}
 
-            <div className="px-2 mb-2">
+            <div className="px-2 mb-2 flex flex-col gap-2">
+              {replyingTo && !editingMessage && (
+                <div className="flex justify-between items-center p-2 bg-second rounded-lg border-l-2 border-accent">
+                  <div className="flex-1 min-w-0 w-0">
+                    <p className="text-xs text-accent font-bold">
+                      replying to{" "}
+                      {user.uid === replyingTo.senderId
+                        ? "yourself"
+                        : replyingTo.sender}
+                    </p>
+                    <p className="text-sm opacity-60 truncate">
+                      {replyingTo.text ||
+                        (replyingTo.files?.length ? "Attachment" : "Message")}
+                    </p>
+                  </div>
+                  <MdClose
+                    onClick={cancelReply}
+                    className="text-xl cursor-pointer shrink-0 ml-2"
+                  />
+                </div>
+              )}
               {files.length > 0 && (
-                <div className="flex flex-wrap gap-2 border-1 border-panel py-2 px-4 bg-second rounded-2xl">
+                <div className="flex flex-wrap gap-2 border-1 border-panel py-2 px-4 bg-second rounded-lg">
                   {files.map((file, index) => {
                     const previewSrc =
                       typeof file === "string"
@@ -457,6 +545,7 @@ export default function Citadel() {
                 </div>
               )}
             </div>
+
             <div className="w-full flex items-start gap-2 p-2 bg-second">
               <img
                 src={user?.picture || Fallback}
@@ -572,7 +661,7 @@ export default function Citadel() {
               <MdClose className="text-2xl" />
             </button>
             <div className="mt-8 p-2 h-full w-full">
-              <div className="w-full flex gap-2">
+              <div className="w-full flex flex-col gap-2">
                 <CircledButtons
                   onClick={() => {
                     setEditingMessage(selectedMessage.msgId);
