@@ -210,17 +210,19 @@ export default function Citadel() {
   };
 
   useEffect(() => {
-    if (messages.length && initialLoad.current) {
-      msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      initialLoad.current = false;
+    if (!messages.length || chatLoad) return;
+
+    if (initialLoad.current || justSentMessage.current) {
+      requestAnimationFrame(() => {
+        msgEndRef.current?.scrollIntoView({
+          behavior: initialLoad.current ? "auto" : "smooth",
+          block: "end",
+        });
+        initialLoad.current = false;
+        justSentMessage.current = false;
+      });
     }
-  }, [messages]);
-  useEffect(() => {
-    if (messages.length && justSentMessage.current) {
-      msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      justSentMessage.current = false;
-    }
-  }, [messages]);
+  }, [messages, chatLoad]);
 
   const handleLocalMessageDelete = (msgId) => {
     setMessages((prev) => prev.filter((m) => m.msgId !== msgId));

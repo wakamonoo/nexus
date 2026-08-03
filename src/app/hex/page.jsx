@@ -449,12 +449,12 @@ export default function Main() {
               <CustomButton
                 onClick={() => {
                   setIsLoading(true);
-                  router.push("/hex/timeline");
+                  router.push("/hex/connections");
                 }}
               >
                 <div className="flex items-center justify-center">
                   <HiOutlineMap className="text-2xl text-normal" />
-                  <p className="font-bold text-normal text-base">Timeline</p>
+                  <p className="font-bold text-normal text-base">Connections</p>
                 </div>
               </CustomButton>
             </div>

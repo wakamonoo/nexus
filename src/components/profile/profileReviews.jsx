@@ -55,7 +55,7 @@ export default function ProfileReviews({ profileUser }) {
           </div>
         ) : (
           <div className="flex flex-col gap-4 py-4 px-2 sm:px-4 md:px-8 lg:px-16">
-            {reviews?.map((review, index) => {
+            {reviews?.sort((a, b) => new Date(b.date) - new Date(a.date)).map((review, index) => {
               const title = titles.find((t) => t.titleId === review.titleId);
 
               return (
