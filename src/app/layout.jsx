@@ -43,7 +43,7 @@ export const metadata = {
     template: "%s | nexus",
   },
   description:
-    "Nexus is the ultimate Marvel fan platform where you can discover MCU watch orders, track your Marvel journey, rank movies and series, discuss the Marvel Cinematic Universe, and connect with other Marvel fans.",
+    "An unofficial, fan-made Marvel companion built for your journey through the MCU and beyond. Explore watch orders, track everything you've watched, rank your favorite movies and series, discover connected stories, and connect with fellow Marvel fans. Nexus is not affiliated with or endorsed by Marvel or Disney.",
 
   keywords: [
     "Nexus",
