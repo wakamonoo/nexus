@@ -411,7 +411,7 @@ export default function Citadel() {
                               >
                                 {msg.text && (
                                   <div
-                                    className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl cursor-pointer transition-all duration-200 md:hover:bg-accent ${
+                                    className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl cursor-pointer transition-all duration-200 md:group-hover:bg-accent ${
                                       activeMessage === msg.msgId
                                         ? "bg-accent"
                                         : ownMessage

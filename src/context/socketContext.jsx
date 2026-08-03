@@ -58,6 +58,8 @@ export const SocketProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    if (!socket) return;
+
     const fetchMessages = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/messages/messageGet`);
@@ -73,8 +75,12 @@ export const SocketProvider = ({ children }) => {
     socket.on("messageSent", (data) => {
       setMessages((prev) => [...prev, data]);
 
+      const isReplyToYou = data.replyTo?.senderId === user?.uid;
+
       showBrowserNotification({
-        title: `New message from ${data.sender}`,
+        title: isReplyToYou
+          ? `${data.sender} replied to your message`
+          : `New message from ${data.sender}`,
         body: data.text,
         icon: data.picture,
       });
@@ -103,7 +109,7 @@ export const SocketProvider = ({ children }) => {
       socket.off("messageEdited");
       socket.off("messageDeleted");
     };
-  }, []);
+  }, [socket, user]);
 
   useEffect(() => {
     if (!user) return;
