@@ -800,7 +800,7 @@ export default function Post() {
 
                                     <div
                                       onClick={() =>
-                                        setSelectedCommentOption(reply.commentId)
+                                        setSelectedCommentOption(reply.replyId)
                                       }
                                       className="flex top-2 right-2"
                                     >
@@ -864,7 +864,7 @@ export default function Post() {
                                   </div>
                                 )}
                               </div>
-                              {selectedCommentOption === reply.commentId && (
+                              {selectedCommentOption === reply.replyId && (
                                 <div className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed">
                                   <div
                                     onClick={(e) => e.stopPropagation()}
@@ -887,7 +887,7 @@ export default function Post() {
                                               e.stopPropagation();
                                               setSelectedCommentOption(null);
                                               setCommentToDelete(
-                                                reply.commentId,
+                                                reply.replyId,
                                               );
                                               setCommentDelModal(true);
                                             }}

@@ -29,27 +29,30 @@ export default function CommentDelConfirm({
     try {
       setIsLoading(true);
 
-      const res = await fetch(`${BASE_URL}/api/comments/deleteComment/${commentToDelete}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `${BASE_URL}/api/comments/deleteComment/${commentToDelete}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId }),
         },
-        body: JSON.stringify({ userId }),
-      });
+      );
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "failed to delete comment")
+        throw new Error(data.error || "failed to delete comment");
       }
 
       const commentExists = post.comments.some(
-        (c) => c.commentId === commentToDelete
+        (c) => c.commentId === commentToDelete,
       );
 
       if (commentExists) {
         post.comments = post.comments.filter(
-          (c) => c.commentId !== commentToDelete
+          (c) => c.commentId !== commentToDelete,
         );
       } else {
         post.comments = post.comments.map((c) => ({
@@ -118,10 +121,6 @@ export default function CommentDelConfirm({
         <div className="mt-6 p-2 h-full w-full">
           <p className="text-center text-normal font-bold py-2">
             Are you sure you want to delete this comment?
-            <br />
-            <span className="text-sm text-vibe opacity-80">
-              If it's a new comment, kindly refresh the page first.
-            </span>
           </p>
           <div className="w-full flex gap-2">
             <CircledButtons
