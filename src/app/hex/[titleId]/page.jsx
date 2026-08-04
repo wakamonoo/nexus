@@ -523,7 +523,7 @@ export default function Title() {
                   return (
                     <Fragment key={review.reviewId}>
                       <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative ">
-                        {review.userId === user.uid && (
+                        {review.userId === user?.uid && (
                           <div
                             onClick={() => setShowReviewOption(true)}
                             className="flex absolute top-2 right-2"
