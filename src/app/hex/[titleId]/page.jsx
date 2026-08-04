@@ -37,6 +37,7 @@ import { RiLockFill } from "react-icons/ri";
 import ScrollContainer from "react-indiana-drag-scroll";
 import {
   BiDotsHorizontal,
+  BiDotsHorizontalRounded,
   BiDownvote,
   BiSolidDownvote,
   BiSolidUpvote,
@@ -527,7 +528,7 @@ export default function Title() {
                             onClick={() => setShowReviewOption(true)}
                             className="flex absolute top-2 right-2"
                           >
-                            <BiDotsHorizontal className="text-base cursor-pointer" />
+                            <BiDotsHorizontalRounded className="text-base cursor-pointer" />
                           </div>
                         )}
                         {review.date === firstReview.date && (
@@ -598,17 +599,17 @@ export default function Title() {
                                 onClick={() =>
                                   handleVote(review.reviewId, "up")
                                 }
-                                className={`text-base text-accent cursor-pointer hover:scale-125 active:scale-125}`}
+                                className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
                               />
                             ) : (
                               <BiUpvote
                                 onClick={() =>
                                   handleVote(review.reviewId, "up")
                                 }
-                                className={`text-base cursor-pointer hover:scale-125 active:scale-125}`}
+                                className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
                               />
                             )}
-                            <span className="text-xs text-vibe">
+                            <span className="text-xs opacity-60">
                               {upvotes.length - downvotes.length}
                             </span>
                             {downvotes.includes(user?.uid) ? (
@@ -616,14 +617,14 @@ export default function Title() {
                                 onClick={() =>
                                   handleVote(review.reviewId, "down")
                                 }
-                                className={`text-base text-accent cursor-pointer hover:scale-125 active:scale-125}`}
+                                className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
                               />
                             ) : (
                               <BiDownvote
                                 onClick={() =>
                                   handleVote(review.reviewId, "down")
                                 }
-                                className={`text-base cursor-pointer hover:scale-125 active:scale-125}`}
+                                className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
                               />
                             )}
                           </div>

@@ -11,12 +11,12 @@ import {
 } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Fallback from "@/assets/fallback.png";
-import { MdOutlineSensors, MdSend } from "react-icons/md";
+import { MdClose, MdOutlineSensors, MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
 import PostLoader from "@/components/loaders/postLoader";
 import { Bs1CircleFill } from "react-icons/bs";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "@/components/layout/postOpt";
 import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
 import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
@@ -35,6 +35,7 @@ import CommentLightBox from "@/components/lightBoxes/commentLightBox";
 import GifPicker from "@/components/modals/gifPicker";
 import AutoPlay from "@/components/layout/autoPlay";
 import { TitleContext } from "@/context/titleContext";
+import CircledButtons from "@/components/buttons/circledBtns";
 
 dayjs.extend(relativeTime);
 
@@ -82,6 +83,7 @@ export default function Post() {
   const [initialIndex, setInitialIndex] = useState(0);
   const [showGifPicker, setShowGifPicker] = useState(false);
   const [aspectRatio, setAspectRatio] = useState(null);
+  const [showCommentOption, setShowCommentOption] = useState(false);
   const inputRef = useRef();
   const postCarouselRef = useRef(null);
 
@@ -621,6 +623,11 @@ export default function Post() {
                           decoding="async"
                           className="w-12 h-12 object-cover rounded-full cursor-pointer"
                         />
+                        {comment.date === firstComment.date ? (
+                          <div className="flex absolute top-0 left-8">
+                            <Bs1CircleFill className="text-xl text-zeus" />
+                          </div>
+                        ) : null}
                         <div className="flex flex-col w-full">
                           <div className="bg-second w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                             <div className="flex justify-between items-start gap-4">
@@ -638,11 +645,14 @@ export default function Post() {
                                   {dayjs(comment.date).fromNow()}
                                 </p>
                               </div>
-                              {comment.date === firstComment.date ? (
-                                <div className="flex top-2 right-2">
-                                  <Bs1CircleFill className="text-base text-zeus" />
+                              {comment.userId === user?.uid && (
+                                <div
+                                  onClick={() => setShowCommentOption(true)}
+                                  className="flex top-2 right-2"
+                                >
+                                  <BiDotsHorizontalRounded className="text-base cursor-pointer" />
                                 </div>
-                              ) : null}
+                              )}
                             </div>
                             {comment.textComment && (
                               <p
@@ -701,35 +711,57 @@ export default function Post() {
                               })}
                             </div>
                           )}
-                          <div className="flex items-center justify-start px-2 gap-2">
-                            <p
-                              onClick={() => {
-                                setCommentToDelete(comment.commentId);
-                                setCommentDelModal(true);
-                              }}
-                              className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                user?.uid === comment.userId
-                                  ? "block"
-                                  : "hidden"
-                              }`}
-                            >
-                              Delete
-                            </p>
-                            <p
-                              onClick={() => {
-                                setIsReplying(true);
-                                setReplyToCommentId(comment.commentId);
-                                setReplyToCommentUserId(comment.userId);
-                                setReplyToUserName(comment.userName);
-                                inputRef.current.focus();
-                              }}
-                              className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
-                            >
-                              Reply
-                            </p>
-                          </div>
                         </div>
                       </div>
+                      {showCommentOption && (
+                        <div className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed">
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+                          >
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowCommentOption(true);
+                              }}
+                              className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                            >
+                              <MdClose className="text-2xl" />
+                            </button>
+                            <div className="mt-8 p-2 h-full w-full">
+                              <div className="w-full flex flex-col gap-2">
+                                <CircledButtons
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowCommentOption(false);
+                                    setCommentToDelete(comment.commentId);
+                                    setCommentDelModal(true);
+                                  }}
+                                >
+                                  <p className="font-bold text-normal text-base">
+                                    Delete Comment
+                                  </p>
+                                </CircledButtons>
+                                <CircledButtons
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowCommentOption(false);
+                                    setIsReplying(true);
+                                    setReplyToCommentId(comment.commentId);
+                                    setReplyToCommentUserId(comment.userId);
+                                    setReplyToUserName(comment.userName);
+                                    inputRef.current.focus();
+                                  }}
+                                >
+                                  <p className="font-bold text-normal text-base">
+                                    Reply
+                                  </p>
+                                </CircledButtons>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
 
                       {comment.replies && comment.replies.length > 0 && (
                         <div className="flex flex-col  gap-2 mt-2 ml-12">
@@ -765,6 +797,16 @@ export default function Post() {
                                         {dayjs(reply.date).fromNow()}
                                       </p>
                                     </div>
+                                    {reply.userId === user?.uid && (
+                                      <div
+                                        onClick={() =>
+                                          setShowCommentOption(true)
+                                        }
+                                        className="flex top-2 right-2"
+                                      >
+                                        <BiDotsHorizontalRounded className="text-base cursor-pointer" />
+                                      </div>
+                                    )}
                                   </div>
                                   {reply.textReply && (
                                     <p
@@ -822,34 +864,60 @@ export default function Post() {
                                     })}
                                   </div>
                                 )}
-                                <div className="flex items-center justify-start px-2 gap-2">
-                                  <p
-                                    onClick={() => {
-                                      setCommentToDelete(reply.replyId);
-                                      setCommentDelModal(true);
-                                    }}
-                                    className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                                      user?.uid === reply.userId
-                                        ? "block"
-                                        : "hidden"
-                                    }`}
-                                  >
-                                    Delete
-                                  </p>
-                                  <p
-                                    onClick={() => {
-                                      setIsReplying(true);
-                                      setReplyToCommentId(reply.commentId);
-                                      setReplyToCommentUserId(reply.userId);
-                                      setReplyToUserName(reply.userName);
-                                      inputRef.current.focus();
-                                    }}
-                                    className="text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer"
-                                  >
-                                    Reply
-                                  </p>
-                                </div>
                               </div>
+                              {showCommentOption && (
+                                <div className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed">
+                                  <div
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+                                  >
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowCommentOption(true);
+                                      }}
+                                      className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                                    >
+                                      <MdClose className="text-2xl" />
+                                    </button>
+                                    <div className="mt-8 p-2 h-full w-full">
+                                      <div className="w-full flex flex-col gap-2">
+                                        <CircledButtons
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowCommentOption(false);
+                                            setCommentToDelete(reply.replyId);
+                                            setCommentDelModal(true);
+                                          }}
+                                        >
+                                          <p className="font-bold text-normal text-base">
+                                            Delete Comment
+                                          </p>
+                                        </CircledButtons>
+                                        <CircledButtons
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setShowCommentOption(false);
+                                            setIsReplying(true);
+                                            setReplyToCommentId(
+                                              reply.commentId,
+                                            );
+                                            setReplyToCommentUserId(
+                                              reply.userId,
+                                            );
+                                            setReplyToUserName(reply.userName);
+                                            inputRef.current.focus();
+                                          }}
+                                        >
+                                          <p className="font-bold text-normal text-base">
+                                            Reply
+                                          </p>
+                                        </CircledButtons>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           ))}
                         </div>

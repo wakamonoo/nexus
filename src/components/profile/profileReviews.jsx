@@ -10,7 +10,7 @@ import { UserContext } from "@/context/userContext";
 import ReviewDelConfirm from "../modals/reviewDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { BiDotsHorizontal } from "react-icons/bi";
+import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
 import CircledButtons from "../buttons/circledBtns";
 import { SocketContext } from "@/context/socketContext";
 
@@ -87,7 +87,7 @@ export default function ProfileReviews({ profileUser }) {
                           }}
                           className="flex absolute top-2 right-4 z-10"
                         >
-                          <BiDotsHorizontal className="text-base cursor-pointer" />
+                          <BiDotsHorizontalRounded className="text-base cursor-pointer" />
                         </div>
                       )}
                       <div className="relative h-30 overflow-hidden">
@@ -167,7 +167,7 @@ export default function ProfileReviews({ profileUser }) {
                           </p>
                         </div>
                         <div className="p-2 flex justify-end">
-                          <span className="text-xs text-vibe">
+                          <span className="text-xs opacity-60">
                             {upvotes.length - downvotes.length}{" "}{upvotes.length - downvotes.length === 1 ? "vote" : "votes"}
                           </span>
                         </div>

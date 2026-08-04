@@ -136,7 +136,7 @@ export default function LatestReviews() {
           </p>
         </div>
         <div className="p-2 flex justify-end">
-          <span className="text-xs text-vibe">
+          <span className="text-xs opacity-60">
             {upvotes?.length - downvotes?.length}{" "}
             {upvotes?.length - downvotes?.length === 1 ? "vote" : "votes"}
           </span>
