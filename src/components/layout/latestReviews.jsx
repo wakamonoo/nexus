@@ -15,6 +15,7 @@ export default function LatestReviews() {
   const { sortedReviews } = useContext(SocketContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
+  const { reviewVotes } = useContext(SocketContext);
   const router = useRouter();
   const carouselRef = useRef(null);
 
@@ -54,7 +55,7 @@ export default function LatestReviews() {
     );
   }
 
-  const reviewCard = (review, index, title) => (
+  const reviewCard = (review, index, title, upvotes, downvotes) => (
     <div
       onClick={(e) => {
         e.stopPropagation();
@@ -134,6 +135,12 @@ export default function LatestReviews() {
             {review.textReview}
           </p>
         </div>
+        <div className="p-2 flex justify-end">
+          <span className="text-xs text-vibe">
+            {upvotes?.length - downvotes?.length}{" "}
+            {upvotes?.length - downvotes?.length === 1 ? "vote" : "votes"}
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -163,9 +170,14 @@ export default function LatestReviews() {
         >
           {sortedReviews?.map((review, index) => {
             const title = titles.find((t) => t.titleId === review.titleId);
+            const realtimeVote = reviewVotes[review.reviewId];
+
+                const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
+                const downvotes =
+                  realtimeVote?.downvotes ?? review.downvotes ?? [];
             return (
               <div key={index} className="min-w-full snap-start">
-                {reviewCard(review, index, title)}
+                {reviewCard(review, index, title, upvotes, downvotes)}
               </div>
             );
           })}
@@ -180,9 +192,14 @@ export default function LatestReviews() {
         <div className="flex gap-4 flex-col">
           {sortedReviews?.map((review, index) => {
             const title = titles.find((t) => t.titleId === review.titleId);
+            const realtimeVote = reviewVotes[review.reviewId];
+
+                const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
+                const downvotes =
+                  realtimeVote?.downvotes ?? review.downvotes ?? [];
             return (
               <div key={index} className="min-w-full snap-start">
-                {reviewCard(review, index, title)}
+                {reviewCard(review, index, title, upvotes, downvotes)}
               </div>
             );
           })}

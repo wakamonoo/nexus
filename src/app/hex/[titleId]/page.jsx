@@ -1,14 +1,16 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import {
   FaAngleLeft,
+  FaArrowUp,
   FaCrown,
   FaHourglassHalf,
+  FaPen,
   FaPlay,
   FaQuoteLeft,
+  FaTrash,
   FaVideoSlash,
 } from "react-icons/fa";
 import {
@@ -24,7 +26,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import ShowLoader from "@/components/loaders/showLoader";
 import AddReview from "@/components/modals/addReview";
 import { UserContext } from "@/context/userContext";
-import { MdOutlineReviews, MdRateReview } from "react-icons/md";
+import { MdClose, MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/layout/titleMenu";
 import { GiTrophy } from "react-icons/gi";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
@@ -33,21 +35,45 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { RiLockFill } from "react-icons/ri";
 import ScrollContainer from "react-indiana-drag-scroll";
+import {
+  BiDotsHorizontal,
+  BiDownvote,
+  BiSolidDownvote,
+  BiSolidUpvote,
+  BiUpvote,
+} from "react-icons/bi";
+import Swal from "sweetalert2";
+import { SocketContext } from "@/context/socketContext";
+import CircledButtons from "@/components/buttons/circledBtns";
 
 dayjs.extend(relativeTime);
+
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export default function Title() {
   const { titles, reviewToDelete, setReviewToDelete } =
     useContext(TitleContext);
   const { titleId } = useParams();
   const router = useRouter();
-  const [showFull, setShowFull] = useState(false);
+  const [activeReview, setActiveReview] = useState(null);
   const [showSum, setShowSum] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [showAddReview, setShowAddReview] = useState(false);
   const [showTitleMenu, setShowTitleMenu] = useState(false);
-  const { user, allUsers } = useContext(UserContext);
+  const { user, allUsers, setShowSignIn } = useContext(UserContext);
   const [reviewDelModal, setReviewDelModal] = useState(false);
+  const [showReviewOption, setShowReviewOption] = useState(false);
+  const { reviewVotes } = useContext(SocketContext);
 
   useEffect(() => {
     setIsLoading(false);
@@ -84,6 +110,43 @@ export default function Title() {
       .filter((r) => r.titleId === title?.titleId && r.rank === 1).length || 0;
 
   const currentTitleRank = ranked.find((t) => t.titleId === titleId)?.rank;
+
+  const handleVote = async (reviewId, vote) => {
+    try {
+      if (!user?.uid) {
+        setShowSignIn();
+      }
+
+      await fetch(`${BASE_URL}/api/reviews/vote/${reviewId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.uid,
+          vote,
+        }),
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "Vote failed!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup:
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -179,7 +242,9 @@ export default function Title() {
                     <p className="text-sm text-vibe">
                       {title.duration
                         ? `${title.duration} minutes`
-                        : title.episode ? `${title.episode} episodes` : "No data"} {" "}
+                        : title.episode
+                          ? `${title.episode} episodes`
+                          : "No data"}{" "}
                       | {title.type || "Unknown"}
                     </p>
                     <div className="flex flex-wrap gap-1.5 mt-2">
@@ -448,86 +513,159 @@ export default function Title() {
                   </>
                 </div>
               ) : (
-                title.reviews?.map((review, index) => (
-                  <div
-                    key={index}
-                    className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative"
-                  >
-                    {review.date === firstReview.date ? (
-                      <div className="flex absolute top-2 right-2">
-                        <Bs1CircleFill className="text-base text-zeus" />
-                      </div>
-                    ) : null}
-                    <div className="flex items-center gap-2">
-                      <img
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsLoading(true);
-                          router.push(`/profile/${review.userId}`);
-                        }}
-                        src={review.userImage}
-                        alt={review.userName}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-12 h-12 object-cover rounded-full"
-                      />
-                      <div className="flex flex-col">
-                        <p
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsLoading(true);
-                            router.push(`/profile/${review.userId}`);
-                          }}
-                          className="cursor-pointer text-base mt-2 font-bold leading-none"
-                        >
-                          {review.userName}
-                        </p>
-                        <p className="text-xs text-vibe">
-                          {(() => {
-                            const diffWeeks = dayjs().diff(
-                              dayjs(review.date),
-                              "week",
-                            );
-                            if (diffWeeks < 1) {
-                              return dayjs(review.date).fromNow();
-                            }
-                            return new Date(review.date).toLocaleDateString(
-                              [],
-                              {
-                                month: "short",
-                                day: "2-digit",
-                                year: "numeric",
-                              },
-                            );
-                          })()}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="border-t border-[var(--color-vibranium)]/20 mt-2">
-                      <div className="flex items-start">
-                        <div className="flex items-center justify-center w-8 h-8 shrink-0">
-                          <FaQuoteLeft className="text-xs opacity-60" />
+                title.reviews?.map((review) => {
+                  const realtimeVote = reviewVotes[review.reviewId];
+
+                  const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
+                  const downvotes =
+                    realtimeVote?.downvotes ?? review.downvotes ?? [];
+                  return (
+                    <Fragment key={review.reviewId}>
+                      <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative ">
+                        {review.userId === user.uid && (
+                          <div
+                            onClick={() => setShowReviewOption(true)}
+                            className="flex absolute top-2 right-2"
+                          >
+                            <BiDotsHorizontal className="text-base cursor-pointer" />
+                          </div>
+                        )}
+                        {review.date === firstReview.date && (
+                          <div className="flex absolute top-2 left-10">
+                            <Bs1CircleFill className="text-xl text-zeus" />
+                          </div>
+                        )}
+
+                        <div className="flex items-center gap-2">
+                          <img
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsLoading(true);
+                              router.push(`/profile/${review.userId}`);
+                            }}
+                            src={review.userImage}
+                            alt={review.userName}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                          />
+                          <div className="flex flex-col">
+                            <p
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsLoading(true);
+                                router.push(`/profile/${review.userId}`);
+                              }}
+                              className="cursor-pointer text-base mt-2 font-bold leading-none"
+                            >
+                              {review.userName}
+                            </p>
+                            <p className="text-xs text-vibe">
+                              {(() => {
+                                const diffWeeks = dayjs().diff(
+                                  dayjs(review.date),
+                                  "week",
+                                );
+                                if (diffWeeks < 1) {
+                                  return dayjs(review.date).fromNow();
+                                }
+                                return new Date(review.date).toLocaleDateString(
+                                  [],
+                                  {
+                                    month: "short",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                  },
+                                );
+                              })()}
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-base text-vibe leading-tight mt-2">
-                          {review.textReview}
-                        </p>
+                        <div className="border-t border-[var(--color-vibranium)]/20 mt-2">
+                          <div className="flex items-start">
+                            <div className="flex items-center justify-center w-8 h-8 shrink-0">
+                              <FaQuoteLeft className="text-xs opacity-60" />
+                            </div>
+                            <p className="text-base text-vibe leading-tight mt-2">
+                              {review.textReview}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end  mt-4 px-2 gap-2">
+                          <div className="flex items-center rounded-full bg-panel py-2 px-4 gap-2">
+                            {upvotes.includes(user?.uid) ? (
+                              <BiSolidUpvote
+                                onClick={() =>
+                                  handleVote(review.reviewId, "up")
+                                }
+                                className={`text-base text-accent cursor-pointer hover:scale-125 active:scale-125}`}
+                              />
+                            ) : (
+                              <BiUpvote
+                                onClick={() =>
+                                  handleVote(review.reviewId, "up")
+                                }
+                                className={`text-base cursor-pointer hover:scale-125 active:scale-125}`}
+                              />
+                            )}
+                            <span className="text-xs text-vibe">
+                              {upvotes.length - downvotes.length}
+                            </span>
+                            {downvotes.includes(user?.uid) ? (
+                              <BiSolidDownvote
+                                onClick={() =>
+                                  handleVote(review.reviewId, "down")
+                                }
+                                className={`text-base text-accent cursor-pointer hover:scale-125 active:scale-125}`}
+                              />
+                            ) : (
+                              <BiDownvote
+                                onClick={() =>
+                                  handleVote(review.reviewId, "down")
+                                }
+                                className={`text-base cursor-pointer hover:scale-125 active:scale-125}`}
+                              />
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center justify-end px-2 gap-2">
-                      <p
-                        onClick={() => {
-                          setReviewToDelete(review.reviewId);
-                          setReviewDelModal(true);
-                        }}
-                        className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                          user?.uid === review.userId ? "block" : "hidden"
-                        }`}
-                      >
-                        Delete
-                      </p>
-                    </div>
-                  </div>
-                ))
+                      {showReviewOption && (
+                        <div className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed">
+                          <div
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+                          >
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowReviewOption(false);
+                              }}
+                              className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                            >
+                              <MdClose className="text-2xl" />
+                            </button>
+                            <div className="mt-8 p-2 h-full w-full">
+                              <div className="w-full flex flex-col gap-2">
+                                <CircledButtons
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowReviewOption(false);
+                                    setReviewToDelete(review.reviewId);
+                                    setReviewDelModal(true);
+                                  }}
+                                >
+                                  <p className="font-bold text-normal text-base">
+                                    Delete Review
+                                  </p>
+                                </CircledButtons>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </Fragment>
+                  );
+                })
               )}
             </div>
           </div>

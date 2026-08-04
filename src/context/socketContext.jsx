@@ -44,6 +44,7 @@ export const SocketProvider = ({ children }) => {
   const [chatLoad, setChatLoad] = useState(true);
   const { user, socket } = useContext(UserContext);
   const [sortedReviews, setSortedReviews] = useState([]);
+  const [reviewVotes, setReviewVotes] = useState({});
   const [pings, setPings] = useState([]);
   const router = useRouter();
 
@@ -145,7 +146,8 @@ export const SocketProvider = ({ children }) => {
                   router.push(`/post/${pingData.postId}`);
                 } else if (pingData.type === "sigil") {
                   router.push(`/profile/${pingData.userId}`);
-                }
+                } else if (pingData.type === "reviewUpvote")
+                  router.push(`/hex/${pingData.titleId}`);
               }
               toast.dismiss(t.id);
             }}
@@ -165,7 +167,7 @@ export const SocketProvider = ({ children }) => {
             />
             <div className="flex-1">
               <p className="text-base text-normal font-semibold">
-                {pingData.senderName} {pingData.message}
+                {pingData.type === "reviewUpvote" ? pingData.userName : pingData.senderName} {pingData.message}
               </p>
             </div>
           </div>
@@ -211,6 +213,24 @@ export const SocketProvider = ({ children }) => {
     };
   }, [socket]);
 
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("reviewVoteUpdated", (data) => {
+      setReviewVotes((prev) => ({
+        ...prev,
+        [data.reviewId]: {
+          upvotes: data.upvotes,
+          downvotes: data.downvotes,
+        },
+      }));
+    });
+
+    return () => {
+      socket.off("reviewVoteUpdated");
+    };
+  }, [socket]);
+
   return (
     <SocketContext.Provider
       value={{
@@ -220,6 +240,7 @@ export const SocketProvider = ({ children }) => {
         pings,
         setPings,
         sortedReviews,
+        reviewVotes,
       }}
     >
       {children}

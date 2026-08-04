@@ -1,15 +1,18 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { FaQuoteLeft } from "react-icons/fa";
-import { MdRateReview } from "react-icons/md";
+import { MdClose, MdRateReview } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
 import ReviewDelConfirm from "../modals/reviewDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { BiDotsHorizontal } from "react-icons/bi";
+import CircledButtons from "../buttons/circledBtns";
+import { SocketContext } from "@/context/socketContext";
 
 dayjs.extend(relativeTime);
 
@@ -19,8 +22,9 @@ export default function ProfileReviews({ profileUser }) {
   const { setIsLoading } = useContext(LoaderContext);
   const { user } = useContext(UserContext);
   const [reviewDelModal, setReviewDelModal] = useState(false);
-
+  const [showReviewOption, setShowReviewOption] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const { reviewVotes } = useContext(SocketContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -55,113 +59,157 @@ export default function ProfileReviews({ profileUser }) {
           </div>
         ) : (
           <div className="flex flex-col gap-4 py-4 px-2 sm:px-4 md:px-8 lg:px-16">
-            {reviews?.sort((a, b) => new Date(b.date) - new Date(a.date)).map((review, index) => {
-              const title = titles.find((t) => t.titleId === review.titleId);
+            {reviews
+              ?.sort((a, b) => new Date(b.date) - new Date(a.date))
+              .map((review) => {
+                const title = titles.find((t) => t.titleId === review.titleId);
+                const realtimeVote = reviewVotes[review.reviewId];
 
-              return (
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsLoading(true);
-                    router.push(`/hex/${review.titleId}`);
-                  }}
-                  key={index}
-                  className="group relative overflow-hidden rounded-3xl border border-panel bg-second cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
-                >
-                  <div className="relative h-30 overflow-hidden">
-                    <img
-                      src={
-                        title.backdrop
-                          ? `https://image.tmdb.org/t/p/w500${title.backdrop}`
-                          : "/fallback.png"
-                      }
-                      alt={title.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
-                    />
+                const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
+                const downvotes =
+                  realtimeVote?.downvotes ?? review.downvotes ?? [];
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-secondary)] to transparent" />
-                    <div className="absolute bottom-2 left-4 right-4">
-                      <p className="text-vibe text-base font-semibold leading-tight line-clamp-2">
-                        {review.title}
-                      </p>
-                    </div>
-
-                    <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-panel px-2 py-1.5">
-                      <img
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsLoading(true);
-                          router.push(`/profile/${review.userId}`);
-                        }}
-                        src={review.userImage}
-                        alt={review.userName}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-8 h-8 rounded-full object-cover cursor-pointer"
-                      />
-                      <div className="pr-2">
-                        <p
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsLoading(true);
-                            router.push(`/profile/${review.userId}`);
-                          }}
-                          className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer hover:underline"
-                        >
-                          {review.userName}
-                        </p>
-
-                        <p className="text-xs text-vibe">
-                          {(() => {
-                            const diffWeeks = dayjs().diff(
-                              dayjs(review.date),
-                              "week",
-                            );
-                            if (diffWeeks < 1) {
-                              return dayjs(review.date).fromNow();
-                            }
-                            return new Date(review.date).toLocaleDateString(
-                              [],
-                              {
-                                month: "short",
-                                day: "2-digit",
-                                year: "numeric",
-                              },
-                            );
-                          })()}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="p-2">
-                    <div className="flex items-start">
-                      <div className="flex items-center justify-center w-8 h-8 shrink-0">
-                        <FaQuoteLeft className="text-xs opacity-60" />
-                      </div>
-                      <p className="text-base text-vibe leading-tight line-clamp-2 mt-2">
-                        {review.textReview}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-end px-4 py-2 gap-2">
-                    <p
+                return (
+                  <Fragment key={review.reviewId}>
+                    <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        setReviewToDelete(review.reviewId);
-                        setReviewDelModal(true);
+                        setIsLoading(true);
+                        router.push(`/hex/${review.titleId}`);
                       }}
-                      className={`text-sm text-vibe hover:text-[var(--color-vibe)]/40 opacity-60 cursor-pointer ${
-                        user?.uid === review.userId ? "block" : "hidden"
-                      }`}
+                      className="group relative overflow-hidden rounded-3xl border border-panel bg-second cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
                     >
-                      Delete
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+                      {review.userId === user.uid && (
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowReviewOption(true);
+                          }}
+                          className="flex absolute top-2 right-4 z-10"
+                        >
+                          <BiDotsHorizontal className="text-base cursor-pointer" />
+                        </div>
+                      )}
+                      <div className="relative h-30 overflow-hidden">
+                        <img
+                          src={
+                            title.backdrop
+                              ? `https://image.tmdb.org/t/p/w500${title.backdrop}`
+                              : "/fallback.png"
+                          }
+                          alt={title.title}
+                          loading="lazy"
+                          decoding="async"
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
+                        />
+
+                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-secondary)] to transparent" />
+                        <div className="absolute bottom-2 left-4 right-4">
+                          <p className="text-vibe text-base font-semibold leading-tight line-clamp-2">
+                            {review.title}
+                          </p>
+                        </div>
+
+                        <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-panel px-2 py-1.5">
+                          <img
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsLoading(true);
+                              router.push(`/profile/${review.userId}`);
+                            }}
+                            src={review.userImage}
+                            alt={review.userName}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-8 h-8 rounded-full object-cover cursor-pointer"
+                          />
+                          <div className="pr-2">
+                            <p
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsLoading(true);
+                                router.push(`/profile/${review.userId}`);
+                              }}
+                              className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer hover:underline"
+                            >
+                              {review.userName}
+                            </p>
+
+                            <p className="text-xs text-vibe">
+                              {(() => {
+                                const diffWeeks = dayjs().diff(
+                                  dayjs(review.date),
+                                  "week",
+                                );
+                                if (diffWeeks < 1) {
+                                  return dayjs(review.date).fromNow();
+                                }
+                                return new Date(review.date).toLocaleDateString(
+                                  [],
+                                  {
+                                    month: "short",
+                                    day: "2-digit",
+                                    year: "numeric",
+                                  },
+                                );
+                              })()}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-2">
+                        <div className="flex items-start">
+                          <div className="flex items-center justify-center w-8 h-8 shrink-0">
+                            <FaQuoteLeft className="text-xs opacity-60" />
+                          </div>
+                          <p className="text-base text-vibe leading-tight line-clamp-2 mt-2">
+                            {review.textReview}
+                          </p>
+                        </div>
+                        <div className="p-2 flex justify-end">
+                          <span className="text-xs text-vibe">
+                            {upvotes.length - downvotes.length}{" "}{upvotes.length - downvotes.length === 1 ? "vote" : "votes"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    {showReviewOption && (
+                      <div className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed">
+                        <div
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+                        >
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setShowReviewOption(false);
+                            }}
+                            className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                          >
+                            <MdClose className="text-2xl" />
+                          </button>
+                          <div className="mt-8 p-2 h-full w-full">
+                            <div className="w-full flex flex-col gap-2">
+                              <CircledButtons
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setShowReviewOption(false);
+                                  setReviewToDelete(review.reviewId);
+                                  setReviewDelModal(true);
+                                }}
+                              >
+                                <p className="font-bold text-normal text-base">
+                                  Delete Review
+                                </p>
+                              </CircledButtons>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </Fragment>
+                );
+              })}
           </div>
         )}
       </div>

@@ -47,13 +47,22 @@ export default function Ping({ setShowPing }) {
       });
 
       setPings((prev) =>
-        prev.map((p) => (p.pingId === ping.pingId ? { ...p, isRead: true } : p))
+        prev.map((p) =>
+          p.pingId === ping.pingId ? { ...p, isRead: true } : p,
+        ),
       );
 
-      if (ping.type === "comment" || ping.type === "reply" || ping.type == "energize" || ping.type == "echo") {
+      if (
+        ping.type === "comment" ||
+        ping.type === "reply" ||
+        ping.type == "energize" ||
+        ping.type == "echo"
+      ) {
         router.push(`/post/${ping.postId}`);
       } else if (ping.type === "sigil") {
         router.push(`/profile/${ping.userId}`);
+      } else if (ping.type === "reviewUpvote") {
+        router.push(`/hex/${ping.titleId}`);
       }
     } catch (err) {
       console.error(err);
@@ -120,7 +129,7 @@ export default function Ping({ setShowPing }) {
       });
 
       setPings((prev) =>
-        prev.map((p) => (p.userId === userId ? { ...p, isRead: true } : p))
+        prev.map((p) => (p.userId === userId ? { ...p, isRead: true } : p)),
       );
     } catch (err) {
       console.error(err);
@@ -216,7 +225,9 @@ export default function Ping({ setShowPing }) {
                     <div className="flex flex-col gap-1">
                       <div className="flex gap-2">
                         <p className="leading-4 text-base font-bold">
-                          {ping.senderName}{" "}
+                          {ping.type === "reviewUpvote"
+                            ? ping.userName
+                            : ping.senderName}{" "}
                           <span className="font-normal text-sm">
                             {ping.message}
                           </span>
@@ -226,7 +237,7 @@ export default function Ping({ setShowPing }) {
                         {(() => {
                           const diffWeeks = dayjs().diff(
                             dayjs(ping.date),
-                            "week"
+                            "week",
                           );
                           if (diffWeeks < 1) {
                             return dayjs(ping.date).fromNow();
@@ -244,7 +255,7 @@ export default function Ping({ setShowPing }) {
                     onClick={(e) => {
                       e.stopPropagation();
                       setSelectedPing(
-                        selectedPing === ping.pingId ? null : ping.pingId
+                        selectedPing === ping.pingId ? null : ping.pingId,
                       );
                     }}
                     className="text-2xl shrink-0"
