@@ -83,7 +83,7 @@ export default function Post() {
   const [initialIndex, setInitialIndex] = useState(0);
   const [showGifPicker, setShowGifPicker] = useState(false);
   const [aspectRatio, setAspectRatio] = useState(null);
-  const [showCommentOption, setShowCommentOption] = useState(false);
+  const [selectedCommentOption, setSelectedCommentOption] = useState(null);
   const inputRef = useRef();
   const postCarouselRef = useRef(null);
 
@@ -645,14 +645,12 @@ export default function Post() {
                                   {dayjs(comment.date).fromNow()}
                                 </p>
                               </div>
-                              {comment.userId === user?.uid && (
-                                <div
-                                  onClick={() => setShowCommentOption(true)}
-                                  className="flex top-2 right-2"
-                                >
-                                  <BiDotsHorizontalRounded className="text-base cursor-pointer" />
-                                </div>
-                              )}
+                              <div
+                                onClick={() => setSelectedCommentOption(comment.commentId)}
+                                className="flex top-2 right-2"
+                              >
+                                <BiDotsHorizontalRounded className="text-base cursor-pointer" />
+                              </div>
                             </div>
                             {comment.textComment && (
                               <p
@@ -713,7 +711,7 @@ export default function Post() {
                           )}
                         </div>
                       </div>
-                      {showCommentOption && (
+                      {selectedCommentOption === comment.commentId && (
                         <div className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed">
                           <div
                             onClick={(e) => e.stopPropagation()}
@@ -722,7 +720,7 @@ export default function Post() {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setShowCommentOption(true);
+                                setSelectedCommentOption(null);
                               }}
                               className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
                             >
@@ -730,22 +728,24 @@ export default function Post() {
                             </button>
                             <div className="mt-8 p-2 h-full w-full">
                               <div className="w-full flex flex-col gap-2">
+                                {comment.userId === user?.uid && (
+                                  <CircledButtons
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedCommentOption(null);
+                                      setCommentToDelete(comment.commentId);
+                                      setCommentDelModal(true);
+                                    }}
+                                  >
+                                    <p className="font-bold text-normal text-base">
+                                      Delete Comment
+                                    </p>
+                                  </CircledButtons>
+                                )}
                                 <CircledButtons
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    setShowCommentOption(false);
-                                    setCommentToDelete(comment.commentId);
-                                    setCommentDelModal(true);
-                                  }}
-                                >
-                                  <p className="font-bold text-normal text-base">
-                                    Delete Comment
-                                  </p>
-                                </CircledButtons>
-                                <CircledButtons
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowCommentOption(false);
+                                    setSelectedCommentOption(null);
                                     setIsReplying(true);
                                     setReplyToCommentId(comment.commentId);
                                     setReplyToCommentUserId(comment.userId);
@@ -797,16 +797,15 @@ export default function Post() {
                                         {dayjs(reply.date).fromNow()}
                                       </p>
                                     </div>
-                                    {reply.userId === user?.uid && (
-                                      <div
-                                        onClick={() =>
-                                          setShowCommentOption(true)
-                                        }
-                                        className="flex top-2 right-2"
-                                      >
-                                        <BiDotsHorizontalRounded className="text-base cursor-pointer" />
-                                      </div>
-                                    )}
+
+                                    <div
+                                      onClick={() =>
+                                        setSelectedCommentOption(reply.commentId)
+                                      }
+                                      className="flex top-2 right-2"
+                                    >
+                                      <BiDotsHorizontalRounded className="text-base cursor-pointer" />
+                                    </div>
                                   </div>
                                   {reply.textReply && (
                                     <p
@@ -865,7 +864,7 @@ export default function Post() {
                                   </div>
                                 )}
                               </div>
-                              {showCommentOption && (
+                              {selectedCommentOption === reply.commentId && (
                                 <div className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed">
                                   <div
                                     onClick={(e) => e.stopPropagation()}
@@ -874,7 +873,7 @@ export default function Post() {
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        setShowCommentOption(true);
+                                        setSelectedCommentOption(null);
                                       }}
                                       className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
                                     >
@@ -882,22 +881,26 @@ export default function Post() {
                                     </button>
                                     <div className="mt-8 p-2 h-full w-full">
                                       <div className="w-full flex flex-col gap-2">
+                                        {reply.userId === user?.uid && (
+                                          <CircledButtons
+                                            onClick={(e) => {
+                                              e.stopPropagation();
+                                              setSelectedCommentOption(null);
+                                              setCommentToDelete(
+                                                reply.commentId,
+                                              );
+                                              setCommentDelModal(true);
+                                            }}
+                                          >
+                                            <p className="font-bold text-normal text-base">
+                                              Delete Reply
+                                            </p>
+                                          </CircledButtons>
+                                        )}
                                         <CircledButtons
                                           onClick={(e) => {
                                             e.stopPropagation();
-                                            setShowCommentOption(false);
-                                            setCommentToDelete(reply.replyId);
-                                            setCommentDelModal(true);
-                                          }}
-                                        >
-                                          <p className="font-bold text-normal text-base">
-                                            Delete Comment
-                                          </p>
-                                        </CircledButtons>
-                                        <CircledButtons
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            setShowCommentOption(false);
+                                            setSelectedCommentOption(null);
                                             setIsReplying(true);
                                             setReplyToCommentId(
                                               reply.commentId,
