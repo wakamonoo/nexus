@@ -19,82 +19,24 @@ if (APP_ENV === "production") {
 
 export default function TitleMenu({ titleId }) {
   const { user, setShowSignIn } = useContext(UserContext);
-  const { isWatchedFetch, isWatched } = useContext(WatchContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { isTitleWatched, handleWatch } = useContext(WatchContext);
 
-  const handleWatch = async () => {
-    try {
-      setIsLoading(true);
-      await fetch(`${BASE_URL}/api/watched/watchRoute`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: user.uid,
-          userName: user.name,
-          titleId,
-        }),
-      });
-      await isWatchedFetch(user.uid, titleId);
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "Change not saved, please try again later!",
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-accent)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
-    } finally {
-      setIsLoading(false);
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: `${
-          isWatched === true ? "Title unwatched" : "Title marked as watched"
-        }`,
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-hulk)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (user?.uid && titleId) isWatchedFetch(user.uid, titleId);
-  }, [user?.uid, titleId]);
+  const watched = isTitleWatched(titleId)
 
   return (
     <div className="flex flex-col w-60 border-1 border-panel absolute top-full right-2 mt-2 p-2 rounded bg-second shadow-2xl z-50 overflow-hidden">
       <button
         onClick={() => {
-          if (user) {
-            handleWatch();
-          } else {
+          if (!user) {
             setShowSignIn(true);
+            return;
+          } else {
+            handleWatch(titleId);
           }
         }}
         className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
-        {isWatched === true ? (
+        {watched ? (
           <>
             <FaEyeSlash className="text-2xl shrink-0" />
             <p className="text-base font-bold text-normal">Mark as unwatched</p>

@@ -631,7 +631,10 @@ export default function Title() {
                         </div>
                       </div>
                       {showReviewOption && (
-                        <div className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed">
+                        <div
+                          onClick={() => setShowReviewOption(false)}
+                          className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+                        >
                           <div
                             onClick={(e) => e.stopPropagation()}
                             className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"

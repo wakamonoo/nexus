@@ -8,6 +8,7 @@ import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
+import TitleCard from "@/components/layout/titleCard";
 
 export default function MultiversalCanon() {
   const { user } = useContext(UserContext);
@@ -57,27 +58,12 @@ export default function MultiversalCanon() {
                   return new Date(dateA) - new Date(dateB);
                 })
                 .map((unit) => (
-                  <div
-                    key={unit.date}
-                    onClick={() => handleShowNav(unit.titleId)}
-                    className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                  >
-                    <img
-                      src={
-                        unit.poster
-                          ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                          : "/fallback.png"
-                      }
-                      alt={unit.title}
-                      loading="lazy"
-                      decoding="async"
-                      className={`w-full h-full object-fill rounded ${
-                        isTitleWatched(unit.titleId)
-                          ? "grayscale-0"
-                          : "grayscale-90"
-                      }`}
-                    />
-                  </div>
+                  <TitleCard
+                    key={unit.titleId}
+                    unit={unit}
+                    isWatched={isTitleWatched(unit.titleId)}
+                    onOpen={() => handleShowNav(unit.titleId)}
+                  />
                 ))}
             </div>
           </div>

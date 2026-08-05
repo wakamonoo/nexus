@@ -7,6 +7,7 @@ import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
+import TitleCard from "./titleCard";
 
 export default function GoatTitlesStructureMax() {
   const { setIsLoading } = useContext(LoaderContext);
@@ -44,38 +45,13 @@ export default function GoatTitlesStructureMax() {
     <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
       {ranked.length > 0 ? (
         ranked.map((unit) => (
-          <div
+          <TitleCard
             key={unit.titleId}
-            onClick={() => handleShowNav(unit.titleId)}
-            className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-          >
-            <img
-              src={
-                unit.poster
-                  ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                  : "/fallback.png"
-              }
-              alt={unit.title}
-              loading="lazy"
-              decoding="async"
-              className={`w-full h-full object-fill rounded ${
-                isTitleWatched(unit.titleId) ? "grayscale-0" : "grayscale-90"
-              }`}
-            />
-            <div
-              className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                unit.rank === 1 ? "bg-hulk" : "bg-accent"
-              }`}
-            >
-              <p
-                className={`font-bold text-sm ${
-                  unit.rank === 1 ? "text-zeus" : "text-normal"
-                }`}
-              >
-                {unit.rank === 1 ? <GiTrophy /> : unit.rank}
-              </p>
-            </div>
-          </div>
+            unit={unit}
+            isWatched={isTitleWatched(unit.titleId)}
+            onOpen={() => handleShowNav(unit.titleId)}
+            goat={true}
+          />
         ))
       ) : (
         <div className="flex flex-col w-full justify-center items-center">

@@ -17,6 +17,7 @@ import MostWatchedTitlesStructureMin from "@/components/layout/mostWatchedTitles
 import CustomButton from "@/components/buttons/customBtn";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
+import TitleCard from "@/components/layout/titleCard";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -486,27 +487,12 @@ export default function Main() {
                         return new Date(dateA) - new Date(dateB);
                       })
                       .map((unit) => (
-                        <div
+                        <TitleCard
                           key={unit.titleId}
-                          onClick={() => handleShowNav(unit.titleId)}
-                          className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                        >
-                          <img
-                            src={
-                              unit.poster
-                                ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                : "/fallback.png"
-                            }
-                            alt={unit.title}
-                            loading="lazy"
-                            decoding="async"
-                            className={`w-full h-full object-fill rounded ${
-                              isTitleWatched(unit.titleId)
-                                ? "grayscale-0"
-                                : "grayscale-90"
-                            }`}
-                          />
-                        </div>
+                          unit={unit}
+                          isWatched={isTitleWatched(unit.titleId)}
+                          onOpen={() => handleShowNav(unit.titleId)}
+                        />
                       ))}
                   </div>
                 </div>
@@ -576,27 +562,12 @@ export default function Main() {
                       <div className="flex gap-2">
                         {latest.length > 0 ? (
                           latest.map((unit) => (
-                            <div
+                            <TitleCard
                               key={unit.titleId}
-                              onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                            >
-                              <img
-                                src={
-                                  unit.poster
-                                    ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                    : "/fallback.png"
-                                }
-                                alt={unit.title}
-                                loading="lazy"
-                                decoding="async"
-                                className={`w-full h-full object-fill rounded ${
-                                  isTitleWatched(unit.titleId)
-                                    ? "grayscale-0"
-                                    : "grayscale-90"
-                                }`}
-                              />
-                            </div>
+                              unit={unit}
+                              isWatched={isTitleWatched(unit.titleId)}
+                              onOpen={() => handleShowNav(unit.titleId)}
+                            />
                           ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
@@ -663,27 +634,12 @@ export default function Main() {
                       <div className="flex gap-2">
                         {chrono.length > 0 ? (
                           chrono.map((unit) => (
-                            <div
-                              key={unit.order}
-                              onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                            >
-                              <img
-                                src={
-                                  unit.poster
-                                    ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                    : "/fallback.png"
-                                }
-                                alt={unit.title}
-                                loading="lazy"
-                                decoding="async"
-                                className={`w-full h-full object-fill rounded ${
-                                  isTitleWatched(unit.titleId)
-                                    ? "grayscale-0"
-                                    : "grayscale-90"
-                                }`}
-                              />
-                            </div>
+                            <TitleCard
+                              key={unit.titleId}
+                              unit={unit}
+                              isWatched={isTitleWatched(unit.titleId)}
+                              onOpen={() => handleShowNav(unit.titleId)}
+                            />
                           ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
@@ -751,27 +707,12 @@ export default function Main() {
                       <div className="flex gap-2">
                         {release.length > 0 ? (
                           release.map((unit) => (
-                            <div
+                            <TitleCard
                               key={unit.titleId}
-                              onClick={() => handleShowNav(unit.titleId)}
-                              className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                            >
-                              <img
-                                src={
-                                  unit.poster
-                                    ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                    : "/fallback.png"
-                                }
-                                alt={unit.title}
-                                loading="lazy"
-                                decoding="async"
-                                className={`w-full h-full object-fill rounded ${
-                                  isTitleWatched(unit.titleId)
-                                    ? "grayscale-0"
-                                    : "grayscale-90"
-                                }`}
-                              />
-                            </div>
+                              unit={unit}
+                              isWatched={isTitleWatched(unit.titleId)}
+                              onOpen={() => handleShowNav(unit.titleId)}
+                            />
                           ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
@@ -963,27 +904,12 @@ export default function Main() {
                               return new Date(dateA) - new Date(dateB);
                             })
                             .map((unit) => (
-                              <div
+                              <TitleCard
                                 key={unit.titleId}
-                                onClick={() => handleShowNav(unit.titleId)}
-                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                              >
-                                <img
-                                  src={
-                                    unit.poster
-                                      ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                      : "/fallback.png"
-                                  }
-                                  alt={unit.title}
-                                  loading="lazy"
-                                  decoding="async"
-                                  className={`w-full h-full object-fill rounded ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "grayscale-0"
-                                      : "grayscale-90"
-                                  }`}
-                                />
-                              </div>
+                                unit={unit}
+                                isWatched={isTitleWatched(unit.titleId)}
+                                onOpen={() => handleShowNav(unit.titleId)}
+                              />
                             ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
@@ -1065,27 +991,12 @@ export default function Main() {
                               return new Date(dateA) - new Date(dateB);
                             })
                             .map((unit) => (
-                              <div
+                              <TitleCard
                                 key={unit.titleId}
-                                onClick={() => handleShowNav(unit.titleId)}
-                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                              >
-                                <img
-                                  src={
-                                    unit.poster
-                                      ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                      : "/fallback.png"
-                                  }
-                                  alt={unit.title}
-                                  loading="lazy"
-                                  decoding="async"
-                                  className={`w-full h-full object-fill rounded ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "grayscale-0"
-                                      : "grayscale-90"
-                                  }`}
-                                />
-                              </div>
+                                unit={unit}
+                                isWatched={isTitleWatched(unit.titleId)}
+                                onOpen={() => handleShowNav(unit.titleId)}
+                              />
                             ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">
@@ -1168,39 +1079,14 @@ export default function Main() {
                               return new Date(dateA) - new Date(dateB);
                             })
                             .map((unit) => {
-                              const mcu = unit.category === "mcu";
-                              const legacy = unit.category === "legacy";
                               return (
-                                <div
+                                <TitleCard
                                   key={unit.titleId}
-                                  onClick={() => handleShowNav(unit.titleId)}
-                                  className="relative w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                                >
-                                  <img
-                                    src={
-                                      unit.poster
-                                        ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                        : "/fallback.png"
-                                    }
-                                    alt={unit.title}
-                                    loading="lazy"
-                                    decoding="async"
-                                    className={`w-full h-full object-fill rounded ${
-                                      isTitleWatched(unit.titleId)
-                                        ? "grayscale-0"
-                                        : "grayscale-90"
-                                    }`}
-                                  />
-                                  <div
-                                    className={`absolute opacity-80 top-0 right-1 p-2 h-4 w-8 flex items-center justify-center rounded-b-full ${
-                                      mcu
-                                        ? "bg-accent"
-                                        : legacy
-                                          ? "bg-hulk"
-                                          : "bg-[var(--color-infinity)]"
-                                    }`}
-                                  />
-                                </div>
+                                  unit={unit}
+                                  isWatched={isTitleWatched(unit.titleId)}
+                                  onOpen={() => handleShowNav(unit.titleId)}
+                                  continuum={true}
+                                />
                               );
                             })
                         ) : (
@@ -1249,13 +1135,13 @@ export default function Main() {
                     {showArrows9 && (
                       <>
                         <button
-                          onClick={handleScrollLeft8}
+                          onClick={handleScrollLeft9}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                         >
                           <RiArrowLeftWideFill className="text-2xl" />
                         </button>
                         <button
-                          onClick={handleScrollRight8}
+                          onClick={handleScrollRight9}
                           className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
                         >
                           <RiArrowRightWideFill className="text-2xl" />
@@ -1283,27 +1169,12 @@ export default function Main() {
                               return new Date(dateA) - new Date(dateB);
                             })
                             .map((unit) => (
-                              <div
+                              <TitleCard
                                 key={unit.titleId}
-                                onClick={() => handleShowNav(unit.titleId)}
-                                className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                              >
-                                <img
-                                  src={
-                                    unit.poster
-                                      ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-                                      : "/fallback.png"
-                                  }
-                                  alt={unit.title}
-                                  loading="lazy"
-                                  decoding="async"
-                                  className={`w-full h-full object-fill rounded ${
-                                    isTitleWatched(unit.titleId)
-                                      ? "grayscale-0"
-                                      : "grayscale-90"
-                                  }`}
-                                />
-                              </div>
+                                unit={unit}
+                                isWatched={isTitleWatched(unit.titleId)}
+                                onOpen={() => handleShowNav(unit.titleId)}
+                              />
                             ))
                         ) : (
                           <div className="flex flex-col w-full justify-center items-center">

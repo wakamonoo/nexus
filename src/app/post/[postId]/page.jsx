@@ -646,7 +646,9 @@ export default function Post() {
                                 </p>
                               </div>
                               <div
-                                onClick={() => setSelectedCommentOption(comment.commentId)}
+                                onClick={() =>
+                                  setSelectedCommentOption(comment.commentId)
+                                }
                                 className="flex top-2 right-2"
                               >
                                 <BiDotsHorizontalRounded className="text-base cursor-pointer" />
@@ -712,7 +714,10 @@ export default function Post() {
                         </div>
                       </div>
                       {selectedCommentOption === comment.commentId && (
-                        <div className="inset-0 z-100 backdrop-blur-xs flex items-center justify-center fixed">
+                        <div
+                          onClick={() => setSelectedCommentOption(null)}
+                          className="inset-0 z-100 backdrop-blur-xs flex items-center justify-center fixed"
+                        >
                           <div
                             onClick={(e) => e.stopPropagation()}
                             className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
@@ -865,7 +870,10 @@ export default function Post() {
                                 )}
                               </div>
                               {selectedCommentOption === reply.replyId && (
-                                <div className="inset-0 z-100 backdrop-blur-xs flex items-center justify-center fixed">
+                                <div
+                                  onClick={() => setSelectedCommentOption(null)}
+                                  className="inset-0 z-100 backdrop-blur-xs flex items-center justify-center fixed"
+                                >
                                   <div
                                     onClick={(e) => e.stopPropagation()}
                                     className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
@@ -886,9 +894,7 @@ export default function Post() {
                                             onClick={(e) => {
                                               e.stopPropagation();
                                               setSelectedCommentOption(null);
-                                              setCommentToDelete(
-                                                reply.replyId,
-                                              );
+                                              setCommentToDelete(reply.replyId);
                                               setCommentDelModal(true);
                                             }}
                                           >

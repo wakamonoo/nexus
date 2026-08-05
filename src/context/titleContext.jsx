@@ -110,6 +110,7 @@ export const TitleProvider = ({ children }) => {
       });
     }
   };
+  
 
   const getReleaseDate = (title) => {
     return title.mediaType === "tv" ? title.first_air_date : title.release_date;

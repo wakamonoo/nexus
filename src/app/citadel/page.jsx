@@ -664,7 +664,7 @@ export default function Citadel() {
       )}
       {selectedMessage && (
         <div
-          onClick={() => setShowGifPicker(false)}
+          onClick={() => setSelectedMessage(null)}
           className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
         >
           <div
