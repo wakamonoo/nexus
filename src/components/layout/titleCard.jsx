@@ -127,8 +127,7 @@ export default function TitleCard({
             }`}
           />
         )}
-        {goat ||
-          (popular && (
+        {(goat || popular) && (
             <div
               className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
                 unit.rank === 1 ? "bg-hulk" : "bg-accent"
@@ -142,7 +141,7 @@ export default function TitleCard({
                 {unit.rank === 1 ? <GiTrophy /> : unit.rank}
               </p>
             </div>
-          ))}
+          )}
       </div>
       {showAddReview && (
         <AddReview
