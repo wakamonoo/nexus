@@ -62,21 +62,24 @@ export default function TitleCard({
         className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer relative"
       >
         {showMenu && (
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="absolute inset-0 flex items-end justify-end mb-1 z-10 "
-          >
+          <div className="absolute inset-0 flex items-end justify-end mb-1 z-10 ">
             <div className="flex gap-3 px-4 py-2 bg-[var(--color-panel)]/95 rounded-tl-2xl rounded-bl-2xl">
               {isWatched ? (
                 <button
-                  onClick={() => handleWatch(unit.titleId)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleWatch(unit.titleId);
+                  }}
                   className="cursor-pointer transition-all transform duration-200 hover:scale-125"
                 >
                   <FaEyeSlash className="text-base text-[var(--color-hulk)]" />
                 </button>
               ) : (
                 <button
-                  onClick={() => handleWatch(unit.titleId)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleWatch(unit.titleId);
+                  }}
                   className="cursor-pointer transition-all transform duration-200 hover:scale-125"
                 >
                   <FaEye className="text-base" />
@@ -88,7 +91,10 @@ export default function TitleCard({
                 </button>
               ) : (
                 <button
-                  onClick={() => setShowAddReview(true)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowAddReview(true);
+                  }}
                   className="cursor-pointer transition-all transform duration-200 hover:scale-125"
                 >
                   <MdOutlineReviews className="text-base" />
