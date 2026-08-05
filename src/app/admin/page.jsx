@@ -244,40 +244,42 @@ export default function Page() {
             horizontal
           >
             <div className="flex gap-2">
-              {allUsers.map((user, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="flex flex-col justify-center p-2 bg-second rounded-2xl border border-panel items-center w-50 h-auto"
-                  >
-                    <img
-                      src={user?.picture || Fallback}
-                      alt="user"
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-50 object-cover rounded-2xl"
-                    />
-                    <p className="truncate  w-full text-center text-sm font-bold">
-                      {user?.name}
-                    </p>
-                    <p className="truncate w-full text-center text-xs text-vibe border-b border-panel pb-2 mb-2">
-                      {user?.email}
-                    </p>
-                    <p className="text-xs text-center opacity-60">
-                      <span className="font-bold">Joined </span>
-                      {new Date(user?.createdAt).toLocaleDateString([], {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                      })}
-                    </p>
-                    <p className="text-xs text-center opacity-60">
-                      {user?.totalWatched ? user?.totalWatched : "0"}{" "}
-                      <span className="font-bold">Titles watched</span>
-                    </p>
-                  </div>
-                );
-              })}
+              {allUsers
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .map((user) => {
+                  return (
+                    <div
+                      key={user.uid}
+                      className="flex flex-col justify-center p-2 bg-second rounded-2xl border border-panel items-center w-50 h-auto"
+                    >
+                      <img
+                        src={user?.picture || Fallback}
+                        alt="user"
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-50 object-cover rounded-2xl"
+                      />
+                      <p className="truncate  w-full text-center text-sm font-bold">
+                        {user?.name}
+                      </p>
+                      <p className="truncate w-full text-center text-xs text-vibe border-b border-panel pb-2 mb-2">
+                        {user?.email}
+                      </p>
+                      <p className="text-xs text-center opacity-60">
+                        <span className="font-bold">Joined </span>
+                        {new Date(user?.createdAt).toLocaleDateString([], {
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                      <p className="text-xs text-center opacity-60">
+                        {user?.totalWatched ? user?.totalWatched : "0"}{" "}
+                        <span className="font-bold">Titles watched</span>
+                      </p>
+                    </div>
+                  );
+                })}
             </div>
           </ScrollContainer>
         </div>
