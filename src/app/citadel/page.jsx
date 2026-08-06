@@ -58,6 +58,8 @@ export default function Citadel() {
   const [replyingTo, setReplyingTo] = useState(null);
   const router = useRouter();
   const inputRef = useRef(null);
+  const replyRef = useRef({});
+  const bubbleRef = useRef({});
 
   useEffect(() => {
     if (!user) return;
@@ -243,6 +245,36 @@ export default function Citadel() {
     setCitadelLightBoxOpen(true);
   };
 
+  const scrollToReply = (msgId) => {
+    const container = replyRef.current[msgId];
+    const bubble = bubbleRef.current[msgId];
+
+    if (!container) return;
+
+    const waitForScroll = () => {
+      const rect = bubble.getBoundingClientRect();
+
+      if (Math.abs(rect.top - window.innerHeight / 2) < 40) {
+        bubble.classList.add("reply-highlight");
+
+        setTimeout(() => {
+          bubble.classList.remove("reply-highlight");
+        }, 2000);
+
+        return;
+      }
+
+      requestAnimationFrame(waitForScroll);
+    };
+
+    container.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+
+    requestAnimationFrame(waitForScroll);
+  };
+
   return (
     <>
       <NavBar />
@@ -310,7 +342,7 @@ export default function Citadel() {
                       ) >= 30;
 
                     return (
-                      <div key={i}>
+                      <div key={msg.msgId}>
                         {showTimeStamp && (
                           <p className="text-xs text-vibe font-extralight text-center py-2">
                             {dayjs(msg.messagedAt).format(
@@ -372,7 +404,10 @@ export default function Citadel() {
                                     : msg.replyTo.sender}
                                 </p>
                                 <div
-                                  className={`mb-2 bg-second border-accent opacity-80 px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl ${ownMessage ? "border-l-2" : "border-r-2"}`}
+                                  onClick={() =>
+                                    scrollToReply(msg.replyTo.msgId)
+                                  }
+                                  className={`mb-2 cursor-pointer bg-second border-accent opacity-80 px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl ${ownMessage ? "border-l-2" : "border-r-2"}`}
                                 >
                                   <p className="text-base text-normal whitespace-pre-wrap max-w-full line-clamp-3">
                                     {msg.replyTo.text ||
@@ -409,10 +444,16 @@ export default function Citadel() {
                               )}
 
                               <div
+                                ref={(e) => {
+                                  if (e) replyRef.current[msg.msgId] = e;
+                                }}
                                 className={`flex flex-col ${ownMessage ? "items-end" : "items-start"}`}
                               >
                                 {msg.text && (
                                   <div
+                                    ref={(e) => {
+                                      if (e) bubbleRef.current[msg.msgId] = e;
+                                    }}
                                     className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl cursor-pointer transition-all duration-200 md:group-hover:bg-accent ${
                                       activeMessage === msg.msgId
                                         ? "bg-accent"
@@ -436,7 +477,10 @@ export default function Citadel() {
 
                                 {msg.files && msg.files.length > 0 && (
                                   <div
-                                    className={`flex flex-wrap gap-2 mt-2 ${
+                                    ref={(e) => {
+                                      if (e) bubbleRef.current[msg.msgId] = e;
+                                    }}
+                                    className={`flex flex-wrap gap-2 mt-2 rounded ${
                                       ownMessage
                                         ? "justify-end"
                                         : "justify-start"

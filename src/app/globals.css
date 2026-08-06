@@ -222,3 +222,17 @@
 .custom-scroll:hover {
   scrollbar-color: var(--color-panel) transparent;
 }
+
+/* ———————————————————————————————————— reply highlight ——— */
+.reply-highlight {
+  animation: replyFlash 2s ease;
+}
+
+@keyframes replyFlash {
+  0% {
+    box-shadow: 0 0 0 2px var(--color-accent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
