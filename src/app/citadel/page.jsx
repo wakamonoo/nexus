@@ -251,28 +251,18 @@ export default function Citadel() {
 
     if (!container) return;
 
-    const waitForScroll = () => {
-      const rect = bubble.getBoundingClientRect();
-
-      if (Math.abs(rect.top - window.innerHeight / 2) < 40) {
-        bubble.classList.add("reply-highlight");
-
-        setTimeout(() => {
-          bubble.classList.remove("reply-highlight");
-        }, 2000);
-
-        return;
-      }
-
-      requestAnimationFrame(waitForScroll);
-    };
-
     container.scrollIntoView({
       behavior: "smooth",
       block: "center",
     });
 
-    requestAnimationFrame(waitForScroll);
+    setTimeout(() => {
+      bubble.classList.add("reply-highlight");
+
+      setTimeout(() => {
+        bubble.classList.remove("reply-highlight");
+      }, 3500);
+    }, 2000);
   };
 
   return (
