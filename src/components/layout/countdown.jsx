@@ -145,7 +145,11 @@ export default function Countdown() {
               >
                 <span className="font-bold">UTC: </span>
                 {dayjs
-                  .utc(displayTitle?.release_date)
+                  .utc(
+                    displayTitle?.release_date
+                      ? displayTitle?.release_date
+                      : displayTitle?.first_air_date,
+                  )
                   .format("MMM DD, YYYY HH:mm")}
               </p>
               <p
@@ -153,7 +157,11 @@ export default function Countdown() {
               >
                 <span className="font-bold">Local: </span>
                 {dayjs
-                  .utc(displayTitle?.release_date)
+                  .utc(
+                    displayTitle?.release_date
+                      ? displayTitle?.release_date
+                      : displayTitle?.first_air_date,
+                  )
                   .tz(userTimeZone)
                   .format("MMM DD, YYYY HH:mm")}{" "}
               </p>
