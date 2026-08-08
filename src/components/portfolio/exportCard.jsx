@@ -148,14 +148,16 @@ export default function ExportCard({
                     className="flex min-w-0 items-start gap-2 py-[1.4px]"
                   >
                     {isTitleWatched(unit.titleId) ? (
-                      <MdRadioButtonChecked className="shrink-0 text-2xl text-zeus" />
+                      <MdRadioButtonChecked
+                        className={`shrink-0 text-2xl ${isContinuum ? categoryIconStyles[unit.category] : phaseIconStyles[unit.phase]}`}
+                      />
                     ) : (
-                      <MdRadioButtonUnchecked className="shrink-0 text-2xl text-zeus" />
+                      <MdRadioButtonUnchecked
+                        className={`shrink-0 text-2xl ${isContinuum ? categoryIconStyles[unit.category] : phaseIconStyles[unit.phase]}`}
+                      />
                     )}
                     <p className="text-base min-w-0 flex-1 leading-tight">
-                      <span
-                        className={`font-bold text-lg  ${isContinuum ? categoryIconStyles[unit.category] : phaseIconStyles[unit.phase]}`}
-                      >
+                      <span className="font-bold text-lg">
                         {actualIndex + 1}.
                       </span>{" "}
                       {unit.title}
