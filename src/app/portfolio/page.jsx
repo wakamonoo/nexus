@@ -13,7 +13,7 @@ import { FaAngleLeft } from "react-icons/fa";
 
 export default function Portfolio() {
   const [exporting, setExporting] = useState(false);
-  const { chrono, release } = useContext(TitleContext);
+  const { chrono, release, titles } = useContext(TitleContext);
   const { user } = useContext(UserContext);
   const { watchedInfoFetch, isTitleWatched } = useContext(WatchContext);
   const [order, setOrder] = useState([]);
@@ -97,7 +97,7 @@ export default function Portfolio() {
             <p className="mb-3 text-xs font-bold uppercase tracking-wider text-vibe">
               Viewing Order
             </p>
-            <div className="flex gap-2">
+            <div className="grid grid-flow-col auto-cols-fr w-full gap-2">
               <SecondaryButtons
                 onClick={() => {
                   setOrder(chrono);
@@ -114,6 +114,30 @@ export default function Portfolio() {
               >
                 Release
               </SecondaryButtons>
+              <SecondaryButtons
+                onClick={() => {
+                  setOrder(
+                    titles
+                      .filter((title) => title.status === "released")
+                      .sort((a, b) => {
+                        const dateA =
+                          a.mediaType === "tv"
+                            ? a.first_air_date
+                            : a.release_date;
+
+                        const dateB =
+                          b.mediaType === "tv"
+                            ? b.first_air_date
+                            : b.release_date;
+
+                        return new Date(dateA) - new Date(dateB);
+                      }),
+                  );
+                  setOrderType("Cinematic Continuum");
+                }}
+              >
+                Continuum
+              </SecondaryButtons>
             </div>
           </div>
           <div className="flex-1 border-t-2 border-panel" />
@@ -122,7 +146,7 @@ export default function Portfolio() {
               <p className="text-xs uppercase tracking-wider text-vibe">
                 Current Order
               </p>
-              <p className="text-sm font-bold">{orderType}</p>
+              <p className="text-sm font-bold text-end">{orderType}</p>
             </div>
             <div className="flex items-center justify-between">
               <p className="text-xs uppercase tracking-wider text-vibe">
@@ -153,14 +177,14 @@ export default function Portfolio() {
             </div>
           </div>
           <div className="flex min-h-[500px] items-start justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8">
-            <div className="relative h-[529.2px] w-[378px] md:h-[756px] md:w-[540px] shrink-0">
+            <div className="relative shrink-0 w-[375px] h-[525px] sm:w-[450px] sm:h-[630px] md:w-[525px] md:h-[735px] lg:w-[600px] lg:h-[840px]">
               <div
                 style={{
-                  width: 1080,
-                  height: 1512,
+                  width: 1500,
+                  height: 2100,
                   transformOrigin: "top left",
                 }}
-                className="scale-[0.35] md:scale-[0.5]"
+                className="scale-[0.25] sm:scale-[0.3] md:scale-[0.35] lg:scale-[0.4]"
               >
                 <ExportCard
                   user={user}
@@ -176,8 +200,8 @@ export default function Portfolio() {
               position: "fixed",
               left: "-100000px",
               top: 0,
-              width: 1080,
-              height: 1512,
+              width: 1500,
+              height: 2100,
               pointerEvents: "none",
             }}
           >
