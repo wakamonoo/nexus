@@ -29,35 +29,35 @@ export default function ExportCard({
     currentOrder.slice(itemsPerColumn * 2),
   ];
   const phaseStyles = {
-    "Phase 1": "bg-blue-500/50",
-    "Phase 2": "bg-red-500/50",
-    "Phase 3": "bg-purple-500/50",
-    "Phase 4": "bg-cyan-500/50",
-    "Phase 5": "bg-orange-500/50",
-    "Phase 6": "bg-yellow-500/50",
-    "Not Part": "bg-zinc-500/50",
+    "Phase 1": "bg-blue-500",
+    "Phase 2": "bg-red-500",
+    "Phase 3": "bg-purple-500",
+    "Phase 4": "bg-cyan-500",
+    "Phase 5": "bg-orange-500",
+    "Phase 6": "bg-yellow-500",
+    "Not Part": "bg-zinc-500",
   };
 
   const phaseIconStyles = {
-    "Phase 1": "text-blue-500/50",
-    "Phase 2": "text-red-500/50",
-    "Phase 3": "text-purple-500/50",
-    "Phase 4": "text-cyan-500/50",
-    "Phase 5": "text-orange-500/50",
-    "Phase 6": "text-yellow-500/50",
-    "Not Part": "text-zinc-500/50",
+    "Phase 1": "text-blue-500",
+    "Phase 2": "text-red-500",
+    "Phase 3": "text-purple-500",
+    "Phase 4": "text-cyan-500",
+    "Phase 5": "text-orange-500",
+    "Phase 6": "text-yellow-500",
+    "Not Part": "text-zinc-500",
   };
 
   const categoryStyles = {
-    mcu: "bg-[var(--color-accent)]/50",
-    legacy: "bg-[var(--color-hulk)]/50",
-    adjacent: "bg-[var(--color-infinity)]/50",
+    mcu: "bg-[var(--color-accent)]",
+    legacy: "bg-[var(--color-hulk)]",
+    adjacent: "bg-[var(--color-infinity)]",
   };
 
   const categoryIconStyles = {
-    mcu: "text-[var(--color-accent)]/50",
-    legacy: "text-[var(--color-hulk)]/50",
-    adjacent: "text-[var(--color-infinity)]/50",
+    mcu: "text-[var(--color-accent)]",
+    legacy: "text-[var(--color-hulk)]",
+    adjacent: "text-[var(--color-infinity)]",
   };
 
   return (
@@ -95,7 +95,9 @@ export default function ExportCard({
                       <BiSolidCircle
                         className={`text-lg ${categoryIconStyles[category]}`}
                       />
-                      <p className="text-sm uppercase whitespace-nowrap">{category}</p>
+                      <p className="text-sm uppercase whitespace-nowrap">
+                        {category}
+                      </p>
                     </div>
                   ))
                 : Object.keys(phaseStyles).map((phase) => (
@@ -106,7 +108,9 @@ export default function ExportCard({
                       <BiSolidCircle
                         className={`text-lg ${phaseIconStyles[phase]}`}
                       />
-                      <p className="text-sm uppercase whitespace-nowrap">{phase}</p>
+                      <p className="text-sm uppercase whitespace-nowrap">
+                        {phase}
+                      </p>
                     </div>
                   ))}
             </div>
@@ -142,14 +146,14 @@ export default function ExportCard({
                     {isTitleWatched(unit.titleId) ? (
                       <MdRadioButtonChecked className="shrink-0 text-2xl text-zeus" />
                     ) : (
-                      <MdRadioButtonUnchecked className="shrink-0 text-2xl text-accent" />
+                      <MdRadioButtonUnchecked className="shrink-0 text-2xl text-zeus" />
                     )}
-                    <p
-                      className={`text-base min-w-0 flex-1 leading-tight ${isContinuum ? categoryStyles[unit.category] : phaseStyles[unit.phase]}`}
-                    >
-                      <span className="font-bold text-lg">
-                        {actualIndex + 1}.{" "}
-                      </span>
+                    <p className="text-base min-w-0 flex-1 leading-tight">
+                      <span
+                        className={`font-bold text-lg  ${isContinuum ? categoryIconStyles[unit.category] : phaseIconStyles[unit.phase]}`}
+                      >
+                        {actualIndex + 1}.
+                      </span>{" "}
                       {unit.title}
                     </p>
                   </div>

@@ -211,7 +211,7 @@ export default function Portfolio() {
                     height: cardHeight,
                     transformOrigin: "top left",
                   }}
-                  className="scale-[0.35] md:scale-[0.5]"
+                  className="scale-[0.35] md:scale-[0.5] border"
                 >
                   <ExportCard
                     user={user}
