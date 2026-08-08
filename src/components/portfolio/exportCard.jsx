@@ -96,7 +96,11 @@ export default function ExportCard({
                         className={`text-lg ${categoryIconStyles[category]}`}
                       />
                       <p className="text-sm uppercase whitespace-nowrap">
-                        {category}
+                        {category === "legacy"
+                          ? "Multiveral Canon"
+                          : category === "adjacent"
+                            ? "Marvel Adjacent"
+                            : category}
                       </p>
                     </div>
                   ))

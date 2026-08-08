@@ -1,6 +1,7 @@
 "use client";
 import RegularButtons from "@/components/buttons/regBtns";
 import SecondaryButtons from "@/components/buttons/secBtns";
+import Loader from "@/components/loaders/loader";
 import ExportCard from "@/components/portfolio/exportCard";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
@@ -127,7 +128,7 @@ export default function Portfolio() {
                   setOrderType("Chronological");
                 }}
               >
-                Chrono
+                <p className="font-heading text-normal text-base">Chrono</p>
               </SecondaryButtons>
               <SecondaryButtons
                 onClick={() => {
@@ -135,7 +136,7 @@ export default function Portfolio() {
                   setOrderType("Release");
                 }}
               >
-                Release
+                <p className="font-heading text-normal text-base">Release</p>
               </SecondaryButtons>
               <SecondaryButtons
                 onClick={() => {
@@ -159,7 +160,7 @@ export default function Portfolio() {
                   setOrderType("Cinematic Continuum");
                 }}
               >
-                Continuum
+                <p className="font-heading text-normal text-base">Continuum</p>
               </SecondaryButtons>
             </div>
           </div>
@@ -178,9 +179,13 @@ export default function Portfolio() {
               <p className="text-sm font-bold">{order.length}</p>
             </div>
           </div>
-          <RegularButtons onClick={exportImage} disabled={exporting}>
-            {exporting ? "generating" : "Export Image"}
-          </RegularButtons>
+          {exporting ? (
+            <Loader />
+          ) : (
+            <RegularButtons onClick={exportImage} disabled={exporting}>
+              <p className="font-heading text-normal text-base">Export Image</p>
+            </RegularButtons>
+          )}
         </aside>
         <section className="min-w-0">
           <div className="mb-4 flex items-center justify-between">
@@ -199,7 +204,9 @@ export default function Portfolio() {
               <p className="text-sm text-vibe">5:7 Scale</p>
             </div>
           </div>
-          <div className="flex flex-col gap-4 min-h-[500px] items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8">
+          <div
+            className={`flex flex-col gap-4 min-h-[500px] items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8 ${pages.length === 0 ? "animate-pulse" : "animate-none"}`}
+          >
             {pages.map((pageOrder, index) => (
               <div
                 key={index}
