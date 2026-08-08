@@ -8,19 +8,25 @@ import { BiSolidCircle } from "react-icons/bi";
 export default function ExportCard({
   user,
   order,
+  pageOrder,
   orderType,
   isTitleWatched,
   id,
   isContinuum,
   cardWidth,
   cardHeight,
+  pageNumber,
+  totalPages,
+  startIndex = 0,
 }) {
-  const itemsPerColumn = Math.ceil(order.length / 3);
+  const currentOrder = pageOrder || order;
+
+  const itemsPerColumn = Math.ceil(currentOrder.length / 3);
 
   const columns = [
-    order.slice(0, itemsPerColumn),
-    order.slice(itemsPerColumn, itemsPerColumn * 2),
-    order.slice(itemsPerColumn * 2),
+    currentOrder.slice(0, itemsPerColumn),
+    currentOrder.slice(itemsPerColumn, itemsPerColumn * 2),
+    currentOrder.slice(itemsPerColumn * 2),
   ];
   const phaseStyles = {
     "Phase 1": "bg-blue-500/50",
@@ -108,8 +114,13 @@ export default function ExportCard({
         </div>
         <div className="text-right">
           <p className="text-sm uppercase tracking-[0.25em]">
-            {order.length} Titles
+            {currentOrder.length} Titles
           </p>
+          {totalPages > 1 && (
+            <p className="text-xs uppercase tracking-[0.25em]">
+              Page {pageNumber} / {totalPages}
+            </p>
+          )}
           <p className="whitespace-nowrap text-lg font-bold uppercase">
             Marvel Cinematic Universe
           </p>
@@ -118,11 +129,11 @@ export default function ExportCard({
 
       <div className="grid grid-cols-3 content-start gap-x-4 gap-y-1 mt-8 bg-second p-4 rounded-2xl">
         {columns.map((column, columnindex) => {
-          const startIndex = columnindex * itemsPerColumn;
+          const columnStartIndex = columnindex * itemsPerColumn;
           return (
             <div key={columnindex} className="min-w-0 flex-1">
               {column.map((unit, index) => {
-                const actualIndex = startIndex + index;
+                const actualIndex = startIndex + columnStartIndex + index;
                 return (
                   <div
                     key={unit.titleId}

@@ -44,26 +44,36 @@ export default function Portfolio() {
   const exportImage = async () => {
     if (exporting) return;
 
-    const element = document.getElementById("nexus-portfolio-export");
-
-    if (!element) return;
-
     try {
       setExporting(true);
 
-      const dataUrl = await domToPng(element, {
-        scale: 2,
-        backgroundColor: "#2e2e2e",
-        cacheBust: true,
-      });
+      for (let index = 0; index < pages.length; index++) {
+        const element = document.getElementById(
+          `nexus-portfolio-export-${index}`,
+        );
 
-      const link = document.createElement("a");
+        if (!element) return;
 
-      link.download = `${user.name}-nexus-collection.png`;
+        const dataUrl = await domToPng(element, {
+          scale: 2,
+          backgroundColor: "#2e2e2e",
+          cacheBust: true,
+        });
 
-      link.href = dataUrl;
+        const link = document.createElement("a");
 
-      link.click();
+        link.download =
+          pages.length > 1
+            ? `${user.name}-nexus-collection-${index + 1}.png`
+            : `${user.name}-nexus-collection.png`;
+
+        link.href = dataUrl;
+
+        link.click();
+        if (pages.length > 1) {
+          await new Promise((resolve) => setTimeout(resolve, 300));
+        }
+      }
     } catch (err) {
       console.error("Failed to export collection.", err);
     } finally {
@@ -73,8 +83,16 @@ export default function Portfolio() {
 
   const isContinuum = orderType === "Cinematic Continuum";
 
-  const cardWidth = isContinuum ? 1440 : 1080;
-  const cardHeight = isContinuum ? 2016 : 1512;
+  const cardWidth = 1080;
+  const cardHeight = 1512;
+
+  const titlesPerPage = 90;
+
+  const pages = Array.from(
+    { length: Math.ceil(order.length / titlesPerPage) },
+    (_, index) =>
+      order.slice(index * titlesPerPage, (index + 1) * titlesPerPage),
+  );
 
   return (
     <main className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 w-full">
@@ -181,30 +199,35 @@ export default function Portfolio() {
               <p className="text-sm text-vibe">5:7 Scale</p>
             </div>
           </div>
-          <div className="flex min-h-[500px] items-start justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8">
-            <div
-              className="relative shrink-0"
-              style={{ width: cardWidth * 0.5, height: cardHeight * 0.5 }}
-            >
+          <div className="flex flex-col gap-4 min-h-[500px] items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8">
+            {pages.map((pageOrder, index) => (
               <div
-                style={{
-                  width: cardWidth,
-                  height: cardHeight,
-                  transformOrigin: "top left",
-                }}
-                className="scale-[0.35] md:scale-[0.5]"
+                key={index}
+                className="relative h-[529.2px] w-[378px] md:h-[756px] md:w-[540px] shrink-0"
               >
-                <ExportCard
-                  user={user}
-                  order={order}
-                  orderType={orderType}
-                  isTitleWatched={isTitleWatched}
-                  isContinuum={isContinuum}
-                  cardWidth={cardWidth}
-                  cardHeight={cardHeight}
-                />
+                <div
+                  style={{
+                    width: cardWidth,
+                    height: cardHeight,
+                    transformOrigin: "top left",
+                  }}
+                  className="scale-[0.35] md:scale-[0.5]"
+                >
+                  <ExportCard
+                    user={user}
+                    order={order}
+                    pageOrder={pageOrder}
+                    orderType={orderType}
+                    isTitleWatched={isTitleWatched}
+                    isContinuum={isContinuum}
+                    cardWidth={cardWidth}
+                    cardHeight={cardHeight}
+                    pageNumber={index + 1}
+                    totalPages={pages.length}
+                  />
+                </div>
               </div>
-            </div>
+            ))}
           </div>
           <div
             style={{
@@ -216,16 +239,23 @@ export default function Portfolio() {
               pointerEvents: "none",
             }}
           >
-            <ExportCard
-              user={user}
-              order={order}
-              orderType={orderType}
-              isTitleWatched={isTitleWatched}
-              id="nexus-portfolio-export"
-              isContinuum={isContinuum}
-              cardWidth={cardWidth}
-              cardHeight={cardHeight}
-            />
+            {pages.map((pageOrder, index) => (
+              <ExportCard
+                key={index}
+                user={user}
+                order={order}
+                pageOrder={pageOrder}
+                orderType={orderType}
+                isTitleWatched={isTitleWatched}
+                id={`nexus-portfolio-export-${index}`}
+                isContinuum={isContinuum}
+                cardWidth={cardWidth}
+                cardHeight={cardHeight}
+                pageNumber={index + 1}
+                totalPages={pages.length}
+                startIndex={index * titlesPerPage}
+              />
+            ))}
           </div>
         </section>
       </div>
