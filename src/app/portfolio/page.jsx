@@ -224,6 +224,7 @@ export default function Portfolio() {
                     cardHeight={cardHeight}
                     pageNumber={index + 1}
                     totalPages={pages.length}
+                    startIndex={index * titlesPerPage}
                   />
                 </div>
               </div>
