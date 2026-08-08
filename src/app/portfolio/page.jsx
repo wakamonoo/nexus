@@ -87,7 +87,7 @@ export default function Portfolio() {
   const cardWidth = 1080;
   const cardHeight = 1512;
 
-  const titlesPerPage = 90;
+  const titlesPerPage = 102;
 
   const pages = Array.from(
     { length: Math.ceil(order.length / titlesPerPage) },

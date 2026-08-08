@@ -4,6 +4,13 @@ import Fallback from "@/assets/fallback.png";
 import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { BiSolidCircle } from "react-icons/bi";
+import {
+  FaBookmark,
+  FaCertificate,
+  FaDotCircle,
+  FaStamp,
+} from "react-icons/fa";
+import { TbDots } from "react-icons/tb";
 
 export default function ExportCard({
   user,
@@ -148,17 +155,23 @@ export default function ExportCard({
                     className="flex min-w-0 items-start gap-2 py-[1.4px]"
                   >
                     {isTitleWatched(unit.titleId) ? (
-                      <MdRadioButtonChecked
-                        className={`shrink-0 text-2xl ${isContinuum ? categoryIconStyles[unit.category] : phaseIconStyles[unit.phase]}`}
-                      />
+                      <MdRadioButtonChecked className="shrink-0 text-2xl text-zeus" />
                     ) : (
-                      <MdRadioButtonUnchecked
-                        className={`shrink-0 text-2xl ${isContinuum ? categoryIconStyles[unit.category] : phaseIconStyles[unit.phase]}`}
-                      />
+                      <MdRadioButtonUnchecked className="shrink-0 text-2xl text-zeus" />
                     )}
-                    <p className="text-base min-w-0 flex-1 leading-tight">
+
+                    <p className="text-base min-w-0 flex-1 leading-tight whitespace-nowrap truncate">
                       <span className="font-bold text-lg">
-                        {actualIndex + 1}.
+                        {actualIndex + 1}
+                      </span>{" "}
+                      <span
+                        className={`text-lg ${
+                          isContinuum
+                            ? categoryIconStyles[unit.category]
+                            : phaseIconStyles[unit.phase]
+                        }`}
+                      >
+                        |
                       </span>{" "}
                       {unit.title}
                     </p>
