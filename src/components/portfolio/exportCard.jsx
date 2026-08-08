@@ -11,9 +11,10 @@ export default function ExportCard({
   orderType,
   isTitleWatched,
   id,
+  isContinuum,
+  cardWidth,
+  cardHeight,
 }) {
-  const isContinuum = orderType === "Cinematic Continuum";
-
   const itemsPerColumn = Math.ceil(order.length / 3);
 
   const columns = [
@@ -56,10 +57,10 @@ export default function ExportCard({
   return (
     <div
       id={id}
-      style={{ width: 1500, height: 2100 }}
+      style={{ width: cardWidth, height: cardHeight }}
       className="flex flex-col p-10 bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border"
     >
-      <div className="flex items-center justify-between border-b border-[var(--color-secondary)] pb-12">
+      <div className="flex items-center justify-between border-b border-[var(--color-secondary)] pb-8">
         <div className="flex items-start gap-3.5">
           <img
             src={user?.picture || Fallback}
@@ -86,9 +87,9 @@ export default function ExportCard({
                       className="flex items-center justify-center gap-2"
                     >
                       <BiSolidCircle
-                        className={`text-2xl ${categoryIconStyles[category]}`}
+                        className={`text-lg ${categoryIconStyles[category]}`}
                       />
-                      <p className="text-base uppercase">{category}</p>
+                      <p className="text-sm uppercase">{category}</p>
                     </div>
                   ))
                 : Object.keys(phaseStyles).map((phase) => (
@@ -97,9 +98,9 @@ export default function ExportCard({
                       className="flex items-center justify-center gap-2"
                     >
                       <BiSolidCircle
-                        className={`text-2xl ${phaseIconStyles[phase]}`}
+                        className={`text-lg ${phaseIconStyles[phase]}`}
                       />
-                      <p className="text-base uppercase">{phase}</p>
+                      <p className="text-sm uppercase">{phase}</p>
                     </div>
                   ))}
             </div>
@@ -115,41 +116,39 @@ export default function ExportCard({
         </div>
       </div>
 
-      <div className="flex flex-1 items-center justify-center">
-        <div className="grid grid-cols-3 content-start gap-x-4 gap-y-1 mt-12 bg-second p-16 rounded-2xl">
-          {columns.map((column, columnindex) => {
-            const startIndex = columnindex * itemsPerColumn;
-            return (
-              <div key={columnindex} className="min-w-0 flex-1">
-                {column.map((unit, index) => {
-                  const actualIndex = startIndex + index;
-                  return (
-                    <div
-                      key={unit.titleId}
-                      className="flex min-w-0 items-start gap-1 py-0.5"
+      <div className="grid grid-cols-3 content-start gap-x-4 gap-y-1 mt-8 bg-second p-4 rounded-2xl">
+        {columns.map((column, columnindex) => {
+          const startIndex = columnindex * itemsPerColumn;
+          return (
+            <div key={columnindex} className="min-w-0 flex-1">
+              {column.map((unit, index) => {
+                const actualIndex = startIndex + index;
+                return (
+                  <div
+                    key={unit.titleId}
+                    className="flex min-w-0 items-start gap-2 py-[1.4px]"
+                  >
+                    {isTitleWatched(unit.titleId) ? (
+                      <MdRadioButtonChecked className="shrink-0 text-2xl text-zeus" />
+                    ) : (
+                      <MdRadioButtonUnchecked className="shrink-0 text-2xl text-accent" />
+                    )}
+                    <p
+                      className={`text-base ${isContinuum ? categoryStyles[unit.category] : phaseStyles[unit.phase]}`}
                     >
-                      {isTitleWatched(unit.titleId) ? (
-                        <MdRadioButtonChecked className="shrink-0 text-2xl text-zeus" />
-                      ) : (
-                        <MdRadioButtonUnchecked className="shrink-0 text-2xl text-accent" />
-                      )}
-                      <p
-                        className={`text-base ${isContinuum ? categoryStyles[unit.category] : phaseStyles[unit.phase]}`}
-                      >
-                        <span className="font-bold text-base">
-                          {actualIndex + 1}.{" "}
-                        </span>
-                        {unit.title}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
+                      <span className="font-bold text-lg">
+                        {actualIndex + 1}.{" "}
+                      </span>
+                      {unit.title}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
-      <div className="flex justify-between w-full mt-auto pt-12 items-end">
+      <div className="flex justify-between w-full mt-auto items-end">
         <div className="max-w-[55%]">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em]">
             Disclaimer

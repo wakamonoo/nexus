@@ -71,6 +71,11 @@ export default function Portfolio() {
     }
   };
 
+  const isContinuum = orderType === "Cinematic Continuum";
+
+  const cardWidth = isContinuum ? 1440 : 1080;
+  const cardHeight = isContinuum ? 2016 : 1512;
+
   return (
     <main className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 w-full">
       <div className="flex justify-between py-4">
@@ -177,20 +182,26 @@ export default function Portfolio() {
             </div>
           </div>
           <div className="flex min-h-[500px] items-start justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8">
-            <div className="relative shrink-0 w-[375px] h-[525px] sm:w-[450px] sm:h-[630px] md:w-[525px] md:h-[735px] lg:w-[600px] lg:h-[840px]">
+            <div
+              className="relative shrink-0"
+              style={{ width: cardWidth * 0.5, height: cardHeight * 0.5 }}
+            >
               <div
                 style={{
-                  width: 1500,
-                  height: 2100,
+                  width: cardWidth,
+                  height: cardHeight,
                   transformOrigin: "top left",
                 }}
-                className="scale-[0.25] sm:scale-[0.3] md:scale-[0.35] lg:scale-[0.4]"
+                className="scale-[0.35] md:scale-[0.5]"
               >
                 <ExportCard
                   user={user}
                   order={order}
                   orderType={orderType}
                   isTitleWatched={isTitleWatched}
+                  isContinuum={isContinuum}
+                  cardWidth={cardWidth}
+                  cardHeight={cardHeight}
                 />
               </div>
             </div>
@@ -200,8 +211,8 @@ export default function Portfolio() {
               position: "fixed",
               left: "-100000px",
               top: 0,
-              width: 1500,
-              height: 2100,
+              width: 1080,
+              height: 1512,
               pointerEvents: "none",
             }}
           >
@@ -211,6 +222,9 @@ export default function Portfolio() {
               orderType={orderType}
               isTitleWatched={isTitleWatched}
               id="nexus-portfolio-export"
+              isContinuum={isContinuum}
+              cardWidth={cardWidth}
+              cardHeight={cardHeight}
             />
           </div>
         </section>
