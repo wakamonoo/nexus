@@ -64,7 +64,7 @@ export default function ExportCard({
     <div
       id={id}
       style={{ width: cardWidth, height: cardHeight }}
-      className="flex flex-col p-10 bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border"
+      className="flex flex-col p-10 bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]"
     >
       <div className="flex items-center justify-between border-b border-[var(--color-secondary)] pb-8">
         <div className="flex items-start gap-3.5">
@@ -90,23 +90,23 @@ export default function ExportCard({
                 ? Object.keys(categoryStyles).map((category) => (
                     <div
                       key={category}
-                      className="flex items-center justify-center gap-2"
+                      className="flex items-center justify-center gap-2 shrink-0 whitespace-nowrap"
                     >
                       <BiSolidCircle
                         className={`text-lg ${categoryIconStyles[category]}`}
                       />
-                      <p className="text-sm uppercase">{category}</p>
+                      <p className="text-sm uppercase whitespace-nowrap">{category}</p>
                     </div>
                   ))
                 : Object.keys(phaseStyles).map((phase) => (
                     <div
                       key={phase}
-                      className="flex items-center justify-center gap-2"
+                      className="flex items-center justify-center gap-2 shrink-0 whitespace-nowrap"
                     >
                       <BiSolidCircle
                         className={`text-lg ${phaseIconStyles[phase]}`}
                       />
-                      <p className="text-sm uppercase">{phase}</p>
+                      <p className="text-sm uppercase whitespace-nowrap">{phase}</p>
                     </div>
                   ))}
             </div>
@@ -145,7 +145,7 @@ export default function ExportCard({
                       <MdRadioButtonUnchecked className="shrink-0 text-2xl text-accent" />
                     )}
                     <p
-                      className={`text-base ${isContinuum ? categoryStyles[unit.category] : phaseStyles[unit.phase]}`}
+                      className={`text-base min-w-0 flex-1 leading-tight ${isContinuum ? categoryStyles[unit.category] : phaseStyles[unit.phase]}`}
                     >
                       <span className="font-bold text-lg">
                         {actualIndex + 1}.{" "}
