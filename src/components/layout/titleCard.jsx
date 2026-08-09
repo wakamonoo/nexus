@@ -62,7 +62,7 @@ export default function TitleCard({
         className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer relative"
       >
         {showMenu && unit.status !== "upcoming" && (
-          <div className="absolute inset-0 flex items-end justify-end mb-1 z-10 ">
+          <div className="absolute inset-0 flex items-end justify-end mb-1 z-10 bg-[var(--color-secondary)]/50">
             <div className="flex gap-3 px-4 py-2 bg-[var(--color-panel)]/95 rounded-tl-2xl rounded-bl-2xl">
               {isWatched ? (
                 <button
