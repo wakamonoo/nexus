@@ -18,6 +18,12 @@ router.post("/addReview", async (req, res) => {
     const userBefore = await db.collection("users").findOne({ uid: userId });
     const titlesCount = await db.collection("titles").countDocuments();
 
+    const watchedTitle = await db.collection("titles").findOne({ titleId });
+
+    const isMCU = watchedTitle?.category === "mcu";
+    const isLegacy = watchedTitle?.category === "legacy";
+    const isAdjacent = watchedTitle?.category === "adjacent";
+
     await db.collection("users").findOneAndUpdate(
       { uid: userId },
       [
@@ -140,6 +146,21 @@ router.post("/addReview", async (req, res) => {
           {
             $set: {
               totalWatched: { $add: [{ $ifNull: ["$totalWatched", 0] }, 1] },
+              totalMCUWatched: {
+                $add: [{ $ifNull: ["$totalMCUWatched", 0] }, isMCU ? 1 : 0],
+              },
+              totalLegacyWatched: {
+                $add: [
+                  { $ifNull: ["$totalLegacyWatched", 0] },
+                  isLegacy ? 1 : 0,
+                ],
+              },
+              totalAdjacentWatched: {
+                $add: [
+                  { $ifNull: ["$totalAdjacentWatched", 0] },
+                  isAdjacent ? 1 : 0,
+                ],
+              },
             },
           },
           {

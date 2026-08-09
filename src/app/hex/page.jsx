@@ -464,14 +464,14 @@ export default function Main() {
               <Loader />
             ) : searchResults.length > 0 ? (
               <div>
-                <div className="p-2 py-2">
+                <div className="px-4 py-8">
                   <p className="text-sm text-vibe w-full line-clamp-1">
                     Search results for{" "}
                     <span className="font-bold">"{searchInput}"</span>
                   </p>
                 </div>
                 <div>
-                  <div className="flex flex-wrap gap-2 items-center justify-center">
+                  <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
                     {searchResults
                       .sort((a, b) => {
                         const dateA =
