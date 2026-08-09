@@ -18,7 +18,7 @@ export default function TitleCard({
   const [showMenu, setShowMenu] = useState(false);
   const { handleWatch } = useContext(WatchContext);
   const [showAddReview, setShowAddReview] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, setShowSignIn } = useContext(UserContext);
   const timer = useRef(null);
   const cardRef = useRef(null);
 
@@ -61,14 +61,19 @@ export default function TitleCard({
         onTouchCancel={() => clearTimeout(timer.current)}
         className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer relative"
       >
-        {showMenu && (
+        {showMenu && unit.status !== "upcoming" && (
           <div className="absolute inset-0 flex items-end justify-end mb-1 z-10 ">
             <div className="flex gap-3 px-4 py-2 bg-[var(--color-panel)]/95 rounded-tl-2xl rounded-bl-2xl">
               {isWatched ? (
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleWatch(unit.titleId);
+                    if (!user) {
+                      setShowSignIn(true);
+                      return;
+                    } else {
+                      handleWatch(unit.titleId);
+                    }
                   }}
                   className="cursor-pointer transition-all transform duration-200 hover:scale-125"
                 >
@@ -78,7 +83,12 @@ export default function TitleCard({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleWatch(unit.titleId);
+                    if (!user) {
+                      setShowSignIn(true);
+                      return;
+                    } else {
+                      handleWatch(unit.titleId);
+                    }
                   }}
                   className="cursor-pointer transition-all transform duration-200 hover:scale-125"
                 >
@@ -93,7 +103,12 @@ export default function TitleCard({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setShowAddReview(true);
+                    if (!user) {
+                      setShowSignIn(true);
+                      return;
+                    } else {
+                      setShowAddReview(true);
+                    }
                   }}
                   className="cursor-pointer transition-all transform duration-200 hover:scale-125"
                 >
@@ -128,20 +143,20 @@ export default function TitleCard({
           />
         )}
         {(goat || popular) && (
-            <div
-              className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                unit.rank === 1 ? "bg-hulk" : "bg-accent"
+          <div
+            className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+              unit.rank === 1 ? "bg-hulk" : "bg-accent"
+            }`}
+          >
+            <p
+              className={`font-bold text-sm ${
+                unit.rank === 1 ? "text-zeus" : "text-normal"
               }`}
             >
-              <p
-                className={`font-bold text-sm ${
-                  unit.rank === 1 ? "text-zeus" : "text-normal"
-                }`}
-              >
-                {unit.rank === 1 ? <GiTrophy /> : unit.rank}
-              </p>
-            </div>
-          )}
+              {unit.rank === 1 ? <GiTrophy /> : unit.rank}
+            </p>
+          </div>
+        )}
       </div>
       {showAddReview && (
         <AddReview
