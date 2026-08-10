@@ -77,8 +77,8 @@ export default function Lists() {
 
         {loading ? (
           <ListsLoader />
-        ) : lists.length === 0 ? (
-          <div className="flex flex-col w-full justify-center items-center">
+        ) : lists.length !== 0 ? (
+          <div className="flex flex-col w-full min-h-[50vh] justify-center items-center">
             <FaList className="text-6xl text-panel" />
             <p className="text-sm text-panel font-normal">
               Create the first list to get started.
