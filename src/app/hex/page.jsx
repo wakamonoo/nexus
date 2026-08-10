@@ -428,36 +428,23 @@ export default function Main() {
           <TitleLoader />
         ) : (
           <>
-            <div className="flex w-full justify-between items-center gap-2">
-              <div className="flex flex-1 items-center gap-2 bg-panel px-4 py-2 rounded-full">
-                <input
-                  type="text"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if ((e.key === "Enter") & !e.shiftKey) {
-                      e.preventDefault();
-                      handleTitleSearch();
-                    }
-                  }}
-                  placeholder="Locate titles accross Marvel Sagas..."
-                  className="w-full outline-none text-base text-normal truncate"
-                />
-                <button onClick={handleTitleSearch} className="cursor-pointer">
-                  <HiOutlineSearch className="text-2xl text-normal" />
-                </button>
-              </div>
-              <CustomButton
-                onClick={() => {
-                  setIsLoading(true);
-                  router.push("/hex/timeline");
+            <div className="flex flex-1 items-center gap-2 bg-panel px-4 py-2 rounded-full">
+              <input
+                type="text"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if ((e.key === "Enter") & !e.shiftKey) {
+                    e.preventDefault();
+                    handleTitleSearch();
+                  }
                 }}
-              >
-                <div className="flex items-center justify-center">
-                  <HiOutlineMap className="text-2xl text-normal" />
-                  <p className="font-bold text-normal text-base">Timeline</p>
-                </div>
-              </CustomButton>
+                placeholder="Locate titles accross Marvel Sagas..."
+                className="w-full outline-none text-base text-normal truncate"
+              />
+              <button onClick={handleTitleSearch} className="cursor-pointer">
+                <HiOutlineSearch className="text-2xl text-normal" />
+              </button>
             </div>
 
             {loading ? (
@@ -509,6 +496,30 @@ export default function Main() {
               </div>
             ) : (
               <>
+                <div className="flex gap-8 w-full justify-end py-4 px-8">
+                  <button
+                    onClick={() => {
+                      setIsLoading(true);
+                      router.push("/hex/timeline");
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
+                      Timeline
+                    </p>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsLoading(true);
+                      router.push("/hex/lists");
+                    }}
+                    className="cursor-pointer"
+                  >
+                    <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
+                      Lists
+                    </p>
+                  </button>
+                </div>
                 <div className="py-4">
                   <div className="flex justify-between items-center">
                     <h1 className="text-xl">LATEST RELEASES</h1>

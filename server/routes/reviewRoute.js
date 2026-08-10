@@ -1,13 +1,12 @@
 import express from "express";
 import clientPromise from "../lib/mongodb.js";
 import { v4 as uuidv4 } from "uuid";
-import { useParams } from "next/navigation.js";
 
 const router = express.Router();
 
 router.post("/addReview", async (req, res) => {
   try {
-    const { titleId, title, poster, userId, userName, userImage, textReview } =
+    const { titleId, title, userId, userName, userImage, textReview } =
       req.body;
 
     const io = req.app.get("io");
@@ -129,8 +128,6 @@ router.post("/addReview", async (req, res) => {
         {
           $setOnInsert: {
             userName,
-            title,
-            poster,
             createdAt: new Date(),
           },
           $set: {

@@ -14,6 +14,7 @@ export default function TitleCard({
   continuum,
   goat,
   popular,
+  list,
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const { handleWatch } = useContext(WatchContext);
@@ -133,7 +134,7 @@ export default function TitleCard({
         />
         {continuum && (
           <div
-            className={`absolute opacity-80 top-0 right-1 p-2 h-4 w-8 flex items-center justify-center rounded-b-full ${
+            className={`absolute opacity-80 top-0 right-1 p-2 h-4 w-8 flex items-center justify-center rounded-b-full z-10 ${
               mcu
                 ? "bg-accent"
                 : legacy
@@ -144,7 +145,7 @@ export default function TitleCard({
         )}
         {(goat || popular) && (
           <div
-            className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
+            className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl z-10 ${
               unit.rank === 1 ? "bg-hulk" : "bg-accent"
             }`}
           >
@@ -155,6 +156,11 @@ export default function TitleCard({
             >
               {unit.rank === 1 ? <GiTrophy /> : unit.rank}
             </p>
+          </div>
+        )}
+        {list && (
+          <div className="absolute opacity-80 -top-2 -right-2 p-2 h-8 w-8 flex items-center justify-center rounded-full bg-accent z-10">
+            <p className="font-bold text-lg">{unit.listOrder}</p>
           </div>
         )}
       </div>

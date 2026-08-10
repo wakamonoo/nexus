@@ -31,7 +31,6 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
       const newReview = {
         titleId,
         title: title.title,
-        poster: title.image,
         userId: user.uid,
         userName: user.name,
         userImage: user.picture,
