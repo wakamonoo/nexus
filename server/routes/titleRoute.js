@@ -274,7 +274,7 @@ router.post("/addTitle", async (req, res) => {
   }
 });
 
-router.put("/updateTitle/:titleId", async (req, res) => {
+router.patch("/updateTitle/:titleId", async (req, res) => {
   const { titleId } = req.params;
   const {
     title,

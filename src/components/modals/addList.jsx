@@ -112,7 +112,7 @@ const SelectionCard = ({
   );
 };
 
-export default function TitlePicker({ user, setShowTitlePicker }) {
+export default function AddList({ user, setShowAddListModal }) {
   const { titles } = useContext(TitleContext);
   const [listTitle, setListTitle] = useState("");
   const [listDescription, setListDescription] = useState("");
@@ -162,7 +162,7 @@ export default function TitlePicker({ user, setShowTitlePicker }) {
       });
     } finally {
       setIsLoading(false);
-      setShowTitlePicker(false);
+      setShowAddListModal(false);
       Swal.fire({
         toast: true,
         position: "bottom-start",
@@ -218,7 +218,7 @@ export default function TitlePicker({ user, setShowTitlePicker }) {
   return (
     <>
       <div
-        onClick={() => setShowTitlePicker(false)}
+        onClick={() => setShowAddListModal(false)}
         className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
       >
         <div
@@ -228,7 +228,7 @@ export default function TitlePicker({ user, setShowTitlePicker }) {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setShowTitlePicker(false);
+              setShowAddListModal(false);
             }}
             className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
           >

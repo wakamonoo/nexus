@@ -1,8 +1,8 @@
 "use client";
 import SecondaryButtons from "@/components/buttons/secBtns";
 import ListsLoader from "@/components/loaders/listsLoader";
-import Loader from "@/components/loaders/loader";
-import TitlePicker from "@/components/modals/TitlePicker";
+import AddList from "@/components/modals/addList";
+import { ListContext } from "@/context/listContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
 import { TitleNavContext } from "@/context/titleNavContext";
@@ -11,51 +11,18 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft, FaBoxOpen, FaList } from "react-icons/fa";
 
-const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
-
-let BASE_URL;
-
-if (APP_ENV === "production") {
-  BASE_URL = "https://nexus-po8x.onrender.com";
-} else if (APP_ENV === "staging") {
-  BASE_URL = "https://nexus-test-xxhl.onrender.com";
-} else {
-  BASE_URL = "http://localhost:4000";
-}
-
 export default function Lists() {
-  const [showTitlePicker, setShowTitlePicker] = useState(false);
+  const [showAddListModal, setShowAddListModal] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const { user, allUsers } = useContext(UserContext);
-  const [lists, setLists] = useState([]);
+  const { lists, listLoad } = useContext(ListContext);
   const { titles } = useContext(TitleContext);
   const { handleShowListNav } = useContext(TitleNavContext);
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
   });
-
-  useEffect(() => {
-    const handleGetLists = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/lists/listsGet`, {
-          method: "GET",
-        });
-
-        const data = await res.json();
-
-        setLists(data.result);
-      } catch (err) {
-        console.error("failed to fetch lists", err);
-        setLists([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-    handleGetLists();
-  }, []);
 
   return (
     <>
@@ -69,13 +36,13 @@ export default function Lists() {
         </div>
         <div className="w-full flex justify-end">
           <div className="w-fit">
-            <SecondaryButtons onClick={() => setShowTitlePicker(true)}>
-              Create List
+            <SecondaryButtons onClick={() => setShowAddListModal(true)}>
+              <p className="font-bold text-normal text-base">Create List</p>
             </SecondaryButtons>
           </div>
         </div>
 
-        {loading ? (
+        {listLoad ? (
           <ListsLoader />
         ) : lists.length === 0 ? (
           <div className="flex flex-col w-full min-h-[50vh] justify-center items-center">
@@ -162,8 +129,8 @@ export default function Lists() {
         )}
       </div>
 
-      {showTitlePicker && (
-        <TitlePicker user={user} setShowTitlePicker={setShowTitlePicker} />
+      {showAddListModal && (
+        <AddList user={user} setShowAddListModal={setShowAddListModal} />
       )}
     </>
   );

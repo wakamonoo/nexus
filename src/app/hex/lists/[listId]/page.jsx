@@ -10,50 +10,26 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import TitleCard from "@/components/layout/titleCard";
 import ListLoader from "@/components/loaders/listLoader";
-
-const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
-
-let BASE_URL;
-
-if (APP_ENV === "production") {
-  BASE_URL = "https://nexus-po8x.onrender.com";
-} else if (APP_ENV === "staging") {
-  BASE_URL = "https://nexus-test-xxhl.onrender.com";
-} else {
-  BASE_URL = "http://localhost:4000";
-}
+import SecondaryButtons from "@/components/buttons/secBtns";
+import ListDelConfirm from "@/components/modals/deleteList";
+import EditList from "@/components/modals/editList";
+import DeleteList from "@/components/modals/deleteList";
+import { ListContext } from "@/context/listContext";
 
 export default function List() {
   const { listId } = useParams();
-  const [lists, setLists] = useState([]);
+  const { lists, setLists } = useContext(ListContext);
   const { user, allUsers } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
+  const [showEditListModal, setShowEditListModal] = useState(false);
+  const [showDeleteListModal, setShowDeleteListModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
-  }, []);
-
-  useEffect(() => {
-    const handleGetLists = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/lists/listsGet`, {
-          method: "GET",
-        });
-
-        const data = await res.json();
-
-        setLists(data.result);
-      } catch (err) {
-        console.error("failed to fetch lists", err);
-        setLists([]);
-      } finally {
-      }
-    };
-    handleGetLists();
   }, []);
 
   useEffect(() => {
@@ -124,6 +100,26 @@ export default function List() {
                     {currentList?.listDescription}
                   </p>
                 )}
+                {creator?.uid === user?.uid && (
+                  <div className="flex gap-4 w-full justify-end mt-4">
+                    <button
+                      onClick={() => setShowEditListModal(true)}
+                      className="cursor-pointer"
+                    >
+                      <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
+                        Edit List
+                      </p>
+                    </button>
+                    <button
+                      onClick={() => setShowDeleteListModal(true)}
+                      className="cursor-pointer"
+                    >
+                      <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
+                        Delete List
+                      </p>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-2">
@@ -164,6 +160,19 @@ export default function List() {
           </div>
         )}
       </div>
+      {showDeleteListModal && (
+        <DeleteList
+          listId={listId}
+          setShowDeleteListModal={setShowDeleteListModal}
+        />
+      )}
+      {showEditListModal && (
+        <EditList
+          list={currentList}
+          setLists={setLists}
+          setShowEditListModal={setShowEditListModal}
+        />
+      )}
     </>
   );
 }

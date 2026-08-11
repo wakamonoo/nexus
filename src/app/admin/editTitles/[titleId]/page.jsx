@@ -87,7 +87,7 @@ export default function EditTitle() {
       setIsLoading(true);
 
       await fetch(`${BASE_URL}/api/titles/updateTitle/${titleId}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-type": "application/json",
         },
