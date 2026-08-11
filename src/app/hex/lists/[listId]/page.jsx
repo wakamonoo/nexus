@@ -95,7 +95,7 @@ export default function List() {
           />
           <h4 className="text-xl">{currentList?.listTitle}</h4>
         </div>
-        {listTitles === 0 ? (
+        {listTitles.length === 0 ? (
           <ListLoader />
         ) : (
           <div className="w-full grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 mt-6">
