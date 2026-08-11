@@ -423,11 +423,35 @@ export default function Main() {
     <>
       <NavBar />
 
-      <div className="relative bg-brand w-full pt-24 p-2 sm:px-4 md:px-8 lg:px-16">
+      <div className="relative bg-brand w-full pt-16 p-2 sm:px-4 md:px-8 lg:px-16">
         {pageLoad ? (
           <TitleLoader />
         ) : (
           <>
+            <div className="flex gap-4 md:gap-8 w-full justify-end p-4">
+              <button
+                onClick={() => {
+                  setIsLoading(true);
+                  router.push("/hex/lists");
+                }}
+                className="cursor-pointer"
+              >
+                <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
+                  Lists
+                </p>
+              </button>
+              <button
+                onClick={() => {
+                  setIsLoading(true);
+                  router.push("/hex/timeline");
+                }}
+                className="cursor-pointer"
+              >
+                <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
+                  Timeline
+                </p>
+              </button>
+            </div>
             <div className="flex flex-1 items-center gap-2 bg-panel px-4 py-2 rounded-full">
               <input
                 type="text"
@@ -496,30 +520,6 @@ export default function Main() {
               </div>
             ) : (
               <>
-                <div className="flex gap-8 w-full justify-end py-4 px-8">
-                  <button
-                    onClick={() => {
-                      setIsLoading(true);
-                      router.push("/hex/timeline");
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
-                      Timeline
-                    </p>
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsLoading(true);
-                      router.push("/hex/lists");
-                    }}
-                    className="cursor-pointer"
-                  >
-                    <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
-                      Lists
-                    </p>
-                  </button>
-                </div>
                 <div className="py-4">
                   <div className="flex justify-between items-center">
                     <h1 className="text-xl">LATEST RELEASES</h1>

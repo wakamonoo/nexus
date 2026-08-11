@@ -9,6 +9,7 @@ import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import TitleCard from "@/components/layout/titleCard";
+import ListLoader from "@/components/loaders/listLoader";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -94,10 +95,10 @@ export default function List() {
           />
           <h4 className="text-xl">{currentList?.listTitle}</h4>
         </div>
-        {!listTitles ? (
-          <ShowListLoader />
+        {listTitles === 0 ? (
+          <ListLoader />
         ) : (
-          <div className="w-full grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 mt-6">
+          <div className="w-full grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 mt-6">
             <div className="md:sticky md:top-4 h-fit">
               <div className="rounded-xl bg-second border border-panel p-4">
                 <p className="text-xs opacity-60 mb-3">Created by</p>
@@ -125,7 +126,7 @@ export default function List() {
                 )}
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 justify-center gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-2">
               {...listTitles.map((unit) => (
                 <div className="flex items-center gap-4">
                   <TitleCard
@@ -136,7 +137,7 @@ export default function List() {
                     list={true}
                   />
                   <div>
-                    <p className="text-lg font-bold text-normal leading-4.5">
+                    <p className="text-lg font-bold text-normal leading-4.5 line-clamp-2">
                       {unit.title}{" "}
                       <span className="text-base opacity-60 font-thin">
                         {new Date(

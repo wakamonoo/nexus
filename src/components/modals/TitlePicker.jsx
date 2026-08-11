@@ -54,9 +54,9 @@ const SelectionCard = ({
       className={`flex gap-4 items-start cursor-pointer px-2 py-4 border rounded-lg  ${isSelected ? "border-[var(--color-accent)] bg-accent/10" : "border-[var(--color-panel)] hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)]"}`}
     >
       {isSelected ? (
-        <IoRadioButtonOn className="text-xl text-zeus mt-2" />
+        <IoRadioButtonOn className="text-xl text-zeus mt-2 shrink-0" />
       ) : (
-        <IoRadioButtonOff className="text-xl text-zeus mt-2" />
+        <IoRadioButtonOff className="text-xl text-zeus mt-2 shrink-0" />
       )}
       <div className="relative shrink-0 w-26 h-40">
         <img
@@ -234,7 +234,7 @@ export default function TitlePicker({ user, setShowTitlePicker }) {
           >
             <MdClose className="text-2xl" />
           </button>
-          <div className="mt-10 flex flex-col w-full">
+          <div className="mt-10 flex flex-col w-full overflow-y-auto custom-scroll">
             <div className="py-2 w-full">
               <h4>Give your list a name</h4>
               <input
@@ -285,7 +285,7 @@ export default function TitlePicker({ user, setShowTitlePicker }) {
                   </p>
                 </div>
                 <div>
-                  <div className="mt-4 pb-[30vh] flex flex-col gap-2 overflow-y-auto custom-scroll max-h-[60vh]">
+                  <div className="mt-4 flex flex-col gap-2 ">
                     {searchResults
                       .sort((a, b) => {
                         const dateA =
@@ -333,7 +333,7 @@ export default function TitlePicker({ user, setShowTitlePicker }) {
                 </div>
               </div>
             ) : (
-              <div className="mt-4 flex flex-col gap-2 overflow-y-auto custom-scroll">
+              <div className="mt-4 flex flex-col gap-2 ">
                 {titles
                   .sort((a, b) => {
                     const dateA =

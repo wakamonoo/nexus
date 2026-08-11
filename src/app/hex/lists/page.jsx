@@ -85,7 +85,7 @@ export default function Lists() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-6">
             {lists.map((list) => {
               const listTitles = [...(list.titles || [])]
                 .sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -114,7 +114,7 @@ export default function Lists() {
                           key={title.titleId}
                           className="absolute w-26 h-40 md:w-32 md:h-46 flex-shrink-0 transition-transform duration-200 group-hover:-translate-y-1"
                           style={{
-                            transform: `translateX(${(index - (visibleTitles.length - 1) / 2) * 40}px) rotate(${(index - (visibleTitles.length - 1) / 2) * 8}deg)`,
+                            transform: `translateX(${(index - (visibleTitles.length - 1) / 2) * 40}px) rotate(${(index - (visibleTitles.length - 1) / 2) * 4}deg)`,
                             zIndex: index,
                           }}
                         >
