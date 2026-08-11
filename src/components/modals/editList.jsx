@@ -12,6 +12,7 @@ import Loader from "@/components/loaders/searchLoader";
 import TitleCard from "../layout/titleCard";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
+import { ListContext } from "@/context/listContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -112,7 +113,8 @@ const SelectionCard = ({
   );
 };
 
-export default function EditList({ list, setLists, setShowEditListModal }) {
+export default function EditList({ list, setShowEditListModal }) {
+  const { setLists } = useContext(ListContext);
   const { titles } = useContext(TitleContext);
   const [listTitle, setListTitle] = useState(list?.listTitle || "");
   const [listDescription, setListDescription] = useState(
@@ -166,6 +168,8 @@ export default function EditList({ list, setLists, setShowEditListModal }) {
             : item,
         ),
       );
+
+      setShowEditListModal(false);
     } catch (err) {
       console.error(err);
       Swal.fire({

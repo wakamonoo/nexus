@@ -6,6 +6,7 @@ import CircledButtons from "../buttons/circledBtns";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
+import { ListContext } from "@/context/listContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -20,6 +21,7 @@ if (APP_ENV === "production") {
 }
 
 export default function DeleteList({ listId, setShowDeleteListModal }) {
+  const { setLists } = useContext(ListContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
@@ -29,6 +31,10 @@ export default function DeleteList({ listId, setShowDeleteListModal }) {
       await fetch(`${BASE_URL}/api/lists/deleteList/${listId}`, {
         method: "DELETE",
       });
+
+      setLists((prev) => prev.filter((list) => list.listId !== listId));
+
+      setShowDeleteListModal(false);
 
       router.back();
     } catch (err) {

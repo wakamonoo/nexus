@@ -15,17 +15,41 @@ import ListDelConfirm from "@/components/modals/deleteList";
 import EditList from "@/components/modals/editList";
 import DeleteList from "@/components/modals/deleteList";
 import { ListContext } from "@/context/listContext";
+import {
+  BiDotsHorizontalRounded,
+  BiDownvote,
+  BiSolidDownvote,
+  BiSolidUpvote,
+  BiUpvote,
+} from "react-icons/bi";
+import ListOpt from "@/components/layout/listOpt";
+import { SocketContext } from "@/context/socketContext";
+import Swal from "sweetalert2";
+
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export default function List() {
   const { listId } = useParams();
-  const { lists, setLists } = useContext(ListContext);
+  const { lists } = useContext(ListContext);
+  const [showEditListModal, setShowEditListModal] = useState(false);
+  const { listVotes } = useContext(SocketContext);
+  const [showDeleteListModal, setShowDeleteListModal] = useState(false);
   const { user, allUsers } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
-  const [showEditListModal, setShowEditListModal] = useState(false);
-  const [showDeleteListModal, setShowDeleteListModal] = useState(false);
+  const [showListOpt, setShowListOpt] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -44,6 +68,9 @@ export default function List() {
 
   const currentList = lists.find((list) => list.listId === listId);
 
+  const upvotes = listVotes[currentList?.listId]?.upvotes || [];
+  const downvotes = listVotes[currentList?.listId]?.downvotes || [];
+
   const creator = allUsers.find((u) => u.uid === currentList?.userId);
 
   const listTitles = [...(currentList?.titles || [])]
@@ -61,6 +88,43 @@ export default function List() {
     })
     .filter(Boolean);
 
+  const handleVote = async (listId, vote) => {
+    try {
+      if (!user?.uid) {
+        setShowSignIn();
+      }
+
+      await fetch(`${BASE_URL}/api/lists/vote/${listId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.uid,
+          vote,
+        }),
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "Vote failed!",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-accent)",
+        customClass: {
+          popup:
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+        },
+      });
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
@@ -76,7 +140,7 @@ export default function List() {
         ) : (
           <div className="w-full grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 mt-6">
             <div className="md:sticky md:top-4 h-fit">
-              <div className="rounded-xl bg-second border border-panel p-4">
+              <div className="relative rounded-xl bg-second border border-panel p-4">
                 <p className="text-xs opacity-60 mb-3">Created by</p>
                 <div className="flex items-center gap-3">
                   <img
@@ -101,25 +165,44 @@ export default function List() {
                   </p>
                 )}
                 {creator?.uid === user?.uid && (
-                  <div className="flex gap-4 w-full justify-end mt-4">
+                  <div className="absolute top-4 right-4">
                     <button
-                      onClick={() => setShowEditListModal(true)}
+                      onClick={() => setShowListOpt(true)}
                       className="cursor-pointer"
                     >
-                      <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
-                        Edit List
-                      </p>
-                    </button>
-                    <button
-                      onClick={() => setShowDeleteListModal(true)}
-                      className="cursor-pointer"
-                    >
-                      <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
-                        Delete List
-                      </p>
+                      <BiDotsHorizontalRounded className="text-2xl" />
                     </button>
                   </div>
                 )}
+                <div className="flex flex-col items-end  mt-4 px-2 gap-2">
+                  <div className="flex items-center rounded-full bg-panel py-2 px-4 gap-2">
+                    {upvotes.includes(user?.uid) ? (
+                      <BiSolidUpvote
+                        onClick={() => handleVote(currentList.listId, "up")}
+                        className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                      />
+                    ) : (
+                      <BiUpvote
+                        onClick={() => handleVote(currentList.listId, "up")}
+                        className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                      />
+                    )}
+                    <span className="text-xs opacity-60">
+                      {upvotes.length - downvotes.length}
+                    </span>
+                    {downvotes.includes(user?.uid) ? (
+                      <BiSolidDownvote
+                        onClick={() => handleVote(currentList.listId, "down")}
+                        className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                      />
+                    ) : (
+                      <BiDownvote
+                        onClick={() => handleVote(currentList.listId, "down")}
+                        className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-2">
@@ -160,17 +243,23 @@ export default function List() {
           </div>
         )}
       </div>
-      {showDeleteListModal && (
-        <DeleteList
-          listId={listId}
+      {showListOpt && (
+        <ListOpt
+          setShowListOpt={setShowListOpt}
+          setShowEditListModal={setShowEditListModal}
           setShowDeleteListModal={setShowDeleteListModal}
         />
       )}
       {showEditListModal && (
         <EditList
           list={currentList}
-          setLists={setLists}
           setShowEditListModal={setShowEditListModal}
+        />
+      )}
+      {showDeleteListModal && (
+        <DeleteList
+          listId={listId}
+          setShowDeleteListModal={setShowDeleteListModal}
         />
       )}
     </>

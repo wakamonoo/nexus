@@ -63,6 +63,8 @@ export default function Ping({ setShowPing }) {
         router.push(`/profile/${ping.userId}`);
       } else if (ping.type === "reviewUpvote") {
         router.push(`/hex/${ping.titleId}`);
+      } else if (ping.type === "listUpvote") {
+        router.push(`/hex/lists/${ping.listId}`);
       }
     } catch (err) {
       console.error(err);
@@ -225,7 +227,8 @@ export default function Ping({ setShowPing }) {
                     <div className="flex flex-col gap-1">
                       <div className="flex gap-2">
                         <p className="leading-4 text-base font-bold">
-                          {ping.type === "reviewUpvote"
+                          {ping.type === "reviewUpvote" ||
+                          ping.type === "listUpvote"
                             ? ping.userName
                             : ping.senderName}{" "}
                           <span className="font-normal text-sm">
