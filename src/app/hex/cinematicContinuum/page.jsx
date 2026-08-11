@@ -64,6 +64,7 @@ export default function CinematicContinuum() {
                     unit={unit}
                     isWatched={isTitleWatched(unit.titleId)}
                     onOpen={() => handleShowNav(unit.titleId)}
+                    continuum={true}
                   />
                 ))}
             </div>

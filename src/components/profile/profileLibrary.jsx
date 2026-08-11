@@ -16,7 +16,10 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
 
       return {
         ...watch,
-        releaseDate: title?.date,
+        releaseDate:
+          title?.mediaType === "tv"
+            ? title?.first_air_date
+            : title?.release_date,
       };
     })
     .sort((a, b) => {
@@ -32,7 +35,10 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
 
       return {
         ...watch,
-        releaseDate: title?.date,
+        releaseDate:
+          title?.mediaType === "tv"
+            ? title?.first_air_date
+            : title?.release_date,
       };
     })
     .sort((a, b) => {
@@ -63,6 +69,7 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
         order: title?.order,
       };
     })
+    .filter((watch) => watch.order !== undefined)
     .sort((a, b) => {
       return a.order - b.order;
     });
