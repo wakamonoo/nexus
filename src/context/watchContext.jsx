@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { LoaderContext } from "./loaderContext";
 import { UserContext } from "./userContext";
 import Swal from "sweetalert2";
@@ -39,6 +39,35 @@ export const WatchProvider = ({ children }) => {
       setWatchInfo(data.result || []);
     } catch (err) {
       console.error("error fetching watched items:", err);
+    }
+  };
+
+  useEffect(() => {
+    if (user?.uid) {
+      watchedInfoFetch(user.uid);
+    } else {
+      setWatchInfo([]);
+    }
+  }, [user]);
+
+  const getUserWatchedInfoFetch = async (userId) => {
+    try {
+      const res = await fetch(
+        `${BASE_URL}/api/watched/watchedInfoGet?userId=${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const data = await res.json();
+
+      return data.result || [];
+    } catch (err) {
+      console.error("error fetching watched items:", err);
+      return [];
     }
   };
 
@@ -108,8 +137,7 @@ export const WatchProvider = ({ children }) => {
   return (
     <WatchContext.Provider
       value={{
-        watchInfo,
-        watchedInfoFetch,
+        getUserWatchedInfoFetch,
         isTitleWatched,
         handleWatch,
       }}

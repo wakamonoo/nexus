@@ -42,9 +42,8 @@ export default function Main() {
     releasedAdjacentTitles,
     pageLoad,
   } = useContext(TitleContext);
-  const { user } = useContext(UserContext);
   const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
-  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
+  const { isTitleWatched } = useContext(WatchContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [isScrolled1, setIsScrolled1] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
@@ -77,16 +76,6 @@ export default function Main() {
   const [showArrows8, setShowArrows8] = useState(false);
   const [showArrows9, setShowArrows9] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchWathced = async () => {
-      if (user?.uid) {
-        await watchedInfoFetch(user?.uid);
-      }
-    };
-
-    fetchWathced();
-  }, [user]);
 
   useEffect(() => {
     const current = scrollRef1.current;

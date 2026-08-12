@@ -16,7 +16,7 @@ export default function Portfolio() {
   const [exporting, setExporting] = useState(false);
   const { chrono, release, titles } = useContext(TitleContext);
   const { user } = useContext(UserContext);
-  const { watchedInfoFetch, isTitleWatched } = useContext(WatchContext);
+  const { isTitleWatched } = useContext(WatchContext);
   const [order, setOrder] = useState([]);
   const [orderType, setOrderType] = useState("Chronological");
   const { setIsLoading } = useContext(LoaderContext);
@@ -25,16 +25,6 @@ export default function Portfolio() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    const fetchWathced = async () => {
-      if (user?.uid) {
-        await watchedInfoFetch(user.uid);
-      }
-    };
-
-    fetchWathced();
-  }, [user]);
 
   useEffect(() => {
     if (chrono?.length) {

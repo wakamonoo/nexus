@@ -11,20 +11,9 @@ import TitleCard from "./titleCard";
 
 export default function GoatTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
-  const { user } = useContext(UserContext);
   const { goat } = useContext(TitleContext);
-  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
+  const { isTitleWatched} = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
-
-  useEffect(() => {
-    const fetchWathced = async () => {
-      if (user?.uid) {
-        await watchedInfoFetch(user?.uid);
-      }
-    };
-
-    fetchWathced();
-  }, [user]);
 
   let previousPoints = null;
   let currentRank = 0;

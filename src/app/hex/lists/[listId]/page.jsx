@@ -48,23 +48,13 @@ export default function List() {
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
-  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
+  const { isTitleWatched } = useContext(WatchContext);
   const [showListOpt, setShowListOpt] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    const fetchWathced = async () => {
-      if (user?.uid) {
-        await watchedInfoFetch(user?.uid);
-      }
-    };
-
-    fetchWathced();
-  }, [user]);
 
   const currentList = lists.find((list) => list.listId === listId);
 

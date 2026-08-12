@@ -11,20 +11,9 @@ import TitleCard from "./titleCard";
 
 export default function MostWatchedTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
-  const { user } = useContext(UserContext);
   const { popular } = useContext(TitleContext);
-  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
+  const { isTitleWatched } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
-
-  useEffect(() => {
-    const fetchWathced = async () => {
-      if (user?.uid) {
-        await watchedInfoFetch(user?.uid);
-      }
-    };
-
-    fetchWathced();
-  }, [user]);
 
   let previousCount = null;
   let currentRank = 0;

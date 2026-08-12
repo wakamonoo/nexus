@@ -46,7 +46,7 @@ export default function UserProfile() {
     releasedAdjacentTitles,
   } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { watchedInfoFetch, watchInfo } = useContext(WatchContext);
+  const { getUserWatchedInfoFetch } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const [showProfilePosts, setShowProfilePosts] = useState(true);
   const [showProfileReviews, setShowProfileReviews] = useState(false);
@@ -57,6 +57,7 @@ export default function UserProfile() {
   const [loadingMemory, setLoadingMemory] = useState(false);
   const [memoryCache, setMemoryCache] = useState({});
   const { sigils } = useContext(SigilContext);
+  const [profileUserWatch, setProfileUserWatch] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -67,6 +68,18 @@ export default function UserProfile() {
   }, [allUsers, posts]);
 
   const profileUser = allUsers?.find((u) => u.uid === userId);
+
+  useEffect(() => {
+    if (!profileUser?.uid) return;
+
+    const fetchProfileWatch = async () => {
+      const data = await getUserWatchedInfoFetch(profileUser.uid);
+
+      setProfileUserWatch(data.filter((w) => w.watched === true));
+    };
+
+    fetchProfileWatch();
+  }, [profileUser?.uid]);
 
   const topRanks = profileUser?.rankings
     ? [...profileUser.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
@@ -79,21 +92,6 @@ export default function UserProfile() {
   const showNumMCU = releasedMCUTitles?.length;
   const showNumLegacy = releasedLegacyTitles?.length;
   const showNumAdjacent = releasedAdjacentTitles?.length;
-
-  useEffect(() => {
-    const fetchWathced = async () => {
-      if (profileUser?.uid) {
-        await watchedInfoFetch(profileUser.uid);
-      }
-    };
-
-    fetchWathced();
-  }, [profileUser]);
-
-  const profileUserWatch =
-    watchInfo?.filter(
-      (w) => w.userId === profileUser?.uid && w.watched === true,
-    ) || [];
 
   const latestWatch = [...profileUserWatch]
     .sort((a, b) => {

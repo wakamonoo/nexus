@@ -7,30 +7,18 @@ import { LoaderContext } from "@/context/loaderContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
-import { UserContext } from "@/context/userContext";
 import TitleCard from "@/components/layout/titleCard";
 
 export default function MultiversalCanon() {
-  const { user } = useContext(UserContext);
   const { releasedLegacyTitles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
-  const { isTitleWatched, watchedInfoFetch } = useContext(WatchContext);
+  const { isTitleWatched} = useContext(WatchContext);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    const fetchWathced = async () => {
-      if (user?.uid) {
-        await watchedInfoFetch(user?.uid);
-      }
-    };
-
-    fetchWathced();
-  }, [user]);
 
   return (
     <>

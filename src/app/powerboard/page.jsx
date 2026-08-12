@@ -1,12 +1,8 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useRef, useState } from "react";
-import {
-  FaAngleLeft,
-  FaRegSave,
-  FaTrash,
-} from "react-icons/fa";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { FaAngleLeft, FaRegSave, FaTrash } from "react-icons/fa";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import { BiReset } from "react-icons/bi";
 import SortableRank from "@/components/dnd/sortableRank";
@@ -20,6 +16,7 @@ import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import { HiOutlineSearch } from "react-icons/hi";
 import RegularButtons from "@/components/buttons/regBtns";
+import { WatchContext } from "@/context/watchContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -36,6 +33,7 @@ if (APP_ENV === "production") {
 export default function Powerboard() {
   const { releasedMCUTitles } = useContext(TitleContext);
   const { user, setShowSignIn } = useContext(UserContext);
+  const { isTitleWatched } = useContext(WatchContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [items, setItems] = useState([]);
   const [slots, setSlots] = useState({});
@@ -43,6 +41,11 @@ export default function Powerboard() {
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
   const scrollRef = useRef(null);
+
+  const watchedMCUTitles = useMemo(
+    () => releasedMCUTitles.filter((title) => isTitleWatched(title.titleId)),
+    [releasedMCUTitles, isTitleWatched],
+  );
 
   useEffect(() => {
     setIsLoading(false);
@@ -96,7 +99,7 @@ export default function Powerboard() {
     return Object.keys(slots)
       .map((slotId, index) => {
         const item = slots[slotId];
-        if (!items) return null;
+        if (!item) return null;
 
         const slotNumber = parseInt(slotId.split("-")[1], 10);
         const points = max_rank - slotNumber + 1;
@@ -188,7 +191,7 @@ export default function Powerboard() {
 
   useEffect(() => {
     if (!user?.uid) {
-      const sorted = [...releasedMCUTitles].sort(
+      const sorted = [...watchedMCUTitles].sort(
         (a, b) => new Date(b.date) - new Date(a.date),
       );
       setItems(sorted);
@@ -198,7 +201,7 @@ export default function Powerboard() {
 
     const restoredSlots = {};
     user.rankings?.forEach((r) => {
-      const title = releasedMCUTitles.find((t) => t.titleId === r.titleId);
+      const title = watchedMCUTitles.find((t) => t.titleId === r.titleId);
 
       if (title) {
         restoredSlots[`slot-${r.rank}`] = {
@@ -211,7 +214,7 @@ export default function Powerboard() {
     setSlots(restoredSlots);
 
     const assignedTitleIds = Object.values(restoredSlots).map((s) => s.titleId);
-    const unrankedItems = releasedMCUTitles.filter(
+    const unrankedItems = watchedMCUTitles.filter(
       (t) => !assignedTitleIds.includes(t.titleId),
     );
 
@@ -220,14 +223,14 @@ export default function Powerboard() {
     );
 
     setItems(sortedUnranked);
-  }, [user, releasedMCUTitles]);
+  }, [user, watchedMCUTitles]);
 
   const handleRemoveSlot = (slotId) => {
     setSlots((prevSlots) => {
       const removedItems = prevSlots[slotId];
       if (!removedItems) return;
 
-      const fullItem = releasedMCUTitles.find(
+      const fullItem = watchedMCUTitles.find(
         (t) => t.titleId === removedItems.titleId,
       );
       if (fullItem) {
@@ -282,7 +285,7 @@ export default function Powerboard() {
           <button
             onClick={handleScrollLeft}
             className={`cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1 ${
-              releasedMCUTitles.length === 0 || filteredItems.length < 5
+              watchedMCUTitles.length === 0 || filteredItems.length < 5
                 ? "hidden"
                 : "block"
             }`}
@@ -292,7 +295,7 @@ export default function Powerboard() {
           <button
             onClick={handleScrollRight}
             className={`cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1 ${
-              releasedMCUTitles.length === 0 || filteredItems.length < 5
+              watchedMCUTitles.length === 0 || filteredItems.length < 5
                 ? "hidden"
                 : "block"
             }`}
@@ -303,7 +306,7 @@ export default function Powerboard() {
             ref={scrollRef}
             className="flex gap-2 overflow-x-auto scrollbar-hide mt-8"
           >
-            {releasedMCUTitles.length > 0 ? (
+            {watchedMCUTitles.length > 0 ? (
               filteredItems.length > 0 ? (
                 filteredItems.map((unit) => (
                   <SortableRank
@@ -399,7 +402,7 @@ export default function Powerboard() {
           onClick={() => {
             setSlots({});
             setItems(
-              [...releasedMCUTitles].sort(
+              [...watchedMCUTitles].sort(
                 (a, b) => new Date(b.date) - new Date(a.date),
               ),
             );
