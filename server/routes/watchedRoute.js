@@ -67,6 +67,17 @@ router.post("/watchRoute", async (req, res) => {
         { upsert: true },
       );
 
+      await db.collection("users").updateOne(
+        { uid: userId },
+        {
+          $pull: {
+            rankings: {
+              titleId: titleId,
+            },
+          },
+        },
+      );
+
       await db.collection("users").updateOne({ uid: userId }, [
         {
           $set: {
@@ -227,7 +238,9 @@ router.post("/watchRoute", async (req, res) => {
         { upsert: true },
       );
     }
-    res.status(200).json({ message: `${watchedTitle?.title || titleId} marked as watched` });
+    res
+      .status(200)
+      .json({ message: `${watchedTitle?.title || titleId} marked as watched` });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });
