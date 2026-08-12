@@ -233,7 +233,7 @@ export default function Page() {
             <div className="w-fit">
               <SecondaryButtons onClick={handleSyncUsers}>
                 <p className="font-bold text-normal text-base uppercase whitespace-nowrap">
-                  Sync watch count
+                  Sync users
                 </p>
               </SecondaryButtons>
             </div>

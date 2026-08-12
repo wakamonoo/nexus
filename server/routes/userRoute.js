@@ -235,6 +235,23 @@ router.post("/sync", async (req, res) => {
         ])
         .toArray();
 
+      const watchedTitleIds = new Set(
+        watchedTitles.map((item) => item.titleId),
+      );
+
+      const cleanedRankings = (user.rankings || []).filter((ranking) =>
+        watchedTitleIds.has(ranking.titleId),
+      );
+
+      await db.collection("users").updateOne(
+        { uid: user.uid },
+        {
+          $set: {
+            rankings: cleanedRankings,
+          },
+        },
+      );
+
       const totalWatched = watchedTitles.length;
 
       const totalMCUWatched = watchedTitles.filter(
@@ -266,11 +283,14 @@ router.post("/sync", async (req, res) => {
       updatedUsers++;
     }
 
-    res.status(200).json({ message: "all user watch stats succesfully synced", updatedUsers})
+    res.status(200).json({
+      message: "all user watch stats succesfully synced",
+      updatedUsers,
+    });
   } catch (err) {
-    console.error("watched stats sync failed", err)
+    console.error("watched stats sync failed", err);
 
-    res.status(500).json({ error: "failed to sync watch stats"})
+    res.status(500).json({ error: "failed to sync watch stats" });
   }
 });
 
