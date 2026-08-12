@@ -2,7 +2,7 @@
 import { TitleContext } from "@/context/titleContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
-import { FaAngleLeft, FaRegSave, FaTrash } from "react-icons/fa";
+import { FaAngleLeft, FaBoxOpen, FaRegSave, FaTrash } from "react-icons/fa";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import { BiReset } from "react-icons/bi";
 import SortableRank from "@/components/dnd/sortableRank";
@@ -10,7 +10,7 @@ import { DndContext, DragOverlay } from "@dnd-kit/core";
 import Slot from "@/components/dnd/slot";
 import { GiTrophy } from "react-icons/gi";
 import RankLoader from "@/components/loaders/powerboardLoader";
-import { MdSearchOff } from "react-icons/md";
+import { MdMovieFilter, MdSearchOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
@@ -39,6 +39,7 @@ export default function Powerboard() {
   const [slots, setSlots] = useState({});
   const [draggedItem, setDraggedItem] = useState(null);
   const [searchInput, setSearchInput] = useState("");
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const scrollRef = useRef(null);
 
@@ -50,6 +51,12 @@ export default function Powerboard() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (releasedMCUTitles.length > 0) {
+      setLoading(false);
+    }
+  }, [releasedMCUTitles]);
 
   const handleDragEnd = ({ active, over }) => {
     setDraggedItem(null);
@@ -306,7 +313,9 @@ export default function Powerboard() {
             ref={scrollRef}
             className="flex gap-2 overflow-x-auto scrollbar-hide mt-8"
           >
-            {watchedMCUTitles.length > 0 ? (
+            {loading ? (
+              <RankLoader />
+            ) : watchedMCUTitles.length > 0 ? (
               filteredItems.length > 0 ? (
                 filteredItems.map((unit) => (
                   <SortableRank
@@ -331,7 +340,12 @@ export default function Powerboard() {
                 </div>
               ) : null
             ) : (
-              <RankLoader />
+              <div className="flex flex-col w-full justify-center items-center">
+                <MdMovieFilter className="text-6xl text-panel" />
+                <p className="text-sm text-panel font-normal">
+                  Watch a title to build your Powerboard
+                </p>
+              </div>
             )}
           </div>
         </div>

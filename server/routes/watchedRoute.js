@@ -67,17 +67,6 @@ router.post("/watchRoute", async (req, res) => {
         { upsert: true },
       );
 
-      await db.collection("users").updateOne(
-        { uid: userId },
-        {
-          $pull: {
-            rankings: {
-              titleId: titleId,
-            },
-          },
-        },
-      );
-
       await db.collection("users").updateOne({ uid: userId }, [
         {
           $set: {

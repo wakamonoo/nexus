@@ -86,6 +86,12 @@ export default function Title() {
     (review) => review.userId === user?.uid,
   );
 
+  const doneRank = allUsers?.some(
+    (u) =>
+      u.uid === user?.uid &&
+      u.rankings?.some((ranking) => ranking.titleId === titleId),
+  );
+
   const firstReview = title?.reviews?.sort(
     (a, b) => new Date(a.date) - new Date(b.date),
   )[0];
@@ -172,6 +178,8 @@ export default function Title() {
               <TitleMenu
                 setShowTitleMenu={setShowTitleMenu}
                 titleId={title.titleId}
+                hasReview={doneReview}
+                hasRank={doneRank}
               />
             )}
           </div>
@@ -293,6 +301,7 @@ export default function Title() {
                     <SecondaryCircledButtons
                       onClick={() => setShowAddReview(true)}
                       disabled={doneReview || title?.status === "upcoming"}
+                      className={`${doneReview ? "!bg-[var(--color-zeus)]/60" : ""}`}
                     >
                       {doneReview ? (
                         <FiCheckCircle className="text-xs" />
@@ -317,8 +326,11 @@ export default function Title() {
                         setIsLoading(true);
                         router.push("/powerboard");
                       }}
+                      className={`${doneRank ? "!bg-[var(--color-zeus)]/60" : ""}`}
                     >
-                      {title?.category === "mcu" ? (
+                      {doneRank ? (
+                        <FiCheckCircle className="text-xs" />
+                      ) : title?.category === "mcu" ? (
                         <FaCrown className="text-xs" />
                       ) : (
                         <RiLockFill className="text-xs" />
@@ -327,7 +339,9 @@ export default function Title() {
                         {title?.status === "upcoming"
                           ? "Unavailable"
                           : title?.category === "mcu"
-                            ? "Rank It"
+                            ? doneRank
+                              ? "Ranked"
+                              : "Rank It"
                             : title?.category === "legacy"
                               ? "Legacy Title"
                               : "Adjacent Title"}
@@ -338,8 +352,10 @@ export default function Title() {
                   {currentTitleRank && (
                     <div className="flex items-center gap-2 bg-zeus w-fit px-2 py-1 my-2 rounded-lg">
                       <GiTrophy className="text-sm text-vibe opacity-70" />
-                      <span className="text-xs uppercase tracking-[0.2em] text-vibe">
-                        #{currentTitleRank} Ranked
+                      <span className="text-xs uppercase tracking-[0.2em] text-vibe font-bold">
+                        {currentTitleRank === 1
+                          ? "Nexus Goat"
+                          : `Rank ${currentTitleRank}`}
                       </span>
                     </div>
                   )}

@@ -17,11 +17,11 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function TitleMenu({ titleId }) {
+export default function TitleMenu({ titleId, hasReview, hasRank }) {
   const { user, setShowSignIn } = useContext(UserContext);
   const { isTitleWatched, handleWatch } = useContext(WatchContext);
 
-  const watched = isTitleWatched(titleId)
+  const watched = isTitleWatched(titleId);
 
   return (
     <div className="flex flex-col w-60 border-1 border-panel absolute top-full right-2 mt-2 p-2 rounded bg-second shadow-2xl z-50 overflow-hidden">
@@ -30,16 +30,35 @@ export default function TitleMenu({ titleId }) {
           if (!user) {
             setShowSignIn(true);
             return;
-          } else {
-            handleWatch(titleId);
           }
+
+          if (watched && (hasReview || hasRank)) {
+            Swal.fire({
+              toast: true,
+              position: "bottom-start",
+              title: "Can't continue, You've interacted with this title",
+              icon: "warning",
+              timer: 2000,
+              showConfirmButton: false,
+              background: "var(--color-secondary)",
+              iconColor: "var(--color-accent)",
+              customClass: {
+                popup:
+                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                title:
+                  "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+              },
+            });
+            return;
+          }
+          handleWatch(titleId);
         }}
         className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
         {watched ? (
           <>
             <FaEyeSlash className="text-2xl shrink-0" />
-            <p className="text-base font-bold text-normal">Mark as unwatched</p>
+            <p className=" whitespace-nowrap">Mark as unwatched</p>
           </>
         ) : (
           <>
