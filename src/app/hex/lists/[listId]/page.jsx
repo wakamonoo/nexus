@@ -221,7 +221,7 @@ export default function List() {
                         <div className="flex items-center justify-center w-8 h-8 shrink-0">
                           <FaQuoteLeft className="text-[11px] opacity-60" />
                         </div>
-                        <p className="text-sm text-vibe leading-tight line-clamp-2 mt-2">
+                        <p className="text-sm text-vibe leading-tight mt-2">
                           {unit.note}
                         </p>
                       </div>

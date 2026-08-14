@@ -9,6 +9,7 @@ import { TitleNavContext } from "@/context/titleNavContext";
 import { UserContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { BiSolidUpvote } from "react-icons/bi";
 import { FaAngleLeft, FaBoxOpen, FaList } from "react-icons/fa";
 
 export default function Lists() {
@@ -68,6 +69,9 @@ export default function Lists() {
 
               const creator = allUsers.find((u) => u.uid === list.userId);
 
+              const upvotes = list.upvotes ?? []
+              const downvotes = list.downvotes ?? []
+
               return (
                 <div
                   key={list.listId || list._id}
@@ -107,17 +111,30 @@ export default function Lists() {
                     <div className="absolute bottom-2 left-2 z-20">
                       <div className="flex flex-col">
                         <p className="text-sm font-bold">{list.listTitle}</p>
-                        <div className="flex items-center gap-1">
-                          <img
-                            src={
-                              creator ? `${creator?.picture}` : "/fallback.png"
-                            }
-                            alt={creator?.name}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-4 h-4 object-cover rounded-lg shadow-lg"
-                          />
-                          <p className="text-xs opacity-60">{creator?.name}</p>
+                        <div className="flex gap-4">
+                          <div className="flex items-center gap-1">
+                            <img
+                              src={
+                                creator
+                                  ? `${creator?.picture}`
+                                  : "/fallback.png"
+                              }
+                              alt={creator?.name}
+                              loading="lazy"
+                              decoding="async"
+                              className="w-4 h-4 object-cover rounded-lg shadow-lg"
+                            />
+                            <p className="text-xs">
+                              <span className="opacity-60">Created by </span>
+                              <span className="font-semibold opacity-100 text-vibe">
+                                {creator?.name}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-0.5">
+                            <BiSolidUpvote className="text-xs opacity-60" />
+                            <p className="text-xs opacity-60 leading-none">{upvotes.length - downvotes.length} <span>{upvotes.length - downvotes.length === 1 ? "upvote" : "upvotes"}</span></p>
+                          </div>
                         </div>
                       </div>
                     </div>
