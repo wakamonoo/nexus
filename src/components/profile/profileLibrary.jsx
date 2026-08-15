@@ -3,10 +3,13 @@ import { MdSensorsOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { TitleContext } from "@/context/titleContext";
 import { TitleNavContext } from "@/context/titleNavContext";
+import TitleCard from "../layout/titleCard";
+import { WatchContext } from "@/context/watchContext";
 
 export default function ProfileLibrary({ profileUserWatch, profileUser }) {
   const { titles, releasedMCUTitles } = useContext(TitleContext);
   const { handleShowNav } = useContext(TitleNavContext);
+  const {isTitleWatched} = useContext(WatchContext)
   const [sortBy, setSortBy] = useState("watch-recent");
   const { user } = useContext(UserContext);
 
@@ -128,26 +131,18 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
             </select>
           </div>
           <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
-            {sortedWatch.map((unit, index) => {
+            {sortedWatch.map((unit) => {
               const title = titles.find((t) => t.titleId === unit.titleId);
+
+              if (!title) return null;
+
               return (
-                <div
-                  key={index}
-                  onClick={() => handleShowNav(unit.titleId)}
-                  className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
-                >
-                  <img
-                    src={
-                      title?.poster
-                        ? `https://image.tmdb.org/t/p/w500${title.poster}`
-                        : "/fallback.png"
-                    }
-                    alt={title?.title}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-fill rounded"
-                  />
-                </div>
+                <TitleCard
+                  key={title.titleId}
+                  unit={title}
+                  isWatched={isTitleWatched(title.titleId)}
+                  onOpen={() => handleShowNav(title.titleId)}
+                />
               );
             })}
           </div>{" "}

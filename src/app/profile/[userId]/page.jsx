@@ -22,6 +22,7 @@ import { SigilContext } from "@/context/sigilContext";
 import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";
 import Rina from "../../../assets/rina.png";
 import ProfileLibrary from "@/components/profile/profileLibrary";
+import TitleCard from "@/components/layout/titleCard";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -46,7 +47,7 @@ export default function UserProfile() {
     releasedAdjacentTitles,
   } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { getUserWatchedInfoFetch } = useContext(WatchContext);
+  const { getUserWatchedInfoFetch, isTitleWatched} = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const [showProfilePosts, setShowProfilePosts] = useState(true);
   const [showProfileReviews, setShowProfileReviews] = useState(false);
@@ -299,41 +300,20 @@ export default function UserProfile() {
                     holy trinity
                   </h4>
                   <div className="flex gap-2 justify-start">
-                    {topRanks.map((rank, index) => {
+                    {topRanks.map((rank) => {
                       const title = titles.find(
                         (t) => t.titleId === rank.titleId,
                       );
+
+                      if(!title) return null
                       return (
-                        <div
-                          key={index}
-                          onClick={() => handleShowNav(rank.titleId)}
-                          className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
-                        >
-                          <img
-                            src={
-                              title?.poster
-                                ? `https://image.tmdb.org/t/p/w500${title?.poster}`
-                                : "/fallback.png"
-                            }
-                            alt={title?.title}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-full h-full object-fill rounded"
-                          />
-                          <div
-                            className={`absolute opacity-80 top-0 right-1 p-2 h-8 w-6 flex items-center justify-center rounded-bl-2xl rounded-br-2xl ${
-                              rank?.rank === 1 ? "bg-hulk" : "bg-accent"
-                            }`}
-                          >
-                            <p
-                              className={`font-bold text-sm ${
-                                rank?.rank === 1 ? "text-zeus" : "text-normal"
-                              }`}
-                            >
-                              {rank?.rank === 1 ? <GiTrophy /> : rank?.rank}
-                            </p>
-                          </div>
-                        </div>
+                        <TitleCard
+                          key={rank.titleId}
+                          unit={{...title, rank: rank.rank  }}
+                          isWatched={isTitleWatched(title.titleId)}
+                          onOpen={() => handleShowNav(title.titleId)}
+                          goat={true}
+                        />
                       );
                     })}
                   </div>
@@ -354,29 +334,20 @@ export default function UserProfile() {
                     latest watch
                   </h4>
                   <div className="flex gap-2 justify-start">
-                    {latestWatch.map((item, index) => {
+                    {latestWatch.map((item) => {
                       const title = titles.find(
                         (t) => t.titleId === item.titleId,
                       );
 
+                      if (!title) return null;
+
                       return (
-                        <div
-                          key={index}
-                          onClick={() => handleShowNav(item.titleId)}
-                          className="w-26 h-40 md:w-32 md:h-46 cursor-pointer relative"
-                        >
-                          <img
-                            src={
-                              title?.poster
-                                ? `https://image.tmdb.org/t/p/w500${title.poster}`
-                                : "/fallback.png"
-                            }
-                            alt={title?.title}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-full h-full object-fill rounded"
-                          />
-                        </div>
+                        <TitleCard
+                          key={item.titleId}
+                          unit={title}
+                          isWatched={isTitleWatched(title.titleId)}
+                          onOpen={() => handleShowNav(title.titleId)}
+                        />
                       );
                     })}
                   </div>
