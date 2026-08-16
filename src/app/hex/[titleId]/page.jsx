@@ -248,7 +248,7 @@ export default function Title() {
         ) : (
           <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">
             <div className="md:sticky md:top-0 min-w-0">
-              <div className="flex justify-between items-start md:items-center gap-2 w-full">
+              <div className="flex justify-between items-center gap-2 w-full">
                 <div className="w-56 md:w-56 lg:w-72 h-full float-right">
                   <div className="flex relative items-center">
                     <img
