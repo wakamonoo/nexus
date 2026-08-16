@@ -1,14 +1,16 @@
 "use client";
-
 import { Fragment, useContext, useEffect, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   FaAngleLeft,
+  FaArrowUp,
   FaCrown,
   FaHourglassHalf,
+  FaPen,
   FaPlay,
   FaQuoteLeft,
+  FaTrash,
   FaVideoSlash,
 } from "react-icons/fa";
 import {
@@ -19,6 +21,7 @@ import {
 import { TbEyeSpark } from "react-icons/tb";
 import { FiCheckCircle } from "react-icons/fi";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowLoader from "@/components/loaders/showLoader";
 import AddReview from "@/components/modals/addReview";
@@ -33,11 +36,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { RiLockFill } from "react-icons/ri";
 import ScrollContainer from "react-indiana-drag-scroll";
 import {
+  BiDotsHorizontal,
+  BiDotsHorizontalRounded,
   BiDownvote,
   BiSolidDownvote,
   BiSolidUpvote,
   BiUpvote,
-  BiDotsHorizontalRounded,
 } from "react-icons/bi";
 import Swal from "sweetalert2";
 import { SocketContext } from "@/context/socketContext";
@@ -60,25 +64,23 @@ if (APP_ENV === "production") {
 export default function Title() {
   const { titles, reviewToDelete, setReviewToDelete } =
     useContext(TitleContext);
-
   const { titleId } = useParams();
   const router = useRouter();
-
+  const [activeReview, setActiveReview] = useState(null);
   const [showSum, setShowSum] = useState(false);
+  const { setIsLoading } = useContext(LoaderContext);
   const [showAddReview, setShowAddReview] = useState(false);
   const [showTitleMenu, setShowTitleMenu] = useState(false);
+  const { user, allUsers, setShowSignIn } = useContext(UserContext);
   const [reviewDelModal, setReviewDelModal] = useState(false);
   const [showReviewOption, setShowReviewOption] = useState(false);
-
-  const { setIsLoading } = useContext(LoaderContext);
-  const { user, allUsers, setShowSignIn } = useContext(UserContext);
   const { reviewVotes } = useContext(SocketContext);
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
 
-  const title = titles?.find((t) => t.titleId === titleId);
+  const title = titles.find((t) => t.titleId === titleId);
 
   const doneReview = title?.reviews?.some(
     (review) => review.userId === user?.uid,
@@ -94,10 +96,9 @@ export default function Title() {
     (a, b) => new Date(a.date) - new Date(b.date),
   )[0];
 
-  const rankedTitles =
-    titles
-      ?.filter((t) => t.totalPoints > 0)
-      .sort((a, b) => b.totalPoints - a.totalPoints) || [];
+  const rankedTitles = titles
+    .filter((t) => t.totalPoints > 0)
+    .sort((a, b) => b.totalPoints - a.totalPoints);
 
   let previousPoints = null;
   let currentRank = 0;
@@ -107,29 +108,22 @@ export default function Title() {
       currentRank = index + 1;
       previousPoints = t.totalPoints;
     }
-
-    return {
-      ...t,
-      rank: currentRank,
-    };
+    return { ...t, rank: currentRank };
   });
 
   const topRankedNumber =
     allUsers
       ?.flatMap((user) => user.rankings || [])
-      .filter(
-        (ranking) => ranking.titleId === title?.titleId && ranking.rank === 1,
-      ).length || 0;
+      .filter((r) => r.titleId === title?.titleId && r.rank === 1).length || 0;
 
   const currentTitleRank = ranked.find((t) => t.titleId === titleId)?.rank;
 
   const handleVote = async (reviewId, vote) => {
-    if (!user?.uid) {
-      setShowSignIn();
-      return;
-    }
-
     try {
+      if (!user?.uid) {
+        setShowSignIn();
+      }
+
       await fetch(`${BASE_URL}/api/reviews/vote/${reviewId}`, {
         method: "PATCH",
         headers: {
@@ -142,7 +136,6 @@ export default function Title() {
       });
     } catch (err) {
       console.error(err);
-
       Swal.fire({
         toast: true,
         position: "bottom-start",
@@ -226,24 +219,20 @@ export default function Title() {
         onClick={() => setShowTitleMenu(false)}
         className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]"
       >
-        <div className="flex justify-between py-4">
+        <div className="flex justify-between py-4 ">
           <FaAngleLeft
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-
           <div className="relative">
             <BsThreeDotsVertical
               onClick={(e) => {
                 e.stopPropagation();
                 setShowTitleMenu((prev) => !prev);
               }}
-              className={`text-2xl cursor-pointer ${
-                title?.status === "released" ? "flex" : "hidden"
-              }`}
+              className={`text-2xl cursor-pointer ${title?.status === "released" ? "flex" : "hidden"}`}
             />
-
-            {showTitleMenu && title && (
+            {showTitleMenu && (
               <TitleMenu
                 setShowTitleMenu={setShowTitleMenu}
                 titleId={title.titleId}
@@ -259,7 +248,7 @@ export default function Title() {
         ) : (
           <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">
             <div className="md:sticky md:top-0 min-w-0">
-              <div className="flex justify-between items-center gap-2 w-full">
+              <div className="flex justify-between items-start md:items-center gap-2 w-full">
                 <div className="w-56 md:w-56 lg:w-72 h-full float-right">
                   <div className="flex relative items-center">
                     <img
@@ -273,7 +262,6 @@ export default function Title() {
                       decoding="async"
                       className="w-full h-auto rounded"
                     />
-
                     <div
                       onClick={() => {
                         setIsLoading(true);
@@ -283,7 +271,6 @@ export default function Title() {
                     >
                       <BsInfoCircle className="text-normal" />
                     </div>
-
                     <div className="flex flex-col absolute top-2 left-2 gap-2 opacity-70">
                       <div className="flex items-center gap-1">
                         <GiTrophy className="text-xs" />
@@ -291,7 +278,6 @@ export default function Title() {
                           {topRankedNumber}
                         </p>
                       </div>
-
                       <div className="flex items-center gap-1">
                         <TbEyeSpark className="text-xs" />
                         <p className="text-xs text-vibe font-extralight">
@@ -301,7 +287,6 @@ export default function Title() {
                     </div>
                   </div>
                 </div>
-
                 <div className="w-full">
                   <div>
                     <h4 className="text-xl font-bold text-normal leading-4.5 max-w-[80%]">
@@ -312,13 +297,7 @@ export default function Title() {
                             ? new Date(title.first_air_date).getFullYear() ===
                               new Date(title.last_air_date).getFullYear()
                               ? format(new Date(title.first_air_date), "yyyy")
-                              : `${format(
-                                  new Date(title.first_air_date),
-                                  "yyyy",
-                                )} - ${format(
-                                  new Date(title.last_air_date),
-                                  "yyyy",
-                                )}`
+                              : `${format(new Date(title.first_air_date), "yyyy")} - ${format(new Date(title.last_air_date), "yyyy")}`
                             : title.first_air_date
                               ? format(new Date(title.first_air_date), "yyyy")
                               : ""
@@ -327,7 +306,6 @@ export default function Title() {
                             : ""}
                       </span>
                     </h4>
-
                     <p className="text-sm text-vibe">
                       {title.duration
                         ? `${title.duration} minutes`
@@ -336,10 +314,9 @@ export default function Title() {
                           : "No data"}{" "}
                       | {title.type || "Unknown"}
                     </p>
-
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {title?.genres?.length > 0 ? (
-                        title.genres.map((genre) => (
+                        title?.genres.map((genre) => (
                           <span
                             key={genre.id}
                             className="px-2 py-1 text-xs border border-panel text-vibe whitespace-nowrap rounded-full"
@@ -353,18 +330,18 @@ export default function Title() {
                         </span>
                       )}
                     </div>
-                    {currentTitleRank && (
-                      <div className="flex items-center gap-2 bg-zeus w-fit px-2 py-1 my-2 rounded-lg">
-                        <GiTrophy className="text-sm text-vibe opacity-70" />
-
-                        <span className="text-xs uppercase tracking-[0.2em] text-vibe font-bold">
-                          {currentTitleRank === 1
-                            ? "Nexus Goat"
-                            : `Rank ${currentTitleRank}`}
-                        </span>
-                      </div>
-                    )}
                   </div>
+
+                  {currentTitleRank && (
+                    <div className="flex items-center gap-2 bg-zeus w-fit px-2 py-1 my-2 rounded-lg">
+                      <GiTrophy className="text-sm text-vibe opacity-70" />
+                      <span className="text-xs uppercase tracking-[0.2em] text-vibe font-bold">
+                        {currentTitleRank === 1
+                          ? "Nexus Goat"
+                          : `Rank ${currentTitleRank}`}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-4 mt-2">
@@ -427,6 +404,7 @@ export default function Title() {
                     </div>
                   </div>
                 )}
+
                 <div className="flex flex-col gap-1">
                   {title.productionCountries?.length > 0 && (
                     <p className="text-sm text-vibe">
@@ -461,6 +439,7 @@ export default function Title() {
                   >
                     <SecondaryCircledButtons>
                       <FaPlay className="text-xs" />
+
                       <span className="font-bold text-normal text-xs">
                         Watch Trailer
                       </span>
@@ -469,6 +448,7 @@ export default function Title() {
                 ) : (
                   <SecondaryCircledButtons disabled>
                     <FaVideoSlash className="text-xs" />
+
                     <span className="font-bold text-normal text-xs">
                       Unavailable
                     </span>
@@ -478,7 +458,9 @@ export default function Title() {
                 <SecondaryCircledButtons
                   onClick={() => setShowAddReview(true)}
                   disabled={doneReview || title?.status === "upcoming"}
-                  className={`${doneReview ? "!bg-[var(--color-zeus)]/60" : ""}`}
+                  className={`${
+                    doneReview ? "!bg-[var(--color-zeus)]/60" : ""
+                  }`}
                 >
                   {doneReview ? (
                     <FiCheckCircle className="text-xs" />
@@ -529,7 +511,7 @@ export default function Title() {
                 </SecondaryCircledButtons>
               </div>
 
-              <div className="py-2 border-t border-panel mt-4">
+              <div className="py-2">
                 {title.category === "mcu" ? (
                   <p className="text-base text-normal text-vibe">
                     Takes place during{" "}
@@ -547,7 +529,6 @@ export default function Title() {
                     Universe not yet confirmed
                   </p>
                 )}
-
                 <p
                   onClick={() => setShowSum(!showSum)}
                   className={`leading-4.5 mt-4 text-base text-normal text-vibe text-justify cursor-pointer ${
@@ -558,9 +539,8 @@ export default function Title() {
                 </p>
               </div>
 
-              <div className="mt-2 mb-4">
+              <div className="mt-2 mb-4 ">
                 <p className="text-sm font-bold p-2 text-vibe">Cast</p>
-
                 <ScrollContainer
                   className="flex overflow-x-auto cursor-grab active:cursor-grabbing select-none scrollbar-hide md:scrollbar w-full"
                   vertical
@@ -568,7 +548,7 @@ export default function Title() {
                 >
                   {title.cast?.length > 0 ? (
                     <div className="flex gap-4 w-max">
-                      {title.cast.map((unit) => (
+                      {title.cast?.map((unit) => (
                         <div
                           key={unit.tmdbId}
                           onClick={(e) => {
@@ -589,10 +569,8 @@ export default function Title() {
                             decoding="async"
                             className="w-full h-24 object-cover rounded"
                           />
-
                           <div className="px-2 pb-2">
                             <p className="text-sm truncate">{unit.name}</p>
-
                             <p className="text-xs text-vibe opacity-60 line-clamp-2">
                               {unit.character}
                             </p>
@@ -609,7 +587,6 @@ export default function Title() {
                   )}
                 </ScrollContainer>
               </div>
-
               <div className="mt-2 mb-4">
                 <p className="text-sm font-bold p-2 text-vibe">Crew</p>
 
@@ -662,40 +639,37 @@ export default function Title() {
                 </ScrollContainer>
               </div>
             </div>
-
             <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide border-t-1 border-panel md:border-none mt-4 md:mt-0">
               {!title.reviews || title.reviews?.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-4 h-full">
-                  {title?.status === "released" ? (
-                    <>
-                      <MdRateReview className="text-4xl text-vibe opacity-40" />
-
-                      <p className="text-xs text-vibe opacity-40">
-                        claim the first review
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <FaHourglassHalf className="text-4xl text-vibe opacity-40" />
-
-                      <p className="text-xs text-vibe opacity-40">
-                        title coming soon
-                      </p>
-                    </>
-                  )}
+                  <>
+                    {title?.status === "released" ? (
+                      <>
+                        <MdRateReview className="text-4xl text-vibe opacity-40" />
+                        <p className="text-xs text-vibe opacity-40">
+                          claim the first review
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <FaHourglassHalf className="text-4xl text-vibe opacity-40" />
+                        <p className="text-xs text-vibe opacity-40">
+                          title coming soon
+                        </p>
+                      </>
+                    )}
+                  </>
                 </div>
               ) : (
                 title.reviews?.map((review) => {
                   const realtimeVote = reviewVotes[review.reviewId];
 
                   const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
-
                   const downvotes =
                     realtimeVote?.downvotes ?? review.downvotes ?? [];
-
                   return (
                     <Fragment key={review.reviewId}>
-                      <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative">
+                      <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative ">
                         {review.userId === user?.uid && (
                           <div
                             onClick={() => setShowReviewOption(true)}
@@ -704,8 +678,7 @@ export default function Title() {
                             <BiDotsHorizontalRounded className="text-base cursor-pointer" />
                           </div>
                         )}
-
-                        {firstReview && review.date === firstReview.date && (
+                        {review.date === firstReview.date && (
                           <div className="flex absolute top-2 left-10">
                             <Bs1CircleFill className="text-xl text-zeus" />
                           </div>
@@ -724,7 +697,6 @@ export default function Title() {
                             decoding="async"
                             className="w-12 h-12 object-cover rounded-full cursor-pointer"
                           />
-
                           <div className="flex flex-col">
                             <p
                               onClick={(e) => {
@@ -736,18 +708,15 @@ export default function Title() {
                             >
                               {review.userName}
                             </p>
-
                             <p className="text-xs text-vibe">
                               {(() => {
                                 const diffWeeks = dayjs().diff(
                                   dayjs(review.date),
                                   "week",
                                 );
-
                                 if (diffWeeks < 1) {
                                   return dayjs(review.date).fromNow();
                                 }
-
                                 return new Date(review.date).toLocaleDateString(
                                   [],
                                   {
@@ -760,60 +729,54 @@ export default function Title() {
                             </p>
                           </div>
                         </div>
-
                         <div className="border-t border-[var(--color-vibranium)]/20 mt-2">
                           <div className="flex items-start">
                             <div className="flex items-center justify-center w-8 h-8 shrink-0">
                               <FaQuoteLeft className="text-xs opacity-60" />
                             </div>
-
                             <p className="text-base text-vibe leading-tight mt-2">
                               {review.textReview}
                             </p>
                           </div>
                         </div>
-
-                        <div className="flex flex-col items-end mt-4 px-2 gap-2">
+                        <div className="flex flex-col items-end  mt-4 px-2 gap-2">
                           <div className="flex items-center rounded-full bg-panel py-2 px-4 gap-2">
                             {upvotes.includes(user?.uid) ? (
                               <BiSolidUpvote
                                 onClick={() =>
                                   handleVote(review.reviewId, "up")
                                 }
-                                className="text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125"
+                                className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
                               />
                             ) : (
                               <BiUpvote
                                 onClick={() =>
                                   handleVote(review.reviewId, "up")
                                 }
-                                className="text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125"
+                                className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
                               />
                             )}
-
                             <span className="text-xs opacity-60">
                               {upvotes.length - downvotes.length}
                             </span>
-
                             {downvotes.includes(user?.uid) ? (
                               <BiSolidDownvote
                                 onClick={() =>
                                   handleVote(review.reviewId, "down")
                                 }
-                                className="text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125"
+                                className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
                               />
                             ) : (
                               <BiDownvote
                                 onClick={() =>
                                   handleVote(review.reviewId, "down")
                                 }
-                                className="text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125"
+                                className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
                               />
                             )}
                           </div>
                         </div>
                       </div>
-
                       {showReviewOption && (
                         <div
                           onClick={() => setShowReviewOption(false)}
@@ -832,17 +795,13 @@ export default function Title() {
                             >
                               <MdClose className="text-2xl" />
                             </button>
-
                             <div className="mt-8 p-2 h-full w-full">
                               <div className="w-full flex flex-col gap-2">
                                 <CircledButtons
                                   onClick={(e) => {
                                     e.stopPropagation();
-
                                     setShowReviewOption(false);
-
                                     setReviewToDelete(review.reviewId);
-
                                     setReviewDelModal(true);
                                   }}
                                 >
@@ -863,7 +822,6 @@ export default function Title() {
           </div>
         )}
       </div>
-
       {showAddReview && (
         <AddReview
           setShowAddReview={setShowAddReview}
@@ -871,7 +829,6 @@ export default function Title() {
           title={title}
         />
       )}
-
       {reviewDelModal && (
         <ReviewDelConfirm
           setReviewDelModal={setReviewDelModal}
