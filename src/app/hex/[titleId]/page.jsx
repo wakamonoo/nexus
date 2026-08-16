@@ -283,7 +283,7 @@ export default function Title() {
                         <p className="text-xs text-vibe font-extralight">
                           {title.watchCount ? title.watchCount.length : 0}
                         </p>
-                      </div>
+                      </div> 
                     </div>
                   </div>
                 </div>
@@ -408,7 +408,12 @@ export default function Title() {
                 <div className="flex flex-col gap-1">
                   {title.productionCountries?.length > 0 && (
                     <p className="text-sm text-vibe">
-                      <span className="font-bold">Production:</span>{" "}
+                      <span className="font-bold">
+                        {title.productionCountries?.length === 1
+                          ? "Country"
+                          : "Countries"}
+                        :{" "}
+                      </span>{" "}
                       {title.productionCountries
                         .map((country) => country.name)
                         .join(", ")}
@@ -511,7 +516,7 @@ export default function Title() {
                 </SecondaryCircledButtons>
               </div>
 
-              <div className="py-2">
+              <div className="py-2 border-t border-panel mt-4">
                 {title.category === "mcu" ? (
                   <p className="text-base text-normal text-vibe">
                     Takes place during{" "}
@@ -526,7 +531,7 @@ export default function Title() {
                   </p>
                 ) : (
                   <p className="text-base text-normal text-vibe">
-                    Universe not yet confirmed
+                    Outside main continuity
                   </p>
                 )}
                 <p

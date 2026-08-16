@@ -1,7 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { LoaderContext } from "./loaderContext";
-import Swal from "sweetalert2";
+import { createContext, useEffect, useState } from "react";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 

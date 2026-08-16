@@ -72,6 +72,23 @@ export const TitleProvider = ({ children }) => {
         method: "DELETE",
       });
       setTitles((prev) => prev.filter((t) => t.titleId !== titleId));
+
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "Tile have been deleted!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup:
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+        },
+      });
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -92,25 +109,8 @@ export const TitleProvider = ({ children }) => {
       });
     } finally {
       setIsLoading(false);
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "Tile have been deleted!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-hulk)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
     }
   };
-  
 
   const getReleaseDate = (title) => {
     return title.mediaType === "tv" ? title.first_air_date : title.release_date;

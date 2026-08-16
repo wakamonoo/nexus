@@ -67,6 +67,22 @@ export default function Page() {
           "Content-Type": "application/json",
         },
       });
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "Users' watch stats synced",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-hulk)",
+        customClass: {
+          popup:
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+        },
+      });
     } catch (err) {
       console.error("failed to update order", err);
       Swal.fire({
@@ -87,22 +103,6 @@ export default function Page() {
       });
     } finally {
       setIsLoading(false);
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "Users' watch stats synced",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-hulk)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
     }
   };
 
