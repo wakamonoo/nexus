@@ -90,7 +90,12 @@ const getTMDBDetails = async (tmdbId, mediaType, seasonNumber) => {
   };
 };
 
-const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
+const buildTMDBData = async (
+  tmdbData,
+  mediaType,
+  seasonNumber,
+  parentSeriesId,
+) => {
   const { details, season, releaseDates } = tmdbData;
 
   const isSeason = mediaType === "tv" && seasonNumber !== null;
@@ -103,50 +108,142 @@ const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
     (mediaType === "tv" ? tmdb.aggregate_credits : null) ||
     tmdb.credits;
 
+  const getTMDBPersonDetails = async (personId) => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/person/${personId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`,
+          accept: "application/json",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`TMDB person request failed ${response.status}`);
+    }
+
+    return response.json();
+  };
+
   const cast = Array.isArray(creditsSource?.cast)
-    ? creditsSource.cast?.slice(0, 30).map((person) => ({
-        tmdbId: person.id,
-        name: person.name,
-        character: person.character || person.roles?.[0]?.character || "",
-        profilePath: person.profile_path || null,
-      }))
+    ? await Promise.all(
+        creditsSource.cast.slice(0, 30).map(async (person) => {
+          const personDetails = await getTMDBPersonDetails(person.id);
+
+          return {
+            tmdbId: person.id,
+            name: person.name,
+            character: person.character || person.roles?.[0]?.character || "",
+            profilePath: person.profile_path || null,
+            biography: person.biography || personDetails.biography || "",
+          };
+        }),
+      )
     : [];
 
-  const directors = Array.isArray(creditsSource?.crew)
-    ? creditsSource.crew
-        ?.filter(
-          (person) =>
-            person.job === "Director" ||
-            person.jobs?.some((j) => j.job === "Director"),
-        )
-        .map((person) => ({
-          tmdbId: person.id,
-          name: person.name,
-          profilePath: person.profile_path,
-        }))
-    : [];
+  const crew = [];
 
-  const creators = Array.isArray(tmdb.created_by)
-    ? tmdb.created_by.map((person) => ({
-        tmdbId: person.id,
-        name: person.name,
-        profilePath: person.profile_path || null,
-      }))
-    : [];
+  if (Array.isArray(creditsSource?.crew)) {
+    const priorityJobs = [
+      "Director",
+      "Producer",
+      "Executive Producer",
+      "Co-Producer",
+      "Associate Producer",
+      "Line Producer",
+      "Supervising Producer",
+      "Writer",
+      "Screenplay",
+      "Story",
+      "Teleplay",
+      "Original Story",
+      "Casting",
+      "Casting Director",
+      "Casting Associate",
+      "Editor",
+      "Additional Editor",
+      "Director of Photography",
+      "Cinematography",
+      "Assistant Director",
+      "Second Unit Director",
+      "Additional Directing",
+      "Camera Operator",
+      "Steadicam Operator",
+      "Camera Technician",
+      "Production Design",
+      "Art Direction",
+      "Set Direction",
+      "Set Designer",
+      "Visual Effects Supervisor",
+      "Visual Effects Producer",
+      "Visual Effects",
+      "Special Effects Supervisor",
+      "Stunt Coordinator",
+      "Stunts",
+      "Stunt Double",
+      "Original Music Composer",
+      "Composer",
+      "Music Supervisor",
+      "Music Editor",
+      "Sound",
+      "Sound Designer",
+      "Sound Re-recording Mixer",
+      "Costume Design",
+      "Costume Supervisor",
+      "Makeup",
+      "Makeup Artist",
+      "Hair",
+      "Hair Department",
+    ];
 
-  const execProducers = Array.isArray(tmdb.aggregate_credits?.crew)
-    ? tmdb.aggregate_credits.crew
-        ?.filter(
-          (person) =>
-            person.job === "Executive Producer" ||
-            person.jobs?.some((j) => j.job === "Executive Producer"),
-        )
-        .map((person) => ({
-          tmdbId: person.id,
-          name: person.name,
-          profilePath: person.profile_path,
-        }))
-    : [];
+    const getJobs = (person) =>
+      person.jobs?.length
+        ? person.jobs.map((job) => job.job)
+        : person.job
+          ? [person.job]
+          : [];
+
+    const sortedCrew = [...creditsSource.crew].sort((a, b) => {
+      const aPriority = Math.min(
+        ...getJobs(a).map((job) => {
+          const index = priorityJobs.indexOf(job);
+          return index === -1 ? Infinity : index;
+        }),
+      );
+
+      const bPriority = Math.min(
+        ...getJobs(b).map((job) => {
+          const index = priorityJobs.indexOf(job);
+          return index === -1 ? Infinity : index;
+        }),
+      );
+
+      return aPriority - bPriority;
+    });
+
+    await Promise.all(
+      sortedCrew.slice(0, 50).map(async (person) => {
+        const personDetails = await getTMDBPersonDetails(person.id);
+
+        const jobs = person.jobs?.length
+          ? person.jobs.map((job) => job.job)
+          : person.job
+            ? [person.job]
+            : [];
+
+        jobs.forEach((job) => {
+          crew.push({
+            tmdbId: person.id,
+            name: person.name,
+            profilePath: person.profile_path || null,
+            job,
+            biography: person.biography || personDetails.biography || "",
+          });
+        });
+      }),
+    );
+  }
 
   const trailer = (
     seasonData?.videos?.results?.length
@@ -191,6 +288,37 @@ const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
   const theatricalReleaseDate =
     usTheatricalReleaseDate || latestTheatricalReleaseDate || "";
 
+  const productionCompanies = Array.isArray(tmdb.production_companies)
+    ? tmdb.production_companies.map((company) => ({
+        tmdbId: company.id,
+        name: company.name,
+        logoPath: company.logo_path || null,
+      }))
+    : [];
+
+  const productionCountries = Array.isArray(tmdb.production_countries)
+    ? tmdb.production_countries.map((country) => ({
+        isoCode: country.iso_3166_1,
+        name: country.name,
+      }))
+    : [];
+
+  const spokenLanguages = Array.isArray(tmdb.spoken_languages)
+    ? tmdb.spoken_languages.map((language) => ({
+        isoCode: language.iso_639_1,
+        name: language.name,
+        englishName: language.englishName_name,
+      }))
+    : [];
+
+  const networks = Array.isArray(tmdb.networks)
+    ? tmdb.networks.map((network) => ({
+        tmdbId: network.id,
+        name: network.name,
+         logoPath: network.logo_path || null,
+      }))
+    : [];
+
   return {
     tmdbId: tmdb.id,
     mediaType,
@@ -210,10 +338,12 @@ const buildTMDBData = (tmdbData, mediaType, seasonNumber, parentSeriesId) => {
       : tmdb.last_air_date || null,
     episode: seasonData?.episodes?.length || tmdb.number_of_episodes || null,
     genres: tmdb.genres || [],
+    productionCompanies,
+    productionCountries,
+    spokenLanguages,
+    networks,
     cast,
-    directors,
-    creators,
-    execProducers,
+    crew,
   };
 };
 
@@ -240,7 +370,7 @@ router.post("/addTitle", async (req, res) => {
 
     const tmdb = await getTMDBDetails(tmdbId, mediaType, seasonNumber);
 
-    const tmdbData = buildTMDBData(
+    const tmdbData = await buildTMDBData(
       tmdb,
       mediaType,
       seasonNumber,
@@ -298,7 +428,7 @@ router.patch("/updateTitle/:titleId", async (req, res) => {
 
     const tmdb = await getTMDBDetails(tmdbId, mediaType, seasonNumber);
 
-    const tmdbData = buildTMDBData(
+    const tmdbData = await buildTMDBData(
       tmdb,
       mediaType,
       seasonNumber,

@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
@@ -7,7 +7,6 @@ import { LoaderContext } from "@/context/loaderContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
-import { UserContext } from "@/context/userContext";
 import TitleCard from "@/components/layout/titleCard";
 
 export default function ActorProjects() {
@@ -16,25 +15,28 @@ export default function ActorProjects() {
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
+  const [showFull, setShowFull] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
 
-  const personData = titles
-    ?.flatMap((title) => [
-      ...(title.creators || []),
-      ...(title.directors || []),
-      ...(title.cast || []),
-    ])
-    .find((p) => String(p.tmdbId) === String(person));
+  const personEntries =
+    titles
+      ?.flatMap((title) => [...(title.cast || []), ...(title.crew || [])])
+      .filter((p) => String(p.tmdbId) === String(person)) || [];
+
+  const personData =
+    personEntries.find((p) => p.biography?.trim() && p.profilePath) ||
+    personEntries?.find((p) => p.biography?.trim()) ||
+    personEntries?.find((p) => p.profilePath) ||
+    personEntries?.[0];
 
   const projects = titles.filter(
     (title) =>
-      title.creators?.some((p) => String(p.tmdbId) === String(person)) ||
-      title.directors?.some((p) => String(p.tmdbId) === String(person)) ||
-      title.cast?.some((p) => String(p.tmdbId) === String(person)),
+      title.cast?.some((p) => String(p.tmdbId) === String(person)) ||
+      title.crew?.some((p) => String(p.tmdbId) === String(person)),
   );
 
   return (
@@ -45,22 +47,88 @@ export default function ActorProjects() {
             onClick={() => router.back()}
             className="text-2xl cursor-pointer"
           />
-          <h4 className="text-xl">{personData?.name} Projects</h4>
+          <h4 className="text-xl">{personData?.name}</h4>
         </div>
         {!titles ? (
           <ShowListLoader />
         ) : (
-          <div className="w-full">
-            <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
-              {projects?.map((unit) => (
-                <TitleCard
-                  key={unit.titleId}
-                  unit={unit}
-                  isWatched={isTitleWatched(unit.titleId)}
-                  onOpen={() => handleShowNav(unit.titleId)}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] gap-4 items-start w-full">
+            <aside className="w-full">
+              <div className="w-32 h-48 md:w-36 md:h-52 shrink-0 float-left mr-4 mb-2">
+                <img
+                  src={
+                    personData?.profilePath
+                      ? `https://image.tmdb.org/t/p/w500${personData?.profilePath}`
+                      : "/fallback.png"
+                  }
+                  alt={personData?.name}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover rounded-lg"
                 />
-              ))}
-            </div>
+              </div>
+              <div>
+                <p className="text-sm text-vibe text-justify leading-5 whitespace-pre-wrap mb-2">
+                  Total related projects: <span>{projects.length}</span>
+                </p>
+                <p className="text-sm text-vibe text-justify leading-5 whitespace-pre-wrap">
+                  {personData?.biography ? (
+                    !showFull ? (
+                      <>
+                        {personData?.biography
+                          .split(" ")
+                          .slice(0, 100)
+                          .join(" ")}{" "}
+                        {personData?.biography.split(" ").length > 100 && (
+                          <>
+                            ...{" "}
+                            <span
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setShowFull(true);
+                              }}
+                              className="cursor-pointer text-sm font-light text-normal opacity-60"
+                            >
+                              see more
+                            </span>
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        {personData?.biography}{" "}
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowFull(false);
+                          }}
+                          className="cursor-pointer text-sm font-light text-normal opacity-60"
+                        >
+                          see less
+                        </span>
+                      </>
+                    )
+                  ) : (
+                    <span className="opacity-60">
+                      Biography not available for {personData?.name}
+                    </span>
+                  )}
+                </p>
+              </div>
+            </aside>
+            <div className="w-full h-[1px] bg-panel my-4 block md:hidden" />
+            <main className="w-full">
+              <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
+                {projects?.map((unit) => (
+                  <TitleCard
+                    key={unit.titleId}
+                    unit={unit}
+                    isWatched={isTitleWatched(unit.titleId)}
+                    onOpen={() => handleShowNav(unit.titleId)}
+                  />
+                ))}
+              </div>
+            </main>
           </div>
         )}
       </div>
