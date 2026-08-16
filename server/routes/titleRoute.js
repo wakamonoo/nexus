@@ -286,7 +286,7 @@ const buildTMDBData = async (
     ?.at(-1);
 
   const theatricalReleaseDate =
-    usTheatricalReleaseDate || latestTheatricalReleaseDate || "";
+    usTheatricalReleaseDate || latestTheatricalReleaseDate || tmdb.release_date || "";
 
   const productionCompanies = Array.isArray(tmdb.production_companies)
     ? tmdb.production_companies.map((company) => ({
