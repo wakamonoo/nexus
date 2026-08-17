@@ -58,8 +58,10 @@ export default function List() {
 
   const currentList = lists.find((list) => list.listId === listId);
 
-  const upvotes = listVotes[currentList?.listId]?.upvotes || [];
-  const downvotes = listVotes[currentList?.listId]?.downvotes || [];
+  const realtimeVote = listVotes[currentList?.listId];
+
+  const upvotes = realtimeVote?.upvotes ?? currentList?.upvotes ?? []
+  const downvotes = realtimeVote?.downvotes ?? currentList?.downvotes ?? []
 
   const creator = allUsers.find((u) => u.uid === currentList?.userId);
 

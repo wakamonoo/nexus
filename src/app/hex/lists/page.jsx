@@ -4,6 +4,7 @@ import ListsLoader from "@/components/loaders/listsLoader";
 import AddList from "@/components/modals/addList";
 import { ListContext } from "@/context/listContext";
 import { LoaderContext } from "@/context/loaderContext";
+import { SocketContext } from "@/context/socketContext";
 import { TitleContext } from "@/context/titleContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { UserContext } from "@/context/userContext";
@@ -14,6 +15,7 @@ import { FaAngleLeft, FaBoxOpen, FaList } from "react-icons/fa";
 
 export default function Lists() {
   const [showAddListModal, setShowAddListModal] = useState(false);
+  const { listVotes } = useContext(SocketContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { user, allUsers } = useContext(UserContext);
   const { lists, listLoad } = useContext(ListContext);
@@ -69,8 +71,11 @@ export default function Lists() {
 
               const creator = allUsers.find((u) => u.uid === list.userId);
 
-              const upvotes = list.upvotes ?? []
-              const downvotes = list.downvotes ?? []
+              const realtimeVote = listVotes[list.listId];
+
+              const upvotes = realtimeVote?.upvotes ?? list?.upvotes ?? [];
+              const downvotes =
+                realtimeVote?.downvotes ?? list?.downvotes ?? [];
 
               return (
                 <div
@@ -133,7 +138,14 @@ export default function Lists() {
                           </div>
                           <div className="flex items-center gap-0.5">
                             <BiSolidUpvote className="text-xs opacity-60" />
-                            <p className="text-xs opacity-60 leading-none">{upvotes.length - downvotes.length} <span>{upvotes.length - downvotes.length === 1 ? "upvote" : "upvotes"}</span></p>
+                            <p className="text-xs opacity-60 leading-none">
+                              {upvotes.length - downvotes.length}{" "}
+                              <span>
+                                {upvotes.length - downvotes.length === 1
+                                  ? "upvote"
+                                  : "upvotes"}
+                              </span>
+                            </p>
                           </div>
                         </div>
                       </div>
