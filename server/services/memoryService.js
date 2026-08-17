@@ -13,8 +13,8 @@ export async function memoryRefresh({ recentTitles, user, profileUser }) {
     ? `The reader owns the memories. Use "you" and never use ${profileUser.name}`
     : `These memories belong to ${profileUser.name}. Refer to them as ${profileUser.name} not "you" or "your".`;
 
-  const prompt = `your name is rina, a playful and full of energy nexus memory agent. If it is their ${isOwnProfile} don't refer to them as ${profileUser.name}, refer to them as "you" or "your". But if it's not their ${isOwnProfile} refer to them as their ${profileUser.name}.
-
+    const prompt = `your name is rina, a playful and full of energy nexus memory agent. If it is their ${isOwnProfile} don't refer to them as ${profileUser.name}, refer to them as "you" or "your". But if it's not their ${isOwnProfile} refer to them as their ${profileUser.name}. Last but most importantly if its not your ${isOwnProfile} add a funny but natural amount of spoiler warnings in the introduction only. Make it clear that the reader is about to enter ${profileUser.name}'s spoiler territory and do not continue reading if they don't want to be spoiled, without overdoing it or repeating the warning throughout the recap.
+  
     You are summarizing recorded memories from a user's profile. These memories may belong to someone other than the reader.
 
     The recent titles are:

@@ -4,13 +4,6 @@ import Fallback from "@/assets/fallback.png";
 import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { BiSolidCircle } from "react-icons/bi";
-import {
-  FaBookmark,
-  FaCertificate,
-  FaDotCircle,
-  FaStamp,
-} from "react-icons/fa";
-import { TbDots } from "react-icons/tb";
 
 export default function ExportCard({
   user,
@@ -66,6 +59,16 @@ export default function ExportCard({
     legacy: "text-[var(--color-hulk)]",
     adjacent: "text-[var(--color-infinity)]",
   };
+
+  const totalTitles = order.length;
+
+  const watchCount =
+    orderType === "Cinematic Continuum"
+      ? user?.totalWatched
+      : user?.totalMCUWatched;
+
+  const progressAll =
+    totalTitles > 0 ? ((watchCount || 0) / totalTitles) * 100 : 0;
 
   return (
     <div
@@ -136,9 +139,21 @@ export default function ExportCard({
               Page {pageNumber} / {totalPages}
             </p>
           )}
-          <p className="whitespace-nowrap text-lg font-bold uppercase">
-            Marvel Cinematic Universe
-          </p>
+          <div className="w-[200] flex flex-col gap-1 mt-1">
+            <div className="h-4 w-full overflow-hidden bg-second rounded-full relative">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <p className="text-xs text-vibe opacity-60">
+                  {watchCount || 0}/<span>{totalTitles}</span>{" "}
+                  {orderType === "Cinematic Continuum" ? "Continuum" : "MCU"}{" "}
+                  titles watched
+                </p>
+              </div>
+              <div
+                className="h-full bg-zeus transition-all duration-500"
+                style={{ width: `${progressAll}%` }}
+              />
+            </div>{" "}
+          </div>
         </div>
       </div>
 

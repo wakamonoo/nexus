@@ -190,10 +190,10 @@ export default function PrivacyPolicy() {
           {sections.map((section) => (
             <section
               key={section.number}
-              className="grid grid-cols-[110px_1fr] gap-4 py-8"
+              className="grid grid-cols-[110px_1fr] py-8"
             >
               <div>
-                <span className="text-xs font-bold tracking-[0.2em] text-accent/60">
+                <span className="text-sm font-bold tracking-[0.2em] text-accent/60">
                   {section.number}
                 </span>
               </div>
