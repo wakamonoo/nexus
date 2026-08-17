@@ -3,161 +3,210 @@ import NavBar from "@/components/layout/navBar";
 import { useContext, useEffect } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 
+const listItemClass =
+  "relative pl-5 before:absolute before:left-1 before:top-[0.75em] before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full before:bg-accent/60";
+
+const sections = [
+  {
+    number: "01",
+    title: "Overview",
+    content: (
+      <p>
+        This Privacy Policy explains how <strong>nexus</strong> collects, uses,
+        and protests information when you use the platform.
+      </p>
+    ),
+  },
+  {
+    number: "02",
+    title: "Information We Collect",
+    content: (
+      <>
+        <p>Depending on how you use nexus, we may collect:</p>
+        <ul className="space-y-2">
+          <li className={listItemClass}>
+            Google account name, email, profile photo, and account ID
+          </li>
+          <li className={listItemClass}>
+            Optional profile information such as your bio
+          </li>
+          <li className={listItemClass}>
+            Posts, comments, reviews, messages, lists, and rankings
+          </li>
+          <li className={listItemClass}>
+            Watch progress, preferences, and community activity
+          </li>
+          <li className={listItemClass}>
+            Basic authentication and activity timestamps
+          </li>
+        </ul>
+        <p>
+          We do not intentionally collect physical addresses, phone numbers, or
+          payment information.
+        </p>
+      </>
+    ),
+  },
+  {
+    number: "03",
+    title: "How We Use Information",
+    content: (
+      <>
+        <p>Your information is used to:</p>
+        <ul className="space-y-2">
+          <li className={listItemClass}>Provide and maintain nexus features</li>
+          <li className={listItemClass}>
+            Manage accounts, profiles, and personalized features
+          </li>
+          <li className={listItemClass}>
+            Store watch progress, rankings, lists, and community activity
+          </li>
+          <li className={listItemClass}>
+            Maintain security and moderate the community
+          </li>
+        </ul>
+        <p>We do not sell, rent, or trade your personal information.</p>
+      </>
+    ),
+  },
+  {
+    number: "04",
+    title: "Third-Party Services",
+    content: (
+      <>
+        <p>
+          nexus relies on third-party services to operate certain features,
+          including:
+        </p>
+        <ul className="space-y-2">
+          <li className={listItemClass}>
+            <strong>Firebase Authentication</strong> - account authentication
+          </li>
+          <li className={listItemClass}>
+            <strong>MongoDB Atlas</strong> - account and community data
+          </li>
+          <li className={listItemClass}>
+            <strong>Cloudinary</strong> - image and media storage
+          </li>
+        </ul>
+        <p>
+          These services operate under their own privacy policies and terms.
+        </p>
+      </>
+    ),
+  },
+  {
+    number: "05",
+    title: "Data Retention & Deletion",
+    content: (
+      <p>
+        You may request deletion of your nexus account. We will take reasonable
+        steps to remove or anonimyze associated personal information and account
+        data. Some information may remain temporarily in backups or logs where
+        immediate deletion is not technically practical.
+      </p>
+    ),
+  },
+  {
+    number: "06",
+    title: "Data Security",
+    content: (
+      <p>
+        nexus uses reasonable technical measures to protect your information.
+        However, no online service can guarantee complete security. Avoid
+        sharing sensitive personal information through public community
+        features.
+      </p>
+    ),
+  },
+  {
+    number: "07",
+    title: "Children's Privacy",
+    content: (
+      <p>
+        nexus is intended for users <strong>10 years of age or older</strong>.
+        If we become aware that an account belongs to someone below the
+        applicable minimum age, reasonable steps will be taken to remove the
+        account and associated personal information.
+      </p>
+    ),
+  },
+  {
+    number: "08",
+    title: "Changes to This Policy",
+    content: (
+      <p>
+        This Privacy Policy may be updated as nexus and its data practices
+        change. Updates will be reflected on this page with a revised{" "}
+        <strong>Last Updated</strong> date.
+      </p>
+    ),
+  },
+  {
+    number: "09",
+    title: "Contact",
+    content: (
+      <p>
+        For questions, concerns, or privacy-related requests, please{" "}
+        <a href="/recommendations">
+          <strong>contact me</strong>
+        </a>
+        .
+      </p>
+    ),
+  },
+];
+
 export default function PrivacyPolicy() {
   const { setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
-
   return (
     <>
       <NavBar />
-     <div className="bg-brand w-full py-16 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">1. Overview</h1>
-          <p className="text-base text-justify">
-            This Privacy Policy explains how I collect, use, and protect
-            personal information from users of the Nexus community.
-          </p>
-        </div>
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">
-            2. Information I Collect
+      <div className="bg-brand w-full pt-22 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+        <header className="mb-12 border-b border-panel pb-10">
+          <h1 className="text-2xl font-bold tracking-tight text-vobe">
+            Privacy Policy
           </h1>
-          <p className="text-base text-justify">
-            When you register or use Nexus, I collect the following:
+          <p className="mt-2 max-w-2xl text-sm leading-7 opacity-60">
+            How nexus collects, uses, and protects information when you use the
+            platform.
           </p>
-          <br />
-          <ul className="text-base text-justify list-disc list-inside">
-            Personal Information:
-            <li className="text-sm text-vibe">Google account name</li>
-            <li className="text-sm text-vibe">Email address</li>
-            <li className="text-sm text-vibe">Profile photo</li>
-            <li className="text-sm text-vibe">Optional user bio</li>
-          </ul>
-          <ul className="text-base text-justify list-disc list-inside">
-            Activity Information:
-            <li className="text-sm text-vibe">
-              Posts, comments, and chat messages
-            </li>
-            <li className="text-sm text-vibe">
-              MCU titles tracked or marked as watched
-            </li>
-            <li className="text-sm text-vibe">
-              Rankings and personal preference
-            </li>
-            <li className="text-sm text-vibe">Interaction logs</li>
-          </ul>
-          <ul className="text-base text-justify list-disc list-inside">
-            Technical Information:
-            <li className="text-sm text-vibe">
-              Google account ID (for authentication)
-            </li>
-            <li className="text-sm text-vibe">
-              Basic timestamps for login and activity
-            </li>
-          </ul>
-          <br />
-          <p className="text-base text-justify">
-            I do not collect addresses, phone numbers, or payment information.
+          <p className="text-xs">
+            Last updated:{" "}
+            <strong className="font-medium opacity-60">August 17, 2026</strong>
+          </p>
+        </header>
+        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
+          <p className="text-sm leading-7 opacity-60">
+            This policy explains what information nexus collects and how it is
+            used.
           </p>
         </div>
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">
-            3. How I Use Your Information
-          </h1>
-          <ul className="text-base text-justify list-disc list-inside">
-            Your information is used only to:
-            <li className="text-sm text-vibe">
-              Provide access to community features
-            </li>
-            <li className="text-sm text-vibe">
-              Allow you to track and rank MCU titles
-            </li>
-            <li className="text-sm text-vibe">
-              Maintain your personalized profile and account
-            </li>
-            <li className="text-sm text-vibe">
-              Moderate content for community safety and integrity
-            </li>
-          </ul>
-          <br />
-          <p className="text-base text-justify">
-            I do not sell, rent, or trade your information.
-          </p>
-        </div>
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">
-            4. Data Storage and Third-Party Services
-          </h1>
-          <ul className="text-base text-justify list-disc list-inside">
-            I rely on secure, trusted providers for authentication, storage, and
-            media hosting:
-            <li className="text-sm text-vibe">
-              <strong>Firebase Authentication (Google)</strong>: user login and
-              verification
-            </li>
-            <li className="text-sm text-vibe">
-              <strong>MongoDB Atlas</strong>: database for storing user activity
-              and profile data
-            </li>
-            <li className="text-sm text-vibe">
-              <strong> Cloudinary</strong>: image and video storage
-            </li>
-          </ul>
-          <br />
-          <p className="text-base text-justify">
-            Each provider follows its own strict security and privacy standards.
-          </p>
-        </div>
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">
-            5. Data Retention and Deletion
-          </h1>
-          <p className="text-base text-justify">
-            You may delete your account at any time. When you do, your personal
-            data, posts, and rankings are permanently removed. Temporary backups
-            may exist briefly before full deletion for technical consistency.
-          </p>
-        </div>
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">
-            6. Data Security
-          </h1>
-          <p className="text-base text-justify">
-            I implement reasonable technical measures to protect your data.
-            However, no system is completely secure. Please be mindful of the
-            information you share publicly.
-          </p>
-        </div>
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">
-            7. Children’s Privacy
-          </h1>
-          <p className="text-base text-justify">
-            Nexus is not directed toward children under 10 years old. If I
-            discover that a user under 10 has registered, I will remove their
-            account and delete all related data.
-          </p>
-        </div>
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">
-            8. Changes to This Policy
-          </h1>
-          <p className="text-base text-justify">
-            I may update this Privacy Policy from time to time. Any changes will
-            be reflected on this page with an updated “Last Updated” date..
-          </p>
-        </div>
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-left">9. Contact</h1>
-          <p className="text-base text-justify">
-            For questions about these Terms, please{" "}
-            <a href="https://nexus-wakamonoo.vercel.app/recommendations">
-              <strong>contact me.</strong>
-            </a>
-          </p>
+        <div className="divide-y divide-[var(--color-panel)]">
+          {sections.map((section) => (
+            <section
+              key={section.number}
+              className="grid grid-cols-[110px_1fr] gap-4 py-8"
+            >
+              <div>
+                <span className="text-xs font-bold tracking-[0.2em] text-accent/60">
+                  {section.number}
+                </span>
+              </div>
+              <div className="min-w-0">
+                <h2 className="mb4 text-lg font-semibold tracking-tight text-vibe">
+                  {section.title}
+                </h2>
+                <div className="space-y-4 text-base leading-tight text-vibe">
+                  {section.content}
+                </div>
+              </div>
+            </section>
+          ))}
         </div>
       </div>
     </>

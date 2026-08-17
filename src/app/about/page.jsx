@@ -1,87 +1,200 @@
+"use client";
 import NavBar from "@/components/layout/navBar";
-import { MdGroups, MdLeaderboard, MdTimeline } from "react-icons/md";
+import { useContext, useEffect } from "react";
+import { LoaderContext } from "@/context/loaderContext";
+
+const listItemClass =
+  "relative pl-5 before:absolute before:left-1 before:top-[0.75em] before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full before:bg-accent/60";
+
+const sections = [
+  {
+    number: "01",
+    title: "Why Nexus Exists",
+    content: (
+      <>
+        <p>
+          nexus began as my personal guide while rewatching the entire{" "}
+          <strong>Marvel Cinematic Universe (MCU)</strong> in chronological
+          order. At the time, it was called <strong>616-Initiative</strong>
+        </p>
+        <p>
+          While browsing social media, I noticed how many fans were looking for
+          different ways to experience Marvel stories, whether by release order,
+          chronology, or their own preferred journey
+        </p>
+        <p>
+          What started as personal watch tracker gradually became something
+          bigger. A place where fans could explore Marvel stories, keep track of
+          what they've watched, share their opinions, and connect with others.
+        </p>
+        <p>
+          The website was eventually rebranded as <strong>nexus</strong>.
+        </p>
+      </>
+    ),
+  },
+  {
+    number: "02",
+    title: "What is Nexus?",
+    content: (
+      <>
+        <p>
+          nexus is an independent fan community platform built around the{" "}
+          <strong>Marvel Cinematic Universe</strong>, providing tools to make
+          exploring, tracking, and discussing its stories more organized and
+          personal.
+        </p>
+        <p>
+          As the platform grew, nexus expanded beyond the MCU to include
+          selected Marvel stories from other continuities, universes, timelines
+          and eras.
+        </p>
+        <p>
+          The MCU remains at the heart of nexus, while its extended collection
+          gives fans a broader way to explore the Marvel stories connected to,
+          adjacent to, or existing beyond it.
+        </p>
+      </>
+    ),
+  },
+  {
+    number: "03",
+    title: "What You'll Find Here",
+    content: (
+      <>
+        <p>
+          nexus combines discovery, tracking, and community features designed
+          primarily for MCU fans, with additional tools for exploring Marvel
+          stories beyond the MCU.
+        </p>
+        <ul className="space-y-2">
+          <li className={listItemClass}>
+            Marvel title discovery and information
+          </li>
+          <li className={listItemClass}>
+            MCU and Marvel-related watch tracking
+          </li>
+          <li className={listItemClass}>
+            Chronological and release-order guides
+          </li>
+          <li className={listItemClass}>
+            Marvel-adajacent and multiversal content guides
+          </li>
+          <li className={listItemClass}>
+            Personal watch progress and statistics
+          </li>
+          <li className={listItemClass}>Custom lists and collections</li>
+          <li className={listItemClass}>Reviews and rankings</li>
+          <li className={listItemClass}>Community posts and rankings</li>
+          <li className={listItemClass}>Global messaging</li>
+          <li className={listItemClass}>
+            User profiles and profile customization
+          </li>
+          <li className={listItemClass}>Community rankings and leaderboards</li>
+          <li className={listItemClass}>Marvel related news and updates</li>
+          <li className={listItemClass}>
+            Notifications and other community features
+          </li>
+          <li className={listItemClass}>AI assisted features</li>
+          <li className={listItemClass}>
+            Exportable watchlists and other user generated materials
+          </li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    number: "04",
+    title: "Built for Fans",
+    content: (
+      <>
+        <p>
+          nexus is designed around the idea that there is no single correct way
+          to experience the MCU.
+        </p>
+
+        <p>
+          Whether you're following the MCU in release order, exploring
+          chronology, building your personal ranking, or venturing into Marvel
+          stories beyond the MCU, nexus gives you the tools to create your own
+          journey.
+        </p>
+      </>
+    ),
+  },
+  {
+    number: "05",
+    title: "An Independent Project",
+    content: (
+      <>
+        <p>
+          nexus is independently created and developed by{" "}
+          <strong>wakamonoo</strong> as a fan project.
+        </p>
+        <p>
+          It is not an official Marvel or Disney platform. Information about
+          Marvel titles, continuities, and related properties is provided for
+          fan discovery and discussion.
+        </p>
+        <p>
+          For more information about the project's relationship with Marvel,
+          Disney, TMDB, and other right holders please refere to the{" "}
+          <a href="/trustAndLegality">
+            <strong>Trust & Legality</strong>
+          </a>
+        </p>
+      </>
+    ),
+  },
+];
 
 export default function About() {
+  const { setIsLoading } = useContext(LoaderContext);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
   return (
     <>
       <NavBar />
-      <div className="bg-brand w-full py-16 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-center">
-            Why this exists
+      <div className="bg-brand w-full pt-22 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+        <header className="mb-12 border-b border-panel pb-10">
+          <h1 className="text-2xl font-bold tracking-tight text-vobe">
+            About Nexus
           </h1>
-          <p className="text-base text-justify">
-            Nexus first began as my personal guide when I rewatched the entire
-            <strong> Marvel Cinematic Universe (MCU)</strong> in chronological
-            order. Back then, it was called <strong>616-Initiative</strong>.
-            While browsing through social media, I noticed that many people were
-            looking for different watch orders, whether by release date or
-            chronology. That sparked something in me to share what I had built.
-            <br />
-            <br />
-            Originally, <strong>616-Initiative</strong>. was simply a way to
-            track my own progress while watching the <strong>MCU</strong>. But
-            after each rewatch, I found myself wanting to share my thoughts,
-            confusions and insights about various titles. That’s when I asked
-            myself, what if I could expand this into something more? A space
-            where <strong>MCU</strong> fans could engage, share, and connect
-            with one another.
-            <br />
-            <br />
-            So I rebranded it as <strong>Nexus</strong>, because just like in
-            the TVA, this is our nexus event, the moment everything branches
-            into something new.
+          <p className="mt-2 max-w-2xl text-sm leading-7 opacity-60">
+            A fan-built space for exploring, tracking, and connecting through
+            Marvel stories.
+          </p>
+        </header>
+        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
+          <p className="text-sm leading-7 opacity-60">
+            nexus is an independent fan project created to make exploring
+            Marvel's many stories, timelines, and universes more personal and
+            interactive.
           </p>
         </div>
-
-        <div>
-          <h1 className="text-2xl py-4 text-accent text-center">
-            What you'll find here
-          </h1>
-          <p className="text-base text-justify">
-            <strong>Nexus</strong> isn’t just a database, it’s built to be your
-            go-to <strong>MCU</strong> companion. Here, you’ll find tools and
-            spaces designed to help you watch smarter, rank your favorites, and
-            connect with other fans who love the{" "}
-            <strong>Marvel Cinematic Universe</strong> just as much as you do.
-          </p>
-          <div className="flex flex-wrap gap-2 py-2 justify-center w-full items-stretch">
-            <div className="flex flex-col items-center justify-center bg-panel p-4 rounded flex-1">
-              <MdGroups className="text-6xl text-normal h-16" />
+        <div className="divide-y divide-[var(--color-panel)]">
+          {sections.map((section) => (
+            <section
+              key={section.number}
+              className="grid grid-cols-[110px_1fr] gap-4 py-8"
+            >
               <div>
-                <p className="text-base text-center font-bold leading-4 uppercase text-normal h-8">
-                  Community Space
-                </p>
-                <p className="text-center text-xs leading-3 text-vibe mt-2">
-                  Where fans connect, debate, and share their MCU takes
-                </p>
+                <span className="text-xs font-bold tracking-[0.2em] text-accent/60">
+                  {section.number}
+                </span>
               </div>
-            </div>
-
-            <div className="flex flex-col items-center justify-center bg-panel p-4 rounded flex-1">
-              <MdTimeline className="text-6xl text-normal h-16" />
-              <div>
-                <p className="text-base text-center font-bold leading-4 uppercase text-normal h-8">
-                  Watch Orders
-                </p>
-                <p className="text-center text-xs leading-3 text-vibe mt-2">
-                  Your MCU guide release, timeline, or curated order
-                </p>
+              <div className="min-w-0">
+                <h2 className="mb4 text-lg font-semibold tracking-tight text-vibe">
+                  {section.title}
+                </h2>
+                <div className="space-y-4 text-base leading-tight text-vibe">
+                  {section.content}
+                </div>
               </div>
-            </div>
-
-            <div className="flex flex-col items-center bg-panel p-4 rounded flex-1">
-              <MdLeaderboard className="text-6xl h-16" />
-              <div>
-                <p className="text-base text-center font-bold leading-4 uppercase text-normal h-8">
-                  Rankings
-                </p>
-                <p className="text-center text-xs leading-3 text-vibe mt-2">
-                  Build and showcase your personal MCU hierarchy.
-                </p>
-              </div>
-            </div>
-          </div>
+            </section>
+          ))}
         </div>
       </div>
     </>

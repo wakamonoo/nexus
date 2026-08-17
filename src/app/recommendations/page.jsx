@@ -53,78 +53,88 @@ export default function Recommendations() {
           },
         });
         console.error("emailjs error:", error);
-      }
+      },
     );
   };
 
   return (
     <>
       <NavBar />
-      <div className="bg-brand w-full py-16 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
-        <h1 className="text-2xl py-4 text-accent text-center">
-          Feedback & Suggestions
-        </h1>
-        <p className="text-normal font-normal text-base text-justify">
-          Found an issue or have an idea to enhance the platform? We value your
-          feedback, it helps us refine features, resolve issues, and shape
-          upcoming improvements. Every suggestion, report, and insight you share
-          contributes to building a better, more seamless experience for
-          everyone in the Nexus community.
-        </p>
-        <div className="py-4">
-          <form
-            ref={contact}
-            onSubmit={sendEmail}
-            className="flex flex-col gap-2"
-          >
-            <input
-              name="name"
-              required
-              type="text"
-              placeholder="Name"
-              className="bg-second w-full p-2 rounded text-normal text-base"
-            />
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="Email"
-              className="bg-second w-full p-2 rounded text-normal text-base"
-            />
-            <input
-              type="text"
-              name="title"
-              required
-              placeholder="Subject"
-              className="bg-second w-full p-2 rounded text-normal text-base"
-            />
-            <textarea
-              name="message"
-              required
-              placeholder="Message..."
-              className="bg-second w-full h-32 p-2 text-normal text-base"
-            />
-            <RegularButtons type="submit">
-              <p className="font-bold text-normal text-base">Send</p>
-            </RegularButtons>
-          </form>
-        </div>
-        <p className="flex justify-center py-4 text-xs text-vibe">
-          or reach me on
-        </p>
-        <div className="flex gap-2 items-center justify-center">
-          <a href="https://www.facebook.com/joven.serdanbataller">
-            <FaFacebook className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
-          </a>
-          <a href="https://www.instagram.com/wakamonoooo/">
-            <FaInstagram className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
-          </a>
-          <a href="https://www.linkedin.com/in/joven-bataller-085761350/">
-            <FaLinkedin className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
-          </a>
-          <a href="https://github.com/wakamonoo">
-            <FaGithub className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
-          </a>
+      <div className="bg-brand w-full pt-22 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+        <header className="mb-12 border-b border-panel pb-10">
+          <h1 className="text-2xl font-bold tracking-tight text-vobe">
+            Feedback & Suggestions
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm leading-7 opacity-60">
+            Found an issue or have an idea to enhance the platform? We value
+            your feedback, it helps us refine features, resolve issues, and
+            shape upcoming improvements. Every suggestion, report, and insight
+            you share contributes to building a better, more seamless experience
+            for everyone in the Nexus community.
+          </p>
+        </header>
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8">
+          <div>
+            <h2 className="mb-5 text-lg font-semibold tracking-tight text-vibe">
+              Send a message
+            </h2>
+            <form
+              ref={contact}
+              onSubmit={sendEmail}
+              className="flex flex-col gap-2"
+            >
+              <input
+                name="name"
+                required
+                type="text"
+                placeholder="Name"
+                className="bg-second w-full p-2 rounded text-normal text-base"
+              />
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="Email"
+                className="bg-second w-full p-2 rounded text-normal text-base"
+              />
+              <input
+                type="text"
+                name="title"
+                required
+                placeholder="Subject"
+                className="bg-second w-full p-2 rounded text-normal text-base"
+              />
+              <textarea
+                name="message"
+                required
+                placeholder="Message..."
+                className="bg-second w-full h-32 p-2 text-normal text-base"
+              />
+              <RegularButtons type="submit">
+                <p className="font-bold text-normal text-base">Send</p>
+              </RegularButtons>
+            </form>
+          </div>
+          <div className="border-t border-panel pt-8 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+            <h2 className="text-lg font-semibold tracking-tight text-vibe">
+              Elsewhere
+            </h2>
+            <p>You can also find me through these platforms.</p>
+            <div className="mt-4 flex flex-wrap gap-4">
+              <a href="https://www.facebook.com/joven.serdanbataller">
+                <FaFacebook className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+              </a>
+              <a href="https://www.instagram.com/wakamonoooo/">
+                <FaInstagram className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+              </a>
+              <a href="https://www.linkedin.com/in/joven-bataller-085761350/">
+                <FaLinkedin className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+              </a>
+              <a href="https://github.com/wakamonoo">
+                <FaGithub className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </>
