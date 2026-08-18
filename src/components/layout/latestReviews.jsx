@@ -179,13 +179,21 @@ export default function LatestReviews() {
         >
           {sortedReviews?.map((review, index) => {
             const title = titles.find((t) => t.titleId === review.titleId);
+            const reviewOwner = allUsers.find((u) => u.uid === review.userId);
             const realtimeVote = reviewVotes[review.reviewId];
 
             const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
             const downvotes = realtimeVote?.downvotes ?? review.downvotes ?? [];
             return (
               <div key={index} className="min-w-full snap-start">
-                {reviewCard(review, index, title, upvotes, downvotes)}
+                {reviewCard(
+                  review,
+                  index,
+                  reviewOwner,
+                  title,
+                  upvotes,
+                  downvotes,
+                )}
               </div>
             );
           })}
