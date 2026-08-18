@@ -1,7 +1,12 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
-import { FaAngleLeft, FaQuoteLeft } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaComment,
+  FaQuoteLeft,
+  FaRegComment,
+} from "react-icons/fa";
 import { LoaderContext } from "@/context/loaderContext";
 import { useParams, useRouter } from "next/navigation";
 import { TitleNavContext } from "@/context/titleNavContext";
@@ -22,9 +27,11 @@ import {
   BiSolidUpvote,
   BiUpvote,
 } from "react-icons/bi";
-import ListOpt from "@/components/layout/listOpt";
 import { SocketContext } from "@/context/socketContext";
 import Swal from "sweetalert2";
+import AddCommentModal from "@/components/modals/addCommentModal";
+import ListOpt from "@/components/layout/list/listOpt";
+import CommentLayout from "@/components/layout/list/commentLayout";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -50,6 +57,9 @@ export default function List() {
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
   const [showListOpt, setShowListOpt] = useState(false);
+  const [showAddCommentModal, setShowAddCommentModal] = useState(false);
+  const [showTitles, setShowTitles] = useState(true);
+  const [showComments, setShowComments] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -60,8 +70,8 @@ export default function List() {
 
   const realtimeVote = listVotes[currentList?.listId];
 
-  const upvotes = realtimeVote?.upvotes ?? currentList?.upvotes ?? []
-  const downvotes = realtimeVote?.downvotes ?? currentList?.downvotes ?? []
+  const upvotes = realtimeVote?.upvotes ?? currentList?.upvotes ?? [];
+  const downvotes = realtimeVote?.downvotes ?? currentList?.downvotes ?? [];
 
   const creator = allUsers.find((u) => u.uid === currentList?.userId);
 
@@ -117,6 +127,22 @@ export default function List() {
     }
   };
 
+  const firstComment = currentList?.comments?.sort(
+    (a, b) => new Date(a.date) - new Date(b.date),
+  )[0];
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setShowTitles(true);
+        setShowComments(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <>
       <div className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
@@ -130,7 +156,7 @@ export default function List() {
         {listTitles.length === 0 ? (
           <ListLoader />
         ) : (
-          <div className="w-full grid grid-cols-1 md:grid-cols-[300px_1fr] gap-6 mt-6">
+          <div className="w-full grid grid-cols-1 md:grid-cols-[300px_1fr] items-start gap-6 mt-6">
             <div className="md:sticky md:top-4 h-fit">
               <div className="relative rounded-xl bg-second border border-panel p-4">
                 <p className="text-xs opacity-60 mb-3">Created by</p>
@@ -166,17 +192,17 @@ export default function List() {
                     </button>
                   </div>
                 )}
-                <div className="flex flex-col items-end  mt-4 px-2 gap-2">
-                  <div className="flex items-center rounded-full bg-panel py-2 px-4 gap-2">
+                <div className="flex justify-end mt-4 px-2 gap-2">
+                  <div className="flex items-center rounded-full bg-panel cursor-pointer hover:bg-[var(--color-panel)]/60 transition-all duration-100 py-2 px-4 gap-2">
                     {upvotes.includes(user?.uid) ? (
                       <BiSolidUpvote
                         onClick={() => handleVote(currentList.listId, "up")}
-                        className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                        className="text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125"
                       />
                     ) : (
                       <BiUpvote
                         onClick={() => handleVote(currentList.listId, "up")}
-                        className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                        className="text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125"
                       />
                     )}
                     <span className="text-xs opacity-60">
@@ -185,53 +211,149 @@ export default function List() {
                     {downvotes.includes(user?.uid) ? (
                       <BiSolidDownvote
                         onClick={() => handleVote(currentList.listId, "down")}
-                        className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                        className="text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125"
                       />
                     ) : (
                       <BiDownvote
                         onClick={() => handleVote(currentList.listId, "down")}
-                        className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                        className="text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125"
                       />
                     )}
                   </div>
-                </div>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 justify-center gap-2">
-              {...listTitles.map((unit) => (
-                <div className="flex items-center gap-4">
-                  <TitleCard
-                    key={unit.titleId}
-                    unit={unit}
-                    isWatched={isTitleWatched(unit.titleId)}
-                    onOpen={() => handleShowNav(unit.titleId)}
-                    list={true}
-                  />
-                  <div>
-                    <p className="text-lg font-bold text-normal leading-4.5 line-clamp-2">
-                      {unit.title}{" "}
-                      <span className="text-base opacity-60 font-thin">
-                        {new Date(
-                          unit.release_date || unit.first_air_date,
-                        ).toLocaleDateString([], {
-                          year: "numeric",
-                        })}
-                      </span>
-                    </p>
-                    {unit.note && (
-                      <div className="flex items-start">
-                        <div className="flex items-center justify-center w-8 h-8 shrink-0">
-                          <FaQuoteLeft className="text-[11px] opacity-60" />
-                        </div>
-                        <p className="text-sm text-vibe leading-tight mt-2">
-                          {unit.note}
-                        </p>
-                      </div>
-                    )}
+                  <div
+                    onClick={() => setShowAddCommentModal(true)}
+                    className="flex items-center cursor-pointer rounded-full bg-panel hover:bg-[var(--color-panel)]/60 transition-all duration-100 py-2 px-4 gap-2"
+                  >
+                    <FaComment className="text-base" />
+                    <span className="text-xs opacity-60">
+                      {currentList?.comments?.length || 0}
+                    </span>
                   </div>
                 </div>
-              ))}
+              </div>
+              <div className="w-full mt-2 hidden md:block">
+                {currentList.comments?.length === 0 ? (
+                  <div className="flex items-center justify-center py-16">
+                    <div className="flex items-center gap-2">
+                      <FaRegComment className="text-2xl" />
+                      <p className="text-base text-normal">
+                        Be the first to comment
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2 w-full">
+                    {currentList?.comments?.map((comment) => (
+                      <CommentLayout
+                        key={comment.commentId}
+                        comment={comment}
+                        firstComment={firstComment}
+                        listId={listId}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
+
+            <div className="flex justify-center gap-8 px-8 py-2 w-full md:hidden">
+              <button
+                onClick={() => {
+                  setShowTitles(true);
+                  setShowComments(false);
+                }}
+                className="cursor-pointer flex flex-1"
+              >
+                <p
+                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                    showTitles
+                      ? "font-bold text-accent border-b-2 border-accent"
+                      : "text-normal"
+                  }`}
+                >
+                  Titles
+                </p>
+              </button>
+              <button
+                onClick={() => {
+                  setShowTitles(false);
+                  setShowComments(true);
+                }}
+                className="cursor-pointer flex flex-1"
+              >
+                <p
+                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                    showComments
+                      ? "font-bold text-accent border-b-2 border-accent"
+                      : "text-normal"
+                  }`}
+                >
+                  Comments
+                </p>
+              </button>
+            </div>
+            {showTitles && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 justify-center gap-2">
+                {...listTitles.map((unit) => (
+                  <div className="flex items-center gap-4">
+                    <TitleCard
+                      key={unit.titleId}
+                      unit={unit}
+                      isWatched={isTitleWatched(unit.titleId)}
+                      onOpen={() => handleShowNav(unit.titleId)}
+                      list={true}
+                    />
+                    <div>
+                      <p className="text-lg font-bold text-normal leading-4.5 line-clamp-2">
+                        {unit.title}{" "}
+                        <span className="text-base opacity-60 font-thin">
+                          {new Date(
+                            unit.release_date || unit.first_air_date,
+                          ).toLocaleDateString([], {
+                            year: "numeric",
+                          })}
+                        </span>
+                      </p>
+                      {unit.note && (
+                        <div className="flex items-start">
+                          <div className="flex items-center justify-center w-8 h-8 shrink-0">
+                            <FaQuoteLeft className="text-[11px] opacity-60" />
+                          </div>
+                          <p className="text-sm text-vibe leading-tight mt-2">
+                            {unit.note}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {showComments && (
+              <div className="w-full">
+                {currentList.comments?.length === 0 ? (
+                  <div className="flex items-center justify-center py-16">
+                    <div className="flex items-center gap-2">
+                      <FaRegComment className="text-2xl" />
+                      <p className="text-base text-normal">
+                        Be the first to comment
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-2 w-full">
+                    {currentList?.comments?.map((comment) => (
+                      <CommentLayout
+                        key={comment.commentId}
+                        comment={comment}
+                        firstComment={firstComment}
+                        listId={listId}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -252,6 +374,13 @@ export default function List() {
         <DeleteList
           listId={listId}
           setShowDeleteListModal={setShowDeleteListModal}
+        />
+      )}
+      {showAddCommentModal && (
+        <AddCommentModal
+          listId={listId}
+          user={user}
+          setShowAddCommentModal={setShowAddCommentModal}
         />
       )}
     </>

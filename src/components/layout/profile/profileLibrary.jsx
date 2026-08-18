@@ -3,7 +3,7 @@ import { MdSensorsOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { TitleContext } from "@/context/titleContext";
 import { TitleNavContext } from "@/context/titleNavContext";
-import TitleCard from "../layout/titleCard";
+import TitleCard from "../titleCard";
 import { WatchContext } from "@/context/watchContext";
 
 export default function ProfileLibrary({ profileUserWatch, profileUser }) {

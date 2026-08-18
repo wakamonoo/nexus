@@ -7,11 +7,11 @@ import { MdClose, MdRateReview } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
-import ReviewDelConfirm from "../modals/reviewDelConfirm";
+import ReviewDelConfirm from "../../modals/reviewDelConfirm";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
-import CircledButtons from "../buttons/circledBtns";
+import CircledButtons from "../../buttons/circledBtns";
 import { SocketContext } from "@/context/socketContext";
 
 dayjs.extend(relativeTime);

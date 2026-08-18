@@ -1,10 +1,5 @@
-import { PostContext } from "@/context/postContext";
-import { useContext, useEffect, useRef, useState } from "react";
-import { FaPen, FaTrash } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
-import CircledButtons from "../buttons/circledBtns";
-import DeleteList from "../modals/deleteList";
-import EditList from "../modals/editList";
+import CircledButtons from "@/components/buttons/circledBtns";
 
 export default function ListOpt({
   setShowListOpt,
@@ -37,6 +32,7 @@ export default function ListOpt({
                 setShowListOpt(false);
               }}
             >
+              
               <p className="font-bold text-normal text-base">Edit list</p>
             </CircledButtons>
             <CircledButtons

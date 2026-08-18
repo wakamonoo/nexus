@@ -2,7 +2,7 @@
 import RegularButtons from "@/components/buttons/regBtns";
 import SecondaryButtons from "@/components/buttons/secBtns";
 import Loader from "@/components/loaders/loader";
-import ExportCard from "@/components/portfolio/exportCard";
+import ExportCard from "@/components/layout/portfolio/exportCard";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
 import { UserContext } from "@/context/userContext";
