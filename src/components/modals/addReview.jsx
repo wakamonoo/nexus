@@ -32,8 +32,6 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
         titleId,
         title: title.title,
         userId: user.uid,
-        userName: user.name,
-        userImage: user.picture,
         textReview: reviewText,
       };
 

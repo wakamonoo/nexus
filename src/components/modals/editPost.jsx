@@ -24,8 +24,6 @@ if (APP_ENV === "production") {
 export default function EditPost({ setShowEditModal, postToEdit }) {
   const { user } = useContext(UserContext);
   const [post, setPost] = useState({
-    userImage: null,
-    userName: null,
     topic: "",
     text: "",
   });
@@ -38,8 +36,6 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
   useEffect(() => {
     if (postToEdit) {
       setPost({
-        userImage: postToEdit.userImage || null,
-        userName: postToEdit.userName || null,
         topic: postToEdit.topic || "",
         text: postToEdit.text || "",
       });
@@ -80,8 +76,6 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
           topic: post.topic,
           text: post.text,
           userId: user.uid,
-          userName: user.name,
-          userImage: user.picture,
           files: finalFiles,
         }),
       });
@@ -147,13 +141,13 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
           <div className="mt-4 p-2 h-full w-full">
             <div className="flex py-2 justify-start items-center gap-2">
               <img
-                src={post?.userImage || Fallback}
-                alt={post?.userName}
+                src={user?.picture || Fallback}
+                alt={user?.name}
                 loading="lazy"
                 decoding="async"
                 className="w-10 h-10 rounded-full"
               />
-              <p className="text-base text-normal font-bold">{post.userName}</p>
+              <p className="text-base text-normal font-bold">{user?.name}</p>
             </div>
             <div className="pb-2">
               <div className="relative">

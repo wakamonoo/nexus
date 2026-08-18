@@ -33,7 +33,7 @@ if (APP_ENV === "production") {
 }
 
 export default function Citadel() {
-  const { user, setUser, setShowSignIn } = useContext(UserContext);
+  const { allUsers, user, setUser, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { messages, setMessages, chatLoad } = useContext(SocketContext);
   const [input, setInput] = useState("");
@@ -133,17 +133,13 @@ export default function Citadel() {
       }
 
       const data = {
-        picture: user?.picture,
-        sender: user?.name,
         senderId: user?.uid,
-        email: user?.email,
         text: input,
         files: uploadedUrls,
         replyTo: replyingTo
           ? {
               msgId: replyingTo.msgId,
               senderId: replyingTo.senderId,
-              sender: replyingTo.sender,
               text: replyingTo.text,
               files: replyingTo.files || [],
             }
@@ -265,6 +261,10 @@ export default function Citadel() {
     }, 2000);
   };
 
+  const replyingToOwner = replyingTo
+    ? allUsers.find((u) => u.uid === replyingTo.senderId)
+    : null;
+
   return (
     <>
       <NavBar />
@@ -315,6 +315,13 @@ export default function Citadel() {
               <div className="flex-1 p-2 sm:px-4 md:px-8 lg:px-16 overflow-y-auto custom-scroll">
                 <div className="flex flex-col gap-4">
                   {messages.map((msg, i) => {
+                    const messageOwner = allUsers.find(
+                      (u) => u.uid === msg.senderId,
+                    );
+                    const replyOwner = msg.replyTo
+                      ? allUsers.find((u) => u.uid === msg.replyTo.senderId)
+                      : null;
+
                     const ownMessage = user.uid === msg.senderId;
 
                     const prevMessage = i > 0 ? messages[i - 1] : null;
@@ -355,7 +362,7 @@ export default function Citadel() {
                                 setIsLoading(true);
                                 router.push(`/profile/${msg.senderId}`);
                               }}
-                              src={msg.picture || ironman}
+                              src={messageOwner.picture || ironman}
                               alt="user"
                               loading="lazy"
                               decoding="async"
@@ -369,7 +376,7 @@ export default function Citadel() {
                           >
                             <p className="text-sm items-center py-1 px-2 opacity-60 flex justify-start">
                               {!ownMessage && !msg.replyTo && (
-                                <span>{msg.sender}</span>
+                                <span>{messageOwner.name}</span>
                               )}
                               {msg.edited === true && (
                                 <>
@@ -388,10 +395,11 @@ export default function Citadel() {
                                 className={`flex flex-col px-2 ${ownMessage ? "items-end" : "items-start"}`}
                               >
                                 <p className="text-sm opacity-60 py-1">
-                                  {ownMessage ? "You" : msg.sender} replied to{" "}
+                                  {ownMessage ? "You" : messageOwner.name}{" "}
+                                  replied to{" "}
                                   {user.uid === msg.replyTo.senderId
                                     ? "yourself"
-                                    : msg.replyTo.sender}
+                                    : replyOwner?.name}
                                 </p>
                                 <div
                                   onClick={() =>
@@ -492,7 +500,7 @@ export default function Citadel() {
                                             openCitadelLightBox(
                                               msg.files,
                                               msg.senderId,
-                                              msg.sender,
+                                              messageOwner.name,
                                               msg.messagedAt,
                                               index,
                                             )
@@ -509,7 +517,7 @@ export default function Citadel() {
                                           ) : isImage || isGif ? (
                                             <img
                                               src={file}
-                                              alt={`sent by ${msg.sender}`}
+                                              alt={`sent by ${messageOwner.name}`}
                                               loading="lazy"
                                               decoding="async"
                                               className="w-full h-full object-cover rounded"
@@ -551,7 +559,7 @@ export default function Citadel() {
                       replying to{" "}
                       {user.uid === replyingTo.senderId
                         ? "yourself"
-                        : replyingTo.sender}
+                        : replyingToOwner?.name}
                     </p>
                     <p className="text-sm opacity-60 truncate">
                       {replyingTo.text ||

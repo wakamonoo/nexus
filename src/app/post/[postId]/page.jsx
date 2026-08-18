@@ -53,7 +53,7 @@ if (APP_ENV === "production") {
 
 export default function Post() {
   const { postId } = useParams();
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { allUsers, user, setShowSignIn } = useContext(UserContext);
   const {
     posts,
     handleEnergize,
@@ -95,6 +95,8 @@ export default function Post() {
   }, []);
 
   const post = posts.find((p) => p.postId === postId);
+
+  const postOwner = allUsers.find((user) => user.uid === post?.userId);
 
   const currentTopic = titles.find((t) => t.title === post?.topic);
 
@@ -161,8 +163,6 @@ export default function Post() {
       const newComment = {
         postId,
         userId: user.uid,
-        userName: user.name,
-        userImage: user.picture,
         textComment: commentText,
         files: uploadedUrls,
       };
@@ -224,13 +224,10 @@ export default function Post() {
 
       const newReply = {
         postId,
-        postOwner: post.userName,
-        postOwnerUserId: post.userId,
+        postOwnerUserId: postOwner.uid,
         commentId: replyToCommentId,
         commentUserId: replyToCommentUserId,
         userId: user.uid,
-        userName: user.name,
-        userImage: user.picture,
         textReply: commentText,
         files: uploadedUrls,
       };
@@ -286,7 +283,7 @@ export default function Post() {
             className="absolute left-2 sm:left-4 md:left-8 lg:left-16 xl:left-32 text-2xl cursor-pointer"
           />
           <p className="absolute left-1/2 -translate-x-1/2 uppercase font-bold text-normal truncate">
-            {post?.userName}'s Post
+            {postOwner?.name}'s Post
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-[3fr_1.5fr] md:gap-4 items-start md:px-8 lg:px-16 xl:px-32">
@@ -323,7 +320,7 @@ export default function Post() {
                         )}
                       </>
                     )}
-                    {user?.uid === post?.userId ? (
+                    {user?.uid === postOwner?.uid ? (
                       <div className="absolute top-4 right-4">
                         <button
                           id={`btn-${post?.postId}`}
@@ -350,10 +347,10 @@ export default function Post() {
                         onClick={(e) => {
                           e.stopPropagation();
                           setIsLoading(true);
-                          router.push(`/profile/${post?.userId}`);
+                          router.push(`/profile/${postOwner?.uid}`);
                         }}
-                        src={post?.userImage || Fallback}
-                        alt={post?.userName}
+                        src={postOwner?.picture || Fallback}
+                        alt={postOwner?.name}
                         loading="lazy"
                         decoding="async"
                         className="cursor-pointer w-12 h-12 object-cover rounded-full"
@@ -363,11 +360,11 @@ export default function Post() {
                           onClick={(e) => {
                             e.stopPropagation();
                             setIsLoading(true);
-                            router.push(`/profile/${post?.userId}`);
+                            router.push(`/profile/${postOwner?.uid}`);
                           }}
                           className="cursor-pointer text-base mt-2 font-bold leading-3.5 truncate"
                         >
-                          {post?.userName}
+                          {postOwner?.name}
                         </p>
                         <p className="text-xs text-vibe">
                           {(() => {
@@ -609,330 +606,358 @@ export default function Post() {
                     </div>
                   </div>
                 ) : (
-                  post?.comments?.map((comment, index) => (
-                    <div key={index} className="flex flex-col">
-                      <div className="flex gap-2 relative">
-                        <img
-                          onClick={() => {
-                            router.push(`/profile/${comment.userId}`);
-                            setIsLoading(true);
-                          }}
-                          src={comment.userImage}
-                          alt={comment.userName}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-12 h-12 object-cover rounded-full cursor-pointer"
-                        />
-                        {comment.date === firstComment.date ? (
-                          <div className="flex absolute top-0 left-8">
-                            <Bs1CircleFill className="text-xl text-zeus" />
-                          </div>
-                        ) : null}
-                        <div className="flex flex-col w-full">
-                          <div className="bg-second w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-                            <div className="flex justify-between items-start gap-4">
-                              <div className="flex flex-col">
-                                <p
-                                  onClick={() => {
-                                    router.push(`/profile/${comment.userId}`);
-                                    setIsLoading(true);
-                                  }}
-                                  className="text-base text-normal font-bold cursor-pointer"
-                                >
-                                  {comment.userName}
-                                </p>
-                                <p className="text-xs text-vibe">
-                                  {dayjs(comment.date).fromNow()}
-                                </p>
-                              </div>
-                              <div
-                                onClick={() =>
-                                  setSelectedCommentOption(comment.commentId)
-                                }
-                                className="flex top-2 right-2"
-                              >
-                                <BiDotsHorizontalRounded className="text-base cursor-pointer" />
-                              </div>
+                  post?.comments?.map((comment, index) => {
+                    const commentUser = allUsers.find(
+                      (u) => u.uid === comment.userId,
+                    );
+
+                    return (
+                      <div key={index} className="flex flex-col">
+                        <div className="flex gap-2 relative">
+                          <img
+                            onClick={() => {
+                              router.push(`/profile/${commentUser.uid}`);
+                              setIsLoading(true);
+                            }}
+                            src={commentUser?.picture || Fallback}
+                            alt={commentUser.name}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                          />
+                          {comment.date === firstComment.date ? (
+                            <div className="flex absolute top-0 left-8">
+                              <Bs1CircleFill className="text-xl text-zeus" />
                             </div>
-                            {comment.textComment && (
-                              <p
-                                className="text-base text-normal py-2 max-w-full whitespace-pre-wrap"
-                                style={{ overflowWrap: "anywhere" }}
-                              >
-                                {comment.textComment}
-                              </p>
+                          ) : null}
+                          <div className="flex flex-col w-full">
+                            <div className="bg-second w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                              <div className="flex justify-between items-start gap-4">
+                                <div className="flex flex-col">
+                                  <p
+                                    onClick={() => {
+                                      router.push(
+                                        `/profile/${commentUser.uid}`,
+                                      );
+                                      setIsLoading(true);
+                                    }}
+                                    className="text-base text-normal font-bold cursor-pointer"
+                                  >
+                                    {commentUser.name}
+                                  </p>
+                                  <p className="text-xs text-vibe">
+                                    {dayjs(comment.date).fromNow()}
+                                  </p>
+                                </div>
+                                <div
+                                  onClick={() =>
+                                    setSelectedCommentOption(comment.commentId)
+                                  }
+                                  className="flex top-2 right-2"
+                                >
+                                  <BiDotsHorizontalRounded className="text-base cursor-pointer" />
+                                </div>
+                              </div>
+                              {comment.textComment && (
+                                <p
+                                  className="text-base text-normal py-2 max-w-full whitespace-pre-wrap"
+                                  style={{ overflowWrap: "anywhere" }}
+                                >
+                                  {comment.textComment}
+                                </p>
+                              )}
+                            </div>
+
+                            {comment.files && comment.files.length > 0 && (
+                              <div className="flex flex-wrap gap-2 mt-2">
+                                {comment.files.map((file, index) => {
+                                  const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
+                                    file,
+                                  );
+                                  const isImage =
+                                    /\.(jpg|peg|png|gif|webp)$/i.test(file);
+                                  const isGif =
+                                    file.includes("tenor.com") ||
+                                    file.includes("media.tenor.com") ||
+                                    file.includes("static.klipy.com");
+
+                                  return (
+                                    <div
+                                      onClick={() =>
+                                        openCommentLightBox(
+                                          comment.files,
+                                          commentUser.uid,
+                                          commentUser.name,
+                                          comment.date,
+                                          index,
+                                        )
+                                      }
+                                      key={index}
+                                      className="w-full min-w-auto max-w-full h-auto block relative cursor-pointer"
+                                    >
+                                      {isVideo ? (
+                                        <video
+                                          src={file}
+                                          controls
+                                          className="w-full h-full rounded"
+                                        />
+                                      ) : isImage || isGif ? (
+                                        <img
+                                          src={file}
+                                          alt={`sent by ${commentUser?.name}`}
+                                          loading="lazy"
+                                          decoding="async"
+                                          className="w-full h-full object-cover rounded"
+                                        />
+                                      ) : null}
+                                    </div>
+                                  );
+                                })}
+                              </div>
                             )}
                           </div>
-
-                          {comment.files && comment.files.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mt-2">
-                              {comment.files.map((file, index) => {
-                                const isVideo = /\.(mp4|mov|avi|webm)$/i.test(
-                                  file,
-                                );
-                                const isImage =
-                                  /\.(jpg|peg|png|gif|webp)$/i.test(file);
-                                const isGif =
-                                  file.includes("tenor.com") ||
-                                  file.includes("media.tenor.com") ||
-                                  file.includes("static.klipy.com");
-
-                                return (
-                                  <div
-                                    onClick={() =>
-                                      openCommentLightBox(
-                                        comment.files,
-                                        comment.userId,
-                                        comment.userName,
-                                        comment.date,
-                                        index,
-                                      )
-                                    }
-                                    key={index}
-                                    className="w-full min-w-auto max-w-full h-auto block relative cursor-pointer"
-                                  >
-                                    {isVideo ? (
-                                      <video
-                                        src={file}
-                                        controls
-                                        className="w-full h-full rounded"
-                                      />
-                                    ) : isImage || isGif ? (
-                                      <img
-                                        src={file}
-                                        alt={`sent by ${comment.sender}`}
-                                        loading="lazy"
-                                        decoding="async"
-                                        className="w-full h-full object-cover rounded"
-                                      />
-                                    ) : null}
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          )}
                         </div>
-                      </div>
-                      {selectedCommentOption === comment.commentId && (
-                        <div
-                          onClick={() => setSelectedCommentOption(null)}
-                          className="inset-0 z-100 backdrop-blur-xs flex items-center justify-center fixed"
-                        >
+                        {selectedCommentOption === comment.commentId && (
                           <div
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+                            onClick={() => setSelectedCommentOption(null)}
+                            className="inset-0 z-100 backdrop-blur-xs flex items-center justify-center fixed"
                           >
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedCommentOption(null);
-                              }}
-                              className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                            <div
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
                             >
-                              <MdClose className="text-2xl" />
-                            </button>
-                            <div className="mt-8 p-2 h-full w-full">
-                              <div className="w-full flex flex-col gap-2">
-                                {comment.userId === user?.uid && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedCommentOption(null);
+                                }}
+                                className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                              >
+                                <MdClose className="text-2xl" />
+                              </button>
+                              <div className="mt-8 p-2 h-full w-full">
+                                <div className="w-full flex flex-col gap-2">
+                                  {commentUser.uid === user?.uid && (
+                                    <CircledButtons
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedCommentOption(null);
+                                        setCommentToDelete(comment.commentId);
+                                        setCommentDelModal(true);
+                                      }}
+                                    >
+                                      <p className="font-bold text-normal text-base">
+                                        Delete Comment
+                                      </p>
+                                    </CircledButtons>
+                                  )}
                                   <CircledButtons
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       setSelectedCommentOption(null);
-                                      setCommentToDelete(comment.commentId);
-                                      setCommentDelModal(true);
+                                      setIsReplying(true);
+                                      setReplyToCommentId(comment.commentId);
+                                      setReplyToCommentUserId(commentUser.uid);
+                                      setReplyToUserName(commentUser.name);
+                                      inputRef.current.focus();
                                     }}
                                   >
                                     <p className="font-bold text-normal text-base">
-                                      Delete Comment
+                                      Reply
                                     </p>
                                   </CircledButtons>
-                                )}
-                                <CircledButtons
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setSelectedCommentOption(null);
-                                    setIsReplying(true);
-                                    setReplyToCommentId(comment.commentId);
-                                    setReplyToCommentUserId(comment.userId);
-                                    setReplyToUserName(comment.userName);
-                                    inputRef.current.focus();
-                                  }}
-                                >
-                                  <p className="font-bold text-normal text-base">
-                                    Reply
-                                  </p>
-                                </CircledButtons>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {comment.replies && comment.replies.length > 0 && (
-                        <div className="flex flex-col  gap-2 mt-2 ml-12">
-                          {comment.replies.map((reply, index) => (
-                            <div key={index} className="flex gap-2 relative">
-                              <img
-                                onClick={() => {
-                                  router.push(`/profile/${reply.userId}`);
-                                  setIsLoading(true);
-                                }}
-                                src={reply.userImage}
-                                alt={reply.userName}
-                                loading="lazy"
-                                decoding="async"
-                                className="w-12 h-12 object-cover rounded-full cursor-pointer"
-                              />
-                              <div className="flex flex-col w-full">
-                                <div className="bg-panel w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
-                                  <div className="flex justify-between items-start gap-4">
-                                    <div className="flex flex-col">
-                                      <p
-                                        onClick={() => {
-                                          router.push(
-                                            `/profile/${reply.userId}`,
-                                          );
-                                          setIsLoading(true);
-                                        }}
-                                        className="text-base text-normal font-bold cursor-pointer"
-                                      >
-                                        {reply.userName}
-                                      </p>
-                                      <p className="text-xs text-vibe">
-                                        {dayjs(reply.date).fromNow()}
-                                      </p>
-                                    </div>
+                        {comment.replies && comment.replies.length > 0 && (
+                          <div className="flex flex-col  gap-2 mt-2 ml-12">
+                            {comment.replies.map((reply, index) => {
+                              const replyUser = allUsers.find(
+                                (u) => u.uid === reply.userId,
+                              );
+                              return (
+                                <div
+                                  key={index}
+                                  className="flex gap-2 relative"
+                                >
+                                  <img
+                                    onClick={() => {
+                                      router.push(`/profile/${replyUser.uid}`);
+                                      setIsLoading(true);
+                                    }}
+                                    src={replyUser.picture}
+                                    alt={replyUser.name}
+                                    loading="lazy"
+                                    decoding="async"
+                                    className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                                  />
+                                  <div className="flex flex-col w-full">
+                                    <div className="bg-panel w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
+                                      <div className="flex justify-between items-start gap-4">
+                                        <div className="flex flex-col">
+                                          <p
+                                            onClick={() => {
+                                              router.push(
+                                                `/profile/${replyUser.uid}`,
+                                              );
+                                              setIsLoading(true);
+                                            }}
+                                            className="text-base text-normal font-bold cursor-pointer"
+                                          >
+                                            {replyUser.name}
+                                          </p>
+                                          <p className="text-xs text-vibe">
+                                            {dayjs(reply.date).fromNow()}
+                                          </p>
+                                        </div>
 
-                                    <div
-                                      onClick={() =>
-                                        setSelectedCommentOption(reply.replyId)
-                                      }
-                                      className="flex top-2 right-2"
-                                    >
-                                      <BiDotsHorizontalRounded className="text-base cursor-pointer" />
-                                    </div>
-                                  </div>
-                                  {reply.textReply && (
-                                    <p
-                                      className="text-base text-normal py-2 max-w-full whitespace-pre-wrap"
-                                      style={{ overflowWrap: "anywhere" }}
-                                    >
-                                      {reply.textReply}
-                                    </p>
-                                  )}
-                                </div>
-
-                                {reply.files && reply.files.length > 0 && (
-                                  <div className="flex flex-wrap gap-2 mt-2">
-                                    {reply.files.map((file, index) => {
-                                      const isVideo =
-                                        /\.(mp4|mov|avi|webm)$/i.test(file);
-                                      const isImage =
-                                        /\.(jpg|peg|png|gif|webp)$/i.test(file);
-                                      const isGif =
-                                        file.includes("tenor.com") ||
-                                        file.includes("media.tenor.com") ||
-                                        file.includes("static.klipy.com");
-
-                                      return (
                                         <div
                                           onClick={() =>
-                                            openCommentLightBox(
-                                              reply.files,
-                                              reply.userId,
-                                              reply.userName,
-                                              reply.date,
-                                              index,
+                                            setSelectedCommentOption(
+                                              reply.replyId,
                                             )
                                           }
-                                          key={index}
-                                          className="w-full min-w-auto max-w-full h-auto block relative cursor-pointer"
+                                          className="flex top-2 right-2"
                                         >
-                                          {isVideo ? (
-                                            <video
-                                              src={file}
-                                              controls
-                                              className="w-full h-full rounded"
-                                            />
-                                          ) : isImage || isGif ? (
-                                            <img
-                                              src={file}
-                                              alt={`sent by ${reply.sender}`}
-                                              loading="lazy"
-                                              decoding="async"
-                                              className="w-full h-full object-cover rounded"
-                                            />
-                                          ) : null}
+                                          <BiDotsHorizontalRounded className="text-base cursor-pointer" />
                                         </div>
-                                      );
-                                    })}
+                                      </div>
+                                      {reply.textReply && (
+                                        <p
+                                          className="text-base text-normal py-2 max-w-full whitespace-pre-wrap"
+                                          style={{ overflowWrap: "anywhere" }}
+                                        >
+                                          {reply.textReply}
+                                        </p>
+                                      )}
+                                    </div>
+
+                                    {reply.files && reply.files.length > 0 && (
+                                      <div className="flex flex-wrap gap-2 mt-2">
+                                        {reply.files.map((file, index) => {
+                                          const isVideo =
+                                            /\.(mp4|mov|avi|webm)$/i.test(file);
+                                          const isImage =
+                                            /\.(jpg|peg|png|gif|webp)$/i.test(
+                                              file,
+                                            );
+                                          const isGif =
+                                            file.includes("tenor.com") ||
+                                            file.includes("media.tenor.com") ||
+                                            file.includes("static.klipy.com");
+
+                                          return (
+                                            <div
+                                              onClick={() =>
+                                                openCommentLightBox(
+                                                  reply.files,
+                                                  replyUser.uid,
+                                                  replyUser.name,
+                                                  reply.date,
+                                                  index,
+                                                )
+                                              }
+                                              key={index}
+                                              className="w-full min-w-auto max-w-full h-auto block relative cursor-pointer"
+                                            >
+                                              {isVideo ? (
+                                                <video
+                                                  src={file}
+                                                  controls
+                                                  className="w-full h-full rounded"
+                                                />
+                                              ) : isImage || isGif ? (
+                                                <img
+                                                  src={file}
+                                                  alt={`sent by ${replyUser.name}`}
+                                                  loading="lazy"
+                                                  decoding="async"
+                                                  className="w-full h-full object-cover rounded"
+                                                />
+                                              ) : null}
+                                            </div>
+                                          );
+                                        })}
+                                      </div>
+                                    )}
                                   </div>
-                                )}
-                              </div>
-                              {selectedCommentOption === reply.replyId && (
-                                <div
-                                  onClick={() => setSelectedCommentOption(null)}
-                                  className="inset-0 z-100 backdrop-blur-xs flex items-center justify-center fixed"
-                                >
-                                  <div
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
-                                  >
-                                    <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setSelectedCommentOption(null);
-                                      }}
-                                      className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                                  {selectedCommentOption === reply.replyId && (
+                                    <div
+                                      onClick={() =>
+                                        setSelectedCommentOption(null)
+                                      }
+                                      className="inset-0 z-100 backdrop-blur-xs flex items-center justify-center fixed"
                                     >
-                                      <MdClose className="text-2xl" />
-                                    </button>
-                                    <div className="mt-8 p-2 h-full w-full">
-                                      <div className="w-full flex flex-col gap-2">
-                                        {reply.userId === user?.uid && (
-                                          <CircledButtons
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              setSelectedCommentOption(null);
-                                              setCommentToDelete(reply.replyId);
-                                              setCommentDelModal(true);
-                                            }}
-                                          >
-                                            <p className="font-bold text-normal text-base">
-                                              Delete Reply
-                                            </p>
-                                          </CircledButtons>
-                                        )}
-                                        <CircledButtons
+                                      <div
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+                                      >
+                                        <button
                                           onClick={(e) => {
                                             e.stopPropagation();
                                             setSelectedCommentOption(null);
-                                            setIsReplying(true);
-                                            setReplyToCommentId(
-                                              reply.commentId,
-                                            );
-                                            setReplyToCommentUserId(
-                                              reply.userId,
-                                            );
-                                            setReplyToUserName(reply.userName);
-                                            inputRef.current.focus();
                                           }}
+                                          className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
                                         >
-                                          <p className="font-bold text-normal text-base">
-                                            Reply
-                                          </p>
-                                        </CircledButtons>
+                                          <MdClose className="text-2xl" />
+                                        </button>
+                                        <div className="mt-8 p-2 h-full w-full">
+                                          <div className="w-full flex flex-col gap-2">
+                                            {replyUser.uid === user?.uid && (
+                                              <CircledButtons
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                  setSelectedCommentOption(
+                                                    null,
+                                                  );
+                                                  setCommentToDelete(
+                                                    reply.replyId,
+                                                  );
+                                                  setCommentDelModal(true);
+                                                }}
+                                              >
+                                                <p className="font-bold text-normal text-base">
+                                                  Delete Reply
+                                                </p>
+                                              </CircledButtons>
+                                            )}
+                                            <CircledButtons
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedCommentOption(null);
+                                                setIsReplying(true);
+                                                setReplyToCommentId(
+                                                  reply.commentId,
+                                                );
+                                                setReplyToCommentUserId(
+                                                  replyUser.uid,
+                                                );
+                                                setReplyToUserName(
+                                                  replyUser.name,
+                                                );
+                                                inputRef.current.focus();
+                                              }}
+                                            >
+                                              <p className="font-bold text-normal text-base">
+                                                Reply
+                                              </p>
+                                            </CircledButtons>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  )}
                                 </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
                 )}
               </div>
 

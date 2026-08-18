@@ -27,13 +27,15 @@ export default function PostLightBox() {
     setPostLightBoxOpen,
     postLightboxRef,
   } = useContext(PostContext);
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { allUsers, user, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const pathname = usePathname();
 
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
+
+  const postOwner = allUsers.find((user) => user.uid === post?.userId);
 
   const handlePostNav = (id, focusInput = false) => {
     setPostLightBoxOpen(false);
@@ -179,7 +181,7 @@ export default function PostLightBox() {
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
             >
-              {currentPostInfo.userName}
+              {postOwner.name}
             </p>
             <p className="text-xs text-vibe">
               {(() => {

@@ -8,8 +8,6 @@ router.post("/addPost", async (req, res) => {
   try {
     const {
       userId,
-      userName,
-      userImage,
       topic,
       text,
       embed = null,
@@ -96,8 +94,6 @@ router.post("/addPost", async (req, res) => {
       {
         $setOnInsert: {
           userId,
-          userName,
-          userImage,
           topic,
           text,
           embed,

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/addReview", async (req, res) => {
   try {
-    const { titleId, title, userId, userName, userImage, textReview } =
+    const { titleId, title, userId, textReview } =
       req.body;
 
     const io = req.app.get("io");
@@ -93,8 +93,6 @@ router.post("/addReview", async (req, res) => {
     const newReview = {
       reviewId: `review-${uuidv4()}`,
       userId,
-      userName,
-      userImage,
       textReview,
       date: new Date(),
     };
@@ -107,8 +105,6 @@ router.post("/addReview", async (req, res) => {
       titleId,
       title,
       userId,
-      userName,
-      userImage,
       textReview,
       date: new Date(),
     };
@@ -127,7 +123,6 @@ router.post("/addReview", async (req, res) => {
         },
         {
           $setOnInsert: {
-            userName,
             createdAt: new Date(),
           },
           $set: {

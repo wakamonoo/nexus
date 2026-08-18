@@ -8,6 +8,7 @@ import AsideLoader from "../loaders/asideLoader";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
+import { UserContext } from "@/context/userContext";
 
 dayjs.extend(relativeTime);
 
@@ -16,6 +17,7 @@ export default function LatestReviews() {
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { reviewVotes } = useContext(SocketContext);
+  const { allUsers } = useContext(UserContext);
   const router = useRouter();
   const carouselRef = useRef(null);
 
@@ -55,7 +57,14 @@ export default function LatestReviews() {
     );
   }
 
-  const reviewCard = (review, index, title, upvotes, downvotes) => (
+  const reviewCard = (
+    review,
+    index,
+    reviewOwner,
+    title,
+    upvotes,
+    downvotes,
+  ) => (
     <div
       onClick={(e) => {
         e.stopPropagation();
@@ -90,10 +99,10 @@ export default function LatestReviews() {
             onClick={(e) => {
               e.stopPropagation();
               setIsLoading(true);
-              router.push(`/profile/${review.userId}`);
+              router.push(`/profile/${reviewOwner.uid}`);
             }}
-            src={review.userImage}
-            alt={review.userName}
+            src={reviewOwner.picture}
+            alt={reviewOwner.name}
             loading="lazy"
             decoding="async"
             className="w-8 h-8 rounded-full object-cover cursor-pointer"
@@ -103,11 +112,11 @@ export default function LatestReviews() {
               onClick={(e) => {
                 e.stopPropagation();
                 setIsLoading(true);
-                router.push(`/profile/${review.userId}`);
+                router.push(`/profile/${reviewOwner.uid}`);
               }}
               className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer hover:underline"
             >
-              {review.userName}
+              {reviewOwner.name}
             </p>
 
             <p className="text-xs text-vibe">
@@ -172,9 +181,8 @@ export default function LatestReviews() {
             const title = titles.find((t) => t.titleId === review.titleId);
             const realtimeVote = reviewVotes[review.reviewId];
 
-                const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
-                const downvotes =
-                  realtimeVote?.downvotes ?? review.downvotes ?? [];
+            const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
+            const downvotes = realtimeVote?.downvotes ?? review.downvotes ?? [];
             return (
               <div key={index} className="min-w-full snap-start">
                 {reviewCard(review, index, title, upvotes, downvotes)}
@@ -192,14 +200,21 @@ export default function LatestReviews() {
         <div className="flex gap-4 flex-col">
           {sortedReviews?.map((review, index) => {
             const title = titles.find((t) => t.titleId === review.titleId);
+            const reviewOwner = allUsers.find((u) => u.uid === review.userId);
             const realtimeVote = reviewVotes[review.reviewId];
 
-                const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
-                const downvotes =
-                  realtimeVote?.downvotes ?? review.downvotes ?? [];
+            const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
+            const downvotes = realtimeVote?.downvotes ?? review.downvotes ?? [];
             return (
               <div key={index} className="min-w-full snap-start">
-                {reviewCard(review, index, title, upvotes, downvotes)}
+                {reviewCard(
+                  review,
+                  index,
+                  reviewOwner,
+                  title,
+                  upvotes,
+                  downvotes,
+                )}
               </div>
             );
           })}

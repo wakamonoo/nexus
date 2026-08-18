@@ -20,7 +20,7 @@ export default function ProfileReviews({ profileUser }) {
   const { titles, reviewToDelete, setReviewToDelete } =
     useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { user } = useContext(UserContext);
+  const { allUsers, user } = useContext(UserContext);
   const [reviewDelModal, setReviewDelModal] = useState(false);
   const [showReviewOption, setShowReviewOption] = useState(false);
   const [reviews, setReviews] = useState([]);
@@ -63,6 +63,9 @@ export default function ProfileReviews({ profileUser }) {
               ?.sort((a, b) => new Date(b.date) - new Date(a.date))
               .map((review) => {
                 const title = titles.find((t) => t.titleId === review.titleId);
+                const reviewOwner = allUsers.find(
+                  (u) => u.uid === review.userId,
+                );
                 const realtimeVote = reviewVotes[review.reviewId];
 
                 const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
@@ -115,10 +118,10 @@ export default function ProfileReviews({ profileUser }) {
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsLoading(true);
-                              router.push(`/profile/${review.userId}`);
+                              router.push(`/profile/${reviewOwner.uid}`);
                             }}
-                            src={review.userImage}
-                            alt={review.userName}
+                            src={reviewOwner.picture}
+                            alt={reviewOwner.name}
                             loading="lazy"
                             decoding="async"
                             className="w-8 h-8 rounded-full object-cover cursor-pointer"
@@ -128,11 +131,11 @@ export default function ProfileReviews({ profileUser }) {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setIsLoading(true);
-                                router.push(`/profile/${review.userId}`);
+                                router.push(`/profile/${reviewOwner.uid}`);
                               }}
                               className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer hover:underline"
                             >
-                              {review.userName}
+                              {reviewOwner.name}
                             </p>
 
                             <p className="text-xs text-vibe">
@@ -168,7 +171,10 @@ export default function ProfileReviews({ profileUser }) {
                         </div>
                         <div className="p-2 flex justify-end">
                           <span className="text-xs opacity-60">
-                            {upvotes.length - downvotes.length}{" "}{upvotes.length - downvotes.length === 1 ? "vote" : "votes"}
+                            {upvotes.length - downvotes.length}{" "}
+                            {upvotes.length - downvotes.length === 1
+                              ? "vote"
+                              : "votes"}
                           </span>
                         </div>
                       </div>

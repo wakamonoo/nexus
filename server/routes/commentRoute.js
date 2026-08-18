@@ -6,14 +6,7 @@ const router = express.Router();
 
 router.post("/addComment", async (req, res) => {
   try {
-    const {
-      postId,
-      userId,
-      userName,
-      userImage,
-      textComment,
-      files = [],
-    } = req.body;
+    const { postId, userId, textComment, files = [] } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
@@ -46,7 +39,7 @@ router.post("/addComment", async (req, res) => {
           },
         },
       ],
-      { upsert: true }
+      { upsert: true },
     );
 
     const updatedUser = await db.collection("users").findOne({ uid: userId });
@@ -93,8 +86,6 @@ router.post("/addComment", async (req, res) => {
     const newComment = {
       commentId: `comment-${uuidv4()}`,
       userId,
-      userName,
-      userImage,
       textComment,
       files,
       date: new Date(),
@@ -105,14 +96,15 @@ router.post("/addComment", async (req, res) => {
       .updateOne({ postId }, { $push: { comments: newComment } });
 
     const postOwner = post.userId;
+    const commentSender = await db.collection("users").findOne({ uid: userId });
 
-    if (postOwner && postOwner !== userId) {
+    if (postOwner && postOwner !== commentSender.uid) {
       const pingData = {
         pingId: `ping-${uuidv4()}`,
         type: "comment",
-        senderId: userId,
-        senderName: userName,
-        senderImage: userImage,
+        senderId: commentSender.uid,
+        senderName: commentSender.name,
+        senderImage: commentSender.picture,
         userId: postOwner,
         postId,
         message: "commented on your post.",
@@ -139,13 +131,10 @@ router.post("/addReply", async (req, res) => {
   try {
     const {
       postId,
-      postOwner,
       postOwnerUserId,
       commentId,
       commentUserId,
       userId,
-      userName,
-      userImage,
       textReply,
       files = [],
     } = req.body;
@@ -179,7 +168,7 @@ router.post("/addReply", async (req, res) => {
           },
         },
       ],
-      { upsert: true }
+      { upsert: true },
     );
 
     const updatedUser = await db.collection("users").findOne({ uid: userId });
@@ -227,8 +216,6 @@ router.post("/addReply", async (req, res) => {
       replyId: `reply-${uuidv4()}`,
       commentId,
       userId,
-      userName,
-      userImage,
       textReply,
       files,
       date: new Date(),
@@ -239,26 +226,31 @@ router.post("/addReply", async (req, res) => {
       .updateOne(
         { postId },
         { $push: { "comments.$[comment].replies": newReply } },
-        { arrayFilters: [{ "comment.commentId": commentId }] }
+        { arrayFilters: [{ "comment.commentId": commentId }] },
       );
 
     const commentOwner = commentUserId;
+    const replySender = await db.collection("users").findOne({ uid: userId });
+    const post = await db.collection("posts").findOne({ postId });
+    const postOwner = await db
+      .collection("users")
+      .findOne({ uid: post.userId });
 
-    if (commentOwner && commentOwner !== userId) {
+    if (commentOwner && commentOwner !== replySender.uid) {
       const pingData = {
         pingId: `ping-${uuidv4()}`,
         type: "reply",
-        senderId: userId,
-        senderName: userName,
-        senderImage: userImage,
+        senderId: replySender.uid,
+        senderName: replySender.name,
+        senderImage: replySender.picture,
         userId: commentOwner,
         postId,
         message: `replied to your comment on ${
           postOwnerUserId === commentOwner
             ? "your"
-            : postOwner === userName
-            ? "their"
-            : `${postOwner}'s`
+            : postOwner === replySender.name
+              ? "their"
+              : `${postOwner.name}'s`
         } post`,
         date: new Date(),
         isRead: false,
@@ -300,7 +292,7 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
       .collection("posts")
       .updateOne(
         { "comments.commentId": commentId },
-        { $pull: { comments: { commentId } } }
+        { $pull: { comments: { commentId } } },
       );
 
     if (delCommentResult.modifiedCount === 0) {
@@ -308,7 +300,7 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
         .collection("posts")
         .updateOne(
           { "comments.replies.replyId": commentId },
-          { $pull: { "comments.$[].replies": { replyId: commentId } } }
+          { $pull: { "comments.$[].replies": { replyId: commentId } } },
         );
     }
 

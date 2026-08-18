@@ -249,7 +249,7 @@ export default function Title() {
           <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">
             <div className="md:sticky md:top-0 min-w-0">
               <div className="flex justify-between items-center gap-2 w-full">
-                <div className="w-56 md:w-56 lg:w-72 h-full float-right"> 
+                <div className="w-56 md:w-56 lg:w-72 h-full float-right">
                   <div className="flex relative items-center">
                     <img
                       src={
@@ -667,8 +667,10 @@ export default function Title() {
                 </div>
               ) : (
                 title.reviews?.map((review) => {
+                  const reviewOwner = allUsers.find(
+                    (u) => u.uid === review.userId,
+                  );
                   const realtimeVote = reviewVotes[review.reviewId];
-
                   const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
                   const downvotes =
                     realtimeVote?.downvotes ?? review.downvotes ?? [];
@@ -694,10 +696,10 @@ export default function Title() {
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsLoading(true);
-                              router.push(`/profile/${review.userId}`);
+                              router.push(`/profile/${reviewOwner.uid}`);
                             }}
-                            src={review.userImage}
-                            alt={review.userName}
+                            src={reviewOwner.picture}
+                            alt={reviewOwner.name}
                             loading="lazy"
                             decoding="async"
                             className="w-12 h-12 object-cover rounded-full cursor-pointer"
@@ -707,11 +709,11 @@ export default function Title() {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setIsLoading(true);
-                                router.push(`/profile/${review.userId}`);
+                                router.push(`/profile/${reviewOwner.uid}`);
                               }}
                               className="cursor-pointer text-base mt-2 font-bold leading-none"
                             >
-                              {review.userName}
+                              {reviewOwner.name}
                             </p>
                             <p className="text-xs text-vibe">
                               {(() => {

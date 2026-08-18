@@ -18,7 +18,7 @@ import { TitleContext } from "@/context/titleContext";
 dayjs.extend(relativeTime);
 
 export default function PostStructure({ post }) {
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { allUsers, user, setShowSignIn } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const {
     selectedPost,
@@ -34,6 +34,8 @@ export default function PostStructure({ post }) {
   const router = useRouter();
   const pathname = usePathname();
   const postCarouselRef = useRef(null);
+
+  const postOwner = allUsers.find((user) => user.uid === post?.userId)
 
   const handlePostNavMain = (id, focusInput = false) => {
     setIsLoading(true);
@@ -102,7 +104,7 @@ export default function PostStructure({ post }) {
           )}
         </>
       )}
-      {user?.uid === post.userId ? (
+      {user?.uid === postOwner.uid ? (
         <div className="absolute top-4 right-4">
           <button
             id={`btn-${post.postId}`}
@@ -131,11 +133,11 @@ export default function PostStructure({ post }) {
               });
             } else {
               setIsLoading(true);
-              router.push(`/profile/${post.userId}`);
+              router.push(`/profile/${postOwner.uid}`);
             }
           }}
-          src={post.userImage || Fallback}
-          alt={post.userName}
+          src={postOwner.picture || Fallback}
+          alt={postOwner.name}
           loading="lazy"
           decoding="async"
           className="w-12 h-12 object-cover rounded-full"
@@ -151,12 +153,12 @@ export default function PostStructure({ post }) {
                 });
               } else {
                 setIsLoading(true);
-                router.push(`/profile/${post.userId}`);
+                router.push(`/profile/${postOwner.uid}`);
               }
             }}
             className="text-base mt-2 font-bold leading-3.5 truncate"
           >
-            {post.userName}
+            {postOwner.name}
           </p>
           <p className="text-xs text-vibe">
             {(() => {

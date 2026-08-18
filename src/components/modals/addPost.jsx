@@ -100,8 +100,6 @@ export default function AddPost({ setShowAddPost }) {
         },
         body: JSON.stringify({
           userId: user.uid,
-          userName: user.name,
-          userImage: user.picture,
           topic: post.topic,
           text: post.text,
           embed: embed,
