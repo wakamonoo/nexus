@@ -87,7 +87,6 @@ router.patch("/vote/:listId", async (req, res) => {
     }
 
     const io = req.app.get("io");
-
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -199,6 +198,7 @@ router.post("/addComment/:listId", async (req, res) => {
     const { listId } = req.params;
     const { userId, textComment } = req.body;
 
+    const io = req.app.get("io");
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
