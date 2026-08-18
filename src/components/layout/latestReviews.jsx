@@ -49,7 +49,7 @@ export default function LatestReviews() {
     return () => clearInterval(interval);
   }, [sortedReviews]);
 
-  if (!titles || titles.length === 0) {
+  if (!titles || titles.length === 0 || !allUsers || allUsers.length === 0) {
     return (
       <div>
         <AsideLoader />
