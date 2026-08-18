@@ -156,7 +156,7 @@ export default function List() {
         {listTitles.length === 0 ? (
           <ListLoader />
         ) : (
-          <div className="w-full grid grid-cols-1 md:grid-cols-[300px_1fr] items-start gap-6 mt-6">
+          <div className="relative w-full grid grid-cols-1 md:grid-cols-[300px_1fr] items-start gap-6 mt-6">
             <div className="md:sticky md:top-4 h-fit">
               <div className="relative rounded-xl bg-second border border-panel p-4">
                 <p className="text-xs opacity-60 mb-3">Created by</p>

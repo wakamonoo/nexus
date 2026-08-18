@@ -1,9 +1,10 @@
 import { MdClose } from "react-icons/md";
 import Swal from "sweetalert2";
 import RegularButtons from "../buttons/regBtns";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import { ListContext } from "@/context/listContext";
+import { createPortal } from "react-dom";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -24,6 +25,11 @@ export default function ConfirmListCommentDelete({
 }) {
   const { setIsLoading } = useContext(LoaderContext);
   const { setLists } = useContext(ListContext);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleCommentDelete = async (commentToDelete) => {
     try {
@@ -90,10 +96,12 @@ export default function ConfirmListCommentDelete({
     }
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div
       onClick={() => setShowDeleteCommentModal(false)}
-      className="inset-0 z-[150] backdrop-blur-xs flex items-center justify-center fixed"
+      className="fixed inset-0 z-[150] backdrop-blur-xs flex items-center justify-center"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -110,7 +118,7 @@ export default function ConfirmListCommentDelete({
         </button>
         <div className="mt-6 p-2 h-full w-full">
           <p className="text-center text-normal font-bold py-2">
-            Are you sure you want to delete this post?
+            Are you sure you want to delete this comment?
           </p>
           <div className="w-full flex gap-2">
             <RegularButtons
@@ -124,6 +132,7 @@ export default function ConfirmListCommentDelete({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
