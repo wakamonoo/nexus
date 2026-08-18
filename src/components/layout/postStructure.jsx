@@ -35,7 +35,7 @@ export default function PostStructure({ post }) {
   const pathname = usePathname();
   const postCarouselRef = useRef(null);
 
-  const postOwner = allUsers.find((user) => user.uid === post?.userId)
+  const postOwner = allUsers.find((user) => user.uid === post?.userId);
 
   const handlePostNavMain = (id, focusInput = false) => {
     setIsLoading(true);
@@ -104,7 +104,7 @@ export default function PostStructure({ post }) {
           )}
         </>
       )}
-      {user?.uid === postOwner.uid ? (
+      {user?.uid === postOwner?.uid ? (
         <div className="absolute top-4 right-4">
           <button
             id={`btn-${post.postId}`}
@@ -133,11 +133,11 @@ export default function PostStructure({ post }) {
               });
             } else {
               setIsLoading(true);
-              router.push(`/profile/${postOwner.uid}`);
+              router.push(`/profile/${postOwner?.uid}`);
             }
           }}
-          src={postOwner.picture || Fallback}
-          alt={postOwner.name}
+          src={postOwner?.picture || Fallback}
+          alt={postOwner?.name}
           loading="lazy"
           decoding="async"
           className="w-12 h-12 object-cover rounded-full"
@@ -153,12 +153,12 @@ export default function PostStructure({ post }) {
                 });
               } else {
                 setIsLoading(true);
-                router.push(`/profile/${postOwner.uid}`);
+                router.push(`/profile/${postOwner?.uid}`);
               }
             }}
             className="text-base mt-2 font-bold leading-3.5 truncate"
           >
-            {postOwner.name}
+            {postOwner?.name}
           </p>
           <p className="text-xs text-vibe">
             {(() => {
@@ -311,7 +311,10 @@ export default function PostStructure({ post }) {
                       decoding="async"
                       onLoad={(img) => {
                         if (index === 0 && !aspectRatio) {
-                          setAspectRatio(img.currentTarget.naturalWidth / img.currentTarget.naturalHeight);
+                          setAspectRatio(
+                            img.currentTarget.naturalWidth /
+                              img.currentTarget.naturalHeight,
+                          );
                         }
                       }}
                       className="w-full h-full object-cover"
