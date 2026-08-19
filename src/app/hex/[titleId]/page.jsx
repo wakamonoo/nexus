@@ -77,6 +77,10 @@ export default function Title() {
   const { reviewVotes } = useContext(SocketContext);
 
   useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
     const getTitle = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/titles/titleGet/${titleId}`);
@@ -93,9 +97,7 @@ export default function Title() {
         console.error(err);
         setTitle(null);
         setCurrentTitleRank(null);
-      } finally {
-        setIsLoading(false);
-      }
+      } 
     };
 
     getTitle();
@@ -700,7 +702,7 @@ export default function Title() {
                               setIsLoading(true);
                               router.push(`/profile/${reviewOwner.uid}`);
                             }}
-                            src={reviewOwner.picture}
+                            src={reviewOwner?.picture}
                             alt={reviewOwner.name}
                             loading="lazy"
                             decoding="async"
@@ -711,7 +713,7 @@ export default function Title() {
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setIsLoading(true);
-                                router.push(`/profile/${reviewOwner.uid}`);
+                                router.push(`/profile/${reviewOwner?.uid}`);
                               }}
                               className="cursor-pointer text-base mt-2 font-bold leading-none"
                             >

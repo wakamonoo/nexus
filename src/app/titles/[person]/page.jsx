@@ -33,6 +33,10 @@ export default function ActorProjects() {
   const router = useRouter();
 
   useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
     const getPerson = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/titles/personGet/${person}`);
@@ -51,7 +55,6 @@ export default function ActorProjects() {
         setProjects([]);
       } finally {
         setPageLoad(false);
-        setIsLoading(false);
       }
     };
 
