@@ -44,6 +44,7 @@ export const SocketProvider = ({ children }) => {
   const [chatLoad, setChatLoad] = useState(true);
   const { user, socket } = useContext(UserContext);
   const [sortedReviews, setSortedReviews] = useState([]);
+  const [reviewsLoad, setReviewsLoad] = useState(true);
   const [reviewVotes, setReviewVotes] = useState({});
   const [listVotes, setListVotes] = useState({});
   const [pings, setPings] = useState([]);
@@ -139,7 +140,7 @@ export const SocketProvider = ({ children }) => {
             onClick={() => {
               {
                 if (
-                  pingData.type === "comment" ||
+                  pingData.type === "postComment" ||
                   pingData.type === "reply" ||
                   pingData.type === "energize" ||
                   pingData.type === "echo"
@@ -147,8 +148,11 @@ export const SocketProvider = ({ children }) => {
                   router.push(`/post/${pingData.postId}`);
                 } else if (pingData.type === "sigil") {
                   router.push(`/profile/${pingData.userId}`);
-                } else if (pingData.type === "reviewUpvote")
+                } else if (pingData.type === "reviewUpvote") {
                   router.push(`/hex/${pingData.titleId}`);
+                } else if (pingData.type === "listComment") {
+                  router.push(`/hex/lists/${pingData.listId}`);
+                }
               }
               toast.dismiss(t.id);
             }}
@@ -200,6 +204,8 @@ export const SocketProvider = ({ children }) => {
         setSortedReviews(data);
       } catch (err) {
         console.error("failed to fetch pings", err);
+      } finally {
+        setReviewsLoad(false);
       }
     };
 
@@ -263,6 +269,7 @@ export const SocketProvider = ({ children }) => {
         pings,
         setPings,
         sortedReviews,
+        reviewsLoad,
         reviewVotes,
         listVotes,
       }}

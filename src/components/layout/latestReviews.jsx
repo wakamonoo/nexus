@@ -13,10 +13,9 @@ import { UserContext } from "@/context/userContext";
 dayjs.extend(relativeTime);
 
 export default function LatestReviews() {
-  const { sortedReviews } = useContext(SocketContext);
+  const { sortedReviews, reviewsLoad, reviewVotes } = useContext(SocketContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { reviewVotes } = useContext(SocketContext);
   const { allUsers } = useContext(UserContext);
   const router = useRouter();
   const carouselRef = useRef(null);
@@ -49,7 +48,7 @@ export default function LatestReviews() {
     return () => clearInterval(interval);
   }, [sortedReviews]);
 
-  if (!titles || titles.length === 0 || !allUsers || allUsers.length === 0) {
+  if (reviewsLoad || !titles || !allUsers) {
     return (
       <div>
         <AsideLoader />

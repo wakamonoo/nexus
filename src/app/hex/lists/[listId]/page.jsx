@@ -232,7 +232,7 @@ export default function List() {
                 </div>
               </div>
               <div className="w-full mt-2 hidden md:block">
-                {currentList.comments?.length === 0 ? (
+                {!currentList.comments || currentList.comments?.length === 0 ? (
                   <div className="flex items-center justify-center py-16">
                     <div className="flex items-center gap-2">
                       <FaRegComment className="text-2xl" />

@@ -203,6 +203,8 @@ router.post("/addComment/:listId", async (req, res) => {
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
+    const list = await db.collection("lists").findOne({ listId });
+
     const userBefore = await db.collection("users").findOne({ uid: userId });
 
     await db.collection("users").findOneAndUpdate(
@@ -286,6 +288,29 @@ router.post("/addComment/:listId", async (req, res) => {
         },
       },
     );
+
+    const listOwner = list.userId;
+    const commentSender = await db.collection("users").findOne({ uid: userId });
+
+    if (listOwner && listOwner !== commentSender.uid) {
+      const pingData = {
+        pingId: `ping-${uuidv4()}`,
+        type: "listComment",
+        senderId: commentSender.uid,
+        senderName: commentSender.name,
+        senderImage: commentSender.picture,
+        userId: listOwner,
+        listId,
+        message: "commented on your list.",
+        date: new Date(),
+        isRead: false,
+      };
+
+      await db.collection("pings").insertOne(pingData);
+
+      io.to(listOwner).emit("ping", pingData);
+      console.log(`ping sent to ${listOwner}`);
+    }
 
     res.status(200).json({ message: "comment added", comment: newComment });
   } catch (err) {

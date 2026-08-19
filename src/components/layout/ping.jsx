@@ -53,7 +53,7 @@ export default function Ping({ setShowPing }) {
       );
 
       if (
-        ping.type === "comment" ||
+        ping.type === "postComment" ||
         ping.type === "reply" ||
         ping.type == "energize" ||
         ping.type == "echo"
@@ -64,6 +64,8 @@ export default function Ping({ setShowPing }) {
       } else if (ping.type === "reviewUpvote") {
         router.push(`/hex/${ping.titleId}`);
       } else if (ping.type === "listUpvote") {
+        router.push(`/hex/lists/${ping.listId}`);
+      } else if (ping.type === "listComment") {
         router.push(`/hex/lists/${ping.listId}`);
       }
     } catch (err) {

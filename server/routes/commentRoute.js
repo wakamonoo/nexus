@@ -101,7 +101,7 @@ router.post("/addComment", async (req, res) => {
     if (postOwner && postOwner !== commentSender.uid) {
       const pingData = {
         pingId: `ping-${uuidv4()}`,
-        type: "comment",
+        type: "postComment",
         senderId: commentSender.uid,
         senderName: commentSender.name,
         senderImage: commentSender.picture,
