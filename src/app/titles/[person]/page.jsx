@@ -9,9 +9,23 @@ import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import TitleCard from "@/components/layout/titleCard";
 
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
+
 export default function ActorProjects() {
   const { person } = useParams();
-  const { titles } = useContext(TitleContext);
+  const [personData, setPersonData] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [pageLoad, setPageLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
@@ -19,25 +33,30 @@ export default function ActorProjects() {
   const router = useRouter();
 
   useEffect(() => {
-    setIsLoading(false);
-  }, []);
+    const getPerson = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/titles/personGet/${person}`);
 
-  const personEntries =
-    titles
-      ?.flatMap((title) => [...(title.cast || []), ...(title.crew || [])])
-      .filter((p) => String(p.tmdbId) === String(person)) || [];
+        if (!res.ok) {
+          throw new Error("failed to fetch title");
+        }
 
-  const personData =
-    personEntries.find((p) => p.biography?.trim() && p.profilePath) ||
-    personEntries?.find((p) => p.biography?.trim()) ||
-    personEntries?.find((p) => p.profilePath) ||
-    personEntries?.[0];
+        const data = await res.json();
 
-  const projects = titles.filter(
-    (title) =>
-      title.cast?.some((p) => String(p.tmdbId) === String(person)) ||
-      title.crew?.some((p) => String(p.tmdbId) === String(person)),
-  );
+        setPersonData(data.person);
+        setProjects(data.projects);
+      } catch (err) {
+        console.error(err);
+        setPersonData(null);
+        setProjects([]);
+      } finally {
+        setPageLoad(false);
+        setIsLoading(false);
+      }
+    };
+
+    getPerson();
+  }, [person]);
 
   return (
     <>
@@ -49,7 +68,7 @@ export default function ActorProjects() {
           />
           <h4 className="text-xl">{personData?.name}</h4>
         </div>
-        {!titles ? (
+        {pageLoad ? (
           <ShowListLoader />
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] gap-4 items-start w-full">

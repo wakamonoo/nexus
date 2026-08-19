@@ -91,6 +91,8 @@ export default function Title() {
         setCurrentTitleRank(data.rank);
       } catch (err) {
         console.error(err);
+        setTitle(null);
+        setCurrentTitleRank(null);
       } finally {
         setIsLoading(false);
       }
