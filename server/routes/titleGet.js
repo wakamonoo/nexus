@@ -25,6 +25,7 @@ router.get("/titleGet", async (req, res) => {
             title: 1,
             poster: 1,
             backdrop: 1,
+            mediaType: 1,
             status: 1,
             category: 1,
             universe: 1,
