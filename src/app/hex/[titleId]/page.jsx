@@ -62,11 +62,11 @@ if (APP_ENV === "production") {
 }
 
 export default function Title() {
-  const { titles, reviewToDelete, setReviewToDelete } =
-    useContext(TitleContext);
+  const { reviewToDelete, setReviewToDelete } = useContext(TitleContext);
   const { titleId } = useParams();
   const router = useRouter();
-  const [activeReview, setActiveReview] = useState(null);
+  const [title, setTitle] = useState(null);
+  const [currentTitleRank, setCurrentTitleRank] = useState(null);
   const [showSum, setShowSum] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [showAddReview, setShowAddReview] = useState(false);
@@ -77,10 +77,27 @@ export default function Title() {
   const { reviewVotes } = useContext(SocketContext);
 
   useEffect(() => {
-    setIsLoading(false);
-  }, []);
+    const getTitle = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/titles/titleGet/${titleId}`);
 
-  const title = titles.find((t) => t.titleId === titleId);
+        if (!res.ok) {
+          throw new Error("failed to fetch title");
+        }
+
+        const data = await res.json();
+
+        setTitle(data.title);
+        setCurrentTitleRank(data.rank);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getTitle();
+  }, [titleId]);
 
   const doneReview = title?.reviews?.some(
     (review) => review.userId === user?.uid,
@@ -96,27 +113,10 @@ export default function Title() {
     (a, b) => new Date(a.date) - new Date(b.date),
   )[0];
 
-  const rankedTitles = titles
-    .filter((t) => t.totalPoints > 0)
-    .sort((a, b) => b.totalPoints - a.totalPoints);
-
-  let previousPoints = null;
-  let currentRank = 0;
-
-  const ranked = rankedTitles.map((t, index) => {
-    if (t.totalPoints !== previousPoints) {
-      currentRank = index + 1;
-      previousPoints = t.totalPoints;
-    }
-    return { ...t, rank: currentRank };
-  });
-
   const topRankedNumber =
     allUsers
       ?.flatMap((user) => user.rankings || [])
       .filter((r) => r.titleId === title?.titleId && r.rank === 1).length || 0;
-
-  const currentTitleRank = ranked.find((t) => t.titleId === titleId)?.rank;
 
   const handleVote = async (reviewId, vote) => {
     try {

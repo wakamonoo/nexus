@@ -24,7 +24,7 @@ export default function CommentLayout({ comment, firstComment, listId }) {
             router.push(`/profile/${commentor.uid}`);
             setIsLoading(true);
           }}
-          src={commentor.picture}
+          src={commentor?.picture}
           alt={commentor.name}
           loading="lazy"
           decoding="async"
@@ -52,7 +52,7 @@ export default function CommentLayout({ comment, firstComment, listId }) {
                   {dayjs(comment.date).fromNow()}
                 </p>
               </div>
-              {user.uid === commentor.uid && (
+              {user?.uid === commentor.uid && (
                 <div
                   onClick={() => setShowDeleteCommentModal(true)}
                   className="top-2 right-2"
