@@ -20,9 +20,9 @@ export default function MostWatchedTitlesStructureMax() {
   let currentRank = 0;
 
   const ranked = popular.map((t, index) => {
-    if (t.watchCount.length !== previousCount) {
+    if (t.watchCount !== previousCount) {
       currentRank = index + 1;
-      previousCount = t.watchCount.length;
+      previousCount = t.watchCount;
     }
     return { ...t, rank: currentRank };
   });

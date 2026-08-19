@@ -150,8 +150,8 @@ export const TitleProvider = ({ children }) => {
     if (!titles) return;
 
     return [...titles]
-      .filter?.((t) => Array.isArray(t.watchCount) && t.watchCount.length > 0)
-      .sort((a, b) => b.watchCount.length - a.watchCount.length);
+      .filter?.((t) => t.watchCount > 0)
+      .sort((a, b) => b.watchCount - a.watchCount);
   }, [titles]);
 
   return (
