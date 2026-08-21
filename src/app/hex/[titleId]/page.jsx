@@ -700,10 +700,10 @@ export default function Title() {
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsLoading(true);
-                              router.push(`/profile/${reviewOwner.uid}`);
+                              router.push(`/profile/${reviewOwner?.uid}`);
                             }}
                             src={reviewOwner?.picture}
-                            alt={reviewOwner.name}
+                            alt={reviewOwner?.name}
                             loading="lazy"
                             decoding="async"
                             className="w-12 h-12 object-cover rounded-full cursor-pointer"
@@ -717,7 +717,7 @@ export default function Title() {
                               }}
                               className="cursor-pointer text-base mt-2 font-bold leading-none"
                             >
-                              {reviewOwner.name}
+                              {reviewOwner?.name}
                             </p>
                             <p className="text-xs text-vibe">
                               {(() => {
