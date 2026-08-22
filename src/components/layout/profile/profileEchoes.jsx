@@ -1,7 +1,7 @@
 import { PostContext } from "@/context/postContext";
 import { useContext } from "react";
 import { MdSensorsOff } from "react-icons/md";
-import PostStructure from "../postStructure";
+import PostStructure from "../post/postStructure";
 import { UserContext } from "@/context/userContext";
 
 export default function ProfileEchoes({ profileUser }) {

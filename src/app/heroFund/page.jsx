@@ -1,5 +1,5 @@
 "use client";
-import NavBar from "@/components/layout/navBar";
+import NavBar from "@/components/layout/essentials/navBar";
 import { useContext, useEffect } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";

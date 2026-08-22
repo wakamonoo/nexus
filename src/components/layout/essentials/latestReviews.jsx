@@ -4,7 +4,7 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { MdRateReview } from "react-icons/md";
-import AsideLoader from "../loaders/asideLoader";
+import AsideLoader from "../../loaders/asideLoader";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";

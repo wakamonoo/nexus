@@ -1,12 +1,12 @@
 "use client";
-import PostStructure from "@/components/layout/postStructure";
+import PostStructure from "@/components/layout/post/postStructure";
 import { LoaderContext } from "@/context/loaderContext";
 import { PostContext } from "@/context/postContext";
 import { useParams, useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { FaAngleLeft } from "react-icons/fa";
-import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
-import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
+import GoatTitlesStructureMin from "@/components/layout/titlesStructure/goatTitlesStructureMin";
+import GoatTitlesStructureMax from "@/components/layout/titlesStructure/goatTitlesStructureMax";
 import PostsLoader from "@/components/loaders/postsLoader";
 import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
 import GoatMinLoader from "@/components/loaders/goatMinLoader";

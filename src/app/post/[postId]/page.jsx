@@ -17,9 +17,9 @@ import { LoaderContext } from "@/context/loaderContext";
 import PostLoader from "@/components/loaders/postLoader";
 import { Bs1CircleFill } from "react-icons/bs";
 import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
-import PostOpt from "@/components/layout/postOpt";
-import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
-import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
+import PostOpt from "@/components/layout/post/postOpt";
+import GoatTitlesStructureMin from "@/components/layout/titlesStructure/goatTitlesStructureMin";
+import GoatTitlesStructureMax from "@/components/layout/titlesStructure/goatTitlesStructureMax";
 import CommentDelConfirm from "@/components/modals/commentDelConfirm";
 import GoatMinLoader from "@/components/loaders/goatMinLoader";
 import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
@@ -33,7 +33,7 @@ import {
 } from "react-icons/ri";
 import CommentLightBox from "@/components/lightBoxes/commentLightBox";
 import GifPicker from "@/components/modals/gifPicker";
-import AutoPlay from "@/components/layout/autoPlay";
+import AutoPlay from "@/components/layout/post/autoPlay";
 import { TitleContext } from "@/context/titleContext";
 import CircledButtons from "@/components/buttons/circledBtns";
 

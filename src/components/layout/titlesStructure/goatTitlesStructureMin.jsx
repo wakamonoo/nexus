@@ -7,22 +7,21 @@ import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
-import TitleCard from "./titleCard";
+import TitleCard from "../title/titleCard";
 
-export default function MostWatchedTitlesStructureMax() {
+export default function GoatTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
-  const { popular } = useContext(TitleContext);
-  const { isTitleWatched, } = useContext(WatchContext);
+  const { goat } = useContext(TitleContext);
+  const { isTitleWatched} = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
 
-
-  let previousCount = null;
+  let previousPoints = null;
   let currentRank = 0;
 
-  const ranked = popular.map((t, index) => {
-    if (t.watchCount !== previousCount) {
+  const ranked = goat.map((t, index) => {
+    if (t.totalPoints !== previousPoints) {
       currentRank = index + 1;
-      previousCount = t.watchCount;
+      previousPoints = t.totalPoints;
     }
     return { ...t, rank: currentRank };
   });
@@ -32,7 +31,7 @@ export default function MostWatchedTitlesStructureMax() {
   }, []);
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
+    <div className="flex gap-2">
       {ranked.length > 0 ? (
         ranked.map((unit) => (
           <TitleCard
@@ -40,7 +39,7 @@ export default function MostWatchedTitlesStructureMax() {
             unit={unit}
             isWatched={isTitleWatched(unit.titleId)}
             onOpen={() => handleShowNav(unit.titleId)}
-            popular={true}
+            goat={true}
           />
         ))
       ) : (

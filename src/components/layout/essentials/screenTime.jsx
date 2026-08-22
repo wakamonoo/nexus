@@ -7,7 +7,7 @@ import CountUp from "react-countup";
 import { LoaderContext } from "@/context/loaderContext";
 import { GiTrophy } from "react-icons/gi";
 import { FaMedal } from "react-icons/fa";
-import ScreenTimeLoader from "../loaders/screenTimeLoader";
+import ScreenTimeLoader from "../../loaders/screenTimeLoader";
 
 export default function ScreenTime() {
   const { allUsers, allUsersLoading } = useContext(UserContext);

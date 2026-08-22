@@ -5,7 +5,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
-import MostWatchedTitlesStructureMax from "@/components/layout/mostWatchedTitlesStructureMax";
+import MostWatchedTitlesStructureMax from "@/components/layout/titlesStructure/mostWatchedTitlesStructureMax";
 
 export default function Popular() {
   const { titles } = useContext(TitleContext);

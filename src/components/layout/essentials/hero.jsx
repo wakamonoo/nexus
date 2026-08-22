@@ -3,7 +3,7 @@ import { FaRegFileAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { PostContext } from "@/context/postContext";
 import HeroLoader from "@/components/loaders/postsLoader";
-import PostStructure from "@/components/layout/postStructure";
+import PostStructure from "@/components/layout/post/postStructure";
 
 export default function Hero() {
   const { posts, coldLoad } = useContext(PostContext);

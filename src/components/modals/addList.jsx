@@ -9,7 +9,7 @@ import { IoRadioButtonOff, IoRadioButtonOn } from "react-icons/io5";
 import { UserContext } from "@/context/userContext";
 import CircledButtons from "../buttons/circledBtns";
 import Loader from "@/components/loaders/searchLoader";
-import TitleCard from "../layout/titleCard";
+import TitleCard from "../layout/title/titleCard";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 

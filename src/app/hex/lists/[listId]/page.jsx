@@ -13,7 +13,7 @@ import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
-import TitleCard from "@/components/layout/titleCard";
+import TitleCard from "@/components/layout/title/titleCard";
 import ListLoader from "@/components/loaders/listLoader";
 import SecondaryButtons from "@/components/buttons/secBtns";
 import ListDelConfirm from "@/components/modals/deleteList";

@@ -1,7 +1,7 @@
 "use client";
 import { MdClose, MdSend } from "react-icons/md";
 import ironman from "@/assets/tony.jpg";
-import NavBar from "@/components/layout/navBar";
+import NavBar from "@/components/layout/essentials/navBar";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaRegComments, FaReply, FaTrash, FaUserSlash } from "react-icons/fa";

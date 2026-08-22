@@ -22,7 +22,7 @@ import { SigilContext } from "@/context/sigilContext";
 import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";
 import Rina from "../../../assets/rina.png";
 import ProfileLibrary from "@/components/layout/profile/profileLibrary";
-import TitleCard from "@/components/layout/titleCard";
+import TitleCard from "@/components/layout/title/titleCard";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 

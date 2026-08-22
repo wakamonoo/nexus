@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import CountdownLoader from "../loaders/countdownLoader";
+import CountdownLoader from "../../loaders/countdownLoader";
 
 dayjs.extend(duration);
 dayjs.extend(utc);

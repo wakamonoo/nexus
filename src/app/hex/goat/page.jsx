@@ -5,7 +5,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
-import GoatTitlesStructureMax from "@/components/layout/goatTitlesStructureMax";
+import GoatTitlesStructureMax from "@/components/layout/titlesStructure/goatTitlesStructureMax";
 
 export default function Goat() {
   const { titles } = useContext(TitleContext);

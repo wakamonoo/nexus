@@ -3,7 +3,7 @@ import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import Swal from "sweetalert2";
 import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
-import NavBar from "@/components/layout/navBar";
+import NavBar from "@/components/layout/essentials/navBar";
 import RegularButtons from "@/components/buttons/regBtns";
 
 export default function Recommendations() {

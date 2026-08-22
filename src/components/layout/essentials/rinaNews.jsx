@@ -3,9 +3,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
-import Rina from "../../assets/rina.png";
-import RinaLoaderNews from "../loaders/rinaLoaderNews";
-import Fallback from "../../assets/fallback.png";
+import Rina from "../../../assets/rina.png";
+import RinaLoaderNews from "../../loaders/rinaLoaderNews";
+import Fallback from "../../../assets/fallback.png";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;

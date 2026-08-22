@@ -38,6 +38,7 @@ router.get("/titleGet", async (req, res) => {
             last_air_date: 1,
             totalPoints: 1,
             connections: 1,
+            reviews: 1,
             watchCount: {
               $size: {
                 $ifNull: ["$watchCount", []],

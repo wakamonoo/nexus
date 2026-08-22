@@ -27,7 +27,7 @@ import ShowLoader from "@/components/loaders/showLoader";
 import AddReview from "@/components/modals/addReview";
 import { UserContext } from "@/context/userContext";
 import { MdClose, MdOutlineReviews, MdRateReview } from "react-icons/md";
-import TitleMenu from "@/components/layout/titleMenu";
+import TitleMenu from "@/components/layout/title/titleMenu";
 import { GiTrophy } from "react-icons/gi";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
 import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";

@@ -7,7 +7,7 @@ import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
-import TitleCard from "./titleCard";
+import TitleCard from "../title/titleCard";
 
 export default function GoatTitlesStructureMax() {
   const { setIsLoading } = useContext(LoaderContext);

@@ -1,5 +1,5 @@
 "use client";
-import NavBar from "@/components/layout/navBar";
+import NavBar from "@/components/layout/essentials/navBar";
 import { SigilContext } from "@/context/sigilContext";
 import { useContext } from "react";
 import Image from "next/image";

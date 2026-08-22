@@ -1,13 +1,13 @@
 "use client";
-import Banner from "@/components/layout/banner";
-import Hero from "../components/layout/hero";
-import NavBar from "@/components/layout/navBar";
-import MenuStructure from "@/components/layout/menuStructure";
-import LatestReviews from "@/components/layout/latestReviews";
-import RinaNews from "@/components/layout/rinaNews";
-import TitleCountdown from "@/components/layout/countdown";
-import ScreenTime from "@/components/layout/screenTime";
-import Footer from "@/components/layout/footer";
+import Banner from "@/components/layout/essentials/banner";
+import Hero from "../components/layout/essentials/hero";
+import NavBar from "@/components/layout/essentials/navBar";
+import MenuStructure from "@/components/layout/essentials/menuStructure";
+import LatestReviews from "@/components/layout/essentials/latestReviews";
+import RinaNews from "@/components/layout/essentials/rinaNews";
+import TitleCountdown from "@/components/layout/essentials/countdown";
+import ScreenTime from "@/components/layout/essentials/screenTime";
+import Footer from "@/components/layout/essentials/footer";
 
 export default function Page() {
   return (

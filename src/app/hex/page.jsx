@@ -5,19 +5,19 @@ import TitleLoader from "@/components/loaders/titlesLoader";
 import Loader from "@/components/loaders/searchLoader";
 import { useContext } from "react";
 import { TitleContext } from "@/context/titleContext";
-import NavBar from "@/components/layout/navBar";
+import NavBar from "@/components/layout/essentials/navBar";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { MdSearchOff } from "react-icons/md";
 import { HiOutlineMap, HiOutlineSearch } from "react-icons/hi";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
-import GoatTitlesStructureMin from "@/components/layout/goatTitlesStructureMin";
-import MostWatchedTitlesStructureMin from "@/components/layout/mostWatchedTitlesStructureMin";
+import GoatTitlesStructureMin from "@/components/layout/titlesStructure/goatTitlesStructureMin";
+import MostWatchedTitlesStructureMin from "@/components/layout/titlesStructure/mostWatchedTitlesStructureMin";
 import CustomButton from "@/components/buttons/customBtn";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import TitleCard from "@/components/layout/titleCard";
+import TitleCard from "@/components/layout/title/titleCard";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 

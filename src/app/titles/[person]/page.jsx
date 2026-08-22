@@ -7,7 +7,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
-import TitleCard from "@/components/layout/titleCard";
+import TitleCard from "@/components/layout/title/titleCard";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 

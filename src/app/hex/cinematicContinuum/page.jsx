@@ -8,7 +8,7 @@ import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
-import TitleCard from "@/components/layout/titleCard";
+import TitleCard from "@/components/layout/title/titleCard";
 
 export default function CinematicContinuum() {
   const { titles } = useContext(TitleContext);

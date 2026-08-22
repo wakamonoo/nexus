@@ -4,7 +4,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { FaEye, FaEyeSlash, FaRegEyeSlash } from "react-icons/fa";
 import { FiCheckCircle } from "react-icons/fi";
 import { MdOutlineReviews } from "react-icons/md";
-import AddReview from "../modals/addReview";
+import AddReview from "../../modals/addReview";
 import { GiTrophy } from "react-icons/gi";
 
 export default function TitleCard({

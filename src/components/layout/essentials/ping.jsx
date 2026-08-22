@@ -10,7 +10,7 @@ import { PiBellSimpleSlash } from "react-icons/pi";
 import { SocketContext } from "@/context/socketContext";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PingOpt from "./pingOpt";
-import RegularButtons from "../buttons/regBtns";
+import RegularButtons from "../../buttons/regBtns";
 import Swal from "sweetalert2";
 
 dayjs.extend(relativeTime);

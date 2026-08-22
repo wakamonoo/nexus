@@ -8,7 +8,7 @@ import { HiMiniNewspaper } from "react-icons/hi2";
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 import { FaAngleRight } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
-import ImageLoader from "../loaders/imageLoader";
+import ImageLoader from "../../loaders/imageLoader";
 import Fallback from "@/assets/fallback.png";
 import Logo from "@/assets/main_logo.png";
 import Menu from "./menu";
