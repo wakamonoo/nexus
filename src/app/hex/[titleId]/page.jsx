@@ -97,7 +97,7 @@ export default function Title() {
         console.error(err);
         setTitle(null);
         setCurrentTitleRank(null);
-      } 
+      }
     };
 
     getTitle();
@@ -670,164 +670,166 @@ export default function Title() {
                   </>
                 </div>
               ) : (
-                title.reviews?.map((review) => {
-                  const reviewOwner = allUsers.find(
-                    (u) => u.uid === review.userId,
-                  );
-                  const realtimeVote = reviewVotes[review.reviewId];
-                  const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
-                  const downvotes =
-                    realtimeVote?.downvotes ?? review.downvotes ?? [];
-                  return (
-                    <Fragment key={review.reviewId}>
-                      <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative ">
-                        {review.userId === user?.uid && (
-                          <div
-                            onClick={() => setShowReviewOption(true)}
-                            className="flex absolute top-2 right-2"
-                          >
-                            <BiDotsHorizontalRounded className="text-base cursor-pointer" />
-                          </div>
-                        )}
-                        {review.date === firstReview.date && (
-                          <div className="flex absolute top-2 left-10">
-                            <Bs1CircleFill className="text-xl text-zeus" />
-                          </div>
-                        )}
+                title.reviews
+                  ?.sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .map((review) => {
+                    const reviewOwner = allUsers.find(
+                      (u) => u.uid === review.userId,
+                    );
+                    const realtimeVote = reviewVotes[review.reviewId];
+                    const upvotes =
+                      realtimeVote?.upvotes ?? review.upvotes ?? [];
+                    const downvotes =
+                      realtimeVote?.downvotes ?? review.downvotes ?? [];
+                    return (
+                      <Fragment key={review.reviewId}>
+                        <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative ">
+                          {review.userId === user?.uid && (
+                            <div
+                              onClick={() => setShowReviewOption(true)}
+                              className="flex absolute top-2 right-2"
+                            >
+                              <BiDotsHorizontalRounded className="text-base cursor-pointer" />
+                            </div>
+                          )}
+                          {review.date === firstReview.date && (
+                            <div className="flex absolute top-2 left-10">
+                              <Bs1CircleFill className="text-xl text-zeus" />
+                            </div>
+                          )}
 
-                        <div className="flex items-center gap-2">
-                          <img
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsLoading(true);
-                              router.push(`/profile/${reviewOwner?.uid}`);
-                            }}
-                            src={reviewOwner?.picture}
-                            alt={reviewOwner?.name}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-12 h-12 object-cover rounded-full cursor-pointer"
-                          />
-                          <div className="flex flex-col">
-                            <p
+                          <div className="flex items-center gap-2">
+                            <img
                               onClick={(e) => {
                                 e.stopPropagation();
                                 setIsLoading(true);
                                 router.push(`/profile/${reviewOwner?.uid}`);
                               }}
-                              className="cursor-pointer text-base mt-2 font-bold leading-none"
-                            >
-                              {reviewOwner?.name}
-                            </p>
-                            <p className="text-xs text-vibe">
-                              {(() => {
-                                const diffWeeks = dayjs().diff(
-                                  dayjs(review.date),
-                                  "week",
-                                );
-                                if (diffWeeks < 1) {
-                                  return dayjs(review.date).fromNow();
-                                }
-                                return new Date(review.date).toLocaleDateString(
-                                  [],
-                                  {
+                              src={reviewOwner?.picture}
+                              alt={reviewOwner?.name}
+                              loading="lazy"
+                              decoding="async"
+                              className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                            />
+                            <div className="flex flex-col">
+                              <p
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsLoading(true);
+                                  router.push(`/profile/${reviewOwner?.uid}`);
+                                }}
+                                className="cursor-pointer text-base mt-2 font-bold leading-none"
+                              >
+                                {reviewOwner?.name}
+                              </p>
+                              <p className="text-xs text-vibe">
+                                {(() => {
+                                  const diffWeeks = dayjs().diff(
+                                    dayjs(review.date),
+                                    "week",
+                                  );
+                                  if (diffWeeks < 1) {
+                                    return dayjs(review.date).fromNow();
+                                  }
+                                  return new Date(
+                                    review.date,
+                                  ).toLocaleDateString([], {
                                     month: "short",
                                     day: "2-digit",
                                     year: "numeric",
-                                  },
-                                );
-                              })()}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="border-t border-[var(--color-vibranium)]/20 mt-2">
-                          <div className="flex items-start">
-                            <div className="flex items-center justify-center w-8 h-8 shrink-0">
-                              <FaQuoteLeft className="text-xs opacity-60" />
+                                  });
+                                })()}
+                              </p>
                             </div>
-                            <p className="text-base text-vibe leading-tight mt-2">
-                              {review.textReview}
-                            </p>
+                          </div>
+                          <div className="border-t border-[var(--color-vibranium)]/20 mt-2">
+                            <div className="flex items-start">
+                              <div className="flex items-center justify-center w-8 h-8 shrink-0">
+                                <FaQuoteLeft className="text-xs opacity-60" />
+                              </div>
+                              <p className="text-base text-vibe leading-tight mt-2">
+                                {review.textReview}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-end  mt-4 px-2 gap-2">
+                            <div className="flex items-center rounded-full bg-panel py-2 px-4 gap-2">
+                              {upvotes.includes(user?.uid) ? (
+                                <BiSolidUpvote
+                                  onClick={() =>
+                                    handleVote(review.reviewId, "up")
+                                  }
+                                  className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                                />
+                              ) : (
+                                <BiUpvote
+                                  onClick={() =>
+                                    handleVote(review.reviewId, "up")
+                                  }
+                                  className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                                />
+                              )}
+                              <span className="text-xs opacity-60">
+                                {upvotes.length - downvotes.length}
+                              </span>
+                              {downvotes.includes(user?.uid) ? (
+                                <BiSolidDownvote
+                                  onClick={() =>
+                                    handleVote(review.reviewId, "down")
+                                  }
+                                  className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                                />
+                              ) : (
+                                <BiDownvote
+                                  onClick={() =>
+                                    handleVote(review.reviewId, "down")
+                                  }
+                                  className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
+                                />
+                              )}
+                            </div>
                           </div>
                         </div>
-                        <div className="flex flex-col items-end  mt-4 px-2 gap-2">
-                          <div className="flex items-center rounded-full bg-panel py-2 px-4 gap-2">
-                            {upvotes.includes(user?.uid) ? (
-                              <BiSolidUpvote
-                                onClick={() =>
-                                  handleVote(review.reviewId, "up")
-                                }
-                                className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
-                              />
-                            ) : (
-                              <BiUpvote
-                                onClick={() =>
-                                  handleVote(review.reviewId, "up")
-                                }
-                                className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
-                              />
-                            )}
-                            <span className="text-xs opacity-60">
-                              {upvotes.length - downvotes.length}
-                            </span>
-                            {downvotes.includes(user?.uid) ? (
-                              <BiSolidDownvote
-                                onClick={() =>
-                                  handleVote(review.reviewId, "down")
-                                }
-                                className={`text-base text-accent cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
-                              />
-                            ) : (
-                              <BiDownvote
-                                onClick={() =>
-                                  handleVote(review.reviewId, "down")
-                                }
-                                className={`text-base cursor-pointer transition-all duration-200 hover:scale-125 active:scale-125}`}
-                              />
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      {showReviewOption && (
-                        <div
-                          onClick={() => setShowReviewOption(false)}
-                          className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
-                        >
+                        {showReviewOption && (
                           <div
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+                            onClick={() => setShowReviewOption(false)}
+                            className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
                           >
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setShowReviewOption(false);
-                              }}
-                              className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                            <div
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
                             >
-                              <MdClose className="text-2xl" />
-                            </button>
-                            <div className="mt-8 p-2 h-full w-full">
-                              <div className="w-full flex flex-col gap-2">
-                                <CircledButtons
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowReviewOption(false);
-                                    setReviewToDelete(review.reviewId);
-                                    setReviewDelModal(true);
-                                  }}
-                                >
-                                  <p className="font-bold text-normal text-base">
-                                    Delete Review
-                                  </p>
-                                </CircledButtons>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setShowReviewOption(false);
+                                }}
+                                className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+                              >
+                                <MdClose className="text-2xl" />
+                              </button>
+                              <div className="mt-8 p-2 h-full w-full">
+                                <div className="w-full flex flex-col gap-2">
+                                  <CircledButtons
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setShowReviewOption(false);
+                                      setReviewToDelete(review.reviewId);
+                                      setReviewDelModal(true);
+                                    }}
+                                  >
+                                    <p className="font-bold text-normal text-base">
+                                      Delete Review
+                                    </p>
+                                  </CircledButtons>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      )}
-                    </Fragment>
-                  );
-                })
+                        )}
+                      </Fragment>
+                    );
+                  })
               )}
             </div>
           </div>
