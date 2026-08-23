@@ -22,7 +22,6 @@ router.post("/signup", async (req, res) => {
           email,
           name,
           picture,
-          lastCheckCitadel: null,
           createdAt: new Date(),
         },
       },
@@ -112,25 +111,6 @@ router.delete("/deleteUser/:uid", async (req, res) => {
     }
 
     res.status(200).json({ message: "user and its data deleted succesfully" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-router.patch("/citadelRead/:uid", async (req, res) => {
-  try {
-    const { uid } = req.params;
-
-    const client = await clientPromise;
-    const mongodb = process.env.MONGODB;
-    const db = client.db(mongodb);
-
-    await db
-      .collection("users")
-      .updateOne({ uid }, { $set: { lastCheckCitadel: new Date() } });
-
-    res.status(200).json({ message: "user's citadel last read updated" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });

@@ -48,6 +48,8 @@ export const SocketProvider = ({ children }) => {
   const [reviewVotes, setReviewVotes] = useState({});
   const [listVotes, setListVotes] = useState({});
   const [pings, setPings] = useState([]);
+  const [latestSeenMessages, setLatestSeenMessages] = useState({});
+  const [seenMessagesLoaded, setSeenMessagesLoaded] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -73,7 +75,30 @@ export const SocketProvider = ({ children }) => {
         console.error("failed to fetch messages", err);
       }
     };
+
     fetchMessages();
+
+    const fetchLatestSeenMessages = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/messages/citadelSeenGet`);
+        const data = await res.json();
+
+        const mapped = {};
+
+        data.forEach((item) => {
+          mapped[item.uid] = {
+            messageId: item.latestCitadelSeenMessageId,
+            seenAt: item.latestCitadelSeenAt,
+          };
+        });
+
+        setLatestSeenMessages(mapped);
+      } catch (err) {
+        console.error("failed to fetch messages", err);
+      }
+    };
+
+    fetchLatestSeenMessages();
 
     socket.on("messageSent", (data) => {
       setMessages((prev) => [...prev, data]);
@@ -107,10 +132,23 @@ export const SocketProvider = ({ children }) => {
     socket.on("messageDeleted", ({ msgId }) => {
       setMessages((prev) => prev.filter((msg) => msg.msgId !== msgId));
     });
+
+    socket.on("messageSeen", (data) => {
+      setLatestSeenMessages((prev) => ({
+        ...prev,
+
+        [data.userId]: {
+          messageId: data.messageId,
+          seenAt: data.seenAt,
+        },
+      }));
+    });
+
     return () => {
       socket.off("messageSent");
       socket.off("messageEdited");
       socket.off("messageDeleted");
+      socket.off("messageSeen");
     };
   }, [socket, user]);
 
@@ -272,6 +310,7 @@ export const SocketProvider = ({ children }) => {
         reviewsLoad,
         reviewVotes,
         listVotes,
+        latestSeenMessages,
       }}
     >
       {children}

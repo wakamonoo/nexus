@@ -30,7 +30,7 @@ export default function NavBar() {
   const { postFetch } = useContext(PostContext);
   const [showUserNav, setShowUserNav] = useState(false);
   const [showPing, setShowPing] = useState(false);
-  const { pings, messages } = useContext(SocketContext);
+  const { pings, messages, latestSeenMessages } = useContext(SocketContext);
   const router = useRouter();
 
   const isActive = (target) => {
@@ -41,11 +41,16 @@ export default function NavBar() {
       : "text-inherit";
   };
 
-  const unReadCitadelCount = messages?.filter((m) => {
-    if (!user?.lastCheckCitadel) return true;
+  const latestSeenMessageId = latestSeenMessages?.[user?.uid]?.messageId;
 
-    return new Date(m.messagedAt) > new Date(user.lastCheckCitadel);
-  }).length;
+  const latestSeenIndex = messages.findIndex(
+    (m) => m.msgId === latestSeenMessageId,
+  );
+
+  const unReadCitadelCount =
+    latestSeenIndex === -1
+      ? messages.filter((m) => m.senderId !== user?.uid).length
+      : messages.slice(latestSeenIndex + 1).filter((m) => m.senderId !== user?.uid).length
 
   const handleHomeClick = async () => {
     if (pathname === "/") {

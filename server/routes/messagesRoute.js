@@ -90,4 +90,87 @@ router.patch("/editMessage/:messageId", async (req, res) => {
   }
 });
 
+router.patch("/seenMessage/:messageId", async (req, res) => {
+  try {
+    const io = req.app.get("io");
+    const { messageId } = req.params;
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({
+        error: "userId required",
+      });
+    }
+
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
+
+    const message = await db.collection("messages").findOne({
+      msgId: messageId,
+    });
+
+    if (!message) {
+      return res.status(404).json({
+        error: "message not found",
+      });
+    }
+
+    if (message.senderId === userId) {
+      return res.status(200).json({
+        message: "own message",
+      });
+    }
+
+    const user = await db.collection("users").findOne({
+      uid: userId,
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        error: "user not found",
+      });
+    }
+
+    if (user.latestCitadelSeenMessageId) {
+      const currentSeenMessage = await db.collection("messages").findOne({
+        msgId: user.latestCitadelSeenMessageId,
+      });
+
+      if (currentSeenMessage && currentSeenMessage._id >= message._id) {
+        return res.status(200).json({
+          message: "already saw this or a newer message",
+        });
+      }
+    }
+
+    const seenAt = new Date();
+
+    await db.collection("users").updateOne(
+      {
+        uid: userId,
+      },
+      {
+        $set: {
+          latestCitadelSeenMessageId: messageId,
+          latestCitadelSeenAt: seenAt,
+        },
+      },
+    );
+
+    io.emit("messageSeen", {
+      userId,
+      messageId,
+      seenAt,
+    });
+
+    res
+      .status(200)
+      .json({ message: "messaged markes as seen succesfully", messageId });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "failed to mark message as seen" });
+  }
+});
+
 export default router;

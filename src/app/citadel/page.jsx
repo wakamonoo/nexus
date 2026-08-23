@@ -35,7 +35,8 @@ if (APP_ENV === "production") {
 export default function Citadel() {
   const { allUsers, user, setUser, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { messages, setMessages, chatLoad } = useContext(SocketContext);
+  const { messages, setMessages, chatLoad, latestSeenMessages } =
+    useContext(SocketContext);
   const [input, setInput] = useState("");
   const [files, setFiles] = useState([]);
   const msgEndRef = useRef();
@@ -60,27 +61,70 @@ export default function Citadel() {
   const inputRef = useRef(null);
   const replyRef = useRef({});
   const bubbleRef = useRef({});
+  const seenMessageRequests = useRef(new Set());
+  const seenMessageRefs = useRef({});
 
-  useEffect(() => {
+  const markMessageSeen = async (msg) => {
     if (!user) return;
 
-    const markRead = async () => {
-      try {
-        await fetch(`${BASE_URL}/api/users/citadelRead/${user.uid}`, {
-          method: "PATCH",
-        });
+    if (msg.senderId === user.uid) return;
 
-        setUser((prev) => ({
-          ...prev,
-          lastCheckCitadel: new Date(),
-        }));
-      } catch (err) {
-        console.log(err);
-      }
+    const alreadyProcessing = seenMessageRequests.current.has(msg.msgId);
+
+    if (alreadyProcessing) return;
+
+    seenMessageRequests.current.add(msg.msgId);
+
+    try {
+      await fetch(`${BASE_URL}/api/messages/seenMessage/${msg.msgId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.uid,
+        }),
+      });
+    } catch (err) {
+      console.error("failed to mark message as seen", err);
+
+      seenMessageRequests.current.delete(msg.msgId);
+    }
+  };
+
+  useEffect(() => {
+    if (!user || !messages.length) return;
+
+    const observers = [];
+
+    messages.forEach((msg) => {
+      if (msg.senderId === user.uid) return;
+
+      const element = seenMessageRefs.current[msg.msgId];
+
+      if (!element) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            markMessageSeen(msg);
+
+            observer.disconnect();
+          }
+        },
+        {
+          threshold: 0.6,
+        },
+      );
+
+      observer.observe(element);
+      observers.push(observer);
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
     };
-
-    markRead();
-  }, [user]);
+  }, [messages, user]);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -318,6 +362,17 @@ export default function Citadel() {
                     const messageOwner = allUsers.find(
                       (u) => u.uid === msg.senderId,
                     );
+
+                    const seenUsers = allUsers.filter(
+                      (viewer) =>
+                        viewer.uid !== msg.senderId &&
+                        latestSeenMessages[viewer.uid]?.messageId === msg.msgId,
+                    );
+
+                    const visibleSeenUsers = seenUsers.filter(
+                      (viewer) => viewer.uid !== user?.uid,
+                    );
+
                     const replyOwner = msg.replyTo
                       ? allUsers.find((u) => u.uid === msg.replyTo.senderId)
                       : null;
@@ -339,7 +394,12 @@ export default function Citadel() {
                       ) >= 30;
 
                     return (
-                      <div key={msg.msgId}>
+                      <div
+                        key={msg.msgId}
+                        ref={(element) =>
+                          (seenMessageRefs.current[msg.msgId] = element)
+                        }
+                      >
                         {showTimeStamp && (
                           <p className="text-xs text-vibe font-extralight text-center py-2">
                             {dayjs(msg.messagedAt).format(
@@ -349,199 +409,219 @@ export default function Citadel() {
                         )}
 
                         <div
-                          className={`flex gap-2 items-end ${
-                            user.uid === msg.senderId
-                              ? "justify-end"
-                              : "justify-start"
-                          }`}
+                          className={`flex flex-col ${ownMessage ? "items-end" : "items-start"}`}
                         >
-                          {!ownMessage && (
-                            <img
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsLoading(true);
-                                router.push(`/profile/${msg.senderId}`);
-                              }}
-                              src={messageOwner.picture || ironman}
-                              alt="user"
-                              loading="lazy"
-                              decoding="async"
-                              className="cursor-pointer w-8 h-8 rounded-full"
-                            />
-                          )}
                           <div
-                            className={`flex flex-col ${
-                              ownMessage ? "items-end" : "items-start"
+                            className={`flex gap-2 items-end ${
+                              ownMessage ? "justify-end" : "justify-start"
                             }`}
                           >
-                            <p className="text-sm items-center py-1 px-2 opacity-60 flex justify-start">
-                              {!ownMessage && !msg.replyTo && (
-                                <span>{messageOwner.name}</span>
-                              )}
-                              {msg.edited === true && (
-                                <>
-                                  {!ownMessage && (
-                                    <span className="flex text-sm px-1">•</span>
-                                  )}
-                                  <span className="flex text-sm text-accent opacity-60">
-                                    Edited
-                                  </span>
-                                </>
-                              )}
-                            </p>
-
-                            {msg.replyTo && (
-                              <div
-                                className={`flex flex-col px-2 ${ownMessage ? "items-end" : "items-start"}`}
-                              >
-                                <p className="text-sm opacity-60 py-1">
-                                  {ownMessage ? "You" : messageOwner.name}{" "}
-                                  replied to{" "}
-                                  {user.uid === msg.replyTo.senderId
-                                    ? "yourself"
-                                    : replyOwner?.name}
-                                </p>
-                                <div
-                                  onClick={() =>
-                                    scrollToReply(msg.replyTo.msgId)
-                                  }
-                                  className={`mb-2 cursor-pointer bg-second border-accent opacity-80 px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl ${ownMessage ? "border-l-2" : "border-r-2"}`}
-                                >
-                                  <p className="text-base text-normal whitespace-pre-wrap max-w-full line-clamp-3">
-                                    {msg.replyTo.text ||
-                                      (msg.replyTo.files?.length
-                                        ? "Attachment"
-                                        : "message")}
-                                  </p>
-                                </div>
-                              </div>
+                            {!ownMessage && (
+                              <img
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsLoading(true);
+                                  router.push(`/profile/${msg.senderId}`);
+                                }}
+                                src={messageOwner?.picture || ironman}
+                                alt="user"
+                                loading="lazy"
+                                decoding="async"
+                                className="cursor-pointer w-8 h-8 rounded-full"
+                              />
                             )}
                             <div
-                              className="flex group"
-                              onClick={() => {
-                                if (window.innerWidth < 768) {
-                                  setActiveMessage((prev) =>
-                                    prev === msg.msgId ? null : msg.msgId,
-                                  );
-                                }
-                              }}
+                              className={`flex flex-col ${
+                                ownMessage ? "items-end" : "items-start"
+                              }`}
                             >
-                              {ownMessage && (
+                              <p className="text-sm items-center py-1 px-2 opacity-60 flex justify-start">
+                                {!ownMessage && !msg.replyTo && (
+                                  <span>{messageOwner?.name}</span>
+                                )}
+                                {msg.edited === true && (
+                                  <>
+                                    {!ownMessage && (
+                                      <span className="flex text-sm px-1">
+                                        •
+                                      </span>
+                                    )}
+                                    <span className="flex text-sm text-accent opacity-60">
+                                      Edited
+                                    </span>
+                                  </>
+                                )}
+                              </p>
+
+                              {msg.replyTo && (
                                 <div
-                                  className={`mr-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
+                                  className={`flex flex-col px-2 ${ownMessage ? "items-end" : "items-start"}`}
                                 >
-                                  <BiDotsVerticalRounded
-                                    onClick={() => setSelectedMessage(msg)}
-                                    className="text-xl opacity-60 mt-2 cursor-pointer"
-                                  />
-                                  <FaReply
-                                    onClick={() => handleReply(msg)}
-                                    className="text-xl opacity-60 mt-2 cursor-pointer"
-                                  />
+                                  <p className="text-sm opacity-60 py-1">
+                                    {ownMessage ? "You" : messageOwner.name}{" "}
+                                    replied to{" "}
+                                    {user.uid === msg.replyTo.senderId
+                                      ? "yourself"
+                                      : replyOwner?.name}
+                                  </p>
+                                  <div
+                                    onClick={() =>
+                                      scrollToReply(msg.replyTo.msgId)
+                                    }
+                                    className={`mb-2 cursor-pointer bg-second border-accent opacity-80 px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl ${ownMessage ? "border-l-2" : "border-r-2"}`}
+                                  >
+                                    <p className="text-base text-normal whitespace-pre-wrap max-w-full line-clamp-3">
+                                      {msg.replyTo.text ||
+                                        (msg.replyTo.files?.length
+                                          ? "Attachment"
+                                          : "message")}
+                                    </p>
+                                  </div>
                                 </div>
                               )}
-
                               <div
-                                ref={(e) => {
-                                  if (e) replyRef.current[msg.msgId] = e;
+                                className="flex group"
+                                onClick={() => {
+                                  if (window.innerWidth < 768) {
+                                    setActiveMessage((prev) =>
+                                      prev === msg.msgId ? null : msg.msgId,
+                                    );
+                                  }
                                 }}
-                                className={`flex flex-col ${ownMessage ? "items-end" : "items-start"}`}
                               >
-                                {msg.text && (
+                                {ownMessage && (
                                   <div
-                                    ref={(e) => {
-                                      if (e) bubbleRef.current[msg.msgId] = e;
-                                    }}
-                                    className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl cursor-pointer transition-all duration-200 md:group-hover:bg-accent ${
-                                      activeMessage === msg.msgId
-                                        ? "bg-accent"
-                                        : ownMessage
-                                          ? "bg-second"
-                                          : "bg-panel"
-                                    }`}
+                                    className={`mr-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
                                   >
-                                    <p
-                                      className={`text-base text-normal flex whitespace-pre-wrap max-w-full ${
-                                        ownMessage
-                                          ? "justify-end border-[var(--color-panel)]"
-                                          : "justify-start border-[var(--color-secondary)]"
-                                      }`}
-                                      style={{ overflowWrap: "anywhere" }}
-                                    >
-                                      {msg.text}
-                                    </p>
+                                    <BiDotsVerticalRounded
+                                      onClick={() => setSelectedMessage(msg)}
+                                      className="text-xl opacity-60 mt-2 cursor-pointer"
+                                    />
+                                    <FaReply
+                                      onClick={() => handleReply(msg)}
+                                      className="text-xl opacity-60 mt-2 cursor-pointer"
+                                    />
                                   </div>
                                 )}
 
-                                {msg.files && msg.files.length > 0 && (
-                                  <div
-                                    ref={(e) => {
-                                      if (e) bubbleRef.current[msg.msgId] = e;
-                                    }}
-                                    className={`flex flex-wrap gap-2 mt-2 rounded ${
-                                      ownMessage
-                                        ? "justify-end"
-                                        : "justify-start"
-                                    }`}
-                                  >
-                                    {msg.files.map((file, index) => {
-                                      const isVideo =
-                                        /\.(mp4|mov|avi|webm)$/i.test(file);
-                                      const isImage =
-                                        /\.(jpg|peg|png|gif|webp)$/i.test(file);
-                                      const isGif =
-                                        file.includes("tenor.com") ||
-                                        file.includes("media.tenor.com") ||
-                                        file.includes("static.klipy.com");
+                                <div
+                                  ref={(e) => {
+                                    if (e) replyRef.current[msg.msgId] = e;
+                                  }}
+                                  className={`flex flex-col ${ownMessage ? "items-end" : "items-start"}`}
+                                >
+                                  {msg.text && (
+                                    <div
+                                      ref={(e) => {
+                                        if (e) bubbleRef.current[msg.msgId] = e;
+                                      }}
+                                      className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl cursor-pointer transition-all duration-200 md:group-hover:bg-accent ${
+                                        activeMessage === msg.msgId
+                                          ? "bg-accent"
+                                          : ownMessage
+                                            ? "bg-second"
+                                            : "bg-panel"
+                                      }`}
+                                    >
+                                      <p
+                                        className={`text-base text-normal flex whitespace-pre-wrap max-w-full ${
+                                          ownMessage
+                                            ? "justify-end border-[var(--color-panel)]"
+                                            : "justify-start border-[var(--color-secondary)]"
+                                        }`}
+                                        style={{ overflowWrap: "anywhere" }}
+                                      >
+                                        {msg.text}
+                                      </p>
+                                    </div>
+                                  )}
 
-                                      return (
-                                        <div
-                                          onClick={() =>
-                                            openCitadelLightBox(
-                                              msg.files,
-                                              msg.senderId,
-                                              messageOwner.name,
-                                              msg.messagedAt,
-                                              index,
-                                            )
-                                          }
-                                          key={index}
-                                          className="w-full min-w-32 max-w-60 md:max-w-90 h-auto block relative cursor-pointer"
-                                        >
-                                          {isVideo ? (
-                                            <video
-                                              src={file}
-                                              controls
-                                              className="w-full h-full rounded"
-                                            />
-                                          ) : isImage || isGif ? (
-                                            <img
-                                              src={file}
-                                              alt={`sent by ${messageOwner.name}`}
-                                              loading="lazy"
-                                              decoding="async"
-                                              className="w-full h-full object-cover rounded"
-                                            />
-                                          ) : null}
-                                        </div>
-                                      );
-                                    })}
+                                  {msg.files && msg.files.length > 0 && (
+                                    <div
+                                      ref={(e) => {
+                                        if (e) bubbleRef.current[msg.msgId] = e;
+                                      }}
+                                      className={`flex flex-wrap gap-2 mt-2 rounded ${
+                                        ownMessage
+                                          ? "justify-end"
+                                          : "justify-start"
+                                      }`}
+                                    >
+                                      {msg.files.map((file, index) => {
+                                        const isVideo =
+                                          /\.(mp4|mov|avi|webm)$/i.test(file);
+                                        const isImage =
+                                          /\.(jpg|peg|png|gif|webp)$/i.test(
+                                            file,
+                                          );
+                                        const isGif =
+                                          file.includes("tenor.com") ||
+                                          file.includes("media.tenor.com") ||
+                                          file.includes("static.klipy.com");
+
+                                        return (
+                                          <div
+                                            onClick={() =>
+                                              openCitadelLightBox(
+                                                msg.files,
+                                                msg.senderId,
+                                                messageOwner.name,
+                                                msg.messagedAt,
+                                                index,
+                                              )
+                                            }
+                                            key={index}
+                                            className="w-full min-w-32 max-w-60 md:max-w-90 h-auto block relative cursor-pointer"
+                                          >
+                                            {isVideo ? (
+                                              <video
+                                                src={file}
+                                                controls
+                                                className="w-full h-full rounded"
+                                              />
+                                            ) : isImage || isGif ? (
+                                              <img
+                                                src={file}
+                                                alt={`sent by ${messageOwner.name}`}
+                                                loading="lazy"
+                                                decoding="async"
+                                                className="w-full h-full object-cover rounded"
+                                              />
+                                            ) : null}
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+                                </div>
+
+                                {!ownMessage && (
+                                  <div
+                                    className={`ml-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
+                                  >
+                                    <FaReply
+                                      onClick={() => handleReply(msg)}
+                                      className="text-xl opacity-60 mt-2 cursor-pointer"
+                                    />
                                   </div>
                                 )}
                               </div>
-
-                              {!ownMessage && (
-                                <div
-                                  className={`ml-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
-                                >
-                                  <FaReply
-                                    onClick={() => handleReply(msg)}
-                                    className="text-xl opacity-60 mt-2 cursor-pointer"
-                                  />
-                                </div>
-                              )}
                             </div>
                           </div>
+                          {visibleSeenUsers.length > 0 && (
+                            <div
+                              className={`flex mt-1 ${ownMessage ? "mr-2" : "ml-12"}`}
+                            >
+                              {visibleSeenUsers.slice(-5).map((viewer) => (
+                                <img
+                                  key={viewer.uid}
+                                  src={viewer.picture || ironman}
+                                  alt={viewer.name}
+                                  className="w-4 h-4 rounded-full object-cover"
+                                />
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
                     );
