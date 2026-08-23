@@ -48,7 +48,7 @@ export default function LatestReviews() {
     return () => clearInterval(interval);
   }, [sortedReviews]);
 
-  if (reviewsLoad || !titles || !allUsers) {
+  if (reviewsLoad || !titles?.length || !allUsers?.length) {
     return (
       <div>
         <AsideLoader />
@@ -76,11 +76,11 @@ export default function LatestReviews() {
       <div className="relative h-30 overflow-hidden">
         <img
           src={
-            title.backdrop
-              ? `https://image.tmdb.org/t/p/w500${title.backdrop}`
+            title?.backdrop
+              ? `https://image.tmdb.org/t/p/w500${title?.backdrop}`
               : "/fallback.png"
           }
-          alt={title.title}
+          alt={title?.title}
           loading="lazy"
           decoding="async"
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
@@ -98,10 +98,10 @@ export default function LatestReviews() {
             onClick={(e) => {
               e.stopPropagation();
               setIsLoading(true);
-              router.push(`/profile/${reviewOwner.uid}`);
+              router.push(`/profile/${reviewOwner?.uid}`);
             }}
-            src={reviewOwner.picture}
-            alt={reviewOwner.name}
+            src={reviewOwner?.picture}
+            alt={reviewOwner?.name}
             loading="lazy"
             decoding="async"
             className="w-8 h-8 rounded-full object-cover cursor-pointer"
@@ -115,7 +115,7 @@ export default function LatestReviews() {
               }}
               className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer hover:underline"
             >
-              {reviewOwner.name}
+              {reviewOwner?.name}
             </p>
 
             <p className="text-xs text-vibe">

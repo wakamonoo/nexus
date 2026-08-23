@@ -9,24 +9,34 @@ router.get("/latestReviewsGet", async (req, res) => {
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
-    const titles = await db.collection("titles").find({}).toArray();
+    const result = await db
+      .collection("titles")
+      .aggregate([
+        {
+          $unwind: "$reviews",
+        },
+        {
+          $project: {
+            _id: 0,
+            reviewId: "$reviews.reviewId",
+            userId: "$reviews.userId",
+            textReview: "$reviews.textReview",
+            date: "$reviews.date",
+            upvotes: "$reviews.upvotes",
+            downvotes: "$reviews.downvotes",
+            titleId: 1,
+            title: 1,
+          },
+        },
+        {
+          $sort: {
+            date: -1,
+          },
+        },
+      ])
+      .toArray();
 
-    const allReviews = titles
-      ?.flatMap(
-        (title) =>
-          title.reviews?.map((review) => ({
-            ...review,
-            title: title.title,
-            titleId: title.titleId,
-          })) || []
-      )
-      .filter(Boolean);
-
-    const sorted = allReviews.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
-
-    res.status(200).json(sorted);
+    res.status(200).json(result);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
