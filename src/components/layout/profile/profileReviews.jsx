@@ -82,7 +82,7 @@ export default function ProfileReviews({ profileUser }) {
                       }}
                       className="group relative overflow-hidden rounded-3xl border border-panel bg-second cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
                     >
-                      {review.userId === user.uid && (
+                      {review.userId === user?.uid && (
                         <div
                           onClick={(e) => {
                             e.stopPropagation();

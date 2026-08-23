@@ -51,7 +51,7 @@ export default function List() {
   const [showEditListModal, setShowEditListModal] = useState(false);
   const { listVotes } = useContext(SocketContext);
   const [showDeleteListModal, setShowDeleteListModal] = useState(false);
-  const { user, allUsers } = useContext(UserContext);
+  const { user, allUsers, setShowSignIn } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
@@ -221,7 +221,9 @@ export default function List() {
                     )}
                   </div>
                   <div
-                    onClick={() => setShowAddCommentModal(true)}
+                    onClick={() => {
+                      user ? setShowAddCommentModal(true) : setShowSignIn(true);
+                    }}
                     className="flex items-center cursor-pointer rounded-full bg-panel hover:bg-[var(--color-panel)]/60 transition-all duration-100 py-2 px-4 gap-2"
                   >
                     <FaComment className="text-base" />

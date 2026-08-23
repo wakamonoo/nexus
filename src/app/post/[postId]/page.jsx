@@ -10,7 +10,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
-import Fallback from "@/assets/fallback.png";
+import Fallback from "@/assets/fallback.png"
 import { MdClose, MdOutlineSensors, MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
@@ -349,7 +349,7 @@ export default function Post() {
                           setIsLoading(true);
                           router.push(`/profile/${postOwner?.uid}`);
                         }}
-                        src={postOwner?.picture || Fallback}
+                        src={postOwner?.picture || Fallback.src}
                         alt={postOwner?.name}
                         loading="lazy"
                         decoding="async"
@@ -478,7 +478,7 @@ export default function Post() {
                                   ext,
                                 ) ? (
                                   <img
-                                    src={file || Fallback}
+                                    src={file || Fallback.src}
                                     alt="file"
                                     loading="lazy"
                                     decoding="async"
@@ -619,7 +619,7 @@ export default function Post() {
                               router.push(`/profile/${commentUser.uid}`);
                               setIsLoading(true);
                             }}
-                            src={commentUser?.picture || Fallback}
+                            src={commentUser?.picture || Fallback.src}
                             alt={commentUser.name}
                             loading="lazy"
                             decoding="async"
@@ -1000,7 +1000,7 @@ export default function Post() {
 
               <div className="flex items-start sticky z-50 bottom-0 md:bottom-2 w-full gap-2 p-2 md:rounded-2xl bg-second">
                 <img
-                  src={user?.picture || Fallback}
+                  src={user?.picture || Fallback.src}
                   alt={user?.name}
                   loading="lazy"
                   decoding="async"

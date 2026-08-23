@@ -465,7 +465,9 @@ export default function Title() {
                 )}
 
                 <SecondaryCircledButtons
-                  onClick={() => setShowAddReview(true)}
+                  onClick={() => {
+                    user ? setShowAddReview(true) : setShowSignIn(true);
+                  }}
                   disabled={doneReview || title?.status === "upcoming"}
                   className={`${
                     doneReview ? "!bg-[var(--color-zeus)]/60" : ""
@@ -493,8 +495,9 @@ export default function Title() {
                     title?.status === "upcoming"
                   }
                   onClick={() => {
-                    setIsLoading(true);
-                    router.push("/powerboard");
+                    user
+                      ? (setIsLoading(true), router.push("/powerboard"))
+                      : setShowSignIn(true);
                   }}
                   className={`${doneRank ? "!bg-[var(--color-zeus)]/60" : ""}`}
                 >

@@ -7,6 +7,7 @@ import duration from "dayjs/plugin/duration";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import CountdownLoader from "../../loaders/countdownLoader";
+import { TitleNavContext } from "@/context/titleNavContext";
 
 dayjs.extend(duration);
 dayjs.extend(utc);
@@ -17,6 +18,7 @@ export default function Countdown() {
   const [now, setNow] = useState(dayjs.utc());
   const [globalShow, setGlobalShow] = useState(true);
   const [localShow, setLocalShow] = useState(false);
+  const { handleShowNav } = useContext(TitleNavContext);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -85,7 +87,8 @@ export default function Countdown() {
   return (
     <div className="mt-2 w-full">
       <div
-        className="p-2"
+        onClick={() => handleShowNav(displayTitle.titleId)}
+        className="p-2 cursor-pointer"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/w500${displayTitle?.backdrop})`,
           backgroundSize: "cover",

@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import RegularButtons from "../buttons/regBtns";
 import { LoaderContext } from "@/context/loaderContext";
 import { ListContext } from "@/context/listContext";
+import Fallback from "@/assets/fallback.png";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -24,7 +25,6 @@ export default function AddCommentModal({
   user,
   setShowAddCommentModal,
 }) {
-  const { setShowSignIn } = useContext(UserContext);
   const [commentText, setCommentText] = useState("");
   const { setLists } = useContext(ListContext);
   const { setIsLoading } = useContext(LoaderContext);
@@ -125,7 +125,7 @@ export default function AddCommentModal({
         <div className="mt-4 p-2 h-full w-full">
           <div className="flex py-2 justify-start items-center gap-2">
             <img
-              src={user?.picture}
+              src={user?.picture || Fallback.src}
               alt={user?.name}
               loading="lazy"
               decoding="async"
@@ -140,15 +140,7 @@ export default function AddCommentModal({
               placeholder="What's your thoughts about this list?"
               className="bg-text text-base text-brand w-full h-64 rounded p-2"
             />
-            <RegularButtons
-              onClick={() => {
-                if (user) {
-                  handleSendComment();
-                } else {
-                  setShowSignIn(true);
-                }
-              }}
-            >
+            <RegularButtons onClick={() => handleSendComment()}>
               <p className="font-bold text-normal text-base">Add</p>
             </RegularButtons>
           </div>

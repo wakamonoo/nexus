@@ -19,7 +19,7 @@ if (APP_ENV === "production") {
 }
 
 export default function AddReview({ setShowAddReview, titleId, title }) {
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [reviewText, setReviewText] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -126,15 +126,7 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
                 placeholder="inifinity thoughts, one review box..."
                 className="bg-text text-base text-brand w-full h-64 rounded p-2"
               />
-              <RegularButtons
-                onClick={() => {
-                  if (user) {
-                    postReview();
-                  } else {
-                    setShowSignIn(true);
-                  }
-                }}
-              >
+              <RegularButtons onClick={() => postReview()}>
                 <p className="font-bold text-normal text-base">Post</p>
               </RegularButtons>
             </div>

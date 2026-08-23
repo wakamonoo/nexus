@@ -50,10 +50,7 @@ router.get("/search", async (req, res) => {
               parentSeriesId: tvDetails.id,
               title: tvDetails.name,
               poster_path: season.poster_path || tvDetails.poster_path,
-              backdrop_path: tvDetails.backdrop_path,
               first_air_date: season.air_date || tvDetails.first_air_date,
-              episode_count: season.episode_count,
-              overview: season.overview || tvDetails.overview,
             };
           } catch (err) {
             console.error(

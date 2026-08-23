@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { MdClose, MdSearchOff } from "react-icons/md";
-import Image from "next/image";
 import { HiOutlineSearch } from "react-icons/hi";
 import GifLoader from "../loaders/gifLoader";
 import Fallback from "@/assets/fallback.png";
+import TMDBTitlesLoader from "../loaders/tmdbTitlesLoader";
 
 export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
   const [query, setQuery] = useState("");
@@ -29,6 +29,21 @@ export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!query) {
+      setSearchResults([]);
+      return;
+    }
+
+    const debounce = setTimeout(() => {
+      searchMetadata();
+    }, 300);
+
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [query]);
 
   return (
     <>
@@ -75,7 +90,7 @@ export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
           <div className="mt-4 flex-1 overflow-y-auto">
             {isLoading ? (
               <div className="w-full mt-2">
-                <GifLoader />
+                <TMDBTitlesLoader />
               </div>
             ) : searchResults.length === 0 ? (
               <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">

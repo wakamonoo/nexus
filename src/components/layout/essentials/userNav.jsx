@@ -70,8 +70,9 @@ export default function UserNav({ setShowUserNav }) {
           )}
           <button
             onClick={() => {
-              setIsLoading(true);
-              router.push("/portfolio");
+              user
+                ? (setIsLoading(true), router.push("/portfolio"))
+                : setShowSignIn(true);
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
@@ -80,8 +81,9 @@ export default function UserNav({ setShowUserNav }) {
           </button>
           <button
             onClick={() => {
-              setIsLoading(true);
-              router.push("/powerboard");
+              user
+                ? (setIsLoading(true), router.push("/powerboard"))
+                : setShowSignIn(true);
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
