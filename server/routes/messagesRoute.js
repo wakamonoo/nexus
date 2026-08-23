@@ -137,7 +137,7 @@ router.patch("/seenMessage/:messageId", async (req, res) => {
         msgId: user.latestCitadelSeenMessageId,
       });
 
-      if (currentSeenMessage && currentSeenMessage._id >= message._id) {
+      if (currentSeenMessage && currentSeenMessage.messagedAt >= message.messagedAt) {
         return res.status(200).json({
           message: "already saw this or a newer message",
         });

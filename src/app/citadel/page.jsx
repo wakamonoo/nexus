@@ -610,7 +610,7 @@ export default function Citadel() {
                           </div>
                           {visibleSeenUsers.length > 0 && (
                             <div
-                              className={`flex mt-1 ${ownMessage ? "mr-2" : "ml-12"}`}
+                              className={`flex gap-0.5 mt-1 ${ownMessage ? "mr-2" : "ml-12"}`}
                             >
                               {visibleSeenUsers.slice(-5).map((viewer) => (
                                 <img

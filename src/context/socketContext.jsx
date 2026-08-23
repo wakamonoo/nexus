@@ -42,14 +42,13 @@ const showBrowserNotification = ({ title, body, icon }) => {
 export const SocketProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [chatLoad, setChatLoad] = useState(true);
-  const { user, socket } = useContext(UserContext);
+  const { allUsers, user, socket } = useContext(UserContext);
   const [sortedReviews, setSortedReviews] = useState([]);
   const [reviewsLoad, setReviewsLoad] = useState(true);
   const [reviewVotes, setReviewVotes] = useState({});
   const [listVotes, setListVotes] = useState({});
   const [pings, setPings] = useState([]);
   const [latestSeenMessages, setLatestSeenMessages] = useState({});
-  const [seenMessagesLoaded, setSeenMessagesLoaded] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -105,12 +104,14 @@ export const SocketProvider = ({ children }) => {
 
       const isReplyToYou = data.replyTo?.senderId === user?.uid;
 
+      const sender = allUsers?.find((u) => u.uid === data.senderId);
+
       showBrowserNotification({
         title: isReplyToYou
-          ? `${data.sender} replied to your message`
-          : `New message from ${data.sender}`,
+          ? `${sender?.name} replied to your message`
+          : `New message from ${sender?.name}`,
         body: data.text,
-        icon: data.picture,
+        icon: sender?.picture,
       });
     });
 
