@@ -4,7 +4,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import Image from "next/image";
 import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/loaders/searchLoader";
-import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
@@ -123,7 +123,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
               >
                 <div className="flex gap-2 items-center cursor-pointer">
                   <img
-                    src={profile.picture || Fallback}
+                    src={profile.picture || Avatar.src}
                     alt={profile.name}
                     w
                     loading="lazy"

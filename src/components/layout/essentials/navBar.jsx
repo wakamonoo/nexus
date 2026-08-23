@@ -9,7 +9,7 @@ import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 import { FaAngleRight } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import ImageLoader from "../../loaders/imageLoader";
-import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 import Logo from "@/assets/main_logo.png";
 import Menu from "./menu";
 import { MenuContext } from "@/context/menuContext";
@@ -50,7 +50,9 @@ export default function NavBar() {
   const unReadCitadelCount =
     latestSeenIndex === -1
       ? messages.filter((m) => m.senderId !== user?.uid).length
-      : messages.slice(latestSeenIndex + 1).filter((m) => m.senderId !== user?.uid).length
+      : messages
+          .slice(latestSeenIndex + 1)
+          .filter((m) => m.senderId !== user?.uid).length;
 
   const handleHomeClick = async () => {
     if (pathname === "/") {
@@ -212,7 +214,7 @@ export default function NavBar() {
                 <ImageLoader />
               ) : (
                 <img
-                  src={user.picture || Fallback}
+                  src={user.picture || Avatar.src}
                   alt={user.name}
                   loading="lazy"
                   decoding="async"

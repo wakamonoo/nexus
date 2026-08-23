@@ -1,13 +1,13 @@
 import { MdClose } from "react-icons/md";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
-import { FaFlag, FaImage, FaTrash } from "react-icons/fa";
+import { FaFlag, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButtons from "../buttons/secBtns";
 import { RiImageAiFill } from "react-icons/ri";
-import Fallback from "../../assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -141,7 +141,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
           <div className="mt-4 p-2 h-full w-full">
             <div className="flex py-2 justify-start items-center gap-2">
               <img
-                src={user?.picture || Fallback}
+                src={user?.picture || Avatar.src}
                 alt={user?.name}
                 loading="lazy"
                 decoding="async"

@@ -5,6 +5,7 @@ import { AiFillThunderbolt } from "react-icons/ai";
 import { FaComment, FaPlay } from "react-icons/fa";
 import { MdOutlineSensors } from "react-icons/md";
 import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "./postOpt";
 import { LoaderContext } from "@/context/loaderContext";
@@ -136,7 +137,7 @@ export default function PostStructure({ post }) {
               router.push(`/profile/${postOwner?.uid}`);
             }
           }}
-          src={postOwner?.picture || Fallback}
+          src={postOwner?.picture || Avatar.src}
           alt={postOwner?.name}
           loading="lazy"
           decoding="async"

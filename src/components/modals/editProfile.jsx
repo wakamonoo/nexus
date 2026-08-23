@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { LuImageUp } from "react-icons/lu";
-import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import RegularButtons from "../buttons/regBtns";
@@ -146,7 +146,7 @@ export default function EditProfile({ setEditProfile, user }) {
                     src={
                       data.userImage instanceof File
                         ? URL.createObjectURL(data.userImage)
-                        : data.userImage || Fallback
+                        : data.userImage || Avatar.src
                     }
                     alt={data.userName}
                     loading="lazy"

@@ -1,6 +1,6 @@
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 import logo from "@/assets/main_logo.png";
-import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { BiSolidCircle } from "react-icons/bi";
@@ -79,7 +79,7 @@ export default function ExportCard({
       <div className="flex items-center justify-between border-b border-[var(--color-secondary)] pb-8">
         <div className="flex items-start gap-3.5">
           <img
-            src={user?.picture || Fallback}
+            src={user?.picture || Avatar.src}
             alt={user?.name}
             loading="lazy"
             decoding="async"

@@ -2,7 +2,7 @@
 import { UserContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
-import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 import CountUp from "react-countup";
 import { LoaderContext } from "@/context/loaderContext";
 import { GiTrophy } from "react-icons/gi";
@@ -84,7 +84,7 @@ export default function ScreenTime() {
                       {rankIcon(user.rank)}
                     </div>
                     <img
-                      src={user.picture || Fallback}
+                      src={user.picture || Avatar.src}
                       alt={user.name}
                       loading="lazy"
                       decoding="async"

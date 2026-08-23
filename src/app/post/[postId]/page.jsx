@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
 import Fallback from "@/assets/fallback.png"
+import Avatar from "@/assets/defaultAvatar.png"
 import { MdClose, MdOutlineSensors, MdSend } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
@@ -349,7 +350,7 @@ export default function Post() {
                           setIsLoading(true);
                           router.push(`/profile/${postOwner?.uid}`);
                         }}
-                        src={postOwner?.picture || Fallback.src}
+                        src={postOwner?.picture || Avatar.src}
                         alt={postOwner?.name}
                         loading="lazy"
                         decoding="async"
@@ -619,7 +620,7 @@ export default function Post() {
                               router.push(`/profile/${commentUser.uid}`);
                               setIsLoading(true);
                             }}
-                            src={commentUser?.picture || Fallback.src}
+                            src={commentUser?.picture || Avatar.src}
                             alt={commentUser.name}
                             loading="lazy"
                             decoding="async"
@@ -1000,7 +1001,7 @@ export default function Post() {
 
               <div className="flex items-start sticky z-50 bottom-0 md:bottom-2 w-full gap-2 p-2 md:rounded-2xl bg-second">
                 <img
-                  src={user?.picture || Fallback.src}
+                  src={user?.picture || Avatar.src}
                   alt={user?.name}
                   loading="lazy"
                   decoding="async"

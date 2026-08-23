@@ -1,6 +1,6 @@
 "use client";
 import { MdClose, MdSend } from "react-icons/md";
-import ironman from "@/assets/tony.jpg";
+import Avatar from "@/assets/defaultAvatar.png";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaRegComments, FaReply, FaTrash, FaUserSlash } from "react-icons/fa";
@@ -423,7 +423,7 @@ export default function Citadel() {
                                   setIsLoading(true);
                                   router.push(`/profile/${msg.senderId}`);
                                 }}
-                                src={messageOwner?.picture || ironman}
+                                src={messageOwner?.picture || Avatar.src}
                                 alt="user"
                                 loading="lazy"
                                 decoding="async"
@@ -615,7 +615,7 @@ export default function Citadel() {
                               {visibleSeenUsers.slice(-5).map((viewer) => (
                                 <img
                                   key={viewer.uid}
-                                  src={viewer.picture || ironman}
+                                  src={viewer.picture || Avatar.src}
                                   alt={viewer.name}
                                   className="w-4 h-4 rounded-full object-cover"
                                 />
@@ -690,7 +690,7 @@ export default function Citadel() {
 
             <div className="w-full flex items-start gap-2 p-2 bg-second">
               <img
-                src={user?.picture || Fallback}
+                src={user?.picture || Avatar.src}
                 alt={user.name}
                 loading="lazy"
                 decoding="async"

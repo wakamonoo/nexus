@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import RegularButtons from "../buttons/regBtns";
 import { LoaderContext } from "@/context/loaderContext";
 import { ListContext } from "@/context/listContext";
-import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -125,7 +125,7 @@ export default function AddCommentModal({
         <div className="mt-4 p-2 h-full w-full">
           <div className="flex py-2 justify-start items-center gap-2">
             <img
-              src={user?.picture || Fallback.src}
+              src={user?.picture || Avatar.src.src}
               alt={user?.name}
               loading="lazy"
               decoding="async"

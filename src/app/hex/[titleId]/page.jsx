@@ -32,6 +32,7 @@ import { GiTrophy } from "react-icons/gi";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
 import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";
 import dayjs from "dayjs";
+import Avatar from "@/assets/defaultAvatar.png"
 import relativeTime from "dayjs/plugin/relativeTime";
 import { RiLockFill } from "react-icons/ri";
 import ScrollContainer from "react-indiana-drag-scroll";
@@ -574,7 +575,7 @@ export default function Title() {
                             src={
                               unit.profilePath
                                 ? `https://image.tmdb.org/t/p/w500${unit.profilePath}`
-                                : "/fallback.png"
+                                : Avatar.src
                             }
                             alt={unit.name}
                             loading="lazy"
@@ -623,7 +624,7 @@ export default function Title() {
                             src={
                               unit.profilePath
                                 ? `https://image.tmdb.org/t/p/w500${unit.profilePath}`
-                                : "/fallback.png"
+                                : Avatar.src
                             }
                             alt={unit.name}
                             loading="lazy"

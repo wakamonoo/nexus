@@ -130,7 +130,7 @@ export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
                         src={
                           item.poster_path
                             ? `https://image.tmdb.org/t/p/w154${item.poster_path}`
-                            : Fallback
+                            : Fallback.src
                         }
                         alt={item.title || item.name}
                         loading="lazy"

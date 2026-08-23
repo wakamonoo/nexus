@@ -7,7 +7,7 @@ import { UserContext } from "@/context/userContext";
 import AdminGuard from "@/components/guard/adminGuard";
 import { LoaderContext } from "@/context/loaderContext";
 import RegularButtons from "@/components/buttons/regBtns";
-import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 import ScrollContainer from "react-indiana-drag-scroll";
 import Swal from "sweetalert2";
 import SecondaryButtons from "@/components/buttons/secBtns";
@@ -253,7 +253,7 @@ export default function Page() {
                       className="flex flex-col justify-center p-2 bg-second rounded-2xl border border-panel items-center w-50 h-auto"
                     >
                       <img
-                        src={user?.picture || Fallback}
+                        src={user?.picture || Avatar.src}
                         alt="user"
                         loading="lazy"
                         decoding="async"

@@ -13,7 +13,7 @@ import { TitleNavContext } from "@/context/titleNavContext";
 import ProfilePosts from "@/components/layout/profile/profilePosts";
 import ProfileReviews from "@/components/layout/profile/profileReviews";
 import EditProfile from "@/components/modals/editProfile";
-import Fallback from "@/assets/fallback.png";
+import Avatar from "@/assets/defaultAvatar.png";
 import ProfileEchoes from "@/components/layout/profile/profileEchoes";
 import ProfileSigils from "@/components/layout/profile/profileSigils";
 import ProfileLoader from "@/components/loaders/profileLoader";
@@ -193,7 +193,7 @@ export default function UserProfile() {
               <div className="flex items-start w-full gap-2 py-4">
                 <div className="w-32 h-32">
                   <img
-                    src={profileUser.picture || Fallback}
+                    src={profileUser.picture || Avatar.src}
                     alt={profileUser.name}
                     loading="lazy"
                     decoding="async"

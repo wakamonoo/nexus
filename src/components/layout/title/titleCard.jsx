@@ -2,6 +2,7 @@ import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaEye, FaEyeSlash, FaRegEyeSlash } from "react-icons/fa";
+import Fallback from "@/assets/fallback.png"
 import { FiCheckCircle } from "react-icons/fi";
 import { MdOutlineReviews } from "react-icons/md";
 import AddReview from "../../modals/addReview";
@@ -123,7 +124,7 @@ export default function TitleCard({
           src={
             unit.poster
               ? `https://image.tmdb.org/t/p/w500${unit.poster}`
-              : "/fallback.png"
+              : Fallback.src
           }
           alt={unit.title}
           loading="lazy"
