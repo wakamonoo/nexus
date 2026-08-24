@@ -106,6 +106,7 @@ export const UserProvider = ({ children }) => {
         setShowSignIn,
         showSignIn,
         allUsers,
+        setAllUsers,
         allUsersLoading,
         loading,
         socket,

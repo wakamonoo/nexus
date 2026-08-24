@@ -17,6 +17,7 @@ import GifPicker from "@/components/modals/gifPicker";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import CircledButtons from "@/components/buttons/circledBtns";
 import NavBar from "@/components/layout/essentials/navBar";
+import RegularButtons from "@/components/buttons/regBtns";
 
 dayjs.extend(relativeTime);
 
@@ -787,24 +788,26 @@ export default function Citadel() {
       {selectedMessage && (
         <div
           onClick={() => setSelectedMessage(null)}
-          className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+          className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-auto rounded-2xl overflow-hidden p-2"
+            className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
           >
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedMessage(null);
-              }}
-              className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
-            >
-              <MdClose className="text-2xl" />
-            </button>
-            <div className="mt-8 p-2 h-full w-full">
-              <div className="w-full flex flex-col gap-2">
-                <CircledButtons
+            <div className="flex items-center justify-end p-4">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedMessage(null);
+                }}
+                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+              >
+                <MdClose className="text-xl" />
+              </button>
+            </div>
+            <div className="p-4">
+              <div className="flex flex-col md:flex-row md:gap-2">
+                <RegularButtons
                   onClick={() => {
                     setEditingMessage(selectedMessage.msgId);
                     setEditInput(selectedMessage.text);
@@ -814,8 +817,8 @@ export default function Citadel() {
                   <p className="font-bold text-normal text-base">
                     Edit Message
                   </p>
-                </CircledButtons>
-                <CircledButtons
+                </RegularButtons>
+                <RegularButtons
                   onClick={() => {
                     setMessageToDelete(selectedMessage.msgId);
                     setMessageDelModal(true);
@@ -825,7 +828,7 @@ export default function Citadel() {
                   <p className="font-bold text-normal text-base">
                     Delete Message
                   </p>
-                </CircledButtons>
+                </RegularButtons>
               </div>
             </div>
           </div>

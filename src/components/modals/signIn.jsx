@@ -132,17 +132,7 @@ export default function SignIn() {
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
       >
-        <div className="flex items-center justify-between border-b border-panel p-4">
-          <div className="min-w-0 flex-1">
-            <h1 className="text-base font-bold text-normal">
-              {isLogged ? "Sign out" : "Sign in"}
-            </h1>
-            <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-              {isLogged
-                ? "Sign out of your nexus account"
-                : "Enter nexus and continue your journey."}
-            </p>
-          </div>
+        <div className="flex items-center justify-end p-4">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -160,10 +150,54 @@ export default function SignIn() {
             alt="logo"
             width={0}
             height={0}
-            className="w-36 h-auto"
+            className="w-36 h-auto mb-2"
           />
-          {!isLogged ? (
+          <div className="flex w-full">
+            <CircledButtons onClick={handleSignIn}>
+              {isLogged ? (
+                <div className="flex gap-2 items-center justify-center">
+                  <p className="font-bold text-normal text-base">
+                    Logout Account
+                  </p>
+                  <MdLogout className="text-2xl" />
+                </div>
+              ) : (
+                <div className="flex gap-2 items-center justify-center">
+                  <p className="font-bold text-normal text-base">
+                    Continue with Google
+                  </p>
+                  <FcGoogle className="text-2xl" />
+                </div>
+              )}
+            </CircledButtons>
+          </div>
+          {!isLogged && (
             <div className="flex flex-col gap-1 items-center justify-center">
+              <p className="text-xs text-center text-vibe mb-2">
+                By continuing, you agree to our{" "}
+                <span
+                  onClick={() => {
+                    setShowSignIn(false);
+                    setIsLoading(true);
+                    router.push("/terms&Conditions");
+                  }}
+                  className="cursor-pointer text-blue-500"
+                >
+                  Terms of Service
+                </span>{" "}
+                and{" "}
+                <span
+                  onClick={() => {
+                    setShowSignIn(false);
+                    setIsLoading(true);
+                    router.push("/privacyPolicy");
+                  }}
+                  className="cursor-pointer text-blue-500"
+                >
+                  Privacy Policy
+                </span>
+                .
+              </p>
               <p className="text-xs text-vibe text-center">
                 To make sign-in work properly, ensure{" "}
                 <span className="font-bold">pop-ups aren’t blocked</span>.
@@ -177,52 +211,6 @@ export default function SignIn() {
                 className="w-full h-auto rounded-2xl"
               />
             </div>
-          ) : null}
-        </div>
-        <div className="flex flex-col gap-1 border-t border-panel p-4">
-          <RegularButtons onClick={handleSignIn}>
-            {isLogged ? (
-              <div className="flex gap-2 items-center justify-center">
-                <p className="font-bold text-normal text-base">
-                  Logout Account
-                </p>
-                <MdLogout className="text-2xl" />
-              </div>
-            ) : (
-              <div className="flex gap-2 items-center justify-center">
-                <p className="font-bold text-normal text-base">
-                  Continue with Google
-                </p>
-                <FcGoogle className="text-2xl" />
-              </div>
-            )}
-          </RegularButtons>
-          {!isLogged && (
-            <p className="text-xs text-center text-vibe">
-              By continuing, you agree to our{" "}
-              <span
-                onClick={() => {
-                  setShowSignIn(false);
-                  setIsLoading(true);
-                  router.push("/terms&Conditions");
-                }}
-                className="cursor-pointer text-blue-500"
-              >
-                Terms of Service
-              </span>{" "}
-              and{" "}
-              <span
-                onClick={() => {
-                  setShowSignIn(false);
-                  setIsLoading(true);
-                  router.push("/privacyPolicy");
-                }}
-                className="cursor-pointer text-blue-500"
-              >
-                Privacy Policy
-              </span>
-              .
-            </p>
           )}
         </div>
       </div>

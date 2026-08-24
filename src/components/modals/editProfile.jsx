@@ -8,6 +8,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import RegularButtons from "../buttons/regBtns";
 import AccountDelConfirm from "./accountDelConfirm";
 import SecondaryButtons from "../buttons/secBtns";
+import { UserContext } from "@/context/userContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -22,6 +23,7 @@ if (APP_ENV === "production") {
 }
 
 export default function EditProfile({ setEditProfile, user }) {
+  const { setUser, setAllUsers } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [accountDelModal, setAccountDelModal] = useState(false);
   const [data, setData] = useState({
@@ -76,6 +78,26 @@ export default function EditProfile({ setEditProfile, user }) {
           bio: data.userBio,
         }),
       });
+
+      setUser((prev) => ({
+        ...prev,
+        picture: imageURL,
+        name: data.userName,
+        bio: data.userBio,
+      }));
+
+      setAllUsers((prev) =>
+        prev.map((u) =>
+          u.uid === user.uid
+            ? {
+                ...u,
+                picture: imageURL,
+                name: data.userName,
+                bio: data.userBio,
+              }
+            : u,
+        ),
+      );
 
       Swal.fire({
         toast: true,
