@@ -12,6 +12,7 @@ import Loader from "@/components/loaders/searchLoader";
 import TitleCard from "../layout/title/titleCard";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
+import RegularButtons from "../buttons/regBtns";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -220,22 +221,30 @@ export default function AddList({ user, setShowAddListModal }) {
     <>
       <div
         onClick={() => setShowAddListModal(false)}
-        className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+        className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex relative justify-center bg-second border-1 border-panel w-[90%] md:w-[50%] h-[90vh] rounded-2xl overflow-hidden p-2"
+          className="relative flex flex-col w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowAddListModal(false);
-            }}
-            className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
-          >
-            <MdClose className="text-2xl" />
-          </button>
-          <div className="mt-10 flex flex-col w-full overflow-y-auto custom-scroll">
+          <div className="flex items-center justify-between border-b border-panel p-4">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-base font-bold text-normal">Create a list</h1>
+              <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
+                Build your own collection of stories.
+              </p>
+            </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowAddListModal(false);
+              }}
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+            >
+              <MdClose className="text-xl" />
+            </button>
+          </div>
+          <div className="p-4 flex-1 overflow-y-auto custom-scroll">
             <div className="py-2 w-full">
               <h4>Give your list a name</h4>
               <input
@@ -366,15 +375,14 @@ export default function AddList({ user, setShowAddListModal }) {
                   })}
               </div>
             )}
-
-            <div className="sticky bottom-2 mt-6">
-              <CircledButtons
-                onClick={handleSubmitList}
-                disabled={!listTitle.trim() || selected.length === 0}
-              >
-                Submit list
-              </CircledButtons>
-            </div>
+          </div>
+          <div className="flex border-t border-panel p-4">
+            <RegularButtons
+              onClick={handleSubmitList}
+              disabled={!listTitle.trim() || selected.length === 0}
+            >
+              <p className="font-bold text-normal text-base">Submit List</p>
+            </RegularButtons>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import Logo from "@/assets/main_logo.png";
 import PopUp from "@/assets/pop-up.png";
 import { LoaderContext } from "@/context/loaderContext";
 import CircledButtons from "../buttons/circledBtns";
+import RegularButtons from "../buttons/regBtns";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -26,8 +27,7 @@ if (APP_ENV === "production") {
 }
 
 export default function SignIn() {
-  const { isLogged, fetchUserData, setShowSignIn } =
-    useContext(UserContext);
+  const { isLogged, fetchUserData, setShowSignIn } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
@@ -126,28 +126,61 @@ export default function SignIn() {
   return (
     <div
       onClick={() => setShowSignIn(false)}
-      className="inset-0 z-[100] backdrop-blur-xs flex items-center justify-center fixed"
+      className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-fit rounded-2xl overflow-hidden p-2"
+        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
       >
-        <button
-          onClick={() => setShowSignIn(false)}
-          className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
-        >
-          <MdClose className="text-2xl" />
-        </button>
-        <div className="flex flex-col gap-2 items-center justify-center p-8">
+        <div className="flex items-center justify-between border-b border-panel p-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-base font-bold text-normal">
+              {isLogged ? "Sign out" : "Sign in"}
+            </h1>
+            <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
+              {isLogged
+                ? "Sign out of your nexus account"
+                : "Enter nexus and continue your journey."}
+            </p>
+          </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowSignIn(false);
+            }}
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+          >
+            <MdClose className="text-xl" />
+          </button>
+        </div>
+        <div className="flex flex-col gap-2 items-center justify-center p-4">
           <Image
             src={Logo}
             priority
             alt="logo"
             width={0}
             height={0}
-            className="w-36 h-auto pb-8"
+            className="w-36 h-auto"
           />
-          <CircledButtons onClick={handleSignIn}>
+          {!isLogged ? (
+            <div className="flex flex-col gap-1 items-center justify-center">
+              <p className="text-xs text-vibe text-center">
+                To make sign-in work properly, ensure{" "}
+                <span className="font-bold">pop-ups aren’t blocked</span>.
+              </p>
+              <Image
+                src={PopUp}
+                width={0}
+                height={0}
+                sizes="100vw"
+                alt="pop-up"
+                className="w-full h-auto rounded-2xl"
+              />
+            </div>
+          ) : null}
+        </div>
+        <div className="flex flex-col gap-1 border-t border-panel p-4">
+          <RegularButtons onClick={handleSignIn}>
             {isLogged ? (
               <div className="flex gap-2 items-center justify-center">
                 <p className="font-bold text-normal text-base">
@@ -163,24 +196,8 @@ export default function SignIn() {
                 <FcGoogle className="text-2xl" />
               </div>
             )}
-          </CircledButtons>
-          <div className="mt-4">
-            {!isLogged ? (
-              <div className="flex flex-col gap-1 items-center justify-center">
-                <p className="text-xs text-vibe text-center">
-                  To make sign-in work properly, ensure{" "}
-                  <span className="font-bold">pop-ups aren’t blocked</span>.
-                </p>
-                <Image
-                  src={PopUp}
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  alt="pop-up"
-                  className="w-full h-auto rounded-2xl"
-                />
-              </div>
-            ) : null}
+          </RegularButtons>
+          {!isLogged && (
             <p className="text-xs text-center text-vibe">
               By continuing, you agree to our{" "}
               <span
@@ -206,7 +223,7 @@ export default function SignIn() {
               </span>
               .
             </p>
-          </div>
+          )}
         </div>
       </div>
     </div>

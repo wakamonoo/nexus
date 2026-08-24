@@ -13,6 +13,7 @@ import TitleCard from "../layout/title/titleCard";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 import { ListContext } from "@/context/listContext";
+import RegularButtons from "../buttons/regBtns";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -248,22 +249,30 @@ export default function EditList({ list, setShowEditListModal }) {
     <>
       <div
         onClick={() => setShowEditListModal(false)}
-        className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+        className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex relative justify-center bg-second border-1 border-panel w-[90%] md:w-[50%] h-[90vh] rounded-2xl overflow-hidden p-2"
+          className="relative flex flex-col w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowEditListModal(false);
-            }}
-            className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
-          >
-            <MdClose className="text-2xl" />
-          </button>
-          <div className="mt-10 flex flex-col w-full overflow-y-auto custom-scroll">
+          <div className="flex items-center justify-between border-b border-panel p-4">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-base font-bold text-normal">Edit a list</h1>
+              <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
+                Make changes to your list.
+              </p>
+            </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowEditListModal(false);
+              }}
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+            >
+              <MdClose className="text-xl" />
+            </button>
+          </div>
+          <div className="p-4 flex-1 overflow-y-auto custom-scroll">
             <div className="py-2 w-full">
               <h4>Give your list a name</h4>
               <input
@@ -394,15 +403,14 @@ export default function EditList({ list, setShowEditListModal }) {
                   })}
               </div>
             )}
-
-            <div className="sticky bottom-2 mt-6">
-              <CircledButtons
-                onClick={handleUpdateList}
-                disabled={!listTitle.trim() || selected.length === 0}
-              >
-                Update list
-              </CircledButtons>
-            </div>
+          </div>
+          <div className="flex border-t border-panel p-4">
+            <RegularButtons
+              onClick={handleUpdateList}
+              disabled={!listTitle.trim() || selected.length === 0}
+            >
+              <p className="font-bold text-normal text-base">Update List</p>
+            </RegularButtons>
           </div>
         </div>
       </div>

@@ -2,9 +2,9 @@
 import { UserContext } from "@/context/userContext";
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
-import Loader from "../loaders/loader";
 import Swal from "sweetalert2";
 import RegularButtons from "../buttons/regBtns";
+import { LoaderContext } from "@/context/loaderContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -21,12 +21,12 @@ if (APP_ENV === "production") {
 export default function AddReview({ setShowAddReview, titleId, title }) {
   const { user } = useContext(UserContext);
   const [reviewText, setReviewText] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { setIsLoading } = useContext(LoaderContext);
 
   const postReview = async () => {
     if (!reviewText.trim()) return;
     try {
-      setLoading(true);
+      setIsLoading(true);
 
       const newReview = {
         titleId,
@@ -87,52 +87,62 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
         },
       });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <>
-      {loading && <Loader />}
+    <div
+      onClick={() => setShowAddReview(false)}
+      className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
+    >
       <div
-        onClick={() => setShowAddReview(false)}
-        className="inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed"
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
       >
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-fit rounded-2xl overflow-hidden p-2"
-        >
+        <div className="flex items-center justify-between border-b border-panel p-4">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-base font-bold text-normal">Write a review</h1>
+            <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
+              {`What do you think about ${title?.title}`}
+            </p>
+          </div>
           <button
-            onClick={() => setShowAddReview(false)}
-            className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowAddReview(false);
+            }}
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
           >
-            <MdClose className="text-2xl" />
+            <MdClose className="text-xl" />
           </button>
-          <div className="mt-4 p-2 h-full w-full">
-            <div className="flex py-2 justify-start items-center gap-2">
-              <img
-                src={user?.picture}
-                alt={user?.name}
-                loading="lazy"
-                decoding="async"
-                className="w-10 h-10 rounded-full"
-              />
-              <p className="text-base text-normal font-bold">{user?.name}</p>
-            </div>
-            <div className="w-full h-full py-2">
-              <textarea
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-                placeholder="inifinity thoughts, one review box..."
-                className="bg-text text-base text-brand w-full h-64 rounded p-2"
-              />
-              <RegularButtons onClick={() => postReview()}>
-                <p className="font-bold text-normal text-base">Post</p>
-              </RegularButtons>
-            </div>
+        </div>
+        <div className="p-4">
+          <div className="flex py-2 justify-start items-center gap-2">
+            <img
+              src={user?.picture}
+              alt={user?.name}
+              loading="lazy"
+              decoding="async"
+              className="w-10 h-10 rounded-full"
+            />
+            <p className="text-base text-normal font-bold">{user?.name}</p>
+          </div>
+          <div className="w-full h-full py-2">
+            <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              placeholder="inifinity thoughts, one review box..."
+              className="bg-text text-base text-brand w-full h-64 rounded p-2"
+            />
           </div>
         </div>
+        <div className="flex border-t border-panel p-4">
+          <RegularButtons onClick={() => postReview()}>
+            <p className="font-bold text-normal text-base">Post</p>
+          </RegularButtons>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

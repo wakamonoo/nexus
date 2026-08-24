@@ -81,7 +81,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
   }, [searchInput]);
 
   return (
-    <div className="inset-0 z-[100] backdrop-blur-xs flex justify-center fixed overflow-y-auto">
+    <div className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm overflow-y-auto">
       <div className="w-full h-full md:w-[65%] lg:w-[42%] p-2 py-6 md:absolute md:right-6 lg:right-1/2 lg:translate-x-1/2 lg:mr-3">
         <div className="flex items-center justify-between w-full">
           <FaAngleLeft

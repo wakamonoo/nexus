@@ -148,25 +148,37 @@ export default function AddPost({ setShowAddPost }) {
     }
   };
 
+  const currentTopic = titles.find((t) => t.title === post?.topic);
+
   return (
     <>
       <div
         onClick={() => setShowAddPost(false)}
-        className="inset-0 z-[100] backdrop-blur-xs flex items-center justify-center fixed"
+        className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="flex relative justify-center bg-second border-1 border-panel w-84 md:w-96 h-fit rounded-2xl overflow-hidden p-2"
+          className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
-          <button
-            onClick={() => setShowAddPost(false)}
-            className="absolute cursor-pointer top-4 right-4 font-bold duration-200 hover:scale-110 active:scale-110"
-          >
-            <MdClose className="text-2xl" />
-          </button>
-
-          <div className="mt-4 p-2 h-full w-full">
-            <div className="flex py-2 justify-start items-center gap-2">
+          <div className="flex items-center justify-between border-b border-panel p-4">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-base font-bold text-normal">Create a post</h1>
+              <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
+                What's on your mind?
+              </p>
+            </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowAddPost(false);
+              }}
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+            >
+              <MdClose className="text-xl" />
+            </button>
+          </div>
+          <div className="p-4">
+            <div className="flex justify-start items-center gap-2">
               <img
                 src={user?.picture}
                 alt={user.name}
@@ -176,17 +188,62 @@ export default function AddPost({ setShowAddPost }) {
               />
               <p className="text-base text-normal font-bold">{user?.name}</p>
             </div>
-            <div className="pb-2">
+            <div className="py-2">
               <div className="relative">
-                <p className="font-bold px-4 rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)]">
-                  {post.topic ? post.topic : "No topic assigned"}
-                </p>
+                <div
+                  className={`rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
+                >
+                  <p className="font-bold text-vibe text-base px-2">
+                    {post.topic ? post.topic : "No topic assigned"}
+                  </p>
+                </div>
                 <MdClose
                   onClick={() => setPost({ ...post, topic: "" })}
                   className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-2 text-2xl"
                 />
               </div>
             </div>
+            {post.file && post.file.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-2">
+                {Array.from(post.file).map((file, index) => (
+                  <div key={index} className="w-20 h-20 relative">
+                    {file.type.startsWith("image/") ? (
+                      <img
+                        src={URL.createObjectURL(file)}
+                        alt={`preivew-${index}`}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-cover rounded"
+                      />
+                    ) : (
+                      <video
+                        src={URL.createObjectURL(file)}
+                        alt={`preivew-${index}`}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-full h-full object-cover rounded"
+                      />
+                    )}
+                    <div className="absolute top-1 right-1">
+                      <button
+                        onClick={() => {
+                          const filesArray = Array.from(post.file);
+                          filesArray.splice(index, 1);
+                          setPost({
+                            ...post,
+                            file: filesArray.length ? filesArray : null,
+                          });
+                        }}
+                        className="cursor-pointer"
+                      >
+                        <FaTrash className="text-base" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
             <div>
               <textarea
                 name="text"
@@ -206,7 +263,7 @@ export default function AddPost({ setShowAddPost }) {
                   className="bg-text text-brand w-full  rounded p-2"
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-col md:flex-row md:gap-2">
                 <SecondaryButtons htmlFor="fileUploadPost">
                   <RiImageAiFill className="text-2xl" />
                   <p className="font-bold text-normal text-base">Add Media</p>
@@ -236,48 +293,6 @@ export default function AddPost({ setShowAddPost }) {
                 </SecondaryButtons>
               </div>
 
-              {post.file && post.file.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {Array.from(post.file).map((file, index) => (
-                    <div key={index} className="w-20 h-20 relative">
-                      {file.type.startsWith("image/") ? (
-                        <img
-                          src={URL.createObjectURL(file)}
-                          alt={`preivew-${index}`}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover rounded"
-                        />
-                      ) : (
-                        <video
-                          src={URL.createObjectURL(file)}
-                          alt={`preivew-${index}`}
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="w-full h-full object-cover rounded"
-                        />
-                      )}
-                      <div className="absolute top-1 right-1">
-                        <button
-                          onClick={() => {
-                            const filesArray = Array.from(post.file);
-                            filesArray.splice(index, 1);
-                            setPost({
-                              ...post,
-                              file: filesArray.length ? filesArray : null,
-                            });
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <FaTrash className="text-base" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
               <div className="py-2">
                 {showTopics && (
                   <div className="w-full h-32 bg-second rounded p-2 overflow-y-auto custom-scroll flex flex-col gap-2">
@@ -291,9 +306,9 @@ export default function AddPost({ setShowAddPost }) {
                           });
                           setShowTopics(false);
                         }}
-                        className="cursor-pointer h-fit w-full rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] px-4"
+                        className={`cursor-pointer h-fit w-full rounded-full bg-gradient-to-r ${title?.category === "mcu" ? "from-[var(--color-accent)]" : title?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] px-4`}
                       >
-                        <p className="font-bold text-base truncate w-full">
+                        <p className="font-bold text-base text-vibe truncate w-full">
                           {title.title}
                         </p>
                       </div>
@@ -301,25 +316,27 @@ export default function AddPost({ setShowAddPost }) {
                   </div>
                 )}
               </div>
-
-              <button
-                onClick={submitPost}
-                disabled={
-                  !(
-                    post.text.trim() ||
-                    post.embed.trim() ||
-                    (post.file && post.file.length > 0)
-                  )
-                }
-                className={`bg-accent hover:bg-[var(--color-accent)]/80 w-full p-2 rounded flex justify-center items-center gap-1 ${
-                  !(post.text.trim() || (post.file && post.file.length > 0))
-                    ? "opacity-50 cursor-not-allowed"
-                    : "cursor-pointer"
-                }`}
-              >
-                <p className="font-bold text-normal text-base">Post</p>
-              </button>
             </div>
+          </div>
+
+          <div className="flex border-t border-panel p-4">
+            <button
+              onClick={submitPost}
+              disabled={
+                !(
+                  post.text.trim() ||
+                  post.embed.trim() ||
+                  (post.file && post.file.length > 0)
+                )
+              }
+              className={`bg-accent hover:bg-[var(--color-accent)]/80 w-full p-2 rounded flex justify-center items-center gap-1 ${
+                !(post.text.trim() || (post.file && post.file.length > 0))
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
+            >
+              <p className="font-bold text-normal text-base">Post</p>
+            </button>
           </div>
         </div>
       </div>
