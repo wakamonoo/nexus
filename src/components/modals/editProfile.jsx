@@ -77,7 +77,7 @@ export default function EditProfile({ setEditProfile, user }) {
           name: data.userName,
           bio: data.userBio,
         }),
-      });
+      }); 
 
       setUser((prev) => ({
         ...prev,

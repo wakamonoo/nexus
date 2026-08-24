@@ -794,7 +794,7 @@ export default function Citadel() {
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
           >
-            <div className="flex items-center justify-end p-4">
+            <div className="flex items-center justify-end px-4 pt-4">
               <button
                 onClick={(e) => {
                   e.stopPropagation();
@@ -805,7 +805,7 @@ export default function Citadel() {
                 <MdClose className="text-xl" />
               </button>
             </div>
-            <div className="p-4">
+            <div className="px-4 pb-4">
               <div className="flex flex-col md:flex-row md:gap-2">
                 <RegularButtons
                   onClick={() => {

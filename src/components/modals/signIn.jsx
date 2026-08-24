@@ -132,7 +132,7 @@ export default function SignIn() {
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
       >
-        <div className="flex items-center justify-end p-4">
+        <div className="flex items-center justify-end px-4 pt-4">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -143,7 +143,7 @@ export default function SignIn() {
             <MdClose className="text-xl" />
           </button>
         </div>
-        <div className="flex flex-col gap-2 items-center justify-center p-4">
+        <div className="flex flex-col gap-2 items-center justify-center px-4 pb-4">
           <Image
             src={Logo}
             priority
@@ -198,7 +198,7 @@ export default function SignIn() {
                 </span>
                 .
               </p>
-              <p className="text-xs text-vibe text-center">
+              <p className="text-xs text-vibe opacity-60 text-center">
                 To make sign-in work properly, ensure{" "}
                 <span className="font-bold">pop-ups aren’t blocked</span>.
               </p>
