@@ -1,7 +1,10 @@
 import alt from "@/assets/alt_logo.png";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function Footer() {
+  const router = useRouter();
+
   return (
     <footer className="w-full mt-14 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-62 bg-panel">
       <div className="flex items-center justify-center w-full">
@@ -62,6 +65,13 @@ export default function Footer() {
             or certified by <strong>TMDB</strong>
           </p>
         </div>
+        <p
+          onClick={() => router.push("/heroFund")}
+          className="mx-auto max-w-5xl text-xs text-vibe opacity-60 text-center mt-2 cursor-pointer hover:opacity-100 active:opacity-100"
+        >
+          support nexus and help keep the community alive, growing, and free for
+          everyone
+        </p>
         <p className="mx-auto max-w-5xl text-xs text-vibe opacity-60 text-center mt-2">
           © 2025 - {new Date().getFullYear()} nexus. Built by a marvel fan, for
           the community.

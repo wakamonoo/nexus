@@ -69,7 +69,7 @@ const sections = [
       <>
         <p>
           If you've found nexus useful or simply want to help keep the project
-          going, you can support its development through GCash or PayPal.
+          going, you can support its development through GCash, PayPal or Ko-fi.
         </p>
         <p>
           Every contribution, regardless of size, helps with hosting,
@@ -87,7 +87,34 @@ export default function HeroFund() {
 
   useEffect(() => {
     setIsLoading(false);
-  }, []);
+
+    const container = document.getElementById("kofi-widget");
+
+    if (!container) return;
+
+    const script = document.createElement("script");
+
+    script.src = "https://storage.ko-fi.com/cdn/widget/Widget_2.js";
+    script.type = "text/javascript";
+    script.onload = () => {
+      if (window.kofiwidget2) {
+        window.kofiwidget2.init(
+          "support nexus on kofi",
+          "#ed1d24",
+          "U5F225NGUC",
+        );
+
+        container.innerHTML = window.kofiwidget2.getHTML();
+      }
+    };
+
+    container.appendChild(script);
+
+    return () => {
+      script.remove();
+      container.html = "";
+    };
+  }, [setIsLoading]);
   return (
     <>
       <NavBar />
@@ -228,6 +255,11 @@ export default function HeroFund() {
                       />
                     </PayPalScriptProvider>
                   </div>
+                </div>
+                <div className="hidden h-32 w-px bg-panel md:block" />
+                <div className="flex min-w-32 flex-col items-center">
+                  <p className="mb-3 text-sm font-semibold text-vibe">Ko-fi</p>
+                  <div id="kofi-widget" />
                 </div>
               </div>
             </div>
