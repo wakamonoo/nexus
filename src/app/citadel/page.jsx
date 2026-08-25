@@ -34,7 +34,8 @@ if (APP_ENV === "production") {
 }
 
 export default function Citadel() {
-  const { allUsers, user, setUser, setShowSignInModal } = useContext(UserContext);
+  const { allUsers, user, setUser, setShowSignInModal } =
+    useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { messages, setMessages, chatLoad, latestSeenMessages } =
     useContext(SocketContext);
@@ -43,7 +44,8 @@ export default function Citadel() {
   const msgEndRef = useRef();
   const justSentMessage = useRef(false);
   const initialLoad = useRef(true);
-  const [showConfirmMessageDeleteModal, setShowConfirmMessageDeleteModal] = useState(false);
+  const [showConfirmMessageDeleteModal, setShowConfirmMessageDeleteModal] =
+    useState(false);
   const [messageToDelete, setMessageToDelete] = useState(null);
   const [citadelLightBoxOpen, setCitadelLightBoxOpen] = useState(false);
   const [citadelLightBoxFiles, setCitadelLightBoxFiles] = useState([]);
@@ -613,7 +615,7 @@ export default function Citadel() {
                             <div
                               className={`flex gap-0.5 mt-1 ${ownMessage ? "mr-2" : "ml-12"}`}
                             >
-                              {visibleSeenUsers.slice(-5).map((viewer) => (
+                              {visibleSeenUsers.slice(-8).map((viewer) => (
                                 <img
                                   key={viewer.uid}
                                   src={viewer.picture || Avatar.src}
@@ -621,6 +623,11 @@ export default function Citadel() {
                                   className="w-4 h-4 rounded-full object-cover"
                                 />
                               ))}
+                              {visibleSeenUsers.length > 8 && (
+                                <span className="w-fit p-2 h-4 rounded-full bg-[var(--color-panel)]/40 text-[var(--color-vibranium)]/60 text-[8px] flex items-center justify-center">
+                                  +{visibleSeenUsers.length - 8} more
+                                </span>
+                              )}
                             </div>
                           )}
                         </div>
