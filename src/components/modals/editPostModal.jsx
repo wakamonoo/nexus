@@ -8,6 +8,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButtons from "../buttons/secBtns";
 import { RiImageAiFill } from "react-icons/ri";
 import Avatar from "@/assets/defaultAvatar.png";
+import { LuCodeXml } from "react-icons/lu";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -26,6 +27,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
   const [post, setPost] = useState({
     topicId: "",
     text: "",
+    embed: "",
   });
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
@@ -38,6 +40,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
       setPost({
         topicId: postToEdit.topicId || "",
         text: postToEdit.text || "",
+        embed: postToEdit.embed?.url || "",
       });
 
       setExistingFiles(Array.isArray(postToEdit.files) ? postToEdit.files : []);
@@ -67,6 +70,46 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
       }
 
       const finalFiles = [...existingFiles, ...uploadedUrls];
+
+      const getYoutubeId = (url) => {
+        const regex =
+          /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/;
+
+        return url.match(regex)?.[1] || null;
+      };
+
+      let embed = null;
+
+      if (post.embed.trim()) {
+        const id = getYoutubeId(post.embed);
+
+        if (!id) {
+          Swal.fire({
+            toast: true,
+            position: "bottom-start",
+            title: "Invalid YouTube link!",
+            icon: "error",
+            timer: 2000,
+            showConfirmButton: false,
+            background: "var(--color-secondary)",
+            iconColor: "var(--color-accent)",
+            customClass: {
+              popup:
+                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+              title:
+                "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            },
+          });
+          setIsLoading(false);
+          return;
+        }
+        embed = {
+          provider: "youtube",
+          id,
+          url: post.embed.trim(),
+        };
+      }
+
       await fetch(`${BASE_URL}/api/posts/editPost/${postToEdit.postId}`, {
         method: "POST",
         headers: {
@@ -76,6 +119,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
           topicId: post.topicId,
           text: post.text,
           userId: user.uid,
+          embed: embed,
           files: finalFiles,
         }),
       });
@@ -264,6 +308,17 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
                 placeholder="share your thoughts"
                 className="bg-text text-brand w-full h-32 rounded p-2"
               />
+              <div className="flex items-center justify-center rounded bg-zeus p-2 gap-2">
+                <div className="bg-panel p-2 rounded">
+                  <LuCodeXml className="text-2xl" />
+                </div>
+                <input
+                  value={post.embed}
+                  onChange={(e) => setPost({ ...post, embed: e.target.value })}
+                  placeholder="embed youtube post..."
+                  className="bg-text text-brand w-full  rounded p-2"
+                />
+              </div>
               <div className="flex flex-col md:flex-row md:gap-2">
                 <SecondaryButtons htmlFor="fileUploadPost">
                   <RiImageAiFill className="text-2xl" />
@@ -319,7 +374,9 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
           <div className="flex border-t border-panel p-4">
             <button
               onClick={editPost}
-              disabled={!(post.text.trim() || newFiles.length > 0)}
+              disabled={
+                !(post.text.trim() || post.embed.trim() || newFiles.length > 0)
+              }
               className={`bg-accent hover:bg-[var(--color-accent)]/80 w-full p-2 rounded flex justify-center items-center gap-1 ${
                 !(post.text.trim() || newFiles.length > 0)
                   ? "opacity-50 cursor-not-allowed"
