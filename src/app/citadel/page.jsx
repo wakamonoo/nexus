@@ -617,10 +617,15 @@ export default function Citadel() {
                             >
                               {visibleSeenUsers.slice(-8).map((viewer) => (
                                 <img
+                                  onClick={() => {
+                                    setIsLoading(true);
+                                    router.push(`/profile/${viewer.uid}`);
+                                  }}
                                   key={viewer.uid}
                                   src={viewer.picture || Avatar.src}
                                   alt={viewer.name}
-                                  className="w-4 h-4 rounded-full object-cover"
+                                  title={viewer.name}
+                                  className="w-4 h-4 rounded-full object-cover cursor-pointer"
                                 />
                               ))}
                               {visibleSeenUsers.length > 8 && (
