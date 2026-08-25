@@ -459,7 +459,7 @@ export default function Citadel() {
                                   className={`flex flex-col px-2 ${ownMessage ? "items-end" : "items-start"}`}
                                 >
                                   <p className="text-sm opacity-60 py-1">
-                                    {ownMessage ? "You" : messageOwner.name}{" "}
+                                    {ownMessage ? "You" : messageOwner?.name}{" "}
                                     replied to{" "}
                                     {user.uid === msg.replyTo.senderId
                                       ? "yourself"
@@ -566,7 +566,7 @@ export default function Citadel() {
                                               openCitadelLightBox(
                                                 msg.files,
                                                 msg.senderId,
-                                                messageOwner.name,
+                                                messageOwner?.name,
                                                 msg.messagedAt,
                                                 index,
                                               )
@@ -583,7 +583,7 @@ export default function Citadel() {
                                             ) : isImage || isGif ? (
                                               <img
                                                 src={file}
-                                                alt={`sent by ${messageOwner.name}`}
+                                                alt={`sent by ${messageOwner?.name}`}
                                                 loading="lazy"
                                                 decoding="async"
                                                 className="w-full h-full object-cover rounded"
