@@ -74,7 +74,8 @@ export default function Post() {
   const [isReplying, setIsReplying] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showConfirmCommentDeleteModal, setShowConfirmCommentDeleteModal] = useState(false);
+  const [showConfirmCommentDeleteModal, setShowConfirmCommentDeleteModal] =
+    useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
   const searchParams = useSearchParams();
   const [commentLightBoxOpen, setCommentLightBoxOpen] = useState(false);
@@ -100,7 +101,7 @@ export default function Post() {
 
   const postOwner = allUsers.find((user) => user.uid === post?.userId);
 
-  const currentTopic = titles.find((t) => t.title === post?.topic);
+  const currentTopic = titles.find((t) => t.titleId === post?.topicId);
 
   const handleNext = () => {
     if (!post?.files) return;
@@ -391,14 +392,14 @@ export default function Post() {
                         onClick={(e) => {
                           e.stopPropagation();
                           setIsLoading(true);
-                          router.push(`/posts/${post?.topic}`);
+                          router.push(`/posts/${post?.topicId}`);
                         }}
                         className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] ${
-                          post.topic ? "block" : "hidden"
+                          currentTopic ? "block" : "hidden"
                         }`}
                       >
                         <p className="font-bold text-vibe text-sm px-2">
-                          {post.topic}
+                          {currentTopic?.title}
                         </p>
                       </div>
                     </div>
@@ -922,7 +923,9 @@ export default function Post() {
                                                   setCommentToDelete(
                                                     reply.replyId,
                                                   );
-                                                  setShowConfirmCommentDeleteModal(true);
+                                                  setShowConfirmCommentDeleteModal(
+                                                    true,
+                                                  );
                                                 }}
                                               >
                                                 <p className="font-bold text-normal text-base">

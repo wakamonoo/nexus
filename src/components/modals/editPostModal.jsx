@@ -24,7 +24,7 @@ if (APP_ENV === "production") {
 export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
   const { user } = useContext(UserContext);
   const [post, setPost] = useState({
-    topic: "",
+    topicId: "",
     text: "",
   });
   const { titles } = useContext(TitleContext);
@@ -36,7 +36,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
   useEffect(() => {
     if (postToEdit) {
       setPost({
-        topic: postToEdit.topic || "",
+        topicId: postToEdit.topicId || "",
         text: postToEdit.text || "",
       });
 
@@ -73,7 +73,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          topic: post.topic,
+          topicId: post.topicId,
           text: post.text,
           userId: user.uid,
           files: finalFiles,
@@ -121,7 +121,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
     }
   };
 
-  const currentTopic = titles.find((t) => t.title === post?.topic);
+  const currentTopic = titles.find((t) => t.titleId === post?.topicId);
 
   return (
     <>
@@ -158,21 +158,15 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
             </div>
             <div className="py-2">
               <div className="relative">
-                <div className="relative">
-                  <div
-                    className={`rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
-                  >
-                    <p className="font-bold text-vibe text-base px-2">
-                      {post.topic ? post.topic : "No topic assigned"}
-                    </p>
-                  </div>
-                  <MdClose
-                    onClick={() => setPost({ ...post, topic: "" })}
-                    className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-2 text-2xl"
-                  />
+                <div
+                  className={`rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
+                >
+                  <p className="font-bold text-vibe text-base px-2">
+                    {currentTopic?.title || "No topic assigned"}
+                  </p>
                 </div>
                 <MdClose
-                  onClick={() => setPost({ ...post, topic: "" })}
+                  onClick={() => setPost({ ...post, topicId: "" })}
                   className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-2 text-2xl"
                 />
               </div>
@@ -306,7 +300,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
                         onClick={() => {
                           setPost({
                             ...post,
-                            topic: `${title.title}`,
+                            topicId: title.titleId,
                           });
                           setShowTopics(false);
                         }}

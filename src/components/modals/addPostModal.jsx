@@ -24,7 +24,7 @@ if (APP_ENV === "production") {
 export default function AddPostModal({ setShowAddPostModal }) {
   const { user } = useContext(UserContext);
   const [post, setPost] = useState({
-    topic: "",
+    topicId: "",
     text: "",
     embed: "",
     file: null,
@@ -100,7 +100,7 @@ export default function AddPostModal({ setShowAddPostModal }) {
         },
         body: JSON.stringify({
           userId: user.uid,
-          topic: post.topic,
+          topicId: post.topicId,
           text: post.text,
           embed: embed,
           files: uploadedUrls,
@@ -148,7 +148,7 @@ export default function AddPostModal({ setShowAddPostModal }) {
     }
   };
 
-  const currentTopic = titles.find((t) => t.title === post?.topic);
+  const currentTopic = titles.find((t) => t.titleId === post?.topicId);
 
   return (
     <>
@@ -189,11 +189,11 @@ export default function AddPostModal({ setShowAddPostModal }) {
                   className={`rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
                 >
                   <p className="font-bold text-vibe text-base px-2">
-                    {post.topic ? post.topic : "No topic assigned"}
+                    {currentTopic?.title || "No topic assigned"}
                   </p>
                 </div>
                 <MdClose
-                  onClick={() => setPost({ ...post, topic: "" })}
+                  onClick={() => setPost({ ...post, topicId: "" })}
                   className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-2 text-2xl"
                 />
               </div>
@@ -297,7 +297,7 @@ export default function AddPostModal({ setShowAddPostModal }) {
                         onClick={() => {
                           setPost({
                             ...post,
-                            topic: `${title.title}`,
+                            topicId: `${title.titleId}`,
                           });
                           setShowTopics(false);
                         }}

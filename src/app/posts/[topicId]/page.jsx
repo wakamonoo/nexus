@@ -10,9 +10,11 @@ import GoatTitlesStructureMax from "@/components/layout/titlesStructure/goatTitl
 import PostsLoader from "@/components/loaders/postsLoader";
 import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
 import GoatMinLoader from "@/components/loaders/goatMinLoader";
+import { TitleContext } from "@/context/titleContext";
 
 export default function TopicPostings() {
-  const { topic } = useParams();
+  const { topicId } = useParams();
+  const { titles } = useContext(TitleContext);
   const { posts } = useContext(PostContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
@@ -21,9 +23,10 @@ export default function TopicPostings() {
     setIsLoading(false);
   }, []);
 
-  const currentTopic = posts?.filter(
-    (p) => p.topic === decodeURIComponent(topic)
-  );
+  const currentTopic = posts?.filter((p) => p.topicId === topicId);
+
+  const topicTitle = titles?.find((t) => t.titleId === topicId);
+
   return (
     <div className="bg-brand w-full">
       <div className="relative bg-panel border-b-1 border-[var(--color-secondary)] p-6 flex justify-center items-center">
@@ -32,7 +35,7 @@ export default function TopicPostings() {
           className="absolute left-2 sm:left-4 md:left-8 lg:left-16 xl:left-32 text-2xl cursor-pointer"
         />
         <p className="absolute left-1/2 -translate-x-1/2 uppercase font-bold text-normal truncate">
-          Posts from "{decodeURIComponent(topic)}"
+          Posts from "{topicTitle?.title}"
         </p>
       </div>
       <aside className="p-2 md:hidden">

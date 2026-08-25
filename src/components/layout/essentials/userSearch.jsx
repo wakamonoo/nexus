@@ -1,7 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
-import { HiOutlineSearch } from "react-icons/hi";
-import Image from "next/image";
 import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/loaders/searchLoader";
 import Avatar from "@/assets/defaultAvatar.png";
@@ -94,27 +92,18 @@ export default function UserSearch({ showSearch, setShowSearch }) {
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={(e) => {
-                if ((e.key === "Enter") & !e.shiftKey) {
-                  e.preventDefault();
-                  handleUserSearch();
-                }
-              }}
               placeholder="Locate variants across timelines..."
               className="w-full outline-none text-base text-normal truncate"
             />
-            <button onClick={handleUserSearch}>
-              <HiOutlineSearch className="text-2xl text-normal cursor-pointer" />
-            </button>
           </div>
         </div>
         <div className="flex flex-col gap-2 py-4">
           {loading ? (
             <Loader />
           ) : searchResults.length > 0 ? (
-            searchResults?.map((profile, index) => (
+            searchResults?.map((profile) => (
               <div
-                key={index}
+                key={profile.uid}
                 onClick={() => {
                   setIsLoading(true);
                   router.push(`profile/${profile.uid}`);
@@ -125,7 +114,6 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                   <img
                     src={profile.picture || Avatar.src}
                     alt={profile.name}
-                    w
                     loading="lazy"
                     decoding="async"
                     className="w-12 h-12 object-fill rounded-full"

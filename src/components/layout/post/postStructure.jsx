@@ -72,7 +72,7 @@ export default function PostStructure({ post }) {
     }
   };
 
-  const currentTopic = titles.find((t) => t.title === post?.topic);
+  const currentTopic = titles.find((t) => t.titleId === post?.topicId);
 
   return (
     <div
@@ -188,14 +188,16 @@ export default function PostStructure({ post }) {
               });
             } else {
               setIsLoading(true);
-              router.push(`/posts/${post.topic}`);
+              router.push(`/posts/${post.topicId}`);
             }
           }}
           className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] ${
-            post.topic ? "block" : "hidden"
+            currentTopic ? "block" : "hidden"
           }`}
         >
-          <p className="font-bold text-vibe text-sm px-2">{post.topic}</p>
+          <p className="font-bold text-vibe text-sm px-2">
+            {currentTopic?.title}
+          </p>
         </div>
       </div>
 

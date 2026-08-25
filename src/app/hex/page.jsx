@@ -8,7 +8,6 @@ import { TitleContext } from "@/context/titleContext";
 import NavBar from "@/components/layout/essentials/navBar";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { MdSearchOff } from "react-icons/md";
-import { HiOutlineMap, HiOutlineSearch } from "react-icons/hi";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
@@ -446,18 +445,9 @@ export default function Main() {
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter") & !e.shiftKey) {
-                    e.preventDefault();
-                    handleTitleSearch();
-                  }
-                }}
                 placeholder="Locate titles accross Marvel Sagas..."
                 className="w-full outline-none text-base text-normal truncate"
               />
-              <button onClick={handleTitleSearch} className="cursor-pointer">
-                <HiOutlineSearch className="text-2xl text-normal" />
-              </button>
             </div>
 
             {loading ? (

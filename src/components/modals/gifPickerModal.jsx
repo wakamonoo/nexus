@@ -72,21 +72,7 @@ export default function GifPickerModal({ onSelect, setShowGifPickerModal }) {
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search KLIPY.."
                 className="w-full outline-none text-base text-normal"
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter") & !e.shiftKey) {
-                    e.preventDefault();
-                    setQuery(inputValue || "trending");
-                  }
-                }}
               />
-              <button
-                onClick={() => {
-                  setQuery(inputValue || "trending");
-                }}
-                className="cursor-pointer"
-              >
-                <HiOutlineSearch className="text-2xl text-normal" />
-              </button>
             </div>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto custom-scroll p-4">

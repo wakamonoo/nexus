@@ -8,7 +8,7 @@ router.post("/addPost", async (req, res) => {
   try {
     const {
       userId,
-      topic,
+      topicId,
       text,
       embed = null,
       files = [],
@@ -94,7 +94,7 @@ router.post("/addPost", async (req, res) => {
       {
         $setOnInsert: {
           userId,
-          topic,
+          topicId,
           text,
           embed,
           files,
@@ -142,7 +142,7 @@ router.post("/editPost/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
 
-    const { topic, text, embed, files } = req.body;
+    const { topicId, text, embed, files } = req.body;
 
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
@@ -152,7 +152,7 @@ router.post("/editPost/:postId", async (req, res) => {
       { postId },
       {
         $set: {
-          topic,
+          topicId,
           text,
           embed,
           files: Array.isArray(files) ? files : [],

@@ -1,9 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
 import { MdClose, MdSearchOff } from "react-icons/md";
-import { HiOutlineSearch } from "react-icons/hi";
-import GifLoader from "../loaders/gifLoader";
-import Masonry from "react-masonry-css";
 import { TitleContext } from "@/context/titleContext";
 import { IoRadioButtonOff, IoRadioButtonOn } from "react-icons/io5";
 import { UserContext } from "@/context/userContext";
@@ -266,18 +263,9 @@ export default function AddListModal({ user, setShowAddListModal }) {
                 type="text"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter") & !e.shiftKey) {
-                    e.preventDefault();
-                    handleTitleSearch();
-                  }
-                }}
                 placeholder="Search title"
                 className="w-full outline-none text-base text-normal"
               />
-              <button onClick={handleTitleSearch} className="cursor-pointer">
-                <HiOutlineSearch className="text-2xl text-normal" />
-              </button>
             </div>
             {loading ? (
               <Loader />

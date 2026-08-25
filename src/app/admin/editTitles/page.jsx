@@ -6,7 +6,6 @@ import { FaAngleLeft } from "react-icons/fa";
 import ConfirmTitleDeleteModal from "@/components/modals/confirmTitleDeleteModal";
 import AdminGuard from "@/components/guard/adminGuard";
 import CircledButtons from "@/components/buttons/circledBtns";
-import { HiOutlineSearch } from "react-icons/hi";
 import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/loaders/searchLoader";
 
@@ -93,18 +92,9 @@ export default function EditTitleMain() {
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={(e) => {
-                if ((e.key === "Enter") & !e.shiftKey) {
-                  e.preventDefault();
-                  handleTitleSearch();
-                }
-              }}
               placeholder="Locate titles accross Marvel Sagas..."
               className="w-full outline-none text-base text-normal truncate"
             />
-            <button onClick={handleTitleSearch} className="cursor-pointer">
-              <HiOutlineSearch className="text-2xl text-normal" />
-            </button>
           </div>
           {loading ? (
             <Loader />

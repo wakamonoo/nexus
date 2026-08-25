@@ -273,9 +273,6 @@ export default function Powerboard() {
           placeholder="Locate the title worthy of your rank..."
           className="w-full outline-none text-base text-normal truncate"
         />
-        <button>
-          <HiOutlineSearch className="text-2xl text-normal" />
-        </button>
       </div>
       <DndContext
         onDragEnd={handleDragEnd}

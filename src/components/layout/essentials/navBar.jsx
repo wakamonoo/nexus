@@ -43,7 +43,7 @@ export default function NavBar() {
 
   const latestSeenMessageId = latestSeenMessages?.[user?.uid]?.messageId;
 
-  const latestSeenIndex = messages.findIndex(
+  const latestSeenIndex = messages?.findIndex(
     (m) => m.msgId === latestSeenMessageId,
   );
 

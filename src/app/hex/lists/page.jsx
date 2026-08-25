@@ -17,7 +17,7 @@ export default function Lists() {
   const [showAddListModal, setShowAddListModal] = useState(false);
   const { listVotes } = useContext(SocketContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { user, allUsers } = useContext(UserContext);
+  const { user, allUsers, setShowSignInModal } = useContext(UserContext);
   const { lists, listLoad } = useContext(ListContext);
   const { titles } = useContext(TitleContext);
   const { handleShowListNav } = useContext(TitleNavContext);
@@ -39,7 +39,11 @@ export default function Lists() {
         </div>
         <div className="w-full flex justify-end">
           <div className="w-fit">
-            <SecondaryButtons onClick={() => setShowAddListModal(true)}>
+            <SecondaryButtons
+              onClick={() => {
+                user ? setShowAddListModal(true) : setShowSignInModal(true);
+              }}
+            >
               <p className="font-bold text-normal text-base">Create List</p>
             </SecondaryButtons>
           </div>

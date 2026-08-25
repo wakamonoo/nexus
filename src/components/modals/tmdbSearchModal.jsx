@@ -5,7 +5,11 @@ import { HiOutlineSearch } from "react-icons/hi";
 import Fallback from "@/assets/fallback.png";
 import TMDBTitlesLoader from "../loaders/tmdbTitlesLoader";
 
-export default function TMDBSearchModal({ BASE_URL, setShowTMDBSearchModal, setData }) {
+export default function TMDBSearchModal({
+  BASE_URL,
+  setShowTMDBSearchModal,
+  setData,
+}) {
   const [query, setQuery] = useState("Avengers");
   const [isLoading, setIsLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -72,21 +76,7 @@ export default function TMDBSearchModal({ BASE_URL, setShowTMDBSearchModal, setD
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search TMDB"
                 className="w-full outline-none text-base text-normal"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    searchMetadata(inputValue || "Avengers");
-                  }
-                }}
               />
-              <button
-                onClick={() => {
-                  searchMetadata(inputValue || "Avengers");
-                }}
-                className="cursor-pointer"
-              >
-                <HiOutlineSearch className="text-2xl text-normal" />
-              </button>
             </div>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto custom-scroll p-4">

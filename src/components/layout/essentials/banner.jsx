@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import ButtonLoader from "../../loaders/buttonLoader";
 import AddPostModal from "../../modals/addPostModal";
-import { HiOutlineSearch } from "react-icons/hi";
 import UserSearch from "./userSearch";
 import CircledButtons from "../../buttons/circledBtns";
 
@@ -22,7 +21,9 @@ export default function Banner() {
 
   return (
     <>
-      {showAddPostModal && <AddPostModal setShowAddPostModal={setShowAddPostModal} />}
+      {showAddPostModal && (
+        <AddPostModal setShowAddPostModal={setShowAddPostModal} />
+      )}
       {showSearch && (
         <UserSearch showSearch={showSearch} setShowSearch={setShowSearch} />
       )}
@@ -31,10 +32,9 @@ export default function Banner() {
           <div className="w-full">
             <div
               onClick={() => setShowSearch(true)}
-              className="bg-panel cursor-text px-4 py-2 rounded-full flex items-center justify-between"
+              className="bg-panel cursor-text px-4 py-2 rounded-full flex "
             >
               <p className="text-vibe opacity-70">Search for a user..</p>
-              <HiOutlineSearch className="text-2xl text-normal" />
             </div>
           </div>
           <div className="flex gap-2 justify-center p-2">
