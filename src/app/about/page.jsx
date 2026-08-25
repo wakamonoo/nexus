@@ -154,6 +154,7 @@ export default function About() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
+  
   return (
     <>
       <NavBar />

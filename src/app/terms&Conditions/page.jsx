@@ -388,6 +388,7 @@ export default function TermsAndConditions() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
+  
   return (
     <>
       <NavBar />

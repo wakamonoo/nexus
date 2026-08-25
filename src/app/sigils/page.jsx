@@ -1,11 +1,18 @@
 "use client";
 import NavBar from "@/components/layout/essentials/navBar";
 import { SigilContext } from "@/context/sigilContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Image from "next/image";
+import { LoaderContext } from "@/context/loaderContext";
 
 export default function Sigil() {
   const { sigils } = useContext(SigilContext);
+  const { setIsLoading } = useContext(LoaderContext);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   return (
     <>
       <NavBar />

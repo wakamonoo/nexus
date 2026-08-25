@@ -115,6 +115,7 @@ export default function HeroFund() {
       container.html = "";
     };
   }, [setIsLoading]);
+  
   return (
     <>
       <NavBar />

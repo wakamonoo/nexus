@@ -6,15 +6,18 @@ import { MenuContext } from "@/context/menuContext";
 import { useRouter } from "next/navigation";
 import { RiContractFill } from "react-icons/ri";
 import { GiSwordsEmblem } from "react-icons/gi";
+import { LoaderContext } from "@/context/loaderContext";
 
 export default function MenuStructure() {
   const { setShowMenu } = useContext(MenuContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   return (
     <div className="flex flex-col gap-2 items-start">
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/about");
           setShowMenu(false);
         }}
@@ -25,6 +28,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/sigils");
           setShowMenu(false);
         }}
@@ -35,6 +39,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/trustAndLegality");
           setShowMenu(false);
         }}
@@ -45,6 +50,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/terms&Conditions");
           setShowMenu(false);
         }}
@@ -55,6 +61,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/privacyPolicy");
           setShowMenu(false);
         }}
@@ -65,6 +72,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/recommendations");
           setShowMenu(false);
         }}
@@ -75,6 +83,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/heroFund");
           setShowMenu(false);
         }}

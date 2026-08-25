@@ -163,6 +163,7 @@ export default function PrivacyPolicy() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
+  
   return (
     <>
       <NavBar />

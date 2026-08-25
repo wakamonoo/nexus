@@ -1,16 +1,22 @@
 "use client";
-import { useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import Swal from "sweetalert2";
 import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import NavBar from "@/components/layout/essentials/navBar";
 import RegularButtons from "@/components/buttons/regBtns";
+import { LoaderContext } from "@/context/loaderContext";
 
 export default function Recommendations() {
   const contact = useRef();
   const ejssid = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
   const ejstid = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
   const ejspk = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+  const { setIsLoading } = useContext(LoaderContext);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const sendEmail = (e) => {
     e.preventDefault();

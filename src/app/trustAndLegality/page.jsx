@@ -4,9 +4,6 @@ import { useContext, useEffect } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import Image from "next/image";
 
-const listItemClass =
-  "relative pl-5 before:absolute before:left-1 before:top-[0.75em] before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full before:bg-accent/60";
-
 const sections = [
   {
     number: "01",
@@ -132,6 +129,7 @@ export default function TrustAndLegality() {
   useEffect(() => {
     setIsLoading(false);
   }, []);
+  
   return (
     <>
       <NavBar />
