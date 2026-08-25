@@ -1,7 +1,5 @@
 "use client";
 import NavBar from "@/components/layout/essentials/navBar";
-import { useContext, useEffect } from "react";
-import { LoaderContext } from "@/context/loaderContext";
 import Image from "next/image";
 
 const sections = [
@@ -124,11 +122,6 @@ const sections = [
 ];
 
 export default function TrustAndLegality() {
-  const { setIsLoading } = useContext(LoaderContext);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
   
   return (
     <>

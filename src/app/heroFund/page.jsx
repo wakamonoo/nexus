@@ -1,7 +1,6 @@
 "use client";
 import NavBar from "@/components/layout/essentials/navBar";
-import { useContext, useEffect } from "react";
-import { LoaderContext } from "@/context/loaderContext";
+import { useEffect } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { SiCloudinary, SiMongodb, SiRender, SiVercel } from "react-icons/si";
 import { useState } from "react";
@@ -81,13 +80,10 @@ const sections = [
 ];
 
 export default function HeroFund() {
-  const { setIsLoading } = useContext(LoaderContext);
   const [amount, setAmount] = useState("");
   const paypalID = process.env.NEXT_PUBLIC_PAYPAL_ID;
 
   useEffect(() => {
-    setIsLoading(false);
-
     const container = document.getElementById("kofi-widget");
 
     if (!container) return;
@@ -114,8 +110,8 @@ export default function HeroFund() {
       script.remove();
       container.html = "";
     };
-  }, [setIsLoading]);
-  
+  }, []);
+
   return (
     <>
       <NavBar />

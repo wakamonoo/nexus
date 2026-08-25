@@ -1,7 +1,5 @@
 "use client";
 import NavBar from "@/components/layout/essentials/navBar";
-import { useContext, useEffect } from "react";
-import { LoaderContext } from "@/context/loaderContext";
 
 const listItemClass =
   "relative pl-5 before:absolute before:left-1 before:top-[0.75em] before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full before:bg-accent/60";
@@ -158,12 +156,6 @@ const sections = [
 ];
 
 export default function PrivacyPolicy() {
-  const { setIsLoading } = useContext(LoaderContext);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
-  
   return (
     <>
       <NavBar />
