@@ -21,7 +21,7 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function AddPost({ setShowAddPost }) {
+export default function AddPostModal({ setShowAddPostModal }) {
   const { user } = useContext(UserContext);
   const [post, setPost] = useState({
     topic: "",
@@ -107,7 +107,7 @@ export default function AddPost({ setShowAddPost }) {
         }),
       });
 
-      setShowAddPost(false);
+      setShowAddPostModal(false);
 
       Swal.fire({
         toast: true,
@@ -153,7 +153,7 @@ export default function AddPost({ setShowAddPost }) {
   return (
     <>
       <div
-        onClick={() => setShowAddPost(false)}
+        onClick={() => setShowAddPostModal(false)}
         className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
@@ -161,16 +161,11 @@ export default function AddPost({ setShowAddPost }) {
           className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
           <div className="flex items-center justify-between border-b border-panel p-4">
-            <div className="min-w-0 flex-1">
-              <h1 className="text-base font-bold text-normal">Create a post</h1>
-              <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-                What's on your mind?
-              </p>
-            </div>
+            <h1 className="text-base font-bold text-normal">Create post</h1>
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setShowAddPost(false);
+                setShowAddPostModal(false);
               }}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
             >

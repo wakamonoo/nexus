@@ -32,7 +32,7 @@ if (APP_ENV === "production") {
 
 export default function Powerboard() {
   const { releasedMCUTitles } = useContext(TitleContext);
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { user, setShowSignInModal } = useContext(UserContext);
   const { isTitleWatched } = useContext(WatchContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [items, setItems] = useState([]);
@@ -427,7 +427,7 @@ export default function Powerboard() {
         </RegularButtons>
         <RegularButtons
           onClick={() => {
-            user ? handleSave() : setShowSignIn(true);
+            user ? handleSave() : setShowSignInModal(true);
           }}
         >
           <FaRegSave className="text-2xl" />

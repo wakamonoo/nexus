@@ -6,7 +6,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import AdminGuard from "@/components/guard/adminGuard";
 import Swal from "sweetalert2";
 import RegularButtons from "@/components/buttons/regBtns";
-import TMDBSearch from "@/components/modals/tmdbSearch";
+import TMDBSearchModal from "@/components/modals/tmdbSearchModal";
 import SecondaryButtons from "@/components/buttons/secBtns";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -40,7 +40,7 @@ export default function AddTitle() {
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
-  const [showTMDBSearch, setShowTMDBSearch] = useState(false);
+  const [showTMDBSearchModal, setShowTMDBSearchModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -153,7 +153,7 @@ export default function AddTitle() {
             />
             <SecondaryButtons
               type="button"
-              onClick={() => setShowTMDBSearch(true)}
+              onClick={() => setShowTMDBSearchModal(true)}
             >
               <p className="font-bold text-normal text-base">Locate in TMDB</p>
             </SecondaryButtons>
@@ -249,10 +249,10 @@ export default function AddTitle() {
             </RegularButtons>
           </form>
         </div>
-        {showTMDBSearch && (
-          <TMDBSearch
+        {showTMDBSearchModal && (
+          <TMDBSearchModal
             BASE_URL={BASE_URL}
-            setShowTMDBSearch={setShowTMDBSearch}
+            setShowTMDBSearchModal={setShowTMDBSearchModal}
             setData={setData}
           />
         )}

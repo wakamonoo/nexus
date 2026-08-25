@@ -11,7 +11,7 @@ import { FaTrash } from "react-icons/fa";
 export default function CommentLayout({ comment, firstComment, listId }) {
   const { allUsers, user } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const [showDeleteCommentModal, setShowDeleteCommentModal] = useState(false);
+  const [showConfirmListCommentDelete, setShowConfirmListCommentDelete] = useState(false);
   const router = useRouter();
 
   const commentor = allUsers.find((u) => u.uid === comment.userId);
@@ -54,7 +54,7 @@ export default function CommentLayout({ comment, firstComment, listId }) {
               </div>
               {user?.uid === commentor.uid && (
                 <div
-                  onClick={() => setShowDeleteCommentModal(true)}
+                  onClick={() => setShowConfirmListCommentDelete(true)}
                   className="top-2 right-2"
                 >
                   <FaTrash className="text-xs cursor-pointer" />
@@ -72,9 +72,9 @@ export default function CommentLayout({ comment, firstComment, listId }) {
           </div>
         </div>
       </div>
-      {showDeleteCommentModal && (
+      {showConfirmListCommentDelete && (
         <ConfirmListCommentDelete
-          setShowDeleteCommentModal={setShowDeleteCommentModal}
+          setShowConfirmListCommentDelete={setShowConfirmListCommentDelete}
           comment={comment}
           listId={listId}
         />

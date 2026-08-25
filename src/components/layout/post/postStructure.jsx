@@ -19,7 +19,7 @@ import { TitleContext } from "@/context/titleContext";
 dayjs.extend(relativeTime);
 
 export default function PostStructure({ post }) {
-  const { allUsers, user, setShowSignIn } = useContext(UserContext);
+  const { allUsers, user, setShowSignInModal } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const {
     selectedPost,
@@ -348,7 +348,7 @@ export default function PostStructure({ post }) {
             if (user) {
               handleEnergize(post);
             } else {
-              setShowSignIn(true);
+              setShowSignInModal(true);
             }
           }}
           className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
@@ -369,7 +369,7 @@ export default function PostStructure({ post }) {
             if (user) {
               handleEcho(post);
             } else {
-              setShowSignIn(true);
+              setShowSignInModal(true);
             }
           }}
           className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"

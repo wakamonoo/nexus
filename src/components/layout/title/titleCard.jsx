@@ -5,7 +5,7 @@ import { FaEye, FaEyeSlash, FaRegEyeSlash } from "react-icons/fa";
 import Fallback from "@/assets/fallback.png"
 import { FiCheckCircle } from "react-icons/fi";
 import { MdOutlineReviews } from "react-icons/md";
-import AddReview from "../../modals/addReview";
+import AddReviewModal from "../../modals/addReviewModal";
 import { GiTrophy } from "react-icons/gi";
 
 export default function TitleCard({
@@ -19,8 +19,8 @@ export default function TitleCard({
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const { handleWatch } = useContext(WatchContext);
-  const [showAddReview, setShowAddReview] = useState(false);
-  const { user, setShowSignIn } = useContext(UserContext);
+  const [showAddReviewModal, setShowAddReviewModal] = useState(false);
+  const { user, setShowSignInModal } = useContext(UserContext);
   const timer = useRef(null);
   const cardRef = useRef(null);
 
@@ -71,7 +71,7 @@ export default function TitleCard({
                   onClick={(e) => {
                     e.stopPropagation();
                     if (!user) {
-                      setShowSignIn(true);
+                      setShowSignInModal(true);
                       return;
                     } else {
                       handleWatch(unit.titleId);
@@ -86,7 +86,7 @@ export default function TitleCard({
                   onClick={(e) => {
                     e.stopPropagation();
                     if (!user) {
-                      setShowSignIn(true);
+                      setShowSignInModal(true);
                       return;
                     } else {
                       handleWatch(unit.titleId);
@@ -106,10 +106,10 @@ export default function TitleCard({
                   onClick={(e) => {
                     e.stopPropagation();
                     if (!user) {
-                      setShowSignIn(true);
+                      setShowSignInModal(true);
                       return;
                     } else {
-                      setShowAddReview(true);
+                      setShowAddReviewModal(true);
                     }
                   }}
                   className="cursor-pointer transition-all transform duration-200 hover:scale-125"
@@ -165,9 +165,9 @@ export default function TitleCard({
           </div>
         )}
       </div>
-      {showAddReview && (
-        <AddReview
-          setShowAddReview={setShowAddReview}
+      {showAddReviewModal && (
+        <AddReviewModal
+          setShowAddReviewModal={setShowAddReviewModal}
           titleId={unit.titleId}
           title={unit}
         />

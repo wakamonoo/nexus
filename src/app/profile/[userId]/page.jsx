@@ -12,7 +12,7 @@ import { WatchContext } from "@/context/watchContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import ProfilePosts from "@/components/layout/profile/profilePosts";
 import ProfileReviews from "@/components/layout/profile/profileReviews";
-import EditProfile from "@/components/modals/editProfile";
+import EditProfileModal from "@/components/modals/editProfileModal";
 import Avatar from "@/assets/defaultAvatar.png";
 import ProfileEchoes from "@/components/layout/profile/profileEchoes";
 import ProfileSigils from "@/components/layout/profile/profileSigils";
@@ -53,7 +53,7 @@ export default function UserProfile() {
   const [showProfileReviews, setShowProfileReviews] = useState(false);
   const [showProfileEchoes, setShowProfileEchoes] = useState(false);
   const [showProfileLibrary, setShowProfileLibrary] = useState(false);
-  const [editProfile, setEditProfile] = useState(false);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
   const [memory, setMemory] = useState(null);
   const [loadingMemory, setLoadingMemory] = useState(false);
   const [memoryCache, setMemoryCache] = useState({});
@@ -172,8 +172,8 @@ export default function UserProfile() {
 
   return (
     <>
-      {editProfile && (
-        <EditProfile setEditProfile={setEditProfile} user={user} />
+      {showEditProfileModal && (
+        <EditProfileModal setShowEditProfileModal={setShowEditProfileModal} user={user} />
       )}
       <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <div className="flex justify-between items-center py-4 w-full">
@@ -206,7 +206,7 @@ export default function UserProfile() {
                       {profileUser.name}
                     </p>
                     <FaPen
-                      onClick={() => setEditProfile(true)}
+                      onClick={() => setShowEditProfileModal(true)}
                       className={`text-xs cursor-pointer text-vibe opacity-70 ${
                         user?.uid === profileUser.uid ? "flex" : "hidden"
                       }`}

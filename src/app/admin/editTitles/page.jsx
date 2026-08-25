@@ -3,7 +3,7 @@ import { TitleContext } from "@/context/titleContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
-import TitleDelConfirm from "@/components/modals/titleDelConfirm";
+import ConfirmTitleDeleteModal from "@/components/modals/confirmTitleDeleteModal";
 import AdminGuard from "@/components/guard/adminGuard";
 import CircledButtons from "@/components/buttons/circledBtns";
 import { HiOutlineSearch } from "react-icons/hi";
@@ -24,7 +24,7 @@ if (APP_ENV === "production") {
 
 export default function EditTitleMain() {
   const { titles } = useContext(TitleContext);
-  const [delConfim, setDelModal] = useState(false);
+  const [showConfirmTitleDeleteModal, setShowConfirmTitleDeleteModal] = useState(false);
   const [selectedTitleId, setSelectedTitleId] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -33,7 +33,7 @@ export default function EditTitleMain() {
 
   const openDelModal = (titleId) => {
     setSelectedTitleId(titleId);
-    setDelModal(true);
+    setShowConfirmTitleDeleteModal(true);
   };
 
   const handleTitleSearch = async () => {
@@ -72,10 +72,10 @@ export default function EditTitleMain() {
   return (
     <>
       <AdminGuard>
-        {delConfim && (
-          <TitleDelConfirm
+        {showConfirmTitleDeleteModal && (
+          <ConfirmTitleDeleteModal
             titleId={selectedTitleId}
-            setDelModal={setDelModal}
+            setShowConfirmTitleDeleteModal={setShowConfirmTitleDeleteModal}
           />
         )}
         <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">

@@ -1,10 +1,15 @@
 "use client";
-import { UserContext } from "@/context/userContext";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { MdClose } from "react-icons/md";
-import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
+import CircledButtons from "../buttons/circledBtns";
 import { LoaderContext } from "@/context/loaderContext";
+import { UserContext } from "@/context/userContext";
+import Swal from "sweetalert2";
+import { GoogleAuthProvider, reauthenticateWithPopup } from "firebase/auth";
+import { auth } from "@/firebase/firebaseConfig";
+import { useRouter } from "next/navigation";
+import SecondaryButtons from "../buttons/secBtns";
+import RegularButtons from "../buttons/regBtns";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -18,44 +23,35 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function AddReview({ setShowAddReview, titleId, title }) {
-  const { user } = useContext(UserContext);
-  const [reviewText, setReviewText] = useState("");
+export default function ConfirmAccountDeleteModal({
+  setShowConfirmAccountDeleteModal,
+  setShowEditProfileModal,
+  user,
+}) {
   const { setIsLoading } = useContext(LoaderContext);
+  const { firebaseUser } = useContext(UserContext);
+  const userId = user?.uid;
+  const router = useRouter();
 
-  const postReview = async () => {
-    if (!reviewText.trim()) return;
+  const handleAccountDelete = async (userId) => {
     try {
       setIsLoading(true);
 
-      const newReview = {
-        titleId,
-        title: title.title,
-        userId: user.uid,
-        textReview: reviewText,
-      };
+      const provider = new GoogleAuthProvider();
+      await reauthenticateWithPopup(auth.currentUser, provider);
 
-      const res = await fetch(`${BASE_URL}/api/reviews/addReview`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newReview),
+      await fetch(`${BASE_URL}/api/users/deleteUser/${userId}`, {
+        method: "DELETE",
       });
 
-      const data = await res.json();
-
-      title.reviews = title.reviews
-        ? [...title.reviews, data.review]
-        : [data.review];
-
-      setReviewText("");
-      setShowAddReview(false);
+      await firebaseUser.delete();
+      router.push("/");
+      setShowEditProfileModal(false);
 
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "Your review is live!",
+        title: "Account and its data have been deleted!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -73,7 +69,7 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "Something went wrong, please try again later!",
+        title: "Failed deleting account!",
         icon: "error",
         timer: 2000,
         showConfirmButton: false,
@@ -93,7 +89,7 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
 
   return (
     <div
-      onClick={() => setShowAddReview(false)}
+      onClick={() => setShowConfirmAccountDeleteModal(false)}
       className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
     >
       <div
@@ -101,16 +97,11 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
         className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-panel p-4">
-          <div className="min-w-0 flex-1">
-            <h1 className="text-base font-bold text-normal">Write a review</h1>
-            <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-              {`What do you think about ${title?.title}`}
-            </p>
-          </div>
+          <h1 className="text-base font-bold text-normal">Delete account</h1>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setShowAddReview(false);
+              setShowConfirmAccountDeleteModal(false);
             }}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
           >
@@ -118,28 +109,27 @@ export default function AddReview({ setShowAddReview, titleId, title }) {
           </button>
         </div>
         <div className="p-4">
-          <div className="flex py-2 justify-start items-center gap-2">
-            <img
-              src={user?.picture}
-              alt={user?.name}
-              loading="lazy"
-              decoding="async"
-              className="w-10 h-10 rounded-full"
-            />
-            <p className="text-base text-normal font-bold">{user?.name}</p>
-          </div>
-          <div className="w-full h-full py-2">
-            <textarea
-              value={reviewText}
-              onChange={(e) => setReviewText(e.target.value)}
-              placeholder="inifinity thoughts, one review box..."
-              className="bg-text text-base text-brand w-full h-64 rounded p-2"
-            />
-          </div>
+          <p className="text-center text-normal font-bold leading-5">
+            Are you sure you want to permanently delete your account?
+          </p>
+          <span className="mt-2 text-center text-sm text-vibe opacity-60 leading-tight block">
+            All data associated with this account, including your profile,
+            posts, comments, reviews, reactions, watch history, lists, pings,
+            and other account data, will be permanently deleted. This cannot be
+            undone. Continue?
+          </span>
         </div>
-        <div className="flex border-t border-panel p-4">
-          <RegularButtons onClick={() => postReview()}>
-            <p className="font-bold text-normal text-base">Post</p>
+        <div className="flex gap-2 border-t border-panel p-4">
+          <SecondaryButtons
+            onClick={() => {
+              handleAccountDelete(userId);
+              setShowConfirmAccountDeleteModal(false);
+            }}
+          >
+            <p className="font-bold text-normal text-base">Confirm</p>
+          </SecondaryButtons>
+          <RegularButtons onClick={() => setShowConfirmAccountDeleteModal(false)}>
+            <p className="font-bold text-normal text-base">Cancel</p>
           </RegularButtons>
         </div>
       </div>

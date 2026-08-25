@@ -24,13 +24,13 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import ShowLoader from "@/components/loaders/showLoader";
-import AddReview from "@/components/modals/addReview";
+import AddReviewModal from "@/components/modals/addReviewModal";
 import { UserContext } from "@/context/userContext";
 import { MdClose, MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleMenu from "@/components/layout/title/titleMenu";
 import { GiTrophy } from "react-icons/gi";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
-import ReviewDelConfirm from "@/components/modals/reviewDelConfirm";
+import ConfirmReviewDeleteModal from "@/components/modals/confirmReviewDeleteModal";
 import dayjs from "dayjs";
 import Avatar from "@/assets/defaultAvatar.png";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -71,10 +71,10 @@ export default function Title() {
   const [currentTitleRank, setCurrentTitleRank] = useState(null);
   const [showSum, setShowSum] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
-  const [showAddReview, setShowAddReview] = useState(false);
+  const [showAddReviewModal, setShowAddReviewModal] = useState(false);
   const [showTitleMenu, setShowTitleMenu] = useState(false);
-  const { user, allUsers, setShowSignIn } = useContext(UserContext);
-  const [reviewDelModal, setReviewDelModal] = useState(false);
+  const { user, allUsers, setShowSignInModal } = useContext(UserContext);
+  const [showConfirmReviewDeleteModal, setShowConfirmReviewDeleteModal] = useState(false);
   const [showReviewOption, setShowReviewOption] = useState(false);
   const { reviewVotes } = useContext(SocketContext);
 
@@ -127,7 +127,7 @@ export default function Title() {
   const handleVote = async (reviewId, vote) => {
     try {
       if (!user?.uid) {
-        setShowSignIn();
+        setShowSignInModal();
       }
 
       await fetch(`${BASE_URL}/api/reviews/vote/${reviewId}`, {
@@ -468,7 +468,7 @@ export default function Title() {
 
                 <SecondaryCircledButtons
                   onClick={() => {
-                    user ? setShowAddReview(true) : setShowSignIn(true);
+                    user ? setShowAddReviewModal(true) : setShowSignInModal(true);
                   }}
                   disabled={doneReview || title?.status === "upcoming"}
                   className={`${
@@ -499,7 +499,7 @@ export default function Title() {
                   onClick={() => {
                     user
                       ? (setIsLoading(true), router.push("/powerboard"))
-                      : setShowSignIn(true);
+                      : setShowSignInModal(true);
                   }}
                   className={`${doneRank ? "!bg-[var(--color-zeus)]/60" : ""}`}
                 >
@@ -822,7 +822,7 @@ export default function Title() {
                                       e.stopPropagation();
                                       setShowReviewOption(false);
                                       setReviewToDelete(review.reviewId);
-                                      setReviewDelModal(true);
+                                      setShowConfirmReviewDeleteModal(true);
                                     }}
                                   >
                                     <p className="font-bold text-normal text-base">
@@ -842,16 +842,16 @@ export default function Title() {
           </div>
         )}
       </div>
-      {showAddReview && (
-        <AddReview
-          setShowAddReview={setShowAddReview}
+      {showAddReviewModal && (
+        <AddReviewModal
+          setShowAddReviewModal={setShowAddReviewModal}
           titleId={titleId}
           title={title}
         />
       )}
-      {reviewDelModal && (
-        <ReviewDelConfirm
-          setReviewDelModal={setReviewDelModal}
+      {showConfirmReviewDeleteModal && (
+        <ConfirmReviewDeleteModal
+          setShowConfirmReviewDeleteModal={setShowConfirmReviewDeleteModal}
           reviewToDelete={reviewToDelete}
           title={title}
           userId={user?.uid}

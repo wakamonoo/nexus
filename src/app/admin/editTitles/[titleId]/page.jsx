@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { FaAngleLeft } from "react-icons/fa";
 import RegularButtons from "@/components/buttons/regBtns";
 import SecondaryButtons from "@/components/buttons/secBtns";
-import TMDBSearch from "@/components/modals/tmdbSearch";
+import TMDBSearchModal from "@/components/modals/tmdbSearchModal";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -42,7 +42,7 @@ export default function EditTitle() {
   const { titleId } = useParams();
   const { setIsLoading } = useContext(LoaderContext);
   const { titles } = useContext(TitleContext);
-  const [showTMDBSearch, setShowTMDBSearch] = useState(false);
+  const [showTMDBSearchModal, setShowTMDBSearchModal] = useState(false);
   const router = useRouter();
 
   const title = titles.find((t) => t.titleId === titleId);
@@ -164,7 +164,7 @@ export default function EditTitle() {
             />
             <SecondaryButtons
               type="button"
-              onClick={() => setShowTMDBSearch(true)}
+              onClick={() => setShowTMDBSearchModal(true)}
             >
               <p className="font-bold text-normal text-base">Locate in TMDB</p>
             </SecondaryButtons>
@@ -260,10 +260,10 @@ export default function EditTitle() {
             </RegularButtons>
           </form>
         </div>
-        {showTMDBSearch && (
-          <TMDBSearch
+        {showTMDBSearchModal && (
+          <TMDBSearchModal
             BASE_URL={BASE_URL}
-            setShowTMDBSearch={setShowTMDBSearch}
+            setShowTMDBSearchModal={setShowTMDBSearchModal}
             setData={setData}
           />
         )}

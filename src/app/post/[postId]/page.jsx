@@ -21,7 +21,7 @@ import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOpt from "@/components/layout/post/postOpt";
 import GoatTitlesStructureMin from "@/components/layout/titlesStructure/goatTitlesStructureMin";
 import GoatTitlesStructureMax from "@/components/layout/titlesStructure/goatTitlesStructureMax";
-import CommentDelConfirm from "@/components/modals/commentDelConfirm";
+import ConfirmCommentDeleteModal from "@/components/modals/confirmCommentDeleteModal";
 import GoatMinLoader from "@/components/loaders/goatMinLoader";
 import GoatMaxLoader from "@/components/loaders/goatMaxLoader";
 import dayjs from "dayjs";
@@ -33,7 +33,7 @@ import {
   RiImageAiFill,
 } from "react-icons/ri";
 import CommentLightBox from "@/components/lightBoxes/commentLightBox";
-import GifPicker from "@/components/modals/gifPicker";
+import GifPickerModal from "@/components/modals/gifPickerModal";
 import AutoPlay from "@/components/layout/post/autoPlay";
 import { TitleContext } from "@/context/titleContext";
 import CircledButtons from "@/components/buttons/circledBtns";
@@ -55,7 +55,7 @@ if (APP_ENV === "production") {
 
 export default function Post() {
   const { postId } = useParams();
-  const { allUsers, user, setShowSignIn } = useContext(UserContext);
+  const { allUsers, user, setShowSignInModal } = useContext(UserContext);
   const {
     posts,
     handleEnergize,
@@ -74,7 +74,7 @@ export default function Post() {
   const [isReplying, setIsReplying] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [commentDelModal, setCommentDelModal] = useState(false);
+  const [showConfirmCommentDeleteModal, setShowConfirmCommentDeleteModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
   const searchParams = useSearchParams();
   const [commentLightBoxOpen, setCommentLightBoxOpen] = useState(false);
@@ -83,7 +83,7 @@ export default function Post() {
   const [commentLightBoxUserName, setCommentLightBoxUserName] = useState(null);
   const [commentLightBoxDate, setCommentLightBoxDate] = useState(null);
   const [initialIndex, setInitialIndex] = useState(0);
-  const [showGifPicker, setShowGifPicker] = useState(false);
+  const [showGifPickerModal, setShowGifPickerModal] = useState(false);
   const [aspectRatio, setAspectRatio] = useState(null);
   const [selectedCommentOption, setSelectedCommentOption] = useState(null);
   const inputRef = useRef();
@@ -523,7 +523,7 @@ export default function Post() {
                           if (user) {
                             handleEnergize(post);
                           } else {
-                            setShowSignIn(true);
+                            setShowSignInModal(true);
                           }
                         }}
                         className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
@@ -546,7 +546,7 @@ export default function Post() {
                           if (user) {
                             handleEcho(post);
                           } else {
-                            setShowSignIn(true);
+                            setShowSignInModal(true);
                           }
                         }}
                         className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
@@ -747,7 +747,7 @@ export default function Post() {
                                         e.stopPropagation();
                                         setSelectedCommentOption(null);
                                         setCommentToDelete(comment.commentId);
-                                        setCommentDelModal(true);
+                                        setShowConfirmCommentDeleteModal(true);
                                       }}
                                     >
                                       <p className="font-bold text-normal text-base">
@@ -922,7 +922,7 @@ export default function Post() {
                                                   setCommentToDelete(
                                                     reply.replyId,
                                                   );
-                                                  setCommentDelModal(true);
+                                                  setShowConfirmCommentDeleteModal(true);
                                                 }}
                                               >
                                                 <p className="font-bold text-normal text-base">
@@ -1027,7 +1027,7 @@ export default function Post() {
                       onKeyDown={async (e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
-                          if (!user) return setShowSignIn(true);
+                          if (!user) return setShowSignInModal(true);
                           if (isReplying) await handleSendReply();
                           else await handleSendComment();
                         }
@@ -1071,14 +1071,14 @@ export default function Post() {
                       onKeyDown={async (e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
-                          if (!user) return setShowSignIn(true);
+                          if (!user) return setShowSignInModal(true);
                           if (isReplying) await handleSendReply();
                           else await handleSendComment();
                         }
                       }}
                     />
                     <RiFileGifFill
-                      onClick={() => setShowGifPicker((prev) => !prev)}
+                      onClick={() => setShowGifPickerModal((prev) => !prev)}
                       className="text-xl text-[var(--color-text)]/60 shrink-0 cursor-pointer"
                     />
                   </div>
@@ -1099,9 +1099,9 @@ export default function Post() {
         </div>
       </div>
 
-      {commentDelModal && (
-        <CommentDelConfirm
-          setCommentDelModal={setCommentDelModal}
+      {showConfirmCommentDeleteModal && (
+        <ConfirmCommentDeleteModal
+          setShowConfirmCommentDeleteModal={setShowConfirmCommentDeleteModal}
           commentToDelete={commentToDelete}
           post={post}
           userId={user?.uid}
@@ -1120,13 +1120,13 @@ export default function Post() {
         />
       )}
 
-      {showGifPicker && (
-        <GifPicker
+      {showGifPickerModal && (
+        <GifPickerModal
           onSelect={(gifUrl) => {
             setFiles((prev) => [...prev, gifUrl]);
-            setShowGifPicker(false);
+            setShowGifPickerModal(false);
           }}
-          setShowGifPicker={setShowGifPicker}
+          setShowGifPickerModal={setShowGifPickerModal}
         />
       )}
     </>

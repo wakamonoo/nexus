@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
 import { auth } from "@/firebase/firebaseConfig";
-import SignIn from "@/components/modals/signIn";
+import SignInModal from "@/components/modals/signInModal";
 import { io } from "socket.io-client";
 
 export const UserContext = createContext();
@@ -22,7 +22,7 @@ const socket = io.connect(`${BASE_URL}`);
 
 export const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(null);
-  const [showSignIn, setShowSignIn] = useState(false);
+  const [showSignInModal, setShowSignInModal] = useState(false);
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -103,8 +103,8 @@ export const UserProvider = ({ children }) => {
         firebaseUser,
         adminBtn,
         fetchUserData,
-        setShowSignIn,
-        showSignIn,
+        setShowSignInModal,
+        showSignInModal,
         allUsers,
         setAllUsers,
         allUsersLoading,
@@ -113,7 +113,7 @@ export const UserProvider = ({ children }) => {
       }}
     >
       {children}
-      {showSignIn && <SignIn />}
+      {showSignInModal && <SignInModal />}
     </UserContext.Provider>
   );
 };

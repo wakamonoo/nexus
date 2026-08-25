@@ -1,11 +1,10 @@
 "use client";
-import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
+import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
-import CircledButtons from "../buttons/circledBtns";
-import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 import RegularButtons from "../buttons/regBtns";
-import SecondaryButtons from "../buttons/secBtns";
+import { LoaderContext } from "@/context/loaderContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -19,56 +18,44 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function CommentDelConfirm({
-  setCommentDelModal,
-  commentToDelete,
-  post,
-  userId,
-}) {
+export default function AddReviewModal({ setShowAddReviewModal, titleId, title }) {
+  const { user } = useContext(UserContext);
+  const [reviewText, setReviewText] = useState("");
   const { setIsLoading } = useContext(LoaderContext);
 
-  const handleCommentDelete = async (commentToDelete) => {
+  const postReview = async () => {
+    if (!reviewText.trim()) return;
     try {
       setIsLoading(true);
 
-      const res = await fetch(
-        `${BASE_URL}/api/comments/deleteComment/${commentToDelete}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userId }),
+      const newReview = {
+        titleId,
+        title: title.title,
+        userId: user.uid,
+        textReview: reviewText,
+      };
+
+      const res = await fetch(`${BASE_URL}/api/reviews/addReview`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(newReview),
+      });
 
       const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.error || "failed to delete comment");
-      }
+      title.reviews = title.reviews
+        ? [...title.reviews, data.review]
+        : [data.review];
 
-      const commentExists = post.comments.some(
-        (c) => c.commentId === commentToDelete,
-      );
-
-      if (commentExists) {
-        post.comments = post.comments.filter(
-          (c) => c.commentId !== commentToDelete,
-        );
-      } else {
-        post.comments = post.comments.map((c) => ({
-          ...c,
-          replies: c.replies
-            ? c.replies.filter((r) => r.replyId !== commentToDelete)
-            : [],
-        }));
-      }
+      setReviewText("");
+      setShowAddReviewModal(false);
 
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "Comment have been deleted!",
+        title: "Your review is live!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -86,7 +73,7 @@ export default function CommentDelConfirm({
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "Failed deleting comment!",
+        title: "Something went wrong, please try again later!",
         icon: "error",
         timer: 2000,
         showConfirmButton: false,
@@ -103,9 +90,10 @@ export default function CommentDelConfirm({
       setIsLoading(false);
     }
   };
+
   return (
     <div
-      onClick={() => setCommentDelModal(false)}
+      onClick={() => setShowAddReviewModal(false)}
       className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
     >
       <div
@@ -113,16 +101,11 @@ export default function CommentDelConfirm({
         className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-panel p-4">
-          <div className="min-w-0 flex-1">
-            <h1 className="text-base font-bold text-normal">Delete comment</h1>
-            <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-              This action cannot be undone.
-            </p>
-          </div>
+          <h1 className="text-base font-bold text-normal">Write a review</h1>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setCommentDelModal(false);
+              setShowAddReviewModal(false);
             }}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
           >
@@ -130,21 +113,28 @@ export default function CommentDelConfirm({
           </button>
         </div>
         <div className="p-4">
-          <p className="text-center text-normal font-bold leading-5">
-            Are you sure you want to delete this comment?
-          </p>
+          <div className="flex py-2 justify-start items-center gap-2">
+            <img
+              src={user?.picture}
+              alt={user?.name}
+              loading="lazy"
+              decoding="async"
+              className="w-10 h-10 rounded-full"
+            />
+            <p className="text-base text-normal font-bold">{user?.name}</p>
+          </div>
+          <div className="w-full h-full py-2">
+            <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              placeholder="inifinity thoughts, one review box..."
+              className="bg-text text-base text-brand w-full h-64 rounded p-2"
+            />
+          </div>
         </div>
-        <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons
-            onClick={() => {
-              handleCommentDelete(commentToDelete);
-              setCommentDelModal(false);
-            }}
-          >
-            <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons onClick={() => setCommentDelModal(false)}>
-            <p className="font-bold text-normal text-base">Cancel</p>
+        <div className="flex border-t border-panel p-4">
+          <RegularButtons onClick={() => postReview()}>
+            <p className="font-bold text-normal text-base">Post</p>
           </RegularButtons>
         </div>
       </div>

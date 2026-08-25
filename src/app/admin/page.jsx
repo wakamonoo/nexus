@@ -36,11 +36,11 @@ export default function Page() {
     releasedTitlesCount: 0,
     upcomingTitlesCount: 0,
   });
-  const { setShowSignIn, allUsers } = useContext(UserContext);
+  const { setShowSignInModal, allUsers } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
 
   useEffect(() => {
-    setShowSignIn(false);
+    setShowSignInModal(false);
     setIsLoading(false);
   }, []);
 

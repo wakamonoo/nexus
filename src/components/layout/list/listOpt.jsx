@@ -4,7 +4,7 @@ import RegularButtons from "@/components/buttons/regBtns";
 export default function ListOpt({
   setShowListOpt,
   setShowEditListModal,
-  setShowDeleteListModal,
+  setShowConfirmListDeleteModal,
 }) {
   return (
     <div
@@ -38,7 +38,7 @@ export default function ListOpt({
             </RegularButtons>
             <RegularButtons
               onClick={() => {
-                setShowDeleteListModal(true);
+                setShowConfirmListDeleteModal(true);
                 setShowListOpt(false);
               }}
             >

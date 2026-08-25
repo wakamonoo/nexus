@@ -4,7 +4,6 @@ import { MdClose } from "react-icons/md";
 import CircledButtons from "../buttons/circledBtns";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
-import { usePathname } from "next/navigation";
 import SecondaryButtons from "../buttons/secBtns";
 import RegularButtons from "../buttons/regBtns";
 
@@ -19,40 +18,26 @@ if (APP_ENV === "production") {
 } else {
   BASE_URL = "http://localhost:4000";
 }
-export default function ReviewDelConfirm({
-  setReviewDelModal,
-  reviewToDelete,
-  title,
-  setReviews,
-  userId,
+
+export default function ConfirmMessageDeleteModal({
+  setShowConfirmMessageDeleteModal,
+  messageToDelete,
+  onDelete,
 }) {
   const { setIsLoading } = useContext(LoaderContext);
-  const pathname = usePathname();
 
-  const handleReviwDelete = async (reviewToDelete) => {
+  const handleMessageDelete = async (messageToDelete) => {
     try {
       setIsLoading(true);
-      await fetch(`${BASE_URL}/api/reviews/deleteReview/${reviewToDelete}`, {
+      await fetch(`${BASE_URL}/api/messages/deleteMessage/${messageToDelete}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId }),
       });
-      if (pathname.startsWith("/hex")) {
-        title.reviews = title.reviews.filter(
-          (r) => r.reviewId !== reviewToDelete,
-        );
-      }
-
-      if (pathname.startsWith("/profile")) {
-        setReviews((prev) => prev.filter((r) => r.reviewId !== reviewToDelete));
-      }
+      onDelete(messageToDelete);
 
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "Review have been deleted!",
+        title: "Message have been deleted!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -70,7 +55,7 @@ export default function ReviewDelConfirm({
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "Failed deleting review!",
+        title: "Failed deleting message!",
         icon: "error",
         timer: 2000,
         showConfirmButton: false,
@@ -89,7 +74,7 @@ export default function ReviewDelConfirm({
   };
   return (
     <div
-      onClick={() => setReviewDelModal(false)}
+      onClick={() => setShowConfirmMessageDeleteModal(false)}
       className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
     >
       <div
@@ -97,16 +82,11 @@ export default function ReviewDelConfirm({
         className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-panel p-4">
-          <div className="min-w-0 flex-1">
-            <h1 className="text-base font-bold text-normal">Delete review</h1>
-            <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-              This action cannot be undone.
-            </p>
-          </div>
+          <h1 className="text-base font-bold text-normal">Delete message</h1>
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setReviewDelModal(false);
+              setShowConfirmMessageDeleteModal(false);
             }}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
           >
@@ -115,19 +95,19 @@ export default function ReviewDelConfirm({
         </div>
         <div className="p-4">
           <p className="text-center text-normal font-bold leading-5">
-            Are you sure you want to delete this review?
+            Are you sure you want to delete this message?
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
             onClick={() => {
-              handleReviwDelete(reviewToDelete);
-              setReviewDelModal(false);
+              handleMessageDelete(messageToDelete);
+              setShowConfirmMessageDeleteModal(false);
             }}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
-          <RegularButtons onClick={() => setReviewDelModal(false)}>
+          <RegularButtons onClick={() => setShowConfirmMessageDeleteModal(false)}>
             <p className="font-bold text-normal text-base">Cancel</p>
           </RegularButtons>
         </div>

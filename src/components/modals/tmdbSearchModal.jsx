@@ -2,11 +2,10 @@
 import { useEffect, useState } from "react";
 import { MdClose, MdSearchOff } from "react-icons/md";
 import { HiOutlineSearch } from "react-icons/hi";
-import GifLoader from "../loaders/gifLoader";
 import Fallback from "@/assets/fallback.png";
 import TMDBTitlesLoader from "../loaders/tmdbTitlesLoader";
 
-export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
+export default function TMDBSearchModal({ BASE_URL, setShowTMDBSearchModal, setData }) {
   const [query, setQuery] = useState("Avengers");
   const [isLoading, setIsLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -42,11 +41,11 @@ export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
 
     searchMetadata();
   }, [query]);
-  
+
   return (
     <>
       <div
-        onClick={() => setShowTMDBSearch(false)}
+        onClick={() => setShowTMDBSearchModal(false)}
         className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
@@ -54,16 +53,11 @@ export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
           className="relative flex flex-col w-full max-w-md max-h-[60vh] overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
           <div className="flex items-center justify-between border-b border-panel p-4">
-            <div className="min-w-0 flex-1">
-              <h1 className="text-base font-bold text-normal">Find a title</h1>
-              <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-                Search TMDB to locate the title you want to add to nexus.
-              </p>
-            </div>
+            <h1 className="text-base font-bold text-normal">Find a title</h1>
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setShowTMDBSearch(false);
+                setShowTMDBSearchModal(false);
               }}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
             >
@@ -129,7 +123,7 @@ export default function TMDBSearch({ BASE_URL, setShowTMDBSearch, setData }) {
                           seasonNumber: isSeason ? item.seasonNumber : null,
                           parentSeriesId: isSeason ? item.parentSeriesId : null,
                         }));
-                        setShowTMDBSearch(false);
+                        setShowTMDBSearchModal(false);
                       }}
                       type="button"
                       className="flex items-center gap-3 rounded-lg bg-panel p-3 text-left transition hover:bg-[var(--color-panel)]/80 cursor-pointer"

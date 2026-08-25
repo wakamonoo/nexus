@@ -5,8 +5,8 @@ import { FaPen, FaTrash } from "react-icons/fa";
 export default function PostOpt({ postId }) {
   const {
     posts,
-    setShowDelModal,
-    setShowEditModal,
+    setShowConfirmPostDeleteModal,
+    setShowEditPostModal,
     setSelectedPost,
     setPostToDelete,
     setPostToEdit,
@@ -41,7 +41,7 @@ export default function PostOpt({ postId }) {
         onClick={(e) => {
           e.stopPropagation();
           setPostToEdit(posts?.find((p) => p.postId === postId));
-          setShowEditModal(true);
+          setShowEditPostModal(true);
         }}
         className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
@@ -52,7 +52,7 @@ export default function PostOpt({ postId }) {
         onClick={(e) => {
           e.stopPropagation();
           setPostToDelete(postId);
-          setShowDelModal(true);
+          setShowConfirmPostDeleteModal(true);
         }}
         className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >

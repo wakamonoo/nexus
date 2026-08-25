@@ -1,7 +1,7 @@
 "use client";
 import SecondaryButtons from "@/components/buttons/secBtns";
 import ListsLoader from "@/components/loaders/listsLoader";
-import AddList from "@/components/modals/addList";
+import AddListModal from "@/components/modals/addListModal";
 import { ListContext } from "@/context/listContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { SocketContext } from "@/context/socketContext";
@@ -159,7 +159,7 @@ export default function Lists() {
       </div>
 
       {showAddListModal && (
-        <AddList user={user} setShowAddListModal={setShowAddListModal} />
+        <AddListModal user={user} setShowAddListModal={setShowAddListModal} />
       )}
     </>
   );

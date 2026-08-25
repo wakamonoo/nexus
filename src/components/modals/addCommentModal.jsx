@@ -117,12 +117,7 @@ export default function AddCommentModal({
         className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-panel p-4">
-          <div className="min-w-0 flex-1">
-            <h1 className="text-base font-bold text-normal">Add comment</h1>
-            <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-              Add your thoughts on this list.
-            </p>
-          </div>
+          <h1 className="text-base font-bold text-normal">Add comment</h1>
           <button
             onClick={(e) => {
               e.stopPropagation();

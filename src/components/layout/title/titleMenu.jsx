@@ -18,7 +18,7 @@ if (APP_ENV === "production") {
 }
 
 export default function TitleMenu({ titleId, hasReview, hasRank }) {
-  const { user, setShowSignIn } = useContext(UserContext);
+  const { user, setShowSignInModal } = useContext(UserContext);
   const { isTitleWatched, handleWatch } = useContext(WatchContext);
 
   const watched = isTitleWatched(titleId);
@@ -28,7 +28,7 @@ export default function TitleMenu({ titleId, hasReview, hasRank }) {
       <button
         onClick={() => {
           if (!user) {
-            setShowSignIn(true);
+            setShowSignInModal(true);
             return;
           }
 

@@ -7,7 +7,7 @@ import { MdClose, MdRateReview } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
-import ReviewDelConfirm from "../../modals/reviewDelConfirm";
+import ReviewDelConfirm from "../../modals/confirmReviewDeleteModal";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
@@ -22,7 +22,7 @@ export default function ProfileReviews({ profileUser }) {
     useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { allUsers, user } = useContext(UserContext);
-  const [reviewDelModal, setReviewDelModal] = useState(false);
+  const [showConfirmReviewDeleteModal, setShowConfirmReviewDeleteModal] = useState(false);
   const [showReviewOption, setShowReviewOption] = useState(false);
   const [reviews, setReviews] = useState([]);
   const { reviewVotes } = useContext(SocketContext);
@@ -212,7 +212,7 @@ export default function ProfileReviews({ profileUser }) {
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowReviewOption(false);
-                      setReviewDelModal(true);
+                      setShowConfirmReviewDeleteModal(true);
                     }}
                   >
                     <p className="font-bold text-normal text-base">
@@ -225,9 +225,9 @@ export default function ProfileReviews({ profileUser }) {
           </div>
         )}
       </div>
-      {reviewDelModal && (
+      {showConfirmReviewDeleteModal && (
         <ReviewDelConfirm
-          setReviewDelModal={setReviewDelModal}
+          setShowConfirmReviewDeleteModal={setShowConfirmReviewDeleteModal}
           reviewToDelete={reviewToDelete}
           setReviews={setReviews}
           userId={user?.uid}

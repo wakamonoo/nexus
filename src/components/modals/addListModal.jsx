@@ -12,7 +12,6 @@ import Loader from "@/components/loaders/searchLoader";
 import TitleCard from "../layout/title/titleCard";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
-import { ListContext } from "@/context/listContext";
 import RegularButtons from "../buttons/regBtns";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -114,34 +113,27 @@ const SelectionCard = ({
   );
 };
 
-export default function EditList({ list, setShowEditListModal }) {
-  const { setLists } = useContext(ListContext);
+export default function AddListModal({ user, setShowAddListModal }) {
   const { titles } = useContext(TitleContext);
-  const [listTitle, setListTitle] = useState(list?.listTitle || "");
-  const [listDescription, setListDescription] = useState(
-    list?.listDescription || "",
-  );
-  const [selected, setSelected] = useState(
-    (list?.titles || []).map((item) => ({
-      titleId: item.titleId,
-      note: item.note || "",
-    })),
-  );
+  const [listTitle, setListTitle] = useState("");
+  const [listDescription, setListDescription] = useState("");
+  const [selected, setSelected] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
 
-  const handleUpdateList = async () => {
+  const handleSubmitList = async () => {
     try {
       setIsLoading(true);
 
-      await fetch(`${BASE_URL}/api/lists/updateList/${list.listId}`, {
-        method: "PATCH",
+      await fetch(`${BASE_URL}/api/lists/addlist`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          userId: user.uid,
           listTitle,
           listDescription,
           titles: selected.map((item, index) => ({
@@ -152,30 +144,10 @@ export default function EditList({ list, setShowEditListModal }) {
         }),
       });
 
-      setLists((prev) =>
-        prev.map((item) =>
-          item.listId == list.listId
-            ? {
-                ...item,
-                listTitle,
-                listDescription,
-                titles: selected.map((item, index) => ({
-                  titleId: item.titleId,
-                  note: item.note,
-                  order: index + 1,
-                })),
-                updatedAt: new Date(),
-              }
-            : item,
-        ),
-      );
-
-      setShowEditListModal(false);
-
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "List succesfully updated!",
+        title: "List succesfully created!",
         icon: "success",
         timer: 2000,
         showConfirmButton: false,
@@ -193,7 +165,7 @@ export default function EditList({ list, setShowEditListModal }) {
       Swal.fire({
         toast: true,
         position: "bottom-start",
-        title: "Failed updating list!",
+        title: "Failed creating list!",
         icon: "error",
         timer: 2000,
         showConfirmButton: false,
@@ -208,7 +180,7 @@ export default function EditList({ list, setShowEditListModal }) {
       });
     } finally {
       setIsLoading(false);
-      setShowEditListModal(false);
+      setShowAddListModal(false);
     }
   };
 
@@ -248,7 +220,7 @@ export default function EditList({ list, setShowEditListModal }) {
   return (
     <>
       <div
-        onClick={() => setShowEditListModal(false)}
+        onClick={() => setShowAddListModal(false)}
         className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
@@ -256,16 +228,11 @@ export default function EditList({ list, setShowEditListModal }) {
           className="relative flex flex-col w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
           <div className="flex items-center justify-between border-b border-panel p-4">
-            <div className="min-w-0 flex-1">
-              <h1 className="text-base font-bold text-normal">Edit a list</h1>
-              <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-                Make changes to your list.
-              </p>
-            </div>
+            <h1 className="text-base font-bold text-normal">Create a list</h1>
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setShowEditListModal(false);
+                setShowAddListModal(false);
               }}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
             >
@@ -406,10 +373,10 @@ export default function EditList({ list, setShowEditListModal }) {
           </div>
           <div className="flex border-t border-panel p-4">
             <RegularButtons
-              onClick={handleUpdateList}
+              onClick={handleSubmitList}
               disabled={!listTitle.trim() || selected.length === 0}
             >
-              <p className="font-bold text-normal text-base">Update List</p>
+              <p className="font-bold text-normal text-base">Submit List</p>
             </RegularButtons>
           </div>
         </div>

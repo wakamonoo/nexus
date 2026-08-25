@@ -2,14 +2,14 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import ButtonLoader from "../../loaders/buttonLoader";
-import AddPost from "../../modals/addPost";
+import AddPostModal from "../../modals/addPostModal";
 import { HiOutlineSearch } from "react-icons/hi";
-import UserSearch from "../../modals/userSearch";
+import UserSearch from "./userSearch";
 import CircledButtons from "../../buttons/circledBtns";
 
 export default function Banner() {
-  const { user, loading, setShowSignIn } = useContext(UserContext);
-  const [showAddPost, setShowAddPost] = useState(false);
+  const { user, loading, setShowSignInModal } = useContext(UserContext);
+  const [showAddPostModal, setShowAddPostModal] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export default function Banner() {
 
   return (
     <>
-      {showAddPost && <AddPost setShowAddPost={setShowAddPost} />}
+      {showAddPostModal && <AddPostModal setShowAddPostModal={setShowAddPostModal} />}
       {showSearch && (
         <UserSearch showSearch={showSearch} setShowSearch={setShowSearch} />
       )}
@@ -48,17 +48,13 @@ export default function Banner() {
             </div>
 
             {!user ? (
-              <CircledButtons
-                onClick={() => setShowSignIn(true)}
-              >
+              <CircledButtons onClick={() => setShowSignInModal(true)}>
                 <p className="font-bold text-normal text-base">Sign Up</p>
               </CircledButtons>
             ) : loading ? (
               <ButtonLoader />
             ) : (
-              <CircledButtons
-                onClick={() => setShowAddPost(true)}
-              >
+              <CircledButtons onClick={() => setShowAddPostModal(true)}>
                 <p className="font-bold text-normal text-base">Assemble</p>
               </CircledButtons>
             )}

@@ -26,8 +26,8 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function SignIn() {
-  const { isLogged, fetchUserData, setShowSignIn } = useContext(UserContext);
+export default function SignInModal() {
+  const { isLogged, fetchUserData, setShowSignInModal } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
@@ -50,7 +50,7 @@ export default function SignIn() {
             "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
         },
       });
-      setShowSignIn(false);
+      setShowSignInModal(false);
     } else {
       const { user, token, error } = await googleSignUp();
       if (error) {
@@ -82,7 +82,7 @@ export default function SignIn() {
               token,
             }),
           });
-          setShowSignIn(false);
+          setShowSignInModal(false);
           await fetchUserData(user.uid);
           Swal.fire({
             toast: true,
@@ -125,7 +125,7 @@ export default function SignIn() {
 
   return (
     <div
-      onClick={() => setShowSignIn(false)}
+      onClick={() => setShowSignInModal(false)}
       className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
     >
       <div
@@ -136,7 +136,7 @@ export default function SignIn() {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              setShowSignIn(false);
+              setShowSignInModal(false);
             }}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
           >
@@ -177,7 +177,7 @@ export default function SignIn() {
                 By continuing, you agree to our{" "}
                 <span
                   onClick={() => {
-                    setShowSignIn(false);
+                    setShowSignInModal(false);
                     setIsLoading(true);
                     router.push("/terms&Conditions");
                   }}
@@ -188,7 +188,7 @@ export default function SignIn() {
                 and{" "}
                 <span
                   onClick={() => {
-                    setShowSignIn(false);
+                    setShowSignInModal(false);
                     setIsLoading(true);
                     router.push("/privacyPolicy");
                   }}

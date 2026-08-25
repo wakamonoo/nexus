@@ -7,13 +7,13 @@ import { FaRegComments, FaReply, FaTrash, FaUserSlash } from "react-icons/fa";
 import ChatLoader from "@/components/loaders/chatLoder";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import MessageDelConfirm from "@/components/modals/messageDelConfirm";
+import ConfirmMessageDeleteModal from "@/components/modals/confirmMessageDeleteModal";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
 import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
 import CitadelLightBox from "@/components/lightBoxes/citadelLightBox";
-import GifPicker from "@/components/modals/gifPicker";
+import GifPickerModal from "@/components/modals/gifPickerModal";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import CircledButtons from "@/components/buttons/circledBtns";
 import NavBar from "@/components/layout/essentials/navBar";
@@ -34,7 +34,7 @@ if (APP_ENV === "production") {
 }
 
 export default function Citadel() {
-  const { allUsers, user, setUser, setShowSignIn } = useContext(UserContext);
+  const { allUsers, user, setUser, setShowSignInModal } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { messages, setMessages, chatLoad, latestSeenMessages } =
     useContext(SocketContext);
@@ -43,7 +43,7 @@ export default function Citadel() {
   const msgEndRef = useRef();
   const justSentMessage = useRef(false);
   const initialLoad = useRef(true);
-  const [messageDelModal, setMessageDelModal] = useState(false);
+  const [showConfirmMessageDeleteModal, setShowConfirmMessageDeleteModal] = useState(false);
   const [messageToDelete, setMessageToDelete] = useState(null);
   const [citadelLightBoxOpen, setCitadelLightBoxOpen] = useState(false);
   const [citadelLightBoxFiles, setCitadelLightBoxFiles] = useState([]);
@@ -52,7 +52,7 @@ export default function Citadel() {
     useState(null);
   const [citadelLightBoxSentDate, setCitadelLightBoxSentDate] = useState(null);
   const [initialIndex, setInitialIndex] = useState(0);
-  const [showGifPicker, setShowGifPicker] = useState(false);
+  const [showGifPickerModal, setShowGifPickerModal] = useState(false);
   const [editingMessage, setEditingMessage] = useState(null);
   const [editInput, setEditInput] = useState("");
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -337,7 +337,7 @@ export default function Citadel() {
               </p>
 
               <div className="mt-2">
-                <CircledButtons onClick={() => setShowSignIn(true)}>
+                <CircledButtons onClick={() => setShowSignInModal(true)}>
                   <p className="text-base font-bold text-normal">
                     Continue to login
                   </p>
@@ -748,7 +748,7 @@ export default function Citadel() {
                       }}
                     />
                     <RiFileGifFill
-                      onClick={() => setShowGifPicker((prev) => !prev)}
+                      onClick={() => setShowGifPickerModal((prev) => !prev)}
                       className="text-xl text-[var(--color-text)]/60 shrink-0 cursor-pointer"
                     />
                   </div>
@@ -758,9 +758,9 @@ export default function Citadel() {
           </div>
         )}
       </div>
-      {messageDelModal && (
-        <MessageDelConfirm
-          setMessageDelModal={setMessageDelModal}
+      {showConfirmMessageDeleteModal && (
+        <ConfirmMessageDeleteModal
+          setShowConfirmMessageDeleteModal={setShowConfirmMessageDeleteModal}
           messageToDelete={messageToDelete}
           onDelete={handleLocalMessageDelete}
         />
@@ -776,13 +776,13 @@ export default function Citadel() {
           setCitadelLightBoxOpen={setCitadelLightBoxOpen}
         />
       )}
-      {showGifPicker && (
-        <GifPicker
+      {showGifPickerModal && (
+        <GifPickerModal
           onSelect={(gifUrl) => {
             setFiles((prev) => [...prev, gifUrl]);
-            setShowGifPicker(false);
+            setShowGifPickerModal(false);
           }}
-          setShowGifPicker={setShowGifPicker}
+          setShowGifPickerModal={setShowGifPickerModal}
         />
       )}
       {selectedMessage && (
@@ -821,7 +821,7 @@ export default function Citadel() {
                 <RegularButtons
                   onClick={() => {
                     setMessageToDelete(selectedMessage.msgId);
-                    setMessageDelModal(true);
+                    setShowConfirmMessageDeleteModal(true);
                     setSelectedMessage(null);
                   }}
                 >

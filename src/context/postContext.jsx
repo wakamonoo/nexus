@@ -5,8 +5,8 @@ import { UserContext } from "./userContext";
 import { usePathname, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { LoaderContext } from "./loaderContext";
-import DelConfirm from "@/components/modals/delConfirmation";
-import EditPost from "@/components/modals/editPost";
+import ConfirmPostDeleteModal from "@/components/modals/confirmPostDeleteModal";
+import EditPostModal from "@/components/modals/editPostModal";
 export const PostContext = createContext();
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -31,8 +31,8 @@ export const PostProvider = ({ children }) => {
   const [initialIndex, setInitialIndex] = useState(0);
   const [coldLoad, setColdLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
-  const [showDelModal, setShowDelModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  const [showConfirmPostDeleteModal, setShowConfirmPostDeleteModal] = useState(false);
+  const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [postToDelete, setPostToDelete] = useState(null);
   const [postToEdit, setPostToEdit] = useState(null);
@@ -224,9 +224,9 @@ export const PostProvider = ({ children }) => {
         postLightboxRef,
         coldLoad,
         handlePostDelete,
-        showDelModal,
-        setShowDelModal,
-        setShowEditModal,
+        showConfirmPostDeleteModal,
+        setShowConfirmPostDeleteModal,
+        setShowEditPostModal,
         selectedPost,
         setSelectedPost,
         setPostToDelete,
@@ -235,16 +235,16 @@ export const PostProvider = ({ children }) => {
     >
       {children}
       {postLightBoxOpen && <PostLightBox />}
-      {showDelModal && (
-        <DelConfirm
+      {showConfirmPostDeleteModal && (
+        <ConfirmPostDeleteModal
           onDelete={() => {
             handlePostDelete(postToDelete);
-            setShowDelModal(false);
+            setShowConfirmPostDeleteModal(false);
           }}
         />
       )}
-      {showEditModal && (
-        <EditPost setShowEditModal={setShowEditModal} postToEdit={postToEdit} />
+      {showEditPostModal && (
+        <EditPostModal setShowEditPostModal={setShowEditPostModal} postToEdit={postToEdit} />
       )}
     </PostContext.Provider>
   );

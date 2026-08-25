@@ -27,7 +27,7 @@ export default function PostLightBox() {
     setPostLightBoxOpen,
     postLightboxRef,
   } = useContext(PostContext);
-  const { allUsers, user, setShowSignIn } = useContext(UserContext);
+  const { allUsers, user, setShowSignInModal } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -236,7 +236,7 @@ export default function PostLightBox() {
                   handleEnergize(post);
                 } else {
                   setPostLightBoxOpen(false);
-                  setShowSignIn(true);
+                  setShowSignInModal(true);
                 }
               }}
               className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
@@ -259,7 +259,7 @@ export default function PostLightBox() {
                   handleEcho(post);
                 } else {
                   setPostLightBoxOpen(false);
-                  setShowSignIn(true);
+                  setShowSignInModal(true);
                 }
               }}
               className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"

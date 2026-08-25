@@ -21,7 +21,7 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function EditPost({ setShowEditModal, postToEdit }) {
+export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
   const { user } = useContext(UserContext);
   const [post, setPost] = useState({
     topic: "",
@@ -80,7 +80,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
         }),
       });
 
-      setShowEditModal(false);
+      setShowEditPostModal(false);
 
       Swal.fire({
         toast: true,
@@ -126,7 +126,7 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
   return (
     <>
       <div
-        onClick={() => setShowEditModal(false)}
+        onClick={() => setShowEditPostModal(false)}
         className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
@@ -134,16 +134,11 @@ export default function EditPost({ setShowEditModal, postToEdit }) {
           className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
           <div className="flex items-center justify-between border-b border-panel p-4">
-            <div className="min-w-0 flex-1">
-              <h1 className="text-base font-bold text-normal">Edit post</h1>
-              <p className="mt-0.5 text-xs text-vibe opacity-60 truncate">
-                Make changes to your post.
-              </p>
-            </div>
+            <h1 className="text-base font-bold text-normal">Edit post</h1>
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                setShowEditModal(false);
+                setShowEditPostModal(false);
               }}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
             >

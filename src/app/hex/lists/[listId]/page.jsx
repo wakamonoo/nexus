@@ -16,9 +16,9 @@ import { UserContext } from "@/context/userContext";
 import TitleCard from "@/components/layout/title/titleCard";
 import ListLoader from "@/components/loaders/listLoader";
 import SecondaryButtons from "@/components/buttons/secBtns";
-import ListDelConfirm from "@/components/modals/deleteList";
-import EditList from "@/components/modals/editList";
-import DeleteList from "@/components/modals/deleteList";
+import ListDelConfirm from "@/components/modals/confirmListDeleteModal";
+import EditListModal from "@/components/modals/editListModal";
+import ConfirmListDeleteModal from "@/components/modals/confirmListDeleteModal";
 import { ListContext } from "@/context/listContext";
 import {
   BiDotsHorizontalRounded,
@@ -50,8 +50,8 @@ export default function List() {
   const { lists } = useContext(ListContext);
   const [showEditListModal, setShowEditListModal] = useState(false);
   const { listVotes } = useContext(SocketContext);
-  const [showDeleteListModal, setShowDeleteListModal] = useState(false);
-  const { user, allUsers, setShowSignIn } = useContext(UserContext);
+  const [showConfirmListDeleteModal, setShowConfirmListDeleteModal] = useState(false);
+  const { user, allUsers, setShowSignInModal } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
@@ -93,7 +93,7 @@ export default function List() {
   const handleVote = async (listId, vote) => {
     try {
       if (!user?.uid) {
-        setShowSignIn();
+        setShowSignInModal();
       }
 
       await fetch(`${BASE_URL}/api/lists/vote/${listId}`, {
@@ -222,7 +222,7 @@ export default function List() {
                   </div>
                   <div
                     onClick={() => {
-                      user ? setShowAddCommentModal(true) : setShowSignIn(true);
+                      user ? setShowAddCommentModal(true) : setShowSignInModal(true);
                     }}
                     className="flex items-center cursor-pointer rounded-full bg-panel hover:bg-[var(--color-panel)]/60 transition-all duration-100 py-2 px-4 gap-2"
                   >
@@ -363,19 +363,19 @@ export default function List() {
         <ListOpt
           setShowListOpt={setShowListOpt}
           setShowEditListModal={setShowEditListModal}
-          setShowDeleteListModal={setShowDeleteListModal}
+          setShowConfirmListDeleteModal={setShowConfirmListDeleteModal}
         />
       )}
       {showEditListModal && (
-        <EditList
+        <EditListModal
           list={currentList}
           setShowEditListModal={setShowEditListModal}
         />
       )}
-      {showDeleteListModal && (
-        <DeleteList
+      {showConfirmListDeleteModal && (
+        <ConfirmListDeleteModal
           listId={listId}
-          setShowDeleteListModal={setShowDeleteListModal}
+          setShowConfirmListDeleteModal={setShowConfirmListDeleteModal}
         />
       )}
       {showAddCommentModal && (

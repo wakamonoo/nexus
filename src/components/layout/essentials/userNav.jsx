@@ -16,7 +16,7 @@ export default function UserNav({ setShowUserNav }) {
   const { navHide } = useContext(ScrollContext);
   const router = useRouter();
   const { setIsLoading } = useContext(LoaderContext);
-  const { user, setShowSignIn, adminBtn } = useContext(UserContext);
+  const { user, setShowSignInModal, adminBtn } = useContext(UserContext);
 
   return (
     <div
@@ -34,7 +34,7 @@ export default function UserNav({ setShowUserNav }) {
             onClick={() => {
               user
                 ? (setIsLoading(true), router.push(`/profile/${user.uid}`))
-                : setShowSignIn(true);
+                : setShowSignInModal(true);
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
@@ -72,7 +72,7 @@ export default function UserNav({ setShowUserNav }) {
             onClick={() => {
               user
                 ? (setIsLoading(true), router.push("/portfolio"))
-                : setShowSignIn(true);
+                : setShowSignInModal(true);
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
@@ -83,7 +83,7 @@ export default function UserNav({ setShowUserNav }) {
             onClick={() => {
               user
                 ? (setIsLoading(true), router.push("/powerboard"))
-                : setShowSignIn(true);
+                : setShowSignInModal(true);
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
@@ -93,7 +93,7 @@ export default function UserNav({ setShowUserNav }) {
           <button
             onClick={() => {
               setShowUserNav(false);
-              setShowSignIn(true);
+              setShowSignInModal(true);
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
           >
