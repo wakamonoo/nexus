@@ -56,6 +56,10 @@ export default function NavBar() {
 
   const handleHomeClick = async () => {
     if (pathname === "/") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
       setIsLoading(true);
       await postFetch();
       router.push("/");

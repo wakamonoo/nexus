@@ -171,6 +171,17 @@ export const SocketProvider = ({ children }) => {
 
     socket.on("ping", (pingData) => {
       console.log("Received ping:", pingData);
+
+      const sender =
+        pingData.senderId === "system"
+          ? {
+              name: pingData.senderName,
+              picture: pingData.senderImage,
+            }
+          : allUsers.find((u) => u.uid === pingData.senderId);
+
+      const recipient = allUsers.find((u) => u.uid === pingData.userId);
+
       setPings((prev) => [...prev, pingData]);
 
       toast.custom(
@@ -200,7 +211,7 @@ export const SocketProvider = ({ children }) => {
             } max-w-xs w-full bg-second border-1 border-panel text-normal rounded-lg shadow-lg px-4 py-2 flex items-center justify-center gap-4 cursor-pointer`}
           >
             <Image
-              src={pingData.senderImage || null}
+              src={sender.picture || "/defaultAvatar.png"}
               alt="icon"
               width={0}
               height={0}
@@ -213,8 +224,8 @@ export const SocketProvider = ({ children }) => {
               <p className="text-base text-normal font-semibold">
                 {pingData.type === "reviewUpvote" ||
                 pingData.type === "listUpvote"
-                  ? pingData.userName
-                  : pingData.senderName}{" "}
+                  ? recipient?.name
+                  : sender?.name}{" "}
                 {pingData.message}
               </p>
             </div>
@@ -223,9 +234,12 @@ export const SocketProvider = ({ children }) => {
         { duration: 5000 },
       );
       showBrowserNotification({
-        title: pingData.senderName,
+        title:
+          pingData.type === "reviewUpvote" || pingData.type === "listUpvote"
+            ? recipient?.name
+            : sender?.name,
         body: pingData.message,
-        icon: pingData.senderImage,
+        icon: sender?.picture,
       });
     });
 

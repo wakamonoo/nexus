@@ -9,8 +9,8 @@ const sections = [
     content: (
       <>
         <p>
-          nexus is an independent, fan-made project created solely for
-          entertainment and educational purposes.
+          nexus is an independent, fan-made project created for entertainment,
+          discussion, and informational purposes.
         </p>
         <p>
           nexus not affiliated with, sponsored by, or in any way officially
@@ -122,7 +122,6 @@ const sections = [
 ];
 
 export default function TrustAndLegality() {
-  
   return (
     <>
       <NavBar />

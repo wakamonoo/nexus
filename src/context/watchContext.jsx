@@ -78,15 +78,13 @@ export const WatchProvider = ({ children }) => {
   const handleWatch = async (titleId) => {
     try {
       setIsLoading(true);
-      await fetch(`${BASE_URL}/api/watched/watchRoute`, {
+      await fetch(`${BASE_URL}/api/watched/watchRoute/${titleId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userId: user.uid,
-          userName: user.name,
-          titleId,
         }),
       });
 
