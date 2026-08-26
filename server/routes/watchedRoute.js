@@ -219,22 +219,16 @@ router.post("/watchRoute/:titleId", async (req, res) => {
         }
       }
 
-      const activitySender = await db
-        .collection("users")
-        .findOne({ uid: userId });
-
       const activityData = {
         activityId: `activity-${uuidv4()}`,
         userId,
-        userName: activitySender.name,
-        picture: activitySender.picture,
         message: `marked ${watchedTitle?.title} as watched.`,
         date: new Date(),
       };
 
       await db.collection("activities").insertOne(activityData);
 
-      io.emit("activities", activityData);
+      io.emit("activity", activityData);
 
       await db.collection("titles").updateOne(
         {

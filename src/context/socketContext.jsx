@@ -48,6 +48,7 @@ export const SocketProvider = ({ children }) => {
   const [reviewVotes, setReviewVotes] = useState({});
   const [listVotes, setListVotes] = useState({});
   const [pings, setPings] = useState([]);
+  const [activities, setActivities] = useState(null);
   const [latestSeenMessages, setLatestSeenMessages] = useState({});
   const router = useRouter();
 
@@ -249,6 +250,31 @@ export const SocketProvider = ({ children }) => {
   }, [user]);
 
   useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/activities/activitiesGet`);
+        const activityData = await res.json();
+
+        setActivities(activityData || []);
+      } catch (err) {
+        console.error("failed to fetch activities", err);
+      }
+    };
+
+    fetchActivities();
+
+    socket.on("activity", (activityData) => {
+      console.log("Received activity:", activityData);
+
+      setActivities((prev) => [activityData, ...prev]);
+    });
+
+    return () => {
+      socket.off("activity");
+    };
+  }, []);
+
+  useEffect(() => {
     const fetchLatestReviews = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/reviews/latestReviewsGet`);
@@ -326,6 +352,7 @@ export const SocketProvider = ({ children }) => {
         reviewVotes,
         listVotes,
         latestSeenMessages,
+        activities,
       }}
     >
       {children}

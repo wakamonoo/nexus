@@ -166,7 +166,7 @@ export default function LatestReviews() {
 
   return (
     <>
-      <div className="block lg:hidden">
+      <div className="block lg:hidden mt-2 lg:mt-0">
         <div className="flex items-center gap-2 pb-2">
           <p className="text-base font-bold text-vibe opacity-60">Reviews</p>
           <div className="flex-1 border-t-2 border-panel" />
