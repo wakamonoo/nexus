@@ -1,6 +1,7 @@
 import express from "express";
 import clientPromise from "../lib/mongodb.js";
 import { v4 as uuidv4 } from "uuid";
+import checkCommentSigils from "../utils/commentSigils.js";
 
 const router = express.Router();
 
@@ -167,7 +168,6 @@ router.patch("/vote/:listId", async (req, res) => {
         senderName: "Nexus",
         senderImage: "/icons/alt_logo.png",
         userId: list.userId,
-        userName: list.userName,
         listId: list.listId,
         message:
           upvoteCount === 1
@@ -232,46 +232,7 @@ router.post("/addComment/:listId", async (req, res) => {
       { upsert: true },
     );
 
-    const updatedUser = await db.collection("users").findOne({ uid: userId });
-
-    const earnedSigils = [];
-
-    if (updatedUser.totalComments === 1 && !userBefore.friendlyNeighbor) {
-      earnedSigils.push("Friendly Neighbor");
-    }
-    if (updatedUser.totalComments === 20 && !userBefore.alleySwinger) {
-      earnedSigils.push("Alley Swinger");
-    }
-    if (updatedUser.totalComments === 40 && !userBefore.webWalker) {
-      earnedSigils.push("Web Walker");
-    }
-
-    if (earnedSigils.length > 0) {
-      for (const sigil of earnedSigils) {
-        let sigilImage = "../../src/assets/fallback.png";
-        if (sigil === "Friendly Neighbor")
-          sigilImage = "/sigils/friendlyNeighbor.png";
-        if (sigil === "Alley Swinger") sigilImage = "/sigils/alleySwinger.png";
-        if (sigil === "Web Walker") sigilImage = "/sigils/webWalker.png";
-
-        const pingData = {
-          pingId: `ping-${uuidv4()}`,
-          type: "sigil",
-          senderId: "system",
-          senderName: "Nexus",
-          senderImage: sigilImage,
-          userId,
-          message: `just awarded you the ${sigil} sigil, congrats!`,
-          date: new Date(),
-          isRead: false,
-        };
-
-        await db.collection("pings").insertOne(pingData);
-
-        io.to(userId).emit("ping", pingData);
-        console.log(`ping sent to ${userId}`);
-      }
-    }
+    await checkCommentSigils(db, io, userId, userBefore);
 
     const newComment = {
       commentId: `comment-${uuidv4()}`,
@@ -290,15 +251,12 @@ router.post("/addComment/:listId", async (req, res) => {
     );
 
     const listOwner = list.userId;
-    const commentSender = await db.collection("users").findOne({ uid: userId });
 
-    if (listOwner && listOwner !== commentSender.uid) {
+    if (listOwner && listOwner !== userId) {
       const pingData = {
         pingId: `ping-${uuidv4()}`,
         type: "listComment",
-        senderId: commentSender.uid,
-        senderName: commentSender.name,
-        senderImage: commentSender.picture,
+        senderId: userId,
         userId: listOwner,
         listId,
         message: "commented on your list.",

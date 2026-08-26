@@ -4,9 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
-router.post("/watchRoute", async (req, res) => {
+router.post("/watchRoute/:titleId", async (req, res) => {
   try {
-    const { userId, userName, titleId } = req.body;
+    const { titleId } = req.params;
+    const { userId } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
@@ -129,7 +130,6 @@ router.post("/watchRoute", async (req, res) => {
         },
         {
           $setOnInsert: {
-            userName,
             createdAt: new Date(),
           },
           $set: {
@@ -218,6 +218,23 @@ router.post("/watchRoute", async (req, res) => {
           console.log(`ping sent to ${userId}`);
         }
       }
+
+      const activitySender = await db
+        .collection("users")
+        .findOne({ uid: userId });
+
+      const activityData = {
+        activityId: `activity-${uuidv4()}`,
+        userId,
+        userName: activitySender.name,
+        picture: activitySender.picture,
+        message: `marked ${watchedTitle?.title} as watched.`,
+        date: new Date(),
+      };
+
+      await db.collection("activities").insertOne(activityData);
+
+      io.emit("activities", activityData);
 
       await db.collection("titles").updateOne(
         {

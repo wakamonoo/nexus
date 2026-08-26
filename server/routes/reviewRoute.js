@@ -372,7 +372,6 @@ router.patch("/vote/:reviewId", async (req, res) => {
         senderName: "Nexus",
         senderImage: "/icons/alt_logo.png",
         userId: updatedReview.userId,
-        userName: updatedReview.userName,
         titleId: title.titleId,
         message:
           upvoteCount === 1

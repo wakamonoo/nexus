@@ -12,6 +12,7 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PingOpt from "./pingOpt";
 import RegularButtons from "../../buttons/regBtns";
 import Swal from "sweetalert2";
+import ConfirmPingsDeleteModal from "@/components/modals/confirmPingsDeleteModal";
 
 dayjs.extend(relativeTime);
 
@@ -32,7 +33,9 @@ export default function Ping({ setShowPing }) {
   const { setIsLoading } = useContext(LoaderContext);
   const { pings, setPings } = useContext(SocketContext);
   const [selectedPing, setSelectedPing] = useState(null);
-  const { user } = useContext(UserContext);
+  const [showConfirmPingsDeleteModal, setShowConfirmpPingsDeleteModal] =
+    useState(false);
+  const { allUsers, user } = useContext(UserContext);
   const router = useRouter();
 
   const handlePingClick = async (ping) => {
@@ -70,55 +73,6 @@ export default function Ping({ setShowPing }) {
       }
     } catch (err) {
       console.error(err);
-    }
-  };
-
-  const handleDeleteAll = async (userId) => {
-    try {
-      setIsLoading(true);
-      await fetch(`${BASE_URL}/api/pings/deleteAll/${userId}`, {
-        method: "DELETE",
-      });
-
-      setPings((prev) => prev.filter((p) => p.userId !== userId));
-
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "All pings have been deleted!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-hulk)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "Failed deleting pings!",
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-accent)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
-    } finally {
-      setIsLoading(false);
-      setSelectedPing(null);
     }
   };
 
@@ -177,107 +131,139 @@ export default function Ping({ setShowPing }) {
     }
   };
   return (
-    <div
-      onClick={() => setShowPing(false)}
-      className={`inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed ${
-        navHide ? "translate-x-[-100%] opacity-0" : "translate-x-0 opacity-100"
-      }`}
-    >
+    <>
       <div
-        onClick={(e) => e.stopPropagation()}
-        className="absolute top-18 right-12 sm:right-18 md:right-22 lg:right-30 bg-second w-72 border-1 border-panel h-[70vh] rounded overflow-y-auto custom-scroll"
+        onClick={() => setShowPing(false)}
+        className={`inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed ${
+          navHide
+            ? "translate-x-[-100%] opacity-0"
+            : "translate-x-0 opacity-100"
+        }`}
       >
-        <div className="flex flex-col py-2">
-          <h4 className="text-xl text-center">Pings</h4>
-          {pings.length > 0 && (
-            <div className="p-2">
-              <RegularButtons onClick={() => handleDeleteAll(user.uid)}>
-                <p className="font-bold text-normal text-base">Delete all</p>
-              </RegularButtons>
-              <RegularButtons onClick={() => handleReadAllPing(user.uid)}>
-                <p className="font-bold text-normal text-base">
-                  Mark all as read
-                </p>
-              </RegularButtons>
-            </div>
-          )}
-          {pings.length === 0 ? (
-            <div className="flex flex-col items-center justify-center">
-              <PiBellSimpleSlash className="text-4xl text-vibe opacity-40 mt-16" />
-              <p className="text-xs text-vibe opacity-40">No pings yet</p>
-            </div>
-          ) : (
-            pings
-              .sort((a, b) => new Date(b.date) - new Date(a.date))
-              .map((ping) => (
-                <div
-                  key={ping.date}
-                  onClick={() => handlePingClick(ping)}
-                  className={`relative flex border-b-1 p-4 cursor-pointer ${
-                    ping.isRead
-                      ? "bg-second border-panel"
-                      : "bg-panel border-[var(--color-secondary)]"
-                  }`}
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="absolute top-18 right-12 sm:right-18 md:right-22 lg:right-30 bg-second w-72 border-1 border-panel h-[70vh] rounded overflow-y-auto custom-scroll"
+        >
+          <div className="flex flex-col py-2">
+            <h4 className="text-xl text-center">Pings</h4>
+            {pings.length > 0 && (
+              <div className="p-2">
+                <RegularButtons
+                  onClick={() => setShowConfirmpPingsDeleteModal(true)}
                 >
-                  <div className="flex gap-2 items-start">
-                    <Image
-                      src={ping.senderImage}
-                      alt="user"
-                      width={0}
-                      height={0}
-                      sizes="100vw"
-                      className={`cursor-pointer w-12 h-12 shrink-0 object-cover ${ping.type === "sigil" ? "rounded-none" : "rounded-full "}`}
-                    />
-                    <div className="flex flex-col gap-1">
-                      <div className="flex gap-2">
-                        <p className="leading-4 text-base font-bold">
-                          {ping.type === "reviewUpvote" ||
-                          ping.type === "listUpvote"
-                            ? ping.userName
-                            : ping.senderName}{" "}
-                          <span className="font-normal text-sm">
-                            {ping.message}
-                          </span>
-                        </p>
+                  <p className="font-bold text-normal text-base">Delete all</p>
+                </RegularButtons>
+                <RegularButtons onClick={() => handleReadAllPing(user.uid)}>
+                  <p className="font-bold text-normal text-base">
+                    Mark all as read
+                  </p>
+                </RegularButtons>
+              </div>
+            )}
+            {pings.length === 0 ? (
+              <div className="flex flex-col items-center justify-center">
+                <PiBellSimpleSlash className="text-4xl text-vibe opacity-40 mt-16" />
+                <p className="text-xs text-vibe opacity-40">No pings yet</p>
+              </div>
+            ) : (
+              pings
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map((ping) => {
+                  const sender =
+                    ping.senderId === "system"
+                      ? {
+                          name: ping.senderName,
+
+                          picture: ping.senderImage,
+                        }
+                      : allUsers.find((u) => u.uid === ping.senderId);
+
+                  const recipient = allUsers.find(
+                    (u) => u.uid === ping.userId,
+                  );
+                  
+                  return (
+                    <div
+                      key={ping.date}
+                      onClick={() => handlePingClick(ping)}
+                      className={`relative flex border-b-1 p-4 cursor-pointer ${
+                        ping.isRead
+                          ? "bg-second border-panel"
+                          : "bg-panel border-[var(--color-secondary)]"
+                      }`}
+                    >
+                      <div className="flex gap-2 items-start">
+                        <Image
+                          src={sender?.picture}
+                          alt={sender?.name}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className={`cursor-pointer w-12 h-12 shrink-0 object-cover ${ping.type === "sigil" ? "rounded-none" : "rounded-full "}`}
+                        />
+                        <div className="flex flex-col gap-1">
+                          <div className="flex gap-2">
+                            <p className="leading-4 text-base font-bold">
+                              {ping.type === "reviewUpvote" ||
+                              ping.type === "listUpvote"
+                                ? recipient?.name
+                                : sender?.name}{" "}
+                              <span className="font-normal text-sm">
+                                {ping.message}
+                              </span>
+                            </p>
+                          </div>
+                          <p className="text-xs text-vibe">
+                            {(() => {
+                              const diffWeeks = dayjs().diff(
+                                dayjs(ping.date),
+                                "week",
+                              );
+                              if (diffWeeks < 1) {
+                                return dayjs(ping.date).fromNow();
+                              }
+                              return new Date(ping.date).toLocaleDateString(
+                                [],
+                                {
+                                  month: "short",
+                                  day: "2-digit",
+                                  year: "numeric",
+                                },
+                              );
+                            })()}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-xs text-vibe">
-                        {(() => {
-                          const diffWeeks = dayjs().diff(
-                            dayjs(ping.date),
-                            "week",
+                      <BiDotsHorizontalRounded
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedPing(
+                            selectedPing === ping.pingId ? null : ping.pingId,
                           );
-                          if (diffWeeks < 1) {
-                            return dayjs(ping.date).fromNow();
-                          }
-                          return new Date(ping.date).toLocaleDateString([], {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                          });
-                        })()}
-                      </p>
+                        }}
+                        className="text-2xl shrink-0"
+                      />
+                      {selectedPing === ping.pingId && (
+                        <PingOpt
+                          pingId={ping.pingId}
+                          setSelectedPing={setSelectedPing}
+                        />
+                      )}
                     </div>
-                  </div>
-                  <BiDotsHorizontalRounded
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedPing(
-                        selectedPing === ping.pingId ? null : ping.pingId,
-                      );
-                    }}
-                    className="text-2xl shrink-0"
-                  />
-                  {selectedPing === ping.pingId && (
-                    <PingOpt
-                      pingId={ping.pingId}
-                      setSelectedPing={setSelectedPing}
-                    />
-                  )}
-                </div>
-              ))
-          )}
+                  );
+                })
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      {showConfirmPingsDeleteModal && (
+        <ConfirmPingsDeleteModal
+          setShowConfirmpPingsDeleteModal={setShowConfirmpPingsDeleteModal}
+          setPings={setPings}
+          setSelectedPing={setSelectedPing}
+          userId={user.uid}
+        />
+      )}
+    </>
   );
 }
