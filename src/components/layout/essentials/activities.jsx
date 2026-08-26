@@ -7,12 +7,14 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useRouter } from "next/navigation";
 import ActivitiesLoader from "@/components/loaders/activitiesLoader";
+import { LoaderContext } from "@/context/loaderContext";
 
 dayjs.extend(relativeTime);
 
 export default function Activities() {
   const { activities } = useContext(SocketContext);
   const { allUsers } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   return (
@@ -34,7 +36,10 @@ export default function Activities() {
 
             return (
               <div
-                onClick={() => router.push(`/profile/${user.uid}`)}
+                onClick={() => {
+                  setIsLoading(true);
+                  router.push(`/profile/${user.uid}`);
+                }}
                 key={activity.activityId}
                 className="rounded-lg border border-panel bg-second flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-200 hover:bg-[var(--color-panel)] hover:border-[var(--color-secondary)] active:bg-[var(--color-panel)] active:border-[var(--color-secondary)]"
               >

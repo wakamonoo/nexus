@@ -6,11 +6,11 @@ export default function ScreenTimeLoader() {
           <div className="p-4">
             <div className="flex gap-2 items-center justify-between w-full">
               <div className="w-full flex flex-col gap-1">
-                <div className="w-[40%] h-6 bg-panel rounded" />
-                <div className="w-[60%] h-4 bg-panel rounded" />
+                <div className="w-[40%] h-6 bg-second rounded" />
+                <div className="w-[60%] h-4 bg-second rounded" />
               </div>
               <div className="w-full flex flex-col items-end gap-1">
-                <div className="w-8 h-8 bg-panel rounded flex-shrink-0" />
+                <div className="w-8 h-8 bg-second rounded flex-shrink-0" />
               </div>
             </div>
 

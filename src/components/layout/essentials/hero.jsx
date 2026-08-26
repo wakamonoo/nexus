@@ -2,7 +2,7 @@
 import { FaRegFileAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { PostContext } from "@/context/postContext";
-import HeroLoader from "@/components/loaders/postsLoader";
+import PostsLoader from "@/components/loaders/postsLoader";
 import PostStructure from "@/components/layout/post/postStructure";
 
 export default function Hero() {
@@ -11,20 +11,18 @@ export default function Hero() {
   return (
     <div>
       <div className="bg-brand w-full">
-        <div className="flex items-center gap-2 pb-2">
-          <p className="text-base font-bold text-vibe opacity-60">The Collective</p>
+        <div className="flex items-center gap-2 my-2">
+          <p className="text-base font-bold text-vibe opacity-60">
+            The Collective
+          </p>
           <div className="flex-1 border-t-2 border-panel" />
         </div>
         {coldLoad ? (
-          <div className="py-2">
-            <HeroLoader />
-          </div>
+          <PostsLoader />
         ) : posts.length === 0 ? (
-          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className="flex flex-col items-center justify-center">
-              <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
-              <p className="text-xs text-vibe opacity-40">No posts yet</p>
-            </div>
+          <div className="mt-12 flex flex-col items-center justify-center">
+            <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
+            <p className="text-xs text-vibe opacity-40">No posts yet</p>
           </div>
         ) : (
           <div className="flex flex-col gap-1">

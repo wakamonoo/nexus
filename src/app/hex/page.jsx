@@ -17,6 +17,7 @@ import CustomButton from "@/components/buttons/customBtn";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import TitleCard from "@/components/layout/title/titleCard";
+import TitlesLoader from "@/components/loaders/titlesLoader";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -39,7 +40,7 @@ export default function Main() {
     upcomingTitles,
     releasedLegacyTitles,
     releasedAdjacentTitles,
-    pageLoad,
+    titlesLoad,
   } = useContext(TitleContext);
   const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
@@ -410,776 +411,778 @@ export default function Main() {
   return (
     <>
       <NavBar />
-
       <div className="relative bg-brand w-full pt-16 p-2 sm:px-4 md:px-8 lg:px-16">
-        {pageLoad ? (
-          <TitleLoader />
+        <div className="flex gap-4 md:gap-8 w-full justify-end p-4">
+          <button
+            onClick={() => {
+              setIsLoading(true);
+              router.push("/hex/lists");
+            }}
+            className="cursor-pointer"
+          >
+            <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
+              Lists
+            </p>
+          </button>
+          <button
+            onClick={() => {
+              setIsLoading(true);
+              router.push("/hex/timeline");
+            }}
+            className="cursor-pointer"
+          >
+            <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
+              Timeline
+            </p>
+          </button>
+        </div>
+        <div className="flex flex-1 items-center gap-2 bg-panel px-4 py-2 rounded-full">
+          <input
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Locate titles accross Marvel Sagas..."
+            className="w-full outline-none text-base text-normal truncate"
+          />
+        </div>
+
+        {loading ? (
+          <Loader />
+        ) : searchResults.length > 0 ? (
+          <div>
+            <div className="px-4 py-8">
+              <p className="text-sm text-vibe w-full line-clamp-1">
+                Search results for{" "}
+                <span className="font-bold">"{searchInput}"</span>
+              </p>
+            </div>
+            <div>
+              <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
+                {searchResults
+                  .sort((a, b) => {
+                    const dateA =
+                      a.mediaType === "tv" ? a.first_air_date : a.release_date;
+
+                    const dateB =
+                      b.mediaType === "tv" ? b.first_air_date : b.release_date;
+
+                    return new Date(dateA) - new Date(dateB);
+                  })
+                  .map((unit) => (
+                    <TitleCard
+                      key={unit.titleId}
+                      unit={unit}
+                      isWatched={isTitleWatched(unit.titleId)}
+                      onOpen={() => handleShowNav(unit.titleId)}
+                    />
+                  ))}
+              </div>
+            </div>
+          </div>
+        ) : searchInput ? (
+          <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="flex flex-col items-center justify-center">
+              <MdSearchOff className="text-4xl text-vibe opacity-40" />
+              <p className="text-xs text-vibe opacity-40">
+                No results for <span className="font-bold">{searchInput}</span>
+              </p>
+            </div>
+          </div>
         ) : (
           <>
-            <div className="flex gap-4 md:gap-8 w-full justify-end p-4">
-              <button
-                onClick={() => {
-                  setIsLoading(true);
-                  router.push("/hex/lists");
-                }}
-                className="cursor-pointer"
-              >
-                <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
-                  Lists
-                </p>
-              </button>
-              <button
-                onClick={() => {
-                  setIsLoading(true);
-                  router.push("/hex/timeline");
-                }}
-                className="cursor-pointer"
-              >
-                <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
-                  Timeline
-                </p>
-              </button>
-            </div>
-            <div className="flex flex-1 items-center gap-2 bg-panel px-4 py-2 rounded-full">
-              <input
-                type="text"
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                placeholder="Locate titles accross Marvel Sagas..."
-                className="w-full outline-none text-base text-normal truncate"
-              />
-            </div>
-
-            {loading ? (
-              <Loader />
-            ) : searchResults.length > 0 ? (
-              <div>
-                <div className="px-4 py-8">
-                  <p className="text-sm text-vibe w-full line-clamp-1">
-                    Search results for{" "}
-                    <span className="font-bold">"{searchInput}"</span>
-                  </p>
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">LATEST RELEASES</h1>
+                <div
+                  onClick={() => handleShowListNav("latest")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled1 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
                 </div>
-                <div>
-                  <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
-                    {searchResults
-                      .sort((a, b) => {
-                        const dateA =
-                          a.mediaType === "tv"
-                            ? a.first_air_date
-                            : a.release_date;
+              </div>
 
-                        const dateB =
-                          b.mediaType === "tv"
-                            ? b.first_air_date
-                            : b.release_date;
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows1(true)}
+                onMouseLeave={() => setShowArrows1(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows1 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows1 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
 
-                        return new Date(dateA) - new Date(dateB);
-                      })
-                      .map((unit) => (
+                {showArrows1 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft1}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                    >
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight1}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef1}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <div className="flex gap-2">
+                    {titlesLoad ? (
+                      <TitlesLoader />
+                    ) : latest.length > 0 ? (
+                      latest.map((unit) => (
                         <TitleCard
                           key={unit.titleId}
                           unit={unit}
                           isWatched={isTitleWatched(unit.titleId)}
                           onOpen={() => handleShowNav(unit.titleId)}
                         />
-                      ))}
+                      ))
+                    ) : (
+                      <div className="flex flex-col w-full justify-center items-center">
+                        <FaBoxOpen className="text-6xl text-panel" />
+                        <p className="text-sm text-panel font-normal">
+                          Sorry, no data to display!
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
-            ) : searchInput ? (
-              <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="flex flex-col items-center justify-center">
-                  <MdSearchOff className="text-4xl text-vibe opacity-40" />
-                  <p className="text-xs text-vibe opacity-40">
-                    No results for{" "}
-                    <span className="font-bold">{searchInput}</span>
-                  </p>
+            </div>
+
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">MCU CHRONOLOGICAL ORDER</h1>
+                <div
+                  onClick={() => handleShowListNav("chrono")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled2 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
                 </div>
               </div>
-            ) : (
-              <>
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">LATEST RELEASES</h1>
-                    <div
-                      onClick={() => handleShowListNav("latest")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled1 ? "flex" : "hidden"
-                      }`}
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows2(true)}
+                onMouseLeave={() => setShowArrows2(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows2 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows2 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {showArrows2 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft2}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                     >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows1(true)}
-                    onMouseLeave={() => setShowArrows1(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows1 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows1 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-
-                    {showArrows1 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft1}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight1}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight2}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef2}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <div className="flex gap-2">
+                    {titlesLoad ? (
+                      <TitlesLoader />
+                    ) : chrono.length > 0 ? (
+                      chrono.map((unit) => (
+                        <TitleCard
+                          key={unit.titleId}
+                          unit={unit}
+                          isWatched={isTitleWatched(unit.titleId)}
+                          onOpen={() => handleShowNav(unit.titleId)}
+                        />
+                      ))
+                    ) : (
+                      <div className="flex flex-col w-full justify-center items-center">
+                        <FaBoxOpen className="text-6xl text-panel" />
+                        <p className="text-sm text-panel font-normal">
+                          Sorry, no data to display!
+                        </p>
+                      </div>
                     )}
-                    <div
-                      ref={scrollRef1}
-                      className="overflow-x-auto scrollbar-hide"
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">MCU RELEASE ORDER</h1>
+                <div
+                  onClick={() => handleShowListNav("release")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled3 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
+                </div>
+              </div>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows3(true)}
+                onMouseLeave={() => setShowArrows3(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows3 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows3 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {showArrows3 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft3}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                     >
-                      <div className="flex gap-2">
-                        {latest.length > 0 ? (
-                          latest.map((unit) => (
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight3}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef3}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <div className="flex gap-2">
+                    {titlesLoad ? (
+                      <TitlesLoader />
+                    ) : release.length > 0 ? (
+                      release.map((unit) => (
+                        <TitleCard
+                          key={unit.titleId}
+                          unit={unit}
+                          isWatched={isTitleWatched(unit.titleId)}
+                          onOpen={() => handleShowNav(unit.titleId)}
+                        />
+                      ))
+                    ) : (
+                      <div className="flex flex-col w-full justify-center items-center">
+                        <FaBoxOpen className="text-6xl text-panel" />
+                        <p className="text-sm text-panel font-normal">
+                          Sorry, no data to display!
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">GOAT STATUS</h1>
+                <div
+                  onClick={() => handleShowListNav("goat")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled4 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
+                </div>
+              </div>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows4(true)}
+                onMouseLeave={() => setShowArrows4(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows4 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows4 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {showArrows4 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft4}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                    >
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight4}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef4}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <GoatTitlesStructureMin />
+                </div>
+              </div>
+            </div>
+
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">Popular</h1>
+                <div
+                  onClick={() => handleShowListNav("popular")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled5 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
+                </div>
+              </div>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows5(true)}
+                onMouseLeave={() => setShowArrows5(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows5 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows5 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {showArrows5 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft5}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                    >
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight5}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef5}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <MostWatchedTitlesStructureMin />
+                </div>
+              </div>
+            </div>
+
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">MULTIVERSAL CANON</h1>
+                <div
+                  onClick={() => handleShowListNav("multiversalCanon")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled6 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
+                </div>
+              </div>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows6(true)}
+                onMouseLeave={() => setShowArrows6(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows6 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows6 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {showArrows6 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft6}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                    >
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight6}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef6}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <div className="flex gap-2">
+                    {titlesLoad ? (
+                      <TitlesLoader />
+                    ) : releasedLegacyTitles.length > 0 ? (
+                      [...releasedLegacyTitles]
+                        .sort((a, b) => {
+                          const dateA =
+                            a.mediaType === "tv"
+                              ? a.first_air_date
+                              : a.release_date;
+
+                          const dateB =
+                            b.mediaType === "tv"
+                              ? b.first_air_date
+                              : b.release_date;
+
+                          return new Date(dateA) - new Date(dateB);
+                        })
+                        .map((unit) => (
+                          <TitleCard
+                            key={unit.titleId}
+                            unit={unit}
+                            isWatched={isTitleWatched(unit.titleId)}
+                            onOpen={() => handleShowNav(unit.titleId)}
+                          />
+                        ))
+                    ) : (
+                      <div className="flex flex-col w-full justify-center items-center">
+                        <FaBoxOpen className="text-6xl text-panel" />
+                        <p className="text-sm text-panel font-normal">
+                          Sorry, no data to display!
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">MARVEL ADJACENT</h1>
+                <div
+                  onClick={() => handleShowListNav("marvelAdjacent")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled7 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
+                </div>
+              </div>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows7(true)}
+                onMouseLeave={() => setShowArrows7(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows7 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows7 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {showArrows7 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft7}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                    >
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight7}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef7}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <div className="flex gap-2">
+                    {titlesLoad ? (
+                      <TitlesLoader />
+                    ) : releasedAdjacentTitles.length > 0 ? (
+                      [...releasedAdjacentTitles]
+                        .sort((a, b) => {
+                          const dateA =
+                            a.mediaType === "tv"
+                              ? a.first_air_date
+                              : a.release_date;
+
+                          const dateB =
+                            b.mediaType === "tv"
+                              ? b.first_air_date
+                              : b.release_date;
+
+                          return new Date(dateA) - new Date(dateB);
+                        })
+                        .map((unit) => (
+                          <TitleCard
+                            key={unit.titleId}
+                            unit={unit}
+                            isWatched={isTitleWatched(unit.titleId)}
+                            onOpen={() => handleShowNav(unit.titleId)}
+                          />
+                        ))
+                    ) : (
+                      <div className="flex flex-col w-full justify-center items-center">
+                        <FaBoxOpen className="text-6xl text-panel" />
+                        <p className="text-sm text-panel font-normal">
+                          Sorry, no data to display!
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">CINEMATIC CONTINUUM</h1>
+                <div
+                  onClick={() => handleShowListNav("cinematicContinuum")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled8 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
+                </div>
+              </div>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows8(true)}
+                onMouseLeave={() => setShowArrows8(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows8 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows8 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {showArrows8 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft8}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                    >
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight8}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef8}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <div className="flex gap-2">
+                    {titlesLoad ? (
+                      <TitlesLoader />
+                    ) : titles.length > 0 ? (
+                      titles
+                        .filter((title) => title.status === "released")
+                        .sort((a, b) => {
+                          const dateA =
+                            a.mediaType === "tv"
+                              ? a.first_air_date
+                              : a.release_date;
+
+                          const dateB =
+                            b.mediaType === "tv"
+                              ? b.first_air_date
+                              : b.release_date;
+
+                          return new Date(dateA) - new Date(dateB);
+                        })
+                        .map((unit) => {
+                          return (
                             <TitleCard
                               key={unit.titleId}
                               unit={unit}
                               isWatched={isTitleWatched(unit.titleId)}
                               onOpen={() => handleShowNav(unit.titleId)}
+                              continuum={true}
                             />
-                          ))
-                        ) : (
-                          <div className="flex flex-col w-full justify-center items-center">
-                            <FaBoxOpen className="text-6xl text-panel" />
-                            <p className="text-sm text-panel font-normal">
-                              Sorry, no data to display!
-                            </p>
-                          </div>
-                        )}
+                          );
+                        })
+                    ) : (
+                      <div className="flex flex-col w-full justify-center items-center">
+                        <FaBoxOpen className="text-6xl text-panel" />
+                        <p className="text-sm text-panel font-normal">
+                          Sorry, no data to display!
+                        </p>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
+              </div>
+            </div>
 
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">MCU CHRONOLOGICAL ORDER</h1>
-                    <div
-                      onClick={() => handleShowListNav("chrono")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled2 ? "flex" : "hidden"
-                      }`}
-                    >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows2(true)}
-                    onMouseLeave={() => setShowArrows2(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows2 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows2 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
+            <div className="py-4">
+              <div className="flex justify-between items-center">
+                <h1 className="text-xl">UPCOMING TITLES</h1>
+                <div
+                  onClick={() => handleShowListNav("upcoming")}
+                  className={`flex items-center cursor-pointer ${
+                    isScrolled9 ? "flex" : "hidden"
+                  }`}
+                >
+                  <p className="text-xs text-vibe">View All</p>
+                  <FaAngleRight className="text-vibe text-base" />
+                </div>
+              </div>
 
-                    {showArrows2 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft2}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight2}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
-                    )}
-                    <div
-                      ref={scrollRef2}
-                      className="overflow-x-auto scrollbar-hide"
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows9(true)}
+                onMouseLeave={() => setShowArrows9(false)}
+              >
+                <div
+                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows9 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows9 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                {showArrows9 && (
+                  <>
+                    <button
+                      onClick={handleScrollLeft9}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
                     >
-                      <div className="flex gap-2">
-                        {chrono.length > 0 ? (
-                          chrono.map((unit) => (
-                            <TitleCard
-                              key={unit.titleId}
-                              unit={unit}
-                              isWatched={isTitleWatched(unit.titleId)}
-                              onOpen={() => handleShowNav(unit.titleId)}
-                            />
-                          ))
-                        ) : (
-                          <div className="flex flex-col w-full justify-center items-center">
-                            <FaBoxOpen className="text-6xl text-panel" />
-                            <p className="text-sm text-panel font-normal">
-                              Sorry, no data to display!
-                            </p>
-                          </div>
-                        )}
+                      <RiArrowLeftWideFill className="text-2xl" />
+                    </button>
+                    <button
+                      onClick={handleScrollRight9}
+                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                    >
+                      <RiArrowRightWideFill className="text-2xl" />
+                    </button>
+                  </>
+                )}
+                <div
+                  ref={scrollRef9}
+                  className="overflow-x-auto scrollbar-hide"
+                >
+                  <div className="flex gap-2">
+                    {titlesLoad ? (
+                      <TitlesLoader />
+                    ) : upcomingTitles.length > 0 ? (
+                      upcomingTitles
+                        .sort((a, b) => {
+                          const dateA =
+                            a.mediaType === "tv"
+                              ? a.first_air_date
+                              : a.release_date;
+
+                          const dateB =
+                            b.mediaType === "tv"
+                              ? b.first_air_date
+                              : b.release_date;
+
+                          return new Date(dateA) - new Date(dateB);
+                        })
+                        .map((unit) => (
+                          <TitleCard
+                            key={unit.titleId}
+                            unit={unit}
+                            isWatched={isTitleWatched(unit.titleId)}
+                            onOpen={() => handleShowNav(unit.titleId)}
+                          />
+                        ))
+                    ) : (
+                      <div className="flex flex-col w-full justify-center items-center">
+                        <FaBoxOpen className="text-6xl text-panel" />
+                        <p className="text-sm text-panel font-normal">
+                          Sorry, no data to display!
+                        </p>
                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">MCU RELEASE ORDER</h1>
-                    <div
-                      onClick={() => handleShowListNav("release")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled3 ? "flex" : "hidden"
-                      }`}
-                    >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows3(true)}
-                    onMouseLeave={() => setShowArrows3(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows3 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows3 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-
-                    {showArrows3 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft3}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight3}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
                     )}
-                    <div
-                      ref={scrollRef3}
-                      className="overflow-x-auto scrollbar-hide"
-                    >
-                      <div className="flex gap-2">
-                        {release.length > 0 ? (
-                          release.map((unit) => (
-                            <TitleCard
-                              key={unit.titleId}
-                              unit={unit}
-                              isWatched={isTitleWatched(unit.titleId)}
-                              onOpen={() => handleShowNav(unit.titleId)}
-                            />
-                          ))
-                        ) : (
-                          <div className="flex flex-col w-full justify-center items-center">
-                            <FaBoxOpen className="text-6xl text-panel" />
-                            <p className="text-sm text-panel font-normal">
-                              Sorry, no data to display!
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
                   </div>
                 </div>
-
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">GOAT STATUS</h1>
-                    <div
-                      onClick={() => handleShowListNav("goat")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled4 ? "flex" : "hidden"
-                      }`}
-                    >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows4(true)}
-                    onMouseLeave={() => setShowArrows4(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows4 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows4 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-
-                    {showArrows4 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft4}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight4}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
-                    )}
-                    <div
-                      ref={scrollRef4}
-                      className="overflow-x-auto scrollbar-hide"
-                    >
-                      <GoatTitlesStructureMin />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">Popular</h1>
-                    <div
-                      onClick={() => handleShowListNav("popular")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled5 ? "flex" : "hidden"
-                      }`}
-                    >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows5(true)}
-                    onMouseLeave={() => setShowArrows5(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows5 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows5 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-
-                    {showArrows5 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft5}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight5}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
-                    )}
-                    <div
-                      ref={scrollRef5}
-                      className="overflow-x-auto scrollbar-hide"
-                    >
-                      <MostWatchedTitlesStructureMin />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">MULTIVERSAL CANON</h1>
-                    <div
-                      onClick={() => handleShowListNav("multiversalCanon")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled6 ? "flex" : "hidden"
-                      }`}
-                    >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows6(true)}
-                    onMouseLeave={() => setShowArrows6(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows6 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows6 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-
-                    {showArrows6 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft6}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight6}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
-                    )}
-                    <div
-                      ref={scrollRef6}
-                      className="overflow-x-auto scrollbar-hide"
-                    >
-                      <div className="flex gap-2">
-                        {releasedLegacyTitles.length > 0 ? (
-                          [...releasedLegacyTitles]
-                            .sort((a, b) => {
-                              const dateA =
-                                a.mediaType === "tv"
-                                  ? a.first_air_date
-                                  : a.release_date;
-
-                              const dateB =
-                                b.mediaType === "tv"
-                                  ? b.first_air_date
-                                  : b.release_date;
-
-                              return new Date(dateA) - new Date(dateB);
-                            })
-                            .map((unit) => (
-                              <TitleCard
-                                key={unit.titleId}
-                                unit={unit}
-                                isWatched={isTitleWatched(unit.titleId)}
-                                onOpen={() => handleShowNav(unit.titleId)}
-                              />
-                            ))
-                        ) : (
-                          <div className="flex flex-col w-full justify-center items-center">
-                            <FaBoxOpen className="text-6xl text-panel" />
-                            <p className="text-sm text-panel font-normal">
-                              Sorry, no data to display!
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">MARVEL ADJACENT</h1>
-                    <div
-                      onClick={() => handleShowListNav("marvelAdjacent")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled7 ? "flex" : "hidden"
-                      }`}
-                    >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows7(true)}
-                    onMouseLeave={() => setShowArrows7(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows7 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows7 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-
-                    {showArrows7 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft7}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight7}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
-                    )}
-                    <div
-                      ref={scrollRef7}
-                      className="overflow-x-auto scrollbar-hide"
-                    >
-                      <div className="flex gap-2">
-                        {releasedAdjacentTitles.length > 0 ? (
-                          [...releasedAdjacentTitles]
-                            .sort((a, b) => {
-                              const dateA =
-                                a.mediaType === "tv"
-                                  ? a.first_air_date
-                                  : a.release_date;
-
-                              const dateB =
-                                b.mediaType === "tv"
-                                  ? b.first_air_date
-                                  : b.release_date;
-
-                              return new Date(dateA) - new Date(dateB);
-                            })
-                            .map((unit) => (
-                              <TitleCard
-                                key={unit.titleId}
-                                unit={unit}
-                                isWatched={isTitleWatched(unit.titleId)}
-                                onOpen={() => handleShowNav(unit.titleId)}
-                              />
-                            ))
-                        ) : (
-                          <div className="flex flex-col w-full justify-center items-center">
-                            <FaBoxOpen className="text-6xl text-panel" />
-                            <p className="text-sm text-panel font-normal">
-                              Sorry, no data to display!
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">CINEMATIC CONTINUUM</h1>
-                    <div
-                      onClick={() => handleShowListNav("cinematicContinuum")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled8 ? "flex" : "hidden"
-                      }`}
-                    >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows8(true)}
-                    onMouseLeave={() => setShowArrows8(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows8 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows8 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-
-                    {showArrows8 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft8}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight8}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
-                    )}
-                    <div
-                      ref={scrollRef8}
-                      className="overflow-x-auto scrollbar-hide"
-                    >
-                      <div className="flex gap-2">
-                        {titles.length > 0 ? (
-                          titles
-                            .filter((title) => title.status === "released")
-                            .sort((a, b) => {
-                              const dateA =
-                                a.mediaType === "tv"
-                                  ? a.first_air_date
-                                  : a.release_date;
-
-                              const dateB =
-                                b.mediaType === "tv"
-                                  ? b.first_air_date
-                                  : b.release_date;
-
-                              return new Date(dateA) - new Date(dateB);
-                            })
-                            .map((unit) => {
-                              return (
-                                <TitleCard
-                                  key={unit.titleId}
-                                  unit={unit}
-                                  isWatched={isTitleWatched(unit.titleId)}
-                                  onOpen={() => handleShowNav(unit.titleId)}
-                                  continuum={true}
-                                />
-                              );
-                            })
-                        ) : (
-                          <div className="flex flex-col w-full justify-center items-center">
-                            <FaBoxOpen className="text-6xl text-panel" />
-                            <p className="text-sm text-panel font-normal">
-                              Sorry, no data to display!
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="py-4">
-                  <div className="flex justify-between items-center">
-                    <h1 className="text-xl">UPCOMING TITLES</h1>
-                    <div
-                      onClick={() => handleShowListNav("upcoming")}
-                      className={`flex items-center cursor-pointer ${
-                        isScrolled9 ? "flex" : "hidden"
-                      }`}
-                    >
-                      <p className="text-xs text-vibe">View All</p>
-                      <FaAngleRight className="text-vibe text-base" />
-                    </div>
-                  </div>
-
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setShowArrows9(true)}
-                    onMouseLeave={() => setShowArrows9(false)}
-                  >
-                    <div
-                      className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                        showArrows9 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                        showArrows9 ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-
-                    {showArrows9 && (
-                      <>
-                        <button
-                          onClick={handleScrollLeft9}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                        >
-                          <RiArrowLeftWideFill className="text-2xl" />
-                        </button>
-                        <button
-                          onClick={handleScrollRight9}
-                          className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                        >
-                          <RiArrowRightWideFill className="text-2xl" />
-                        </button>
-                      </>
-                    )}
-                    <div
-                      ref={scrollRef9}
-                      className="overflow-x-auto scrollbar-hide"
-                    >
-                      <div className="flex gap-2">
-                        {upcomingTitles.length > 0 ? (
-                          upcomingTitles
-                            .sort((a, b) => {
-                              const dateA =
-                                a.mediaType === "tv"
-                                  ? a.first_air_date
-                                  : a.release_date;
-
-                              const dateB =
-                                b.mediaType === "tv"
-                                  ? b.first_air_date
-                                  : b.release_date;
-
-                              return new Date(dateA) - new Date(dateB);
-                            })
-                            .map((unit) => (
-                              <TitleCard
-                                key={unit.titleId}
-                                unit={unit}
-                                isWatched={isTitleWatched(unit.titleId)}
-                                onOpen={() => handleShowNav(unit.titleId)}
-                              />
-                            ))
-                        ) : (
-                          <div className="flex flex-col w-full justify-center items-center">
-                            <FaBoxOpen className="text-6xl text-panel" />
-                            <p className="text-sm text-panel font-normal">
-                              Sorry, no data to display!
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </>
-            )}
+              </div>
+            </div>
           </>
         )}
       </div>

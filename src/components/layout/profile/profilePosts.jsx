@@ -4,16 +4,19 @@ import { useContext } from "react";
 import { FaRegFileAlt } from "react-icons/fa";
 import PostStructure from "../post/postStructure";
 import { UserContext } from "@/context/userContext";
+import PostLoader from "@/components/loaders/postLoader";
 
 export default function ProfilePosts({ profileUser }) {
-  const { posts } = useContext(PostContext);
+  const { posts, coldLoad } = useContext(PostContext);
   const { user } = useContext(UserContext);
 
   const profileUserPosts = posts.filter((p) => p.userId === profileUser?.uid);
 
   return (
     <div className="w-full">
-      {profileUserPosts.length === 0 ? (
+      {coldLoad ? (
+        <PostLoader />
+      ) : profileUserPosts.length === 0 ? (
         <div className="mt-16">
           <div className="flex flex-col items-center justify-center">
             <FaRegFileAlt className="text-4xl text-vibe opacity-40" />

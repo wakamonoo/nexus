@@ -1,15 +1,29 @@
 export default function RinaLoaderMemory() {
   return (
-    <div className="text-center">
-      <div className="flex gap-2 justify-center">
-        <span className="size-3 animate-ping rounded-full bg-accent"></span>
-        <span className="size-3 animate-ping rounded-full bg-accent [animation-delay:0.2s]"></span>
-        <span className="size-3 animate-ping rounded-full bg-accent [animation-delay:0.4s]"></span>
+    <div className="w-full my-4 animate-pulse">
+      <div className="p-2 border border-panel rounded">
+        <div className="w-full h-fit p-4">
+          <div className="flex gap-2 w-full items-center">
+            <div className="w-12 h-12 bg-panel rounded-full" />
+            <div className="flex flex-col gap-1">
+              <div className="w-32 h-5 bg-panel rounded" />
+              <div className="w-36 h-4 bg-panel rounded" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-1 py-4">
+            <div className="w-full h-5 bg-panel rounded-full" />
+            <div className="w-full h-5 bg-panel rounded" />
+            <div className="w-full h-5 bg-panel rounded" />
+            <div className="w-full h-5 bg-panel rounded" />
+            <div className="w-full h-5 bg-panel rounded" />
+            <div className="w-full h-5 bg-panel rounded" />
+            <div className="w-full h-5 bg-panel rounded" />
+            <div className="w-full h-5 bg-panel rounded" />
+            <div className="w-full h-5 bg-panel rounded" />
+            <div className="w-32 h-5 bg-panel rounded" />
+          </div>
+        </div>
       </div>
-      <h2 className="text-sm text-normal mt-4">Kindly wait...</h2>
-      <p className="text-xs text-vibe opacity-40">
-        While rina is processing your watch history
-      </p>
     </div>
   );
 }

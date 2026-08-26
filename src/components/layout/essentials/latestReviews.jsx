@@ -48,14 +48,6 @@ export default function LatestReviews() {
     return () => clearInterval(interval);
   }, [sortedReviews]);
 
-  if (reviewsLoad || !titles?.length || !allUsers?.length) {
-    return (
-      <div>
-        <AsideLoader />
-      </div>
-    );
-  }
-
   const reviewCard = (
     review,
     index,
@@ -153,17 +145,6 @@ export default function LatestReviews() {
     </div>
   );
 
-  if (sortedReviews?.length === 0) {
-    return (
-      <div className="mt-16">
-        <div className="flex flex-col items-center justify-center">
-          <MdRateReview className="text-4xl text-vibe opacity-40" />
-          <p className="text-xs text-vibe opacity-40">No reviews yet</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <div className="block lg:hidden mt-2 lg:mt-0">
@@ -171,32 +152,40 @@ export default function LatestReviews() {
           <p className="text-base font-bold text-vibe opacity-60">Reviews</p>
           <div className="flex-1 border-t-2 border-panel" />
         </div>
+        {reviewsLoad || !titles?.length || !allUsers?.length ? (
+          <AsideLoader />
+        ) : sortedReviews?.length === 0 ? (
+          <div className="rounded-lg border border-panel bg-second px-4 py-2 text-center">
+            <p className="text-sm text-vibe opacity-60">No Activities Yet</p>
+          </div>
+        ) : (
+          <div
+            ref={carouselRef}
+            className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+          >
+            {sortedReviews?.map((review, index) => {
+              const title = titles.find((t) => t.titleId === review.titleId);
+              const reviewOwner = allUsers.find((u) => u.uid === review.userId);
+              const realtimeVote = reviewVotes[review.reviewId];
 
-        <div
-          ref={carouselRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
-        >
-          {sortedReviews?.map((review, index) => {
-            const title = titles.find((t) => t.titleId === review.titleId);
-            const reviewOwner = allUsers.find((u) => u.uid === review.userId);
-            const realtimeVote = reviewVotes[review.reviewId];
-
-            const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
-            const downvotes = realtimeVote?.downvotes ?? review.downvotes ?? [];
-            return (
-              <div key={index} className="min-w-full snap-start">
-                {reviewCard(
-                  review,
-                  index,
-                  reviewOwner,
-                  title,
-                  upvotes,
-                  downvotes,
-                )}
-              </div>
-            );
-          })}
-        </div>
+              const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
+              const downvotes =
+                realtimeVote?.downvotes ?? review.downvotes ?? [];
+              return (
+                <div key={index} className="min-w-full snap-start">
+                  {reviewCard(
+                    review,
+                    index,
+                    reviewOwner,
+                    title,
+                    upvotes,
+                    downvotes,
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className="hidden lg:block h-[calc(100vh-6rem)] overflow-y-auto custom-scroll">
@@ -204,28 +193,37 @@ export default function LatestReviews() {
           <p className="text-base font-bold text-vibe opacity-60">Reviews</p>
           <div className="flex-1 border-t-2 border-panel" />
         </div>
-        <div className="flex gap-4 flex-col">
-          {sortedReviews?.map((review, index) => {
-            const title = titles.find((t) => t.titleId === review.titleId);
-            const reviewOwner = allUsers.find((u) => u.uid === review.userId);
-            const realtimeVote = reviewVotes[review.reviewId];
+        {reviewsLoad || !titles?.length || !allUsers?.length ? (
+          <AsideLoader />
+        ) : sortedReviews?.length === 0 ? (
+          <div className="rounded-lg border border-panel bg-second px-4 py-2 text-center">
+            <p className="text-sm text-vibe opacity-60">No Activities Yet</p>
+          </div>
+        ) : (
+          <div className="flex gap-4 flex-col">
+            {sortedReviews?.map((review, index) => {
+              const title = titles.find((t) => t.titleId === review.titleId);
+              const reviewOwner = allUsers.find((u) => u.uid === review.userId);
+              const realtimeVote = reviewVotes[review.reviewId];
 
-            const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
-            const downvotes = realtimeVote?.downvotes ?? review.downvotes ?? [];
-            return (
-              <div key={index} className="min-w-full snap-start">
-                {reviewCard(
-                  review,
-                  index,
-                  reviewOwner,
-                  title,
-                  upvotes,
-                  downvotes,
-                )}
-              </div>
-            );
-          })}
-        </div>
+              const upvotes = realtimeVote?.upvotes ?? review.upvotes ?? [];
+              const downvotes =
+                realtimeVote?.downvotes ?? review.downvotes ?? [];
+              return (
+                <div key={index} className="min-w-full snap-start">
+                  {reviewCard(
+                    review,
+                    index,
+                    reviewOwner,
+                    title,
+                    upvotes,
+                    downvotes,
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </>
   );

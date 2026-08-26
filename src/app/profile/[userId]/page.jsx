@@ -16,13 +16,16 @@ import EditProfileModal from "@/components/modals/editProfileModal";
 import Avatar from "@/assets/defaultAvatar.png";
 import ProfileEchoes from "@/components/layout/profile/profileEchoes";
 import ProfileSigils from "@/components/layout/profile/profileSigils";
-import ProfileLoader from "@/components/loaders/profileLoader";
+import ProfileLoader from "@/components/loaders/infoProfileLoader";
 import ReactMarkdown from "react-markdown";
 import { SigilContext } from "@/context/sigilContext";
 import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";
 import Rina from "../../../assets/rina.png";
 import ProfileLibrary from "@/components/layout/profile/profileLibrary";
 import TitleCard from "@/components/layout/title/titleCard";
+import TitleProfileLoader from "@/components/loaders/titleProfileLoader";
+import SigilsProfileLoader from "@/components/loaders/sigilsProfileLoader";
+import InfoProfileLoader from "@/components/loaders/infoProfileLoader";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -42,12 +45,13 @@ export default function UserProfile() {
   const { posts } = useContext(PostContext);
   const {
     titles,
+    titlesLoad,
     releasedMCUTitles,
     releasedLegacyTitles,
     releasedAdjacentTitles,
   } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { getUserWatchedInfoFetch, isTitleWatched} = useContext(WatchContext);
+  const { getUserWatchedInfoFetch, isTitleWatched } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const [showProfilePosts, setShowProfilePosts] = useState(true);
   const [showProfileReviews, setShowProfileReviews] = useState(false);
@@ -74,7 +78,7 @@ export default function UserProfile() {
     if (!profileUser?.uid) return;
 
     const fetchProfileWatch = async () => {
-      const data = await getUserWatchedInfoFetch(profileUser.uid);
+      const data = await getUserWatchedInfoFetch(profileUser?.uid);
 
       setProfileUserWatch(data.filter((w) => w.watched === true));
     };
@@ -83,7 +87,7 @@ export default function UserProfile() {
   }, [profileUser?.uid]);
 
   const topRanks = profileUser?.rankings
-    ? [...profileUser.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
+    ? [...profileUser?.rankings].sort((a, b) => a.rank - b.rank).slice(0, 3)
     : [];
 
   const showNumAll =
@@ -133,7 +137,7 @@ export default function UserProfile() {
     const runMemory = async () => {
       if (!memoryInput?.length) return;
 
-      const cacheKey = `${profileUser.uid}-${memoryKey}`;
+      const cacheKey = `${profileUser?.uid}-${memoryKey}`;
 
       if (memoryCache[cacheKey]) {
         setMemory(memoryCache[cacheKey]);
@@ -173,7 +177,10 @@ export default function UserProfile() {
   return (
     <>
       {showEditProfileModal && (
-        <EditProfileModal setShowEditProfileModal={setShowEditProfileModal} user={user} />
+        <EditProfileModal
+          setShowEditProfileModal={setShowEditProfileModal}
+          user={user}
+        />
       )}
       <div className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <div className="flex justify-between items-center py-4 w-full">
@@ -183,335 +190,347 @@ export default function UserProfile() {
           />
           <h4 className="text-xl">Profile</h4>
         </div>
-        {!profileUser ? (
-          <div className="w-full py-4">
-            <ProfileLoader />
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
-            <aside className="flex flex-col lg:sticky lg:top-0">
-              <div className="flex items-start w-full gap-2 py-4">
-                <div className="w-32 h-32">
-                  <img
-                    src={profileUser.picture || Avatar.src}
-                    alt={profileUser.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                </div>
-                <div className="flex flex-col justify-center items-start">
-                  <div className="flex justify-between gap-1">
-                    <p className="font-bold text-xl leading-5 text-normal">
-                      {profileUser.name}
-                    </p>
-                    <FaPen
-                      onClick={() => setShowEditProfileModal(true)}
-                      className={`text-xs cursor-pointer text-vibe opacity-70 ${
-                        user?.uid === profileUser.uid ? "flex" : "hidden"
-                      }`}
+
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
+          <aside className="flex flex-col lg:sticky lg:top-0">
+            {!profileUser ? (
+              <InfoProfileLoader />
+            ) : (
+              <>
+                <div className="flex items-start w-full gap-2 py-4">
+                  <div className="w-32 h-32">
+                    <img
+                      src={profileUser.picture || Avatar.src}
+                      alt={profileUser.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover rounded-full"
                     />
                   </div>
-
-                  <div className="w-[200] flex flex-col gap-1 mt-1">
-                    <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <p className="text-xs text-vibe opacity-60">
-                          {profileUser.totalMCUWatched
-                            ? profileUser.totalMCUWatched
-                            : 0}
-                          /<span>{showNumMCU}</span> mcu titles watched
-                        </p>
-                      </div>
-                      <div
-                        className="h-full bg-accent transition-all duration-500"
-                        style={{ width: `${progressMCU}%` }}
+                  <div className="flex flex-col justify-center items-start">
+                    <div className="flex justify-between gap-1">
+                      <p className="font-bold text-xl leading-5 text-normal">
+                        {profileUser.name}
+                      </p>
+                      <FaPen
+                        onClick={() => setShowEditProfileModal(true)}
+                        className={`text-xs cursor-pointer text-vibe opacity-70 ${
+                          user?.uid === profileUser.uid ? "flex" : "hidden"
+                        }`}
                       />
                     </div>
 
-                    <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <p className="text-xs text-vibe opacity-60">
-                          {profileUser.totalLegacyWatched
-                            ? profileUser.totalLegacyWatched
-                            : 0}
-                          /<span>{showNumLegacy}</span> multiversal cannon
-                          watched
-                        </p>
+                    <div className="w-[200] flex flex-col gap-1 mt-1">
+                      <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <p className="text-xs text-vibe opacity-60">
+                            {profileUser.totalMCUWatched
+                              ? profileUser.totalMCUWatched
+                              : 0}
+                            /<span>{showNumMCU}</span> mcu titles watched
+                          </p>
+                        </div>
+                        <div
+                          className="h-full bg-accent transition-all duration-500"
+                          style={{ width: `${progressMCU}%` }}
+                        />
                       </div>
-                      <div
-                        className="h-full bg-hulk transition-all duration-500"
-                        style={{ width: `${progressLegacy}%` }}
-                      />
-                    </div>
 
-                    <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <p className="text-xs text-vibe opacity-60">
-                          {profileUser.totalAdjacentWatched
-                            ? profileUser.totalAdjacentWatched
-                            : 0}
-                          /<span>{showNumAdjacent}</span> marvel adjacent
-                          watched
-                        </p>
+                      <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <p className="text-xs text-vibe opacity-60">
+                            {profileUser.totalLegacyWatched
+                              ? profileUser.totalLegacyWatched
+                              : 0}
+                            /<span>{showNumLegacy}</span> multiversal cannon
+                            watched
+                          </p>
+                        </div>
+                        <div
+                          className="h-full bg-hulk transition-all duration-500"
+                          style={{ width: `${progressLegacy}%` }}
+                        />
                       </div>
-                      <div
-                        className="h-full bg-[var(--color-infinity)] transition-all duration-500"
-                        style={{ width: `${progressAdjacent}%` }}
-                      />
-                    </div>
 
-                    <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <p className="text-xs text-vibe opacity-60">
-                          {profileUser.totalWatched
-                            ? profileUser.totalWatched
-                            : 0}
-                          /<span>{showNumAll}</span> overall watched
-                        </p>
+                      <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <p className="text-xs text-vibe opacity-60">
+                            {profileUser.totalAdjacentWatched
+                              ? profileUser.totalAdjacentWatched
+                              : 0}
+                            /<span>{showNumAdjacent}</span> marvel adjacent
+                            watched
+                          </p>
+                        </div>
+                        <div
+                          className="h-full bg-[var(--color-infinity)] transition-all duration-500"
+                          style={{ width: `${progressAdjacent}%` }}
+                        />
                       </div>
-                      <div
-                        className="h-full bg-zeus transition-all duration-500"
-                        style={{ width: `${progressAll}%` }}
-                      />
+
+                      <div className="h-4 w-full overflow-hidden bg-panel rounded-full relative">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <p className="text-xs text-vibe opacity-60">
+                            {profileUser.totalWatched
+                              ? profileUser.totalWatched
+                              : 0}
+                            /<span>{showNumAll}</span> overall watched
+                          </p>
+                        </div>
+                        <div
+                          className="h-full bg-zeus transition-all duration-500"
+                          style={{ width: `${progressAll}%` }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="p-2">
-                <p className="text-sm text-vibe italic">{profileUser.bio}</p>
-              </div>
-              {userSigils.length > 0 ? (
+                <div className="p-2">
+                  <p className="text-sm text-vibe italic">{profileUser.bio}</p>
+                </div>
+              </>
+            )}
+
+            <div className="p-2">
+              <h4 className="font-bold text-lg">
+                {profileUser?.uid === user?.uid
+                  ? "Your"
+                  : `${profileUser?.name.split(" ")[0]}'s`}{" "}
+                sigils
+              </h4>
+              {!profileUser ? (
+                <SigilsProfileLoader />
+              ) : userSigils.length > 0 ? (
                 <ProfileSigils profileUser={profileUser} user={user} />
               ) : (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
                   <p className="text-xs text-vibe opacity-40 text-center">
-                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} have no sigils to show.`}
+                    {`${profileUser.uid === user?.uid ? "you" : profileUser.name} have no sigils to show.`}
                   </p>
                 </div>
-              )}
+              )}{" "}
+            </div>
 
-              {profileUser.rankings?.length > 0 ? (
-                <div className="w-full h-full p-2">
-                  <h4 className="font-bold text-lg">
-                    {profileUser.uid === user?.uid
-                      ? "Your"
-                      : `${profileUser.name.split(" ")[0]}'s`}{" "}
-                    holy trinity
-                  </h4>
-                  <div className="flex gap-2 justify-start">
-                    {topRanks.map((rank) => {
-                      const title = titles.find(
-                        (t) => t.titleId === rank.titleId,
-                      );
+            <div className="w-full h-full p-2">
+              <h4 className="font-bold text-lg">
+                {profileUser?.uid === user?.uid
+                  ? "Your"
+                  : `${profileUser?.name.split(" ")[0]}'s`}{" "}
+                holy trinity
+              </h4>
+              {titlesLoad ? (
+                <TitleProfileLoader />
+              ) : profileUser?.rankings?.length > 0 ? (
+                <div className="flex gap-2 justify-start">
+                  {topRanks.map((rank) => {
+                    const title = titles.find(
+                      (t) => t.titleId === rank.titleId,
+                    );
 
-                      if(!title) return null
-                      return (
-                        <TitleCard
-                          key={rank.titleId}
-                          unit={{...title, rank: rank.rank  }}
-                          isWatched={isTitleWatched(title.titleId)}
-                          onOpen={() => handleShowNav(title.titleId)}
-                          goat={true}
-                        />
-                      );
-                    })}
-                  </div>
+                    if (!title) return null;
+                    return (
+                      <TitleCard
+                        key={rank.titleId}
+                        unit={{ ...title, rank: rank.rank }}
+                        isWatched={isTitleWatched(title.titleId)}
+                        onOpen={() => handleShowNav(title.titleId)}
+                        goat={true}
+                      />
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
                   <p className="text-xs text-vibe opacity-40 text-center">
-                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} haven't ranked any titles yet.`}
+                    {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't ranked any titles yet.`}
                   </p>
                 </div>
               )}
-              {latestWatch.length > 0 ? (
-                <div className="w-full h-full p-2">
-                  <h4 className="font-bold text-lg">
-                    {profileUser.uid === user?.uid
-                      ? "Your"
-                      : `${profileUser.name.split(" ")[0]}'s`}{" "}
-                    latest watch
-                  </h4>
-                  <div className="flex gap-2 justify-start">
-                    {latestWatch.map((item) => {
-                      const title = titles.find(
-                        (t) => t.titleId === item.titleId,
-                      );
+            </div>
 
-                      if (!title) return null;
+            <div className="w-full h-full p-2">
+              <h4 className="font-bold text-lg">
+                {profileUser?.uid === user?.uid
+                  ? "Your"
+                  : `${profileUser?.name.split(" ")[0]}'s`}{" "}
+                latest watch
+              </h4>
+              {titlesLoad ? (
+                <TitleProfileLoader />
+              ) : latestWatch.length > 0 ? (
+                <div className="flex gap-2 justify-start">
+                  {latestWatch.map((item) => {
+                    const title = titles.find(
+                      (t) => t.titleId === item.titleId,
+                    );
 
-                      return (
-                        <TitleCard
-                          key={item.titleId}
-                          unit={title}
-                          isWatched={isTitleWatched(title.titleId)}
-                          onOpen={() => handleShowNav(title.titleId)}
-                        />
-                      );
-                    })}
-                  </div>
+                    if (!title) return null;
+
+                    return (
+                      <TitleCard
+                        key={item.titleId}
+                        unit={title}
+                        isWatched={isTitleWatched(title.titleId)}
+                        onOpen={() => handleShowNav(title.titleId)}
+                      />
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
                   <p className="text-xs text-vibe opacity-40 text-center">
-                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} haven't watched anything yet.`}
+                    {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't watched anything yet.`}
                   </p>
                 </div>
               )}
+            </div>
 
-              {profileUser?.totalWatched > 0 ? (
-                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-4">
-                  {loadingMemory && (
-                    <div className="p-4">
-                      <RinaLoaderMemory />
-                    </div>
-                  )}
-                  {!loadingMemory && memory && (
-                    <div className="p-4">
-                      <div className="flex gap-3 pb-4">
-                        <Image
-                          src={Rina}
-                          alt="file"
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
-                        <div>
-                          <p className="text-base mt-2 font-bold leading-3.5 truncate">
-                            Rina
-                          </p>
-                          <p className="text-xs text-vibe">
-                            gemini-3.1-flash-lite
-                          </p>
-                        </div>
+            {loadingMemory ? (
+              <RinaLoaderMemory />
+            ) : profileUser?.totalWatched > 0 ? (
+              <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-4">
+                {!loadingMemory && memory && (
+                  <div className="p-4">
+                    <div className="flex items-center gap-3 pb-4">
+                      <Image
+                        src={Rina}
+                        alt="file"
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                      <div>
+                        <p className="text-base mt-2 font-bold leading-3.5 truncate">
+                          Rina
+                        </p>
+                        <p className="text-xs text-vibe">
+                          gemini-3.1-flash-lite
+                        </p>
                       </div>
-                      <div className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
-                        <ReactMarkdown>{memory}</ReactMarkdown>
-                      </div>
                     </div>
-                  )}
-                  {!loadingMemory && !memory && (
-                    <div className="p-4">
-                      <p className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
-                        Memory not available.
-                      </p>
+                    <div className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
+                      <ReactMarkdown>{memory}</ReactMarkdown>
                     </div>
-                  )}
-                </div>
-              ) : (
-                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
-                  <p className="text-xs text-vibe opacity-40 text-center">
-                    {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} have no archive available.`}
-                  </p>
-                </div>
-              )}
-            </aside>
+                  </div>
+                )}
+                {!loadingMemory && !memory && (
+                  <div className="p-4">
+                    <p className="text-sm font-normal text-vibe text-justify leading-5 whitespace-pre-wrap">
+                      Memory not available.
+                    </p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
+                <p className="text-xs text-vibe opacity-40 text-center">
+                  {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} have no archive available.`}
+                </p>
+              </div>
+            )}
+          </aside>
 
-            <main className="flex flex-col justify-center items-center">
-              <div
-                className={`flex justify-center gap-8 p-8 w-full ${
-                  profileUser ? "block" : "hidden"
-                }`}
+          <main className="flex flex-col justify-center items-center">
+            <div
+              className="flex justify-center gap-8 p-8 w-full"
+            >
+              <button
+                onClick={() => {
+                  setShowProfilePosts(true);
+                  setShowProfileReviews(false);
+                  setShowProfileEchoes(false);
+                  setShowProfileLibrary(false);
+                }}
+                className="cursor-pointer flex flex-1"
               >
-                <button
-                  onClick={() => {
-                    setShowProfilePosts(true);
-                    setShowProfileReviews(false);
-                    setShowProfileEchoes(false);
-                    setShowProfileLibrary(false);
-                  }}
-                  className="cursor-pointer flex flex-1"
+                <p
+                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                    showProfilePosts
+                      ? "font-bold text-accent border-b-2 border-accent"
+                      : "text-normal"
+                  }`}
                 >
-                  <p
-                    className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
-                      showProfilePosts
-                        ? "font-bold text-accent border-b-2 border-accent"
-                        : "text-normal"
-                    }`}
-                  >
-                    Posts
-                  </p>
-                </button>
-                <button
-                  onClick={() => {
-                    setShowProfileReviews(true);
-                    setShowProfilePosts(false);
-                    setShowProfileEchoes(false);
-                    setShowProfileLibrary(false);
-                  }}
-                  className="cursor-pointer flex flex-1"
+                  Posts
+                </p>
+              </button>
+              <button
+                onClick={() => {
+                  setShowProfileReviews(true);
+                  setShowProfilePosts(false);
+                  setShowProfileEchoes(false);
+                  setShowProfileLibrary(false);
+                }}
+                className="cursor-pointer flex flex-1"
+              >
+                <p
+                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                    showProfileReviews
+                      ? "font-bold text-accent border-b-2 border-accent"
+                      : "text-normal"
+                  }`}
                 >
-                  <p
-                    className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
-                      showProfileReviews
-                        ? "font-bold text-accent border-b-2 border-accent"
-                        : "text-normal"
-                    }`}
-                  >
-                    Reviews
-                  </p>
-                </button>
-                <button
-                  onClick={() => {
-                    setShowProfileEchoes(true);
-                    setShowProfileReviews(false);
-                    setShowProfilePosts(false);
-                    setShowProfileLibrary(false);
-                  }}
-                  className="cursor-pointer flex flex-1"
+                  Reviews
+                </p>
+              </button>
+              <button
+                onClick={() => {
+                  setShowProfileEchoes(true);
+                  setShowProfileReviews(false);
+                  setShowProfilePosts(false);
+                  setShowProfileLibrary(false);
+                }}
+                className="cursor-pointer flex flex-1"
+              >
+                <p
+                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                    showProfileEchoes
+                      ? "font-bold text-accent border-b-2 border-accent"
+                      : "text-normal"
+                  }`}
                 >
-                  <p
-                    className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
-                      showProfileEchoes
-                        ? "font-bold text-accent border-b-2 border-accent"
-                        : "text-normal"
-                    }`}
-                  >
-                    Echoes
-                  </p>
-                </button>
-                <button
-                  onClick={() => {
-                    setShowProfileLibrary(true);
-                    setShowProfileReviews(false);
-                    setShowProfilePosts(false);
-                    setShowProfileEchoes(false);
-                  }}
-                  className="cursor-pointer flex flex-1"
+                  Echoes
+                </p>
+              </button>
+              <button
+                onClick={() => {
+                  setShowProfileLibrary(true);
+                  setShowProfileReviews(false);
+                  setShowProfilePosts(false);
+                  setShowProfileEchoes(false);
+                }}
+                className="cursor-pointer flex flex-1"
+              >
+                <p
+                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                    showProfileLibrary
+                      ? "font-bold text-accent border-b-2 border-accent"
+                      : "text-normal"
+                  }`}
                 >
-                  <p
-                    className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
-                      showProfileLibrary
-                        ? "font-bold text-accent border-b-2 border-accent"
-                        : "text-normal"
-                    }`}
-                  >
-                    Library
-                  </p>
-                </button>
-              </div>
-              <div className="flex justify-center w-full">
-                {showProfilePosts && profileUser && (
-                  <ProfilePosts profileUser={profileUser} />
-                )}
-                {showProfileReviews && profileUser && (
-                  <ProfileReviews profileUser={profileUser} />
-                )}
-                {showProfileEchoes && profileUser && (
-                  <ProfileEchoes profileUser={profileUser} />
-                )}
-                {showProfileLibrary && profileUser && (
-                  <ProfileLibrary
-                    profileUserWatch={profileUserWatch}
-                    profileUser={profileUser}
-                  />
-                )}
-              </div>
-            </main>
-          </div>
-        )}
+                  Library
+                </p>
+              </button>
+            </div>
+            <div className="flex justify-center w-full">
+              {showProfilePosts && profileUser && (
+                <ProfilePosts profileUser={profileUser} />
+              )}
+              {showProfileReviews && profileUser && (
+                <ProfileReviews profileUser={profileUser} />
+              )}
+              {showProfileEchoes && profileUser && (
+                <ProfileEchoes profileUser={profileUser} />
+              )}
+              {showProfileLibrary && profileUser && (
+                <ProfileLibrary
+                  profileUserWatch={profileUserWatch}
+                  profileUser={profileUser}
+                />
+              )}
+            </div>
+          </main>
+        </div>
       </div>
     </>
   );

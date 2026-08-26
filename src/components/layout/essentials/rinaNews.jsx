@@ -58,13 +58,11 @@ export default function RinaNews() {
         <div className="flex-1 border-t-2 border-panel" />
       </div>
       {!news ? (
-        <div className="p-8">
-          <RinaLoaderNews />
-        </div>
+        <RinaLoaderNews />
       ) : (
         <>
           <div className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] p-4">
-            <div className="flex gap-3 pb-4">
+            <div className="flex items-center gap-3 pb-4">
               <Image
                 src={Rina}
                 alt="rina"
@@ -157,12 +155,12 @@ export default function RinaNews() {
                 className="w-full flex justify-center items-center cursor-pointer"
               >
                 {!showAllArticles ? (
-                  <div className="flex flex-col justify-center items-center p-2 text-[var(--color-text)]/60 hover:text-[var(--color-text)]/40">
+                  <div className="flex flex-col justify-center items-center mt-2 text-[var(--color-text)]/60 hover:text-[var(--color-text)]/40">
                     <p className="text-xs">show all articles</p>
                     <FaAngleDown className="text-lg" />
                   </div>
                 ) : (
-                  <div className="flex flex-col justify-center items-center p-2 text-[var(--color-text)]/60 hover:text-[var(--color-text)]/40">
+                  <div className="flex flex-col justify-center items-center mt-2 text-[var(--color-text)]/60 hover:text-[var(--color-text)]/40">
                     <p className="text-xs">show less articles</p>
                     <FaAngleUp className="text-lg" />
                   </div>

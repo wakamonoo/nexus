@@ -5,6 +5,8 @@ export default function ActivitiesLoader() {
         <div className="inline-block bg-second w-full h-14 rounded-lg" />
         <div className="inline-block bg-second w-full h-14 rounded-lg" />
         <div className="inline-block bg-second w-full h-14 rounded-lg" />
+        <div className="inline-block bg-second w-full h-14 rounded-lg" />
+        <div className="inline-block bg-second w-full h-14 rounded-lg" />
       </div>
     </div>
   );

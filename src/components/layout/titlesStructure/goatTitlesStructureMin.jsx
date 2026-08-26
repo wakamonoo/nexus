@@ -8,11 +8,12 @@ import { useContext, useEffect } from "react";
 import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import TitleCard from "../title/titleCard";
+import TitlesLoader from "@/components/loaders/titlesLoader";
 
 export default function GoatTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
-  const { goat } = useContext(TitleContext);
-  const { isTitleWatched} = useContext(WatchContext);
+  const { goat, titlesLoad } = useContext(TitleContext);
+  const { isTitleWatched } = useContext(WatchContext);
   const { handleShowNav } = useContext(TitleNavContext);
 
   let previousPoints = null;
@@ -32,7 +33,9 @@ export default function GoatTitlesStructureMin() {
 
   return (
     <div className="flex gap-2">
-      {ranked.length > 0 ? (
+      {titlesLoad ? (
+        <TitlesLoader />
+      ) : ranked.length > 0 ? (
         ranked.map((unit) => (
           <TitleCard
             key={unit.titleId}

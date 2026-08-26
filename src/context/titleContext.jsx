@@ -23,7 +23,7 @@ export const TitleProvider = ({ children }) => {
   const [releasedLegacyTitles, setReleasedLegacyTitles] = useState([]);
   const [releasedAdjacentTitles, setReleasedAdjacentTitles] = useState([]);
   const [upcomingTitles, setUpcomingTitles] = useState([]);
-  const [pageLoad, setPageLoad] = useState(true);
+  const [titlesLoad, setTitlesLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
   const [reviewToDelete, setReviewToDelete] = useState(null);
 
@@ -58,7 +58,7 @@ export const TitleProvider = ({ children }) => {
         setReleasedMCUTitles([]);
         setUpcomingTitles([]);
       } finally {
-        setPageLoad(false);
+        setTitlesLoad(false);
       }
     };
 
@@ -167,7 +167,7 @@ export const TitleProvider = ({ children }) => {
         release,
         goat,
         popular,
-        pageLoad,
+        titlesLoad,
         handleTitleDelete,
         reviewToDelete,
         setReviewToDelete,

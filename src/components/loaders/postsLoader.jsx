@@ -1,7 +1,7 @@
 export default function PostsLoader() {
   return (
     <div className="w-full h-full overflow-hidden animate-pulse">
-      <div className="flex flex-col gap-1 ">
+      <div className="flex flex-col gap-1">
         <div className="w-full h-fit bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl">
           <div className="p-4">
             <div className="flex gap-2 items-center w-full">
