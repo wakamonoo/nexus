@@ -4,9 +4,15 @@ import { useContext } from "react";
 import { PostContext } from "@/context/postContext";
 import PostsLoader from "@/components/loaders/postsLoader";
 import PostStructure from "@/components/layout/post/postStructure";
+import { TitleContext } from "@/context/titleContext";
+import { UserContext } from "@/context/userContext";
 
 export default function Hero() {
   const { posts, coldLoad } = useContext(PostContext);
+  const { titlesLoad } = useContext(TitleContext);
+  const { allUsersLoading } = useContext(UserContext);
+
+  const isLoading = coldLoad || titlesLoad || allUsersLoading;
 
   return (
     <div>
@@ -17,7 +23,7 @@ export default function Hero() {
           </p>
           <div className="flex-1 border-t-2 border-panel" />
         </div>
-        {coldLoad ? (
+        {isLoading ? (
           <PostsLoader />
         ) : posts.length === 0 ? (
           <div className="mt-12 flex flex-col items-center justify-center">
