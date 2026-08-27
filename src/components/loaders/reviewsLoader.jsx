@@ -1,4 +1,4 @@
-export default function AsideLoader() {
+export default function ReviewsLoader() {
   return (
     <div className="w-full h-full overflow-hidden animate-pulse">
       <div className="flex flex-col gap-4 md:pr-2">

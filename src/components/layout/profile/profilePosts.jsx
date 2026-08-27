@@ -8,14 +8,18 @@ import PostLoader from "@/components/loaders/postLoader";
 
 export default function ProfilePosts({ profileUser }) {
   const { posts, coldLoad } = useContext(PostContext);
-  const { user } = useContext(UserContext);
+  const { user, allUsersLoading } = useContext(UserContext);
+
+  const isLoading = coldLoad || allUsersLoading || !profileUser;
 
   const profileUserPosts = posts.filter((p) => p.userId === profileUser?.uid);
 
   return (
     <div className="w-full">
-      {coldLoad ? (
-        <PostLoader />
+      {isLoading ? (
+        <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16">
+          <PostLoader />
+        </div>
       ) : profileUserPosts.length === 0 ? (
         <div className="mt-16">
           <div className="flex flex-col items-center justify-center">

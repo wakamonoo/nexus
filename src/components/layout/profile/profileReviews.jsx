@@ -14,19 +14,23 @@ import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
 import CircledButtons from "../../buttons/circledBtns";
 import { SocketContext } from "@/context/socketContext";
 import RegularButtons from "@/components/buttons/regBtns";
+import ReviewsLoader from "@/components/loaders/reviewsLoader";
 
 dayjs.extend(relativeTime);
 
 export default function ProfileReviews({ profileUser }) {
-  const { titles, reviewToDelete, setReviewToDelete } =
+  const { titles, titlesLoad, reviewToDelete, setReviewToDelete } =
     useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { allUsers, user } = useContext(UserContext);
-  const [showConfirmReviewDeleteModal, setShowConfirmReviewDeleteModal] = useState(false);
+  const { allUsers, allUsersLoading, user } = useContext(UserContext);
+  const [showConfirmReviewDeleteModal, setShowConfirmReviewDeleteModal] =
+    useState(false);
   const [showReviewOption, setShowReviewOption] = useState(false);
   const [reviews, setReviews] = useState([]);
   const { reviewVotes } = useContext(SocketContext);
   const router = useRouter();
+
+  const isLoading = titlesLoad || allUsersLoading || !profileUser;
 
   useEffect(() => {
     if (titles) {
@@ -44,12 +48,16 @@ export default function ProfileReviews({ profileUser }) {
       );
       setReviews(profileUserReviews);
     }
-  }, [titles, profileUser.uid]);
+  }, [titles, profileUser?.uid]);
 
   return (
     <>
       <div className="w-full">
-        {reviews?.length === 0 ? (
+        {isLoading ? (
+          <div className="flex flex-col gap-4 py-4 px-2 sm:px-4 md:px-8 lg:px-16">
+            <ReviewsLoader />
+          </div>
+        ) : reviews?.length === 0 ? (
           <div className="mt-16">
             <div className="flex flex-col items-center justify-center">
               <MdRateReview className="text-4xl text-vibe opacity-40" />

@@ -4,7 +4,7 @@ import { FaQuoteLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import { MdRateReview } from "react-icons/md";
-import AsideLoader from "../../loaders/asideLoader";
+import ReviewsLoader from "../../loaders/reviewsLoader";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
@@ -153,7 +153,7 @@ export default function LatestReviews() {
           <div className="flex-1 border-t-2 border-panel" />
         </div>
         {reviewsLoad || !titles?.length || !allUsers?.length ? (
-          <AsideLoader />
+          <ReviewsLoader />
         ) : sortedReviews?.length === 0 ? (
           <div className="rounded-lg border border-panel bg-second px-4 py-2 text-center">
             <p className="text-sm text-vibe opacity-60">No Activities Yet</p>
@@ -194,7 +194,7 @@ export default function LatestReviews() {
           <div className="flex-1 border-t-2 border-panel" />
         </div>
         {reviewsLoad || !titles?.length || !allUsers?.length ? (
-          <AsideLoader />
+          <ReviewsLoader />
         ) : sortedReviews?.length === 0 ? (
           <div className="rounded-lg border border-panel bg-second px-4 py-2 text-center">
             <p className="text-sm text-vibe opacity-60">No Activities Yet</p>

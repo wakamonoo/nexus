@@ -41,7 +41,7 @@ if (APP_ENV === "production") {
 
 export default function UserProfile() {
   const { userId } = useParams();
-  const { allUsers, user } = useContext(UserContext);
+  const { allUsers, user, allUsersLoading } = useContext(UserContext);
   const { posts } = useContext(PostContext);
   const {
     titles,
@@ -62,7 +62,7 @@ export default function UserProfile() {
   const [loadingMemory, setLoadingMemory] = useState(false);
   const [memoryCache, setMemoryCache] = useState({});
   const { sigils } = useContext(SigilContext);
-  const [profileUserWatch, setProfileUserWatch] = useState([]);
+  const [profileUserWatch, setProfileUserWatch] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -78,9 +78,14 @@ export default function UserProfile() {
     if (!profileUser?.uid) return;
 
     const fetchProfileWatch = async () => {
-      const data = await getUserWatchedInfoFetch(profileUser?.uid);
+      try {
+        const data = await getUserWatchedInfoFetch(profileUser?.uid);
 
-      setProfileUserWatch(data.filter((w) => w.watched === true));
+        setProfileUserWatch(data.filter((w) => w.watched === true));
+      } catch (err) {
+        console.error(err);
+        setProfileUserWatch([]);
+      }
     };
 
     fetchProfileWatch();
@@ -98,13 +103,15 @@ export default function UserProfile() {
   const showNumLegacy = releasedLegacyTitles?.length;
   const showNumAdjacent = releasedAdjacentTitles?.length;
 
-  const latestWatch = [...profileUserWatch]
-    .sort((a, b) => {
-      const aDate = new Date(a.updatedAt || a.createdAt);
-      const bDate = new Date(b.updatedAt || b.createdAt);
-      return bDate - aDate;
-    })
-    .slice(0, 3);
+  const latestWatch = profileUserWatch
+    ? [...profileUserWatch]
+        .sort((a, b) => {
+          const aDate = new Date(a.updatedAt || a.createdAt);
+          const bDate = new Date(b.updatedAt || b.createdAt);
+          return bDate - aDate;
+        })
+        .slice(0, 3)
+    : [];
 
   const progressAll =
     showNumAll > 0 ? ((profileUser?.totalWatched || 0) / showNumAll) * 100 : 0;
@@ -135,7 +142,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     const runMemory = async () => {
-      if (!memoryInput?.length) return;
+      if (!profileUser?.uid || !memoryInput?.length) return;
 
       const cacheKey = `${profileUser?.uid}-${memoryKey}`;
 
@@ -170,7 +177,7 @@ export default function UserProfile() {
       }
     };
     runMemory();
-  }, [memoryKey]);
+  }, [!profileUser?.uid, memoryKey]);
 
   const userSigils = sigils?.filter((s) => profileUser?.[s.key] === true) || [];
 
@@ -193,11 +200,11 @@ export default function UserProfile() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
           <aside className="flex flex-col lg:sticky lg:top-0">
-            {!profileUser ? (
+            {allUsersLoading ? (
               <InfoProfileLoader />
             ) : (
               <>
-                <div className="flex items-start w-full gap-2 py-4">
+                <div className="flex items-center w-full gap-2 py-4">
                   <div className="w-32 h-32">
                     <img
                       src={profileUser.picture || Avatar.src}
@@ -298,7 +305,7 @@ export default function UserProfile() {
                   : `${profileUser?.name.split(" ")[0]}'s`}{" "}
                 sigils
               </h4>
-              {!profileUser ? (
+              {allUsersLoading || !sigils ? (
                 <SigilsProfileLoader />
               ) : userSigils.length > 0 ? (
                 <ProfileSigils profileUser={profileUser} user={user} />
@@ -318,7 +325,7 @@ export default function UserProfile() {
                   : `${profileUser?.name.split(" ")[0]}'s`}{" "}
                 holy trinity
               </h4>
-              {titlesLoad ? (
+              {allUsersLoading || titlesLoad ? (
                 <TitleProfileLoader />
               ) : profileUser?.rankings?.length > 0 ? (
                 <div className="flex gap-2 justify-start">
@@ -355,7 +362,7 @@ export default function UserProfile() {
                   : `${profileUser?.name.split(" ")[0]}'s`}{" "}
                 latest watch
               </h4>
-              {titlesLoad ? (
+              {allUsersLoading || titlesLoad || profileUserWatch === null ? (
                 <TitleProfileLoader />
               ) : latestWatch.length > 0 ? (
                 <div className="flex gap-2 justify-start">
@@ -432,9 +439,7 @@ export default function UserProfile() {
           </aside>
 
           <main className="flex flex-col justify-center items-center">
-            <div
-              className="flex justify-center gap-8 p-8 w-full"
-            >
+            <div className="flex justify-center gap-8 p-8 w-full">
               <button
                 onClick={() => {
                   setShowProfilePosts(true);
@@ -513,16 +518,12 @@ export default function UserProfile() {
               </button>
             </div>
             <div className="flex justify-center w-full">
-              {showProfilePosts && profileUser && (
-                <ProfilePosts profileUser={profileUser} />
-              )}
-              {showProfileReviews && profileUser && (
+              {showProfilePosts && <ProfilePosts profileUser={profileUser} />}
+              {showProfileReviews && (
                 <ProfileReviews profileUser={profileUser} />
               )}
-              {showProfileEchoes && profileUser && (
-                <ProfileEchoes profileUser={profileUser} />
-              )}
-              {showProfileLibrary && profileUser && (
+              {showProfileEchoes && <ProfileEchoes profileUser={profileUser} />}
+              {showProfileLibrary && (
                 <ProfileLibrary
                   profileUserWatch={profileUserWatch}
                   profileUser={profileUser}

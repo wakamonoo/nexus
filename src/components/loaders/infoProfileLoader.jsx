@@ -1,7 +1,7 @@
 export default function InfoProfileLoader() {
   return (
     <div className="flex flex-col animate-pulse">
-      <div className="flex items-start w-full gap-2 py-4">
+      <div className="flex items-center w-full gap-2 py-4">
         <div className="w-32 h-32 bg-panel rounded-full flex-shrink-0  " />
         <div className="flex flex-col justify-center items-start">
           <div className="w-[60%] h-6 bg-panel rounded" />

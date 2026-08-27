@@ -1,20 +1,19 @@
 export default function TitlesLoader() {
   return (
-
-      <div className="flex gap-2 w-full animate-pulse">
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-        <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
-      </div>
+    <div className="flex gap-2 w-full animate-pulse">
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+      <div className="bg-panel w-26 h-40 md:w-32 md:h-46 rounded shrink-0" />
+    </div>
   );
 }

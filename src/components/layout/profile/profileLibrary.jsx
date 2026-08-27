@@ -5,13 +5,17 @@ import { TitleContext } from "@/context/titleContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import TitleCard from "../title/titleCard";
 import { WatchContext } from "@/context/watchContext";
+import LibraryLoader from "@/components/loaders/libraryLoader";
 
 export default function ProfileLibrary({ profileUserWatch, profileUser }) {
-  const { titles, releasedMCUTitles } = useContext(TitleContext);
+  const { titles, titlesLoad, releasedMCUTitles } = useContext(TitleContext);
   const { handleShowNav } = useContext(TitleNavContext);
-  const {isTitleWatched} = useContext(WatchContext)
+  const { isTitleWatched } = useContext(WatchContext);
   const [sortBy, setSortBy] = useState("watch-recent");
-  const { user } = useContext(UserContext);
+  const { user, allUsersLoading } = useContext(UserContext);
+
+  const isLoading =
+    titlesLoad || allUsersLoading || !profileUser || !profileUserWatch;
 
   const releaseWatchOldest = [...profileUserWatch]
     .map((watch) => {
@@ -87,7 +91,9 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
 
   return (
     <div className="w-full">
-      {sortedWatch.length === 0 ? (
+      {isLoading ? (
+        <LibraryLoader />
+      ) : sortedWatch.length === 0 ? (
         <div className="mt-16">
           <div className="flex flex-col items-center justify-center">
             <MdSensorsOff className="text-4xl text-vibe opacity-40" />
