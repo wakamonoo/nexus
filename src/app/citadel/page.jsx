@@ -372,9 +372,13 @@ export default function Citadel() {
                         latestSeenMessages[viewer.uid]?.messageId === msg.msgId,
                     );
 
-                    const visibleSeenUsers = seenUsers.filter(
-                      (viewer) => viewer.uid !== user?.uid,
-                    );
+                    const visibleSeenUsers = seenUsers
+                      .filter((viewer) => viewer.uid !== user?.uid)
+                      .sort(
+                        (a, b) =>
+                          new Date(latestSeenMessages[a.uid]?.seenAt) -
+                          new Date(latestSeenMessages[b.uid]?.seenAt),
+                      );
 
                     const replyOwner = msg.replyTo
                       ? allUsers.find((u) => u.uid === msg.replyTo.senderId)

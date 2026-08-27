@@ -8,7 +8,7 @@ import RinaNews from "@/components/layout/essentials/rinaNews";
 import TitleCountdown from "@/components/layout/essentials/countdown";
 import ScreenTime from "@/components/layout/essentials/screenTime";
 import Footer from "@/components/layout/essentials/footer";
-import Activities from "@/components/layout/essentials/activities";
+import LatestActivities from "@/components/layout/essentials/latestActivities";
 
 export default function Page() {
   return (
@@ -22,7 +22,7 @@ export default function Page() {
           <Banner />
           <TitleCountdown />
           <ScreenTime />
-          <Activities />
+          <LatestActivities />
           <div className="lg:hidden">
             <LatestReviews />
           </div>

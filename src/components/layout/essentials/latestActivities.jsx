@@ -13,17 +13,19 @@ dayjs.extend(relativeTime);
 
 export default function Activities() {
   const { activities } = useContext(SocketContext);
-  const { allUsers } = useContext(UserContext);
+  const { allUsers, allUsersLoading } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
   return (
     <div className="mt-2 w-full">
       <div className="flex items-center gap-2 pb-2">
-        <p className="text-base font-bold text-vibe opacity-60">Activities</p>
+        <p className="text-base font-bold text-vibe opacity-60">
+          Latest Activities
+        </p>
         <div className="flex-1 border-t-2 border-panel" />
       </div>
-      {!activities || !allUsers ? (
+      {!activities || allUsersLoading ? (
         <ActivitiesLoader />
       ) : activities.length === 0 ? (
         <div className="rounded-lg border border-panel bg-second px-4 py-2 text-center">
@@ -41,7 +43,7 @@ export default function Activities() {
                   router.push(`/profile/${user.uid}`);
                 }}
                 key={activity.activityId}
-                className="rounded-lg border border-panel bg-second flex items-center gap-2 px-4 py-2 cursor-pointer transition-all duration-200 hover:bg-[var(--color-panel)] hover:border-[var(--color-secondary)] active:bg-[var(--color-panel)] active:border-[var(--color-secondary)]"
+                className="flex items-center gap-2 rounded-lg border bg-panel border-[var(--color-secondary)] px-4 py-2 transition-all duration-200 active:bg-[var(--color-secondary)] active:-translate-y-0.5 active:border-[var(--color-panel)] hover:bg-[var(--color-secondary)] hover:-translate-y-0.5 hover:border-[var(--color-panel)]"
               >
                 <img
                   src={user?.picture || Avatar.src}
