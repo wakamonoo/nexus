@@ -32,7 +32,7 @@ if (APP_ENV === "production") {
 
 export default function Powerboard() {
   const { releasedMCUTitles } = useContext(TitleContext);
-  const { user, setShowSignInModal } = useContext(UserContext);
+  const { user, setUser, setShowSignInModal } = useContext(UserContext);
   const { isTitleWatched } = useContext(WatchContext);
   const { setIsLoading } = useContext(LoaderContext);
   const [items, setItems] = useState([]);
@@ -156,6 +156,11 @@ export default function Powerboard() {
           rankings,
         }),
       });
+
+      setUser((prev) => ({
+        ...prev,
+        rankings,
+      }));
 
       Swal.fire({
         toast: true,

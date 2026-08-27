@@ -1,22 +1,64 @@
 import express from "express";
 import clientPromise from "../lib/mongodb.js";
+import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
 router.post("/saveRanking", async (req, res) => {
   try {
     const { userId, rankings } = req.body;
+
+    const io = req.app.get("io");
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
+
+    const existingUser = await db.collection("users").findOne(
+      { uid: userId },
+      {
+        projection: {
+          rankings: 1,
+        },
+      },
+    );
+
+    const previousGoat = existingUser?.rankings?.find(
+      (ranking) => ranking.points === 15,
+    );
 
     await db.collection("users").updateOne(
       {
         uid: userId,
       },
       { $set: { rankings } },
-      { upsert: true }
+      { upsert: true },
     );
+
+    const newGoat = rankings?.find((ranking) => ranking.points === 15);
+
+    if (newGoat && newGoat.titleId !== previousGoat?.titleId) {
+      const goat = await db.collection("titles").findOne(
+        {
+          titleId: newGoat.titleId,
+        },
+        {
+          projection: {
+            title: 1,
+          },
+        },
+      );
+
+      const activityData = {
+        activityId: `activity-${uuidv4()}`,
+        userId,
+        message: `ranked ${goat?.title} as their goat.`,
+        date: new Date(),
+      };
+
+      await db.collection("activities").insertOne(activityData);
+
+      io.emit("activity", activityData);
+    }
 
     const allUsers = await db.collection("users").find({}).toArray();
 
