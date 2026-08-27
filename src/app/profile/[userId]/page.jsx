@@ -205,7 +205,7 @@ export default function UserProfile() {
             ) : (
               <>
                 <div className="flex items-center w-full gap-2 py-4">
-                  <div className="w-32 h-32">
+                  <div className="w-32 h-32 shrink-0">
                     <img
                       src={profileUser.picture || Avatar.src}
                       alt={profileUser.name}
