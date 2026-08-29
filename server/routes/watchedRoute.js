@@ -219,8 +219,17 @@ router.post("/watchRoute/:titleId", async (req, res) => {
         }
       }
 
+      await db.collection("titles").updateOne(
+        {
+          titleId,
+        },
+        { $addToSet: { watchCount: userId } },
+        { upsert: true },
+      );
+
       const activityData = {
         activityId: `activity-${uuidv4()}`,
+        type: "watch",
         userId,
         message: `marked ${watchedTitle?.title} as watched.`,
         date: new Date(),
@@ -229,15 +238,8 @@ router.post("/watchRoute/:titleId", async (req, res) => {
       await db.collection("activities").insertOne(activityData);
 
       io.emit("activity", activityData);
-
-      await db.collection("titles").updateOne(
-        {
-          titleId,
-        },
-        { $addToSet: { watchCount: userId } },
-        { upsert: true },
-      );
     }
+
     res
       .status(200)
       .json({ message: `${watchedTitle?.title || titleId} marked as watched` });

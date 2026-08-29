@@ -10,6 +10,7 @@ import TitleCard from "../layout/title/titleCard";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 import RegularButtons from "../buttons/regBtns";
+import { ListContext } from "@/context/listContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -119,12 +120,13 @@ export default function AddListModal({ user, setShowAddListModal }) {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
+  const { setLists } = useContext(ListContext);
 
   const handleSubmitList = async () => {
     try {
       setIsLoading(true);
 
-      await fetch(`${BASE_URL}/api/lists/addlist`, {
+      const res = await fetch(`${BASE_URL}/api/lists/addlist`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -140,6 +142,14 @@ export default function AddListModal({ user, setShowAddListModal }) {
           })),
         }),
       });
+
+      if (!res.ok) {
+        throw new Error("failed to create list");
+      }
+
+      const data = await res.json();
+
+      setLists((prev) => [data.list, ...prev]);
 
       Swal.fire({
         toast: true,

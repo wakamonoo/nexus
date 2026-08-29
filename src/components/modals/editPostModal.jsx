@@ -190,7 +190,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
             </button>
           </div>
           <div className="p-4">
-            <div className="flex justify-start items-center gap-2">
+            <div className="flex justify-start items-center gap-2 pb-2">
               <img
                 src={user?.picture || Avatar.src}
                 alt={user?.name}
@@ -200,24 +200,26 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
               />
               <p className="text-base text-normal font-bold">{user?.name}</p>
             </div>
-            <div className="py-2">
-              <div className="relative">
-                <div
-                  className={`rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
-                >
-                  <p className="font-bold text-vibe text-base px-2">
-                    {currentTopic?.title || "No topic assigned"}
-                  </p>
+            {post.topicId && (
+              <div className="pb-2">
+                <div className="relative">
+                  <div
+                    className={`rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
+                  >
+                    <p className="font-bold text-vibe text-base px-2">
+                      {currentTopic?.title || "No topic assigned"}
+                    </p>
+                  </div>
+                  <MdClose
+                    onClick={() => setPost({ ...post, topicId: "" })}
+                    className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-2 text-2xl transition-all duration-200 hover:text-accent"
+                  />
                 </div>
-                <MdClose
-                  onClick={() => setPost({ ...post, topicId: "" })}
-                  className="absolute cursor-pointer top-1/2 -translate-y-1/2 right-2 text-2xl"
-                />
               </div>
-            </div>
+            )}
             <div className="flex gap-2">
               {existingFiles.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-2">
+                <div className="flex flex-wrap gap-2 pb-2">
                   {existingFiles.map((file, index) => {
                     const isImage =
                       file.includes(".jpg") ||

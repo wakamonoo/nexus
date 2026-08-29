@@ -50,6 +50,7 @@ router.post("/saveRanking", async (req, res) => {
 
       const activityData = {
         activityId: `activity-${uuidv4()}`,
+        type: "rank",
         userId,
         message: `ranked ${goat?.title} as their goat.`,
         date: new Date(),

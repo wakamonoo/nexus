@@ -9,25 +9,52 @@ router.post("/addlist", async (req, res) => {
   try {
     const { userId, listTitle, listDescription, titles } = req.body;
 
+    const io = req.app.get("io");
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
+    const listId = `list-${uuidv4()}`;
+    const createdAt = new Date();
+
     await db.collection("lists").updateOne(
-      { listId: `list-${uuidv4()}` },
+      { listId },
       {
         $setOnInsert: {
           listTitle,
           listDescription,
           titles,
           userId,
-          createdAt: new Date(),
+          createdAt,
         },
       },
       { upsert: true },
     );
 
-    res.status(200).json({ message: "list created" });
+    const activityData = {
+      activityId: `activity-${uuidv4()}`,
+      type: "list",
+      userId,
+      listId,
+      message: `added ${listTitle} to lists.`,
+      date: new Date(),
+    };
+
+    await db.collection("activities").insertOne(activityData);
+
+    io.emit("activity", activityData);
+
+    res.status(200).json({
+      message: "list created",
+      list: {
+        listId,
+        listTitle,
+        listDescription,
+        titles,
+        userId,
+        createdAt,
+      },
+    });
   } catch (err) {
     console.error("list failed to create", err);
     res.status(401).json({ error: "failed to create list" });

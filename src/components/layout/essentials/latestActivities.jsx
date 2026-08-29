@@ -40,7 +40,12 @@ export default function Activities() {
               <div
                 onClick={() => {
                   setIsLoading(true);
-                  router.push(`/profile/${user.uid}`);
+
+                  if (activity?.type === "list") {
+                    router.push(`/hex/lists/${activity?.listId}`);
+                  } else {
+                    router.push(`/profile/${activity?.userId}`);
+                  }
                 }}
                 key={activity.activityId}
                 className="flex items-center gap-2 rounded-lg cursor-pointer border bg-panel border-[var(--color-secondary)] px-4 py-2 transition-all duration-200 active:bg-[var(--color-secondary)] active:-translate-y-0.5 active:border-[var(--color-panel)] hover:bg-[var(--color-secondary)] hover:-translate-y-0.5 hover:border-[var(--color-panel)]"
