@@ -40,7 +40,7 @@ const orbitron = Orbitron({
 // Metadata
 export const metadata = {
   title: {
-    default: "nexus — Marvel Watch Tracker, Watch Order & More",
+    default: "nexus",
     template: "%s | nexus",
   },
   description:
@@ -110,7 +110,7 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "nexus — Marvel Watch Tracker, Watch Order & More",
+    title: "nexus",
     description:
       "An unofficial, fan-made Marvel companion for your journey through the MCU and beyond. Track everything you've watched, explore Marvel watch orders and timelines, build lists, rate and review movies and series, rank your favorites, and connect with fellow Marvel fans.",
     url: "https://ournexus.space",
@@ -128,7 +128,7 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "nexus — Marvel Watch Tracker, Watch Order & More",
+    title: "nexus",
     description:
       "An unofficial, fan-made Marvel companion for your journey through the MCU and beyond. Track everything you've watched, explore Marvel watch orders and timelines, build lists, rate and review movies and series, rank your favorites, and connect with fellow Marvel fans.",
     images: "https://i.imgur.com/WCCf5AW.png",
