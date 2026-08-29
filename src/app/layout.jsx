@@ -40,7 +40,7 @@ const orbitron = Orbitron({
 // Metadata
 export const metadata = {
   title: {
-    title: "nexus — Marvel Watch Tracker, Watch Order & More",
+    default: "nexus — Marvel Watch Tracker, Watch Order & More",
     template: "%s | nexus",
   },
   description:
