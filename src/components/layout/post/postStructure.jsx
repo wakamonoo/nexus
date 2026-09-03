@@ -177,66 +177,68 @@ export default function PostStructure({ post }) {
         </div>
       </div>
 
-      <div className="px-4">
-        <div
-          onClick={(e) => {
-            e.stopPropagation();
-            if (pathname.startsWith("/posts")) {
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              });
-            } else {
-              setIsLoading(true);
-              router.push(`/posts/${post.topicId}`);
-            }
-          }}
-          className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] ${
-            currentTopic ? "block" : "hidden"
-          }`}
-        >
-          <p className="font-bold text-vibe text-sm px-2">
-            {currentTopic?.title}
+      {currentTopic && (
+        <div className="px-4">
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+              if (pathname.startsWith("/posts")) {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              } else {
+                setIsLoading(true);
+                router.push(`/posts/${post.topicId}`);
+              }
+            }}
+            className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
+          >
+            <p className="font-bold text-vibe text-sm px-2">
+              {currentTopic?.title}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {post.text && (
+        <div className="px-4 py-2">
+          <p className="text-base text-justify leading-5 whitespace-pre-wrap">
+            {!showFull ? (
+              <>
+                {post.text.split(" ").slice(0, 40).join(" ")}{" "}
+                {post.text.split(" ").length > 40 && (
+                  <>
+                    ...{" "}
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowFull(true);
+                      }}
+                      className="cursor-pointer text-base font-light text-normal opacity-60"
+                    >
+                      see more
+                    </span>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                {post.text}{" "}
+                <span
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowFull(false);
+                  }}
+                  className="cursor-pointer text-base font-light text-normal opacity-60"
+                >
+                  see less
+                </span>
+              </>
+            )}
           </p>
         </div>
-      </div>
-
-      <div className="px-4 py-2">
-        <p className="text-base text-justify leading-5 whitespace-pre-wrap">
-          {!showFull ? (
-            <>
-              {post.text.split(" ").slice(0, 40).join(" ")}{" "}
-              {post.text.split(" ").length > 40 && (
-                <>
-                  ...{" "}
-                  <span
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowFull(true);
-                    }}
-                    className="cursor-pointer text-base font-light text-normal opacity-60"
-                  >
-                    see more
-                  </span>
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              {post.text}{" "}
-              <span
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowFull(false);
-                }}
-                className="cursor-pointer text-base font-light text-normal opacity-60"
-              >
-                see less
-              </span>
-            </>
-          )}
-        </p>
-      </div>
+      )}
 
       {post.embed?.id && post.files && post.files.length > 0 ? (
         <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-[var(--color-secondary)]/80 active:bg-[var(--color-secondary)]/80">

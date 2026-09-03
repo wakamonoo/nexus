@@ -25,7 +25,8 @@ if (APP_ENV === "production") {
 export default function EditProfileModal({ setShowEditProfileModal, user }) {
   const { setUser, setAllUsers } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const [showConfirmAccountDeleteModal, setShowConfirmAccountDeleteModal] = useState(false);
+  const [showConfirmAccountDeleteModal, setShowConfirmAccountDeleteModal] =
+    useState(false);
   const [data, setData] = useState({
     userImage: user?.picture,
     userName: user?.name,
@@ -62,6 +63,31 @@ export default function EditProfileModal({ setShowEditProfileModal, user }) {
             body: formData,
           },
         );
+
+        if (!cloudRes.ok) {
+          const errorData = await cloudRes.json();
+
+          if (cloudRes.status === 413) {
+            Swal.fire({
+              toast: true,
+              position: "bottom-start",
+              title: "file too large, 50 MB maximum per file!",
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+              background: "var(--color-secondary)",
+              iconColor: "var(--color-accent)",
+              customClass: {
+                popup:
+                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                title:
+                  "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+              },
+            });
+            return;
+          }
+          throw new Error(errorData.error || "Upload failed");
+        }
 
         const cloudData = await cloudRes.json();
         imageURL = cloudData.url;

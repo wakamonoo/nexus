@@ -50,6 +50,31 @@ export default function AddPostModal({ setShowAddPostModal }) {
           body: formData,
         });
 
+        if (!uploadRes.ok) {
+          const errorData = await uploadRes.json();
+
+          if (uploadRes.status === 413) {
+            Swal.fire({
+              toast: true,
+              position: "bottom-start",
+              title: "file too large, 50 MB maximum per file!",
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+              background: "var(--color-secondary)",
+              iconColor: "var(--color-accent)",
+              customClass: {
+                popup:
+                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                title:
+                  "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+              },
+            });
+            return;
+          }
+          throw new Error(errorData.error || "Upload failed");
+        }
+
         const { urls } = await uploadRes.json();
         uploadedUrls = urls;
       }
@@ -202,43 +227,48 @@ export default function AddPostModal({ setShowAddPostModal }) {
             )}
             {post.file && post.file.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-2">
-                {Array.from(post.file).map((file, index) => (
-                  <div key={index} className="w-20 h-20 relative">
-                    {file.type.startsWith("image/") ? (
-                      <img
-                        src={URL.createObjectURL(file)}
-                        alt={`preivew-${index}`}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-full object-cover rounded"
-                      />
-                    ) : (
-                      <video
-                        src={URL.createObjectURL(file)}
-                        alt={`preivew-${index}`}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="w-full h-full object-cover rounded"
-                      />
-                    )}
-                    <div className="absolute top-1 right-1">
-                      <button
-                        onClick={() => {
-                          const filesArray = Array.from(post.file);
-                          filesArray.splice(index, 1);
-                          setPost({
-                            ...post,
-                            file: filesArray.length ? filesArray : null,
-                          });
-                        }}
-                        className="cursor-pointer"
-                      >
-                        <FaTrash className="text-base" />
-                      </button>
+                {Array.from(post.file).map((file, index) => {
+                  const previewSrc =
+                    typeof file === "string" ? file : URL.createObjectURL(file);
+
+                  return (
+                    <div key={index} className="w-20 h-20 relative">
+                      {file.type.startsWith("image/") ? (
+                        <img
+                          src={previewSrc}
+                          alt={`preivew-${index}`}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full h-full object-cover rounded"
+                        />
+                      ) : (
+                        <video
+                          src={previewSrc}
+                          alt={`preivew-${index}`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="w-full h-full object-cover rounded"
+                        />
+                      )}
+                      <div className="absolute top-1 right-1">
+                        <button
+                          onClick={() => {
+                            const filesArray = Array.from(post.file);
+                            filesArray.splice(index, 1);
+                            setPost({
+                              ...post,
+                              file: filesArray.length ? filesArray : null,
+                            });
+                          }}
+                          className="cursor-pointer"
+                        >
+                          <FaTrash className="text-base" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
             <div>

@@ -18,6 +18,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import CircledButtons from "@/components/buttons/circledBtns";
 import NavBar from "@/components/layout/essentials/navBar";
 import RegularButtons from "@/components/buttons/regBtns";
+import Swal from "sweetalert2";
 
 dayjs.extend(relativeTime);
 
@@ -174,6 +175,31 @@ export default function Citadel() {
           method: "POST",
           body: formData,
         });
+
+        if (!uploadRes.ok) {
+          const errorData = await uploadRes.json();
+
+          if (uploadRes.status === 413) {
+            Swal.fire({
+              toast: true,
+              position: "bottom-start",
+              title: "file too large, 50 MB maximum per file!",
+              icon: "error",
+              timer: 2000,
+              showConfirmButton: false,
+              background: "var(--color-secondary)",
+              iconColor: "var(--color-accent)",
+              customClass: {
+                popup:
+                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                title:
+                  "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+              },
+            });
+            return;
+          }
+          throw new Error(errorData.error || "Upload failed");
+        }
 
         const { urls } = await uploadRes.json();
         uploadedUrls = [...uploadedUrls, ...urls];
@@ -679,13 +705,24 @@ export default function Citadel() {
 
                     return (
                       <div key={index} className="w-20 h-20 relative">
-                        <img
-                          src={previewSrc}
-                          alt={`preivew-${index}`}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover rounded"
-                        />
+                        {file.type.startsWith("image/") ? (
+                          <img
+                            src={previewSrc}
+                            alt={`preivew-${index}`}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover rounded"
+                          />
+                        ) : (
+                          <video
+                            src={previewSrc}
+                            alt={`preivew-${index}`}
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-full h-full object-cover rounded"
+                          />
+                        )}
                         <div className="absolute top-1 right-1">
                           <button
                             onClick={() => {

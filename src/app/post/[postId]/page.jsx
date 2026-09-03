@@ -387,25 +387,27 @@ export default function Post() {
                         </p>
                       </div>
                     </div>
-                    <div className="px-4">
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsLoading(true);
-                          router.push(`/posts/${post?.topicId}`);
-                        }}
-                        className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)] ${
-                          currentTopic ? "block" : "hidden"
-                        }`}
-                      >
-                        <p className="font-bold text-vibe text-sm px-2">
-                          {currentTopic?.title}
-                        </p>
+                    {currentTopic && (
+                      <div className="px-4">
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsLoading(true);
+                            router.push(`/posts/${post?.topicId}`);
+                          }}
+                          className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
+                        >
+                          <p className="font-bold text-vibe text-sm px-2">
+                            {currentTopic?.title}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <p className="text-base text-normal leading-5 py-2 px-4 whitespace-pre-wrap">
-                      {post?.text}
-                    </p>
+                    )}
+                    {post?.text && (
+                      <p className="text-base text-normal leading-5 py-2 px-4 whitespace-pre-wrap">
+                        {post?.text}
+                      </p>
+                    )}
 
                     {post.embed?.id && post.files && post.files.length > 0 ? (
                       <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-[var(--color-secondary)]/80 active:bg-[var(--color-secondary)]/80">
