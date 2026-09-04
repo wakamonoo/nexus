@@ -170,8 +170,6 @@ export default function EditListModal({ list, setShowEditListModal }) {
         ),
       );
 
-      setShowEditListModal(false);
-
       Swal.fire({
         toast: true,
         position: "bottom-start",

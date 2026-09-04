@@ -1,6 +1,6 @@
 "use client";
-import { useContext, useState } from "react";
-import { MdClose, } from "react-icons/md";
+import { useContext, useRef, useState } from "react";
+import { MdClose } from "react-icons/md";
 import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
@@ -9,6 +9,7 @@ import { ListContext } from "@/context/listContext";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import SortableList from "../dnd/sortableList";
+import { RiArrowDownWideFill, RiArrowUpWideFill } from "react-icons/ri";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -37,6 +38,7 @@ export default function FinalizeListOrderModal({
   const { setIsLoading } = useContext(LoaderContext);
   const [items, setItems] = useState(() => selected);
   const { setLists } = useContext(ListContext);
+  const scrollRef = useRef(null);
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -115,6 +117,7 @@ export default function FinalizeListOrderModal({
     } finally {
       setIsLoading(false);
       setShowFinalizeListOrderModal(false);
+      setShowAddListModal(false);
     }
   };
 
@@ -156,8 +159,6 @@ export default function FinalizeListOrderModal({
         ),
       );
 
-      setShowEditListModal(false);
-
       Swal.fire({
         toast: true,
         position: "bottom-start",
@@ -194,7 +195,26 @@ export default function FinalizeListOrderModal({
       });
     } finally {
       setIsLoading(false);
+      setShowFinalizeListOrderModal(false);
       setShowEditListModal(false);
+    }
+  };
+
+  const handleScrollUp = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        top: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollDown = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        top: 200,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -206,7 +226,7 @@ export default function FinalizeListOrderModal({
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative flex flex-col w-full max-w-2xl max-h-[90vh] overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
+          className="relative flex flex-col w-full max-w-2xl h-[90vh] overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
           <div className="flex items-center justify-between border-b border-panel p-4">
             <h1 className="text-base font-bold text-normal">Finalize order</h1>
@@ -220,32 +240,51 @@ export default function FinalizeListOrderModal({
               <MdClose className="text-xl" />
             </button>
           </div>
-          <div className="p-4 flex-1 overflow-y-auto custom-scroll">
-            <DndContext
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
+          <div className="flex-1 relative min-h-0">
+            <div
+              ref={scrollRef}
+              className="p-4 h-full overflow-y-auto custom-scroll"
             >
-              <SortableContext items={items.map((item) => item.titleId)}>
-                <div className="flex flex-col gap-2">
-                  {items.map((item, index) => {
-                    const title = titles.find(
-                      (t) => t.titleId === item.titleId,
-                    );
+              <DndContext
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext items={items.map((item) => item.titleId)}>
+                  <div className="flex flex-col gap-2">
+                    {items.map((item, index) => {
+                      const title = titles.find(
+                        (t) => t.titleId === item.titleId,
+                      );
 
-                    if (!title) return null;
+                      if (!title) return null;
 
-                    return (
-                      <SortableList
-                        key={item.titleId}
-                        item={item}
-                        index={index}
-                        title={title}
-                      />
-                    );
-                  })}
-                </div>
-              </SortableContext>
-            </DndContext>
+                      return (
+                        <SortableList
+                          key={item.titleId}
+                          item={item}
+                          index={index}
+                          title={title}
+                        />
+                      );
+                    })}
+                  </div>
+                </SortableContext>
+              </DndContext>
+            </div>
+            <div className="absolute flex md:hidden flex-col p-2 bg-second divide-y divide-[var(--color-panel)] rounded right-6 bottom-4">
+              <button
+                onClick={handleScrollUp}
+                className="cursor-pointer active:text-[var(--color-accent)]"
+              >
+                <RiArrowUpWideFill className="text-2xl shrink-0" />
+              </button>
+              <button
+                onClick={handleScrollDown}
+                className="cursor-pointer active:text-[var(--color-accent)]"
+              >
+                <RiArrowDownWideFill className="text-2xl shrink-0" />
+              </button>
+            </div>
           </div>
 
           <div className="flex border-t border-panel p-4">
@@ -253,10 +292,8 @@ export default function FinalizeListOrderModal({
               onClick={() => {
                 if (mode === "add") {
                   handleSubmitList();
-                  setShowAddListModal(false);
                 } else {
                   handleUpdateList();
-                  setShowEditListModal(false);
                 }
               }}
               disabled={!listTitle.trim() || items.length === 0}

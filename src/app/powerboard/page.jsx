@@ -299,7 +299,7 @@ export default function Powerboard() {
                 : "block"
             }`}
           >
-            <RiArrowLeftWideFill className="text-2xl" />
+            <RiArrowLeftWideFill className="text-2xl shrink-0" />
           </button>
           <button
             onClick={handleScrollRight}
@@ -309,7 +309,7 @@ export default function Powerboard() {
                 : "block"
             }`}
           >
-            <RiArrowRightWideFill className="text-2xl" />
+            <RiArrowRightWideFill className="text-2xl shrink-0" />
           </button>
           <div
             ref={scrollRef}
