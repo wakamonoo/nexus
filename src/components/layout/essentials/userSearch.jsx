@@ -4,7 +4,6 @@ import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/loaders/searchLoader";
 import Avatar from "@/assets/defaultAvatar.png";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/context/userContext";
 import { LoaderContext } from "@/context/loaderContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -116,14 +115,14 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                     alt={profile.name}
                     loading="lazy"
                     decoding="async"
-                    className="w-12 h-12 object-fill rounded-full"
+                    className="w-12 h-12 object-fill rounded-full shrink-0"
                   />
-                  <div className="flex flex-col">
-                    <p className="text-normal text-base font-bold truncate">
+                  <div className="flex flex-col min-w-0">
+                    <p className="text-normal text-base font-bold truncate leading-tight">
                       {profile.name}
                     </p>
-                    <p className="text-vibe text-sm truncate w-64">
-                      {profile.bio || null}
+                    <p className="text-vibe opacity-60 text-xs truncate">
+                      {profile.bio}
                     </p>
                   </div>
                 </div>

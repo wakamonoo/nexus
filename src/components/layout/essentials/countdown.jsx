@@ -14,7 +14,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function Countdown() {
-  const { titles, pageLoad } = useContext(TitleContext);
+  const { titles, titlesLoad } = useContext(TitleContext);
   const [now, setNow] = useState(dayjs.utc());
   const [globalShow, setGlobalShow] = useState(true);
   const [localShow, setLocalShow] = useState(false);
@@ -64,7 +64,7 @@ export default function Countdown() {
 
   const displayTitle = showReleased ? latestRelased : nextUpcomming;
 
-  if (pageLoad) {
+  if (titlesLoad) {
     return (
       <div className="mt-2 w-full">
         <CountdownLoader />

@@ -38,10 +38,12 @@ export default function Lists() {
           <h4 className="text-xl">Lists</h4>
         </div>
         <div className="w-full flex flex-col items-center justify-center">
-          <h1 className="text-xl font-bold tracking-tight">Bring titles together</h1>
+          <h1 className="text-xl font-bold tracking-tight">
+            Give titles a place
+          </h1>
           <p className="max-w-xl text-sm text-vibe text-center">
-            Some titles just belong together. Put them in one place and share
-            the idea behind them.
+            Some titles share a story, theme, character, or idea. Put them in a
+            list and share what connects them.
           </p>
 
           <div className="w-fit mt-2">
