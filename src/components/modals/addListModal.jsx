@@ -11,6 +11,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 import RegularButtons from "../buttons/regBtns";
 import { ListContext } from "@/context/listContext";
+import FinalizeListOrderModal from "./finalizeListOrderModal";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -121,6 +122,8 @@ export default function AddListModal({ user, setShowAddListModal }) {
   const [loading, setLoading] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const { setLists } = useContext(ListContext);
+  const [showFinalizeListOrderModal, setShowFinalizeListOrderModal] =
+    useState(false);
 
   const handleSubmitList = async () => {
     try {
@@ -369,7 +372,14 @@ export default function AddListModal({ user, setShowAddListModal }) {
               </div>
             )}
           </div>
-          <div className="flex border-t border-panel p-4">
+          <div className="flex flex-col md:flex-row md:gap-2 border-t border-panel p-4">
+            <RegularButtons
+              onClick={() => {
+                setShowFinalizeListOrderModal(true);
+              }}
+            >
+              <p className="font-bold text-normal text-base">Finalize Order</p>
+            </RegularButtons>
             <RegularButtons
               onClick={handleSubmitList}
               disabled={!listTitle.trim() || selected.length === 0}
@@ -379,6 +389,17 @@ export default function AddListModal({ user, setShowAddListModal }) {
           </div>
         </div>
       </div>
+      {showFinalizeListOrderModal && (
+        <FinalizeListOrderModal
+          mode="add"
+          user={user}
+          selected={selected}
+          listTitle={listTitle}
+          listDescription={listDescription}
+          setShowFinalizeListOrderModal={setShowFinalizeListOrderModal}
+          setShowAddListModal={setShowAddListModal}
+        />
+      )}
     </>
   );
 }
