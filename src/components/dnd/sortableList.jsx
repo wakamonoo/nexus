@@ -18,7 +18,7 @@ export default function SortableList({ item, index, title }) {
       style={style}
       {...attributes}
       {...listeners}
-      className="flex items-center gap-2 cursor-pointer bg-panel rounded p-2"
+      className="flex items-center gap-2 cursor-pointer bg-panel rounded p-2 touch-none"
     >
       <div className="opacity-80 p-2 h-8 w-8 flex items-center justify-center rounded-full bg-accent">
         <p className="font-bold text-lg">{index + 1}</p>
@@ -34,7 +34,7 @@ export default function SortableList({ item, index, title }) {
         decoding="async"
         className="w-26 h-40 object-fill rounded"
       />
-      <div className="flex flex-col">
+      <div className="flex flex-col min-w-0">
         <p className="text-base font-bold truncate">{title.title}</p>
         <span className="text-xs text-vibe opacity-60 line-clamp-2">
           {item.note}

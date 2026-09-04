@@ -395,6 +395,7 @@ export default function EditListModal({ list, setShowEditListModal }) {
               onClick={() => {
                 setShowFinalizeListOrderModal(true);
               }}
+              disabled={!listTitle.trim() || selected.length === 0}
             >
               <p className="font-bold text-normal text-base">Finalize Order</p>
             </RegularButtons>
