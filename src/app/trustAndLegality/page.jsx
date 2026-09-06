@@ -9,11 +9,11 @@ const sections = [
     content: (
       <>
         <p>
-          nexus is an independent, fan-made project created for entertainment,
+          Nexus is an independent, fan-made project created for entertainment,
           discussion, and informational purposes.
         </p>
         <p>
-          nexus not affiliated with, sponsored by, or in any way officially
+          Nexus not affiliated with, sponsored by, or in any way officially
           connected to{" "}
           <a
             href="https://www.marvel.com"
@@ -37,12 +37,12 @@ const sections = [
         <p>
           All Marvel-related trademarks, character names, titles, logos, and
           other intellectual property remain the property of their respective
-          owners. nexus makes no claim of ownership over third-party
+          owners. Nexus makes no claim of ownership over third-party
           intellectual property.
         </p>
         <p>
           The original code, systems, tools, design, and written content created
-          for nexus belong to its developer and are provided as part of this
+          for Nexus belong to its developer and are provided as part of this
           independent fan project.
         </p>
       </>
@@ -85,10 +85,10 @@ const sections = [
         </p>
         <p>
           TMDB data helps power title discovery and information throughout
-          nexus. nexus does not claim ownership of this third-party data.
+          Nexus. Nexus does not claim ownership of this third-party data.
         </p>
         <p>
-          nexus is not affiliated with, endorsed, sponsored, or certified by
+          Nexus is not affiliated with, endorsed, sponsored, or certified by
           TMDB. TMDB names, logos, and trademarks belong to their respective
           owners.
         </p>
@@ -101,7 +101,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus may display content, metadata, artwork, links, or other
+          Nexus may display content, metadata, artwork, links, or other
           materials provided by third-party services.
         </p>
         <p>
@@ -109,7 +109,7 @@ const sections = [
           their respective owners and providers.
         </p>
         <p>
-          If you believe the content displayed on nexus infringes your rights
+          If you believe the content displayed on Nexus infringes your rights
           please{" "}
           <a href="/recommendations">
             <strong>contact me</strong>
@@ -131,7 +131,7 @@ export default function TrustAndLegality() {
             Trust & Legality
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-7 opacity-60">
-            Information about nexus, third-party intellectual property, and
+            Information about Nexus, third-party intellectual property, and
             external services used by the platform
           </p>
           <p className="text-xs">
@@ -141,7 +141,7 @@ export default function TrustAndLegality() {
         </header>
         <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
           <p className="text-sm leading-7 opacity-60">
-            nexus is an independent fan project and is not an official Marvel,
+            Nexus is an independent fan project and is not an official Marvel,
             Disney, or TMDB platform.
           </p>
         </div>

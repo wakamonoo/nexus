@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="border-t border-2 border-[var(--color-secondary)] flex-1" />
         <Image
           src={alt}
-          alt="nexus"
+          alt="Nexus"
           width={0}
           height={0}
           sizes="100vw"
@@ -21,7 +21,7 @@ export default function Footer() {
       </div>
       <div className="px-4 py-2 items-center justify-center">
         <p className="mx-auto max-w-5xl text-xs text-vibe text-center">
-          nexus is a fan-made, unofficial project and is not affiliated with,
+          Nexus is a fan-made, unofficial project and is not affiliated with,
           endorsed by, or sponsored by{" "}
           <a
             href="https://www.marvel.com/"
@@ -69,11 +69,11 @@ export default function Footer() {
           onClick={() => router.push("/heroFund")}
           className="mx-auto max-w-5xl text-xs text-vibe opacity-60 text-center mt-2 cursor-pointer hover:opacity-100 active:opacity-100"
         >
-          support nexus and help keep the community alive, growing, and free for
+          support Nexus and help keep the community alive, growing, and free for
           everyone
         </p>
         <p className="mx-auto max-w-5xl text-xs text-vibe opacity-60 text-center mt-2">
-          © 2025 - {new Date().getFullYear()} nexus. Built by a marvel fan, for
+          © 2025 - {new Date().getFullYear()} Nexus. Built by a marvel fan, for
           the community.
         </p>
       </div>

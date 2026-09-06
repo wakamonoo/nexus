@@ -40,11 +40,11 @@ const orbitron = Orbitron({
 // Metadata
 export const metadata = {
   title: {
-    default: "nexus • Marvel Watch Tracker & MCU Watch Order",
-    template: "%s • nexus",
+    default: "Nexus • Marvel Watch Tracker & MCU Watch Order",
+    template: "%s • Nexus",
   },
   description:
-    "Track your Marvel journey with nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
+    "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
 
   keywords: [
     "Marvel Watch Tracker",
@@ -71,7 +71,7 @@ export const metadata = {
     "Marvel Fan Hub",
     "Marvel Fan Portal",
     "MCU Companion",
-    "nexus",
+    "Nexus",
     "Marvel",
     "Marvel Cinematic Universe",
     "MCU",
@@ -82,9 +82,9 @@ export const metadata = {
     { name: "Joven Bataller", url: "https://wakamonoo.site" },
   ],
   creator: "Joven Bataller",
-  publisher: "nexus",
+  publisher: "Nexus",
 
-  applicationName: "nexus",
+  applicationName: "Nexus",
 
   category: "Entertainment",
 
@@ -110,11 +110,11 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "nexus • Marvel Watch Tracker & MCU Watch Order",
+    title: "Nexus • Marvel Watch Tracker & MCU Watch Order",
     description:
-      "Track your Marvel journey with nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
+      "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
     url: "https://ournexus.space",
-    siteName: "nexus",
+    siteName: "Nexus",
     locale: "en-US",
     type: "website",
     images: [
@@ -128,9 +128,9 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "nexus • Marvel Watch Tracker & MCU Watch Order",
+    title: "Nexus • Marvel Watch Tracker & MCU Watch Order",
     description:
-      "Track your Marvel journey with nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
+      "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
     images: "https://i.imgur.com/WCCf5AW.png",
   },
 

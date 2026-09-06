@@ -11,7 +11,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus began as my personal guide while rewatching the entire{" "}
+          Nexus began as my personal guide while rewatching the entire{" "}
           <strong>Marvel Cinematic Universe (MCU)</strong> in chronological
           order. At the time, it was called <strong>616-Initiative</strong>
         </p>
@@ -26,7 +26,7 @@ const sections = [
           what they've watched, share their opinions, and connect with others.
         </p>
         <p>
-          The website was eventually rebranded as <strong>nexus</strong>.
+          The website was eventually rebranded as <strong>Nexus</strong>.
         </p>
       </>
     ),
@@ -37,18 +37,18 @@ const sections = [
     content: (
       <>
         <p>
-          nexus is an independent fan community platform built around the{" "}
+          Nexus is an independent fan community platform built around the{" "}
           <strong>Marvel Cinematic Universe</strong>, providing tools to make
           exploring, tracking, and discussing its stories more organized and
           personal.
         </p>
         <p>
-          As the platform grew, nexus expanded beyond the MCU to include
+          As the platform grew, Nexus expanded beyond the MCU to include
           selected Marvel stories from other continuities, universes, timelines
           and eras.
         </p>
         <p>
-          The MCU remains at the heart of nexus, while its extended collection
+          The MCU remains at the heart of Nexus, while its extended collection
           gives fans a broader way to explore the Marvel stories connected to,
           adjacent to, or existing beyond it.
         </p>
@@ -61,7 +61,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus combines discovery, tracking, and community features designed
+          Nexus combines discovery, tracking, and community features designed
           primarily for MCU fans, with additional tools for exploring Marvel
           stories beyond the MCU.
         </p>
@@ -107,14 +107,14 @@ const sections = [
     content: (
       <>
         <p>
-          nexus is designed around the idea that there is no single correct way
+          Nexus is designed around the idea that there is no single correct way
           to experience the MCU.
         </p>
 
         <p>
           Whether you're following the MCU in release order, exploring
           chronology, building your personal ranking, or venturing into Marvel
-          stories beyond the MCU, nexus gives you the tools to create your own
+          stories beyond the MCU, Nexus gives you the tools to create your own
           journey.
         </p>
       </>
@@ -126,7 +126,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus is independently created and developed by{" "}
+          Nexus is independently created and developed by{" "}
           <strong>wakamonoo</strong> as a fan project.
         </p>
         <p>
@@ -162,7 +162,7 @@ export default function About() {
         </header>
         <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
           <p className="text-sm leading-7 opacity-60">
-            nexus is an independent fan project created to make exploring
+            Nexus is an independent fan project created to make exploring
             Marvel's many stories, timelines, and universes more personal and
             interactive.
           </p>

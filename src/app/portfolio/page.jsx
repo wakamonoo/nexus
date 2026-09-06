@@ -55,8 +55,8 @@ export default function Portfolio() {
 
         link.download =
           pages.length > 1
-            ? `${user.name}-nexus-collection-${index + 1}.png`
-            : `${user.name}-nexus-collection.png`;
+            ? `${user.name}_Nexus-Collection_${index + 1}.png`
+            : `${user.name}_Nexus_Collection.png`;
 
         link.href = dataUrl;
 

@@ -26,7 +26,7 @@ export default function Sigil() {
         <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
           <p className="text-sm leading-7 opacity-60">
             Earn sigils through your activity, achievements, and your journey
-            across nexus.
+            across Nexus.
           </p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-2 py-4">

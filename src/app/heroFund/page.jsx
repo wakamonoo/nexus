@@ -17,7 +17,7 @@ const sections = [
     title: "Why I Need Your Support",
     content: (
       <p>
-        nexus is independently built and maintained as a fan project. The
+        Nexus is independently built and maintained as a fan project. The
         platform currently relies on free-tier services, but keeping it
         available and improving it over time comes with ongoing costs
       </p>
@@ -29,7 +29,7 @@ const sections = [
     content: (
       <>
         <p>
-          Donations help cover the services and infrastracture that keep nexus
+          Donations help cover the services and infrastracture that keep Nexus
           running, including
         </p>
         <ul className="space-y-2">
@@ -67,7 +67,7 @@ const sections = [
     content: (
       <>
         <p>
-          If you've found nexus useful or simply want to help keep the project
+          If you've found Nexus useful or simply want to help keep the project
           going, you can support its development through GCash, PayPal or Ko-fi.
         </p>
         <p>
@@ -95,7 +95,7 @@ export default function HeroFund() {
     script.onload = () => {
       if (window.kofiwidget2) {
         window.kofiwidget2.init(
-          "support nexus on kofi",
+          "support Nexus on kofi",
           "#ed1d24",
           "U5F225NGUC",
         );
@@ -127,7 +127,7 @@ export default function HeroFund() {
         </header>
         <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
           <p className="text-sm leading-7 opacity-60">
-            nexus is an independent fan project. Your support helps cover the
+            Nexus is an independent fan project. Your support helps cover the
             infrastracture's needs to keep the platform available and growing.
           </p>
         </div>

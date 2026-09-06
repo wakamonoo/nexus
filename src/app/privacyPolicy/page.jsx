@@ -10,7 +10,7 @@ const sections = [
     title: "Overview",
     content: (
       <p>
-        This Privacy Policy explains how <strong>nexus</strong> collects, uses,
+        This Privacy Policy explains how <strong>Nexus</strong> collects, uses,
         and protests information when you use the platform.
       </p>
     ),
@@ -20,7 +20,7 @@ const sections = [
     title: "Information We Collect",
     content: (
       <>
-        <p>Depending on how you use nexus, we may collect:</p>
+        <p>Depending on how you use Nexus, we may collect:</p>
         <ul className="space-y-2">
           <li className={listItemClass}>
             Google account name, email, profile photo, and account ID
@@ -52,7 +52,7 @@ const sections = [
       <>
         <p>Your information is used to:</p>
         <ul className="space-y-2">
-          <li className={listItemClass}>Provide and maintain nexus features</li>
+          <li className={listItemClass}>Provide and maintain Nexus features</li>
           <li className={listItemClass}>
             Manage accounts, profiles, and personalized features
           </li>
@@ -73,7 +73,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus relies on third-party services to operate certain features,
+          Nexus relies on third-party services to operate certain features,
           including:
         </p>
         <ul className="space-y-2">
@@ -98,7 +98,7 @@ const sections = [
     title: "Data Retention & Deletion",
     content: (
       <p>
-        You may request deletion of your nexus account. We will take reasonable
+        You may request deletion of your Nexus account. We will take reasonable
         steps to remove or anonimyze associated personal information and account
         data. Some information may remain temporarily in backups or logs where
         immediate deletion is not technically practical.
@@ -110,7 +110,7 @@ const sections = [
     title: "Data Security",
     content: (
       <p>
-        nexus uses reasonable technical measures to protect your information.
+        Nexus uses reasonable technical measures to protect your information.
         However, no online service can guarantee complete security. Avoid
         sharing sensitive personal information through public community
         features.
@@ -122,7 +122,7 @@ const sections = [
     title: "Children's Privacy",
     content: (
       <p>
-        nexus is intended for users <strong>10 years of age or older</strong>.
+        Nexus is intended for users <strong>10 years of age or older</strong>.
         If we become aware that an account belongs to someone below the
         applicable minimum age, reasonable steps will be taken to remove the
         account and associated personal information.
@@ -134,7 +134,7 @@ const sections = [
     title: "Changes to This Policy",
     content: (
       <p>
-        This Privacy Policy may be updated as nexus and its data practices
+        This Privacy Policy may be updated as Nexus and its data practices
         change. Updates will be reflected on this page with a revised{" "}
         <strong>Last Updated</strong> date.
       </p>
@@ -165,7 +165,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-7 opacity-60">
-            How nexus collects, uses, and protects information when you use the
+            How Nexus collects, uses, and protects information when you use the
             platform.
           </p>
           <p className="text-xs">
@@ -175,7 +175,7 @@ export default function PrivacyPolicy() {
         </header>
         <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
           <p className="text-sm leading-7 opacity-60">
-            This policy explains what information nexus collects and how it is
+            This policy explains what information Nexus collects and how it is
             used.
           </p>
         </div>

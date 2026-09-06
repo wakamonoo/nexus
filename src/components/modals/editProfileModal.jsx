@@ -229,7 +229,7 @@ export default function EditProfileModal({ setShowEditProfileModal, user }) {
                       name="userName"
                       value={data.userName}
                       onChange={handleChange}
-                      placeholder="Enter your nexus alias..."
+                      placeholder="Enter your Nexus alias..."
                       className="bg-panel p-2 w-full rounded"
                     />
                   </div>

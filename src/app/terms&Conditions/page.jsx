@@ -10,8 +10,8 @@ const sections = [
     title: "Introduction",
     content: (
       <p>
-        Welcome to <strong>nexus</strong>, an independet fan community platform
-        created and developed by <strong>wakamonoo</strong>. nexus provides
+        Welcome to <strong>Nexus</strong>, an independet fan community platform
+        created and developed by <strong>wakamonoo</strong>. Nexus provides
         tools for exploring, tracking, organizing, discussing and discovering
         Marvel-related stories accross different continuities, universes,
         timelines and eras.
@@ -25,11 +25,11 @@ const sections = [
   },
   {
     number: "02",
-    title: "Use of nexus",
+    title: "Use of Nexus",
     content: (
       <>
         <p>
-          nexus provides variety of fan-oriented features, which may include:
+          Nexus provides variety of fan-oriented features, which may include:
         </p>
         <ul className="space-y-2">
           <li className={listItemClass}>Marvel title discovery and information</li>
@@ -50,8 +50,8 @@ const sections = [
         </ul>
         <p>Featurs may be added, modified, limited, or removed at any time.</p>
         <p>
-          Information displayed on nexus may contain inaccuracies, omissions, or
-          outdated information. nexus does not guarantee that release dates,
+          Information displayed on Nexus may contain inaccuracies, omissions, or
+          outdated information. Nexus does not guarantee that release dates,
           information, or other title information will always be complete or
           accurate.
         </p>
@@ -64,7 +64,7 @@ const sections = [
     content: (
       <>
         <p>
-          Certain nexus features require an account or authentication through
+          Certain Nexus features require an account or authentication through
           supported third-party services.
         </p>
         <p>
@@ -80,12 +80,12 @@ const sections = [
             Misinterpret themselves for the purpose of deceiving other users
           </li>
           <li className={listItemClass}>
-            Attempt to compromise, disrupt, or interfere with nexus or its
+            Attempt to compromise, disrupt, or interfere with Nexus or its
             services
           </li>
         </ul>
         <p>
-          nexus may restrict, suspend, or terminate accounts that violate these
+          Nexus may restrict, suspend, or terminate accounts that violate these
           Terms or threaten the safety or intergrety of the platform.
         </p>
       </>
@@ -99,7 +99,7 @@ const sections = [
         <p>
           Users may submit content including posts, comments, reviews, rankings,
           lists, messages, profile information, images, and other materials
-          supported by nexus.
+          supported by Nexus.
         </p>
         <p>
           You remain responsible for the content you submit and must have the
@@ -117,11 +117,11 @@ const sections = [
           <li className={listItemClass}>Attempts to deceive, defraud, or manipulate other users</li>
           <li className={listItemClass}>Impersonates another personn or organization</li>
           <li className={listItemClass}>Contains exessive spam or disruptive material</li>
-          <li className={listItemClass}>Attempts to exploit, attack, or compromise nexus or its users</li>
+          <li className={listItemClass}>Attempts to exploit, attack, or compromise Nexus or its users</li>
           <li className={listItemClass}>Violates applicable laws or regulations</li>
         </ul>
         <p>
-          nexus reserves the right to remove content that violates these Terms
+          Nexus reserves the right to remove content that violates these Terms
           or is otherwise harmful to the community.
         </p>
       </>
@@ -133,7 +133,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus is intended to provide a respectful space for Marvel fans to
+          Nexus is intended to provide a respectful space for Marvel fans to
           discuss stories, share opinions, create lists, participate in
           rankings, and interact with other members.
         </p>
@@ -151,7 +151,7 @@ const sections = [
         <p>
           Community rankings, statistics, lists, reviews, and other
           user-generated information represents the opinions and activities of
-          individual user and do not necessarily represent the views of nexus.
+          individual user and do not necessarily represent the views of Nexus.
         </p>
       </>
     ),
@@ -162,7 +162,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus may provide public chat, comments, notifications, and other
+          Nexus may provide public chat, comments, notifications, and other
           communication features.
         </p>
         <p>Users are responsible for their interactions with other members.</p>
@@ -183,7 +183,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus may provide AI-assisted features intended to help users
+          Nexus may provide AI-assisted features intended to help users
           discover, organize, understand, or interact with Marvel-related
           information.
         </p>
@@ -206,7 +206,7 @@ const sections = [
     content: (
       <>
         <p>
-          nexus may rely on third-party services, APIs, authentication
+          Nexus may rely on third-party services, APIs, authentication
           providers, hosting providers, media services, databases, and other
           external technologies.
         </p>
@@ -215,7 +215,7 @@ const sections = [
           privacy policies, limitations and availability.
         </p>
         <p>
-          nexus is not responsible for outages, changes, errors, or policies of
+          Nexus is not responsible for outages, changes, errors, or policies of
           third party services outside of its reasonable control.
         </p>
       </>
@@ -226,16 +226,16 @@ const sections = [
     title: "User Content & Licensing",
     content: (
       <>
-        <p>You retain ownership of content that you submit to nexus.</p>
+        <p>You retain ownership of content that you submit to Nexus.</p>
         <p>
-          By submitting content to nexus, you grant nexus a non-exclusive,
+          By submitting content to Nexus, you grant Nexus a non-exclusive,
           worldwide, royalty-free license to store, reproduce, process, display,
           and distribute that content as reasonably necessary to operate the
           platform and provide its features.
         </p>
         <p>
           This license does not transfer ownership of your original content to
-          nexus.
+          Nexus.
         </p>
         <p>
           You are responsible for ensuring that the content you submit does not
@@ -250,11 +250,11 @@ const sections = [
     content: (
       <>
         <p>
-          nexus is provided on an <strong>"as is"</strong> and{" "}
+          Nexus is provided on an <strong>"as is"</strong> and{" "}
           <strong>"as available"</strong>basis.
         </p>
         <p>
-          Whilre reasonable efforts may be made to maintain the site, nexus does
+          Whilre reasonable efforts may be made to maintain the site, Nexus does
           not guarantee that the platform will always be available,
           uninterrupted, secure, or error-free.
         </p>
@@ -263,7 +263,7 @@ const sections = [
           removed.
         </p>
         <p>
-          nexus may experience interuptions cause by maintenance, hosting
+          Nexus may experience interuptions cause by maintenance, hosting
           limitations, third-party service failures, technicahl issues, or
           circumstances beyond developer's reasonable control.
         </p>
@@ -276,7 +276,7 @@ const sections = [
     content: (
       <>
         <p>
-          To the extent permitted by applicable law, nexus and its developer
+          To the extent permitted by applicable law, Nexus and its developer
           shall not be liable for damages, losses, interruptions, data loss, or
           other consequences resulting from the use of or inability to use the
           site.
@@ -286,16 +286,16 @@ const sections = [
           <li className={listItemClass}>Website interuptions or downtime</li>
           <li className={listItemClass}>Third-party servuces failure</li>
           <li className={listItemClass}>Loss or corruption of user-generated content</li>
-          <li className={listItemClass}>Errors or inaccuracies in information displayed on nexus</li>
+          <li className={listItemClass}>Errors or inaccuracies in information displayed on Nexus</li>
           <li className={listItemClass}>Community interactions or user user-generated content</li>
           <li className={listItemClass}>External websites or services</li>
           <li className={listItemClass}>AI-generated information</li>
           <li className={listItemClass}>
             Unauthorized access resulting from circumstances outside the
-            reasonable control of nexus
+            reasonable control of Nexus
           </li>
         </ul>
-        <p>Users access and use of nexus at their own discretion and risk.</p>
+        <p>Users access and use of Nexus at their own discretion and risk.</p>
       </>
     ),
   },
@@ -305,11 +305,11 @@ const sections = [
     content: (
       <>
         <p>
-          Users may request deletion of their nexus account where the relevant
+          Users may request deletion of their Nexus account where the relevant
           functionality is availbale.
         </p>
         <p>
-          Upon account deletion, nexus will take reasonable steps to remove or
+          Upon account deletion, Nexus will take reasonable steps to remove or
           anonymize personal account information and associated data, subject to
           technical limitations, legal requirements, security needs, and
           legitimate operational requirements.
@@ -330,7 +330,7 @@ const sections = [
     title: "Age Requirement",
     content: (
       <p>
-        nexus is intended for users who are{" "}
+        Nexus is intended for users who are{" "}
         <strong>10 years of age or older</strong>.
         <br />
         <br />
@@ -339,7 +339,7 @@ const sections = [
         parental or guardian involvement.
         <br />
         <br />
-        Parents or guardians are responsible for determaining whether nexus is
+        Parents or guardians are responsible for determaining whether Nexus is
         appropriate for a minor under their care.
       </p>
     ),
@@ -350,7 +350,7 @@ const sections = [
     content: (
       <p>
         These Terms and Conditions may be updated from time to time to reflect
-        changes to nexus, its features, applicable requirements, or the way
+        changes to Nexus, its features, applicable requirements, or the way
         platform operates.
         <br />
         <br />
@@ -358,7 +358,7 @@ const sections = [
         available through the site.
         <br />
         <br />
-        Continued use of nexus after updated Terms become effective constitutes
+        Continued use of Nexus after updated Terms become effective constitutes
         acceptance of the revised Terms, to the extent permitted by applicable
         law.
       </p>
@@ -369,7 +369,7 @@ const sections = [
     title: "Contact",
     content: (
       <p>
-        If you have questions, concerns, or other inquiries regarding nexus or
+        If you have questions, concerns, or other inquiries regarding Nexus or
         these Terms and Conditions, please{" "}
         <a href="/recommendations">
           <strong>contact me</strong>
@@ -391,7 +391,7 @@ export default function TermsAndConditions() {
             Terms & Conditions
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-7 opacity-60">
-            The rules and guidelines governing your use of the nexus community
+            The rules and guidelines governing your use of the Nexus community
             and its features.
           </p>
           <p className="text-xs">
@@ -401,7 +401,7 @@ export default function TermsAndConditions() {
         </header>
         <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
           <p className="text-sm leading-7 opacity-60">
-            Please read these Terms carefully before using nexus. By continuing
+            Please read these Terms carefully before using Nexus. By continuing
             to use the platform, you acknowledge that you have read and agree to
             these Terms.
           </p>
