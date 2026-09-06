@@ -271,16 +271,16 @@ export default function FinalizeListOrderModal({
                 </SortableContext>
               </DndContext>
             </div>
-            <div className="absolute flex md:hidden flex-col p-2 bg-second divide-y divide-[var(--color-panel)] rounded right-6 bottom-4">
+            <div className="absolute flex md:hidden flex-col p-2 bg-second border border-panel divide-y divide-[var(--color-panel)] rounded right-6 bottom-4 shadow-2xl">
               <button
                 onClick={handleScrollUp}
-                className="cursor-pointer active:text-[var(--color-accent)]"
+                className="cursor-pointer active:text-[var(--color-panel)]"
               >
                 <RiArrowUpWideFill className="text-2xl shrink-0" />
               </button>
               <button
                 onClick={handleScrollDown}
-                className="cursor-pointer active:text-[var(--color-accent)]"
+                className="cursor-pointer active:text-[var(--color-panel)]"
               >
                 <RiArrowDownWideFill className="text-2xl shrink-0" />
               </button>

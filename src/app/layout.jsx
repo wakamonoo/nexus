@@ -40,11 +40,11 @@ const orbitron = Orbitron({
 // Metadata
 export const metadata = {
   title: {
-    default: "nexus",
-    template: "%s | nexus",
+    default: "nexus • Marvel Watch Tracker & MCU Watch Order",
+    template: "%s • nexus",
   },
   description:
-    "An unofficial, fan-made Marvel companion for your journey through the MCU and beyond. Track everything you've watched, explore Marvel watch orders and timelines, build lists, rate and review movies and series, rank your favorites, and connect with fellow Marvel fans.",
+    "Track your Marvel journey with nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
 
   keywords: [
     "Marvel Watch Tracker",
@@ -71,7 +71,7 @@ export const metadata = {
     "Marvel Fan Hub",
     "Marvel Fan Portal",
     "MCU Companion",
-    "Nexus",
+    "nexus",
     "Marvel",
     "Marvel Cinematic Universe",
     "MCU",
@@ -110,9 +110,9 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "nexus",
+    title: "nexus • Marvel Watch Tracker & MCU Watch Order",
     description:
-      "An unofficial, fan-made Marvel companion for your journey through the MCU and beyond. Track everything you've watched, explore Marvel watch orders and timelines, build lists, rate and review movies and series, rank your favorites, and connect with fellow Marvel fans.",
+      "Track your Marvel journey with nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
     url: "https://ournexus.space",
     siteName: "nexus",
     locale: "en-US",
@@ -128,9 +128,9 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "nexus",
+    title: "nexus • Marvel Watch Tracker & MCU Watch Order",
     description:
-      "An unofficial, fan-made Marvel companion for your journey through the MCU and beyond. Track everything you've watched, explore Marvel watch orders and timelines, build lists, rate and review movies and series, rank your favorites, and connect with fellow Marvel fans.",
+      "Track your Marvel journey with nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
     images: "https://i.imgur.com/WCCf5AW.png",
   },
 

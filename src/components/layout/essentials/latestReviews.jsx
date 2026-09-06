@@ -161,7 +161,7 @@ export default function LatestReviews() {
         ) : (
           <div
             ref={carouselRef}
-            className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
+            className="flex items-center gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory"
           >
             {sortedReviews?.map((review, index) => {
               const title = titles.find((t) => t.titleId === review.titleId);

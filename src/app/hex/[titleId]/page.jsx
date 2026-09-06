@@ -4,13 +4,10 @@ import { TitleContext } from "@/context/titleContext";
 import { useParams } from "next/navigation";
 import {
   FaAngleLeft,
-  FaArrowUp,
   FaCrown,
   FaHourglassHalf,
-  FaPen,
   FaPlay,
   FaQuoteLeft,
-  FaTrash,
   FaVideoSlash,
 } from "react-icons/fa";
 import {
@@ -37,7 +34,6 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { RiLockFill } from "react-icons/ri";
 import ScrollContainer from "react-indiana-drag-scroll";
 import {
-  BiDotsHorizontal,
   BiDotsHorizontalRounded,
   BiDownvote,
   BiSolidDownvote,
@@ -46,7 +42,6 @@ import {
 } from "react-icons/bi";
 import Swal from "sweetalert2";
 import { SocketContext } from "@/context/socketContext";
-import CircledButtons from "@/components/buttons/circledBtns";
 import RegularButtons from "@/components/buttons/regBtns";
 
 dayjs.extend(relativeTime);
@@ -63,6 +58,8 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
+
+
 export default function Title() {
   const { reviewToDelete, setReviewToDelete } = useContext(TitleContext);
   const { titleId } = useParams();
@@ -74,7 +71,8 @@ export default function Title() {
   const [showAddReviewModal, setShowAddReviewModal] = useState(false);
   const [showTitleMenu, setShowTitleMenu] = useState(false);
   const { user, allUsers, setShowSignInModal } = useContext(UserContext);
-  const [showConfirmReviewDeleteModal, setShowConfirmReviewDeleteModal] = useState(false);
+  const [showConfirmReviewDeleteModal, setShowConfirmReviewDeleteModal] =
+    useState(false);
   const [showReviewOption, setShowReviewOption] = useState(false);
   const { reviewVotes } = useContext(SocketContext);
 
@@ -468,7 +466,9 @@ export default function Title() {
 
                 <SecondaryCircledButtons
                   onClick={() => {
-                    user ? setShowAddReviewModal(true) : setShowSignInModal(true);
+                    user
+                      ? setShowAddReviewModal(true)
+                      : setShowSignInModal(true);
                   }}
                   disabled={doneReview || title?.status === "upcoming"}
                   className={`${
