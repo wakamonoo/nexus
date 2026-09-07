@@ -295,7 +295,7 @@ export default function CommunityFeedback() {
               <div className="grid gap-8 md:grid-cols-[180px_1fr] md:items-center">
                 <div className="text-center md:border-r md:border-panel md:pr-8">
                   <p className="text-5xl font-bold tracking-tight text-vibe">
-                    {averageRating}
+                    {averageRating || 0}
                   </p>
                   <div className="mt-2 flex justify-center">
                     <StarRating value={Math.round(averageRating)} />
@@ -433,12 +433,16 @@ export default function CommunityFeedback() {
                   onChange={(e) => setConsent(e.target.checked)}
                   className="mt-1 accent-accent"
                 />
-                <span>
+                <p className="text-sm text-vibe">
                   I agree that my review, rating, username, and profile picture
                   may be displayed on{" "}
-                  <strong className="text-vibe">wakamonoo.site</strong> as part
-                  of Nexus portfolio showcase.
-                </span>
+                  <a href="https://wakamonoo.site/#highlight">
+                    <span className="font-bold transition-all duration-200 hover:text-accent active:text-accent">
+                      wakamonoo.site
+                    </span>
+                  </a>{" "}
+                  as part of Nexus portfolio showcase.
+                </p>
               </label>
               <RegularButtons
                 type="submit"
