@@ -63,14 +63,13 @@ export default function Recommendations() {
       <div className="bg-brand w-full pt-22 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
         <header className="mb-12 border-b border-panel pb-10">
           <h1 className="text-2xl font-bold tracking-tight text-vobe">
-            Feedback & Suggestions
+            Improvement Ideas
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-7 opacity-60">
-            Found an issue or have an idea to enhance the platform? We value
-            your feedback, it helps us refine features, resolve issues, and
-            shape upcoming improvements. Every suggestion, report, and insight
-            you share contributes to building a better, more seamless experience
-            for everyone in the Nexus community.
+            Have an idea for Nexus? Share your thoughts on features,
+            improvements, or anything you'd like to see added to the platform.
+            Your suggestions help shape what Nexus becomes next and make the
+            experience better for everyone in the community.
           </p>
         </header>
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8">

@@ -16,7 +16,10 @@ router.get("/postGet", async (req, res) => {
       .toArray();
 
     res.status(200).json(result);
-  } catch (err) {}
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "failed to fetch posts" });
+  }
 });
 
 export default router;

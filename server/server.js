@@ -10,7 +10,7 @@ import titleRoute from "./routes/titleRoute.js";
 import titleGet from "./routes/titleGet.js";
 import orderUpdate from "./routes/orderUpdate.js";
 import fileRoute from "./routes/fileRoute.js";
-import countRoute from "./routes/countRoute.js";
+import countGet from "./routes/countGet.js";
 import messageRoute from "./routes/messagesRoute.js";
 import messageGet from "./routes/messagesGet.js";
 import postRoute from "./routes/postRoute.js";
@@ -30,6 +30,8 @@ import tmdbGet from "./routes/tmdbGet.js";
 import listsRoute from "./routes/listsRoute.js";
 import listsGet from "./routes/listsGet.js";
 import activitiesGet from "./routes/activitiesGet.js";
+import feedbackRoute from "./routes/feedbackRoute.js";
+import feedbackGet from "./routes/feedbackGet.js";
 
 import { startNewsCron } from "./cron/newsCron.js";
 import { startTitleUpdateCron } from "./cron/titleUpdateCron.js";
@@ -71,7 +73,7 @@ app.use("/api/titles", titleRoute);
 app.use("/api/titles", titleGet);
 app.use("/api/titles", orderUpdate);
 app.use("/api/uploads", fileRoute);
-app.use("/api/counts", countRoute);
+app.use("/api/counts", countGet);
 app.use("/api/messages", messageRoute);
 app.use("/api/messages", messageGet);
 app.use("/api/posts", postRoute);
@@ -91,6 +93,8 @@ app.use("/api/tmdb", tmdbGet);
 app.use("/api/lists", listsRoute);
 app.use("/api/lists", listsGet);
 app.use("/api/activities", activitiesGet);
+app.use("/api/feedbacks", feedbackRoute);
+app.use("/api/feedbacks", feedbackGet);
 
 app.get("/health", (req, res) => {
   res.status(200).send("uptimerobot restarter working");

@@ -1,7 +1,7 @@
 "use client";
 import { useContext } from "react";
 import { FaBalanceScale, FaDonate, FaInfo, FaLightbulb } from "react-icons/fa";
-import { FaFileShield } from "react-icons/fa6";
+import { FaFileShield, FaPenToSquare } from "react-icons/fa6";
 import { MenuContext } from "@/context/menuContext";
 import { useRouter } from "next/navigation";
 import { RiContractFill } from "react-icons/ri";
@@ -69,6 +69,17 @@ export default function MenuStructure() {
       >
         <FaFileShield className="text-2xl" />
         <p className="text-base flex font-bold">Privacy Policy</p>
+      </button>
+      <button
+        onClick={() => {
+          setIsLoading(true);
+          router.push("/communityFeedback");
+          setShowMenu(false);
+        }}
+        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+      >
+        <FaPenToSquare className="text-2xl" />
+        <p className="text-base flex font-bold">Community Feedback</p>
       </button>
       <button
         onClick={() => {
