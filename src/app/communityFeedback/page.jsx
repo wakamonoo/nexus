@@ -175,7 +175,7 @@ export default function CommunityFeedback() {
   const postFeedback = async (e) => {
     e.preventDefault();
 
-    if (!reviewText.trim()) return;
+    if (!consent || !rating || !reviewText.trim()) return;
 
     try {
       setIsLoading(true);
@@ -440,7 +440,10 @@ export default function CommunityFeedback() {
                   of Nexus portfolio showcase.
                 </span>
               </label>
-              <RegularButtons type="submit" disabled={!consent}>
+              <RegularButtons
+                type="submit"
+                disabled={!consent || !rating || !reviewText.trim()}
+              >
                 <p className="font-bold text-normal text-base uppercase">
                   Submit Feedback
                 </p>
