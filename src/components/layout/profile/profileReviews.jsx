@@ -58,7 +58,7 @@ export default function ProfileReviews({ profileUser }) {
             <ReviewsLoader />
           </div>
         ) : reviews?.length === 0 ? (
-          <div className="mt-16">
+          <div className="flex h-full w-full justify-center items-center my-16">
             <div className="flex flex-col items-center justify-center">
               <MdRateReview className="text-4xl text-vibe opacity-40" />
               <p className="text-xs text-vibe opacity-40">

@@ -378,7 +378,7 @@ export default function Citadel() {
             {chatLoad ? (
               <ChatLoader />
             ) : messages.length === 0 ? (
-              <div className="flex h-full w-full justify-center items-center">
+              <div className="flex h-full w-full justify-center items-center my-16">
                 <div className="flex flex-col items-center justify-center">
                   <FaRegComments className="text-4xl text-vibe opacity-40" />
                   <p className="text-xs text-vibe opacity-40">no chats yet</p>

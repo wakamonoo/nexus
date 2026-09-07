@@ -11,6 +11,8 @@ import { FaRegRectangleList } from "react-icons/fa6";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { FaQuoteLeft } from "react-icons/fa";
+import RatingLoader from "@/components/loaders/ratingLoader";
+import NexusReviewLoader from "@/components/loaders/nexusReviewLoader";
 
 dayjs.extend(relativeTime);
 
@@ -123,7 +125,8 @@ function StarRating({
 
 export default function CommunityFeedback() {
   const [feedbacks, setFeedbacks] = useState([]);
-  const { user, allUsers, setShowSignInModal } = useContext(UserContext);
+  const { user, allUsers, allUsersLoading, setShowSignInModal } = useContext(UserContext);
+  const [feedbackLoad, setFeedbackLoad] = useState(true);
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [consent, setConsent] = useState(false);
@@ -143,6 +146,7 @@ export default function CommunityFeedback() {
         console.error("failed to fetch feedbacks", err);
         setFeedbacks([]);
       } finally {
+        setFeedbackLoad(false);
       }
     };
     handleGetFeedbacks();
@@ -282,49 +286,56 @@ export default function CommunityFeedback() {
               Based on ratings submitted by the community.
             </p>
           </div>
-          <div className="rounded-xl border border-panel bg-second p-6">
-            <div className="grid gap-8 md:grid-cols-[180px_1fr] md:items-center">
-              <div className="text-center md:border-r md:border-panel md:pr-8">
-                <p className="text-5xl font-bold tracking-tight text-vibe">
-                  {averageRating}
-                </p>
-                <div className="mt-2 flex justify-center">
-                  <StarRating value={Math.round(averageRating)} />
+          {feedbackLoad || allUsersLoading ? (
+            <RatingLoader />
+          ) : (
+            <div className="rounded-xl border border-panel bg-second p-6">
+              <div className="grid gap-8 md:grid-cols-[180px_1fr] md:items-center">
+                <div className="text-center md:border-r md:border-panel md:pr-8">
+                  <p className="text-5xl font-bold tracking-tight text-vibe">
+                    {averageRating}
+                  </p>
+                  <div className="mt-2 flex justify-center">
+                    <StarRating value={Math.round(averageRating)} />
+                  </div>
+                  <p className="mt-2 text-xs text-vibe opacity-60">
+                    {feedbacks.length}{" "}
+                    {feedbacks.length === 1 ? "rating" : "ratings"}
+                  </p>
                 </div>
-                <p className="mt-2 text-xs text-vibe opacity-60">
-                  {feedbacks.length}{" "}
-                  {feedbacks.length === 1 ? "rating" : "ratings"}
-                </p>
-              </div>
-              <div className="space-y-2">
-                {[5, 4, 3, 2, 1].map((ratingNumber) => {
-                  const count = ratingCounts[ratingNumber];
+                <div className="space-y-2">
+                  {[5, 4, 3, 2, 1].map((ratingNumber) => {
+                    const count = ratingCounts[ratingNumber];
 
-                  const percentage = feedbacks.length
-                    ? (count / feedbacks.length) * 100
-                    : 0;
+                    const percentage = feedbacks.length
+                      ? (count / feedbacks.length) * 100
+                      : 0;
 
-                  return (
-                    <div key={ratingNumber} className="flex items-center gap-2">
-                      <span className="text-xs text-right opacity-60">
-                        {ratingNumber}
-                      </span>
-                      <BiSolidStar className="text-xs text-accent" />
-                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-panel">
-                        <div
-                          className="h-full rounded-full bg-accent transition-all"
-                          style={{ width: `${percentage}%` }}
-                        />
+                    return (
+                      <div
+                        key={ratingNumber}
+                        className="flex items-center gap-2"
+                      >
+                        <span className="text-xs text-right opacity-60">
+                          {ratingNumber}
+                        </span>
+                        <BiSolidStar className="text-xs text-accent" />
+                        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-panel">
+                          <div
+                            className="h-full rounded-full bg-accent transition-all"
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                        <span className="text-sm text-vibe opacity-60">
+                          {count}
+                        </span>
                       </div>
-                      <span className="text-sm text-vibe opacity-60">
-                        {count}
-                      </span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </section>
         <section className="mb-16">
           <div className="mb-4">
@@ -438,69 +449,74 @@ export default function CommunityFeedback() {
               See what other users have to say.
             </p>
           </div>
-          <div className="divide-y divide-[var(--color-panel)] border-y border-panel">
-            {feedbacks?.length === 0 ? (
-              <div className="flex h-full w-full justify-center items-center">
-                <div className="flex flex-col items-center justify-center">
-                  <FaRegRectangleList className="text-4xl text-vibe opacity-40" />
-                  <p className="text-xs text-vibe opacity-40">
-                    no feedbacks yet
-                  </p>
-                </div>
+
+          {feedbacks?.length === 0 ? (
+            <div className="flex h-full w-full justify-center items-center my-16">
+              <div className="flex flex-col items-center justify-center">
+                <FaRegRectangleList className="text-4xl text-vibe opacity-40" />
+                <p className="text-xs text-vibe opacity-40">no feedbacks yet</p>
               </div>
-            ) : (
-              feedbacks?.map((review) => {
-                const reviewer = allUsers.find((u) => u.uid === review.userId);
-                return (
-                  <div key={review.feedbackId} className="py-7">
-                    <div className="flex gap-4">
-                      <img
-                        src={reviewer?.picture || Avatar}
-                        alt={reviewer?.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-10 h-10 shrink-0 object-cover rounded-full"
-                      />
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                          <p className="text-sm font-bold text-vibe">
-                            {reviewer?.name}
-                          </p>
-                          <StarRating value={review.rating} size="text-sm" />
-                        </div>
-                        <p className="text-xs text-vibe">
-                          {(() => {
-                            const diffWeeks = dayjs().diff(
-                              dayjs(review.createdAt),
-                              "week",
-                            );
-                            if (diffWeeks < 1) {
-                              return dayjs(review.createdAt).fromNow();
-                            }
-                            return new Date(
-                              review.createdAt,
-                            ).toLocaleDateString([], {
-                              month: "short",
-                              day: "2-digit",
-                              year: "numeric",
-                            });
-                          })()}
-                        </p>
-                        <div className="flex items-start -ml-2">
-                          <div className="flex items-center justify-center w-8 h-8 shrink-0">
-                            <FaQuoteLeft className="text-xs opacity-60" />
+            </div>
+          ) : (
+            <div className="divide-y divide-[var(--color-panel)] border-y border-panel">
+              {feedbackLoad || allUsersLoading ? (
+                <NexusReviewLoader />
+              ) : (
+                feedbacks?.map((review) => {
+                  const reviewer = allUsers.find(
+                    (u) => u.uid === review.userId,
+                  );
+                  return (
+                    <div key={review.feedbackId} className="py-7">
+                      <div className="flex gap-4">
+                        <img
+                          src={reviewer?.picture || Avatar}
+                          alt={reviewer?.name}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-10 h-10 shrink-0 object-cover rounded-full"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                            <p className="text-sm font-bold text-vibe">
+                              {reviewer?.name}
+                            </p>
+                            <StarRating value={review.rating} size="text-sm" />
                           </div>
-                          <p className="text-base text-vibe leading-tight mt-2">
-                            {review.review}
+                          <p className="text-xs text-vibe">
+                            {(() => {
+                              const diffWeeks = dayjs().diff(
+                                dayjs(review.createdAt),
+                                "week",
+                              );
+                              if (diffWeeks < 1) {
+                                return dayjs(review.createdAt).fromNow();
+                              }
+                              return new Date(
+                                review.createdAt,
+                              ).toLocaleDateString([], {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                              });
+                            })()}
                           </p>
+                          <div className="flex items-start -ml-2">
+                            <div className="flex items-center justify-center w-8 h-8 shrink-0">
+                              <FaQuoteLeft className="text-xs opacity-60" />
+                            </div>
+                            <p className="text-base text-vibe leading-tight mt-2">
+                              {review.review}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
+                  );
+                })
+              )}
+            </div>
+          )}
         </section>
       </div>
     </>

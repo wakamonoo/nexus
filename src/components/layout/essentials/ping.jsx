@@ -161,9 +161,11 @@ export default function Ping({ setShowPing }) {
               </div>
             )}
             {pings.length === 0 ? (
-              <div className="flex flex-col items-center justify-center">
-                <PiBellSimpleSlash className="text-4xl text-vibe opacity-40 mt-16" />
-                <p className="text-xs text-vibe opacity-40">No pings yet</p>
+              <div className="flex h-full w-full justify-center items-center my-16">
+                <div className="flex flex-col items-center justify-center">
+                  <PiBellSimpleSlash className="text-4xl text-vibe opacity-40" />
+                  <p className="text-xs text-vibe opacity-40">No pings yet</p>
+                </div>
               </div>
             ) : (
               pings
@@ -178,10 +180,8 @@ export default function Ping({ setShowPing }) {
                         }
                       : allUsers.find((u) => u.uid === ping.senderId);
 
-                  const recipient = allUsers.find(
-                    (u) => u.uid === ping.userId,
-                  );
-                  
+                  const recipient = allUsers.find((u) => u.uid === ping.userId);
+
                   return (
                     <div
                       key={ping.date}
