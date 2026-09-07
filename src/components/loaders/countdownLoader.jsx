@@ -12,7 +12,7 @@ export default function CountdownLoader() {
                 <div className="w-18 h-18 bg-panel rounded flex-shrink-0" />
                 <div className="w-18 h-18 bg-panel rounded flex-shrink-0" />
               </div>
-              <div className="w-[30%] h-4 bg-panel rounded" />
+              <div className="w-[30%] h-3 bg-panel rounded" />
             </div>
           </div>
         </div>

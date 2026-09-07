@@ -6,21 +6,20 @@ export default function RinaLoaderMemory() {
           <div className="flex gap-2 w-full items-center">
             <div className="w-12 h-12 bg-panel rounded-full" />
             <div className="flex flex-col gap-1">
-              <div className="w-32 h-5 bg-panel rounded" />
-              <div className="w-36 h-4 bg-panel rounded" />
+              <div className="w-18 h-5 bg-panel rounded" />
+              <div className="w-36 h-3 bg-panel rounded" />
             </div>
           </div>
           <div className="flex flex-col gap-1 py-4">
-            <div className="w-full h-5 bg-panel rounded-full" />
-            <div className="w-full h-5 bg-panel rounded" />
-            <div className="w-full h-5 bg-panel rounded" />
-            <div className="w-full h-5 bg-panel rounded" />
-            <div className="w-full h-5 bg-panel rounded" />
-            <div className="w-full h-5 bg-panel rounded" />
-            <div className="w-full h-5 bg-panel rounded" />
-            <div className="w-full h-5 bg-panel rounded" />
-            <div className="w-full h-5 bg-panel rounded" />
-            <div className="w-32 h-5 bg-panel rounded" />
+            <div className="w-full h-4 bg-panel rounded" />
+            <div className="w-full h-4 bg-panel rounded" />
+            <div className="w-full h-4 bg-panel rounded" />
+            <div className="w-full h-4 bg-panel rounded" />
+            <div className="w-full h-4 bg-panel rounded" />
+            <div className="w-full h-4 bg-panel rounded" />
+            <div className="w-full h-4 bg-panel rounded" />
+            <div className="w-full h-4 bg-panel rounded" />
+            <div className="w-32 h-4 bg-panel rounded" />
           </div>
         </div>
       </div>

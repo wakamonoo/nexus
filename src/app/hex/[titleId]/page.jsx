@@ -20,7 +20,7 @@ import { FiCheckCircle } from "react-icons/fi";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import ShowLoader from "@/components/loaders/showLoader";
+import ShowLoader from "@/components/loaders/titleInfoLoader";
 import AddReviewModal from "@/components/modals/addReviewModal";
 import { UserContext } from "@/context/userContext";
 import { MdClose, MdOutlineReviews, MdRateReview } from "react-icons/md";
@@ -43,6 +43,8 @@ import {
 import Swal from "sweetalert2";
 import { SocketContext } from "@/context/socketContext";
 import RegularButtons from "@/components/buttons/regBtns";
+import TitleInfoLoader from "@/components/loaders/titleInfoLoader";
+import TitleReviewsLoader from "@/components/loaders/titleReviewsLoader";
 
 dayjs.extend(relativeTime);
 
@@ -58,9 +60,8 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-
-
 export default function Title() {
+  const { allUsersLoading } = useContext(UserContext);
   const { reviewToDelete, setReviewToDelete } = useContext(TitleContext);
   const { titleId } = useParams();
   const router = useRouter();
@@ -247,10 +248,10 @@ export default function Title() {
           </div>
         </div>
 
-        {!title ? (
-          <ShowLoader />
-        ) : (
-          <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">
+        <div className="grid md:grid-cols-[3fr_1fr] md:gap-8 md:h-[calc(100vh-6rem)]">
+          {!title ? (
+            <TitleInfoLoader />
+          ) : (
             <div className="md:sticky md:top-0 min-w-0">
               <div className="flex justify-between items-center gap-2 w-full">
                 <div className="w-56 md:w-56 lg:w-72 h-full float-right">
@@ -471,9 +472,7 @@ export default function Title() {
                       : setShowSignInModal(true);
                   }}
                   disabled={doneReview || title?.status === "upcoming"}
-                  className={`${
-                    doneReview ? "!bg-[var(--color-zeus)]/60" : ""
-                  }`}
+                  className={`${doneReview ? "!bg-[var(--color-zeus)]/60" : ""}`}
                 >
                   {doneReview ? (
                     <FiCheckCircle className="text-xs" />
@@ -653,6 +652,10 @@ export default function Title() {
                 </ScrollContainer>
               </div>
             </div>
+          )}
+          {!title || allUsersLoading ? (
+            <TitleReviewsLoader />
+          ) : (
             <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide border-t-1 border-panel md:border-none mt-4 md:mt-0">
               {!title.reviews || title.reviews?.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-4 h-full">
@@ -839,8 +842,8 @@ export default function Title() {
                   })
               )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       {showAddReviewModal && (
         <AddReviewModal

@@ -15,10 +15,12 @@ export default function NexusReviewLoader() {
             </div>
           </div>
           <div className="w-36 h-3 bg-panel rounded mt-1" />
-          <div className="flex mt-2 items-start gap-4 justify-between">
-            <div className="w-4 h-4 bg-panel rounded" />
-            <div className="w-full flex flex-col gap-2">
-              <div className="w-full h-6 bg-panel rounded" />
+          <div className="flex mt-2 items-start">
+            <div className="flex w-8 h-8 shrink-0">
+              <div className="w-3 h-3 rounded bg-panel" />
+            </div>
+            <div className="w-full flex flex-col gap-2 -ml-2">
+              <div className="w-full h-5 bg-panel rounded" />
             </div>
           </div>
         </div>

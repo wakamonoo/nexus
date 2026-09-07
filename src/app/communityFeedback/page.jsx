@@ -13,6 +13,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { FaQuoteLeft } from "react-icons/fa";
 import RatingLoader from "@/components/loaders/ratingLoader";
 import NexusReviewLoader from "@/components/loaders/nexusReviewLoader";
+import FeedbackFormLoader from "@/components/loaders/feedbackFormLoader";
 
 dayjs.extend(relativeTime);
 
@@ -125,7 +126,8 @@ function StarRating({
 
 export default function CommunityFeedback() {
   const [feedbacks, setFeedbacks] = useState([]);
-  const { user, allUsers, allUsersLoading, setShowSignInModal } = useContext(UserContext);
+  const { user, allUsers, allUsersLoading, setShowSignInModal } =
+    useContext(UserContext);
   const [feedbackLoad, setFeedbackLoad] = useState(true);
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
@@ -368,16 +370,22 @@ export default function CommunityFeedback() {
               onSubmit={postFeedback}
               className="rounded-xl border border-panel bg-second p-4"
             >
-              <div className="mb-6 flex items-center gap-2">
-                <img
-                  src={user?.picture || Avatar}
-                  alt={user?.name}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-10 h-10 object-cover rounded-full"
-                />
-                <p className="text-sm font-semibold text-vibe">{user?.name}</p>
-              </div>
+              {allUsersLoading ? (
+                <FeedbackFormLoader />
+              ) : (
+                <div className="mb-6 flex items-center gap-2">
+                  <img
+                    src={user?.picture || Avatar}
+                    alt={user?.name}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-10 h-10 object-cover rounded-full shrink-0"
+                  />
+                  <p className="text-sm font-semibold text-vibe">
+                    {user?.name}
+                  </p>
+                </div>
+              )}
               <div className="mb-6">
                 <label className="mb-2 block text-sm font-medium text-vibe opacity-60">
                   How would your rate Nexus?

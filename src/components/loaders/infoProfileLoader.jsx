@@ -14,8 +14,8 @@ export default function InfoProfileLoader() {
         </div>
       </div>
       <div className="py-2 flex flex-col gap-1 w-full">
-        <div className="w-full h-5 bg-panel rounded" />
-        <div className="w-[40%] h-5 bg-panel rounded" />
+        <div className="w-full h-4 bg-panel rounded" />
+        <div className="w-[40%] h-4 bg-panel rounded" />
       </div>
     </div>
   );

@@ -47,7 +47,7 @@ export default function UserNav({ setShowUserNav }) {
                   decoding="async"
                   className="w-6 h-6 object-cover rounded-full"
                 />
-                <p className="text-base font-bold text-normal">{user.name}</p>
+                <p className="text-base font-bold text-normal truncate">{user.name}</p>
               </>
             ) : (
               <>
