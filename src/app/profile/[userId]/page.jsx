@@ -181,6 +181,22 @@ export default function UserProfile() {
 
   const userSigils = sigils?.filter((s) => profileUser?.[s.key] === true) || [];
 
+  useEffect(() => {
+    const hash = window.location.hash;
+
+    if (hash === "#reviews") {
+      setShowProfileReviews(true);
+      setShowProfilePosts(false);
+      setShowProfileEchoes(false);
+      setShowProfileLibrary(false);
+    } else if (hash === "#library") {
+      setShowProfileLibrary(true);
+      setShowProfileReviews(false);
+      setShowProfilePosts(false);
+      setShowProfileEchoes(false);
+    }
+  }, []);
+
   return (
     <>
       {showEditProfileModal && (
@@ -392,7 +408,10 @@ export default function UserProfile() {
               )}
             </div>
 
-            {allUsersLoading || titlesLoad || profileUserWatch === null ||loadingMemory ? (
+            {allUsersLoading ||
+            titlesLoad ||
+            profileUserWatch === null ||
+            loadingMemory ? (
               <RinaLoaderMemory />
             ) : profileUser?.totalWatched > 0 ? (
               <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-4">
@@ -441,6 +460,7 @@ export default function UserProfile() {
           <main className="flex flex-col justify-center items-center">
             <div className="flex justify-center gap-8 p-8 w-full">
               <button
+                id="posts"
                 onClick={() => {
                   setShowProfilePosts(true);
                   setShowProfileReviews(false);
@@ -460,6 +480,7 @@ export default function UserProfile() {
                 </p>
               </button>
               <button
+                id="reviews"
                 onClick={() => {
                   setShowProfileReviews(true);
                   setShowProfilePosts(false);
@@ -479,6 +500,7 @@ export default function UserProfile() {
                 </p>
               </button>
               <button
+                id="echoes"
                 onClick={() => {
                   setShowProfileEchoes(true);
                   setShowProfileReviews(false);
@@ -498,6 +520,7 @@ export default function UserProfile() {
                 </p>
               </button>
               <button
+                id="library"
                 onClick={() => {
                   setShowProfileLibrary(true);
                   setShowProfileReviews(false);

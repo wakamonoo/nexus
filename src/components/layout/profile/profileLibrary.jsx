@@ -17,7 +17,7 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
   const isLoading =
     titlesLoad || allUsersLoading || !profileUser || !profileUserWatch;
 
-  const releaseWatchOldest = [...profileUserWatch]
+  const releaseWatchOldest = [...(profileUserWatch || [])]
     .map((watch) => {
       const title = titles.find((t) => t.titleId === watch.titleId);
 
@@ -36,7 +36,7 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
       return aDate - bDate;
     });
 
-  const releaseWatchNewest = [...profileUserWatch]
+  const releaseWatchNewest = [...(profileUserWatch || [])]
     .map((watch) => {
       const title = titles.find((t) => t.titleId === watch.titleId);
 
@@ -55,19 +55,19 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
       return bDate - aDate;
     });
 
-  const WatchOldest = [...profileUserWatch].sort((a, b) => {
+  const WatchOldest = [...(profileUserWatch || [])].sort((a, b) => {
     const aDate = new Date(a.updatedAt || a.createdAt);
     const bDate = new Date(b.updatedAt || b.createdAt);
     return aDate - bDate;
   });
 
-  const WatchNewest = [...profileUserWatch].sort((a, b) => {
+  const WatchNewest = [...(profileUserWatch || [])].sort((a, b) => {
     const aDate = new Date(a.updatedAt || a.createdAt);
     const bDate = new Date(b.updatedAt || b.createdAt);
     return bDate - aDate;
   });
 
-  const Chronological = [...profileUserWatch]
+  const Chronological = [...(profileUserWatch || [])]
     .map((watch) => {
       const title = releasedMCUTitles.find((t) => t.titleId === watch.titleId);
 

@@ -43,8 +43,10 @@ export default function Activities() {
 
                   if (activity?.type === "list") {
                     router.push(`/hex/lists/${activity?.listId}`);
-                  } else {
-                    router.push(`/profile/${activity?.userId}`);
+                  } else if (activity?.type === "watch") {
+                    router.push(`/profile/${activity?.userId}/#library`);
+                  } else if (activity?.type === "review") {
+                    router.push(`/profile/${activity?.userId}/#reviews`);
                   }
                 }}
                 key={activity.activityId}

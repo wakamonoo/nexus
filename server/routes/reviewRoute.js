@@ -6,8 +6,7 @@ const router = express.Router();
 
 router.post("/addReview", async (req, res) => {
   try {
-    const { titleId, title, userId, textReview } =
-      req.body;
+    const { titleId, title, userId, textReview } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
@@ -220,6 +219,18 @@ router.post("/addReview", async (req, res) => {
         { upsert: true },
       );
     }
+
+    const activityData = {
+      activityId: `activity-${uuidv4()}`,
+      type: "review",
+      userId,
+      message: `wrote a review for ${watchedTitle?.title}.`,
+      date: new Date(),
+    };
+
+    await db.collection("activities").insertOne(activityData);
+
+    io.emit("activity", activityData);
 
     res
       .status(200)
