@@ -44,7 +44,7 @@ export const metadata = {
     template: "%s • Nexus",
   },
   description:
-    "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
+    "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rank titles, write reviews, and connect with Marvel fans.",
 
   keywords: [
     "Marvel Watch Tracker",
@@ -112,7 +112,7 @@ export const metadata = {
   openGraph: {
     title: "Nexus • Marvel Watch Tracker & MCU Watch Order",
     description:
-      "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
+      "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rank titles, write reviews, and connect with Marvel fans.",
     url: "https://ournexus.space",
     siteName: "Nexus",
     locale: "en-US",
@@ -130,7 +130,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "Nexus • Marvel Watch Tracker & MCU Watch Order",
     description:
-      "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rate titles, write reviews, and connect with Marvel fans.",
+      "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rank titles, write reviews, and connect with Marvel fans.",
     images: "https://i.imgur.com/WCCf5AW.png",
   },
 

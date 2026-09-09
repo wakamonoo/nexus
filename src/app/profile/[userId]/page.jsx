@@ -16,7 +16,6 @@ import EditProfileModal from "@/components/modals/editProfileModal";
 import Avatar from "@/assets/defaultAvatar.png";
 import ProfileEchoes from "@/components/layout/profile/profileEchoes";
 import ProfileSigils from "@/components/layout/profile/profileSigils";
-import ProfileLoader from "@/components/loaders/infoProfileLoader";
 import ReactMarkdown from "react-markdown";
 import { SigilContext } from "@/context/sigilContext";
 import RinaLoaderMemory from "@/components/loaders/rinaLoaderMemory";

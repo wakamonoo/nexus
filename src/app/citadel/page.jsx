@@ -705,7 +705,7 @@ export default function Citadel() {
 
                     return (
                       <div key={index} className="w-20 h-20 relative">
-                        {file.type.startsWith("image/") ? (
+                        {file.type?.startsWith("image/") ? (
                           <img
                             src={previewSrc}
                             alt={`preivew-${index}`}
