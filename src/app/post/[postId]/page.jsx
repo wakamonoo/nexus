@@ -55,9 +55,9 @@ if (APP_ENV === "production") {
 
 export default function Post() {
   const { postId } = useParams();
+  const [post, setPost] = useState(null);
   const { allUsers, user, setShowSignInModal } = useContext(UserContext);
   const {
-    posts,
     handleEnergize,
     handleEcho,
     handleFileClick,
@@ -97,7 +97,26 @@ export default function Post() {
     }
   }, []);
 
-  const post = posts.find((p) => p.postId === postId);
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/posts/postGet/${postId}`);
+
+        if (!res.ok) {
+          throw new Error("failed to fetch post");
+        }
+
+        const data = await res.json();
+
+        setPost(data);
+      } catch (err) {
+        console.error(err);
+        setPost(null);
+      }
+    };
+
+    getPost();
+  }, [postId]);
 
   const postOwner = allUsers.find((user) => user.uid === post?.userId);
 
@@ -680,7 +699,7 @@ export default function Post() {
                                     file,
                                   );
                                   const isImage =
-                                    /\.(jpg|peg|png|gif|webp)$/i.test(file);
+                                    /\.(jpg|jpeg|png|gif|webp)$/i.test(file);
                                   const isGif =
                                     file.includes("tenor.com") ||
                                     file.includes("media.tenor.com") ||
@@ -848,7 +867,7 @@ export default function Post() {
                                           const isVideo =
                                             /\.(mp4|mov|avi|webm)$/i.test(file);
                                           const isImage =
-                                            /\.(jpg|peg|png|gif|webp)$/i.test(
+                                            /\.(jpg|jpeg|png|gif|webp)$/i.test(
                                               file,
                                             );
                                           const isGif =

@@ -21,8 +21,8 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function ActorProjects() {
-  const { person } = useParams();
+export default function Person() {
+  const { personId } = useParams();
   const [personData, setPersonData] = useState(null);
   const [projects, setProjects] = useState([]);
   const [pageLoad, setPageLoad] = useState(true);
@@ -39,7 +39,7 @@ export default function ActorProjects() {
   useEffect(() => {
     const getPerson = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/titles/personGet/${person}`);
+        const res = await fetch(`${BASE_URL}/api/titles/personGet/${personId}`);
 
         if (!res.ok) {
           throw new Error("failed to fetch title");
@@ -59,7 +59,7 @@ export default function ActorProjects() {
     };
 
     getPerson();
-  }, [person]);
+  }, [personId]);
 
   return (
     <>

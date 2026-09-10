@@ -51,7 +51,7 @@ export default function MenuStructure() {
       <button
         onClick={() => {
           setIsLoading(true);
-          router.push("/terms&Conditions");
+          router.push("/termsAndConditions");
           setShowMenu(false);
         }}
         className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"

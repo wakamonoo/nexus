@@ -22,4 +22,26 @@ router.get("/postGet", async (req, res) => {
   }
 });
 
+router.get("/postGet/:postId", async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
+
+    const result = await db.collection("posts").findOne({ postId });
+
+    if (!result) {
+      return res.status(404).json({
+        error: "post not found",
+      });
+    }
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "failed to fetch post" });
+  }
+});
+
 export default router;

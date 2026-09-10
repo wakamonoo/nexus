@@ -483,7 +483,7 @@ export default function CommunityFeedback() {
                   );
                   return (
                     <div key={review.feedbackId} className="py-7">
-                      <div className="flex gap-4">
+                      <div className="flex gap-2">
                         <img
                           src={reviewer?.picture || Avatar}
                           alt={reviewer?.name}
