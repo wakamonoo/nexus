@@ -40,39 +40,6 @@ export default function MenuStructure() {
       <button
         onClick={() => {
           setIsLoading(true);
-          router.push("/trustAndLegality");
-          setShowMenu(false);
-        }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
-      >
-        <FaBalanceScale className="text-2xl" />
-        <p className="text-base flex font-bold">Trust & Legality</p>
-      </button>
-      <button
-        onClick={() => {
-          setIsLoading(true);
-          router.push("/termsAndConditions");
-          setShowMenu(false);
-        }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
-      >
-        <RiContractFill className="text-2xl" />
-        <p className="text-base flex font-bold">Terms & Conditions</p>
-      </button>
-      <button
-        onClick={() => {
-          setIsLoading(true);
-          router.push("/privacyPolicy");
-          setShowMenu(false);
-        }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
-      >
-        <FaFileShield className="text-2xl" />
-        <p className="text-base flex font-bold">Privacy Policy</p>
-      </button>
-      <button
-        onClick={() => {
-          setIsLoading(true);
           router.push("/communityFeedback");
           setShowMenu(false);
         }}
@@ -102,6 +69,39 @@ export default function MenuStructure() {
       >
         <FaDonate className="text-2xl " />
         <p className="text-base flex font-bold">Hero Fund</p>
+      </button>
+      <button
+        onClick={() => {
+          setIsLoading(true);
+          router.push("/trustAndLegality");
+          setShowMenu(false);
+        }}
+        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+      >
+        <FaBalanceScale className="text-2xl" />
+        <p className="text-base flex font-bold">Trust & Legality</p>
+      </button>
+      <button
+        onClick={() => {
+          setIsLoading(true);
+          router.push("/termsAndConditions");
+          setShowMenu(false);
+        }}
+        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+      >
+        <RiContractFill className="text-2xl" />
+        <p className="text-base flex font-bold">Terms & Conditions</p>
+      </button>
+      <button
+        onClick={() => {
+          setIsLoading(true);
+          router.push("/privacyPolicy");
+          setShowMenu(false);
+        }}
+        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+      >
+        <FaFileShield className="text-2xl" />
+        <p className="text-base flex font-bold">Privacy Policy</p>
       </button>
     </div>
   );
