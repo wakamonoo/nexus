@@ -59,9 +59,7 @@ export default function Moments() {
     <>
       <div className="mt-2 w-full">
         <div className="flex items-center gap-2 pb-2">
-          <p className="text-base font-bold text-vibe opacity-60">
-            Moments
-          </p>
+          <p className="text-base font-bold text-vibe opacity-60">Moments</p>
           <div className="flex-1 border-t-2 border-panel" />
         </div>
         <div
@@ -101,9 +99,7 @@ export default function Moments() {
             ref={scrollRef}
             className="flex gap-2 overflow-x-auto scrollbar-hide"
           >
-            {!user ? (
-              <MomentLoader />
-            ) : (
+            {user && (
               <div
                 onClick={() => setShowAddMomentModal(true)}
                 className="cursor-pointer group relative w-28 h-40 md:w-35 md:h-49 rounded bg-panel overflow-hidden shrink-0 text-left transition-transform duration-200 hover:scale-[1.02]"
@@ -133,6 +129,8 @@ export default function Moments() {
             <div className="flex gap-2 w-full">
               {momentLoading ? (
                 <>
+                  <MomentLoader />
+                  <MomentLoader />
                   <MomentLoader />
                   <MomentLoader />
                   <MomentLoader />

@@ -31,7 +31,7 @@ export default function MomentLightbox({
   owner,
   title,
 }) {
-  const { user } = useContext(UserContext);
+  const { user, setShowSignInModal } = useContext(UserContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { momentLoves } = useContext(SocketContext);
   const [showConfirmMomentDeleteModal, setShowConfirmMomentDeleteModal] =
@@ -110,7 +110,13 @@ export default function MomentLightbox({
               </div>
             </div>
             <div
-              onClick={handleLove}
+              onClick={() => {
+                if (!user) {
+                  setShowSignInModal(true);
+                } else {
+                  handleLove;
+                }
+              }}
               className="flex items-center gap-2 cursor-pointer transition-all duration-200 group"
             >
               <span className="text-xs text-vibe opacity-60">
@@ -148,7 +154,7 @@ export default function MomentLightbox({
               </div>
             </div>
 
-            {user.uid === owner.uid && (
+            {user?.uid === owner.uid && (
               <button
                 onClick={() => setShowConfirmMomentDeleteModal(true)}
                 className="cursor-pointer"
