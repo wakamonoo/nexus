@@ -143,7 +143,7 @@ export default function Moments() {
                   {[1, 2, 3].map((item) => (
                     <div
                       key={item}
-                      className="relative w-8 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex items-center justify-center"
+                      className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex items-center justify-center"
                     >
                       <FaDiamond className="text-xl text-vibe opacity-10" />
                     </div>
