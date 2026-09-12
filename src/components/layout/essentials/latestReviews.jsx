@@ -85,7 +85,7 @@ export default function LatestReviews() {
           </p>
         </div>
 
-        <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-panel px-2 py-1.5">
+        <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-[var(--color-panel)]/60 px-2 py-1.5">
           <img
             onClick={(e) => {
               e.stopPropagation();
@@ -105,7 +105,7 @@ export default function LatestReviews() {
                 setIsLoading(true);
                 router.push(`/profile/${reviewOwner.uid}`);
               }}
-              className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer hover:underline"
+              className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer"
             >
               {reviewOwner?.name}
             </p>

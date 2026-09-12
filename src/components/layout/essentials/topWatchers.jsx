@@ -7,7 +7,8 @@ import CountUp from "react-countup";
 import { LoaderContext } from "@/context/loaderContext";
 import { GiTrophy } from "react-icons/gi";
 import { FaMedal } from "react-icons/fa";
-import ScreenTimeLoader from "../../loaders/screenTimeLoader";
+import ScreenTimeLoader from "../../loaders/topWatchersLoader";
+import TopWatchersLoader from "../../loaders/topWatchersLoader";
 
 export default function ScreenTime() {
   const { allUsers, allUsersLoading } = useContext(UserContext);
@@ -55,16 +56,18 @@ export default function ScreenTime() {
 
   return (
     <div className="mt-2 w-full">
+      <div className="flex items-center gap-2 pb-2">
+        <p className="text-base font-bold text-vibe opacity-60">Top Watchers</p>
+        <div className="flex-1 border-t-2 border-panel" />
+      </div>
       {allUsersLoading ? (
-        <ScreenTimeLoader />
+        <TopWatchersLoader />
       ) : (
         <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] p-4">
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold">Screen Time</h2>
-              <p className="text-xs text-vibe">
-                Users with the most watched titles
-              </p>
+              <h2 className="text-base font-bold">Who's on top?</h2>
+              <p className="text-xs text-vibe">See who leads the community</p>
             </div>
             <GiTrophy className="text-3xl text-zeus" />
           </div>

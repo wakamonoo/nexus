@@ -88,107 +88,110 @@ export default function Countdown() {
     <div className="mt-2 w-full">
       <div
         onClick={() => handleShowNav(displayTitle.titleId)}
-        className="p-2 cursor-pointer"
+        className="relative overflow-hidden p-2 cursor-pointer"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/w500${displayTitle?.backdrop})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        {!showReleased && nextUpcomming && (
-          <>
-            <h1 className="text-xl text-center">
-              Countdown to {displayTitle?.title}
-            </h1>
-            <div className="flex flex-wrap items-center justify-center gap-2 w-full">
-              <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-                <span className="countdown text-3xl font-bold">
-                  <span
-                    style={{ "--value": days, "--digits": 2 }}
-                    aria-live="polite"
-                    aria-label={days}
-                  />
-                </span>
-                <p className="text-xs">Days</p>
+        <div className="absolute inset-0 bg-[var(--color-panel)]/50" />
+        <div className="relative z-10">
+          {!showReleased && nextUpcomming && (
+            <>
+              <h1 className="text-xl text-center">
+                Countdown to {displayTitle?.title}
+              </h1>
+              <div className="flex flex-wrap items-center justify-center gap-2 w-full">
+                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
+                  <span className="countdown text-3xl font-bold">
+                    <span
+                      style={{ "--value": days, "--digits": 2 }}
+                      aria-live="polite"
+                      aria-label={days}
+                    />
+                  </span>
+                  <p className="text-xs">Days</p>
+                </div>
+                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
+                  <span className="countdown text-3xl font-bold">
+                    <span
+                      style={{ "--value": hours, "--digits": 2 }}
+                      aria-live="polite"
+                      aria-label={hours}
+                    />
+                  </span>
+                  <p className="text-xs">Hours</p>
+                </div>
+                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
+                  <span className="countdown text-3xl font-bold">
+                    <span
+                      style={{ "--value": minutes, "--digits": 2 }}
+                      aria-live="polite"
+                      aria-label={minutes}
+                    />
+                  </span>
+                  <p className="text-xs">Minutes</p>
+                </div>
+                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
+                  <span className="countdown text-3xl font-bold">
+                    <span
+                      style={{ "--value": seconds, "--digits": 2 }}
+                      aria-live="polite"
+                      aria-label={seconds}
+                    />
+                  </span>
+                  <p className="text-xs">Seconds</p>
+                </div>
               </div>
-              <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-                <span className="countdown text-3xl font-bold">
-                  <span
-                    style={{ "--value": hours, "--digits": 2 }}
-                    aria-live="polite"
-                    aria-label={hours}
-                  />
-                </span>
-                <p className="text-xs">Hours</p>
+              <div className="relative w-full flex items-center justify-center gap-2 p-2 mt-2">
+                <p
+                  className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
+                >
+                  <span className="font-bold">UTC: </span>
+                  {dayjs
+                    .utc(
+                      displayTitle?.release_date
+                        ? displayTitle?.release_date
+                        : displayTitle?.first_air_date,
+                    )
+                    .format("MMM DD, YYYY HH:mm")}
+                </p>
+                <p
+                  className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}
+                >
+                  <span className="font-bold">Local: </span>
+                  {dayjs
+                    .utc(
+                      displayTitle?.release_date
+                        ? displayTitle?.release_date
+                        : displayTitle?.first_air_date,
+                    )
+                    .tz(userTimeZone)
+                    .format("MMM DD, YYYY HH:mm")}{" "}
+                </p>
               </div>
-              <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-                <span className="countdown text-3xl font-bold">
-                  <span
-                    style={{ "--value": minutes, "--digits": 2 }}
-                    aria-live="polite"
-                    aria-label={minutes}
-                  />
-                </span>
-                <p className="text-xs">Minutes</p>
-              </div>
-              <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
-                <span className="countdown text-3xl font-bold">
-                  <span
-                    style={{ "--value": seconds, "--digits": 2 }}
-                    aria-live="polite"
-                    aria-label={seconds}
-                  />
-                </span>
-                <p className="text-xs">Seconds</p>
+            </>
+          )}
+          {showReleased && latestRelased && (
+            <div className="flex flex-col items-center justify-center leading-none">
+              <p className="uppercase text-xs text-vibe tracking-[0.3em]">
+                Now Showing
+              </p>
+              <h1 className="text-4xl font-bold text-center tracking-tight">
+                {displayTitle?.title}
+              </h1>
+              <div className="flex items-center gap-2 pb-2 w-3/4">
+                <div className="flex-1 border-t-2 border-accent" />
+                <p className="text-xs text-vibe tracking-[0.3em] shrink-0">
+                  Released{" "}
+                  <span>{latestRelased.dateUTC.format("MMM DD, YYYY")}</span>
+                </p>
+                <div className="flex-1 border-t-2 border-accent" />
               </div>
             </div>
-            <div className="relative w-full flex items-center justify-center gap-2 p-2 mt-2">
-              <p
-                className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${globalShow ? "opacity-100" : "opacity-0"}`}
-              >
-                <span className="font-bold">UTC: </span>
-                {dayjs
-                  .utc(
-                    displayTitle?.release_date
-                      ? displayTitle?.release_date
-                      : displayTitle?.first_air_date,
-                  )
-                  .format("MMM DD, YYYY HH:mm")}
-              </p>
-              <p
-                className={`absolute text-xs text-center text-vibe transition-opacity duration-700 ${localShow ? "opacity-100" : "opacity-0"}`}
-              >
-                <span className="font-bold">Local: </span>
-                {dayjs
-                  .utc(
-                    displayTitle?.release_date
-                      ? displayTitle?.release_date
-                      : displayTitle?.first_air_date,
-                  )
-                  .tz(userTimeZone)
-                  .format("MMM DD, YYYY HH:mm")}{" "}
-              </p>
-            </div>
-          </>
-        )}
-        {showReleased && latestRelased && (
-          <div className="flex flex-col items-center justify-center leading-none">
-            <p className="uppercase text-xs text-vibe tracking-[0.3em]">
-              Now Showing
-            </p>
-            <h1 className="text-4xl font-bold text-center tracking-tight">
-              {displayTitle?.title}
-            </h1>
-            <div className="flex items-center gap-2 pb-2 w-3/4">
-              <div className="flex-1 border-t-2 border-accent" />
-              <p className="text-xs text-vibe tracking-[0.3em] shrink-0">
-                Released{" "}
-                <span>{latestRelased.dateUTC.format("MMM DD, YYYY")}</span>
-              </p>
-              <div className="flex-1 border-t-2 border-accent" />
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

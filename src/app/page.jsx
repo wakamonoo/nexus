@@ -5,10 +5,11 @@ import NavBar from "@/components/layout/essentials/navBar";
 import MenuStructure from "@/components/layout/essentials/menuStructure";
 import LatestReviews from "@/components/layout/essentials/latestReviews";
 import RinaNews from "@/components/layout/essentials/rinaNews";
-import TitleCountdown from "@/components/layout/essentials/countdown";
-import ScreenTime from "@/components/layout/essentials/screenTime";
+import Countdown from "@/components/layout/essentials/countdown";
+import TopWatchers from "@/components/layout/essentials/topWatchers";
 import Footer from "@/components/layout/essentials/footer";
 import LatestActivities from "@/components/layout/essentials/latestActivities";
+import Moments from "@/components/layout/essentials/moments";
 
 export default function Page() {
   return (
@@ -20,14 +21,14 @@ export default function Page() {
         </aside>
         <div className="w-full md:w-[65%] lg:w-[50%] md:pt-2 md:ml-4 lg:px-8 xl:px-16">
           <Banner />
-          <TitleCountdown />
-          <ScreenTime />
+          <Countdown />
+          <Moments />
+          <TopWatchers />
           <LatestActivities />
           <div className="lg:hidden">
             <LatestReviews />
           </div>
           <RinaNews />
-
           <Hero />
         </div>
         <aside className="hidden lg:block lg:w-[25%] pt-18 h-screen sticky top-0">

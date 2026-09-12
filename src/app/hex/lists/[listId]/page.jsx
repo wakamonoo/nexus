@@ -96,7 +96,7 @@ export default function List() {
         setShowSignInModal();
       }
 
-      await fetch(`${BASE_URL}/api/lists/vote/${listId}`, {
+      await fetch(`${BASE_URL}/api/reacts/listVote/${listId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -129,7 +129,7 @@ export default function Title() {
         setShowSignInModal();
       }
 
-      await fetch(`${BASE_URL}/api/reviews/vote/${reviewId}`, {
+      await fetch(`${BASE_URL}/api/reacts/reviewVote/${reviewId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

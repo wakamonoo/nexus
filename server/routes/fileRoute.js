@@ -131,6 +131,31 @@ router.post("/commentUpload", upload.array("files"), async (req, res) => {
   }
 });
 
+router.post("/momentUpload", upload.array("files"), async (req, res) => {
+  try {
+    const uploadPromises = req.files.map((file) => {
+      return new Promise((resolve, reject) => {
+        const bufferStream = new Readable();
+        bufferStream.push(file.buffer);
+        bufferStream.push(null);
+        bufferStream.pipe(
+          cloudinary.uploader.upload_stream(
+            { folder: "nexus uploads/moments", resource_type: "auto" },
+            (err, result) => (err ? reject(err) : resolve(result.secure_url)),
+          ),
+        );
+      });
+    });
+
+    const urls = await Promise.all(uploadPromises);
+
+    res.status(200).json({ urls });
+  } catch (err) {
+    console.error("failed upload", err);
+    res.status(500).json({ error: "upload error" });
+  }
+});
+
 router.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     if (err.code === "LIMIT_FILE_SIZE") {

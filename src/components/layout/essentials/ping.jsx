@@ -70,6 +70,8 @@ export default function Ping({ setShowPing }) {
         router.push(`/hex/lists/${ping.listId}`);
       } else if (ping.type === "listComment") {
         router.push(`/hex/lists/${ping.listId}`);
+      } else if (ping.type === "love") {
+        router.push(`/profile/${ping.senderId}`);
       }
     } catch (err) {
       console.error(err);

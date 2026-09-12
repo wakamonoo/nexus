@@ -47,6 +47,7 @@ export const SocketProvider = ({ children }) => {
   const [reviewsLoad, setReviewsLoad] = useState(true);
   const [reviewVotes, setReviewVotes] = useState({});
   const [listVotes, setListVotes] = useState({});
+  const [momentLoves, setMomentLoves] = useState({});
   const [pings, setPings] = useState([]);
   const [activities, setActivities] = useState(null);
   const [latestSeenMessages, setLatestSeenMessages] = useState({});
@@ -203,6 +204,8 @@ export const SocketProvider = ({ children }) => {
                   router.push(`/hex/${pingData.titleId}`);
                 } else if (pingData.type === "listComment") {
                   router.push(`/hex/lists/${pingData.listId}`);
+                } else if (pingData.type === "love") {
+                  router.push(`/profile/${pingData.senderId}`);
                 }
               }
               toast.dismiss(t.id);
@@ -212,7 +215,7 @@ export const SocketProvider = ({ children }) => {
             } max-w-xs w-full bg-second border-1 border-panel text-normal rounded-lg shadow-lg px-4 py-2 flex items-center justify-center gap-4 cursor-pointer`}
           >
             <Image
-              src={sender.picture || "/defaultAvatar.png"}
+              src={sender?.picture || "/defaultAvatar.png"}
               alt="icon"
               width={0}
               height={0}
@@ -339,6 +342,21 @@ export const SocketProvider = ({ children }) => {
     };
   }, [socket]);
 
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("momentLoveUpdated", (data) => {
+      setMomentLoves((prev) => ({
+        ...prev,
+        [data.momentId]: data.loved,
+      }));
+    });
+
+    return () => {
+      socket.off("momentLoveUpdated");
+    };
+  }, [socket]);
+
   return (
     <SocketContext.Provider
       value={{
@@ -351,6 +369,7 @@ export const SocketProvider = ({ children }) => {
         reviewsLoad,
         reviewVotes,
         listVotes,
+        momentLoves,
         latestSeenMessages,
         activities,
       }}

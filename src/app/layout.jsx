@@ -11,6 +11,7 @@ import { SigilProvider } from "@/context/sigilContext";
 import { SocketProvider } from "@/context/socketContext";
 import "./globals.css";
 import { ListProvider } from "@/context/listContext";
+import { MomentProvider } from "@/context/momentContext";
 
 // Fonts
 const bebasNeue = Bebas_Neue({
@@ -157,7 +158,9 @@ export default function RootLayout({ children }) {
                       <TitleNavProvider>
                         <WatchProvider>
                           <ListProvider>
-                            <SigilProvider>{children}</SigilProvider>
+                            <MomentProvider>
+                              <SigilProvider>{children}</SigilProvider>
+                            </MomentProvider>
                           </ListProvider>
                         </WatchProvider>
                       </TitleNavProvider>

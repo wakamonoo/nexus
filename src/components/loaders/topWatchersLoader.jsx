@@ -1,4 +1,4 @@
-export default function ScreenTimeLoader() {
+export default function TopWatchersLoader() {
   return (
     <div className="w-full h-full overflow-hidden animate-pulse">
       <div className="flex flex-col gap-1 ">
