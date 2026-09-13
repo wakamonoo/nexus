@@ -114,7 +114,7 @@ export default function MomentLightbox({
                 if (!user) {
                   setShowSignInModal(true);
                 } else {
-                  handleLove;
+                  handleLove();
                 }
               }}
               className="flex items-center gap-2 cursor-pointer transition-all duration-200 group"
