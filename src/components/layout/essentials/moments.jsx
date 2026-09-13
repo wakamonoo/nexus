@@ -13,7 +13,7 @@ import { FaDiamond } from "react-icons/fa6";
 import { MomentContext } from "@/context/momentContext";
 
 export default function Moments() {
-  const { user, allUsers } = useContext(UserContext);
+  const { user, allUsers, allUsersLoading } = useContext(UserContext);
   const { moments, momentLoading } = useContext(MomentContext);
   const { titles } = useContext(TitleContext);
   const [showAddMomentModal, setShowAddMomentModal] = useState(false);
@@ -127,7 +127,7 @@ export default function Moments() {
               </div>
             )}
             <div className="flex gap-2 w-full">
-              {momentLoading ? (
+              {momentLoading || allUsersLoading ? (
                 <>
                   <MomentLoader />
                   <MomentLoader />
@@ -175,17 +175,17 @@ export default function Moments() {
                         className="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-active:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                      <div className="absolute top-2 left-2 flex items-center gap-1">
-                        <div className="h-6 w-6 overflow-hidden rounded-full border border-accent">
+                      <div className="absolute top-2 left-2 right-2 flex items-center gap-1">
+                        <div className="h-6 w-6 overflow-hidden rounded-full border border-accent shrink-0">
                           <img
                             src={owner?.picture || Avatar.src}
                             alt="user"
                             loading="lazy"
                             decoding="async"
-                            className="w-full h-full object-coverl"
+                            className="w-full h-full object-cover"
                           />
                         </div>
-                        <p className="text-xs font-semibold">{owner?.name}</p>
+                        <p className="text-xs font-semibold truncate min-w-0">{owner?.name}</p>
                       </div>
                       <div className="absolute bottom-3 left-3 right-3">
                         <p className="text-xs font-medium uppercase tracking-wide leading-2 text-vibe opacity-60">
