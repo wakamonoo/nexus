@@ -120,9 +120,9 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://i.imgur.com/WCCf5AW.png",
-        width: 1249,
-        height: 339,
+        url: "/main_logo.png",
+        width: 1200,
+        height: 630,
       },
     ],
   },
@@ -132,7 +132,7 @@ export const metadata = {
     title: "Nexus • Marvel Watch Tracker & MCU Watch Order",
     description:
       "Track your Marvel journey with Nexus, an unofficial Marvel and MCU watch tracker. Explore MCU watch orders, timelines, movies and series, create lists, rank titles, write reviews, and connect with Marvel fans.",
-    images: "https://i.imgur.com/WCCf5AW.png",
+    images: "/main_logo.png",
   },
 
   metadataBase: new URL("https://ournexus.space"),
