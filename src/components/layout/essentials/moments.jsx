@@ -68,12 +68,12 @@ export default function Moments() {
           onMouseLeave={() => setShowArrows(false)}
         >
           <div
-            className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+            className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
               showArrows && isScrolled ? "opacity-100" : "opacity-0"
             }`}
           />
           <div
-            className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+            className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
               showArrows ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -102,7 +102,7 @@ export default function Moments() {
             {user && (
               <div
                 onClick={() => setShowAddMomentModal(true)}
-                className="cursor-pointer group relative w-28 h-40 md:w-35 md:h-49 rounded bg-panel overflow-hidden shrink-0 text-left transition-transform duration-200 hover:scale-[1.02]"
+                className="cursor-pointer group relative w-28 h-40 md:w-35 md:h-49 rounded bg-panel overflow-hidden shrink-0 text-left transition-transform duration-200 hover:scale-[1.02] active:scale-[1.02]"
               >
                 <div className="absolute inset-0">
                   <img
@@ -116,7 +116,7 @@ export default function Moments() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="bg-accent rounded-full p-2 transition-transform duration-200 group-hover:scale-110">
+                  <div className="bg-accent rounded-full p-2 transition-transform duration-200 group-hover:scale-110 group-active:scale-110">
                     <FaPlus className="text-2xl shrink-0" />
                   </div>
                   <p className="mt-4 text-sm font-bold text-vibe">Add Moment</p>
@@ -172,7 +172,7 @@ export default function Moments() {
                         alt="Moment Image"
                         loading="lazy"
                         decoding="async"
-                        className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
+                        className="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-active:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                       <div className="absolute top-2 left-2 flex items-center gap-1">

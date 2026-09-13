@@ -251,17 +251,35 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
       cropY = (videoHeight - cropHeight) / 2;
     }
 
-    context.drawImage(
-      video,
-      cropX,
-      cropY,
-      cropWidth,
-      cropHeight,
-      0,
-      0,
-      targetWidth,
-      targetHeight,
-    );
+    if (cameraFacing === "user") {
+      context.save();
+      context.translate(targetWidth, 0);
+      context.scale(-1, 1);
+
+      context.drawImage(
+        video,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        targetWidth,
+        targetHeight,
+      );
+    } else {
+      context.drawImage(
+        video,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        targetWidth,
+        targetHeight,
+      );
+    }
 
     canvas.toBlob((blob) => {
       if (!blob) return;
@@ -455,7 +473,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
                   ref={videoRef}
                   autoPlay
                   playsInline
-                  className="h-full w-full object-cover"
+                  className={`h-full w-full object-cover ${cameraFacing === "user" ? "scale-x-[-1]" : ""}`}
                 />
                 <canvas ref={canvasRef} className="hidden" />
               </div>

@@ -148,7 +148,7 @@ export default function MomentLightbox({
                   className="h-10 w-7 rounded object-cover"
                 />
                 <div className="min-w-0">
-                  <p className="text-xs text-vibe opacity-60">watching</p>
+                  <p className="text-xs text-vibe opacity-60 leading-2">watching</p>
                   <p className="truncate text-sm font-bold">{title.title}</p>
                 </div>
               </div>

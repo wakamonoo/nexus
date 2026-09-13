@@ -510,12 +510,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows1(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows1 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows1 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -584,12 +584,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows2(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows2 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows2 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -659,12 +659,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows3(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows3 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows3 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -734,12 +734,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows4(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows4 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows4 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -789,12 +789,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows5(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows5 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows5 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -844,12 +844,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows6(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows6 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows6 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -933,12 +933,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows7(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows7 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows7 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -1022,12 +1022,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows8(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows8 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows8 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -1115,12 +1115,12 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows9(false)}
               >
                 <div
-                  className={`absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
                     showArrows9 ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
                     showArrows9 ? "opacity-100" : "opacity-0"
                   }`}
                 />
