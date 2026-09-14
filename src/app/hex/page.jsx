@@ -37,6 +37,8 @@ export default function Main() {
     latest,
     chrono,
     release,
+    goat,
+    popular,
     upcomingTitles,
     releasedLegacyTitles,
     releasedAdjacentTitles,
@@ -75,6 +77,15 @@ export default function Main() {
   const [showArrows7, setShowArrows7] = useState(false);
   const [showArrows8, setShowArrows8] = useState(false);
   const [showArrows9, setShowArrows9] = useState(false);
+  const [canScroll1, setCanScroll1] = useState(false);
+  const [canScroll2, setCanScroll2] = useState(false);
+  const [canScroll3, setCanScroll3] = useState(false);
+  const [canScroll4, setCanScroll4] = useState(false);
+  const [canScroll5, setCanScroll5] = useState(false);
+  const [canScroll6, setCanScroll6] = useState(false);
+  const [canScroll7, setCanScroll7] = useState(false);
+  const [canScroll8, setCanScroll8] = useState(false);
+  const [canScroll9, setCanScroll9] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -82,105 +93,105 @@ export default function Main() {
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled1(current.scrollLeft > 50);
+      setIsScrolled1(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, [titles]);
+  }, [latest]);
 
   useEffect(() => {
     const current = scrollRef2.current;
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled2(current.scrollLeft > 50);
+      setIsScrolled2(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, [titles]);
+  }, [chrono]);
 
   useEffect(() => {
     const current = scrollRef3.current;
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled3(current.scrollLeft > 50);
+      setIsScrolled3(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, [titles]);
+  }, [release]);
 
   useEffect(() => {
     const current = scrollRef4.current;
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled4(current.scrollLeft > 50);
+      setIsScrolled4(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, [titles]);
+  }, [goat]);
 
   useEffect(() => {
     const current = scrollRef5.current;
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled5(current.scrollLeft > 50);
+      setIsScrolled5(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, [titles]);
+  }, [popular]);
 
   useEffect(() => {
     const current = scrollRef6.current;
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled6(current.scrollLeft > 50);
+      setIsScrolled6(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, [titles]);
+  }, [releasedLegacyTitles]);
 
   useEffect(() => {
     const current = scrollRef7.current;
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled7(current.scrollLeft > 50);
+      setIsScrolled7(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, [titles]);
+  }, [releasedAdjacentTitles]);
 
   useEffect(() => {
     const current = scrollRef8.current;
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled8(current.scrollLeft > 50);
+      setIsScrolled8(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
@@ -194,14 +205,14 @@ export default function Main() {
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled9(current.scrollLeft > 50);
+      setIsScrolled9(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
     return () => {
       current.removeEventListener("scroll", handleScroll);
     };
-  }, [titles]);
+  }, [upcomingTitles]);
 
   useEffect(() => {
     if (!titles) return;
@@ -392,7 +403,7 @@ export default function Main() {
 
   const handleScrollLeft9 = () => {
     if (scrollRef9.current) {
-      scrollRef8.current.scrollBy({
+      scrollRef9.current.scrollBy({
         left: -200,
         behavior: "smooth",
       });
@@ -407,6 +418,50 @@ export default function Main() {
       });
     }
   };
+
+  useEffect(() => {
+    const refs = [
+      [scrollRef1, setCanScroll1],
+      [scrollRef2, setCanScroll2],
+      [scrollRef3, setCanScroll3],
+      [scrollRef4, setCanScroll4],
+      [scrollRef5, setCanScroll5],
+      [scrollRef6, setCanScroll6],
+      [scrollRef7, setCanScroll7],
+      [scrollRef8, setCanScroll8],
+      [scrollRef9, setCanScroll9],
+    ];
+
+    const observers = refs.map(([ref, setCanScroll]) => {
+      const el = ref.current;
+      if (!el) return null;
+
+      const checkOverflow = () => {
+        setCanScroll(el.scrollWidth > el.clientWidth);
+      };
+
+      checkOverflow();
+
+      const observer = new ResizeObserver(checkOverflow);
+      observer.observe(el);
+
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect());
+    };
+  }, [
+    latest,
+    chrono,
+    release,
+    goat,
+    popular,
+    releasedLegacyTitles,
+    releasedAdjacentTitles,
+    titles,
+    upcomingTitles,
+  ]);
 
   return (
     <>
@@ -511,30 +566,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows1 ? "opacity-100" : "opacity-0"
+                    showArrows1 && isScrolled1 && canScroll1
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows1 ? "opacity-100" : "opacity-0"
+                    showArrows1 && canScroll1 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows1 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft1}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight1}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows1 && isScrolled1 && canScroll1 && (
+                  <button
+                    onClick={handleScrollLeft1}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows1 && canScroll1 && (
+                  <button
+                    onClick={handleScrollRight1}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef1}
@@ -585,30 +642,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows2 ? "opacity-100" : "opacity-0"
+                    showArrows2 && isScrolled2 && canScroll2
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows2 ? "opacity-100" : "opacity-0"
+                    showArrows2 && canScroll2 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows2 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft2}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight2}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows2 && isScrolled2 && canScroll2 && (
+                  <button
+                    onClick={handleScrollLeft2}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows2 && canScroll2 && (
+                  <button
+                    onClick={handleScrollRight2}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef2}
@@ -660,30 +719,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows3 ? "opacity-100" : "opacity-0"
+                    showArrows3 && isScrolled3 && canScroll3
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows3 ? "opacity-100" : "opacity-0"
+                    showArrows3 && canScroll3 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows3 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft3}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight3}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows3 && isScrolled3 && canScroll3 && (
+                  <button
+                    onClick={handleScrollLeft3}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows3 && canScroll3 && (
+                  <button
+                    onClick={handleScrollRight3}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef3}
@@ -735,30 +796,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows4 ? "opacity-100" : "opacity-0"
+                    showArrows4 && isScrolled4 && canScroll4
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows4 ? "opacity-100" : "opacity-0"
+                    showArrows4 && canScroll4 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows4 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft4}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight4}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows4 && isScrolled4 && canScroll4 && (
+                  <button
+                    onClick={handleScrollLeft4}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows4 && canScroll4 && (
+                  <button
+                    onClick={handleScrollRight4}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef4}
@@ -790,30 +853,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows5 ? "opacity-100" : "opacity-0"
+                    showArrows5 && isScrolled5 && canScroll5
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows5 ? "opacity-100" : "opacity-0"
+                    showArrows5 && canScroll5 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows5 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft5}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight5}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows5 && isScrolled5 && canScroll5 && (
+                  <button
+                    onClick={handleScrollLeft5}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows5 && canScroll5 && (
+                  <button
+                    onClick={handleScrollRight5}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef5}
@@ -845,30 +910,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows6 ? "opacity-100" : "opacity-0"
+                    showArrows6 && isScrolled6 && canScroll6
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows6 ? "opacity-100" : "opacity-0"
+                    showArrows6 && canScroll6 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows6 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft6}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight6}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows6 && isScrolled6 && canScroll6 && (
+                  <button
+                    onClick={handleScrollLeft6}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows6 && canScroll6 && (
+                  <button
+                    onClick={handleScrollRight6}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef6}
@@ -934,30 +1001,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows7 ? "opacity-100" : "opacity-0"
+                    showArrows7 && isScrolled7 && canScroll7
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows7 ? "opacity-100" : "opacity-0"
+                    showArrows7 && canScroll7 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows7 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft7}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight7}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows7 && isScrolled7 && canScroll7 && (
+                  <button
+                    onClick={handleScrollLeft7}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows7 && canScroll7 && (
+                  <button
+                    onClick={handleScrollRight7}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef7}
@@ -1023,30 +1092,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows8 ? "opacity-100" : "opacity-0"
+                    showArrows8 && isScrolled8 && canScroll8
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows8 ? "opacity-100" : "opacity-0"
+                    showArrows8 && canScroll8 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows8 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft8}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight8}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows8 && isScrolled8 && canScroll8 && (
+                  <button
+                    onClick={handleScrollLeft8}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows8 && canScroll8 && (
+                  <button
+                    onClick={handleScrollRight8}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef8}
@@ -1116,30 +1187,32 @@ export default function Main() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows9 ? "opacity-100" : "opacity-0"
+                    showArrows9 && isScrolled9 && canScroll9
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows9 ? "opacity-100" : "opacity-0"
+                    showArrows9 && canScroll9 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows9 && (
-                  <>
-                    <button
-                      onClick={handleScrollLeft9}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
-                    >
-                      <RiArrowLeftWideFill className="text-2xl" />
-                    </button>
-                    <button
-                      onClick={handleScrollRight9}
-                      className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
-                    >
-                      <RiArrowRightWideFill className="text-2xl" />
-                    </button>
-                  </>
+                {showArrows9 && isScrolled9 && canScroll9 && (
+                  <button
+                    onClick={handleScrollLeft9}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows9 && canScroll9 && (
+                  <button
+                    onClick={handleScrollRight9}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
                 )}
                 <div
                   ref={scrollRef9}

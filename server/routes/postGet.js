@@ -12,7 +12,7 @@ router.get("/postGet", async (req, res) => {
     const result = await db
       .collection("posts")
       .find({})
-      .sort({ _id: -1 })
+      .sort({ date: -1 })
       .toArray();
 
     res.status(200).json(result);
@@ -22,7 +22,7 @@ router.get("/postGet", async (req, res) => {
   }
 });
 
-router.get("/postGet/:postId", async (req, res) => {
+router.get("/postGet/post/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
     const client = await clientPromise;
@@ -41,6 +41,50 @@ router.get("/postGet/:postId", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "failed to fetch post" });
+  }
+});
+
+router.get("/postGet/user/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
+
+    const result = await db
+      .collection("posts")
+      .find({
+        userId,
+      })
+      .sort({ date: -1 })
+      .toArray();
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "failed to fetch user posts" });
+  }
+});
+
+router.get("/postGet/echoes/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const client = await clientPromise;
+    const mongodb = process.env.MONGODB;
+    const db = client.db(mongodb);
+
+    const result = await db
+      .collection("posts")
+      .find({
+        echoed: userId,
+      })
+      .sort({ date: -1 })
+      .toArray();
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "failed to fetch echoed posts" });
   }
 });
 

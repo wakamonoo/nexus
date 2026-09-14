@@ -2,9 +2,8 @@
 import AddMomenttModal from "@/components/modals/addMomentModal";
 import { TitleContext } from "@/context/titleContext";
 import { UserContext } from "@/context/userContext";
-import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
-import { FaPlus, FaRegFileAlt } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import Avatar from "@/assets/defaultAvatar.png";
 import MomentLightbox from "@/components/lightBoxes/momentLightbox";
@@ -21,6 +20,7 @@ export default function Moments() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showArrows, setShowArrows] = useState(false);
   const [selectedMoment, setSelectedMoment] = useState(null);
+  const [canScroll, setCanScroll] = useState(false);
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function Moments() {
     if (!current) return;
 
     const handleScroll = () => {
-      setIsScrolled(current.scrollLeft > 50);
+      setIsScrolled(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll);
@@ -55,6 +55,24 @@ export default function Moments() {
     }
   };
 
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const checkOverflow = () => {
+      setCanScroll(el.scrollWidth > el.clientWidth);
+    };
+
+    checkOverflow();
+
+    const observer = new ResizeObserver(checkOverflow);
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [moments]);
+
   return (
     <>
       <div className="mt-2 w-full">
@@ -69,16 +87,18 @@ export default function Moments() {
         >
           <div
             className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-              showArrows && isScrolled ? "opacity-100" : "opacity-0"
+              showArrows && isScrolled && canScroll
+                ? "opacity-100"
+                : "opacity-0"
             }`}
           />
           <div
             className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-              showArrows ? "opacity-100" : "opacity-0"
+              showArrows && canScroll ? "opacity-100" : "opacity-0"
             }`}
           />
 
-          {showArrows && isScrolled && (
+          {showArrows && isScrolled && canScroll && (
             <button
               onClick={handleScrollLeft}
               className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
@@ -86,7 +106,7 @@ export default function Moments() {
               <RiArrowLeftWideFill className="text-2xl" />
             </button>
           )}
-          {showArrows && moments && (
+          {showArrows && canScroll && (
             <button
               onClick={handleScrollRight}
               className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
@@ -185,7 +205,9 @@ export default function Moments() {
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <p className="text-xs font-semibold truncate min-w-0">{owner?.name}</p>
+                        <p className="text-xs font-semibold truncate min-w-0">
+                          {owner?.name}
+                        </p>
                       </div>
                       <div className="absolute bottom-3 left-3 right-3">
                         <p className="text-xs font-medium uppercase tracking-wide leading-2 text-vibe opacity-60">

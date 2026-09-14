@@ -43,7 +43,7 @@ router.get("/momentGet/:userId", async (req, res) => {
     res.status(200).json(result);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "failed to fetch posts" });
+    res.status(500).json({ error: "failed to fetch moment" });
   }
 });
 

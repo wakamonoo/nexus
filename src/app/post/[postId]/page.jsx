@@ -100,7 +100,7 @@ export default function Post() {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/posts/postGet/${postId}`);
+        const res = await fetch(`${BASE_URL}/api/posts/postGet/post/${postId}`);
 
         if (!res.ok) {
           throw new Error("failed to fetch post");

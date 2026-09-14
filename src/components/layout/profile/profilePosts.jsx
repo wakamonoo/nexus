@@ -1,18 +1,23 @@
 "use client";
 import { PostContext } from "@/context/postContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FaRegFileAlt } from "react-icons/fa";
 import PostStructure from "../post/postStructure";
 import { UserContext } from "@/context/userContext";
 import PostLoader from "@/components/loaders/postLoader";
 
 export default function ProfilePosts({ profileUser }) {
-  const { posts, coldLoad } = useContext(PostContext);
+  const { getUserPosts, userPosts, postLoading } =
+    useContext(PostContext);
   const { user, allUsersLoading } = useContext(UserContext);
 
-  const isLoading = coldLoad || allUsersLoading || !profileUser;
+  useEffect(() => {
+    if (profileUser?.uid) {
+      getUserPosts(profileUser?.uid);
+    }
+  }, [profileUser?.uid]);
 
-  const profileUserPosts = posts.filter((p) => p.userId === profileUser?.uid);
+  const isLoading = postLoading || allUsersLoading || !userPosts;
 
   return (
     <div className="w-full">
@@ -20,7 +25,7 @@ export default function ProfilePosts({ profileUser }) {
         <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16">
           <PostLoader />
         </div>
-      ) : profileUserPosts.length === 0 ? (
+      ) : userPosts.length === 0 ? (
         <div className="flex h-full w-full justify-center items-center my-16">
           <div className="flex flex-col items-center justify-center">
             <FaRegFileAlt className="text-4xl text-vibe opacity-40" />
@@ -31,7 +36,7 @@ export default function ProfilePosts({ profileUser }) {
         </div>
       ) : (
         <div className="flex flex-col gap-1 py-4 px-2 sm:px-4 md:px-8 lg:px-16">
-          {profileUserPosts.map((post, index) => (
+          {userPosts.map((post, index) => (
             <PostStructure key={index} post={post} />
           ))}
         </div>

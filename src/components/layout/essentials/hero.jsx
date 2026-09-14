@@ -8,11 +8,11 @@ import { TitleContext } from "@/context/titleContext";
 import { UserContext } from "@/context/userContext";
 
 export default function Hero() {
-  const { posts, coldLoad } = useContext(PostContext);
+  const { posts, postLoading } = useContext(PostContext);
   const { titlesLoad } = useContext(TitleContext);
   const { allUsersLoading } = useContext(UserContext);
 
-  const isLoading = coldLoad || titlesLoad || allUsersLoading;
+  const isLoading = postLoading || titlesLoad || allUsersLoading;
 
   return (
     <div>

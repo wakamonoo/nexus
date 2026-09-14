@@ -24,14 +24,17 @@ if (APP_ENV === "production") {
 export const PostProvider = ({ children }) => {
   const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
+  const [userPosts, setUserPosts] = useState(null);
+  const [userEchoes, setUserEchoes] = useState(null);
   const [postLightBoxOpen, setPostLightBoxOpen] = useState(false);
   const [currentPost, setCurrentPost] = useState([]);
   const [currentPostInfo, setCurrentPostInfo] = useState(null);
   const [showDetails, setShowDetails] = useState(true);
   const [initialIndex, setInitialIndex] = useState(0);
-  const [coldLoad, setColdLoad] = useState(true);
+  const [postLoading, setPostLoading] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
-  const [showConfirmPostDeleteModal, setShowConfirmPostDeleteModal] = useState(false);
+  const [showConfirmPostDeleteModal, setShowConfirmPostDeleteModal] =
+    useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [postToDelete, setPostToDelete] = useState(null);
@@ -48,7 +51,7 @@ export const PostProvider = ({ children }) => {
     } catch (err) {
       console.error(err);
     } finally {
-      setColdLoad(false);
+      setPostLoading(false);
     }
   };
 
@@ -206,11 +209,57 @@ export const PostProvider = ({ children }) => {
     }
   };
 
+  const getUserPosts = async (userId) => {
+    setPostLoading(true);
+    setUserPosts(null);
+    try {
+      const res = await fetch(`${BASE_URL}/api/posts/postGet/user/${userId}`);
+
+      if (!res.ok) {
+        throw new Error("failed to fetch posts");
+      }
+
+      const data = await res.json();
+
+      setUserPosts(data);
+    } catch (err) {
+      console.error(err);
+      setUserPosts(null);
+    } finally {
+      setPostLoading(false);
+    }
+  };
+
+  const getUserEchoes = async (userId) => {
+    setPostLoading(true);
+    setUserEchoes(null);
+    try {
+      const res = await fetch(`${BASE_URL}/api/posts/postGet/echoes/${userId}`);
+
+      if (!res.ok) {
+        throw new Error("failed to fetch posts");
+      }
+
+      const data = await res.json();
+
+      setUserEchoes(data);
+    } catch (err) {
+      console.error(err);
+      setUserEchoes(null);
+    } finally {
+      setPostLoading(false);
+    }
+  };
+
   return (
     <PostContext.Provider
       value={{
         postFetch,
         posts,
+        getUserPosts,
+        userPosts,
+        getUserEchoes,
+        userEchoes,
         handleEnergize,
         handleEcho,
         handleFileClick,
@@ -222,7 +271,7 @@ export const PostProvider = ({ children }) => {
         postLightBoxOpen,
         setPostLightBoxOpen,
         postLightboxRef,
-        coldLoad,
+        postLoading,
         handlePostDelete,
         showConfirmPostDeleteModal,
         setShowConfirmPostDeleteModal,
@@ -244,7 +293,10 @@ export const PostProvider = ({ children }) => {
         />
       )}
       {showEditPostModal && (
-        <EditPostModal setShowEditPostModal={setShowEditPostModal} postToEdit={postToEdit} />
+        <EditPostModal
+          setShowEditPostModal={setShowEditPostModal}
+          postToEdit={postToEdit}
+        />
       )}
     </PostContext.Provider>
   );

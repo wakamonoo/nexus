@@ -47,7 +47,7 @@ if (APP_ENV === "production") {
 export default function UserProfile() {
   const { userId } = useParams();
   const { allUsers, user, allUsersLoading } = useContext(UserContext);
-  const { posts } = useContext(PostContext);
+  const { posts, getUserPosts, userPosts } = useContext(PostContext);
   const {
     titles,
     titlesLoad,
@@ -79,6 +79,9 @@ export default function UserProfile() {
   const [isScrolled3, setIsScrolled3] = useState(false);
   const [showArrows3, setShowArrows3] = useState(false);
   const scrollRef3 = useRef(null);
+  const [canScroll1, setCanScroll1] = useState(false);
+  const [canScroll2, setCanScroll2] = useState(false);
+  const [canScroll3, setCanScroll3] = useState(false);
   const [selectedMoment, setSelectedMoment] = useState(null);
   const [showAddMomentModal, setShowAddMomentModal] = useState(false);
   const [showMomentLightbox, setShowMomentLightbox] = useState(false);
@@ -146,7 +149,7 @@ export default function UserProfile() {
       : 0;
 
   const progressAdjacent =
-    showNumLegacy > 0
+    showNumAdjacent > 0
       ? ((profileUser?.totalAdjacentWatched || 0) / showNumAdjacent) * 100
       : 0;
 
@@ -209,14 +212,14 @@ export default function UserProfile() {
     if (!current) return;
 
     const handleScroll1 = () => {
-      setIsScrolled1(current.scrollLeft > 50);
+      setIsScrolled1(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll1);
     return () => {
       current.removeEventListener("scroll", handleScroll1);
     };
-  }, []);
+  }, [userMoments]);
 
   const handleScrollLeft1 = () => {
     if (scrollRef1.current) {
@@ -237,18 +240,18 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    const current = scrollRef1.current;
+    const current = scrollRef2.current;
     if (!current) return;
 
     const handleScroll2 = () => {
-      setIsScrolled2(current.scrollLeft > 50);
+      setIsScrolled2(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll2);
     return () => {
       current.removeEventListener("scroll", handleScroll2);
     };
-  }, []);
+  }, [topRanks]);
 
   const handleScrollLeft2 = () => {
     if (scrollRef2.current) {
@@ -269,18 +272,18 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    const current = scrollRef1.current;
+    const current = scrollRef3.current;
     if (!current) return;
 
     const handleScroll3 = () => {
-      setIsScrolled2(current.scrollLeft > 50);
+      setIsScrolled3(current.scrollLeft > 0);
     };
 
     current.addEventListener("scroll", handleScroll3);
     return () => {
       current.removeEventListener("scroll", handleScroll3);
     };
-  }, []);
+  }, [latestWatch]);
 
   const handleScrollLeft3 = () => {
     if (scrollRef3.current) {
@@ -299,6 +302,34 @@ export default function UserProfile() {
       });
     }
   };
+
+  useEffect(() => {
+    const refs = [
+      [scrollRef1, setCanScroll1],
+      [scrollRef2, setCanScroll2],
+      [scrollRef3, setCanScroll3],
+    ];
+
+    const observers = refs.map(([ref, setCanScroll]) => {
+      const el = ref.current;
+      if (!el) return null;
+
+      const checkOverflow = () => {
+        setCanScroll(el.scrollWidth > el.clientWidth);
+      };
+
+      checkOverflow();
+
+      const observer = new ResizeObserver(checkOverflow);
+      observer.observe(el);
+
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect());
+    };
+  }, [userMoments, topRanks, latestWatch]);
 
   const userSigils = sigils?.filter((s) => profileUser?.[s.key] === true) || [];
 
@@ -449,20 +480,18 @@ export default function UserProfile() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows1 && isScrolled1 && userMoments?.length > 0
+                    showArrows1 && isScrolled1 && canScroll1
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows1 && userMoments?.length > 0
-                      ? "opacity-100"
-                      : "opacity-0"
+                    showArrows1 && canScroll1 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows1 && isScrolled1 && userMoments?.length > 0 && (
+                {showArrows1 && isScrolled1 && canScroll1 && (
                   <button
                     onClick={handleScrollLeft1}
                     className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
@@ -470,7 +499,7 @@ export default function UserProfile() {
                     <RiArrowLeftWideFill className="text-2xl" />
                   </button>
                 )}
-                {showArrows1 && userMoments && userMoments?.length > 0 && (
+                {showArrows1 && userMoments && canScroll1 && (
                   <button
                     onClick={handleScrollRight1}
                     className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
@@ -594,20 +623,18 @@ export default function UserProfile() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows2 && profileUser?.rankings?.length > 0
+                    showArrows2 && isScrolled2 && canScroll2
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows2 && profileUser?.rankings?.length > 0
-                      ? "opacity-100"
-                      : "opacity-0"
+                    showArrows2 && canScroll2 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows2 && profileUser?.rankings?.length > 0 && (
+                {showArrows2 && isScrolled2 && canScroll2 && (
                   <button
                     onClick={handleScrollLeft2}
                     className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
@@ -615,7 +642,7 @@ export default function UserProfile() {
                     <RiArrowLeftWideFill className="text-2xl" />
                   </button>
                 )}
-                {showArrows2 && profileUser?.rankings?.length > 0 && (
+                {showArrows2 && canScroll2 && (
                   <button
                     onClick={handleScrollRight2}
                     className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
@@ -674,16 +701,18 @@ export default function UserProfile() {
               >
                 <div
                   className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
-                    showArrows3 && latestWatch.length > 0 ? "opacity-100" : "opacity-0"
+                    showArrows3 && isScrolled3 && canScroll3
+                      ? "opacity-100"
+                      : "opacity-0"
                   }`}
                 />
                 <div
                   className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
-                    showArrows3 && latestWatch.length > 0 ? "opacity-100" : "opacity-0"
+                    showArrows3 && canScroll3 ? "opacity-100" : "opacity-0"
                   }`}
                 />
 
-                {showArrows3 && latestWatch.length > 0 && (
+                {showArrows3 && isScrolled3 && canScroll3 && (
                   <button
                     onClick={handleScrollLeft3}
                     className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
@@ -691,7 +720,7 @@ export default function UserProfile() {
                     <RiArrowLeftWideFill className="text-2xl" />
                   </button>
                 )}
-                {showArrows3 && latestWatch.length > 0 && (
+                {showArrows3 && canScroll3 && (
                   <button
                     onClick={handleScrollRight3}
                     className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
