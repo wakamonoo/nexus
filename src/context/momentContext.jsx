@@ -40,6 +40,8 @@ export const MomentProvider = ({ children }) => {
   }, []);
 
   const getUserMoments = async (userId) => {
+    setMomentLoading(true);
+    setUserMoments(null);
     try {
       const res = await fetch(`${BASE_URL}/api/moments/momentGet/${userId}`);
 
