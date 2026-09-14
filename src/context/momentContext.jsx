@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 import { LoaderContext } from "./loaderContext";
+import { UserContext } from "./userContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -19,6 +20,7 @@ export const MomentContext = createContext();
 
 export const MomentProvider = ({ children }) => {
   const [moments, setMoments] = useState([]);
+  const [userMoments, setUserMoments] = useState(null);
   const [momentLoading, setMomentLoading] = useState(true);
 
   useEffect(() => {
@@ -37,8 +39,35 @@ export const MomentProvider = ({ children }) => {
     momentFetch();
   }, []);
 
+  const getUserMoments = async (userId) => {
+    try {
+      const res = await fetch(`${BASE_URL}/api/moments/momentGet/${userId}`);
+
+      if (!res.ok) {
+        throw new Error("failed to fetch moments");
+      }
+
+      const data = await res.json();
+
+      setUserMoments(data);
+    } catch (err) {
+      console.error(err);
+      setUserMoments(null);
+    } finally {
+      setMomentLoading(false);
+    }
+  };
+
   return (
-    <MomentContext.Provider value={{ moments, setMoments, momentLoading }}>
+    <MomentContext.Provider
+      value={{
+        moments,
+        setMoments,
+        getUserMoments,
+        userMoments,
+        momentLoading,
+      }}
+    >
       {children}
     </MomentContext.Provider>
   );

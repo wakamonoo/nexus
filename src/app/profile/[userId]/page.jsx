@@ -1,8 +1,8 @@
 "use client";
 import { PostContext } from "@/context/postContext";
 import { UserContext } from "@/context/userContext";
-import { useContext, useEffect, useState } from "react";
-import { FaAngleLeft, FaPen } from "react-icons/fa";
+import { use, useContext, useEffect, useRef, useState } from "react";
+import { FaAngleLeft, FaPen, FaPlus } from "react-icons/fa";
 import Image from "next/image";
 import { LoaderContext } from "@/context/loaderContext";
 import { useParams, useRouter } from "next/navigation";
@@ -25,6 +25,12 @@ import TitleCard from "@/components/layout/title/titleCard";
 import TitleProfileLoader from "@/components/loaders/titleProfileLoader";
 import SigilsProfileLoader from "@/components/loaders/sigilsProfileLoader";
 import InfoProfileLoader from "@/components/loaders/infoProfileLoader";
+import { MomentContext } from "@/context/momentContext";
+import MomentLoader from "@/components/loaders/momentLoader";
+import { FaDiamond } from "react-icons/fa6";
+import AddMomenttModal from "@/components/modals/addMomentModal";
+import MomentLightbox from "@/components/lightBoxes/momentLightbox";
+import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -62,6 +68,20 @@ export default function UserProfile() {
   const [memoryCache, setMemoryCache] = useState({});
   const { sigils } = useContext(SigilContext);
   const [profileUserWatch, setProfileUserWatch] = useState(null);
+  const { getUserMoments, userMoments, momentLoading } =
+    useContext(MomentContext);
+  const [isScrolled1, setIsScrolled1] = useState(false);
+  const [showArrows1, setShowArrows1] = useState(false);
+  const scrollRef1 = useRef(null);
+  const [isScrolled2, setIsScrolled2] = useState(false);
+  const [showArrows2, setShowArrows2] = useState(false);
+  const scrollRef2 = useRef(null);
+  const [isScrolled3, setIsScrolled3] = useState(false);
+  const [showArrows3, setShowArrows3] = useState(false);
+  const scrollRef3 = useRef(null);
+  const [selectedMoment, setSelectedMoment] = useState(null);
+  const [showAddMomentModal, setShowAddMomentModal] = useState(false);
+  const [showMomentLightbox, setShowMomentLightbox] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -178,6 +198,108 @@ export default function UserProfile() {
     runMemory();
   }, [!profileUser?.uid, memoryKey]);
 
+  useEffect(() => {
+    if (userId) {
+      getUserMoments(userId);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    const current = scrollRef1.current;
+    if (!current) return;
+
+    const handleScroll1 = () => {
+      setIsScrolled1(current.scrollLeft > 50);
+    };
+
+    current.addEventListener("scroll", handleScroll1);
+    return () => {
+      current.removeEventListener("scroll", handleScroll1);
+    };
+  }, []);
+
+  const handleScrollLeft1 = () => {
+    if (scrollRef1.current) {
+      scrollRef1.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight1 = () => {
+    if (scrollRef1.current) {
+      scrollRef1.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const current = scrollRef1.current;
+    if (!current) return;
+
+    const handleScroll2 = () => {
+      setIsScrolled2(current.scrollLeft > 50);
+    };
+
+    current.addEventListener("scroll", handleScroll2);
+    return () => {
+      current.removeEventListener("scroll", handleScroll2);
+    };
+  }, []);
+
+  const handleScrollLeft2 = () => {
+    if (scrollRef2.current) {
+      scrollRef2.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight2 = () => {
+    if (scrollRef2.current) {
+      scrollRef2.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const current = scrollRef1.current;
+    if (!current) return;
+
+    const handleScroll3 = () => {
+      setIsScrolled2(current.scrollLeft > 50);
+    };
+
+    current.addEventListener("scroll", handleScroll3);
+    return () => {
+      current.removeEventListener("scroll", handleScroll3);
+    };
+  }, []);
+
+  const handleScrollLeft3 = () => {
+    if (scrollRef3.current) {
+      scrollRef3.current.scrollBy({
+        left: -200,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleScrollRight3 = () => {
+    if (scrollRef3.current) {
+      scrollRef3.current.scrollBy({
+        left: 200,
+        behavior: "smooth",
+      });
+    }
+  };
+
   const userSigils = sigils?.filter((s) => profileUser?.[s.key] === true) || [];
 
   useEffect(() => {
@@ -213,8 +335,8 @@ export default function UserProfile() {
           <h4 className="text-xl">Profile</h4>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] lg:gap-4 items-start">
-          <aside className="flex flex-col lg:sticky lg:top-0">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_2.5fr] lg:gap-4 items-start">
+          <aside className="flex flex-col min-w-0 lg:sticky lg:top-0">
             {allUsersLoading ? (
               <InfoProfileLoader />
             ) : (
@@ -313,6 +435,131 @@ export default function UserProfile() {
               </>
             )}
 
+            <div className="w-full h-full p-2">
+              <h4 className="font-bold text-lg">
+                {profileUser?.uid === user?.uid
+                  ? "Your"
+                  : `${profileUser?.name.split(" ")[0]}'s`}{" "}
+                moment archive
+              </h4>
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows1(true)}
+                onMouseLeave={() => setShowArrows1(false)}
+              >
+                <div
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows1 && isScrolled1 && userMoments?.length > 0
+                      ? "opacity-100"
+                      : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows1 && userMoments?.length > 0
+                      ? "opacity-100"
+                      : "opacity-0"
+                  }`}
+                />
+
+                {showArrows1 && isScrolled1 && userMoments?.length > 0 && (
+                  <button
+                    onClick={handleScrollLeft1}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows1 && userMoments && userMoments?.length > 0 && (
+                  <button
+                    onClick={handleScrollRight1}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
+                )}
+
+                <div
+                  ref={scrollRef1}
+                  className="flex gap-2 overflow-x-auto scrollbar-hide"
+                >
+                  <div className="flex gap-2">
+                    {momentLoading || allUsersLoading ? (
+                      <>
+                        <MomentLoader />
+                        <MomentLoader />
+                        <MomentLoader />
+                        <MomentLoader />
+                        <MomentLoader />
+                        <MomentLoader />
+                      </>
+                    ) : userMoments?.length === 0 ? (
+                      <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
+                        <p className="text-xs text-vibe opacity-40 text-center">
+                          {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't shared any moments yet.`}
+                        </p>
+                      </div>
+                    ) : (
+                      userMoments?.map((moment) => {
+                        const owner = allUsers.find(
+                          (u) => u.uid === moment?.userId,
+                        );
+                        const title = titles.find(
+                          (t) => t.titleId === moment?.titleId,
+                        );
+
+                        return (
+                          <div
+                            key={moment?.momentId}
+                            onClick={() => {
+                              setSelectedMoment({
+                                moment,
+                                owner,
+                                title,
+                              });
+                              setShowMomentLightbox(true);
+                            }}
+                            className="group relative cursor-pointer w-28 h-40 md:w-35 md:h-49 rounded bg-panel overflow-hidden shrink-0"
+                          >
+                            <img
+                              src={moment?.image}
+                              alt="Moment Image"
+                              loading="lazy"
+                              decoding="async"
+                              className="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-active:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                            <div className="absolute top-2 left-2 right-2 flex items-center gap-1">
+                              <div className="h-6 w-6 overflow-hidden rounded-full border border-accent shrink-0">
+                                <img
+                                  src={owner?.picture || Avatar.src}
+                                  alt="user"
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <p className="text-xs font-semibold truncate min-w-0">
+                                {owner?.name}
+                              </p>
+                            </div>
+                            <div className="absolute bottom-3 left-3 right-3">
+                              <p className="text-xs font-medium uppercase tracking-wide leading-2 text-vibe opacity-60">
+                                Watching
+                              </p>
+                              <p className="truncate text-sm font-bold">
+                                {title?.title}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="p-2">
               <h4 className="font-bold text-lg">
                 {profileUser?.uid === user?.uid
@@ -325,12 +572,12 @@ export default function UserProfile() {
               ) : userSigils.length > 0 ? (
                 <ProfileSigils profileUser={profileUser} user={user} />
               ) : (
-                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
+                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
                   <p className="text-xs text-vibe opacity-40 text-center">
                     {`${profileUser.uid === user?.uid ? "you" : profileUser.name} have no sigils to show.`}
                   </p>
                 </div>
-              )}{" "}
+              )}
             </div>
 
             <div className="w-full h-full p-2">
@@ -340,34 +587,77 @@ export default function UserProfile() {
                   : `${profileUser?.name.split(" ")[0]}'s`}{" "}
                 holy trinity
               </h4>
-              {allUsersLoading || titlesLoad ? (
-                <TitleProfileLoader />
-              ) : profileUser?.rankings?.length > 0 ? (
-                <div className="flex gap-2 justify-start">
-                  {topRanks.map((rank) => {
-                    const title = titles.find(
-                      (t) => t.titleId === rank.titleId,
-                    );
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows2(true)}
+                onMouseLeave={() => setShowArrows2(false)}
+              >
+                <div
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows2 && profileUser?.rankings?.length > 0
+                      ? "opacity-100"
+                      : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows2 && profileUser?.rankings?.length > 0
+                      ? "opacity-100"
+                      : "opacity-0"
+                  }`}
+                />
 
-                    if (!title) return null;
-                    return (
-                      <TitleCard
-                        key={rank.titleId}
-                        unit={{ ...title, rank: rank.rank }}
-                        isWatched={isTitleWatched(title.titleId)}
-                        onOpen={() => handleShowNav(title.titleId)}
-                        goat={true}
-                      />
-                    );
-                  })}
+                {showArrows2 && profileUser?.rankings?.length > 0 && (
+                  <button
+                    onClick={handleScrollLeft2}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows2 && profileUser?.rankings?.length > 0 && (
+                  <button
+                    onClick={handleScrollRight2}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
+                )}
+
+                <div
+                  ref={scrollRef2}
+                  className="flex gap-2 overflow-x-auto scrollbar-hide"
+                >
+                  {allUsersLoading || titlesLoad ? (
+                    <TitleProfileLoader />
+                  ) : profileUser?.rankings?.length > 0 ? (
+                    <div className="flex gap-2 justify-start">
+                      {topRanks.map((rank) => {
+                        const title = titles.find(
+                          (t) => t.titleId === rank.titleId,
+                        );
+
+                        if (!title) return null;
+                        return (
+                          <TitleCard
+                            key={rank.titleId}
+                            unit={{ ...title, rank: rank.rank }}
+                            isWatched={isTitleWatched(title.titleId)}
+                            onOpen={() => handleShowNav(title.titleId)}
+                            goat={true}
+                          />
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
+                      <p className="text-xs text-vibe opacity-40 text-center">
+                        {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't ranked any titles yet.`}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
-                  <p className="text-xs text-vibe opacity-40 text-center">
-                    {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't ranked any titles yet.`}
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
 
             <div className="w-full h-full p-2">
@@ -377,34 +667,75 @@ export default function UserProfile() {
                   : `${profileUser?.name.split(" ")[0]}'s`}{" "}
                 latest watch
               </h4>
-              {allUsersLoading || titlesLoad || profileUserWatch === null ? (
-                <TitleProfileLoader />
-              ) : latestWatch.length > 0 ? (
-                <div className="flex gap-2 justify-start">
-                  {latestWatch.map((item) => {
-                    const title = titles.find(
-                      (t) => t.titleId === item.titleId,
-                    );
+              <div
+                className="relative"
+                onMouseEnter={() => setShowArrows3(true)}
+                onMouseLeave={() => setShowArrows3(false)}
+              >
+                <div
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                    showArrows3 && latestWatch.length > 0 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                    showArrows3 && latestWatch.length > 0 ? "opacity-100" : "opacity-0"
+                  }`}
+                />
 
-                    if (!title) return null;
+                {showArrows3 && latestWatch.length > 0 && (
+                  <button
+                    onClick={handleScrollLeft3}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 left-1"
+                  >
+                    <RiArrowLeftWideFill className="text-2xl" />
+                  </button>
+                )}
+                {showArrows3 && latestWatch.length > 0 && (
+                  <button
+                    onClick={handleScrollRight3}
+                    className="cursor-pointer absolute z-50 top-1/2 -translate-y-1/2 right-1"
+                  >
+                    <RiArrowRightWideFill className="text-2xl" />
+                  </button>
+                )}
 
-                    return (
-                      <TitleCard
-                        key={item.titleId}
-                        unit={title}
-                        isWatched={isTitleWatched(title.titleId)}
-                        onOpen={() => handleShowNav(title.titleId)}
-                      />
-                    );
-                  })}
+                <div
+                  ref={scrollRef3}
+                  className="flex gap-2 overflow-x-auto scrollbar-hide"
+                >
+                  {allUsersLoading ||
+                  titlesLoad ||
+                  profileUserWatch === null ? (
+                    <TitleProfileLoader />
+                  ) : latestWatch.length > 0 ? (
+                    <div className="flex gap-2 justify-start">
+                      {latestWatch.map((item) => {
+                        const title = titles.find(
+                          (t) => t.titleId === item.titleId,
+                        );
+
+                        if (!title) return null;
+
+                        return (
+                          <TitleCard
+                            key={item.titleId}
+                            unit={title}
+                            isWatched={isTitleWatched(title.titleId)}
+                            onOpen={() => handleShowNav(title.titleId)}
+                          />
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
+                      <p className="text-xs text-vibe opacity-40 text-center">
+                        {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't watched anything yet.`}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
-                  <p className="text-xs text-vibe opacity-40 text-center">
-                    {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't watched anything yet.`}
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
 
             {allUsersLoading ||
@@ -448,7 +779,7 @@ export default function UserProfile() {
                 )}
               </div>
             ) : (
-              <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel transition-all duration-200 hover:-translate-y-1 focus:-translate-y-1 cursor-pointer rounded my-1">
+              <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
                 <p className="text-xs text-vibe opacity-40 text-center">
                   {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} have no archive available.`}
                 </p>
@@ -456,7 +787,7 @@ export default function UserProfile() {
             )}
           </aside>
 
-          <main className="flex flex-col justify-center items-center">
+          <main className="flex flex-col min-w-0 justify-center items-center">
             <div className="flex justify-center gap-8 p-8 w-full">
               <button
                 id="posts"
@@ -555,6 +886,17 @@ export default function UserProfile() {
           </main>
         </div>
       </div>
+      {showAddMomentModal && (
+        <AddMomenttModal setShowAddMomentModal={setShowAddMomentModal} />
+      )}
+      {showMomentLightbox && (
+        <MomentLightbox
+          setShowMomentLightbox={setShowMomentLightbox}
+          moment={selectedMoment.moment}
+          owner={selectedMoment.owner}
+          title={selectedMoment.title}
+        />
+      )}
     </>
   );
 }

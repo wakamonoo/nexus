@@ -10,6 +10,8 @@ import { SocketContext } from "@/context/socketContext";
 import { TitleNavContext } from "@/context/titleNavContext";
 import { FaTrash } from "react-icons/fa";
 import ConfirmMomentDeleteModal from "../modals/confirmMomentDeleteModal";
+import { useRouter } from "next/navigation";
+import { LoaderContext } from "@/context/loaderContext";
 
 dayjs.extend(relativeTime);
 
@@ -36,8 +38,9 @@ export default function MomentLightbox({
   const { momentLoves } = useContext(SocketContext);
   const [showConfirmMomentDeleteModal, setShowConfirmMomentDeleteModal] =
     useState(false);
-
   const loved = momentLoves[moment?.momentId] ?? moment?.loved ?? [];
+  const { setIsLoading } = useContext(LoaderContext);
+  const router = useRouter();
 
   const handleLove = async () => {
     try {
@@ -80,6 +83,11 @@ export default function MomentLightbox({
           <div className="absolute top-3 flex items-center justify-between w-full px-4">
             <div className="flex items-center gap-2 rounded-full bg-[var(--color-panel)]/60 px-2 py-1.5">
               <img
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsLoading(true);
+                  router.push(`/profile/${owner.uid}`);
+                }}
                 src={owner.picture || Avatar.src}
                 alt={owner.name}
                 loading="lazy"
@@ -87,7 +95,14 @@ export default function MomentLightbox({
                 className="w-8 h-8 rounded-full object-cover cursor-pointer"
               />
               <div className="pr-2">
-                <p className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer hover:underline">
+                <p
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsLoading(true);
+                    router.push(`/profile/${owner.uid}`);
+                  }}
+                  className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer"
+                >
                   {owner.name}
                 </p>
 
@@ -148,7 +163,9 @@ export default function MomentLightbox({
                   className="h-10 w-7 rounded object-cover"
                 />
                 <div className="min-w-0">
-                  <p className="text-xs text-vibe opacity-60 leading-2">watching</p>
+                  <p className="text-xs text-vibe opacity-60 leading-2">
+                    watching
+                  </p>
                   <p className="truncate text-sm font-bold">{title.title}</p>
                 </div>
               </div>
