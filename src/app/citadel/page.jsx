@@ -20,6 +20,7 @@ import NavBar from "@/components/layout/essentials/navBar";
 import RegularButtons from "@/components/buttons/regBtns";
 import Swal from "sweetalert2";
 import CitadelOptions from "@/components/options/citadelOptions";
+import { FaCopy } from "react-icons/fa6";
 
 dayjs.extend(relativeTime);
 
@@ -359,6 +360,27 @@ export default function Citadel() {
     return () => observer.disconnect();
   }, [selectedMessage]);
 
+  const handleCopy = async (msg) => {
+    await navigator.clipboard.writeText(msg.text);
+    Swal.fire({
+      toast: true,
+      position: "bottom-start",
+      title: "Copied",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
+      background: "var(--color-secondary)",
+      iconColor: "var(--color-hulk)",
+      customClass: {
+        popup:
+          "!w-fit !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+        title:
+          "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+      },
+    });
+    setSelectedMessage(null);
+  };
+
   return (
     <>
       <NavBar />
@@ -534,7 +556,7 @@ export default function Citadel() {
                                 </div>
                               )}
                               <div
-                                className="flex group"
+                                className="flex group select-none"
                                 onContextMenu={(e) => e.preventDefault()}
                                 onMouseEnter={() => setActiveMessage(msg.msgId)}
                                 onMouseLeave={() => {
@@ -555,7 +577,7 @@ export default function Citadel() {
                                 {ownMessage &&
                                   (activeMessage === msg.msgId ||
                                     selectedMessage?.msgId === msg.msgId) && (
-                                    <div className="mr-2 flex items-start">
+                                    <div className="mr-2 flex gap-4 items-start">
                                       <div className="relative">
                                         <button
                                           onClick={(e) => {
@@ -568,7 +590,7 @@ export default function Citadel() {
                                           }}
                                           className="opacity-60 mt-2 cursor-pointer"
                                         >
-                                          <BiDotsVerticalRounded className="text-xl" />
+                                          <BiDotsVerticalRounded className="text-xl text-vibe transition-all duration-200 hover:text-accent active:text-accent" />
                                         </button>
                                         {selectedMessage?.msgId === msg.msgId &&
                                           messageSize && (
@@ -595,7 +617,13 @@ export default function Citadel() {
                                         onClick={() => handleReply(msg)}
                                         className="opacity-60 mt-2 cursor-pointer"
                                       >
-                                        <FaReply className="text-xl" />
+                                        <FaReply className="text-xl text-vibe transition-all duration-200 hover:text-accent active:text-accent" />
+                                      </button>
+                                      <button
+                                        onClick={() => handleCopy(msg)}
+                                        className="opacity-60 mt-2 cursor-pointer"
+                                      >
+                                        <FaCopy className="text-xl text-vibe transition-all duration-200 hover:text-accent active:text-accent" />
                                       </button>
                                     </div>
                                   )}
@@ -694,12 +722,18 @@ export default function Citadel() {
                                 {!ownMessage &&
                                   (activeMessage === msg.msgId ||
                                     selectedMessage?.msgId === msg.msgId) && (
-                                    <div className="ml-2 flex items-start">
+                                    <div className="ml-2 flex gap-4 items-start">
                                       <button
                                         onClick={() => handleReply(msg)}
                                         className="opacity-60 mt-2 cursor-pointer"
                                       >
-                                        <FaReply className="text-xl" />
+                                        <FaReply className="text-xl text-vibe transition-all duration-200 hover:text-accent active:text-accent" />
+                                      </button>
+                                      <button
+                                        onClick={() => handleCopy(msg)}
+                                        className="opacity-60 mt-2 cursor-pointer"
+                                      >
+                                        <FaCopy className="text-xl text-vibe transition-all duration-200 hover:text-accent active:text-accent" />
                                       </button>
                                     </div>
                                   )}
