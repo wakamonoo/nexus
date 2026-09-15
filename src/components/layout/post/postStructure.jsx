@@ -15,6 +15,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import AutoPlay from "./autoPlay";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import { TitleContext } from "@/context/titleContext";
+import { SocketContext } from "@/context/socketContext";
 
 dayjs.extend(relativeTime);
 
@@ -28,6 +29,9 @@ export default function PostStructure({ post }) {
     handleFileClick,
     setSelectedPost,
   } = useContext(PostContext);
+  const { postEnergizes, postEchoes } = useContext(SocketContext);
+  const energized = postEnergizes[post?.postId] ?? post?.energized ?? [];
+  const echoed = postEchoes[post?.postId] ?? post?.echoed ?? [];
   const [showFull, setShowFull] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -359,11 +363,11 @@ export default function PostStructure({ post }) {
         >
           <AiFillThunderbolt
             className={`text-2xl ${
-              post.energized?.includes(user?.uid) ? "text-zeus" : "text-normal"
+              energized?.includes(user?.uid) ? "text-zeus" : "text-normal"
             }`}
           />
-          <p className="text-xs font-light text-normal opacity-60">
-            {post.energized ? post.energized.length : 0} energized
+          <p className="text-xs font-light text-vibe opacity-60">
+            {energized ? energized.length : 0} energized
           </p>
         </div>
 
@@ -380,11 +384,11 @@ export default function PostStructure({ post }) {
         >
           <MdOutlineSensors
             className={`text-2xl ${
-              post.echoed?.includes(user?.uid) ? "text-accent" : "text-normal"
+              echoed?.includes(user?.uid) ? "text-accent" : "text-normal"
             }`}
           />
-          <p className="text-xs font-light text-normal opacity-60">
-            {post.echoed ? post.echoed.length : 0} echoed
+          <p className="text-xs font-light text-vibe opacity-60">
+            {echoed ? echoed.length : 0} echoed
           </p>
         </div>
         <div
@@ -395,7 +399,7 @@ export default function PostStructure({ post }) {
           className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
         >
           <FaComment className="text-2xl transform -scale-x-100" />
-          <p className="text-xs font-light text-normal opacity-60">
+          <p className="text-xs font-light text-vibe opacity-60">
             {post.comments
               ? post.comments.length +
                 post.comments.reduce(

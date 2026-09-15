@@ -26,13 +26,15 @@ export default function ConfirmMessageDeleteModal({
 }) {
   const { setIsLoading } = useContext(LoaderContext);
 
-  const handleMessageDelete = async (messageToDelete) => {
+  const handleMessageDelete = async () => {
     try {
       setIsLoading(true);
       await fetch(`${BASE_URL}/api/messages/deleteMessage/${messageToDelete}`, {
         method: "DELETE",
       });
       onDelete(messageToDelete);
+
+      setShowConfirmMessageDeleteModal(false);
 
       Swal.fire({
         toast: true,
@@ -100,14 +102,13 @@ export default function ConfirmMessageDeleteModal({
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
-            onClick={() => {
-              handleMessageDelete(messageToDelete);
-              setShowConfirmMessageDeleteModal(false);
-            }}
+            onClick={handleMessageDelete}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
-          <RegularButtons onClick={() => setShowConfirmMessageDeleteModal(false)}>
+          <RegularButtons
+            onClick={() => setShowConfirmMessageDeleteModal(false)}
+          >
             <p className="font-bold text-normal text-base">Cancel</p>
           </RegularButtons>
         </div>

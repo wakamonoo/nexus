@@ -45,9 +45,13 @@ export const SocketProvider = ({ children }) => {
   const { allUsers, user, socket } = useContext(UserContext);
   const [sortedReviews, setSortedReviews] = useState([]);
   const [reviewsLoad, setReviewsLoad] = useState(true);
+
+  const [postEnergizes, setPostEnergizes] = useState({});
+  const [postEchoes, setPostEchoes] = useState({});
   const [reviewVotes, setReviewVotes] = useState({});
   const [listVotes, setListVotes] = useState({});
   const [momentLoves, setMomentLoves] = useState({});
+
   const [pings, setPings] = useState([]);
   const [activities, setActivities] = useState(null);
   const [latestSeenMessages, setLatestSeenMessages] = useState({});
@@ -309,6 +313,36 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!socket) return;
 
+    socket.on("postEnergizedUpdated", (data) => {
+      setPostEnergizes((prev) => ({
+        ...prev,
+        [data.postId]: data.energized,
+      }));
+    });
+
+    return () => {
+      socket.off("postEnergizedUpdated");
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("postEchoedUpdated", (data) => {
+      setPostEchoes((prev) => ({
+        ...prev,
+        [data.postId]: data.echoed,
+      }));
+    });
+
+    return () => {
+      socket.off("postEchoedUpdated");
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    if (!socket) return;
+
     socket.on("reviewVoteUpdated", (data) => {
       setReviewVotes((prev) => ({
         ...prev,
@@ -367,6 +401,8 @@ export const SocketProvider = ({ children }) => {
         setPings,
         sortedReviews,
         reviewsLoad,
+        postEnergizes,
+        postEchoes,
         reviewVotes,
         listVotes,
         momentLoves,

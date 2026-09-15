@@ -8,6 +8,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButtons from "../buttons/secBtns";
 import { RiImageAiFill } from "react-icons/ri";
 import { LuCodeXml } from "react-icons/lu";
+import { PostContext } from "@/context/postContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -23,6 +24,7 @@ if (APP_ENV === "production") {
 
 export default function AddPostModal({ setShowAddPostModal }) {
   const { user } = useContext(UserContext);
+  const { setPosts } = useContext(PostContext);
   const [post, setPost] = useState({
     topicId: "",
     text: "",
@@ -118,7 +120,7 @@ export default function AddPostModal({ setShowAddPostModal }) {
         };
       }
 
-      await fetch(`${BASE_URL}/api/posts/addPost`, {
+      const res = await fetch(`${BASE_URL}/api/posts/addPost`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -132,6 +134,13 @@ export default function AddPostModal({ setShowAddPostModal }) {
         }),
       });
 
+      if (!res.ok) {
+        throw new Error("failed to create post");
+      }
+
+      const { post: newPost } = await res.json();
+
+      setPosts((prev) => [newPost, ...prev]);
       setShowAddPostModal(false);
 
       Swal.fire({

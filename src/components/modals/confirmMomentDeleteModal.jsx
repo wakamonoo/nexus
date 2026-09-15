@@ -24,22 +24,22 @@ if (APP_ENV === "production") {
 }
 
 export default function ConfirmMomentDeleteModal({
-  momentId,
+  momentToDelete,
   setShowConfirmMomentDeleteModal,
   setShowMomentLightbox,
 }) {
   const { setMoments } = useContext(MomentContext);
   const { setIsLoading } = useContext(LoaderContext);
 
-  const handleMomentDelete = async (momentId) => {
+  const handleMomentDelete = async () => {
     try {
       setIsLoading(true);
-      await fetch(`${BASE_URL}/api/moments/deleteMoment/${momentId}`, {
+      await fetch(`${BASE_URL}/api/moments/deleteMoment/${momentToDelete}`, {
         method: "DELETE",
       });
 
       setMoments((prev) =>
-        prev.filter((moment) => moment.momentId !== momentId),
+        prev.filter((moment) => moment.momentId !== momentToDelete),
       );
 
       setShowConfirmMomentDeleteModal(false);
@@ -112,10 +112,7 @@ export default function ConfirmMomentDeleteModal({
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
-            onClick={() => {
-              handleMomentDelete(momentId);
-              setShowConfirmMomentDeleteModal(false);
-            }}
+            onClick={handleMomentDelete}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>

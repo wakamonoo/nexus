@@ -32,7 +32,6 @@ export const PostProvider = ({ children }) => {
   const [showDetails, setShowDetails] = useState(true);
   const [initialIndex, setInitialIndex] = useState(0);
   const [postLoading, setPostLoading] = useState(true);
-  const { setIsLoading } = useContext(LoaderContext);
   const [showConfirmPostDeleteModal, setShowConfirmPostDeleteModal] =
     useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
@@ -40,8 +39,6 @@ export const PostProvider = ({ children }) => {
   const [postToDelete, setPostToDelete] = useState(null);
   const [postToEdit, setPostToEdit] = useState(null);
   const postLightboxRef = useRef();
-  const router = useRouter();
-  const pathname = usePathname();
 
   const postFetch = async () => {
     try {
@@ -153,62 +150,6 @@ export const PostProvider = ({ children }) => {
     }
   };
 
-  const handlePostDelete = async (postId) => {
-    try {
-      setIsLoading(true);
-      await fetch(`${BASE_URL}/api/posts/deletePost/${postId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: user?.uid }),
-      });
-      await postFetch();
-
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "Post deleted!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-hulk)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "RPost deletion failed, please try again later!",
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-accent)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
-      console.error(err);
-    } finally {
-      setPostLightBoxOpen(false);
-      if (pathname.startsWith("/post")) {
-        router.back();
-      }
-      setIsLoading(false);
-    }
-  };
-
   const getUserPosts = async (userId) => {
     setPostLoading(true);
     setUserPosts(null);
@@ -256,6 +197,7 @@ export const PostProvider = ({ children }) => {
       value={{
         postFetch,
         posts,
+        setPosts,
         getUserPosts,
         userPosts,
         getUserEchoes,
@@ -272,7 +214,6 @@ export const PostProvider = ({ children }) => {
         setPostLightBoxOpen,
         postLightboxRef,
         postLoading,
-        handlePostDelete,
         showConfirmPostDeleteModal,
         setShowConfirmPostDeleteModal,
         setShowEditPostModal,
@@ -285,12 +226,7 @@ export const PostProvider = ({ children }) => {
       {children}
       {postLightBoxOpen && <PostLightBox />}
       {showConfirmPostDeleteModal && (
-        <ConfirmPostDeleteModal
-          onDelete={() => {
-            handlePostDelete(postToDelete);
-            setShowConfirmPostDeleteModal(false);
-          }}
-        />
+        <ConfirmPostDeleteModal postToDelete={postToDelete} />
       )}
       {showEditPostModal && (
         <EditPostModal

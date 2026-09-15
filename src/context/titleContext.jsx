@@ -1,7 +1,5 @@
 "use client";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { LoaderContext } from "./loaderContext";
-import Swal from "sweetalert2";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -24,7 +22,6 @@ export const TitleProvider = ({ children }) => {
   const [releasedAdjacentTitles, setReleasedAdjacentTitles] = useState([]);
   const [upcomingTitles, setUpcomingTitles] = useState([]);
   const [titlesLoad, setTitlesLoad] = useState(true);
-  const { setIsLoading } = useContext(LoaderContext);
   const [reviewToDelete, setReviewToDelete] = useState(null);
 
   useEffect(() => {
@@ -64,53 +61,6 @@ export const TitleProvider = ({ children }) => {
 
     handleGetTitles();
   }, []);
-
-  const handleTitleDelete = async (titleId) => {
-    try {
-      setIsLoading(true);
-      await fetch(`${BASE_URL}/api/titles/deleteTitle/${titleId}`, {
-        method: "DELETE",
-      });
-      setTitles((prev) => prev.filter((t) => t.titleId !== titleId));
-
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "Tile have been deleted!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-hulk)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        toast: true,
-        position: "bottom-start",
-        title: "Failed deleting title, please try again later!",
-        icon: "error",
-        timer: 2000,
-        showConfirmButton: false,
-        background: "var(--color-secondary)",
-        iconColor: "var(--color-accent)",
-        customClass: {
-          popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
-        },
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const getReleaseDate = (title) => {
     return title.mediaType === "tv" ? title.first_air_date : title.release_date;
@@ -168,7 +118,6 @@ export const TitleProvider = ({ children }) => {
         goat,
         popular,
         titlesLoad,
-        handleTitleDelete,
         reviewToDelete,
         setReviewToDelete,
       }}

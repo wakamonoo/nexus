@@ -360,9 +360,9 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
         throw new Error("failed to create moment");
       }
 
-      const { moment } = await res.json();
+      const { moment: newMoment } = await res.json();
 
-      setMoments((prev) => [moment, ...prev]);
+      setMoments((prev) => [newMoment, ...prev]);
 
       setCapturedPhoto(null);
       setSelectedTitle(null);

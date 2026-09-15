@@ -10,6 +10,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { SocketContext } from "@/context/socketContext";
 
 dayjs.extend(relativeTime);
 
@@ -27,6 +28,11 @@ export default function PostLightBox() {
     setPostLightBoxOpen,
     postLightboxRef,
   } = useContext(PostContext);
+  const { postEnergizes, postEchoes } = useContext(SocketContext);
+  const energized =
+    postEnergizes[currentPostInfo.postId] ?? currentPostInfo.energized ?? [];
+  const echoed =
+    postEchoes[currentPostInfo.postId] ?? currentPostInfo.echoed ?? [];
   const { allUsers, user, setShowSignInModal } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
@@ -243,13 +249,11 @@ export default function PostLightBox() {
             >
               <AiFillThunderbolt
                 className={`text-2xl ${
-                  post?.energized?.includes(user?.uid)
-                    ? "text-zeus"
-                    : "text-normal"
+                  energized?.includes(user?.uid) ? "text-zeus" : "text-normal"
                 }`}
               />
-              <p className="text-xs font-light text-normal opacity-60">
-                {post?.energized ? post?.energized.length : 0} energized
+              <p className="text-xs font-light text-vibe opacity-60">
+                {energized ? energized.length : 0} energized
               </p>
             </div>
             <div
@@ -266,13 +270,11 @@ export default function PostLightBox() {
             >
               <MdOutlineSensors
                 className={`text-2xl ${
-                  post.echoed?.includes(user?.uid)
-                    ? "text-accent"
-                    : "text-normal"
+                  echoed?.includes(user?.uid) ? "text-accent" : "text-normal"
                 }`}
               />
-              <p className="text-xs font-light text-normal opacity-60">
-                {post.echoed ? post.echoed.length : 0} echoed
+              <p className="text-xs font-light text-vibe opacity-60">
+                {echoed ? echoed.length : 0} echoed
               </p>
             </div>
             <div
@@ -280,7 +282,7 @@ export default function PostLightBox() {
               className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
             >
               <FaComment className="text-2xl transform -scale-x-100" />
-              <p className="text-xs font-light text-normal opacity-60">
+              <p className="text-xs font-light text-vibe opacity-60">
                 {post.comments
                   ? post.comments.length +
                     post.comments.reduce(

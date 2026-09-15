@@ -27,7 +27,7 @@ export default function ConfirmCommentDeleteModal({
 }) {
   const { setIsLoading } = useContext(LoaderContext);
 
-  const handleCommentDelete = async (commentToDelete) => {
+  const handleCommentDelete = async () => {
     try {
       setIsLoading(true);
 
@@ -64,6 +64,8 @@ export default function ConfirmCommentDeleteModal({
             : [],
         }));
       }
+
+      setShowConfirmCommentDeleteModal(false);
 
       Swal.fire({
         toast: true,
@@ -131,14 +133,13 @@ export default function ConfirmCommentDeleteModal({
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
-            onClick={() => {
-              handleCommentDelete(commentToDelete);
-              setShowConfirmCommentDeleteModal(false);
-            }}
+            onClick={handleCommentDelete}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
-          <RegularButtons onClick={() => setShowConfirmCommentDeleteModal(false)}>
+          <RegularButtons
+            onClick={() => setShowConfirmCommentDeleteModal(false)}
+          >
             <p className="font-bold text-normal text-base">Cancel</p>
           </RegularButtons>
         </div>

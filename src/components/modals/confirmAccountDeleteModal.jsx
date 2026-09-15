@@ -1,7 +1,6 @@
 "use client";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
-import CircledButtons from "../buttons/circledBtns";
 import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
@@ -33,7 +32,7 @@ export default function ConfirmAccountDeleteModal({
   const userId = user?.uid;
   const router = useRouter();
 
-  const handleAccountDelete = async (userId) => {
+  const handleAccountDelete = async () => {
     try {
       setIsLoading(true);
 
@@ -45,8 +44,10 @@ export default function ConfirmAccountDeleteModal({
       });
 
       await firebaseUser.delete();
-      router.push("/");
+
+      setShowConfirmAccountDeleteModal(false);
       setShowEditProfileModal(false);
+      router.push("/");
 
       Swal.fire({
         toast: true,
@@ -121,14 +122,13 @@ export default function ConfirmAccountDeleteModal({
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
-            onClick={() => {
-              handleAccountDelete(userId);
-              setShowConfirmAccountDeleteModal(false);
-            }}
+            onClick={handleAccountDelete}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
-          <RegularButtons onClick={() => setShowConfirmAccountDeleteModal(false)}>
+          <RegularButtons
+            onClick={() => setShowConfirmAccountDeleteModal(false)}
+          >
             <p className="font-bold text-normal text-base">Cancel</p>
           </RegularButtons>
         </div>

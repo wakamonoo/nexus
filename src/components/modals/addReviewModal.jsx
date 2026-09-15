@@ -18,7 +18,12 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function AddReviewModal({ setShowAddReviewModal, titleId, title }) {
+export default function AddReviewModal({
+  setShowAddReviewModal,
+  titleId,
+  title,
+  setTitle,
+}) {
   const { user } = useContext(UserContext);
   const [reviewText, setReviewText] = useState("");
   const { setIsLoading } = useContext(LoaderContext);
@@ -45,9 +50,10 @@ export default function AddReviewModal({ setShowAddReviewModal, titleId, title }
 
       const data = await res.json();
 
-      title.reviews = title.reviews
-        ? [...title.reviews, data.review]
-        : [data.review];
+      setTitle((prev) => ({
+        ...prev,
+        reviews: prev.reviews ? [...prev.reviews, data.review] : [data.review],
+      }));
 
       setReviewText("");
       setShowAddReviewModal(false);

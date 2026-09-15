@@ -6,13 +6,7 @@ const router = express.Router();
 
 router.post("/addPost", async (req, res) => {
   try {
-    const {
-      userId,
-      topicId,
-      text,
-      embed = null,
-      files = [],
-    } = req.body;
+    const { userId, topicId, text, embed = null, files = [] } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
@@ -89,22 +83,25 @@ router.post("/addPost", async (req, res) => {
     }
 
     const newId = `post-${uuidv4()}`;
+
+    const newPost = {
+      postId: newId,
+      userId,
+      topicId,
+      text,
+      embed,
+      files,
+      comments: [],
+      date: new Date(),
+    };
     await db.collection("posts").updateOne(
-      { postId: newId },
+      { postId: newPost.postId },
       {
-        $setOnInsert: {
-          userId,
-          topicId,
-          text,
-          embed,
-          files,
-          comments: [],
-          date: new Date(),
-        },
+        $setOnInsert: newPost,
       },
       { upsert: true },
     );
-    res.status(200).json({ message: "success" });
+    res.status(200).json({ message: "success", post: newPost });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });

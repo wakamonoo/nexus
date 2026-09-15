@@ -23,21 +23,21 @@ if (APP_ENV === "production") {
 }
 
 export default function ConfirmListDeleteModal({
-  listId,
+  listToDelete,
   setShowConfirmListDeleteModal,
 }) {
   const { setLists } = useContext(ListContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
-  const handleTitleDelete = async (listId) => {
+  const handleListDelete = async () => {
     try {
       setIsLoading(true);
-      await fetch(`${BASE_URL}/api/lists/deleteList/${listId}`, {
+      await fetch(`${BASE_URL}/api/lists/deleteList/${listToDelete}`, {
         method: "DELETE",
       });
 
-      setLists((prev) => prev.filter((list) => list.listId !== listId));
+      setLists((prev) => prev.filter((list) => list.listId !== listToDelete));
 
       setShowConfirmListDeleteModal(false);
 
@@ -110,10 +110,7 @@ export default function ConfirmListDeleteModal({
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
-            onClick={() => {
-              handleTitleDelete(listId);
-              setShowConfirmListDeleteModal(false);
-            }}
+            onClick={handleListDelete}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>

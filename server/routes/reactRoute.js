@@ -16,7 +16,10 @@ router.post("/postEnergize", async (req, res) => {
     const post = await db.collection("posts").findOne({ postId });
 
     let update;
-    if (post.energized?.includes(userId)) {
+
+    const hasEnergized = post.energized?.includes(userId);
+
+    if (hasEnergized) {
       await db.collection("users").updateOne({ uid: userId }, [
         {
           $set: {
@@ -120,7 +123,18 @@ router.post("/postEnergize", async (req, res) => {
     await db.collection("posts").updateOne({ postId }, update);
 
     const updatedPost = await db.collection("posts").findOne({ postId });
-    res.status(200).json({ energized: updatedPost.energized });
+
+    const energizeData = {
+      postId,
+      energized: updatedPost.energized || [],
+    };
+
+    io.emit("postEnergizedUpdated", energizeData);
+
+    res.status(200).json({
+      message: hasEnergized ? "energize removed" : "post energized",
+      ...energizeData,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });
@@ -139,7 +153,10 @@ router.post("/postEcho", async (req, res) => {
     const post = await db.collection("posts").findOne({ postId });
 
     let update;
-    if (post.echoed?.includes(userId)) {
+
+    const hasEchoed = post.echoed?.includes(userId);
+
+    if (hasEchoed) {
       await db.collection("users").updateOne({ uid: userId }, [
         {
           $set: {
@@ -242,7 +259,18 @@ router.post("/postEcho", async (req, res) => {
     await db.collection("posts").updateOne({ postId }, update);
 
     const updatedPost = await db.collection("posts").findOne({ postId });
-    res.status(200).json({ echoed: updatedPost.echoed });
+
+    const echoData = {
+      postId,
+      echoed: updatedPost.echoed || [],
+    };
+
+    io.emit("postEchoedUpdated", echoData);
+
+    res.status(200).json({
+      message: hasEchoed ? "echo removed" : "post echoed",
+      ...echoData,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });
@@ -562,9 +590,10 @@ router.post("/momentLove", async (req, res) => {
 
     io.emit("momentLoveUpdated", loveData);
 
-    res
-      .status(200)
-      .json({ message: hasLoved ? "love removed" : "love added", ...loveData });
+    res.status(200).json({
+      message: hasLoved ? "love removed" : "moment loved",
+      ...loveData,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err });

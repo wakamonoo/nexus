@@ -26,7 +26,7 @@ export default function ConfirmPingsDeleteModal({
 }) {
   const { setIsLoading } = useContext(LoaderContext);
 
-  const handleDeleteAll = async (userId) => {
+  const handleDeleteAll = async () => {
     try {
       setIsLoading(true);
       await fetch(`${BASE_URL}/api/pings/deleteAll/${userId}`, {
@@ -34,6 +34,9 @@ export default function ConfirmPingsDeleteModal({
       });
 
       setPings((prev) => prev.filter((p) => p.userId !== userId));
+
+      setShowConfirmpPingsDeleteModal(false);
+      setSelectedPing(null);
 
       Swal.fire({
         toast: true,
@@ -71,7 +74,6 @@ export default function ConfirmPingsDeleteModal({
       });
     } finally {
       setIsLoading(false);
-      setSelectedPing(null);
     }
   };
 
@@ -103,10 +105,7 @@ export default function ConfirmPingsDeleteModal({
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
-            onClick={() => {
-              handleDeleteAll(userId);
-              setShowConfirmpPingsDeleteModal(false);
-            }}
+            onClick={handleDeleteAll}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>

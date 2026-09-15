@@ -850,6 +850,7 @@ export default function Title() {
           setShowAddReviewModal={setShowAddReviewModal}
           titleId={titleId}
           title={title}
+          setTitle={setTitle}
         />
       )}
       {showConfirmReviewDeleteModal && (
@@ -857,6 +858,7 @@ export default function Title() {
           setShowConfirmReviewDeleteModal={setShowConfirmReviewDeleteModal}
           reviewToDelete={reviewToDelete}
           title={title}
+          setTitle={setTitle}
           userId={user?.uid}
         />
       )}

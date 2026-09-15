@@ -32,11 +32,11 @@ export default function ConfirmListCommentDelete({
     setMounted(true);
   }, []);
 
-  const handleCommentDelete = async (commentToDelete) => {
+  const handleCommentDelete = async () => {
     try {
       setIsLoading(true);
 
-      await fetch(`${BASE_URL}/api/lists/deleteComment/${commentToDelete}`, {
+      await fetch(`${BASE_URL}/api/lists/deleteComment/${comment.commentId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -50,12 +50,14 @@ export default function ConfirmListCommentDelete({
             ? {
                 ...list,
                 comments: list.comments.filter(
-                  (item) => item.commentId !== commentToDelete,
+                  (item) => item.commentId !== comment.commentId,
                 ),
               }
             : list,
         ),
       );
+
+      setShowConfirmListCommentDelete(false);
 
       Swal.fire({
         toast: true,
@@ -93,7 +95,6 @@ export default function ConfirmListCommentDelete({
       });
     } finally {
       setIsLoading(false);
-      setShowConfirmListCommentDelete(false);
     }
   };
 
@@ -127,11 +128,13 @@ export default function ConfirmListCommentDelete({
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
-            onClick={() => handleCommentDelete(comment.commentId)}
+            onClick={handleCommentDelete}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
-          <RegularButtons onClick={() => setShowConfirmListCommentDelete(false)}>
+          <RegularButtons
+            onClick={() => setShowConfirmListCommentDelete(false)}
+          >
             <p className="font-bold text-normal text-base">Cancel</p>
           </RegularButtons>
         </div>

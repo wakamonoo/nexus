@@ -184,7 +184,7 @@ export default function MomentLightbox({
       </div>
       {showConfirmMomentDeleteModal && (
         <ConfirmMomentDeleteModal
-          momentId={moment.momentId}
+          momentToDelete={moment.momentId}
           setShowConfirmMomentDeleteModal={setShowConfirmMomentDeleteModal}
           setShowMomentLightbox={setShowMomentLightbox}
         />

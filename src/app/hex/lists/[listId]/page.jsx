@@ -50,7 +50,8 @@ export default function List() {
   const { lists } = useContext(ListContext);
   const [showEditListModal, setShowEditListModal] = useState(false);
   const { listVotes } = useContext(SocketContext);
-  const [showConfirmListDeleteModal, setShowConfirmListDeleteModal] = useState(false);
+  const [showConfirmListDeleteModal, setShowConfirmListDeleteModal] =
+    useState(false);
   const { user, allUsers, setShowSignInModal } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
@@ -222,7 +223,9 @@ export default function List() {
                   </div>
                   <div
                     onClick={() => {
-                      user ? setShowAddCommentModal(true) : setShowSignInModal(true);
+                      user
+                        ? setShowAddCommentModal(true)
+                        : setShowSignInModal(true);
                     }}
                     className="flex items-center cursor-pointer rounded-full bg-panel hover:bg-[var(--color-panel)]/60 transition-all duration-100 py-2 px-4 gap-2"
                   >
@@ -374,7 +377,7 @@ export default function List() {
       )}
       {showConfirmListDeleteModal && (
         <ConfirmListDeleteModal
-          listId={listId}
+          listToDelete={listId}
           setShowConfirmListDeleteModal={setShowConfirmListDeleteModal}
         />
       )}

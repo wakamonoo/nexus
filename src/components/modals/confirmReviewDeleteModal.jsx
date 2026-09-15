@@ -22,14 +22,14 @@ if (APP_ENV === "production") {
 export default function ConfirmReviewDeleteModal({
   setShowConfirmReviewDeleteModal,
   reviewToDelete,
-  title,
+  setTitle,
   setReviews,
   userId,
 }) {
   const { setIsLoading } = useContext(LoaderContext);
   const pathname = usePathname();
 
-  const handleReviwDelete = async (reviewToDelete) => {
+  const handleReviewDelete = async () => {
     try {
       setIsLoading(true);
       await fetch(`${BASE_URL}/api/reviews/deleteReview/${reviewToDelete}`, {
@@ -39,15 +39,19 @@ export default function ConfirmReviewDeleteModal({
         },
         body: JSON.stringify({ userId }),
       });
+
       if (pathname.startsWith("/hex")) {
-        title.reviews = title.reviews.filter(
-          (r) => r.reviewId !== reviewToDelete,
-        );
+        setTitle((prev) => ({
+          ...prev,
+          reviews: prev.reviews.filter((r) => r.reviewId !== reviewToDelete),
+        }));
       }
 
       if (pathname.startsWith("/profile")) {
         setReviews((prev) => prev.filter((r) => r.reviewId !== reviewToDelete));
       }
+
+      setShowConfirmReviewDeleteModal(false);
 
       Swal.fire({
         toast: true,
@@ -115,14 +119,13 @@ export default function ConfirmReviewDeleteModal({
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
           <SecondaryButtons
-            onClick={() => {
-              handleReviwDelete(reviewToDelete);
-              setShowConfirmReviewDeleteModal(false);
-            }}
+            onClick={handleReviewDelete}
           >
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
-          <RegularButtons onClick={() => setShowConfirmReviewDeleteModal(false)}>
+          <RegularButtons
+            onClick={() => setShowConfirmReviewDeleteModal(false)}
+          >
             <p className="font-bold text-normal text-base">Cancel</p>
           </RegularButtons>
         </div>

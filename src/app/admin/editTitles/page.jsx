@@ -73,7 +73,7 @@ export default function EditTitleMain() {
       <AdminGuard>
         {showConfirmTitleDeleteModal && (
           <ConfirmTitleDeleteModal
-            titleId={selectedTitleId}
+            titleToDelete={selectedTitleId}
             setShowConfirmTitleDeleteModal={setShowConfirmTitleDeleteModal}
           />
         )}
