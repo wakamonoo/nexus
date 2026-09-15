@@ -535,6 +535,7 @@ export default function Citadel() {
                               )}
                               <div
                                 className="flex group"
+                                onContextMenu={(e) => e.preventDefault()}
                                 onMouseEnter={() => setActiveMessage(msg.msgId)}
                                 onMouseLeave={() => {
                                   if (selectedMessage?.msgId !== msg.msgId) {

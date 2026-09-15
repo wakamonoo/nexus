@@ -1,7 +1,7 @@
 import { FaPen, FaTrash } from "react-icons/fa";
 
 export default function ListOptions({
-  setShowListOpt,
+  setShowListOption,
   setShowEditListModal,
   setShowConfirmListDeleteModal,
 }) {
@@ -10,7 +10,7 @@ export default function ListOptions({
       <button
         onClick={() => {
           setShowEditListModal(true);
-          setShowListOpt(false);
+          setShowListOption(false);
         }}
         className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >
@@ -20,7 +20,7 @@ export default function ListOptions({
       <button
         onClick={() => {
           setShowConfirmListDeleteModal(true);
-          setShowListOpt(false);
+          setShowListOption(false);
         }}
         className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
       >

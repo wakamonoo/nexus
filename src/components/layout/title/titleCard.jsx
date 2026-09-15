@@ -2,7 +2,7 @@ import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaEye, FaEyeSlash, FaRegEyeSlash } from "react-icons/fa";
-import Fallback from "@/assets/fallback.png"
+import Fallback from "@/assets/fallback.png";
 import { FiCheckCircle } from "react-icons/fi";
 import { MdOutlineReviews } from "react-icons/md";
 import AddReviewModal from "../../modals/addReviewModal";
@@ -169,7 +169,6 @@ export default function TitleCard({
         <AddReviewModal
           setShowAddReviewModal={setShowAddReviewModal}
           titleId={unit.titleId}
-          title={unit}
         />
       )}
     </>

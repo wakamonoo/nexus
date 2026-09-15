@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/addReview", async (req, res) => {
   try {
-    const { titleId, title, userId, textReview } = req.body;
+    const { titleId, userId, textReview } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
@@ -102,7 +102,6 @@ router.post("/addReview", async (req, res) => {
 
     const data = {
       titleId,
-      title,
       userId,
       textReview,
       date: new Date(),

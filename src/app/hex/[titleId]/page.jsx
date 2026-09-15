@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
 import { useParams } from "next/navigation";
 import {
@@ -45,6 +45,7 @@ import { SocketContext } from "@/context/socketContext";
 import RegularButtons from "@/components/buttons/regBtns";
 import TitleInfoLoader from "@/components/loaders/titleInfoLoader";
 import TitleReviewsLoader from "@/components/loaders/titleReviewsLoader";
+import ReviewOptions from "@/components/options/reviewOptions";
 
 dayjs.extend(relativeTime);
 
@@ -74,7 +75,7 @@ export default function Title() {
   const { user, allUsers, setShowSignInModal } = useContext(UserContext);
   const [showConfirmReviewDeleteModal, setShowConfirmReviewDeleteModal] =
     useState(false);
-  const [showReviewOption, setShowReviewOption] = useState(false);
+  const [selectedReview, setSelectedReview] = useState(null);
   const { reviewVotes } = useContext(SocketContext);
 
   useEffect(() => {
@@ -221,7 +222,10 @@ export default function Title() {
   return (
     <>
       <div
-        onClick={() => setShowTitleMenu(false)}
+        onClick={() => {
+          setShowTitleMenu(false);
+          setSelectedReview(null);
+        }}
         className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]"
       >
         <div className="flex justify-between py-4 ">
@@ -690,14 +694,29 @@ export default function Title() {
                     const downvotes =
                       realtimeVote?.downvotes ?? review.downvotes ?? [];
                     return (
-                      <Fragment key={review.reviewId}>
+                      <div key={review.reviewId}>
                         <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative ">
                           {review.userId === user?.uid && (
-                            <div
-                              onClick={() => setShowReviewOption(true)}
-                              className="flex absolute top-2 right-2"
-                            >
-                              <BiDotsHorizontalRounded className="text-base cursor-pointer" />
+                            <div className="absolute top-2 right-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedReview(review.reviewId);
+                                }}
+                                className="cursor-pointer"
+                              >
+                                <BiDotsHorizontalRounded className="text-base " />
+                              </button>
+                              {selectedReview === review.reviewId && (
+                                <ReviewOptions
+                                  review={review}
+                                  setSelectedReview={setSelectedReview}
+                                  setReviewToDelete={setReviewToDelete}
+                                  setShowConfirmReviewDeleteModal={
+                                    setShowConfirmReviewDeleteModal
+                                  }
+                                />
+                              )}
                             </div>
                           )}
                           {review.date === firstReview.date && (
@@ -798,46 +817,7 @@ export default function Title() {
                             </div>
                           </div>
                         </div>
-                        {showReviewOption && (
-                          <div
-                            onClick={() => setShowReviewOption(false)}
-                            className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
-                          >
-                            <div
-                              onClick={(e) => e.stopPropagation()}
-                              className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
-                            >
-                              <div className="flex items-center justify-end px-4 pt-4">
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setShowReviewOption(false);
-                                  }}
-                                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
-                                >
-                                  <MdClose className="text-xl" />
-                                </button>
-                              </div>
-                              <div className="px-4 pb-4">
-                                <div className="flex">
-                                  <RegularButtons
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setShowReviewOption(false);
-                                      setReviewToDelete(review.reviewId);
-                                      setShowConfirmReviewDeleteModal(true);
-                                    }}
-                                  >
-                                    <p className="font-bold text-normal text-base">
-                                      Delete Review
-                                    </p>
-                                  </RegularButtons>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </Fragment>
+                      </div>
                     );
                   })
               )}
@@ -849,7 +829,6 @@ export default function Title() {
         <AddReviewModal
           setShowAddReviewModal={setShowAddReviewModal}
           titleId={titleId}
-          title={title}
           setTitle={setTitle}
         />
       )}
@@ -857,7 +836,6 @@ export default function Title() {
         <ConfirmReviewDeleteModal
           setShowConfirmReviewDeleteModal={setShowConfirmReviewDeleteModal}
           reviewToDelete={reviewToDelete}
-          title={title}
           setTitle={setTitle}
           userId={user?.uid}
         />

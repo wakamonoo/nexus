@@ -57,7 +57,7 @@ export default function List() {
   const { setIsLoading } = useContext(LoaderContext);
   const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
-  const [showListOpt, setShowListOpt] = useState(false);
+  const [showListOption, setShowListOption] = useState(false);
   const [showAddCommentModal, setShowAddCommentModal] = useState(false);
   const [showTitles, setShowTitles] = useState(true);
   const [showComments, setShowComments] = useState(false);
@@ -147,7 +147,7 @@ export default function List() {
   return (
     <>
       <div
-        onClick={() => setShowListOpt(false)}
+        onClick={() => setShowListOption(false)}
         className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32"
       >
         <div className="flex justify-between items-center py-4 w-full">
@@ -191,15 +191,15 @@ export default function List() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setShowListOpt((prev) => !prev);
+                        setShowListOption((prev) => !prev);
                       }}
                       className="cursor-pointer"
                     >
                       <BiDotsHorizontalRounded className="text-2xl" />
                     </button>
-                    {showListOpt && (
+                    {showListOption && (
                       <ListOptions
-                        setShowListOpt={setShowListOpt}
+                        setShowListOption={setShowListOption}
                         setShowEditListModal={setShowEditListModal}
                         setShowConfirmListDeleteModal={
                           setShowConfirmListDeleteModal

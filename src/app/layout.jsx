@@ -150,10 +150,10 @@ export default function RootLayout({ children }) {
       >
         <LoaderProvider>
           <UserProvider>
-            <SocketProvider>
-              <ScrollProvider>
-                <MenuProvider>
-                  <TitleProvider>
+            <TitleProvider>
+              <SocketProvider>
+                <ScrollProvider>
+                  <MenuProvider>
                     <PostProvider>
                       <TitleNavProvider>
                         <WatchProvider>
@@ -165,10 +165,10 @@ export default function RootLayout({ children }) {
                         </WatchProvider>
                       </TitleNavProvider>
                     </PostProvider>
-                  </TitleProvider>
-                </MenuProvider>
-              </ScrollProvider>
-            </SocketProvider>
+                  </MenuProvider>
+                </ScrollProvider>
+              </SocketProvider>
+            </TitleProvider>
           </UserProvider>
         </LoaderProvider>
       </body>

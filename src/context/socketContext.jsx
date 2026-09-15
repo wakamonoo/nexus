@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { TitleContext } from "./titleContext";
 
 export const SocketContext = createContext();
 
@@ -43,6 +44,7 @@ export const SocketProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [chatLoad, setChatLoad] = useState(true);
   const { allUsers, user, socket } = useContext(UserContext);
+  const { titles } = useContext(TitleContext);
   const [sortedReviews, setSortedReviews] = useState([]);
   const [reviewsLoad, setReviewsLoad] = useState(true);
 
@@ -298,9 +300,11 @@ export const SocketProvider = ({ children }) => {
     fetchLatestReviews();
 
     socket.on("newReview", (data) => {
+      const titleData = titles.find((t) => t.titleId === data.titleId);
+
       console.log("Received latest review data:", data);
       setSortedReviews((prev) => [
-        { ...data, title: data.title || "unknown" },
+        { ...data, title: titleData?.title || "unknown" },
         ...prev,
       ]);
     });
@@ -308,7 +312,7 @@ export const SocketProvider = ({ children }) => {
     return () => {
       socket.off("newReview");
     };
-  }, [socket]);
+  }, [socket, titles]);
 
   useEffect(() => {
     if (!socket) return;

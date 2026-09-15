@@ -21,7 +21,6 @@ if (APP_ENV === "production") {
 export default function AddReviewModal({
   setShowAddReviewModal,
   titleId,
-  title,
   setTitle,
 }) {
   const { user } = useContext(UserContext);
@@ -35,7 +34,6 @@ export default function AddReviewModal({
 
       const newReview = {
         titleId,
-        title: title.title,
         userId: user.uid,
         textReview: reviewText,
       };
@@ -50,10 +48,14 @@ export default function AddReviewModal({
 
       const data = await res.json();
 
-      setTitle((prev) => ({
-        ...prev,
-        reviews: prev.reviews ? [...prev.reviews, data.review] : [data.review],
-      }));
+      if (setTitle) {
+        setTitle((prev) => ({
+          ...prev,
+          reviews: prev.reviews
+            ? [...prev.reviews, data.review]
+            : [data.review],
+        }));
+      }
 
       setReviewText("");
       setShowAddReviewModal(false);
