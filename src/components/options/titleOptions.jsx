@@ -17,7 +17,7 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function TitleMenu({ titleId, hasReview, hasRank }) {
+export default function TitleOptions({ titleId, hasReview, hasRank }) {
   const { user, setShowSignInModal } = useContext(UserContext);
   const { isTitleWatched, handleWatch } = useContext(WatchContext);
 

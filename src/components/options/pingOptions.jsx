@@ -1,6 +1,6 @@
 import { LoaderContext } from "@/context/loaderContext";
 import { SocketContext } from "@/context/socketContext";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 
@@ -16,7 +16,7 @@ if (APP_ENV === "production") {
   BASE_URL = "http://localhost:4000";
 }
 
-export default function PingOpt({ pingId, setSelectedPing }) {
+export default function PingOptions({ pingId, setSelectedPing }) {
   const { setIsLoading } = useContext(LoaderContext);
   const { setPings } = useContext(SocketContext);
 
@@ -124,7 +124,9 @@ export default function PingOpt({ pingId, setSelectedPing }) {
     }
   };
   return (
-    <div className="flex flex-col absolute top-10 right-0 w-60 border-1 border-panel bg-second shadow-2xl rounded p-2 z-50">
+    <div
+      className="flex flex-col absolute top-10 right-0 w-60 border-1 border-panel bg-second shadow-2xl rounded p-2 z-50"
+    >
       <button
         onClick={(e) => {
           e.stopPropagation();

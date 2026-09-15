@@ -9,9 +9,10 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { PiBellSimpleSlash } from "react-icons/pi";
 import { SocketContext } from "@/context/socketContext";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import PingOpt from "./pingOpt";
+import PingOptions from "../../options/pingOptions";
 import RegularButtons from "../../buttons/regBtns";
 import Swal from "sweetalert2";
+import Fallback from "@/assets/fallback.png";
 import ConfirmPingsDeleteModal from "@/components/modals/confirmPingsDeleteModal";
 
 dayjs.extend(relativeTime);
@@ -188,7 +189,7 @@ export default function Ping({ setShowPing }) {
                     <div
                       key={ping.date}
                       onClick={() => handlePingClick(ping)}
-                      className={`relative flex border-b-1 p-4 cursor-pointer ${
+                      className={`relative flex items-start gap-2 border-b-1 p-4 cursor-pointer ${
                         ping.isRead
                           ? "bg-second border-panel"
                           : "bg-panel border-[var(--color-secondary)]"
@@ -196,8 +197,8 @@ export default function Ping({ setShowPing }) {
                     >
                       <div className="flex gap-2 items-start">
                         <Image
-                          src={sender?.picture}
-                          alt={sender?.name}
+                          src={sender?.picture || Fallback}
+                          alt={sender?.name || "Nexus"}
                           width={0}
                           height={0}
                           sizes="100vw"
@@ -236,21 +237,25 @@ export default function Ping({ setShowPing }) {
                           </p>
                         </div>
                       </div>
-                      <BiDotsHorizontalRounded
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedPing(
-                            selectedPing === ping.pingId ? null : ping.pingId,
-                          );
-                        }}
-                        className="text-2xl shrink-0"
-                      />
-                      {selectedPing === ping.pingId && (
-                        <PingOpt
-                          pingId={ping.pingId}
-                          setSelectedPing={setSelectedPing}
-                        />
-                      )}
+                      <div className="relative">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedPing(
+                              selectedPing === ping.pingId ? null : ping.pingId,
+                            );
+                          }}
+                          className="cursor-pointer"
+                        >
+                          <BiDotsHorizontalRounded className="text-2xl shrink-0" />
+                        </button>
+                        {selectedPing === ping.pingId && (
+                          <PingOptions
+                            pingId={ping.pingId}
+                            setSelectedPing={setSelectedPing}
+                          />
+                        )}
+                      </div>
                     </div>
                   );
                 })

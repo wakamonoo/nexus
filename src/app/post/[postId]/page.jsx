@@ -18,7 +18,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import PostLoader from "@/components/loaders/postLoader";
 import { Bs1CircleFill } from "react-icons/bs";
 import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
-import PostOpt from "@/components/layout/post/postOpt";
+import PostOptions from "@/components/options/postOptions";
 import GoatTitlesStructureMin from "@/components/layout/titlesStructure/goatTitlesStructureMin";
 import GoatTitlesStructureMax from "@/components/layout/titlesStructure/goatTitlesStructureMax";
 import ConfirmCommentDeleteModal from "@/components/modals/confirmCommentDeleteModal";
@@ -302,7 +302,7 @@ export default function Post() {
 
   return (
     <>
-      <div className="bg-brand w-full">
+      <div onClick={() => setSelectedPost(null)} className="w-full">
         <div className="relative bg-panel border-b-1 border-[var(--color-secondary)] p-6 flex justify-center items-center">
           <FaAngleLeft
             onClick={() => router.back()}
@@ -349,7 +349,6 @@ export default function Post() {
                     {user?.uid === postOwner?.uid ? (
                       <div className="absolute top-4 right-4">
                         <button
-                          id={`btn-${post?.postId}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             setSelectedPost(
@@ -360,10 +359,10 @@ export default function Post() {
                           }}
                           className="cursor-pointer"
                         >
-                          <BiDotsHorizontalRounded className="text-2xl" />
+                          <BiDotsHorizontalRounded className="text-2xl shrink-0" />
                         </button>
                         {selectedPost === post?.postId && (
-                          <PostOpt postId={post?.postId} />
+                          <PostOptions postId={post?.postId} />
                         )}
                       </div>
                     ) : null}

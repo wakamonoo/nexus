@@ -30,7 +30,7 @@ import {
 import { SocketContext } from "@/context/socketContext";
 import Swal from "sweetalert2";
 import AddCommentModal from "@/components/modals/addCommentModal";
-import ListOpt from "@/components/layout/list/listOpt";
+import ListOptions from "@/components/options/listOptions";
 import CommentLayout from "@/components/layout/list/commentLayout";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -146,7 +146,10 @@ export default function List() {
   }, []);
   return (
     <>
-      <div className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+      <div
+        onClick={() => setShowListOpt(false)}
+        className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32"
+      >
         <div className="flex justify-between items-center py-4 w-full">
           <FaAngleLeft
             onClick={() => router.back()}
@@ -186,11 +189,23 @@ export default function List() {
                 {creator?.uid === user?.uid && (
                   <div className="absolute top-4 right-4">
                     <button
-                      onClick={() => setShowListOpt(true)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowListOpt((prev) => !prev);
+                      }}
                       className="cursor-pointer"
                     >
                       <BiDotsHorizontalRounded className="text-2xl" />
                     </button>
+                    {showListOpt && (
+                      <ListOptions
+                        setShowListOpt={setShowListOpt}
+                        setShowEditListModal={setShowEditListModal}
+                        setShowConfirmListDeleteModal={
+                          setShowConfirmListDeleteModal
+                        }
+                      />
+                    )}
                   </div>
                 )}
                 <div className="flex justify-end mt-4 px-2 gap-2">
@@ -362,13 +377,6 @@ export default function List() {
           </div>
         )}
       </div>
-      {showListOpt && (
-        <ListOpt
-          setShowListOpt={setShowListOpt}
-          setShowEditListModal={setShowEditListModal}
-          setShowConfirmListDeleteModal={setShowConfirmListDeleteModal}
-        />
-      )}
       {showEditListModal && (
         <EditListModal
           list={currentList}

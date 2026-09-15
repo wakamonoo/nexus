@@ -7,7 +7,7 @@ import { MdOutlineSensors } from "react-icons/md";
 import Fallback from "@/assets/fallback.png";
 import Avatar from "@/assets/defaultAvatar.png";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import PostOpt from "./postOpt";
+import PostOptions from "../../options/postOptions";
 import { LoaderContext } from "@/context/loaderContext";
 import { usePathname, useRouter } from "next/navigation";
 import dayjs from "dayjs";
@@ -121,9 +121,9 @@ export default function PostStructure({ post }) {
             }}
             className="cursor-pointer"
           >
-            <BiDotsHorizontalRounded className="text-2xl" />
+            <BiDotsHorizontalRounded className="text-2xl shrink-0" />
           </button>
-          {selectedPost === post.postId && <PostOpt postId={post.postId} />}
+          {selectedPost === post.postId && <PostOptions postId={post.postId} />}
         </div>
       ) : null}
 

@@ -24,7 +24,7 @@ import ShowLoader from "@/components/loaders/titleInfoLoader";
 import AddReviewModal from "@/components/modals/addReviewModal";
 import { UserContext } from "@/context/userContext";
 import { MdClose, MdOutlineReviews, MdRateReview } from "react-icons/md";
-import TitleMenu from "@/components/layout/title/titleMenu";
+import TitleOptions from "@/components/options/titleOptions";
 import { GiTrophy } from "react-icons/gi";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
 import ConfirmReviewDeleteModal from "@/components/modals/confirmReviewDeleteModal";
@@ -238,7 +238,7 @@ export default function Title() {
               className={`text-2xl cursor-pointer ${title?.status === "released" ? "flex" : "hidden"}`}
             />
             {showTitleMenu && (
-              <TitleMenu
+              <TitleOptions
                 setShowTitleMenu={setShowTitleMenu}
                 titleId={title.titleId}
                 hasReview={doneReview}

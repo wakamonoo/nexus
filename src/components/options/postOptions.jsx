@@ -2,7 +2,7 @@ import { PostContext } from "@/context/postContext";
 import { useContext, useEffect, useRef } from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
 
-export default function PostOpt({ postId }) {
+export default function PostOptions({ postId }) {
   const {
     posts,
     setShowConfirmPostDeleteModal,

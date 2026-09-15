@@ -19,6 +19,7 @@ import CircledButtons from "@/components/buttons/circledBtns";
 import NavBar from "@/components/layout/essentials/navBar";
 import RegularButtons from "@/components/buttons/regBtns";
 import Swal from "sweetalert2";
+import CitadelOptions from "@/components/options/citadelOptions";
 
 dayjs.extend(relativeTime);
 
@@ -62,6 +63,7 @@ export default function Citadel() {
   const [activeMessage, setActiveMessage] = useState(null);
   const [replyingTo, setReplyingTo] = useState(null);
   const router = useRouter();
+  const [messageSize, setMessageSize] = useState(null);
   const inputRef = useRef(null);
   const replyRef = useRef({});
   const bubbleRef = useRef({});
@@ -338,10 +340,29 @@ export default function Citadel() {
     ? allUsers.find((u) => u.uid === replyingTo.senderId)
     : null;
 
+  useEffect(() => {
+    if (!selectedMessage) return;
+
+    const message = bubbleRef.current[selectedMessage.msgId];
+
+    if (!message) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      setMessageSize({
+        width: entry.contentRect.width,
+        height: entry.contentRect.height,
+      });
+    });
+
+    observer.observe(message);
+
+    return () => observer.disconnect();
+  }, [selectedMessage]);
+
   return (
     <>
       <NavBar />
-      <div>
+      <div onClick={() => setSelectedMessage(null)} className="w-full">
         {!user ? (
           <div
             className="relative flex w-full items-center justify-center overflow-hidden px-4"
@@ -524,16 +545,49 @@ export default function Citadel() {
                               >
                                 {ownMessage && (
                                   <div
-                                    className={`mr-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
+                                    className={`mr-2 flex items-start  ${selectedMessage?.msgId === msg.msgId ? "flex" : !msg.text && msg.files?.length > 0 ? "md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "" : "hidden md:group-hover:flex"}`}
                                   >
-                                    <BiDotsVerticalRounded
-                                      onClick={() => setSelectedMessage(msg)}
-                                      className="text-xl opacity-60 mt-2 cursor-pointer"
-                                    />
-                                    <FaReply
+                                    <div className="relative">
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setSelectedMessage((prev) =>
+                                            prev?.msgId === msg.msgId
+                                              ? null
+                                              : msg,
+                                          );
+                                        }}
+                                        className="opacity-60 mt-2 cursor-pointer"
+                                      >
+                                        <BiDotsVerticalRounded className="text-xl" />
+                                      </button>
+                                      {selectedMessage?.msgId === msg.msgId &&
+                                        messageSize && (
+                                          <CitadelOptions
+                                            selectedMessage={selectedMessage}
+                                            setSelectedMessage={
+                                              setSelectedMessage
+                                            }
+                                            messageSize={messageSize}
+                                            setEditingMessage={
+                                              setEditingMessage
+                                            }
+                                            setEditInput={setEditInput}
+                                            setMessageToDelete={
+                                              setMessageToDelete
+                                            }
+                                            setShowConfirmMessageDeleteModal={
+                                              setShowConfirmMessageDeleteModal
+                                            }
+                                          />
+                                        )}
+                                    </div>
+                                    <button
                                       onClick={() => handleReply(msg)}
-                                      className="text-xl opacity-60 mt-2 cursor-pointer"
-                                    />
+                                      className="opacity-60 mt-2 cursor-pointer"
+                                    >
+                                      <FaReply className="text-xl" />
+                                    </button>
                                   </div>
                                 )}
 
@@ -632,10 +686,12 @@ export default function Citadel() {
                                   <div
                                     className={`ml-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
                                   >
-                                    <FaReply
+                                    <button
                                       onClick={() => handleReply(msg)}
-                                      className="text-xl opacity-60 mt-2 cursor-pointer"
-                                    />
+                                      className="opacity-60 mt-2 cursor-pointer"
+                                    >
+                                      <FaReply className="text-xl" />
+                                    </button>
                                   </div>
                                 )}
                               </div>
@@ -837,55 +893,6 @@ export default function Citadel() {
           }}
           setShowGifPickerModal={setShowGifPickerModal}
         />
-      )}
-      {selectedMessage && (
-        <div
-          onClick={() => setSelectedMessage(null)}
-          className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-md overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
-          >
-            <div className="flex items-center justify-end px-4 pt-4">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedMessage(null);
-                }}
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
-              >
-                <MdClose className="text-xl" />
-              </button>
-            </div>
-            <div className="px-4 pb-4">
-              <div className="flex flex-col md:flex-row md:gap-2">
-                <RegularButtons
-                  onClick={() => {
-                    setEditingMessage(selectedMessage.msgId);
-                    setEditInput(selectedMessage.text);
-                    setSelectedMessage(null);
-                  }}
-                >
-                  <p className="font-bold text-normal text-base">
-                    Edit Message
-                  </p>
-                </RegularButtons>
-                <RegularButtons
-                  onClick={() => {
-                    setMessageToDelete(selectedMessage.msgId);
-                    setShowConfirmMessageDeleteModal(true);
-                    setSelectedMessage(null);
-                  }}
-                >
-                  <p className="font-bold text-normal text-base">
-                    Delete Message
-                  </p>
-                </RegularButtons>
-              </div>
-            </div>
-          </div>
-        </div>
       )}
     </>
   );
