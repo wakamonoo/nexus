@@ -36,8 +36,7 @@ if (APP_ENV === "production") {
 }
 
 export default function Citadel() {
-  const { allUsers, user, setUser, setShowSignInModal } =
-    useContext(UserContext);
+  const { allUsers, user, setShowSignInModal } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { messages, setMessages, chatLoad, latestSeenMessages } =
     useContext(SocketContext);
@@ -69,6 +68,7 @@ export default function Citadel() {
   const bubbleRef = useRef({});
   const seenMessageRequests = useRef(new Set());
   const seenMessageRefs = useRef({});
+  const timer = useRef(null);
 
   const markMessageSeen = async (msg) => {
     if (!user) return;
@@ -535,61 +535,69 @@ export default function Citadel() {
                               )}
                               <div
                                 className="flex group"
-                                onClick={() => {
-                                  if (window.innerWidth < 768) {
-                                    setActiveMessage((prev) =>
-                                      prev === msg.msgId ? null : msg.msgId,
-                                    );
+                                onMouseEnter={() => setActiveMessage(msg.msgId)}
+                                onMouseLeave={() => {
+                                  if (selectedMessage?.msgId !== msg.msgId) {
+                                    setActiveMessage(null);
                                   }
                                 }}
+                                onTouchStart={() => {
+                                  timer.current = setTimeout(() => {
+                                    setActiveMessage(msg.msgId);
+                                  }, 500);
+                                }}
+                                onTouchEnd={() => clearTimeout(timer.current)}
+                                onTouchCancel={() =>
+                                  clearTimeout(timer.current)
+                                }
                               >
-                                {ownMessage && (
-                                  <div
-                                    className={`mr-2 flex items-start  ${selectedMessage?.msgId === msg.msgId ? "flex" : !msg.text && msg.files?.length > 0 ? "md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "" : "hidden md:group-hover:flex"}`}
-                                  >
-                                    <div className="relative">
+                                {ownMessage &&
+                                  (activeMessage === msg.msgId ||
+                                    selectedMessage?.msgId === msg.msgId) && (
+                                    <div className="mr-2 flex items-start">
+                                      <div className="relative">
+                                        <button
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setSelectedMessage((prev) =>
+                                              prev?.msgId === msg.msgId
+                                                ? null
+                                                : msg,
+                                            );
+                                          }}
+                                          className="opacity-60 mt-2 cursor-pointer"
+                                        >
+                                          <BiDotsVerticalRounded className="text-xl" />
+                                        </button>
+                                        {selectedMessage?.msgId === msg.msgId &&
+                                          messageSize && (
+                                            <CitadelOptions
+                                              selectedMessage={selectedMessage}
+                                              setSelectedMessage={
+                                                setSelectedMessage
+                                              }
+                                              messageSize={messageSize}
+                                              setEditingMessage={
+                                                setEditingMessage
+                                              }
+                                              setEditInput={setEditInput}
+                                              setMessageToDelete={
+                                                setMessageToDelete
+                                              }
+                                              setShowConfirmMessageDeleteModal={
+                                                setShowConfirmMessageDeleteModal
+                                              }
+                                            />
+                                          )}
+                                      </div>
                                       <button
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setSelectedMessage((prev) =>
-                                            prev?.msgId === msg.msgId
-                                              ? null
-                                              : msg,
-                                          );
-                                        }}
+                                        onClick={() => handleReply(msg)}
                                         className="opacity-60 mt-2 cursor-pointer"
                                       >
-                                        <BiDotsVerticalRounded className="text-xl" />
+                                        <FaReply className="text-xl" />
                                       </button>
-                                      {selectedMessage?.msgId === msg.msgId &&
-                                        messageSize && (
-                                          <CitadelOptions
-                                            selectedMessage={selectedMessage}
-                                            setSelectedMessage={
-                                              setSelectedMessage
-                                            }
-                                            messageSize={messageSize}
-                                            setEditingMessage={
-                                              setEditingMessage
-                                            }
-                                            setEditInput={setEditInput}
-                                            setMessageToDelete={
-                                              setMessageToDelete
-                                            }
-                                            setShowConfirmMessageDeleteModal={
-                                              setShowConfirmMessageDeleteModal
-                                            }
-                                          />
-                                        )}
                                     </div>
-                                    <button
-                                      onClick={() => handleReply(msg)}
-                                      className="opacity-60 mt-2 cursor-pointer"
-                                    >
-                                      <FaReply className="text-xl" />
-                                    </button>
-                                  </div>
-                                )}
+                                  )}
 
                                 <div
                                   ref={(e) => {
@@ -602,7 +610,7 @@ export default function Citadel() {
                                       ref={(e) => {
                                         if (e) bubbleRef.current[msg.msgId] = e;
                                       }}
-                                      className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl cursor-pointer transition-all duration-200 md:group-hover:bg-accent ${
+                                      className={`px-4 py-2 w-fit max-w-60 md:max-w-90 rounded-2xl cursor-pointer transition-all duration-200 ${
                                         activeMessage === msg.msgId
                                           ? "bg-accent"
                                           : ownMessage
@@ -682,18 +690,18 @@ export default function Citadel() {
                                   )}
                                 </div>
 
-                                {!ownMessage && (
-                                  <div
-                                    className={`ml-2 ${!msg.text && msg.files?.length > 0 ? "flex md:hidden md:group-hover:flex" : activeMessage === msg.msgId ? "flex" : "hidden md:group-hover:flex"}`}
-                                  >
-                                    <button
-                                      onClick={() => handleReply(msg)}
-                                      className="opacity-60 mt-2 cursor-pointer"
-                                    >
-                                      <FaReply className="text-xl" />
-                                    </button>
-                                  </div>
-                                )}
+                                {!ownMessage &&
+                                  (activeMessage === msg.msgId ||
+                                    selectedMessage?.msgId === msg.msgId) && (
+                                    <div className="ml-2 flex items-start">
+                                      <button
+                                        onClick={() => handleReply(msg)}
+                                        className="opacity-60 mt-2 cursor-pointer"
+                                      >
+                                        <FaReply className="text-xl" />
+                                      </button>
+                                    </div>
+                                  )}
                               </div>
                             </div>
                           </div>
