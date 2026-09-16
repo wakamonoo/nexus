@@ -6,6 +6,7 @@ import { TitleNavContext } from "@/context/titleNavContext";
 import TitleCard from "../title/titleCard";
 import { WatchContext } from "@/context/watchContext";
 import LibraryLoader from "@/components/loaders/libraryLoader";
+import { FaClapperboard } from "react-icons/fa6";
 
 export default function ProfileLibrary({ profileUserWatch, profileUser }) {
   const { titles, titlesLoad, releasedMCUTitles } = useContext(TitleContext);
@@ -95,11 +96,15 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
         <LibraryLoader />
       ) : sortedWatch.length === 0 ? (
         <div className="flex h-full w-full justify-center items-center my-16">
-          <div className="flex flex-col items-center justify-center">
-            <MdSensorsOff className="text-4xl text-vibe opacity-40" />
-            <p className="text-xs text-vibe opacity-40">
-              {`${profileUser?.uid === user?.uid ? "you" : profileUser.name} have watched titles yet`}
-            </p>
+          <div className="flex flex-col gap-2 items-center justify-center">
+            <div className="w-14 h-14 rounded-full border border-panel flex items-center justify-center">
+              <FaClapperboard className="text-5xl text-vibe opacity-60 p-2" />
+            </div>
+            <div className="w-40 text-center">
+              <p className="text-xs text-vibe opacity-60 leading-tight">
+                {`${profileUser?.uid === user?.uid ? "You" : profileUser.name} have no watched titles yet`}
+              </p>
+            </div>
           </div>
         </div>
       ) : (

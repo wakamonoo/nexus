@@ -662,25 +662,35 @@ export default function Title() {
           ) : (
             <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide border-t-1 border-panel md:border-none mt-4 md:mt-0">
               {!title.reviews || title.reviews?.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-4 h-full">
-                  <>
-                    {title?.status === "released" ? (
-                      <>
-                        <MdRateReview className="text-4xl text-vibe opacity-40" />
-                        <p className="text-xs text-vibe opacity-40">
-                          claim the first review
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <FaHourglassHalf className="text-4xl text-vibe opacity-40" />
-                        <p className="text-xs text-vibe opacity-40">
-                          title coming soon
-                        </p>
-                      </>
-                    )}
-                  </>
-                </div>
+                <>
+                  {title?.status === "released" ? (
+                    <div className="flex h-full w-full justify-center items-center my-16">
+                      <div className="flex flex-col gap-2 items-center justify-center">
+                        <div className="w-14 h-14 rounded-full border border-panel flex items-center justify-center">
+                          <MdRateReview className="text-5xl text-vibe opacity-60 p-2" />
+                        </div>
+                        <div className="w-40 text-center">
+                          <p className="text-xs text-vibe opacity-60 leading-tight">
+                            Claim the first review
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex h-full w-full justify-center items-center my-16">
+                      <div className="flex flex-col gap-2 items-center justify-center">
+                        <div className="w-14 h-14 rounded-full border border-panel flex items-center justify-center">
+                          <FaHourglassHalf className="text-5xl text-vibe opacity-60 p-2" />
+                        </div>
+                        <div className="w-40 text-center">
+                          <p className="text-xs text-vibe opacity-60 leading-tight">
+                            Title coming soon.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
               ) : (
                 title.reviews
                   ?.sort((a, b) => new Date(b.date) - new Date(a.date))

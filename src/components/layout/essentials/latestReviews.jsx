@@ -155,8 +155,17 @@ export default function LatestReviews() {
         {reviewsLoad || !titles?.length || !allUsers?.length ? (
           <ReviewsLoader />
         ) : sortedReviews?.length === 0 ? (
-          <div className="rounded-lg border border-panel bg-second px-4 py-2 text-center">
-            <p className="text-sm text-vibe opacity-60">No Activities Yet</p>
+          <div className="flex h-full w-full justify-center items-center my-16">
+            <div className="flex flex-col gap-2 items-center justify-center">
+              <div className="w-14 h-14 rounded-full border border-panel flex items-center justify-center">
+                <MdRateReview className="text-5xl text-vibe opacity-60 p-2" />
+              </div>
+              <div className="w-40 text-center">
+                <p className="text-xs text-vibe opacity-60 leading-tight">
+                  Claim the first review
+                </p>
+              </div>
+            </div>
           </div>
         ) : (
           <div
@@ -188,7 +197,7 @@ export default function LatestReviews() {
         )}
       </div>
 
-      <div className="hidden lg:block h-[calc(100vh-6rem)] overflow-y-auto custom-scroll">
+      <div className={`hidden lg:block ${sortedReviews?.length > 0 ? "h-[calc(100vh-6rem)] overflow-y-auto custom-scroll" : ""}`}>
         <div className="flex items-center gap-2 pb-2">
           <p className="text-base font-bold text-vibe opacity-60">Reviews</p>
           <div className="flex-1 border-t-2 border-panel" />
@@ -196,8 +205,17 @@ export default function LatestReviews() {
         {reviewsLoad || !titles?.length || !allUsers?.length ? (
           <ReviewsLoader />
         ) : sortedReviews?.length === 0 ? (
-          <div className="rounded-lg border border-panel bg-second px-4 py-2 text-center">
-            <p className="text-sm text-vibe opacity-60">No Activities Yet</p>
+          <div className="flex h-full w-full justify-center items-center my-16">
+            <div className="flex flex-col gap-2 items-center justify-center">
+              <div className="w-14 h-14 rounded-full border border-panel flex items-center justify-center">
+                <MdRateReview className="text-5xl text-vibe opacity-60 p-2" />
+              </div>
+              <div className="w-40 text-center">
+                <p className="text-xs text-vibe opacity-60 leading-tight">
+                  Claim the first review
+                </p>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="flex gap-4 flex-col">

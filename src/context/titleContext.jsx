@@ -108,6 +108,7 @@ export const TitleProvider = ({ children }) => {
     <TitleContext.Provider
       value={{
         titles,
+        setTitles,
         releasedMCUTitles,
         releasedLegacyTitles,
         releasedAdjacentTitles,

@@ -11,7 +11,7 @@ import { UserContext } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { BiSolidUpvote } from "react-icons/bi";
-import { FaAngleLeft, FaBoxOpen, FaComment, FaList } from "react-icons/fa";
+import { FaAngleLeft, FaComment, FaList } from "react-icons/fa";
 
 export default function Lists() {
   const [showAddListModal, setShowAddListModal] = useState(false);

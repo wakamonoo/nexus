@@ -7,6 +7,8 @@ import {
   FaComment,
   FaPlay,
   FaRegComment,
+  FaRegFile,
+  FaRegFileAlt,
   FaTrash,
 } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
@@ -57,6 +59,7 @@ if (APP_ENV === "production") {
 export default function Post() {
   const { postId } = useParams();
   const [post, setPost] = useState(null);
+  const [postNotFound, setPostNotFound] = useState(false);
   const { allUsers, user, setShowSignInModal } = useContext(UserContext);
   const {
     handleEnergize,
@@ -68,7 +71,7 @@ export default function Post() {
   const { postEnergizes, postEchoes } = useContext(SocketContext);
   const energized = postEnergizes[post?.postId] ?? post?.energized ?? [];
   const echoed = postEchoes[post?.postId] ?? post?.echoed ?? [];
-  const { titles } = useContext(TitleContext);
+  const { titles, titlesLoad } = useContext(TitleContext);
   const router = useRouter();
   const [commentText, setCommentText] = useState("");
   const [files, setFiles] = useState([]);
@@ -105,6 +108,12 @@ export default function Post() {
     const getPost = async () => {
       try {
         const res = await fetch(`${BASE_URL}/api/posts/postGet/post/${postId}`);
+
+        if (res.status === 404) {
+          setPostNotFound(true);
+          setPost(null);
+          return;
+        }
 
         if (!res.ok) {
           throw new Error("failed to fetch post");
@@ -315,7 +324,20 @@ export default function Post() {
         <div className="grid grid-cols-1 md:grid-cols-[3fr_1.5fr] md:gap-4 items-start md:px-8 lg:px-16 xl:px-32">
           <main className="md:py-2 md:sticky md:top-0">
             <div>
-              {!post ? (
+              {postNotFound ? (
+                <div className="flex h-full w-full justify-center items-center my-16">
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="w-14 h-14 rounded-full border border-panel flex items-center justify-center">
+                      <FaRegFileAlt className="text-5xl text-vibe opacity-60 p-2" />
+                    </div>
+                    <div className="w-40 text-center">
+                      <p className="text-xs text-vibe opacity-60 leading-tight">
+                        The post may have been deleted by its owner.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : !post ? (
                 <PostLoader />
               ) : (
                 <>
@@ -611,14 +633,8 @@ export default function Post() {
                 </>
               )}
 
-              <aside className="p-2 md:hidden">
-                {!post ? (
-                  <GoatMinLoader />
-                ) : (
-                  <div className="overflow-x-auto scrollbar-hide">
-                    <GoatTitlesStructureMin />
-                  </div>
-                )}
+              <aside className="p-2 md:hidden overflow-x-auto scrollbar-hide">
+                {titlesLoad ? <GoatMinLoader /> : <GoatTitlesStructureMin />}
               </aside>
 
               <div className="flex flex-col gap-4 p-2 w-full">
@@ -1113,14 +1129,8 @@ export default function Post() {
             </div>
           </main>
 
-          <aside className="w-full h-full hidden md:block">
-            {!post ? (
-              <GoatMaxLoader />
-            ) : (
-              <div className="w-full md:py-4">
-                <GoatTitlesStructureMax />
-              </div>
-            )}
+          <aside className="w-full h-full hidden md:block md:py-4">
+            {titlesLoad ? <GoatMaxLoader /> : <GoatTitlesStructureMax />}
           </aside>
         </div>
       </div>

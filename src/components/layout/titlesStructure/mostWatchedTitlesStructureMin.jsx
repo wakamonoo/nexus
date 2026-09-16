@@ -9,6 +9,7 @@ import { FaBoxOpen } from "react-icons/fa";
 import { GiTrophy } from "react-icons/gi";
 import TitleCard from "../title/titleCard";
 import TitlesLoader from "@/components/loaders/titlesLoader";
+import { FaClapperboard } from "react-icons/fa6";
 
 export default function MostWatchedTitlesStructureMin() {
   const { setIsLoading } = useContext(LoaderContext);
@@ -46,11 +47,17 @@ export default function MostWatchedTitlesStructureMin() {
           />
         ))
       ) : (
-        <div className="flex flex-col w-full justify-center items-center">
-          <FaBoxOpen className="text-6xl text-panel" />
-          <p className="text-sm text-panel font-normal">
-            Sorry, no data to display!
-          </p>
+        <div className="flex h-full w-full justify-center items-center my-16">
+          <div className="flex flex-col gap-2 items-center justify-center">
+            <div className="w-14 h-14 rounded-full border border-panel flex items-center justify-center">
+              <FaClapperboard className="text-5xl text-vibe opacity-60 p-2" />
+            </div>
+            <div className="w-40 text-center">
+              <p className="text-xs text-vibe opacity-60 leading-tight">
+                Nothing here to explore yet.
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>

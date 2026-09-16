@@ -512,7 +512,7 @@ export default function UserProfile() {
                   ref={scrollRef1}
                   className="flex gap-2 overflow-x-auto scrollbar-hide"
                 >
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 w-full">
                     {momentLoading || allUsersLoading ? (
                       <>
                         <MomentLoader />
@@ -524,8 +524,8 @@ export default function UserProfile() {
                       </>
                     ) : userMoments?.length === 0 ? (
                       <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
-                        <p className="text-xs text-vibe opacity-40 text-center">
-                          {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't shared any moments yet.`}
+                        <p className="text-xs text-vibe opacity-60 text-center">
+                          {`${profileUser?.uid === user?.uid ? "You" : profileUser?.name} haven't shared any moments yet.`}
                         </p>
                       </div>
                     ) : (
@@ -602,8 +602,8 @@ export default function UserProfile() {
                 <ProfileSigils profileUser={profileUser} user={user} />
               ) : (
                 <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
-                  <p className="text-xs text-vibe opacity-40 text-center">
-                    {`${profileUser.uid === user?.uid ? "you" : profileUser.name} have no sigils to show.`}
+                  <p className="text-xs text-vibe opacity-60 text-center">
+                    {`${profileUser.uid === user?.uid ? "You" : profileUser.name} have no sigils to show.`}
                   </p>
                 </div>
               )}
@@ -678,8 +678,8 @@ export default function UserProfile() {
                     </div>
                   ) : (
                     <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
-                      <p className="text-xs text-vibe opacity-40 text-center">
-                        {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't ranked any titles yet.`}
+                      <p className="text-xs text-vibe opacity-60 text-center">
+                        {`${profileUser?.uid === user?.uid ? "You" : profileUser?.name} haven't ranked any titles yet.`}
                       </p>
                     </div>
                   )}
@@ -758,8 +758,8 @@ export default function UserProfile() {
                     </div>
                   ) : (
                     <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
-                      <p className="text-xs text-vibe opacity-40 text-center">
-                        {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} haven't watched anything yet.`}
+                      <p className="text-xs text-vibe opacity-60 text-center">
+                        {`${profileUser?.uid === user?.uid ? "You" : profileUser?.name} haven't watched anything yet.`}
                       </p>
                     </div>
                   )}
@@ -809,8 +809,8 @@ export default function UserProfile() {
               </div>
             ) : (
               <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
-                <p className="text-xs text-vibe opacity-40 text-center">
-                  {`${profileUser?.uid === user?.uid ? "you" : profileUser?.name} have no archive available.`}
+                <p className="text-xs text-vibe opacity-60 text-center">
+                  {`${profileUser?.uid === user?.uid ? "You" : profileUser?.name} have no archive available.`}
                 </p>
               </div>
             )}
