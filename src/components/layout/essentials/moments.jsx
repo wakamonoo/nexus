@@ -163,7 +163,7 @@ export default function Moments() {
                   <div className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex flex-col gap-4 items-center justify-center p-4">
                     <FiCamera className="text-4xl text-vibe opacity-10" />
                     <div className="flex flex-col items-center">
-                      <p className="text-xs font-bold text-vibe leading-tight">
+                      <p className="text-xs font-bold text-vibe leading-2.5 text-center">
                         Your next moment
                       </p>
                       <span className="text-xs text-center leading-2.5 text-vibe opacity-60">
@@ -174,7 +174,7 @@ export default function Moments() {
                   <div className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex flex-col gap-4 items-center justify-center p-4">
                     <FiCopy className="text-4xl text-vibe opacity-10" />
                     <div className="flex flex-col items-center">
-                      <p className="text-xs font-bold text-vibe leading-tight">
+                      <p className="text-xs font-bold text-vibe leading-2.5 text-center">
                         Capture a scene
                       </p>
                       <span className="text-xs text-center leading-2.5 text-vibe opacity-60">
@@ -185,7 +185,7 @@ export default function Moments() {
                   <div className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex flex-col gap-4 items-center justify-center p-4">
                     <FiAperture className="text-4xl text-vibe opacity-10" />
                     <div className="flex flex-col items-center">
-                      <p className="text-xs font-bold text-vibe leading-tight">
+                      <p className="text-xs font-bold text-vibe leading-2.5 text-center">
                         Small moments
                       </p>
                       <span className="text-xs text-center leading-2.5 text-vibe opacity-60">
@@ -196,7 +196,7 @@ export default function Moments() {
                   <div className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex flex-col gap-4 items-center justify-center p-4">
                     <TbSparkles className="text-4xl text-vibe opacity-10" />
                     <div className="flex flex-col items-center">
-                      <p className="text-xs font-bold text-vibe leading-tight">
+                      <p className="text-xs font-bold text-vibe leading-2.5 text-center">
                         More moments
                       </p>
                       <span className="text-xs text-center leading-2.5 text-vibe opacity-60">
