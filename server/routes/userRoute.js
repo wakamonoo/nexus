@@ -73,32 +73,62 @@ router.delete("/deleteUser/:uid", async (req, res) => {
     const userData = await db.collection("users").findOne({ uid });
     const userRankings = userData?.rankings || [];
 
-    await db.collection("users").deleteOne({ uid });
     await db.collection("messages").deleteMany({ senderId: uid });
     await db.collection("posts").deleteMany({ userId: uid });
     await db.collection("pings").deleteMany({ userId: uid });
+    await db.collection("activities").deleteMany({ userId: uid });
+    await db.collection("feedbacks").deleteMany({ userId: uid });
+    await db.collection("lists").deleteMany({ userId: uid });
+    await db.collection("moments").deleteMany({ userId: uid });
     await db.collection("watchList").deleteMany({ userId: uid });
+
     await db
       .collection("posts")
       .updateMany(
         { "comments.userId": uid },
         { $pull: { comments: { userId: uid } } },
       );
+
     await db
       .collection("titles")
       .updateMany(
         { "reviews.userId": uid },
         { $pull: { reviews: { userId: uid } } },
       );
+
     await db
       .collection("posts")
       .updateMany({ energized: uid }, { $pull: { energized: uid } });
+
     await db
       .collection("posts")
       .updateMany({ echoed: uid }, { $pull: { echoed: uid } });
+
     await db
       .collection("titles")
       .updateMany({ watchCount: uid }, { $pull: { watchCount: uid } });
+
+    await db
+      .collection("moments")
+      .updateMany({ loved: uid }, { $pull: { loved: uid } });
+
+    await db
+      .collection("lists")
+      .updateMany({ upvotes: uid }, { $pull: { upvotes: uid } });
+
+    await db
+      .collection("lists")
+      .updateMany(
+        { "comments.userId": uid },
+        { $pull: { comments: { userId: uid } } },
+      );
+      
+    await db
+      .collection("titles")
+      .updateMany(
+        { "reviews.upvotes": uid },
+        { $pull: { "reviews.$[].upvotes": uid } },
+      );
 
     for (const rankEntry of userRankings) {
       const { titleId, points } = rankEntry;
@@ -109,6 +139,8 @@ router.delete("/deleteUser/:uid", async (req, res) => {
         },
       );
     }
+
+    await db.collection("users").deleteOne({ uid });
 
     res.status(200).json({ message: "user and its data deleted succesfully" });
   } catch (err) {

@@ -10,6 +10,8 @@ import MomentLightbox from "@/components/lightBoxes/momentLightbox";
 import MomentLoader from "@/components/loaders/momentLoader";
 import { FaDiamond } from "react-icons/fa6";
 import { MomentContext } from "@/context/momentContext";
+import { FiAperture, FiCamera, FiCopy, FiStar } from "react-icons/fi";
+import { TbSparkles } from "react-icons/tb";
 
 export default function Moments() {
   const { user, allUsers, allUsersLoading } = useContext(UserContext);
@@ -158,14 +160,50 @@ export default function Moments() {
                 </>
               ) : moments.length === 0 ? (
                 <div className="flex gap-2">
-                  {[1, 2, 3].map((item) => (
-                    <div
-                      key={item}
-                      className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex items-center justify-center"
-                    >
-                      <FaDiamond className="text-xl text-vibe opacity-10" />
+                  <div className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex flex-col gap-4 items-center justify-center p-4">
+                    <FiCamera className="text-4xl text-vibe opacity-10" />
+                    <div className="flex flex-col items-center">
+                      <p className="text-xs font-bold text-vibe leading-tight">
+                        Your next moment
+                      </p>
+                      <span className="text-xs text-center leading-2.5 text-vibe opacity-60">
+                        Waiting to be captured
+                      </span>
                     </div>
-                  ))}
+                  </div>
+                  <div className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex flex-col gap-4 items-center justify-center p-4">
+                    <FiCopy className="text-4xl text-vibe opacity-10" />
+                    <div className="flex flex-col items-center">
+                      <p className="text-xs font-bold text-vibe leading-tight">
+                        Capture a scene
+                      </p>
+                      <span className="text-xs text-center leading-2.5 text-vibe opacity-60">
+                        Worth remembering
+                      </span>
+                    </div>
+                  </div>
+                  <div className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex flex-col gap-4 items-center justify-center p-4">
+                    <FiAperture className="text-4xl text-vibe opacity-10" />
+                    <div className="flex flex-col items-center">
+                      <p className="text-xs font-bold text-vibe leading-tight">
+                        Small moments
+                      </p>
+                      <span className="text-xs text-center leading-2.5 text-vibe opacity-60">
+                        Big memories
+                      </span>
+                    </div>
+                  </div>
+                  <div className="relative w-28 h-40 md:w-35 md:h-49 rounded bg-[var(--color-panel)]/40 border border-panel shrink-0 flex flex-col gap-4 items-center justify-center p-4">
+                    <TbSparkles className="text-4xl text-vibe opacity-10" />
+                    <div className="flex flex-col items-center">
+                      <p className="text-xs font-bold text-vibe leading-tight">
+                        More moments
+                      </p>
+                      <span className="text-xs text-center leading-2.5 text-vibe opacity-60">
+                        Coming your way
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 moments?.map((moment) => {
