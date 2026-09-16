@@ -27,11 +27,11 @@ import SigilsProfileLoader from "@/components/loaders/sigilsProfileLoader";
 import InfoProfileLoader from "@/components/loaders/infoProfileLoader";
 import { MomentContext } from "@/context/momentContext";
 import MomentLoader from "@/components/loaders/momentLoader";
-import { FaDiamond } from "react-icons/fa6";
 import AddMomenttModal from "@/components/modals/addMomentModal";
 import MomentLightbox from "@/components/lightBoxes/momentLightbox";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
-
+import Fallback from "@/assets/fallback.png";
+import MomentArchiveLoader from "@/components/loaders/momentArchiveLoader";
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
 let BASE_URL;
@@ -515,12 +515,10 @@ export default function UserProfile() {
                   <div className="flex gap-2 w-full">
                     {momentLoading || allUsersLoading ? (
                       <>
-                        <MomentLoader />
-                        <MomentLoader />
-                        <MomentLoader />
-                        <MomentLoader />
-                        <MomentLoader />
-                        <MomentLoader />
+                        <MomentArchiveLoader />
+                        <MomentArchiveLoader />
+                        <MomentArchiveLoader />
+                        <MomentArchiveLoader />
                       </>
                     ) : userMoments?.length === 0 ? (
                       <div className="w-full h-full flex flex-col justify-center items-center p-2 border border-panel rounded">
@@ -548,38 +546,19 @@ export default function UserProfile() {
                               });
                               setShowMomentLightbox(true);
                             }}
-                            className="group relative cursor-pointer w-28 h-40 md:w-35 md:h-49 rounded bg-panel overflow-hidden shrink-0"
+                            className="group relative cursor-pointer w-18 h-18 rounded-full border-2 border-panel overflow-hidden shrink-0"
                           >
                             <img
-                              src={moment?.image}
-                              alt="Moment Image"
+                              src={
+                                title?.backdrop
+                                  ? `https://image.tmdb.org/t/p/w500${title?.backdrop}`
+                                  : Fallback.src
+                              }
+                              alt={title?.title}
                               loading="lazy"
                               decoding="async"
                               className="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-active:scale-105"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                            <div className="absolute top-2 left-2 right-2 flex items-center gap-1">
-                              <div className="h-6 w-6 overflow-hidden rounded-full border border-accent shrink-0">
-                                <img
-                                  src={owner?.picture || Avatar.src}
-                                  alt="user"
-                                  loading="lazy"
-                                  decoding="async"
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <p className="text-xs font-semibold truncate min-w-0">
-                                {owner?.name}
-                              </p>
-                            </div>
-                            <div className="absolute bottom-3 left-3 right-3">
-                              <p className="text-xs font-medium uppercase tracking-wide leading-2 text-vibe opacity-60">
-                                Watching
-                              </p>
-                              <p className="truncate text-sm font-bold">
-                                {title?.title}
-                              </p>
-                            </div>
                           </div>
                         );
                       })
