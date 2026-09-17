@@ -510,7 +510,7 @@ export default function UserProfile() {
 
                 <div
                   ref={scrollRef1}
-                  className="flex gap-2 overflow-x-auto scrollbar-hide"
+                  className="flex gap-2 overflow-x-auto scrollbar-hide pb-2.5"
                 >
                   <div className="flex gap-2 w-full">
                     {momentLoading || allUsersLoading ? (
@@ -538,27 +538,48 @@ export default function UserProfile() {
                         return (
                           <div
                             key={moment?.momentId}
-                            onClick={() => {
-                              setSelectedMoment({
-                                moment,
-                                owner,
-                                title,
-                              });
-                              setShowMomentLightbox(true);
-                            }}
-                            className="group relative cursor-pointer w-18 h-18 rounded-full border-2 border-panel overflow-hidden shrink-0"
+                            className="group relative select-none overflow-visible"
                           >
-                            <img
-                              src={
-                                title?.backdrop
-                                  ? `https://image.tmdb.org/t/p/w500${title?.backdrop}`
-                                  : Fallback.src
-                              }
-                              alt={title?.title}
-                              loading="lazy"
-                              decoding="async"
-                              className="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-active:scale-105"
-                            />
+                            <div
+                              onClick={() => {
+                                setSelectedMoment({
+                                  moment,
+                                  owner,
+                                  title,
+                                });
+                                setShowMomentLightbox(true);
+                              }}
+                              className="cursor-pointer p-0.5 rounded-full border-4 border-panel"
+                            >
+                              <div className="w-18 h-18 rounded-full border-2 border-panel overflow-hidden shrink-0">
+                                <img
+                                  src={
+                                    title?.backdrop
+                                      ? `https://image.tmdb.org/t/p/w500${title?.backdrop}`
+                                      : Fallback.src
+                                  }
+                                  alt={title?.title}
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="w-full h-full object-cover transition duration-300 group-hover:scale-105 group-active:scale-105"
+                                />
+                              </div>
+                            </div>
+                              <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 flex h-8 w-8 flex-col items-center justify-center rounded-md border-2 border-[var(--color-bg)] bg-second overflow-hidden">
+                                <div className="absolute top-0 flex w-full items-center justify-center bg-accent/60">
+                                  <span className="text-[8px] font-semibold uppercase">
+                                    {new Date(
+                                      moment?.createdAt,
+                                    ).toLocaleDateString("en-US", {
+                                      month: "short",
+                                    })}
+                                  </span>
+                                </div>
+                                <span className="mt-3 text-[10px] font-bold leading-none">
+                                  {new Date(moment?.createdAt).getDate()}
+                                </span>
+                              </div>
+                         
                           </div>
                         );
                       })
