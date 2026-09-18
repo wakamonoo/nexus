@@ -120,9 +120,9 @@ export default function List() {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     }
@@ -209,7 +209,7 @@ export default function List() {
                   </div>
                 )}
                 <div className="flex justify-end mt-4 px-2 gap-2">
-                  <div className="flex items-center rounded-full bg-panel cursor-pointer hover:bg-[var(--color-panel)]/60 transition-all duration-100 py-2 px-4 gap-2">
+                  <div className="flex items-center rounded-full bg-panel cursor-pointer hover:bg-(--color-panel)/60 transition-all duration-100 py-2 px-4 gap-2">
                     {upvotes.includes(user?.uid) ? (
                       <BiSolidUpvote
                         onClick={() => handleVote(currentList.listId, "up")}
@@ -242,7 +242,7 @@ export default function List() {
                         ? setShowAddCommentModal(true)
                         : setShowSignInModal(true);
                     }}
-                    className="flex items-center cursor-pointer rounded-full bg-panel hover:bg-[var(--color-panel)]/60 transition-all duration-100 py-2 px-4 gap-2"
+                    className="flex items-center cursor-pointer rounded-full bg-panel hover:bg-(--color-panel)/60 transition-all duration-100 py-2 px-4 gap-2"
                   >
                     <FaComment className="text-base" />
                     <span className="text-xs opacity-60">
@@ -285,7 +285,7 @@ export default function List() {
                 className="cursor-pointer flex flex-1"
               >
                 <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                  className={`text-lg w-full text-center hover:font-bold hover:text-(--color-accent) ${
                     showTitles
                       ? "font-bold text-accent border-b-2 border-accent"
                       : "text-normal"
@@ -302,7 +302,7 @@ export default function List() {
                 className="cursor-pointer flex flex-1"
               >
                 <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                  className={`text-lg w-full text-center hover:font-bold hover:text-(--color-accent) ${
                     showComments
                       ? "font-bold text-accent border-b-2 border-accent"
                       : "text-normal"

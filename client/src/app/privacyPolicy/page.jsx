@@ -173,13 +173,13 @@ export default function PrivacyPolicy() {
             <strong className="font-medium opacity-60">August 17, 2026</strong>
           </p>
         </header>
-        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
+        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/4 p-4">
           <p className="text-sm leading-7 opacity-60">
             This policy explains what information Nexus collects and how it is
             used.
           </p>
         </div>
-        <div className="divide-y divide-[var(--color-panel)]">
+        <div className="divide-y divide-(--color-panel)">
           {sections.map((section) => (
             <section
               key={section.number}

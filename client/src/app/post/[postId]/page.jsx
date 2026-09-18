@@ -312,7 +312,7 @@ export default function Post() {
   return (
     <>
       <div onClick={() => setSelectedPost(null)} className="w-full">
-        <div className="relative bg-panel border-b-1 border-[var(--color-secondary)] p-6 flex justify-center items-center">
+        <div className="relative bg-panel border-b border-(--color-secondary) p-6 flex justify-center items-center">
           <FaAngleLeft
             onClick={() => router.back()}
             className="absolute left-2 sm:left-4 md:left-8 lg:left-16 xl:left-32 text-2xl cursor-pointer"
@@ -341,7 +341,7 @@ export default function Post() {
                 <PostLoader />
               ) : (
                 <>
-                  <div className="relative bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] md:rounded-2xl">
+                  <div className="relative bg-linear-to-b from-(--color-panel) to-(--color-secondary) md:rounded-2xl">
                     {post.files?.length > 1 && (
                       <>
                         {currentIndex > 0 && (
@@ -439,7 +439,7 @@ export default function Post() {
                             setIsLoading(true);
                             router.push(`/posts/${post?.topicId}`);
                           }}
-                          className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
+                          className={`h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
                         >
                           <p className="font-bold text-vibe text-sm px-2">
                             {currentTopic?.title}
@@ -454,7 +454,7 @@ export default function Post() {
                     )}
 
                     {post.embed?.id && post.files && post.files.length > 0 ? (
-                      <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-[var(--color-secondary)]/80 active:bg-[var(--color-secondary)]/80">
+                      <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-(--color-secondary)/80 active:bg-(--color-secondary)/80">
                         <div className="flex items-center gap-2 overflow-hidden">
                           <div className="flex p-2 shrink-0 items-center justify-center rounded-full bg-red-500">
                             <FaPlay className="text-lg text-white" />
@@ -521,7 +521,7 @@ export default function Post() {
                                   handleFileClick(post?.files, index, post);
                                   e.stopPropagation();
                                 }}
-                                className="flex-shrink-0 w-full h-full snap-center snap-always"
+                                className="shrink-0 w-full h-full snap-center snap-always"
                               >
                                 {["jpg", "jpeg", "png", "gif", "webp"].includes(
                                   ext,
@@ -573,7 +573,7 @@ export default function Post() {
                             setShowSignInModal(true);
                           }
                         }}
-                        className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
+                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
                       >
                         <AiFillThunderbolt
                           className={`text-2xl ${
@@ -595,7 +595,7 @@ export default function Post() {
                             setShowSignInModal(true);
                           }
                         }}
-                        className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
+                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
                       >
                         <MdOutlineSensors
                           className={`text-2xl ${
@@ -613,7 +613,7 @@ export default function Post() {
                           e.stopPropagation();
                           inputRef.current.focus();
                         }}
-                        className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
+                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
                       >
                         <FaComment className="text-2xl transform -scale-x-100" />
                         <p className="text-xs font-light text-vibe opacity-60">
@@ -762,7 +762,7 @@ export default function Post() {
                         {selectedCommentOption === comment.commentId && (
                           <div
                             onClick={() => setSelectedCommentOption(null)}
-                            className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
+                            className="fixed inset-0 z-150 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
                           >
                             <div
                               onClick={(e) => e.stopPropagation()}
@@ -774,7 +774,7 @@ export default function Post() {
                                     e.stopPropagation();
                                     setSelectedCommentOption(null);
                                   }}
-                                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+                                  className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-(--color-panel) hover:text-(--color-accent) shrink-0"
                                 >
                                   <MdClose className="text-xl" />
                                 </button>
@@ -933,7 +933,7 @@ export default function Post() {
                                       onClick={() =>
                                         setSelectedCommentOption(null)
                                       }
-                                      className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
+                                      className="fixed inset-0 z-150 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
                                     >
                                       <div
                                         onClick={(e) => e.stopPropagation()}
@@ -945,7 +945,7 @@ export default function Post() {
                                               e.stopPropagation();
                                               setSelectedCommentOption(null);
                                             }}
-                                            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+                                            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-(--color-panel) hover:text-(--color-accent) shrink-0"
                                           >
                                             <MdClose className="text-xl" />
                                           </button>
@@ -1011,7 +1011,7 @@ export default function Post() {
 
               <div className="px-2 sticky bottom-22 md:bottom-24">
                 {files.length > 0 && (
-                  <div className="flex flex-wrap gap-2 border-1 border-panel py-2 px-4 bg-second rounded-2xl">
+                  <div className="flex flex-wrap gap-2 border border-panel py-2 px-4 bg-second rounded-2xl">
                     {files.map((file, index) => {
                       const previewSrc =
                         typeof file === "string"
@@ -1054,7 +1054,7 @@ export default function Post() {
                   decoding="async"
                   className="w-12 h-12 object-cover rounded-full shrink-0"
                 />
-                <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">
+                <div className="w-full bg-panel rounded-2xl border border-(--color-secondary) py-2 px-4">
                   <div className="flex items-center w-full gap-2">
                     <textarea
                       ref={inputRef}
@@ -1097,7 +1097,7 @@ export default function Post() {
                       htmlFor="fileUploadComment"
                       className="cursor-pointer"
                     >
-                      <RiImageAiFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                      <RiImageAiFill className="text-xl text-(--color-text)/60 shrink-0" />
                     </label>
                     <input
                       id="fileUploadComment"
@@ -1121,7 +1121,7 @@ export default function Post() {
                     />
                     <RiFileGifFill
                       onClick={() => setShowGifPickerModal((prev) => !prev)}
-                      className="text-xl text-[var(--color-text)]/60 shrink-0 cursor-pointer"
+                      className="text-xl text-(--color-text)/60 shrink-0 cursor-pointer"
                     />
                   </div>
                 </div>

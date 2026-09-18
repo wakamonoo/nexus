@@ -51,7 +51,7 @@ const SelectionCard = ({
           ];
         });
       }}
-      className={`flex gap-4 items-start cursor-pointer px-2 py-4 border rounded-lg  ${isSelected ? "border-[var(--color-accent)] bg-accent/10" : "border-[var(--color-panel)] hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)]"}`}
+      className={`flex gap-4 items-start cursor-pointer px-2 py-4 border rounded-lg  ${isSelected ? "border-(--color-accent) bg-accent/10" : "border-(--color-panel) hover:bg-(--color-panel) focus:bg-(--color-panel)"}`}
     >
       {isSelected ? (
         <IoRadioButtonOn className="text-xl text-zeus mt-2 shrink-0" />
@@ -165,9 +165,9 @@ export default function AddListModal({ user, setShowAddListModal }) {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -183,9 +183,9 @@ export default function AddListModal({ user, setShowAddListModal }) {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -231,7 +231,7 @@ export default function AddListModal({ user, setShowAddListModal }) {
     <>
       <div
         onClick={() => setShowAddListModal(false)}
-        className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
+        className="fixed inset-0 z-150 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
           onClick={(e) => e.stopPropagation()}
@@ -244,7 +244,7 @@ export default function AddListModal({ user, setShowAddListModal }) {
                 e.stopPropagation();
                 setShowAddListModal(false);
               }}
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-(--color-panel) hover:text-(--color-accent) shrink-0"
             >
               <MdClose className="text-xl" />
             </button>

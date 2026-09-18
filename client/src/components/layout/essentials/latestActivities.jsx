@@ -50,7 +50,7 @@ export default function Activities() {
                   }
                 }}
                 key={activity.activityId}
-                className="flex items-center gap-2 rounded-lg cursor-pointer border bg-panel border-[var(--color-secondary)] px-4 py-2 transition-all duration-200 active:bg-[var(--color-secondary)] active:-translate-y-0.5 active:border-[var(--color-panel)] hover:bg-[var(--color-secondary)] hover:-translate-y-0.5 hover:border-[var(--color-panel)]"
+                className="flex items-center gap-2 rounded-lg cursor-pointer border bg-panel border-(--color-secondary) px-4 py-2 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)"
               >
                 <img
                   src={user?.picture || Avatar.src}

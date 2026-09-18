@@ -7,8 +7,8 @@ export default function Slot({ id, children }) {
   return (
     <div
       ref={setNodeRef}
-      className={`w-26 h-40 md:w-32 md:h-46 border-1 border-dashed rounded flex justify-center items-center ${
-        isOver ? "border-accent bg-[var(--color-accent)]/20" : ""
+      className={`w-26 h-40 md:w-32 md:h-46 border border-dashed rounded flex justify-center items-center ${
+        isOver ? "border-accent bg-(--color-accent)/20" : ""
       }`}
     >
       {children}

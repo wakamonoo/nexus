@@ -63,7 +63,7 @@ export default function ScreenTime() {
       {allUsersLoading ? (
         <TopWatchersLoader />
       ) : (
-        <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] p-4">
+        <div className="bg-linear-to-b from-(--color-panel) to-(--color-secondary) p-4">
           <div className="mb-4 flex items-center justify-between">
             <div>
               <h2 className="text-base font-bold">Who's on top?</h2>
@@ -79,7 +79,7 @@ export default function ScreenTime() {
                   setIsLoading(true);
                   router.push(`/profile/${user.uid}`);
                 }}
-                className="w-full cursor-pointer rounded-xl border bg-panel border-[var(--color-secondary)] p-3 transition-all duration-200 active:bg-[var(--color-secondary)] active:-translate-y-0.5 active:border-[var(--color-panel)] hover:bg-[var(--color-secondary)] hover:-translate-y-0.5 hover:border-[var(--color-panel)]"
+                className="w-full cursor-pointer rounded-xl border bg-panel border-(--color-secondary) p-3 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
@@ -94,7 +94,7 @@ export default function ScreenTime() {
                       className="w-12 h-12 object-cover rounded-full"
                     />
                     <div className="text-left">
-                      <p className="font-bold text-base truncate max-w-[140px]">
+                      <p className="font-bold text-base truncate max-w-35">
                         {user.name}
                       </p>
                       <p className="text-xs text-vibe">Rank #{user.rank}</p>

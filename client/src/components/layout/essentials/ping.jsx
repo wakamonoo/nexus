@@ -105,9 +105,9 @@ export default function Ping({ setShowPing }) {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -123,9 +123,9 @@ export default function Ping({ setShowPing }) {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -139,13 +139,13 @@ export default function Ping({ setShowPing }) {
         onClick={() => setShowPing(false)}
         className={`inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed ${
           navHide
-            ? "translate-x-[-100%] opacity-0"
+            ? "-translate-x-full opacity-0"
             : "translate-x-0 opacity-100"
         }`}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="absolute top-18 right-12 sm:right-18 md:right-22 lg:right-30 bg-second w-72 border-1 border-panel h-[70vh] rounded overflow-y-auto custom-scroll"
+          className="absolute top-18 right-12 sm:right-18 md:right-22 lg:right-30 bg-second w-72 border border-panel h-[70vh] rounded overflow-y-auto custom-scroll"
         >
           <div className="flex flex-col py-2">
             <h4 className="text-xl text-center">Pings</h4>
@@ -195,10 +195,10 @@ export default function Ping({ setShowPing }) {
                     <div
                       key={ping.date}
                       onClick={() => handlePingClick(ping)}
-                      className={`relative flex items-start gap-2 border-b-1 p-4 cursor-pointer ${
+                      className={`relative flex items-start gap-2 border-b p-4 cursor-pointer ${
                         ping.isRead
                           ? "bg-second border-panel"
-                          : "bg-panel border-[var(--color-secondary)]"
+                          : "bg-panel border-(--color-secondary)"
                       }`}
                     >
                       <div className="flex gap-2 items-start">

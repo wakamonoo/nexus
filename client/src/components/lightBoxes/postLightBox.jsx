@@ -93,7 +93,7 @@ export default function PostLightBox() {
   };
 
   return (
-    <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
+    <div className="inset-0 z-100 flex flex-col items-center justify-center fixed">
       <div className="z-50 inset-0">
         {showDetails && currentPost.length > 1 ? (
           <div className="absolute top-5 left-4">
@@ -145,7 +145,7 @@ export default function PostLightBox() {
           setShowDetails((prev) => !prev);
         }}
         ref={postLightboxRef}
-        className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-[100%] h-[100%] scrollbar-hide"
+        className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-full h-full scrollbar-hide"
       >
         {currentPost.map((file, index) => {
           const ext = file.split(".").pop().toLowerCase();
@@ -153,7 +153,7 @@ export default function PostLightBox() {
           return (
             <div
               key={index}
-              className="flex-shrink-0 w-full h-full snap-center flex items-center justify-center relative"
+              className="shrink-0 w-full h-full snap-center flex items-center justify-center relative"
             >
               {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) && (
                 <img
@@ -176,7 +176,7 @@ export default function PostLightBox() {
       </div>
 
       {showDetails && (
-        <div className="absolute bg-[var(--color-secondary)]/50 w-full bottom-0 left-0">
+        <div className="absolute bg-(--color-secondary)/50 w-full bottom-0 left-0">
           <div className="flex flex-col p-2">
             <p
               onClick={(e) => {
@@ -217,7 +217,7 @@ export default function PostLightBox() {
                 setPostLightBoxOpen(false);
                 router.push(`/posts/${currentPostInfo.topic}`);
               }}
-              className={`h-fit w-fit rounded-full bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-zeus)] ${
+              className={`h-fit w-fit rounded-full bg-linear-to-r from-(--color-accent) to-(--color-zeus) ${
                 currentPostInfo.topic ? "block" : "hidden"
               }`}
             >
@@ -245,7 +245,7 @@ export default function PostLightBox() {
                   setShowSignInModal(true);
                 }
               }}
-              className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+              className="flex flex-col items-center justify-center bg-(--color-panel)/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-secondary) active:bg-(--color-secondary) cursor-pointer"
             >
               <AiFillThunderbolt
                 className={`text-2xl ${
@@ -266,7 +266,7 @@ export default function PostLightBox() {
                   setShowSignInModal(true);
                 }
               }}
-              className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+              className="flex flex-col items-center justify-center bg-(--color-panel)/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-secondary) active:bg-(--color-secondary) cursor-pointer"
             >
               <MdOutlineSensors
                 className={`text-2xl ${
@@ -279,7 +279,7 @@ export default function PostLightBox() {
             </div>
             <div
               onClick={() => handlePostNav(currentPostInfo.postId, true)}
-              className="flex flex-col items-center justify-center bg-[var(--color-panel)]/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-secondary)] active:bg-[var(--color-secondary)] cursor-pointer"
+              className="flex flex-col items-center justify-center bg-(--color-panel)/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-secondary) active:bg-(--color-secondary) cursor-pointer"
             >
               <FaComment className="text-2xl transform -scale-x-100" />
               <p className="text-xs font-light text-vibe opacity-60">

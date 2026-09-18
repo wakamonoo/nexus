@@ -95,7 +95,7 @@ export default function Countdown() {
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-[var(--color-panel)]/50" />
+        <div className="absolute inset-0 bg-(--color-panel)/50" />
         <div className="relative z-10">
           {!showReleased && nextUpcomming && (
             <>
@@ -103,7 +103,7 @@ export default function Countdown() {
                 Countdown to {displayTitle?.title}
               </h1>
               <div className="flex flex-wrap items-center justify-center gap-2 w-full">
-                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
+                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-(--color-panel)/60 p-4">
                   <span className="countdown text-3xl font-bold">
                     <span
                       style={{ "--value": days, "--digits": 2 }}
@@ -113,7 +113,7 @@ export default function Countdown() {
                   </span>
                   <p className="text-xs">Days</p>
                 </div>
-                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
+                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-(--color-panel)/60 p-4">
                   <span className="countdown text-3xl font-bold">
                     <span
                       style={{ "--value": hours, "--digits": 2 }}
@@ -123,7 +123,7 @@ export default function Countdown() {
                   </span>
                   <p className="text-xs">Hours</p>
                 </div>
-                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
+                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-(--color-panel)/60 p-4">
                   <span className="countdown text-3xl font-bold">
                     <span
                       style={{ "--value": minutes, "--digits": 2 }}
@@ -133,7 +133,7 @@ export default function Countdown() {
                   </span>
                   <p className="text-xs">Minutes</p>
                 </div>
-                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-[var(--color-panel)]/60 p-4">
+                <div className="w-18 h-18 flex flex-col items-center justify-center border border-panel rounded bg-(--color-panel)/60 p-4">
                   <span className="countdown text-3xl font-bold">
                     <span
                       style={{ "--value": seconds, "--digits": 2 }}

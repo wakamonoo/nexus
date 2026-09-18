@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="w-full mt-14 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-62 bg-panel">
       <div className="flex items-center justify-center w-full">
-        <div className="border-t border-2 border-[var(--color-secondary)] flex-1" />
+        <div className="border-t border-2 border-(--color-secondary) flex-1" />
         <Image
           src={alt}
           alt="Nexus"
@@ -17,7 +17,7 @@ export default function Footer() {
           sizes="100vw"
           className="w-10 h-10 bg-second rounded-full p-1"
         />
-        <div className="border-t border-2 border-[var(--color-secondary)] flex-1" />
+        <div className="border-t border-2 border-(--color-secondary) flex-1" />
       </div>
       <div className="px-4 py-2 items-center justify-center">
         <p className="mx-auto max-w-5xl text-xs text-vibe text-center">

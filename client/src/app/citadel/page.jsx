@@ -194,9 +194,9 @@ export default function Citadel() {
               iconColor: "var(--color-accent)",
               customClass: {
                 popup:
-                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
                 title:
-                  "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+                  "!text-base !font-semibold !text-(--color-text) !leading-4.5",
               },
             });
             return;
@@ -373,9 +373,9 @@ export default function Citadel() {
       iconColor: "var(--color-hulk)",
       customClass: {
         popup:
-          "!w-fit !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          "!w-fit !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
         title:
-          "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+          "!text-base !font-semibold !text-(--color-text) !leading-4.5",
       },
     });
     setSelectedMessage(null);
@@ -391,10 +391,10 @@ export default function Citadel() {
             style={{ height: "100dvh" }}
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(237,29,36,0.12),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.03),transparent_45%)]" />
-            <div className="absolute inset-x-8 top-1/2 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/35 to-transparent" />
+            <div className="absolute inset-x-8 top-1/2 h-px bg-linear-to-r from-transparent via-(--color-accent)/35 to-transparent" />
 
-            <div className="relative flex w-full max-w-sm flex-col items-center justify-center rounded-lg border border-panel bg-[var(--color-secondary)]/60 p-8 text-center shadow-2xl backdrop-blur-md">
-              <div className="mb-4 grid h-16 w-16 place-items-center rounded-full border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/10 shadow-[0_0_32px_rgba(237,29,36,0.18)]">
+            <div className="relative flex w-full max-w-sm flex-col items-center justify-center rounded-lg border border-panel bg-(--color-secondary)/60 p-8 text-center shadow-2xl backdrop-blur-md">
+              <div className="mb-4 grid h-16 w-16 place-items-center rounded-full border border-(--color-accent)/30 bg-(--color-accent)/10 shadow-[0_0_32px_rgba(237,29,36,0.18)]">
                 <FaUserSlash className="text-4xl text-accent" />
               </div>
 
@@ -656,8 +656,8 @@ export default function Citadel() {
                                       <p
                                         className={`text-base text-normal flex whitespace-pre-wrap max-w-full ${
                                           ownMessage
-                                            ? "justify-end border-[var(--color-panel)]"
-                                            : "justify-start border-[var(--color-secondary)]"
+                                            ? "justify-end border-(--color-panel)"
+                                            : "justify-start border-(--color-secondary)"
                                         }`}
                                         style={{ overflowWrap: "anywhere" }}
                                       >
@@ -764,7 +764,7 @@ export default function Citadel() {
                                 />
                               ))}
                               {visibleSeenUsers.length > 8 && (
-                                <span className="w-fit p-2 h-4 rounded-full bg-[var(--color-panel)]/40 text-[var(--color-vibranium)]/60 text-[8px] flex items-center justify-center">
+                                <span className="w-fit p-2 h-4 rounded-full bg-(--color-panel)/40 text-(--color-vibranium)/60 text-[8px] flex items-center justify-center">
                                   +{visibleSeenUsers.length - 8} more
                                 </span>
                               )}
@@ -801,7 +801,7 @@ export default function Citadel() {
                 </div>
               )}
               {files.length > 0 && (
-                <div className="flex flex-wrap gap-2 border-1 border-panel py-2 px-4 bg-second rounded-lg">
+                <div className="flex flex-wrap gap-2 border border-panel py-2 px-4 bg-second rounded-lg">
                   {files.map((file, index) => {
                     const previewSrc =
                       typeof file === "string"
@@ -855,7 +855,7 @@ export default function Citadel() {
                 decoding="async"
                 className="w-12 h-12 object-cover rounded-full shrink-0"
               />
-              <div className="w-full bg-panel rounded-2xl border-1 border-[var(--color-secondary)] py-2 px-4">
+              <div className="w-full bg-panel rounded-2xl border border-(--color-secondary) py-2 px-4">
                 <div className="flex items-center w-full gap-2">
                   <textarea
                     ref={inputRef}
@@ -891,7 +891,7 @@ export default function Citadel() {
                 {!editingMessage && (
                   <div className="flex gap-2 mt-1">
                     <label htmlFor="fileUploadChat" className="cursor-pointer">
-                      <RiImageAiFill className="text-xl text-[var(--color-text)]/60 shrink-0" />
+                      <RiImageAiFill className="text-xl text-(--color-text)/60 shrink-0" />
                     </label>
                     <input
                       id="fileUploadChat"
@@ -907,7 +907,7 @@ export default function Citadel() {
                     />
                     <RiFileGifFill
                       onClick={() => setShowGifPickerModal((prev) => !prev)}
-                      className="text-xl text-[var(--color-text)]/60 shrink-0 cursor-pointer"
+                      className="text-xl text-(--color-text)/60 shrink-0 cursor-pointer"
                     />
                   </div>
                 )}

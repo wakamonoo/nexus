@@ -46,7 +46,7 @@ export default function GifPickerModal({ onSelect, setShowGifPickerModal }) {
     <>
       <div
         onClick={() => setShowGifPickerModal(false)}
-        className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
+        className="fixed inset-0 z-150 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
           onClick={(e) => e.stopPropagation()}
@@ -59,7 +59,7 @@ export default function GifPickerModal({ onSelect, setShowGifPickerModal }) {
                 e.stopPropagation();
                 setShowGifPickerModal(false);
               }}
-              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-(--color-panel) hover:text-(--color-accent) shrink-0"
             >
               <MdClose className="text-xl" />
             </button>

@@ -41,7 +41,7 @@ const SelectionCard = ({ title, selectedTitle, setSelectedTitle }) => {
       onClick={() => {
         setSelectedTitle(isSelected ? null : title);
       }}
-      className={`flex gap-4 items-start cursor-pointer px-2 py-4 border rounded-lg  ${isSelected ? "border-[var(--color-accent)] bg-accent/10" : "border-[var(--color-panel)] hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)]"}`}
+      className={`flex gap-4 items-start cursor-pointer px-2 py-4 border rounded-lg  ${isSelected ? "border-(--color-accent) bg-accent/10" : "border-(--color-panel) hover:bg-(--color-panel) focus:bg-(--color-panel)"}`}
     >
       {isSelected ? (
         <IoRadioButtonOn className="text-xl text-zeus mt-2 shrink-0" />
@@ -199,9 +199,9 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
           iconColor: "var(--color-accent)",
           customClass: {
             popup:
-              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
             title:
-              "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+              "!text-base !font-semibold !text-(--color-text) !leading-4.5",
           },
         });
 
@@ -331,9 +331,9 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
             iconColor: "var(--color-accent)",
             customClass: {
               popup:
-                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
               title:
-                "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+                "!text-base !font-semibold !text-(--color-text) !leading-4.5",
             },
           });
           return;
@@ -380,9 +380,9 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -398,9 +398,9 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -411,7 +411,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
   return (
     <div
       onClick={() => setShowAddMomentModal(false)}
-      className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
+      className="fixed inset-0 z-150 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -424,7 +424,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
               e.stopPropagation();
               setShowAddMomentModal(false);
             }}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-(--color-panel) hover:text-(--color-accent) shrink-0"
           >
             <MdClose className="text-xl" />
           </button>
@@ -453,7 +453,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
             </button>
           </div>
           {showCamera && (
-            <div className="fixed inset-0 z-[200] flex items-center justify-center bg-second">
+            <div className="fixed inset-0 z-200 flex items-center justify-center bg-second">
               <div className="absolute top-6 left-1/2 -translate-x-1/2 w-full">
                 <div className="flex items-center justify-between px-4 lg:px-8 xl:px-16 w-full">
                   <div className="w-8" />
@@ -462,13 +462,13 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
                   </p>
                   <button
                     onClick={() => setShowCamera(false)}
-                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-[var(--color-panel)] hover:text-[var(--color-accent)] shrink-0"
+                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-vibe transition hover:bg-(--color-panel) hover:text-(--color-accent) shrink-0"
                   >
                     <MdClose className="text-xl" />
                   </button>
                 </div>
               </div>
-              <div className="relative aspect-[5/7] w-[min(90vw,57.14vh)] border border-accent rounded-lg overflow-hidden">
+              <div className="relative aspect-5/7 w-[min(90vw,57.14vh)] border border-accent rounded-lg overflow-hidden">
                 <video
                   ref={videoRef}
                   autoPlay
@@ -481,7 +481,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-8">
                 <button
                   onClick={toggleFlash}
-                  className={`cursor-pointer h-12 w-12 flex items-center justify-center rounded-full p-2 transition-all duration-200 ${flashOn ? "bg-accent text-zeus" : "text-vibe hover:bg-[var(--color-panel)] hover:text-accent"}`}
+                  className={`cursor-pointer h-12 w-12 flex items-center justify-center rounded-full p-2 transition-all duration-200 ${flashOn ? "bg-accent text-zeus" : "text-vibe hover:bg-(--color-panel) hover:text-accent"}`}
                 >
                   {flashOn ? (
                     <MdFlashOn className="text-2xl" />
@@ -498,7 +498,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
                 </button>
                 <button
                   onClick={rotateCamera}
-                  className="cursor-pointer h-12 w-12 flex items-center justify-center rounded-full p-2 text-vibe transition-all duration-200 hover:bg-[var(--color-panel)] hover:text-accent"
+                  className="cursor-pointer h-12 w-12 flex items-center justify-center rounded-full p-2 text-vibe transition-all duration-200 hover:bg-(--color-panel) hover:text-accent"
                 >
                   <MdCameraswitch className="text-2xl" />
                 </button>

@@ -40,9 +40,9 @@ export default function PingOptions({ pingId, setSelectedPing }) {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -58,9 +58,9 @@ export default function PingOptions({ pingId, setSelectedPing }) {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -95,9 +95,9 @@ export default function PingOptions({ pingId, setSelectedPing }) {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -113,9 +113,9 @@ export default function PingOptions({ pingId, setSelectedPing }) {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -125,14 +125,14 @@ export default function PingOptions({ pingId, setSelectedPing }) {
   };
   return (
     <div
-      className="flex flex-col absolute top-10 right-0 w-60 border-1 border-panel bg-second shadow-2xl rounded p-2 z-50"
+      className="flex flex-col absolute top-10 right-0 w-60 border border-panel bg-second shadow-2xl rounded p-2 z-50"
     >
       <button
         onClick={(e) => {
           e.stopPropagation();
           handleDeletePing(pingId);
         }}
-        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
+        className="flex w-full items-center gap-2 hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded cursor-pointer"
       >
         <FaTrash className="text-xl shrink-0" />
         <p className="text-base font-bold">Delete ping</p>
@@ -142,7 +142,7 @@ export default function PingOptions({ pingId, setSelectedPing }) {
           e.stopPropagation();
           handleReadPing(pingId);
         }}
-        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
+        className="flex w-full items-center gap-2 hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded cursor-pointer"
       >
         <FaEye className="text-xl shrink-0" />
         <p className="text-base font-bold">Mark as read</p>

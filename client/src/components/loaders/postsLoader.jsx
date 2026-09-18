@@ -2,10 +2,10 @@ export default function PostsLoader() {
   return (
     <div className="w-full h-full overflow-hidden animate-pulse">
       <div className="flex flex-col gap-1">
-        <div className="w-full h-fit bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl">
+        <div className="w-full h-fit bg-linear-to-b from-(--color-panel) to-(--color-secondary) rounded-tl-2xl rounded-br-2xl">
           <div className="p-4">
             <div className="flex gap-2 items-center w-full">
-              <div className="w-12 h-12 bg-panel rounded-full flex-shrink-0" />
+              <div className="w-12 h-12 bg-panel rounded-full shrink-0" />
               <div className="w-full flex flex-col gap-1">
                 <div className="w-[40%] h-5 bg-panel rounded" />
                 <div className="w-[50%] h-3 bg-panel rounded" />
@@ -26,10 +26,10 @@ export default function PostsLoader() {
           </div>
         </div>
 
-        <div className="w-full h-fit bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl">
+        <div className="w-full h-fit bg-linear-to-b from-(--color-panel) to-(--color-secondary) rounded-tl-2xl rounded-br-2xl">
           <div className="p-4">
             <div className="flex gap-2 items-center w-full">
-              <div className="w-12 h-12 bg-panel rounded-full flex-shrink-0 " />
+              <div className="w-12 h-12 bg-panel rounded-full shrink-0 " />
               <div className="w-full flex flex-col gap-1">
                 <div className="w-[40%] h-5 bg-panel rounded" />
                 <div className="w-[50%] h-3 bg-panel rounded" />

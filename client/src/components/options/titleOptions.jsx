@@ -23,7 +23,7 @@ export default function TitleOptions({ titleId, hasReview, hasRank }) {
   const watched = isTitleWatched(titleId);
 
   return (
-    <div className="flex flex-col w-60 border-1 border-panel absolute top-full right-2 mt-2 p-2 rounded bg-second shadow-2xl z-50 overflow-hidden">
+    <div className="flex flex-col w-60 border border-panel absolute top-full right-2 mt-2 p-2 rounded bg-second shadow-2xl z-50 overflow-hidden">
       <button
         onClick={() => {
           if (!user) {
@@ -43,16 +43,16 @@ export default function TitleOptions({ titleId, hasReview, hasRank }) {
               iconColor: "var(--color-accent)",
               customClass: {
                 popup:
-                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
                 title:
-                  "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+                  "!text-base !font-semibold !text-(--color-text) !leading-4.5",
               },
             });
             return;
           }
           handleWatch(titleId);
         }}
-        className="flex w-full items-center gap-2 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded cursor-pointer"
+        className="flex w-full items-center gap-2 hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded cursor-pointer"
       >
         {watched ? (
           <>

@@ -61,7 +61,7 @@ export default function RinaNews() {
         <RinaLoaderNews />
       ) : (
         <>
-          <div className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] p-4">
+          <div className="relative w-full h-auto cursor-pointer bg-linear-to-b from-(--color-panel) to-(--color-secondary) p-4">
             <div className="flex items-center gap-3 pb-4">
               <Image
                 src={Rina}
@@ -118,7 +118,7 @@ export default function RinaNews() {
               <div
                 key={index}
                 onClick={() => router.push(`${article?.url}`)}
-                className="bg-second flex gap-4 p-2 border-y border-panel cursor-pointer hover:bg-[var(--color-panel)]"
+                className="bg-second flex gap-4 p-2 border-y border-panel cursor-pointer hover:bg-(--color-panel)"
               >
                 <img
                   src={article.image}
@@ -136,7 +136,7 @@ export default function RinaNews() {
                   <p className="text-sm text-vibe line-clamp-2">
                     {article?.description}
                   </p>
-                  <p className="text-xs text-end mt-1 text-[var(--color-vibranium)]/60">
+                  <p className="text-xs text-end mt-1 text-(--color-vibranium)/60">
                     via {article.source} on{" "}
                     <span>
                       {new Date(article?.publishedAt).toLocaleDateString([], {
@@ -155,12 +155,12 @@ export default function RinaNews() {
                 className="w-full flex justify-center items-center cursor-pointer"
               >
                 {!showAllArticles ? (
-                  <div className="flex flex-col justify-center items-center mt-2 text-[var(--color-text)]/60 hover:text-[var(--color-text)]/40">
+                  <div className="flex flex-col justify-center items-center mt-2 text-(--color-text)/60 hover:text-(--color-text)/40">
                     <p className="text-xs">show all articles</p>
                     <FaAngleDown className="text-lg" />
                   </div>
                 ) : (
-                  <div className="flex flex-col justify-center items-center mt-2 text-[var(--color-text)]/60 hover:text-[var(--color-text)]/40">
+                  <div className="flex flex-col justify-center items-center mt-2 text-(--color-text)/60 hover:text-(--color-text)/40">
                     <p className="text-xs">show less articles</p>
                     <FaAngleUp className="text-lg" />
                   </div>

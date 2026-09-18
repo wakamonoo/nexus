@@ -65,11 +65,11 @@ export default function MomentLightbox({
     <>
       <div
         onClick={() => setShowMomentLightbox(false)}
-        className="fixed inset-0 z-[150] flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
+        className="fixed inset-0 z-150 flex items-center justify-center bg-black/40 px-4 backdrop-blur-sm"
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative aspect-[5/7] w-[min(90vw,57.14vh)] overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
+          className="relative aspect-5/7 w-[min(90vw,57.14vh)] overflow-hidden rounded-2xl border border-panel bg-second shadow-2xl"
         >
           <div className="absolute inset-0 z-0">
             <img
@@ -81,7 +81,7 @@ export default function MomentLightbox({
             />
           </div>
           <div className="absolute top-3 flex items-center justify-between w-full px-4">
-            <div className="flex items-center gap-2 rounded-full bg-[var(--color-panel)]/60 px-2 py-1.5">
+            <div className="flex items-center gap-2 rounded-full bg-(--color-panel)/60 px-2 py-1.5">
               <img
                 onClick={(e) => {
                   e.stopPropagation();
@@ -142,7 +142,7 @@ export default function MomentLightbox({
               />
             </div>
           </div>
-          <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-4 pb-4 pt-20 flex items-end justify-between">
+          <div className="absolute inset-x-0 bottom-0 z-10 bg-linear-to-t from-black/90 via-black/60 to-transparent px-4 pb-4 pt-20 flex items-end justify-between">
             <div className="flex flex-col">
               {moment.caption && (
                 <p className="mb-3 text-sm leading-relaxed">{moment.caption}</p>

@@ -30,7 +30,7 @@ function BranchNode({ node, titles, handleShowNav }) {
         <div className="h-6 w-1 bg-accent" />
         <div
           onClick={() => handleShowNav(node.titleId)}
-          className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer"
+          className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer"
         >
           <img
             src={
@@ -61,7 +61,7 @@ function BranchNode({ node, titles, handleShowNav }) {
 
       {children.length > 0 && (
         <div className="relative mt-6 flex items-start justify-center gap-6">
-          <div className="absolute left-1/2 top-[-24px] h-6 w-1 -translate-x-1/2 bg-accent" />
+          <div className="absolute left-1/2 -top-6 h-6 w-1 -translate-x-1/2 bg-accent" />
           {children.length > 1 && (
             <div
               className="absolute top-0 h-1 bg-accent"
@@ -170,7 +170,7 @@ export default function Timeline() {
                     <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                     <div
                       onClick={() => handleShowNav(unit.titleId)}
-                      className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
+                      className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                     >
                       <img
                         src={
@@ -223,7 +223,7 @@ export default function Timeline() {
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                           <div
                             onClick={() => handleShowNav(unit.titleId)}
-                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
+                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                           >
                             <img
                               src={
@@ -274,7 +274,7 @@ export default function Timeline() {
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                           <div
                             onClick={() => handleShowNav(unit.titleId)}
-                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
+                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                           >
                             <img
                               src={
@@ -325,7 +325,7 @@ export default function Timeline() {
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                           <div
                             onClick={() => handleShowNav(unit.titleId)}
-                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer mx-1"
+                            className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                           >
                             <img
                               src={
@@ -353,7 +353,7 @@ export default function Timeline() {
 
                       {roots.length > 0 && (
                         <div className="relative mt-6 flex items-start gap-8">
-                          <div className="absolute left-1/2 top-[-24px] h-6 w-1 -translate-x-1/2 bg-accent" />
+                          <div className="absolute left-1/2 -top-6 h-6 w-1 -translate-x-1/2 bg-accent" />
                           {roots.length > 1 && (
                             <div
                               className="absolute top-0 h-1 bg-accent"

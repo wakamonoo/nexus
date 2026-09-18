@@ -81,7 +81,7 @@ export default function CommentLightBox({
   };
 
   return (
-    <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
+    <div className="inset-0 z-100 flex flex-col items-center justify-center fixed">
       <div className="z-50 inset-0">
         {showDetails && commentLightBoxFiles.length > 1 ? (
           <div className="absolute top-5 left-4">
@@ -133,7 +133,7 @@ export default function CommentLightBox({
           setShowDetails((prev) => !prev);
         }}
         ref={commentLightBoxRef}
-        className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-[100%] h-[100%] scrollbar-hide"
+        className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-full h-full scrollbar-hide"
       >
         {commentLightBoxFiles.map((file, index) => {
           const ext = file.split(".").pop().toLowerCase();
@@ -141,7 +141,7 @@ export default function CommentLightBox({
           return (
             <div
               key={index}
-              className="flex-shrink-0 w-full h-full snap-center flex items-center justify-center relative"
+              className="shrink-0 w-full h-full snap-center flex items-center justify-center relative"
             >
               {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) && (
                 <img src={file} alt="file" fill className="absolute inset-0 w-full h-full object-contain" />
@@ -159,7 +159,7 @@ export default function CommentLightBox({
         })}
       </div>
       {showDetails && (
-        <div className="absolute bg-[var(--color-secondary)]/50 w-full bottom-0 left-0">
+        <div className="absolute bg-(--color-secondary)/50 w-full bottom-0 left-0">
           <div className="flex flex-col p-2">
             <p
               onClick={(e) => {

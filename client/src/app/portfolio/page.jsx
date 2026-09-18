@@ -95,7 +95,7 @@ export default function Portfolio() {
         <h4 className="text-xl">PORTFOLIO</h4>
       </div>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <aside className="w-full bg-[var(--color-secondary)] h-fit rounded-2xl p-4">
+        <aside className="w-full bg-(--color-secondary) h-fit rounded-2xl p-4">
           <div className="mb-6">
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-vibe">
               Your Journey
@@ -195,12 +195,12 @@ export default function Portfolio() {
             </div>
           </div>
           <div
-            className={`flex flex-col gap-4 min-h-[500px] items-center justify-center overflow-hidden rounded-2xl bg-[var(--color-secondary)] p-4 sm:p-8 ${pages.length === 0 ? "animate-pulse" : "animate-none"}`}
+            className={`flex flex-col gap-4 min-h-125 items-center justify-center overflow-hidden rounded-2xl bg-(--color-secondary) p-4 sm:p-8 ${pages.length === 0 ? "animate-pulse" : "animate-none"}`}
           >
             {pages.map((pageOrder, index) => (
               <div
                 key={index}
-                className="relative h-[529.2px] w-[378px] md:h-[756px] md:w-[540px] shrink-0"
+                className="relative h-[529.2px] w-94.5 md:h-189 md:w-135 shrink-0"
               >
                 <div
                   style={{

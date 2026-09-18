@@ -27,7 +27,7 @@ export default function UserNav({ setShowUserNav }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="absolute top-18 right-2 sm:right-4 md:right-8 lg:right-16 bg-second w-60 border-1 border-panel h-fit rounded overflow-hidden"
+        className="absolute top-18 right-2 sm:right-4 md:right-8 lg:right-16 bg-second w-60 border border-panel h-fit rounded overflow-hidden"
       >
         <div className="flex flex-col p-4">
           <button
@@ -36,7 +36,7 @@ export default function UserNav({ setShowUserNav }) {
                 ? (setIsLoading(true), router.push(`/profile/${user.uid}`))
                 : setShowSignInModal(true);
             }}
-            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
+            className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
           >
             {user ? (
               <>
@@ -62,7 +62,7 @@ export default function UserNav({ setShowUserNav }) {
                 setIsLoading(true);
                 router.push("/admin");
               }}
-              className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
+              className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
             >
               <MdAdminPanelSettings className="text-2xl" />
               <p className="text-base font-bold text-normal">Admin</p>
@@ -74,7 +74,7 @@ export default function UserNav({ setShowUserNav }) {
                 ? (setIsLoading(true), router.push("/portfolio"))
                 : setShowSignInModal(true);
             }}
-            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
+            className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
           >
             <MdCheckBox className="text-2xl" />
             <p className="text-base font-bold text-normal">Portfolio</p>
@@ -85,7 +85,7 @@ export default function UserNav({ setShowUserNav }) {
                 ? (setIsLoading(true), router.push("/powerboard"))
                 : setShowSignInModal(true);
             }}
-            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
+            className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
           >
             <PiRankingDuotone className="text-2xl" />
             <p className="text-base font-bold text-normal">Powerboard</p>
@@ -95,7 +95,7 @@ export default function UserNav({ setShowUserNav }) {
               setShowUserNav(false);
               setShowSignInModal(true);
             }}
-            className="flex items-center gap-2 cursor-pointer hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] p-4 rounded"
+            className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
           >
             {user ? (
               <>

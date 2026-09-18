@@ -81,7 +81,7 @@ export default function PostStructure({ post }) {
   return (
     <div
       onClick={() => handlePostNavMain(post.postId)}
-      className="relative w-full h-auto cursor-pointer bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] rounded-tl-2xl rounded-br-2xl"
+      className="relative w-full h-auto cursor-pointer bg-linear-to-b from-(--color-panel) to-(--color-secondary) rounded-tl-2xl rounded-br-2xl"
     >
       {post.files?.length > 1 && (
         <>
@@ -196,7 +196,7 @@ export default function PostStructure({ post }) {
                 router.push(`/posts/${post.topicId}`);
               }
             }}
-            className={`h-fit w-fit rounded-full bg-gradient-to-r ${currentTopic?.category === "mcu" ? "from-[var(--color-accent)]" : currentTopic?.category === "legacy" ? "from-[var(--color-hulk)]" : "from-[var(--color-infinity)]"} to-[var(--color-zeus)]`}
+            className={`h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
           >
             <p className="font-bold text-vibe text-sm px-2">
               {currentTopic?.title}
@@ -245,7 +245,7 @@ export default function PostStructure({ post }) {
       )}
 
       {post.embed?.id && post.files && post.files.length > 0 ? (
-        <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-[var(--color-secondary)]/80 active:bg-[var(--color-secondary)]/80">
+        <div className="mx-4 mb-2 flex items-center justify-between rounded-xl border bg-second px-4 py-3 transition hover:bg-(--color-secondary)/80 active:bg-(--color-secondary)/80">
           <div className="flex items-center gap-2 overflow-hidden">
             <div className="flex p-2 shrink-0 items-center justify-center rounded-full bg-red-500">
               <FaPlay className="text-lg text-white" />
@@ -310,7 +310,7 @@ export default function PostStructure({ post }) {
                     handleFileClick(post.files, index, post);
                     e.stopPropagation();
                   }}
-                  className="flex-shrink-0 w-full h-full snap-center snap-always"
+                  className="shrink-0 w-full h-full snap-center snap-always"
                 >
                   {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) ? (
                     <img
@@ -359,7 +359,7 @@ export default function PostStructure({ post }) {
               setShowSignInModal(true);
             }
           }}
-          className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
+          className="flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
         >
           <AiFillThunderbolt
             className={`text-2xl ${
@@ -380,7 +380,7 @@ export default function PostStructure({ post }) {
               setShowSignInModal(true);
             }
           }}
-          className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
+          className="flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
         >
           <MdOutlineSensors
             className={`text-2xl ${
@@ -396,7 +396,7 @@ export default function PostStructure({ post }) {
             e.stopPropagation();
             handlePostNavMain(post.postId, true);
           }}
-          className="flex flex-col items-center justify-center bg-[var(--color-panel)] p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-[var(--color-panel)]/75 active:bg-[var(--color-panel)]/75 cursor-pointer"
+          className="flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
         >
           <FaComment className="text-2xl transform -scale-x-100" />
           <p className="text-xs font-light text-vibe opacity-60">

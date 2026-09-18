@@ -399,14 +399,14 @@ export default function TermsAndConditions() {
             <strong className="font-medium opacity-60">August 17, 2026</strong>
           </p>
         </header>
-        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
+        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/4 p-4">
           <p className="text-sm leading-7 opacity-60">
             Please read these Terms carefully before using Nexus. By continuing
             to use the platform, you acknowledge that you have read and agree to
             these Terms.
           </p>
         </div>
-        <div className="divide-y divide-[var(--color-panel)]">
+        <div className="divide-y divide-(--color-panel)">
           {sections.map((section) => (
             <section
               key={section.number}

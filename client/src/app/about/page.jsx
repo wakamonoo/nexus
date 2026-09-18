@@ -160,14 +160,14 @@ export default function About() {
             Marvel stories.
           </p>
         </header>
-        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
+        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/4 p-4">
           <p className="text-sm leading-7 opacity-60">
             Nexus is an independent fan project created to make exploring
             Marvel's many stories, timelines, and universes more personal and
             interactive.
           </p>
         </div>
-        <div className="divide-y divide-[var(--color-panel)]">
+        <div className="divide-y divide-(--color-panel)">
           {sections.map((section) => (
             <section
               key={section.number}

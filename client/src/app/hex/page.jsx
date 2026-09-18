@@ -566,14 +566,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows1(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows1 && isScrolled1 && canScroll1
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows1 && canScroll1 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -648,14 +648,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows2(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows2 && isScrolled2 && canScroll2
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows2 && canScroll2 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -731,14 +731,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows3(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows3 && isScrolled3 && canScroll3
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows3 && canScroll3 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -814,14 +814,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows4(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows4 && isScrolled4 && canScroll4
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows4 && canScroll4 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -871,14 +871,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows5(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows5 && isScrolled5 && canScroll5
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows5 && canScroll5 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -928,14 +928,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows6(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows6 && isScrolled6 && canScroll6
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows6 && canScroll6 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -1025,14 +1025,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows7(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows7 && isScrolled7 && canScroll7
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows7 && canScroll7 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -1122,14 +1122,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows8(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows8 && isScrolled8 && canScroll8
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows8 && canScroll8 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -1223,14 +1223,14 @@ export default function Main() {
                 onMouseLeave={() => setShowArrows9(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows9 && isScrolled9 && canScroll9
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows9 && canScroll9 ? "opacity-100" : "opacity-0"
                   }`}
                 />

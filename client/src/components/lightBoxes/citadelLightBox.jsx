@@ -141,7 +141,7 @@ export default function CitadelLightBox({
           return (
             <div
               key={index}
-              className="flex-shrink-0 w-full h-full snap-center flex items-center justify-center relative"
+              className="shrink-0 w-full h-full snap-center flex items-center justify-center relative"
             >
               {["jpg", "jpeg", "png", "gif", "webp"].includes(ext) && (
                 <img src={file} alt="file" className="absolute inset-0 w-full h-full object-contain" />
@@ -159,7 +159,7 @@ export default function CitadelLightBox({
         })}
       </div>
       {showDetails && (
-        <div className="absolute bg-[var(--color-secondary)]/50 w-full bottom-0 left-0">
+        <div className="absolute bg-(--color-secondary)/50 w-full bottom-0 left-0">
           <div className="flex flex-col p-2">
             <p
               onClick={(e) => {

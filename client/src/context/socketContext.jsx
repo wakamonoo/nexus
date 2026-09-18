@@ -218,7 +218,7 @@ export const SocketProvider = ({ children }) => {
             }}
             className={`${
               t.visible ? "animate-enter" : "animate-leave"
-            } max-w-xs w-full bg-second border-1 border-panel text-normal rounded-lg shadow-lg px-4 py-2 flex items-center justify-center gap-4 cursor-pointer`}
+            } max-w-xs w-full bg-second border border-panel text-normal rounded-lg shadow-lg px-4 py-2 flex items-center justify-center gap-4 cursor-pointer`}
           >
             <Image
               src={sender?.picture || "/defaultAvatar.png"}

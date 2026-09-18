@@ -438,7 +438,7 @@ export default function UserProfile() {
                           </p>
                         </div>
                         <div
-                          className="h-full bg-[var(--color-infinity)] transition-all duration-500"
+                          className="h-full bg-(--color-infinity) transition-all duration-500"
                           style={{ width: `${progressAdjacent}%` }}
                         />
                       </div>
@@ -479,14 +479,14 @@ export default function UserProfile() {
                 onMouseLeave={() => setShowArrows1(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows1 && isScrolled1 && canScroll1
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows1 && canScroll1 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -565,7 +565,7 @@ export default function UserProfile() {
                                 />
                               </div>
                             </div>
-                              <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 flex h-8 w-8 flex-col items-center justify-center rounded-md border-2 border-[var(--color-bg)] bg-second overflow-hidden">
+                              <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 flex h-8 w-8 flex-col items-center justify-center rounded-md border-2 border-(--color-bg) bg-second overflow-hidden">
                                 <div className="absolute top-0 flex w-full items-center justify-center bg-accent/60">
                                   <span className="text-[8px] font-semibold uppercase">
                                     {new Date(
@@ -622,14 +622,14 @@ export default function UserProfile() {
                 onMouseLeave={() => setShowArrows2(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows2 && isScrolled2 && canScroll2
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows2 && canScroll2 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -700,14 +700,14 @@ export default function UserProfile() {
                 onMouseLeave={() => setShowArrows3(false)}
               >
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80  ${
+                  className={`pointer-events-none absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80  ${
                     showArrows3 && isScrolled3 && canScroll3
                       ? "opacity-100"
                       : "opacity-0"
                   }`}
                 />
                 <div
-                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80 ${
+                  className={`pointer-events-none absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80 ${
                     showArrows3 && canScroll3 ? "opacity-100" : "opacity-0"
                   }`}
                 />
@@ -829,7 +829,7 @@ export default function UserProfile() {
                 className="cursor-pointer flex flex-1"
               >
                 <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                  className={`text-lg w-full text-center hover:font-bold hover:text-(--color-accent) ${
                     showProfilePosts
                       ? "font-bold text-accent border-b-2 border-accent"
                       : "text-normal"
@@ -849,7 +849,7 @@ export default function UserProfile() {
                 className="cursor-pointer flex flex-1"
               >
                 <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                  className={`text-lg w-full text-center hover:font-bold hover:text-(--color-accent) ${
                     showProfileReviews
                       ? "font-bold text-accent border-b-2 border-accent"
                       : "text-normal"
@@ -869,7 +869,7 @@ export default function UserProfile() {
                 className="cursor-pointer flex flex-1"
               >
                 <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                  className={`text-lg w-full text-center hover:font-bold hover:text-(--color-accent) ${
                     showProfileEchoes
                       ? "font-bold text-accent border-b-2 border-accent"
                       : "text-normal"
@@ -889,7 +889,7 @@ export default function UserProfile() {
                 className="cursor-pointer flex flex-1"
               >
                 <p
-                  className={`text-lg w-full text-center hover:font-bold hover:text-[var(--color-accent)] ${
+                  className={`text-lg w-full text-center hover:font-bold hover:text-(--color-accent) ${
                     showProfileLibrary
                       ? "font-bold text-accent border-b-2 border-accent"
                       : "text-normal"

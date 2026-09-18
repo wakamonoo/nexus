@@ -37,7 +37,7 @@ export default function NavBar() {
     if (showUserNav) return "text-inherit";
     if (showPing) return "text-inherit";
     return pathname === target
-      ? "text-[var(--color-accent)] border-b-1"
+      ? "text-(--color-accent) border-b-1"
       : "text-inherit";
   };
 
@@ -93,8 +93,8 @@ export default function NavBar() {
           setShowUserNav(false);
           setShowPing(false);
         }}
-        className={`fixed flex justify-between px-2 sm:px-4 md:px-8 lg:px-16 py-8 w-full h-12 transition-colors duration-150 z-[70]  md:border-b border-gray-900 ${
-          isScrolled ? "bg-[var(--color-panel)]" : "bg-[var(--color-secondary)]"
+        className={`fixed flex justify-between px-2 sm:px-4 md:px-8 lg:px-16 py-8 w-full h-12 transition-colors duration-150 z-70  md:border-b border-gray-900 ${
+          isScrolled ? "bg-(--color-panel)" : "bg-(--color-secondary)"
         } ${navHide ? "hidden" : "flex"}`}
       >
         <div className="flex items-center w-full">
@@ -124,16 +124,16 @@ export default function NavBar() {
         <div className="flex items-center gap-3.5 sm:gap-7 w-fit">
           <button
             onClick={handleHomeClick}
-            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
+            className={`flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group ${isActive(
               "/",
             )}`}
           >
-            <HiMiniNewspaper className="text-2xl group-hover:text-[var(--color-accent)]" />
+            <HiMiniNewspaper className="text-2xl group-hover:text-(--color-accent)" />
             <p
-              className={`text-xs group-hover:text-[var(--color-accent)] ${
+              className={`text-xs group-hover:text-(--color-accent) ${
                 pathname === "/" && !showPing && !showUserNav
                   ? "text-accent"
-                  : "text-[var(--color-text)]/60"
+                  : "text-(--color-text)/60"
               }`}
             >
               Portal
@@ -141,16 +141,16 @@ export default function NavBar() {
           </button>
           <button
             onClick={() => handleNavClick("hex")}
-            className={`flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
+            className={`flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group ${isActive(
               "/hex",
             )}`}
           >
-            <RiFilmAiFill className="text-2xl group-hover:text-[var(--color-accent)]" />
+            <RiFilmAiFill className="text-2xl group-hover:text-(--color-accent)" />
             <p
-              className={`text-xs group-hover:text-[var(--color-accent)] ${
+              className={`text-xs group-hover:text-(--color-accent) ${
                 pathname === "/hex" && !showPing && !showUserNav
                   ? "text-accent"
-                  : "text-[var(--color-text)]/60"
+                  : "text-(--color-text)/60"
               }`}
             >
               Hex
@@ -158,7 +158,7 @@ export default function NavBar() {
           </button>
           <button
             onClick={() => handleNavClick("citadel")}
-            className={`relative flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group ${isActive(
+            className={`relative flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group ${isActive(
               "/citadel",
             )}`}
           >
@@ -167,12 +167,12 @@ export default function NavBar() {
                 {unReadCitadelCount}
               </p>
             )}
-            <IoChatbubbleEllipsesSharp className="group-hover:text-[var(--color-accent)] text-2xl" />
+            <IoChatbubbleEllipsesSharp className="group-hover:text-(--color-accent) text-2xl" />
             <p
-              className={`text-xs group-hover:text-[var(--color-accent)] ${
+              className={`text-xs group-hover:text-(--color-accent) ${
                 pathname === "/citadel" && !showPing && !showUserNav
                   ? "text-accent"
-                  : "text-[var(--color-text)]/60"
+                  : "text-(--color-text)/60"
               }`}
             >
               Citadel
@@ -184,21 +184,21 @@ export default function NavBar() {
               setShowUserNav(false);
               e.stopPropagation();
             }}
-            className="relative flex flex-col flex-1 min-w-[25px] cursor-pointer items-center group"
+            className="relative flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group"
           >
             <p className="absolute right-0 -top-2 text-xs text-accent">
               {pings?.filter((p) => !p.isRead).length || null}
             </p>
             <HiBell
-              className={`text-2xl cursor-pointer group-hover:text-[var(--color-accent)] ${
+              className={`text-2xl cursor-pointer group-hover:text-(--color-accent) ${
                 showPing ? "text-accent" : "text-normal"
               }`}
             />
             <p
-              className={`text-xs group-hover:text-[var(--color-accent)] ${
+              className={`text-xs group-hover:text-(--color-accent) ${
                 showPing
-                  ? "text-accent border-b-1"
-                  : "text-[var(--color-text)]/60"
+                  ? "text-accent border-b"
+                  : "text-(--color-text)/60"
               }`}
             >
               Ping
@@ -211,7 +211,7 @@ export default function NavBar() {
               setShowPing(false);
               e.stopPropagation();
             }}
-            className="flex flex-col items-center cursor-pointer group flex-1 min-w-[25px] justify-center"
+            className="flex flex-col items-center cursor-pointer group flex-1 min-w-6.25 justify-center"
           >
             {isLogged && user?.picture ? (
               loading ? (
@@ -222,23 +222,23 @@ export default function NavBar() {
                   alt={user.name}
                   loading="lazy"
                   decoding="async"
-                  className={`w-6 h-6 group-hover:border-[var(--color-accent)] border-1 rounded-full cursor-pointer ${
-                    showUserNav ? "border-accent border-1" : "text-normal"
+                  className={`w-6 h-6 group-hover:border-(--color-accent) border rounded-full cursor-pointer ${
+                    showUserNav ? "border-accent border" : "text-normal"
                   }`}
                 />
               )
             ) : (
               <GiNinjaHead
-                className={`text-2xl cursor-pointer group-hover:text-[var(--color-accent)] ${
+                className={`text-2xl cursor-pointer group-hover:text-(--color-accent) ${
                   showUserNav ? "text-accent" : "text-normal"
                 }`}
               />
             )}
             <p
-              className={`text-xs group-hover:text-[var(--color-accent)] ${
+              className={`text-xs group-hover:text-(--color-accent) ${
                 showUserNav
-                  ? "text-accent border-b-1"
-                  : "text-[var(--color-text)]/60"
+                  ? "text-accent border-b"
+                  : "text-(--color-text)/60"
               }`}
             >
               You

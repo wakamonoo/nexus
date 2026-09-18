@@ -28,9 +28,9 @@ export default function Recommendations() {
           iconColor: "var(--color-hulk)",
           customClass: {
             popup:
-              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
             title:
-              "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+              "!text-base !font-semibold !text-(--color-text) !leading-4.5",
           },
         });
         contact.current.reset();
@@ -47,9 +47,9 @@ export default function Recommendations() {
           iconColor: "var(--color-accent)",
           customClass: {
             popup:
-              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
             title:
-              "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+              "!text-base !font-semibold !text-(--color-text) !leading-4.5",
           },
         });
         console.error("emailjs error:", error);
@@ -121,16 +121,16 @@ export default function Recommendations() {
             <p>You can also find me through these platforms.</p>
             <div className="mt-4 flex flex-wrap gap-4">
               <a href="https://www.facebook.com/joven.serdanbataller">
-                <FaFacebook className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+                <FaFacebook className="text-4xl cursor-pointer text-vibe hover:text-(--color-text) active:text-(--color-text)" />
               </a>
               <a href="https://www.instagram.com/wakamonoooo/">
-                <FaInstagram className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+                <FaInstagram className="text-4xl cursor-pointer text-vibe hover:text-(--color-text) active:text-(--color-text)" />
               </a>
               <a href="https://www.linkedin.com/in/joven-bataller-085761350/">
-                <FaLinkedin className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+                <FaLinkedin className="text-4xl cursor-pointer text-vibe hover:text-(--color-text) active:text-(--color-text)" />
               </a>
               <a href="https://github.com/wakamonoo">
-                <FaGithub className="text-4xl cursor-pointer text-vibe hover:text-[var(--color-text)] active:text-[var(--color-text)]" />
+                <FaGithub className="text-4xl cursor-pointer text-vibe hover:text-(--color-text) active:text-(--color-text)" />
               </a>
             </div>
           </div>

@@ -95,7 +95,7 @@ export default function Lists() {
                 <div
                   key={list.listId || list._id}
                   onClick={() => handleShowListNav(`lists/${list.listId}`)}
-                  className="group relative rounded-xl bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border border-panel hover:border-[var(--color-secondary)] focus:border-[var(--color-secondary)] transition-all duration-200 cursor-pointer"
+                  className="group relative rounded-xl bg-linear-to-b from-(--color-panel) to-(--color-secondary) border border-panel hover:border-(--color-secondary) focus:border-(--color-secondary) transition-all duration-200 cursor-pointer"
                 >
                   <div className="p-4">
                     <div className="relative h-42 md:h-50">
@@ -103,7 +103,7 @@ export default function Lists() {
                         {visibleTitles.map((title, index) => (
                           <div
                             key={title.titleId}
-                            className="absolute w-26 h-40 md:w-32 md:h-46 flex-shrink-0 transition-transform duration-200 group-hover:-translate-y-1"
+                            className="absolute w-26 h-40 md:w-32 md:h-46 shrink-0 transition-transform duration-200 group-hover:-translate-y-1"
                             style={{
                               transform: `translateX(${(index - (visibleTitles.length - 1) / 2) * 40}px) rotate(${(index - (visibleTitles.length - 1) / 2) * 2}deg)`,
                               zIndex: index,
@@ -123,7 +123,7 @@ export default function Lists() {
                           </div>
                         ))}
                         {remaining > 0 && (
-                          <div className="absolute bottom-20 right-4 z-20 px-3 py-1 rounded-full text-xs bg-panel border border-[var(--color-secondary)] transition-all duration-200 group-hover:-translate-y-1">
+                          <div className="absolute bottom-20 right-4 z-20 px-3 py-1 rounded-full text-xs bg-panel border border-(--color-secondary) transition-all duration-200 group-hover:-translate-y-1">
                             +{remaining} more
                           </div>
                         )}

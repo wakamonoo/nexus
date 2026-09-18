@@ -29,7 +29,7 @@ export default function TopicPostings() {
 
   return (
     <div className="bg-brand w-full">
-      <div className="relative bg-panel border-b-1 border-[var(--color-secondary)] p-6 flex justify-center items-center">
+      <div className="relative bg-panel border-b border-(--color-secondary) p-6 flex justify-center items-center">
         <FaAngleLeft
           onClick={() => router.back()}
           className="absolute left-2 sm:left-4 md:left-8 lg:left-16 xl:left-32 text-2xl cursor-pointer"

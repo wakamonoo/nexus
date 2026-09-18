@@ -139,9 +139,9 @@ export default function Powerboard() {
           iconColor: "var(--color-zeus)",
           customClass: {
             popup:
-              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
             title:
-              "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+              "!text-base !font-semibold !text-(--color-text) !leading-4.5",
           },
         });
         return;
@@ -173,9 +173,9 @@ export default function Powerboard() {
         iconColor: "var(--color-hulk)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -191,9 +191,9 @@ export default function Powerboard() {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -288,8 +288,8 @@ export default function Powerboard() {
         onDragCancel={() => setDraggedItem(null)}
       >
         <div className="relative">
-          <div className="absolute z-40 top-0 left-0 w-16 h-full bg-gradient-to-r from-[var(--color-bg)]/80" />
-          <div className="absolute z-40 top-0 right-0 w-16 h-full bg-gradient-to-l from-[var(--color-bg)]/80" />
+          <div className="absolute z-40 top-0 left-0 w-16 h-full bg-linear-to-r from-(--color-bg)/80" />
+          <div className="absolute z-40 top-0 right-0 w-16 h-full bg-linear-to-l from-(--color-bg)/80" />
 
           <button
             onClick={handleScrollLeft}
@@ -396,7 +396,7 @@ export default function Powerboard() {
         </div>
         <DragOverlay>
           {draggedItem ? (
-            <div className="w-26 h-40 md:w-32 md:h-46 flex-shrink-0 cursor-pointer">
+            <div className="w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer">
               <img
                 src={
                   draggedItem.poster

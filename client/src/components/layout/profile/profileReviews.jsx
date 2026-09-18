@@ -132,14 +132,14 @@ export default function ProfileReviews({ profileUser }) {
                           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700"
                         />
 
-                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-secondary)] to transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-(--color-secondary) to transparent" />
                         <div className="absolute bottom-2 left-4 right-4">
                           <p className="text-vibe text-base font-semibold leading-tight line-clamp-2">
                             {review.title}
                           </p>
                         </div>
 
-                        <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-[var(--color-panel)]/60 px-2 py-1.5">
+                        <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-(--color-panel)/60 px-2 py-1.5">
                           <img
                             onClick={(e) => {
                               e.stopPropagation();

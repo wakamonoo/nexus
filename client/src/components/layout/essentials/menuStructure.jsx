@@ -21,7 +21,7 @@ export default function MenuStructure() {
           router.push("/about");
           setShowMenu(false);
         }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+        className="flex items-center cursor-pointer gap-4 hover:bg-(--color-panel) focus:bg-(--color-panel) group w-full p-4 rounded transition-all duration-300"
       >
         <FaInfo className="text-2xl" />
         <p className="text-base flex font-bold">About</p>
@@ -32,7 +32,7 @@ export default function MenuStructure() {
           router.push("/sigils");
           setShowMenu(false);
         }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+        className="flex items-center cursor-pointer gap-4 hover:bg-(--color-panel) focus:bg-(--color-panel) group w-full p-4 rounded transition-all duration-300"
       >
         <GiSwordsEmblem className="text-2xl" />
         <p className="text-base flex font-bold">Sigils</p>
@@ -43,7 +43,7 @@ export default function MenuStructure() {
           router.push("/communityFeedback");
           setShowMenu(false);
         }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+        className="flex items-center cursor-pointer gap-4 hover:bg-(--color-panel) focus:bg-(--color-panel) group w-full p-4 rounded transition-all duration-300"
       >
         <FaPenToSquare className="text-2xl" />
         <p className="text-base flex font-bold">Community Feedback</p>
@@ -54,7 +54,7 @@ export default function MenuStructure() {
           router.push("/recommendations");
           setShowMenu(false);
         }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+        className="flex items-center cursor-pointer gap-4 hover:bg-(--color-panel) focus:bg-(--color-panel) group w-full p-4 rounded transition-all duration-300"
       >
         <FaLightbulb className="text-2xl" />
         <p className="text-base flex font-bold">Recommendations</p>
@@ -65,7 +65,7 @@ export default function MenuStructure() {
           router.push("/heroFund");
           setShowMenu(false);
         }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+        className="flex items-center cursor-pointer gap-4 hover:bg-(--color-panel) focus:bg-(--color-panel) group w-full p-4 rounded transition-all duration-300"
       >
         <FaDonate className="text-2xl " />
         <p className="text-base flex font-bold">Hero Fund</p>
@@ -76,7 +76,7 @@ export default function MenuStructure() {
           router.push("/trustAndLegality");
           setShowMenu(false);
         }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+        className="flex items-center cursor-pointer gap-4 hover:bg-(--color-panel) focus:bg-(--color-panel) group w-full p-4 rounded transition-all duration-300"
       >
         <FaBalanceScale className="text-2xl" />
         <p className="text-base flex font-bold">Trust & Legality</p>
@@ -87,7 +87,7 @@ export default function MenuStructure() {
           router.push("/termsAndConditions");
           setShowMenu(false);
         }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+        className="flex items-center cursor-pointer gap-4 hover:bg-(--color-panel) focus:bg-(--color-panel) group w-full p-4 rounded transition-all duration-300"
       >
         <RiContractFill className="text-2xl" />
         <p className="text-base flex font-bold">Terms & Conditions</p>
@@ -98,7 +98,7 @@ export default function MenuStructure() {
           router.push("/privacyPolicy");
           setShowMenu(false);
         }}
-        className="flex items-center cursor-pointer gap-4 hover:bg-[var(--color-panel)] focus:bg-[var(--color-panel)] group w-full p-4 rounded transition-all duration-300"
+        className="flex items-center cursor-pointer gap-4 hover:bg-(--color-panel) focus:bg-(--color-panel) group w-full p-4 rounded transition-all duration-300"
       >
         <FaFileShield className="text-2xl" />
         <p className="text-base flex font-bold">Privacy Policy</p>

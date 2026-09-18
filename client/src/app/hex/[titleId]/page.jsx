@@ -153,9 +153,9 @@ export default function Title() {
         iconColor: "var(--color-accent)",
         customClass: {
           popup:
-            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
           title:
-            "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     }
@@ -226,7 +226,7 @@ export default function Title() {
           setShowTitleMenu(false);
           setSelectedReview(null);
         }}
-        className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 bg-gradient-to-b from-[var(--color-secondary)] to-[var(--color-bg)]"
+        className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 bg-linear-to-b from-(--color-secondary) to-(--color-bg)"
       >
         <div className="flex justify-between py-4 ">
           <FaAngleLeft
@@ -476,7 +476,7 @@ export default function Title() {
                       : setShowSignInModal(true);
                   }}
                   disabled={doneReview || title?.status === "upcoming"}
-                  className={`${doneReview ? "!bg-[var(--color-zeus)]/60" : ""}`}
+                  className={`${doneReview ? "bg-(--color-zeus)/60!" : ""}`}
                 >
                   {doneReview ? (
                     <FiCheckCircle className="text-xs" />
@@ -504,7 +504,7 @@ export default function Title() {
                       ? (setIsLoading(true), router.push("/powerboard"))
                       : setShowSignInModal(true);
                   }}
-                  className={`${doneRank ? "!bg-[var(--color-zeus)]/60" : ""}`}
+                  className={`${doneRank ? "bg-(--color-zeus)/60!" : ""}`}
                 >
                   {doneRank ? (
                     <FiCheckCircle className="text-xs" />
@@ -573,7 +573,7 @@ export default function Title() {
                             setIsLoading(true);
                             router.push(`/titles/${unit.tmdbId}`);
                           }}
-                          className="flex flex-col w-24 flex-shrink-0 gap-2 cursor-pointer bg-second rounded"
+                          className="flex flex-col w-24 shrink-0 gap-2 cursor-pointer bg-second rounded"
                         >
                           <img
                             src={
@@ -622,7 +622,7 @@ export default function Title() {
                             setIsLoading(true);
                             router.push(`/titles/${unit.tmdbId}`);
                           }}
-                          className="flex flex-col w-24 flex-shrink-0 gap-2 cursor-pointer bg-second rounded"
+                          className="flex flex-col w-24 shrink-0 gap-2 cursor-pointer bg-second rounded"
                         >
                           <img
                             src={
@@ -660,7 +660,7 @@ export default function Title() {
           {!title || allUsersLoading ? (
             <TitleReviewsLoader />
           ) : (
-            <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide border-t-1 border-panel md:border-none mt-4 md:mt-0">
+            <div className="flex flex-col gap-4 py-4 md:pt-0 md:overflow-y-auto scrollbar-hide border-t border-panel md:border-none mt-4 md:mt-0">
               {!title.reviews || title.reviews?.length === 0 ? (
                 <>
                   {title?.status === "released" ? (
@@ -705,7 +705,7 @@ export default function Title() {
                       realtimeVote?.downvotes ?? review.downvotes ?? [];
                     return (
                       <div key={review.reviewId}>
-                        <div className="bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)] border-1 border-[var(--color-secondary)] rounded-2xl p-2 relative ">
+                        <div className="bg-linear-to-b from-(--color-panel) to-(--color-secondary) border border-(--color-secondary) rounded-2xl p-2 relative ">
                           {review.userId === user?.uid && (
                             <div className="absolute top-2 right-2">
                               <button
@@ -779,7 +779,7 @@ export default function Title() {
                               </p>
                             </div>
                           </div>
-                          <div className="border-t border-[var(--color-vibranium)]/20 mt-2">
+                          <div className="border-t border-(--color-vibranium)/20 mt-2">
                             <div className="flex items-start">
                               <div className="flex items-center justify-center w-8 h-8 shrink-0">
                                 <FaQuoteLeft className="text-xs opacity-60" />

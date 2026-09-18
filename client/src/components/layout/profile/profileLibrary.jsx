@@ -115,7 +115,7 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
               id="sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-second rounded cursor-pointer text-sm border border-panel px-4 py-2.5 pr-4 outline-none transition-all duration-200 hover:border-[var(--color-secondary)] hover:bg-[var(--color-panel)] focus:border-[var(--color-secondary)] focus:bg-[var(--color-panel)]"
+              className="bg-second rounded cursor-pointer text-sm border border-panel px-4 py-2.5 pr-4 outline-none transition-all duration-200 hover:border-(--color-secondary) hover:bg-(--color-panel) focus:border-(--color-secondary) focus:bg-(--color-panel)"
             >
               <optgroup label="Watched" className="text-sm font-bold text-vibe">
                 <option value="watch-recent" className="text-xs text-vibe">

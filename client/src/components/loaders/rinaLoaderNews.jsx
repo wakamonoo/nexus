@@ -1,7 +1,7 @@
 export default function RinaLoaderNews() {
   return (
     <div className="w-full animate-pulse">
-      <div className="py-4 bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]">
+      <div className="py-4 bg-linear-to-b from-(--color-panel) to-(--color-secondary)">
         <div className="w-full h-fit px-4">
           <div className="flex gap-2 w-full items-center">
             <div className="w-12 h-12 bg-panel rounded-full" />
@@ -19,7 +19,7 @@ export default function RinaLoaderNews() {
           </div>
         </div>
       </div>
-      <div className="mt-2 divide-y divide-[var(--color-panel)]">
+      <div className="mt-2 divide-y divide-(--color-panel)">
         <div className="p-2 bg-second w-full h-28 flex gap-4">
           <div className="w-[24vh] h-full bg-panel shrink-0"></div>
           <div className="flex flex-col w-full gap-2">

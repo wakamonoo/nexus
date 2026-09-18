@@ -49,15 +49,15 @@ export default function ExportCard({
   };
 
   const categoryStyles = {
-    mcu: "bg-[var(--color-accent)]",
-    legacy: "bg-[var(--color-hulk)]",
-    adjacent: "bg-[var(--color-infinity)]",
+    mcu: "bg-(--color-accent)",
+    legacy: "bg-(--color-hulk)",
+    adjacent: "bg-(--color-infinity)",
   };
 
   const categoryIconStyles = {
-    mcu: "text-[var(--color-accent)]",
-    legacy: "text-[var(--color-hulk)]",
-    adjacent: "text-[var(--color-infinity)]",
+    mcu: "text-(--color-accent)",
+    legacy: "text-(--color-hulk)",
+    adjacent: "text-(--color-infinity)",
   };
 
   const totalTitles = order.length;
@@ -74,9 +74,9 @@ export default function ExportCard({
     <div
       id={id}
       style={{ width: cardWidth, height: cardHeight }}
-      className="flex flex-col p-10 bg-gradient-to-b from-[var(--color-panel)] to-[var(--color-secondary)]"
+      className="flex flex-col p-10 bg-linear-to-b from-(--color-panel) to-(--color-secondary)"
     >
-      <div className="flex items-center justify-between border-b border-[var(--color-secondary)] pb-8">
+      <div className="flex items-center justify-between border-b border-(--color-secondary) pb-8">
         <div className="flex items-start gap-3.5">
           <img
             src={user?.picture || Avatar.src}

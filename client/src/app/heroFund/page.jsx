@@ -125,13 +125,13 @@ export default function HeroFund() {
             decelopment.
           </p>
         </header>
-        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
+        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/4 p-4">
           <p className="text-sm leading-7 opacity-60">
             Nexus is an independent fan project. Your support helps cover the
             infrastracture's needs to keep the platform available and growing.
           </p>
         </div>
-        <div className="divide-y divide-[var(--color-panel)]">
+        <div className="divide-y divide-(--color-panel)">
           {sections.map((section) => (
             <section
               key={section.number}
@@ -223,9 +223,9 @@ export default function HeroFund() {
                               iconColor: "var(--color-hulk)",
                               customClass: {
                                 popup:
-                                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                                  "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
                                 title:
-                                  "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+                                  "!text-base !font-semibold !text-(--color-text) !leading-4.5",
                               },
                             });
                           })
@@ -243,9 +243,9 @@ export default function HeroFund() {
                             iconColor: "var(--color-accent)",
                             customClass: {
                               popup:
-                                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border-1 !border-[var(--color-panel)] !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+                                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
                               title:
-                                "!text-base !font-semibold !text-[var(--color-text)] !leading-4.5",
+                                "!text-base !font-semibold !text-(--color-text) !leading-4.5",
                             },
                           });
                         }}
