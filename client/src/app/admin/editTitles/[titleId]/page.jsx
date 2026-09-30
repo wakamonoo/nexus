@@ -1,6 +1,5 @@
 "use client";
 import { LoaderContext } from "@/context/loaderContext";
-import { TitleContext } from "@/context/titleContext";
 import { useParams, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import AdminGuard from "@/components/guard/adminGuard";
@@ -41,31 +40,45 @@ export default function EditTitle() {
   });
   const { titleId } = useParams();
   const { setIsLoading } = useContext(LoaderContext);
-  const { titles } = useContext(TitleContext);
   const [showTMDBSearchModal, setShowTMDBSearchModal] = useState(false);
   const router = useRouter();
 
-  const title = titles.find((t) => t.titleId === titleId);
+ 
 
   useEffect(() => {
-    if (title) {
-      setData({
-        title: title.title || "",
-        tmdbId: title.tmdbId || "",
-        mediaType: title.mediaType || "",
-        seasonNumber: title.seasonNumber ?? null,
-        parentSeriesId: title.parentSeriesId ?? null,
-        timeline: title.timeline || "",
-        phase: title.phase || "",
-        type: title.type || "",
-        order: title.order || "",
-        category: title.category || "",
-        universe: title.universe || "",
-        status: title.status || "",
-        connections: title.connections || "",
-      });
-    }
-  }, [title]);
+    const getTitle = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/titles/titleGet/${titleId}`);
+
+        if (!res.ok) {
+          throw new Error("failed to fetch title");
+        }
+
+        const data = await res.json();
+        const title = data.title;
+
+        setData({
+          title: title.title || "",
+          tmdbId: title.tmdbId || "",
+          mediaType: title.mediaType || "",
+          seasonNumber: title.seasonNumber ?? null,
+          parentSeriesId: title.parentSeriesId ?? null,
+          timeline: title.timeline || "",
+          phase: title.phase || "",
+          type: title.type || "",
+          order: title.order || "",
+          category: title.category || "",
+          universe: title.universe || "",
+          status: title.status || "",
+          connections: title.connections || "",
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getTitle();
+  }, [titleId]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -108,8 +121,7 @@ export default function EditTitle() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -126,8 +138,7 @@ export default function EditTitle() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
