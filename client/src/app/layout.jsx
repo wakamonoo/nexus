@@ -12,6 +12,8 @@ import { SocketProvider } from "@/context/socketContext";
 import "./globals.css";
 import { ListProvider } from "@/context/listContext";
 import { MomentProvider } from "@/context/momentContext";
+import { FeedbackProvider } from "@/context/feedbackContext";
+import FeedbackPopUp from "@/components/layout/essentials/feedbackPopUp";
 
 // Fonts
 const bebasNeue = Bebas_Neue({
@@ -144,10 +146,11 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${bebasNeue.variable} ${roboto.variable} ${anton.variable} ${orbitron.variable} scroll-smooth`}
-      >
+    <html
+      lang="en"
+      className={`${bebasNeue.variable} ${roboto.variable} ${anton.variable} ${orbitron.variable} scroll-smooth`}
+    >
+      <body>
         <LoaderProvider>
           <UserProvider>
             <TitleProvider>
@@ -159,7 +162,9 @@ export default function RootLayout({ children }) {
                         <WatchProvider>
                           <ListProvider>
                             <MomentProvider>
-                              <SigilProvider>{children}</SigilProvider>
+                              <FeedbackProvider>
+                                <SigilProvider>{children}<FeedbackPopUp /></SigilProvider>
+                              </FeedbackProvider>
                             </MomentProvider>
                           </ListProvider>
                         </WatchProvider>

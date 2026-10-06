@@ -14,6 +14,7 @@ import { FaQuoteLeft } from "react-icons/fa";
 import RatingLoader from "@/components/loaders/ratingLoader";
 import NexusReviewLoader from "@/components/loaders/nexusReviewLoader";
 import FeedbackFormLoader from "@/components/loaders/feedbackFormLoader";
+import { FeedbackContext } from "@/context/feedbackContext";
 
 dayjs.extend(relativeTime);
 
@@ -125,34 +126,13 @@ function StarRating({
 }
 
 export default function CommunityFeedback() {
-  const [feedbacks, setFeedbacks] = useState([]);
+  const { feedbacks, setFeedbacks, feedbackLoad } = useContext(FeedbackContext);
   const { user, allUsers, allUsersLoading, setShowSignInModal } =
     useContext(UserContext);
-  const [feedbackLoad, setFeedbackLoad] = useState(true);
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [consent, setConsent] = useState(false);
   const { setIsLoading } = useContext(LoaderContext);
-
-  useEffect(() => {
-    const handleGetFeedbacks = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/feedbacks/feedbacksGet`, {
-          method: "GET",
-        });
-
-        const data = await res.json();
-
-        setFeedbacks(data);
-      } catch (err) {
-        console.error("failed to fetch feedbacks", err);
-        setFeedbacks([]);
-      } finally {
-        setFeedbackLoad(false);
-      }
-    };
-    handleGetFeedbacks();
-  }, []);
 
   const ratingCounts = useMemo(() => {
     return {
@@ -210,8 +190,7 @@ export default function CommunityFeedback() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -228,8 +207,7 @@ export default function CommunityFeedback() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
