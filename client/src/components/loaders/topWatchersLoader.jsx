@@ -1,3 +1,5 @@
+import { FaUser } from "react-icons/fa";
+
 export default function TopWatchersLoader() {
   return (
     <div className="w-full h-full overflow-hidden animate-pulse">
@@ -18,7 +20,9 @@ export default function TopWatchersLoader() {
               <div className="flex justify-between bg-panel border border-(--color-secondary) rounded-xl p-3">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 bg-(--color-secondary) rounded shrink-0" />
-                  <div className="w-12 h-12 bg-(--color-secondary) rounded-full shrink-0" />
+                  <div className="flex items-center justify-center w-12 h-12 bg-(--color-secondary) rounded-full shrink-0">
+                    <FaUser className="text-2xl text-(--color-panel)" />
+                  </div>
                   <div className="flex flex-col gap-2">
                     <div className="w-24 h-5 bg-(--color-secondary) rounded" />
                     <div className="w-12 h-3 bg-(--color-secondary) rounded" />
@@ -33,7 +37,9 @@ export default function TopWatchersLoader() {
               <div className="flex justify-between bg-panel border border-(--color-secondary) rounded-xl p-3">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 bg-(--color-secondary) rounded shrink-0" />
-                  <div className="w-12 h-12 bg-(--color-secondary) rounded-full shrink-0" />
+                  <div className="flex items-center justify-center w-12 h-12 bg-(--color-secondary) rounded-full shrink-0">
+                    <FaUser className="text-2xl text-(--color-panel)" />
+                  </div>
                   <div className="flex flex-col gap-2">
                     <div className="w-20 h-5 bg-(--color-secondary) rounded" />
                     <div className="w-12 h-3 bg-(--color-secondary) rounded" />
@@ -48,7 +54,9 @@ export default function TopWatchersLoader() {
               <div className="flex justify-between bg-panel border border-(--color-secondary) rounded-xl p-3">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 bg-(--color-secondary) rounded shrink-0" />
-                  <div className="w-12 h-12 bg-(--color-secondary) rounded-full shrink-0" />
+                  <div className="flex items-center justify-center w-12 h-12 bg-(--color-secondary) rounded-full shrink-0">
+                    <FaUser className="text-2xl text-(--color-panel)" />
+                  </div>
                   <div className="flex flex-col gap-2">
                     <div className="w-28 h-5 bg-(--color-secondary) rounded" />
                     <div className="w-12 h-3 bg-(--color-secondary) rounded" />

@@ -1,3 +1,5 @@
+import { FaImage } from "react-icons/fa";
+
 export default function TitleInfoLoader() {
   return (
     <div className="animate-pulse">
@@ -13,16 +15,26 @@ export default function TitleInfoLoader() {
         <div className="flex flex-col gap-2 pb-4">
           <div className="bg-panel w-24 h-4 rounded" />
           <div className="flex gap-2 w-full">
-            <div className="bg-panel w-24 h-30 rounded" />
-            <div className="bg-panel w-24 h-30  rounded" />
+            <div className="flex items-center justify-center bg-panel w-24 h-35 rounded shrink-0">
+              <FaImage className="text-4xl text-(--color-secondary)" />
+            </div>
+            <div className="flex items-center justify-center bg-panel w-24 h-35 rounded shrink-0">
+              <FaImage className="text-4xl text-(--color-secondary)" />
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-2 pb-4">
           <div className="bg-panel w-18 h-4 rounded" />
           <div className="flex gap-2 w-full">
-            <div className="bg-panel w-24 h-35 rounded" />
-            <div className="bg-panel w-24 h-35 rounded" />
-            <div className="bg-panel w-24 h-35 rounded" />
+            <div className="flex items-center justify-center bg-panel w-24 h-35 rounded shrink-0">
+              <FaImage className="text-4xl text-(--color-secondary)" />
+            </div>
+            <div className="flex items-center justify-center bg-panel w-24 h-35 rounded shrink-0">
+              <FaImage className="text-4xl text-(--color-secondary)" />
+            </div>
+            <div className="flex items-center justify-center bg-panel w-24 h-35 rounded shrink-0">
+              <FaImage className="text-4xl text-(--color-secondary)" />
+            </div>
           </div>
         </div>
       </div>
