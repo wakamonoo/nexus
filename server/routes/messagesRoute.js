@@ -36,13 +36,14 @@ router.post("/addMessage", async (req, res) => {
 router.delete("/deleteMessage/:messageId", async (req, res) => {
   try {
     const { messageId } = req.params;
+    const { senderId } = req.body;
 
     const io = req.app.get("io");
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
-    await db.collection("messages").deleteOne({ msgId: messageId });
+    await db.collection("messages").deleteOne({ msgId: messageId, senderId });
 
     io.emit("messageDeleted", {
       msgId: messageId,
@@ -59,14 +60,14 @@ router.patch("/editMessage/:messageId", async (req, res) => {
   try {
     const io = req.app.get("io");
     const { messageId } = req.params;
-    const { text } = req.body;
+    const { text, senderId } = req.body;
 
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
     await db.collection("messages").updateOne(
-      { msgId: messageId },
+      { msgId: messageId, senderId },
       {
         $set: {
           text,
@@ -137,7 +138,10 @@ router.patch("/seenMessage/:messageId", async (req, res) => {
         msgId: user.latestCitadelSeenMessageId,
       });
 
-      if (currentSeenMessage && currentSeenMessage.messagedAt >= message.messagedAt) {
+      if (
+        currentSeenMessage &&
+        currentSeenMessage.messagedAt >= message.messagedAt
+      ) {
         return res.status(200).json({
           message: "already saw this or a newer message",
         });

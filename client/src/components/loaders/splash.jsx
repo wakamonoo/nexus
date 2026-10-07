@@ -11,7 +11,7 @@ export default function Splash() {
   });
   return (
     <>
-      <div className="fixed inset-0 z-[80] flex items-center justify-center bg-panel">
+      <div className="fixed inset-0 z-80 flex items-center justify-center bg-panel">
         <div className="flex flex-col items-center justify-center gap-2">
           <div className="flex items-center justify-center bg-second w-16 h-20 rounded-tl-4xl rounded-tr-4xl p-2">
             <div className="relative w-12 h-16 rounded-tl-4xl rounded-tr-4xl bg-accent">

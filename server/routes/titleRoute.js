@@ -286,7 +286,10 @@ const buildTMDBData = async (
     ?.at(-1);
 
   const theatricalReleaseDate =
-    usTheatricalReleaseDate || latestTheatricalReleaseDate || tmdb.release_date || "";
+    usTheatricalReleaseDate ||
+    latestTheatricalReleaseDate ||
+    tmdb.release_date ||
+    "";
 
   const productionCompanies = Array.isArray(tmdb.production_companies)
     ? tmdb.production_companies.map((company) => ({
@@ -315,7 +318,7 @@ const buildTMDBData = async (
     ? tmdb.networks.map((network) => ({
         tmdbId: network.id,
         name: network.name,
-         logoPath: network.logo_path || null,
+        logoPath: network.logo_path || null,
       }))
     : [];
 
@@ -348,22 +351,23 @@ const buildTMDBData = async (
 };
 
 router.post("/addTitle", async (req, res) => {
-  const {
-    title,
-    tmdbId,
-    mediaType,
-    seasonNumber,
-    parentSeriesId,
-    timeline,
-    phase,
-    type,
-    order,
-    category,
-    universe,
-    status,
-    connections,
-  } = req.body;
   try {
+    const {
+      title,
+      tmdbId,
+      mediaType,
+      seasonNumber,
+      parentSeriesId,
+      timeline,
+      phase,
+      type,
+      order,
+      category,
+      universe,
+      status,
+      connections,
+    } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -405,23 +409,24 @@ router.post("/addTitle", async (req, res) => {
 });
 
 router.patch("/updateTitle/:titleId", async (req, res) => {
-  const { titleId } = req.params;
-  const {
-    title,
-    tmdbId,
-    mediaType,
-    seasonNumber,
-    parentSeriesId,
-    timeline,
-    phase,
-    type,
-    order,
-    category,
-    universe,
-    status,
-    connections,
-  } = req.body;
   try {
+    const { titleId } = req.params;
+    const {
+      title,
+      tmdbId,
+      mediaType,
+      seasonNumber,
+      parentSeriesId,
+      timeline,
+      phase,
+      type,
+      order,
+      category,
+      universe,
+      status,
+      connections,
+    } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);

@@ -4,8 +4,9 @@ import clientPromise from "../lib/mongodb.js";
 const router = express.Router();
 
 router.post("/updateOrder", async (req, res) => {
-  const { updates } = req.body;
   try {
+    const { updates } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);

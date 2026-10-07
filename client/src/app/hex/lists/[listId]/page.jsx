@@ -92,11 +92,11 @@ export default function List() {
     .filter(Boolean);
 
   const handleVote = async (listId, vote) => {
-    try {
-      if (!user?.uid) {
-        setShowSignInModal();
-      }
+    if (!user?.uid) {
+      setShowSignInModal();
+    }
 
+    try {
       await fetch(`${BASE_URL}/api/reacts/listVote/${listId}`, {
         method: "PATCH",
         headers: {
@@ -121,8 +121,7 @@ export default function List() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     }

@@ -78,15 +78,16 @@ router.delete("/deleteList/:listId", async (req, res) => {
 });
 
 router.patch("/updateList/:listId", async (req, res) => {
-  const { listId } = req.params;
-  const { listTitle, listDescription, titles } = req.body;
   try {
+    const { listId } = req.params;
+    const { userId, listTitle, listDescription, titles } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
     await db.collection("lists").updateOne(
-      { listId },
+      { listId, userId },
       {
         $set: {
           listTitle,
@@ -196,6 +197,13 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
+    await db
+      .collection("lists")
+      .updateOne(
+        { "comments.commentId": commentId, "comments.userId": userId },
+        { $pull: { comments: { commentId, userId } } },
+      );
+
     await db.collection("users").updateOne({ uid: userId }, [
       {
         $set: {
@@ -205,14 +213,6 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
         },
       },
     ]);
-
-    await db
-      .collection("lists")
-      .updateOne(
-        { "comments.commentId": commentId },
-        { $pull: { comments: { commentId } } },
-      );
-
     res.status(200).json({ message: "Comment deleted succesfully" });
   } catch (err) {
     console.error(err);

@@ -6,6 +6,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 import SecondaryButtons from "../buttons/secBtns";
 import RegularButtons from "../buttons/regBtns";
+import { UserContext } from "@/context/userContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -24,13 +25,18 @@ export default function ConfirmMessageDeleteModal({
   messageToDelete,
   onDelete,
 }) {
+  const { user } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
 
   const handleMessageDelete = async () => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       await fetch(`${BASE_URL}/api/messages/deleteMessage/${messageToDelete}`, {
         method: "DELETE",
+        body: JSON.stringify({
+          senderId: user?.uid,
+        }),
       });
       onDelete(messageToDelete);
 
@@ -48,8 +54,7 @@ export default function ConfirmMessageDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -66,8 +71,7 @@ export default function ConfirmMessageDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -101,9 +105,7 @@ export default function ConfirmMessageDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons
-            onClick={handleMessageDelete}
-          >
+          <SecondaryButtons onClick={handleMessageDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
           <RegularButtons

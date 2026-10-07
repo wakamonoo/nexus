@@ -43,8 +43,6 @@ export default function EditTitle() {
   const [showTMDBSearchModal, setShowTMDBSearchModal] = useState(false);
   const router = useRouter();
 
- 
-
   useEffect(() => {
     const getTitle = async () => {
       try {
@@ -96,9 +94,9 @@ export default function EditTitle() {
   };
 
   const handleUpdateTitle = async (titleId) => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
+    try {
       await fetch(`${BASE_URL}/api/titles/updateTitle/${titleId}`, {
         method: "PATCH",
         headers: {

@@ -25,7 +25,7 @@ export const UserProvider = ({ children }) => {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [adminBtn, setAdminBtn] = useState(false);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [allUsers, setAllUsers] = useState([]);
   const [allUsersLoading, setAllUsersLoading] = useState(true)
   const [firebaseUser, setFirebaseUser] = useState(null);

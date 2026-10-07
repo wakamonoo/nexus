@@ -76,8 +76,9 @@ export const WatchProvider = ({ children }) => {
   };
 
   const handleWatch = async (titleId) => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       await fetch(`${BASE_URL}/api/watched/watchRoute/${titleId}`, {
         method: "POST",
         headers: {
@@ -106,8 +107,7 @@ export const WatchProvider = ({ children }) => {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -124,8 +124,7 @@ export const WatchProvider = ({ children }) => {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {

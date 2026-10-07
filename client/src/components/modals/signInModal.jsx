@@ -27,7 +27,8 @@ if (APP_ENV === "production") {
 }
 
 export default function SignInModal() {
-  const { isLogged, fetchUserData, setShowSignInModal } = useContext(UserContext);
+  const { isLogged, fetchUserData, setShowSignInModal } =
+    useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
@@ -46,8 +47,7 @@ export default function SignInModal() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
       setShowSignInModal(false);
@@ -73,7 +73,7 @@ export default function SignInModal() {
       }
       if (user && token) {
         try {
-          await fetch(`${BASE_URL}/api/users/signup`, {
+          const res = await fetch(`${BASE_URL}/api/users/signup`, {
             method: "POST",
             headers: {
               "Content-type": "application/json",
@@ -82,12 +82,17 @@ export default function SignInModal() {
               token,
             }),
           });
+
+          const data = await res.json();
+
           setShowSignInModal(false);
+
           await fetchUserData(user.uid);
+
           Swal.fire({
             toast: true,
             position: "bottom-start",
-            title: `Welcome, ${user.displayName}`,
+            title: `Welcome, ${data.name}`,
             icon: "success",
             timer: 2000,
             showConfirmButton: false,

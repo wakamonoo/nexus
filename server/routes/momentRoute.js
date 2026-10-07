@@ -40,11 +40,13 @@ router.post("/addMoment", async (req, res) => {
 router.delete("/deleteMoment/:momentId", async (req, res) => {
   try {
     const { momentId } = req.params;
+    const { userId } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
-    await db.collection("moments").deleteOne({ momentId });
+    await db.collection("moments").deleteOne({ momentId, userId });
 
     res.status(200).json({ message: "moment delete success" });
   } catch (err) {

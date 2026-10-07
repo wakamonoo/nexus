@@ -6,6 +6,7 @@ const router = express.Router();
 router.get("/isWatchedGet", async (req, res) => {
   try {
     const { userId, titleId } = req.query;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -24,6 +25,7 @@ router.get("/isWatchedGet", async (req, res) => {
 router.get("/watchedInfoGet", async (req, res) => {
   try {
     const { userId } = req.query;
+    
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);

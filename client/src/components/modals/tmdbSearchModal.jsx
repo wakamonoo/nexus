@@ -27,9 +27,9 @@ export default function TMDBSearchModal({
     const searchMetadata = async () => {
       if (!query.trim()) return;
 
-      try {
-        setIsLoading(true);
+      setIsLoading(true);
 
+      try {
         const res = await fetch(
           `${BASE_URL}/api/tmdb/search?q=${encodeURIComponent(query)}`,
         );

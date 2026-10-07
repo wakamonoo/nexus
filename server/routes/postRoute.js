@@ -112,6 +112,7 @@ router.delete("/deletePost/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
     const { userId } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -126,7 +127,7 @@ router.delete("/deletePost/:postId", async (req, res) => {
       },
     ]);
 
-    await db.collection("posts").deleteOne({ postId });
+    await db.collection("posts").deleteOne({ postId, userId });
 
     res.status(200).json({ message: "post delete success" });
   } catch (err) {
@@ -139,14 +140,14 @@ router.post("/editPost/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
 
-    const { topicId, text, embed, files } = req.body;
+    const { topicId, text, userId, embed, files } = req.body;
 
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
     const result = await db.collection("posts").updateOne(
-      { postId },
+      { postId, userId },
       {
         $set: {
           topicId,

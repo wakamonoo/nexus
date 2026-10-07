@@ -31,8 +31,9 @@ export default function ConfirmListDeleteModal({
   const router = useRouter();
 
   const handleListDelete = async () => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       await fetch(`${BASE_URL}/api/lists/deleteList/${listToDelete}`, {
         method: "DELETE",
       });
@@ -55,8 +56,7 @@ export default function ConfirmListDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -73,8 +73,7 @@ export default function ConfirmListDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -109,9 +108,7 @@ export default function ConfirmListDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons
-            onClick={handleListDelete}
-          >
+          <SecondaryButtons onClick={handleListDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
           <RegularButtons onClick={() => setShowConfirmListDeleteModal(false)}>

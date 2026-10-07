@@ -33,9 +33,9 @@ export default function ConfirmAccountDeleteModal({
   const router = useRouter();
 
   const handleAccountDelete = async () => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
+    try {
       const provider = new GoogleAuthProvider();
       await reauthenticateWithPopup(auth.currentUser, provider);
 
@@ -61,8 +61,7 @@ export default function ConfirmAccountDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -79,8 +78,7 @@ export default function ConfirmAccountDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -121,9 +119,7 @@ export default function ConfirmAccountDeleteModal({
           </span>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons
-            onClick={handleAccountDelete}
-          >
+          <SecondaryButtons onClick={handleAccountDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
           <RegularButtons

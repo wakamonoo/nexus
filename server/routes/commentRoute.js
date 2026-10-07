@@ -195,6 +195,23 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
+    const delCommentResult = await db
+      .collection("posts")
+      .updateOne(
+        { "comments.commentId": commentId, "comments.userId": userId },
+        { $pull: { comments: { commentId, userId } } },
+      );
+
+    if (delCommentResult.modifiedCount === 0) {
+      await db.collection("posts").updateOne(
+        {
+          "comments.replies.replyId": commentId,
+          "comments.replies.userId": userId,
+        },
+        { $pull: { "comments.$[].replies": { replyId: commentId, userId } } },
+      );
+    }
+
     await db.collection("users").updateOne({ uid: userId }, [
       {
         $set: {
@@ -204,22 +221,6 @@ router.delete("/deleteComment/:commentId", async (req, res) => {
         },
       },
     ]);
-
-    const delCommentResult = await db
-      .collection("posts")
-      .updateOne(
-        { "comments.commentId": commentId },
-        { $pull: { comments: { commentId } } },
-      );
-
-    if (delCommentResult.modifiedCount === 0) {
-      await db
-        .collection("posts")
-        .updateOne(
-          { "comments.replies.replyId": commentId },
-          { $pull: { "comments.$[].replies": { replyId: commentId } } },
-        );
-    }
 
     res.status(200).json({ message: "Comment deleted succesfully" });
   } catch (err) {

@@ -25,6 +25,7 @@ router.get("/postGet", async (req, res) => {
 router.get("/postGet/post/:postId", async (req, res) => {
   try {
     const { postId } = req.params;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -47,6 +48,7 @@ router.get("/postGet/post/:postId", async (req, res) => {
 router.get("/postGet/user/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -69,6 +71,7 @@ router.get("/postGet/user/:userId", async (req, res) => {
 router.get("/postGet/echoes/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
+    
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);

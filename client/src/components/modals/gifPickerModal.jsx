@@ -21,10 +21,10 @@ export default function GifPickerModal({ onSelect, setShowGifPickerModal }) {
 
   useEffect(() => {
     const fetchGifs = async () => {
-      try {
-        setIsLoading(true);
-        setGifs([]);
+      setIsLoading(true);
+      setGifs([]);
 
+      try {
         const res = await fetch(
           `https://api.klipy.com/v2/search?q=${query}&key=${process.env.NEXT_PUBLIC_KLIPY_KEY}&limit=50`,
         );

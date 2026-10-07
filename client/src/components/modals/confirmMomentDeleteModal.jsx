@@ -10,6 +10,7 @@ import { ListContext } from "@/context/listContext";
 import RegularButtons from "../buttons/regBtns";
 import SecondaryButtons from "../buttons/secBtns";
 import { MomentContext } from "@/context/momentContext";
+import { UserContext } from "@/context/userContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -28,14 +29,19 @@ export default function ConfirmMomentDeleteModal({
   setShowConfirmMomentDeleteModal,
   setShowMomentLightbox,
 }) {
+  const { user } = useContext(UserContext);
   const { setMoments } = useContext(MomentContext);
   const { setIsLoading } = useContext(LoaderContext);
 
   const handleMomentDelete = async () => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       await fetch(`${BASE_URL}/api/moments/deleteMoment/${momentToDelete}`, {
         method: "DELETE",
+        body: JSON.stringify({
+          userId: user?.uid,
+        }),
       });
 
       setMoments((prev) =>
@@ -57,8 +63,7 @@ export default function ConfirmMomentDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -75,8 +80,7 @@ export default function ConfirmMomentDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -111,9 +115,7 @@ export default function ConfirmMomentDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons
-            onClick={handleMomentDelete}
-          >
+          <SecondaryButtons onClick={handleMomentDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
           <RegularButtons

@@ -249,6 +249,13 @@ router.delete("/deleteReview/:reviewId", async (req, res) => {
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
+    await db
+      .collection("titles")
+      .updateOne(
+        { "reviews.reviewId": reviewId, "reviews.userId": userId },
+        { $pull: { reviews: { reviewId, userId } } },
+      );
+
     await db.collection("users").updateOne({ uid: userId }, [
       {
         $set: {
@@ -258,13 +265,6 @@ router.delete("/deleteReview/:reviewId", async (req, res) => {
         },
       },
     ]);
-
-    await db
-      .collection("titles")
-      .updateOne(
-        { "reviews.reviewId": reviewId },
-        { $pull: { reviews: { reviewId } } },
-      );
 
     res.status(200).json({ message: "Review deleted succesfully" });
   } catch (err) {

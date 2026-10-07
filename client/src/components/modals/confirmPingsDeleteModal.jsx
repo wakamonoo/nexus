@@ -27,8 +27,9 @@ export default function ConfirmPingsDeleteModal({
   const { setIsLoading } = useContext(LoaderContext);
 
   const handleDeleteAll = async () => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       await fetch(`${BASE_URL}/api/pings/deleteAll/${userId}`, {
         method: "DELETE",
       });
@@ -50,8 +51,7 @@ export default function ConfirmPingsDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -68,8 +68,7 @@ export default function ConfirmPingsDeleteModal({
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -104,9 +103,7 @@ export default function ConfirmPingsDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons
-            onClick={handleDeleteAll}
-          >
+          <SecondaryButtons onClick={handleDeleteAll}>
             <p className="font-bold text-normal text-base">Confirm</p>
           </SecondaryButtons>
           <RegularButtons

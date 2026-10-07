@@ -157,9 +157,8 @@ export default function CommunityFeedback() {
 
     if (!consent || !rating || !reviewText.trim()) return;
 
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-
       const res = await fetch(`${BASE_URL}/api/feedbacks/addFeedback`, {
         method: "POST",
         headers: {

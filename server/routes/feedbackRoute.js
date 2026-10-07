@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 const router = express.Router();
 
 router.post("/addFeedback", async (req, res) => {
-  const { userId, rating, review } = req.body;
-
   try {
+    const { userId, rating, review } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -19,7 +19,7 @@ router.post("/addFeedback", async (req, res) => {
       createdAt: new Date(),
     };
 
-    const feedback = await db.collection("feedbacks").updateOne(
+    await db.collection("feedbacks").updateOne(
       { feedbackId: newFeedback.feedbackId },
       {
         $setOnInsert: newFeedback,

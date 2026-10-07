@@ -80,8 +80,9 @@ export default function Ping({ setShowPing }) {
   };
 
   const handleReadAllPing = async (userId) => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       await fetch(`${BASE_URL}/api/pings/markAllAsRead/${userId}`, {
         method: "PATCH",
         headers: {
@@ -106,8 +107,7 @@ export default function Ping({ setShowPing }) {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -124,8 +124,7 @@ export default function Ping({ setShowPing }) {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {
@@ -138,9 +137,7 @@ export default function Ping({ setShowPing }) {
       <div
         onClick={() => setShowPing(false)}
         className={`inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed ${
-          navHide
-            ? "-translate-x-full opacity-0"
-            : "translate-x-0 opacity-100"
+          navHide ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"
         }`}
       >
         <div

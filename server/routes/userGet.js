@@ -4,8 +4,9 @@ import clientPromise from "../lib/mongodb.js";
 const router = express.Router();
 
 router.get("/userGet/:uid", async (req, res) => {
-  const { uid } = req.params;
   try {
+    const { uid } = req.params;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);

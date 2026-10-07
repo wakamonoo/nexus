@@ -5,14 +5,23 @@ import admin from "../lib/firebaseAdmin.js";
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
-  const { token } = req.body;
   try {
+    const { token } = req.body;
+
     const decoded = await admin.auth().verifyIdToken(token);
     const { uid, email, name, picture } = decoded;
 
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
+
+    const existingUser = await db.collection("users").findOne({ uid });
+
+    if (existingUser) {
+      res
+        .status(200)
+        .json({ message: "user signed up", name: existingUser.name });
+    }
 
     await db.collection("users").updateOne(
       { uid },
@@ -28,7 +37,7 @@ router.post("/signup", async (req, res) => {
       { upsert: true },
     );
 
-    res.status(200).json({ message: "user signed up" });
+    res.status(200).json({ message: "user signed up", name });
   } catch (err) {
     console.error("failed to signup user", err);
     res.status(401).json({ error: "invalid token" });
@@ -36,9 +45,10 @@ router.post("/signup", async (req, res) => {
 });
 
 router.put("/updateUser/:uid", async (req, res) => {
-  const { uid } = req.params;
-  const { picture, name, bio } = req.body;
   try {
+    const { uid } = req.params;
+    const { picture, name, bio } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -122,7 +132,7 @@ router.delete("/deleteUser/:uid", async (req, res) => {
         { "comments.userId": uid },
         { $pull: { comments: { userId: uid } } },
       );
-      
+
     await db
       .collection("titles")
       .updateMany(

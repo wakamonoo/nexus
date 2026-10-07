@@ -6,6 +6,7 @@ const router = express.Router();
 router.patch("/isReadPatch/:pingId", async (req, res) => {
   try {
     const { pingId } = req.params;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -24,11 +25,13 @@ router.patch("/isReadPatch/:pingId", async (req, res) => {
 router.delete("/deletePing/:pingId", async (req, res) => {
   try {
     const { pingId } = req.params;
+    const { userId } = req.body;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
 
-    await db.collection("pings").deleteOne({ pingId });
+    await db.collection("pings").deleteOne({ pingId, userId });
 
     res.status(200).json({ message: "delete ping succesful" });
   } catch (err) {
@@ -40,6 +43,7 @@ router.delete("/deletePing/:pingId", async (req, res) => {
 router.delete("/deleteAll/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);
@@ -56,6 +60,7 @@ router.delete("/deleteAll/:userId", async (req, res) => {
 router.patch("/markAllAsRead/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
+
     const client = await clientPromise;
     const mongodb = process.env.MONGODB;
     const db = client.db(mongodb);

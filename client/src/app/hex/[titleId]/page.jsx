@@ -125,11 +125,10 @@ export default function Title() {
       .filter((r) => r.titleId === title?.titleId && r.rank === 1).length || 0;
 
   const handleVote = async (reviewId, vote) => {
+    if (!user?.uid) {
+      setShowSignInModal();
+    }
     try {
-      if (!user?.uid) {
-        setShowSignInModal();
-      }
-
       await fetch(`${BASE_URL}/api/reacts/reviewVote/${reviewId}`, {
         method: "PATCH",
         headers: {
@@ -154,8 +153,7 @@ export default function Title() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     }

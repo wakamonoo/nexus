@@ -150,13 +150,13 @@ export default function Citadel() {
   };
 
   const sendMessage = async () => {
+    if (!input.trim() && files.length === 0) return;
+
+    setIsLoading(true);
+
+    justSentMessage.current = true;
+
     try {
-      if (!input.trim() && files.length === 0) return;
-
-      setIsLoading(true);
-
-      justSentMessage.current = true;
-
       const uploadedFiles = files.filter((file) => typeof file !== "string");
       const gifUrls = files.filter(
         (file) =>
@@ -245,15 +245,16 @@ export default function Citadel() {
   };
 
   const editMessage = async (msgId) => {
-    try {
-      setIsLoading(true);
+    setIsLoading(true);
 
+    try {
       await fetch(`${BASE_URL}/api/messages/editMessage/${msgId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          senderId: user?.uid,
           text: editInput,
         }),
       });
@@ -374,8 +375,7 @@ export default function Citadel() {
       customClass: {
         popup:
           "!w-fit !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-        title:
-          "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+        title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
       },
     });
     setSelectedMessage(null);
