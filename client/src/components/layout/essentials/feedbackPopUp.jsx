@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 
-const feedbackDelay = 90 * 1000;
+const feedbackDelay = 30 * 1000;
 const feedbackCoolDown = 2 * 24 * 60 * 60 * 1000;
 
 export default function FeedbackPopUp() {
