@@ -34,6 +34,9 @@ export default function ConfirmMessageDeleteModal({
     try {
       await fetch(`${BASE_URL}/api/messages/deleteMessage/${messageToDelete}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           senderId: user?.uid,
         }),
