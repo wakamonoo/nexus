@@ -54,7 +54,7 @@ export default function Activities() {
               >
                 <img
                   src={user?.picture || Avatar.src}
-                  alt={user?.name}
+                  alt={user?.name || "New user"}
                   loading="lazy"
                   decoding="async"
                   className="w-10 h-10 object-cover rounded-full"
@@ -62,7 +62,7 @@ export default function Activities() {
                 <div className="min-w-0 flex-1">
                   <p className="text-sm leading-5 truncate">
                     <span className="font-semibold text-normal ">
-                      {user?.name}
+                      {user?.name || "New user"}
                     </span>{" "}
                     <span className="text-vibe opacity-60">
                       {activity?.message}

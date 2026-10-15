@@ -118,18 +118,20 @@ export default function RinaNews() {
               <div
                 key={index}
                 onClick={() => router.push(`${article?.url}`)}
-                className="bg-second flex gap-4 p-2 border-y border-panel cursor-pointer hover:bg-(--color-panel)"
+                className="bg-second flex gap-4 p-2 border-y border-panel cursor-pointer hover:bg-(--color-panel) w-full"
               >
-                <img
-                  src={article.image}
-                  onError={(e) => (e.currentTarget.src = Fallback.src)}
-                  alt="article image"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  className="w-[24vh] h-auto object-cover"
-                />
-                <div className="flex flex-col">
+                <div className="w-[30%] aspect-video overflow-hidden">
+                  <img
+                    src={article.image}
+                    onError={(e) => (e.currentTarget.src = Fallback.src)}
+                    alt="article image"
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="w-[70%] flex flex-col">
                   <p className="text-base text-zeus font-bold text-justify leading-5 whitespace-pre-wrap line-clamp-4">
                     {article?.title}
                   </p>

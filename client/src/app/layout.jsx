@@ -19,25 +19,25 @@ import FeedbackPopUp from "@/components/layout/essentials/feedbackPopUp";
 const bebasNeue = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-bebas-neue",
+  variable: "--heading-family",
 });
 
 const roboto = Roboto({
   weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-roboto",
-});
-
-const anton = Anton({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-anton",
+  variable: "--body-family",
 });
 
 const orbitron = Orbitron({
   weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-orbitron",
+  variable: "--alt-family",
+});
+
+const anton = Anton({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--tall-family",
 });
 
 // Metadata
@@ -148,7 +148,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${bebasNeue.variable} ${roboto.variable} ${anton.variable} ${orbitron.variable} scroll-smooth`}
+      className={`${bebasNeue.variable} ${roboto.variable}  ${orbitron.variable} ${anton.variable}scroll-smooth`}
     >
       <body>
         <LoaderProvider>
@@ -163,7 +163,10 @@ export default function RootLayout({ children }) {
                           <ListProvider>
                             <MomentProvider>
                               <FeedbackProvider>
-                                <SigilProvider>{children}<FeedbackPopUp /></SigilProvider>
+                                <SigilProvider>
+                                  {children}
+                                  <FeedbackPopUp />
+                                </SigilProvider>
                               </FeedbackProvider>
                             </MomentProvider>
                           </ListProvider>

@@ -1,6 +1,3 @@
-/* ———————————————————————————————————— google fonts ——— */
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Anton&family=Orbitron&family=Roboto:wght@400;700&display=swap");
-
 /* ———————————————————————————————————— tailwind ——— */
 @import "tailwindcss";
 
@@ -22,13 +19,13 @@
     --color-infinity: #8b5cf6; /* ———————————————————————————————————— infinity ——— */
 
     --font-heading:
-      "Bebas Neue", sans-serif; /* ———————————————————————————————————— headings ——— */
+      var(--heading-family), sans-serif; /* ———————————————————————————————————— headings ——— */
     --font-body:
-      "Roboto", sans-serif; /* ———————————————————————————————————— normal text ——— */
+      var(--body-family), sans-serif; /* ———————————————————————————————————— normal text ——— */
     --font-alt:
-      "Orbitron", sans-serif; /* ———————————————————————————————————— tech accents ——— */
+      var(--alt-family), sans-serif; /* ———————————————————————————————————— tech accents ——— */
     --font-tall:
-      "Anton", sans-serif; /* ———————————————————————————————————— big titles ——— */
+      var(--tall-family), sans-serif; /* ———————————————————————————————————— big titles ——— */
   }
 
   body {
