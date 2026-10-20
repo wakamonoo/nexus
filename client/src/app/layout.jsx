@@ -148,7 +148,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className={`${bebasNeue.variable} ${roboto.variable}  ${orbitron.variable} ${anton.variable}scroll-smooth`}
+      className={`${bebasNeue.variable} ${roboto.variable}  ${orbitron.variable} ${anton.variable} scroll-smooth`}
     >
       <body>
         <LoaderProvider>

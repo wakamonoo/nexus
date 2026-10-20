@@ -331,7 +331,7 @@ const sections = [
     content: (
       <p>
         Nexus is intended for users who are{" "}
-        <strong>10 years of age or older</strong>.
+        <strong>18 years of age or older</strong>.
         <br />
         <br />
         Users who are below the minimum age permitted by applicable law in their

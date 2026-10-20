@@ -149,14 +149,14 @@ export default function SignInModal() {
           </button>
         </div>
         <div className="flex flex-col gap-2 items-center justify-center px-4 pb-4">
-          <Image
-            src={Logo}
-            priority
-            alt="logo"
-            width={0}
-            height={0}
-            className="w-36 h-auto mb-2"
-          />
+          <div className="w-44 h-auto py-2">
+            <Image
+              src={Logo}
+              alt="logo"
+              priority
+              className="w-full h-full object-contain"
+            />
+          </div>
           <div className="flex w-full">
             <CircledButtons onClick={handleSignIn}>
               {isLogged ? (
