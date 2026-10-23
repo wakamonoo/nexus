@@ -104,7 +104,9 @@ export default function ScreenTime() {
                         <p className="font-bold text-base truncate max-w-35">
                           {watcher.name}
                         </p>
-                        <p className="text-xs text-vibe">Rank #{watcher.rank}</p>
+                        <p className="text-xs text-vibe">
+                          Rank #{watcher.rank}
+                        </p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -120,9 +122,14 @@ export default function ScreenTime() {
               ))}
             </div>
             <div className="mt-4 ml-auto w-fit">
-              <button onClick={() => setShowTopWatchersModal(true)} className="flex items-center justify-center gap-2">
-                <p className="text-xs text-vibe">View Full Leaderboard</p>
-                <FaArrowRight className="text-xs text-vibe" />
+              <button
+                onClick={() => setShowTopWatchersModal(true)}
+                className="cursor-pointer flex items-center justify-center gap-2 group"
+              >
+                <p className="text-xs text-vibe transition-all duration-200 group-hover:text-(--color-zeus) group-active:text-(--color-zeus)">
+                  View Full Leaderboard
+                </p>
+                <FaArrowRight className="text-xs text-vibe transition-all duration-200 group-hover:text-(--color-zeus) group-active:text-(--color-zeus)" />
               </button>
             </div>
           </div>

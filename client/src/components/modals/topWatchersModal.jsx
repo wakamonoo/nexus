@@ -10,7 +10,7 @@ import { FaMedal } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 
 export default function TopWatchersModal({ setShowTopWatchersModal }) {
-  const { allUsers, allUsersLoading } = useContext(UserContext);
+  const { user, allUsers } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
 
