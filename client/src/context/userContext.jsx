@@ -44,7 +44,7 @@ export const UserProvider = ({ children }) => {
         return;
       }
 
-      const token = await firebaseUser.getIdToken();
+      const token = await currentFirebaseUser.getIdToken();
 
       const response = await fetch(`${BASE_URL}/api/admin/adminGet`, {
         headers: {
