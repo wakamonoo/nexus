@@ -6,7 +6,8 @@ const ADMIN_UIDS = (process.env.ADMIN_UIDS || "")
   .filter(Boolean);
 
 export async function requireAdmin(request) {
-  const authorization = request.headers.get("authorization");
+  const authorization = request.get("authorization");
+
   const token = authorization?.startsWith("Bearer ")
     ? authorization.slice(7)
     : null;
@@ -19,10 +20,12 @@ export async function requireAdmin(request) {
     const decoded = await admin.auth().verifyIdToken(token);
 
     console.log("Logged-in UID:", JSON.stringify(decoded.uid));
+
     console.log(
       "Allowed UIDs:",
       ADMIN_UIDS.map((uid) => JSON.stringify(uid)),
     );
+
     console.log("Firebase project:", admin.app().options.projectId);
 
     if (!ADMIN_UIDS.includes(decoded.uid)) {
@@ -33,7 +36,8 @@ export async function requireAdmin(request) {
       authorized: true,
       uid: decoded.uid,
     };
-  } catch {
+  } catch (err) {
+    console.error("fiebase token verification failed:", err.message);
     return { authorized: false, status: 401 };
   }
 }

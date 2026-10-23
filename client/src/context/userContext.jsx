@@ -46,7 +46,7 @@ export const UserProvider = ({ children }) => {
 
       const token = await currentFirebaseUser.getIdToken();
 
-      const response = await fetch(`${BASE_URL}/api/admin/adminGet`, {
+      const response = await fetch(`${BASE_URL}/api/admin/verify`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

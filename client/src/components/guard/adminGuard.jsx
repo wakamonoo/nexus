@@ -37,7 +37,7 @@ export default function AdminGuard({ children }) {
       try {
         const token = await firebaseUser.getIdToken();
 
-        const response = await fetch(`${BASE_URL}/api/admin/adminGet`, {
+        const response = await fetch(`${BASE_URL}/api/admin/verify`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
