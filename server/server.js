@@ -110,17 +110,17 @@ startNewsCron();
 startTitleUpdateCron();
 
 io.on("connection", (socket) => {
-  console.log("a user is connected", socket.id);
+  console.log("user connected:", socket.id);
 
   socket.on("joinRoom", (userId) => {
     if (userId) {
       socket.join(userId);
-      console.log(`user ${userId} joined the private room`);
+      console.log("user joined their socket.io room");
     }
   });
 
   socket.on("disconnect", () => {
-    console.log("user disconnected", socket.id);
+    console.log("user disconnected:", socket.id);
   });
 });
 
