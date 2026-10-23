@@ -42,6 +42,25 @@ export default function ScreenTime() {
 
   const topWatchers = rankedUsers.filter((user) => user.rank <= 3);
 
+  const formatRank = (rank) => {
+    const remainder100 = rank % 100;
+
+    if (remainder100 >= 11 && remainder100 <= 13) {
+      return `${rank}th`;
+    }
+
+    switch (rank % 10) {
+      case 1:
+        return `${rank}st`;
+      case 2:
+        return `${rank}nd`;
+      case 3:
+        return `${rank}rd`;
+      default:
+        return `${rank}th`;
+    }
+  };
+
   const rankIcon = (rank) => {
     if (rank === 1) {
       return <GiTrophy className="text-zeus text-2xl" />;
@@ -54,8 +73,6 @@ export default function ScreenTime() {
     if (rank === 3) {
       return <FaMedal className="text-amber-600 text-xl" />;
     }
-
-    return <span className="font-bold text-accent">#{rank}</span>;
   };
 
   return (
@@ -105,7 +122,7 @@ export default function ScreenTime() {
                           {watcher.name}
                         </p>
                         <p className="text-xs text-vibe">
-                          Rank #{watcher.rank}
+                          {formatRank(watcher.rank)} Place
                         </p>
                       </div>
                     </div>

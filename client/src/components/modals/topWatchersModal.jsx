@@ -40,6 +40,25 @@ export default function TopWatchersModal({ setShowTopWatchersModal }) {
   );
   const unrankedUsers = rankedUsers.filter((u) => (u.totalWatched || 0) === 0);
 
+  const formatRank = (rank) => {
+    const remainder100 = rank % 100;
+
+    if (remainder100 >= 11 && remainder100 <= 13) {
+      return `${rank}th`;
+    }
+
+    switch (rank % 10) {
+      case 1:
+        return `${rank}st`;
+      case 2:
+        return `${rank}nd`;
+      case 3:
+        return `${rank}rd`;
+      default:
+        return `${rank}th`;
+    }
+  };
+
   const rankIcon = (rank) => {
     if (rank === 1) {
       return <GiTrophy className="text-zeus text-2xl" />;
@@ -52,8 +71,6 @@ export default function TopWatchersModal({ setShowTopWatchersModal }) {
     if (rank === 3) {
       return <FaMedal className="text-amber-600 text-xl" />;
     }
-
-    return <span className="font-bold text-xs text-accent">{rank}</span>;
   };
 
   return (
@@ -106,7 +123,9 @@ export default function TopWatchersModal({ setShowTopWatchersModal }) {
                       <p className="font-bold text-base truncate max-w-35">
                         {watcher.name}
                       </p>
-                      <p className="text-xs text-vibe">Rank {watcher.rank}</p>
+                      <p className="text-xs text-vibe">
+                        {formatRank(watcher.rank)} Place
+                      </p>
                     </div>
                   </div>
                   <div className="text-right">
