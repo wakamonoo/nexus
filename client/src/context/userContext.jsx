@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useState, useEffect } from "react";
-import { auth } from "@/firebase/firebaseConfig";
+import { auth } from "@/lib/firebase/config";
 import SignInModal from "@/components/modals/signInModal";
 import { io } from "socket.io-client";
 
@@ -27,21 +27,33 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [allUsers, setAllUsers] = useState([]);
-  const [allUsersLoading, setAllUsersLoading] = useState(true)
+  const [allUsersLoading, setAllUsersLoading] = useState(true);
   const [firebaseUser, setFirebaseUser] = useState(null);
   const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-  const fetchUserData = async (uid) => {
+  const fetchUserData = async (uid, currentFirebaseUser) => {
     try {
       const res = await fetch(`${BASE_URL}/api/users/userGet/${uid}`);
       const data = await res.json();
 
       setUser(data.result);
       setIsLogged(true);
-      setAdminBtn(
-        auth.currentUser.email === "joven.serdanbataller21@gmail.com" ||
-          auth.currentUser.email === "wakamonoo9@gmail.com",
-      );
+
+      if (!currentFirebaseUser) {
+        setAdminBtn(false);
+        return;
+      }
+
+      const token = await firebaseUser.getIdToken();
+
+      const response = await fetch(`${BASE_URL}/api/admin/adminGet`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: "no-store",
+      });
+
+      setAdminBtn(response.ok);
     } catch (err) {
       console.error("error fetching user data:", err);
       setUser(null);
@@ -55,7 +67,7 @@ export const UserProvider = ({ children }) => {
       setLoading(true);
       if (firebaseUser) {
         setFirebaseUser(firebaseUser);
-        await fetchUserData(firebaseUser.uid);
+        await fetchUserData(firebaseUser.uid, firebaseUser);
 
         socket.emit("joinRoom", firebaseUser.uid);
       } else {
@@ -85,9 +97,9 @@ export const UserProvider = ({ children }) => {
         setAllUsers(data.result);
       } catch (err) {
         console.error(err);
-        setAllUsers([])
+        setAllUsers([]);
       } finally {
-        setAllUsersLoading(false)
+        setAllUsersLoading(false);
       }
     };
 

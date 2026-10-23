@@ -5,7 +5,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { GoogleAuthProvider, reauthenticateWithPopup } from "firebase/auth";
-import { auth } from "@/firebase/firebaseConfig";
+import { auth } from "@/lib/firebase/config";
 import { useRouter } from "next/navigation";
 import SecondaryButtons from "../buttons/secBtns";
 import RegularButtons from "../buttons/regBtns";

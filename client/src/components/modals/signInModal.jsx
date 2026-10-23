@@ -1,7 +1,7 @@
 "use client";
 import { MdClose, MdLogout } from "react-icons/md";
-import { googleSignUp } from "@/firebase/firebaseConfig";
-import { auth } from "@/firebase/firebaseConfig";
+import { googleSignUp } from "@/lib/firebase/config";
+import { auth } from "@/lib/firebase/config";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";

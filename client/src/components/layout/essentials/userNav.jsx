@@ -22,7 +22,7 @@ export default function UserNav({ setShowUserNav }) {
     <div
       onClick={() => setShowUserNav(false)}
       className={`inset-0 z-50 backdrop-blur-xs flex items-center justify-center fixed ${
-        navHide ? "translate-x-[-100%] opacity-0" : "translate-x-0 opacity-100"
+        navHide ? "translate-x-full opacity-0" : "translate-x-0 opacity-100"
       }`}
     >
       <div
@@ -47,7 +47,9 @@ export default function UserNav({ setShowUserNav }) {
                   decoding="async"
                   className="w-6 h-6 object-cover rounded-full"
                 />
-                <p className="text-base font-bold text-normal truncate">{user.name}</p>
+                <p className="text-base font-bold text-normal truncate">
+                  {user.name}
+                </p>
               </>
             ) : (
               <>

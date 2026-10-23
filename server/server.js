@@ -34,6 +34,7 @@ import feedbackRoute from "./routes/feedbackRoute.js";
 import feedbackGet from "./routes/feedbackGet.js";
 import momentRoute from "./routes/momentRoute.js";
 import momentGet from "./routes/momentGet.js";
+import adminGet from "./routes/adminGet.js";
 
 import { startNewsCron } from "./cron/newsCron.js";
 import { startTitleUpdateCron } from "./cron/titleUpdateCron.js";
@@ -99,6 +100,7 @@ app.use("/api/feedbacks", feedbackRoute);
 app.use("/api/feedbacks", feedbackGet);
 app.use("/api/moments", momentRoute);
 app.use("/api/moments", momentGet);
+app.use("/api/admin", adminGet);
 
 app.get("/health", (req, res) => {
   res.status(200).send("uptimerobot restarter working");

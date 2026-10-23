@@ -2,38 +2,68 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { GiAngryEyes } from "react-icons/gi";
+import { useRouter } from "next/navigation";
+
+const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
+
+let BASE_URL;
+
+if (APP_ENV === "production") {
+  BASE_URL = "https://nexus-po8x.onrender.com";
+} else if (APP_ENV === "staging") {
+  BASE_URL = "https://nexus-test-xxhl.onrender.com";
+} else {
+  BASE_URL = "http://localhost:4000";
+}
 
 export default function AdminGuard({ children }) {
-  const { user } = useContext(UserContext);
-  const [isAuthorized, setIsAuthorized] = useState(null);
-  const [showUnauth, setShowUnauth] = useState(false);
-  const [coldLoad, setColdLoad] = useState(false);
+  const { firebaseUser, loading } = useContext(UserContext);
+  const [status, setStatus] = useState("checking");
+  const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
-      setIsAuthorized(false);
-    }
-    setIsAuthorized(
-      user?.email == "joven.serdanbataller21@gmail.com" ||
-        user?.email === "wakamonoo9@gmail.com",
-    );
-  }, [user]);
+    if (loading) return;
 
-  useEffect(() => {
-    if (!isAuthorized) {
-      setColdLoad(true);
-      const timer = setTimeout(() => {
-        setColdLoad(false);
-        setShowUnauth(true);
-      }, 3000);
-      return () => clearTimeout(timer);
-    } else {
-      setColdLoad(false);
-      setShowUnauth(false);
+    if (!firebaseUser) {
+      router.replace("/");
+      return;
     }
-  }, [isAuthorized, setColdLoad]);
 
-  if (coldLoad || isAuthorized === null)
+    let cancelled = false;
+
+    async function checkAdmin() {
+      setStatus("checking");
+
+      try {
+        const token = await firebaseUser.getIdToken();
+
+        const response = await fetch(`${BASE_URL}/api/admin/adminGet`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          cache: "no-store",
+        });
+
+        if (!cancelled) {
+          setStatus(response.ok ? "authorized" : "unauthorized");
+        }
+      } catch (err) {
+        console.error("admin verification failed:", err);
+
+        if (!cancelled) {
+          setStatus("unauthorized");
+        }
+      }
+    }
+
+    checkAdmin();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [firebaseUser, loading]);
+
+  if (loading || status === "checking")
     return (
       <div className="w-full h-screen bg-panel flex gap-2 items-center justify-center">
         <h4 className="text-normal text-2xl">Checking, if you're worthy</h4>
@@ -45,7 +75,7 @@ export default function AdminGuard({ children }) {
       </div>
     );
 
-  if (showUnauth)
+  if (status === "unauthorized")
     return (
       <div className="flex flex-col items-center justify-center w-full h-screen opacity-40 p-8">
         <GiAngryEyes className="text-9xl text-normal -m-8" />
