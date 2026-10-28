@@ -216,9 +216,29 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
                 </div>
               </div>
             )}
-            <div className="flex gap-2">
-              {existingFiles.length > 0 && (
-                <div className="flex flex-wrap gap-2 pb-2">
+
+            <div>
+              <textarea
+                name="text"
+                value={post.text}
+                onChange={(e) => setPost({ ...post, text: e.target.value })}
+                placeholder="share your thoughts"
+                className="bg-text text-brand w-full h-32 rounded p-2"
+              />
+              <div className="flex items-center justify-center rounded bg-zeus p-2 gap-2">
+                <div className="bg-panel p-2 rounded">
+                  <LuCodeXml className="text-2xl" />
+                </div>
+                <input
+                  value={post.embed}
+                  onChange={(e) => setPost({ ...post, embed: e.target.value })}
+                  placeholder="embed youtube post..."
+                  className="bg-text text-brand w-full  rounded p-2"
+                />
+              </div>
+
+              {(existingFiles.length > 0 || newFiles.length > 0) && (
+                <div className="grid grid-cols-4 gap-2 mt-2">
                   {existingFiles.map((file, index) => {
                     const isImage =
                       file.includes(".jpg") ||
@@ -226,7 +246,10 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
                       file.includes(".png") ||
                       file.includes(".webp");
                     return (
-                      <div key={index} className="w-20 h-20 relative">
+                      <div
+                        key={index}
+                        className="relative aspect-square min-w-0"
+                      >
                         {isImage ? (
                           <img
                             src={file}
@@ -260,12 +283,8 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
                       </div>
                     );
                   })}
-                </div>
-              )}
-              {newFiles.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-2">
                   {newFiles.map((file, index) => (
-                    <div key={index} className="w-20 h-20 relative">
+                    <div key={index} className="relative aspect-square min-w-0">
                       {file.type.startsWith("image/") ? (
                         <img
                           src={URL.createObjectURL(file)}
@@ -300,26 +319,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
                   ))}
                 </div>
               )}
-            </div>
-            <div>
-              <textarea
-                name="text"
-                value={post.text}
-                onChange={(e) => setPost({ ...post, text: e.target.value })}
-                placeholder="share your thoughts"
-                className="bg-text text-brand w-full h-32 rounded p-2"
-              />
-              <div className="flex items-center justify-center rounded bg-zeus p-2 gap-2">
-                <div className="bg-panel p-2 rounded">
-                  <LuCodeXml className="text-2xl" />
-                </div>
-                <input
-                  value={post.embed}
-                  onChange={(e) => setPost({ ...post, embed: e.target.value })}
-                  placeholder="embed youtube post..."
-                  className="bg-text text-brand w-full  rounded p-2"
-                />
-              </div>
+
               <div className="flex flex-col md:flex-row md:gap-2">
                 <SecondaryButtons htmlFor="fileUploadPost">
                   <RiImageAiFill className="text-2xl" />

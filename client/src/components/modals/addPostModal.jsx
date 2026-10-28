@@ -232,52 +232,7 @@ export default function AddPostModal({ setShowAddPostModal }) {
                 </div>
               </div>
             )}
-            {post.file && post.file.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-2">
-                {Array.from(post.file).map((file, index) => {
-                  const previewSrc =
-                    typeof file === "string" ? file : URL.createObjectURL(file);
 
-                  return (
-                    <div key={index} className="w-20 h-20 relative">
-                      {file.type.startsWith("image/") ? (
-                        <img
-                          src={previewSrc}
-                          alt={`preivew-${index}`}
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover rounded"
-                        />
-                      ) : (
-                        <video
-                          src={previewSrc}
-                          alt={`preivew-${index}`}
-                          width={0}
-                          height={0}
-                          sizes="100vw"
-                          className="w-full h-full object-cover rounded"
-                        />
-                      )}
-                      <div className="absolute top-1 right-1">
-                        <button
-                          onClick={() => {
-                            const filesArray = Array.from(post.file);
-                            filesArray.splice(index, 1);
-                            setPost({
-                              ...post,
-                              file: filesArray.length ? filesArray : null,
-                            });
-                          }}
-                          className="cursor-pointer"
-                        >
-                          <FaTrash className="text-base" />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
             <div>
               <textarea
                 name="text"
@@ -297,6 +252,57 @@ export default function AddPostModal({ setShowAddPostModal }) {
                   className="bg-text text-brand w-full  rounded p-2"
                 />
               </div>
+              {post.file && post.file.length > 0 && (
+                <div className="grid grid-cols-4 gap-2 mt-2">
+                  {Array.from(post.file).map((file, index) => {
+                    const previewSrc =
+                      typeof file === "string"
+                        ? file
+                        : URL.createObjectURL(file);
+
+                    return (
+                      <div
+                        key={index}
+                        className="relative aspect-square min-w-0"
+                      >
+                        {file.type.startsWith("image/") ? (
+                          <img
+                            src={previewSrc}
+                            alt={`preivew-${index}`}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover rounded"
+                          />
+                        ) : (
+                          <video
+                            src={previewSrc}
+                            alt={`preivew-${index}`}
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            className="w-full h-full object-cover rounded"
+                          />
+                        )}
+                        <div className="absolute top-1 right-1">
+                          <button
+                            onClick={() => {
+                              const filesArray = Array.from(post.file);
+                              filesArray.splice(index, 1);
+                              setPost({
+                                ...post,
+                                file: filesArray.length ? filesArray : null,
+                              });
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <FaTrash className="text-base" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
               <div className="flex flex-col md:flex-row md:gap-2">
                 <SecondaryButtons htmlFor="fileUploadPost">
                   <RiImageAiFill className="text-2xl" />
