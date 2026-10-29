@@ -564,7 +564,7 @@ export default function Post() {
                       <div />
                     )}
                     <div className="flex justify-between items-center py-4 border-t border-panel mt-2">
-                      <div
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           if (user) {
@@ -573,7 +573,7 @@ export default function Post() {
                             setShowSignInModal(true);
                           }
                         }}
-                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
+                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer  select-none"
                       >
                         <AiFillThunderbolt
                           className={`text-2xl ${
@@ -585,8 +585,8 @@ export default function Post() {
                         <p className="text-xs font-light text-vibe opacity-60">
                           {energized ? energized.length : 0} energized
                         </p>
-                      </div>
-                      <div
+                      </button>
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           if (user) {
@@ -595,7 +595,7 @@ export default function Post() {
                             setShowSignInModal(true);
                           }
                         }}
-                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
+                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer select-none"
                       >
                         <MdOutlineSensors
                           className={`text-2xl ${
@@ -607,13 +607,13 @@ export default function Post() {
                         <p className="text-xs font-light text-vibe opacity-60">
                           {echoed ? echoed.length : 0} echoed
                         </p>
-                      </div>
-                      <div
+                      </button>
+                      <button
                         onClick={(e) => {
                           e.stopPropagation();
                           inputRef.current.focus();
                         }}
-                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer"
+                        className="flex flex-col items-center justify-center bg-(--color-panel) p-2 w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer select-none"
                       >
                         <FaComment className="text-2xl transform -scale-x-100" />
                         <p className="text-xs font-light text-vibe opacity-60">
@@ -627,7 +627,7 @@ export default function Post() {
                             : 0}{" "}
                           commented
                         </p>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </>

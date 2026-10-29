@@ -17,24 +17,25 @@ import { LoaderContext } from "@/context/loaderContext";
 import { PostContext } from "@/context/postContext";
 import { GiNinjaHead } from "react-icons/gi";
 import { HiBell } from "react-icons/hi";
-import UserNav from "./userNav";
 import Ping from "./ping";
 import { SocketContext } from "@/context/socketContext";
+import UserOptions from "@/components/options/userOptions";
 
 export default function NavBar() {
   const pathname = usePathname();
   const { isLogged, user, loading } = useContext(UserContext);
   const { navHide, isScrolled } = useContext(ScrollContext);
-  const { showMenu, setShowMenu, buttonRef } = useContext(MenuContext);
+  const { showMenu, setShowMenu, buttonRef, userOptRef } =
+    useContext(MenuContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { postFetch } = useContext(PostContext);
-  const [showUserNav, setShowUserNav] = useState(false);
+  const [showUserOptions, setShowUserOptions] = useState(false);
   const [showPing, setShowPing] = useState(false);
   const { pings, messages, latestSeenMessages } = useContext(SocketContext);
   const router = useRouter();
 
   const isActive = (target) => {
-    if (showUserNav) return "text-inherit";
+    if (showUserOptions) return "text-inherit";
     if (showPing) return "text-inherit";
     return pathname === target
       ? "text-(--color-accent) border-b-1"
@@ -85,12 +86,9 @@ export default function NavBar() {
 
   return (
     <>
-      {showMenu && <Menu />}
-      {showUserNav && <UserNav setShowUserNav={setShowUserNav} />}
-      {showPing && <Ping setShowPing={setShowPing} />}
       <div
         onClick={() => {
-          setShowUserNav(false);
+          setShowUserOptions(false);
           setShowPing(false);
         }}
         className={`fixed flex justify-between px-2 sm:px-4 md:px-8 lg:px-16 py-8 w-full h-12 transition-colors duration-150 z-70  md:border-b border-gray-900 ${
@@ -131,7 +129,7 @@ export default function NavBar() {
             <HiMiniNewspaper className="text-2xl group-hover:text-(--color-accent)" />
             <p
               className={`text-xs group-hover:text-(--color-accent) ${
-                pathname === "/" && !showPing && !showUserNav
+                pathname === "/" && !showPing && !showUserOptions
                   ? "text-accent"
                   : "text-(--color-text)/60"
               }`}
@@ -148,7 +146,7 @@ export default function NavBar() {
             <RiFilmAiFill className="text-2xl group-hover:text-(--color-accent)" />
             <p
               className={`text-xs group-hover:text-(--color-accent) ${
-                pathname === "/hex" && !showPing && !showUserNav
+                pathname === "/hex" && !showPing && !showUserOptions
                   ? "text-accent"
                   : "text-(--color-text)/60"
               }`}
@@ -170,7 +168,7 @@ export default function NavBar() {
             <IoChatbubbleEllipsesSharp className="group-hover:text-(--color-accent) text-2xl" />
             <p
               className={`text-xs group-hover:text-(--color-accent) ${
-                pathname === "/citadel" && !showPing && !showUserNav
+                pathname === "/citadel" && !showPing && !showUserOptions
                   ? "text-accent"
                   : "text-(--color-text)/60"
               }`}
@@ -181,7 +179,7 @@ export default function NavBar() {
           <button
             onClick={(e) => {
               setShowPing((prev) => !prev);
-              setShowUserNav(false);
+              setShowUserOptions(false);
               e.stopPropagation();
             }}
             className="relative flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group"
@@ -196,18 +194,16 @@ export default function NavBar() {
             />
             <p
               className={`text-xs group-hover:text-(--color-accent) ${
-                showPing
-                  ? "text-accent border-b"
-                  : "text-(--color-text)/60"
+                showPing ? "text-accent border-b" : "text-(--color-text)/60"
               }`}
             >
               Ping
             </p>
           </button>
           <button
+            ref={userOptRef}
             onClick={(e) => {
-              setShowUserNav((prev) => !prev);
-
+              setShowUserOptions((prev) => !prev);
               setShowPing(false);
               e.stopPropagation();
             }}
@@ -223,20 +219,20 @@ export default function NavBar() {
                   loading="lazy"
                   decoding="async"
                   className={`w-6 h-6 group-hover:border-(--color-accent) border rounded-full cursor-pointer ${
-                    showUserNav ? "border-accent border" : "text-normal"
+                    showUserOptions ? "border-accent border" : "text-normal"
                   }`}
                 />
               )
             ) : (
               <GiNinjaHead
                 className={`text-2xl cursor-pointer group-hover:text-(--color-accent) ${
-                  showUserNav ? "text-accent" : "text-normal"
+                  showUserOptions ? "text-accent" : "text-normal"
                 }`}
               />
             )}
             <p
               className={`text-xs group-hover:text-(--color-accent) ${
-                showUserNav
+                showUserOptions
                   ? "text-accent border-b"
                   : "text-(--color-text)/60"
               }`}
@@ -246,6 +242,14 @@ export default function NavBar() {
           </button>
         </div>
       </div>
+      {showMenu && <Menu />}
+      {showUserOptions && (
+        <UserOptions
+          setShowUserOptions={setShowUserOptions}
+          userOptRef={userOptRef}
+        />
+      )}
+      {showPing && <Ping setShowPing={setShowPing} />}
     </>
   );
 }

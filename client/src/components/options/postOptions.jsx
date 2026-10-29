@@ -14,8 +14,8 @@ export default function PostOptions({ postId }) {
   const optRef = useRef();
 
   useEffect(() => {
-    const btn = document.getElementById(`btn-${postId}`);
     const handleOutClick = (e) => {
+      const btn = document.getElementById(`btn-${postId}`);
       if (
         optRef.current &&
         !optRef.current.contains(e.target) &&
