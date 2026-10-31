@@ -48,7 +48,6 @@ export default function PostLightBox() {
     if (pathname == `/post/${id}`) {
       return;
     }
-    setIsLoading(true);
     const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
     router.push(url);
   };
@@ -181,7 +180,6 @@ export default function PostLightBox() {
             <p
               onClick={(e) => {
                 e.stopPropagation();
-                setIsLoading(true);
                 setPostLightBoxOpen(false);
                 router.push(`/profile/${post.userId}`);
               }}
@@ -212,7 +210,6 @@ export default function PostLightBox() {
           >
             <div
               onClick={(e) => {
-                setIsLoading(true);
                 e.stopPropagation();
                 setPostLightBoxOpen(false);
                 router.push(`/posts/${currentPostInfo.topic}`);

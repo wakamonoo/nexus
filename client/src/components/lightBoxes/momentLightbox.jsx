@@ -85,7 +85,6 @@ export default function MomentLightbox({
               <img
                 onClick={(e) => {
                   e.stopPropagation();
-                  setIsLoading(true);
                   router.push(`/profile/${owner.uid}`);
                 }}
                 src={owner.picture || Avatar.src}
@@ -98,7 +97,6 @@ export default function MomentLightbox({
                 <p
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsLoading(true);
                     router.push(`/profile/${owner.uid}`);
                   }}
                   className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer"

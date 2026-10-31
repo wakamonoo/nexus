@@ -183,7 +183,6 @@ export default function SignInModal() {
                 <span
                   onClick={() => {
                     setShowSignInModal(false);
-                    setIsLoading(true);
                     router.push("/terms&Conditions");
                   }}
                   className="cursor-pointer text-blue-500"
@@ -194,7 +193,6 @@ export default function SignInModal() {
                 <span
                   onClick={() => {
                     setShowSignInModal(false);
-                    setIsLoading(true);
                     router.push("/privacyPolicy");
                   }}
                   className="cursor-pointer text-blue-500"

@@ -104,7 +104,6 @@ export default function UserSearch({ showSearch, setShowSearch }) {
               <div
                 key={profile.uid}
                 onClick={() => {
-                  setIsLoading(true);
                   router.push(`profile/${profile.uid}`);
                 }}
                 className="w-full rounded-full bg-second hover:bg-(--color-panel) border border-panel p-2"
