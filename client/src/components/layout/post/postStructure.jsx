@@ -43,6 +43,7 @@ export default function PostStructure({ post }) {
   const postOwner = allUsers.find((user) => user.uid === post?.userId);
 
   const handlePostNavMain = (id, focusInput = false) => {
+    setIsLoading(true);
     const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
     router.push(url);
   };
@@ -136,6 +137,7 @@ export default function PostStructure({ post }) {
                 behavior: "smooth",
               });
             } else {
+              setIsLoading(true);
               router.push(`/profile/${postOwner?.uid}`);
             }
           }}
@@ -155,6 +157,7 @@ export default function PostStructure({ post }) {
                   behavior: "smooth",
                 });
               } else {
+                setIsLoading(true);
                 router.push(`/profile/${postOwner?.uid}`);
               }
             }}
@@ -189,6 +192,7 @@ export default function PostStructure({ post }) {
                   behavior: "smooth",
                 });
               } else {
+                setIsLoading(true);
                 router.push(`/posts/${post.topicId}`);
               }
             }}

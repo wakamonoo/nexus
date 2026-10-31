@@ -39,6 +39,8 @@ export default function Activities() {
             return (
               <div
                 onClick={() => {
+                  setIsLoading(true);
+
                   if (activity?.type === "list") {
                     router.push(`/hex/lists/${activity?.listId}`);
                   } else if (activity?.type === "watch") {

@@ -100,6 +100,7 @@ export default function TopWatchersModal({ setShowTopWatchersModal }) {
               <button
                 key={index}
                 onClick={() => {
+                  setIsLoading(true);
                   router.push(`/profile/${watcher.uid}`);
                 }}
                 className={`w-full cursor-pointer rounded-xl border ${watcher.uid === user?.uid ? "bg-accent" : "bg-panel"} border-(--color-secondary) p-3 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)`}
@@ -145,6 +146,7 @@ export default function TopWatchersModal({ setShowTopWatchersModal }) {
               <button
                 key={index}
                 onClick={() => {
+                  setIsLoading(true);
                   router.push(`/profile/${watcher.uid}`);
                 }}
                 className={`w-full cursor-pointer rounded-xl border ${watcher.uid === user?.uid ? "bg-accent" : "bg-panel"} border-(--color-secondary) p-3 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)`}

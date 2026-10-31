@@ -47,7 +47,7 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
         <button
           onClick={() => {
             user
-              ? router.push(`/profile/${user.uid}`)
+              ? (setIsLoading(true), router.push(`/profile/${user.uid}`))
               : setShowSignInModal(true);
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
@@ -75,6 +75,7 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
         {adminBtn && (
           <button
             onClick={() => {
+              setIsLoading(true);
               router.push("/admin");
             }}
             className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
@@ -85,7 +86,9 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
         )}
         <button
           onClick={() => {
-            user ? router.push("/portfolio") : setShowSignInModal(true);
+            user
+              ? (setIsLoading(true), router.push("/portfolio"))
+              : setShowSignInModal(true);
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
         >
@@ -94,7 +97,9 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
         </button>
         <button
           onClick={() => {
-            user ? router.push("/powerboard") : setShowSignInModal(true);
+            user
+              ? (setIsLoading(true), router.push("/powerboard"))
+              : setShowSignInModal(true);
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
         >

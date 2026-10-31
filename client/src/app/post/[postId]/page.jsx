@@ -393,6 +393,7 @@ export default function Post() {
                       <img
                         onClick={(e) => {
                           e.stopPropagation();
+                          setIsLoading(true);
                           router.push(`/profile/${postOwner?.uid}`);
                         }}
                         src={postOwner?.picture || Avatar.src}
@@ -405,6 +406,7 @@ export default function Post() {
                         <p
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsLoading(true);
                             router.push(`/profile/${postOwner?.uid}`);
                           }}
                           className="cursor-pointer text-base mt-2 font-bold leading-3.5 truncate"
@@ -434,6 +436,7 @@ export default function Post() {
                         <div
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsLoading(true);
                             router.push(`/posts/${post?.topicId}`);
                           }}
                           className={`h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
@@ -656,6 +659,7 @@ export default function Post() {
                           <img
                             onClick={() => {
                               router.push(`/profile/${commentUser.uid}`);
+                              setIsLoading(true);
                             }}
                             src={commentUser?.picture || Avatar.src}
                             alt={commentUser.name}
@@ -677,6 +681,7 @@ export default function Post() {
                                       router.push(
                                         `/profile/${commentUser.uid}`,
                                       );
+                                      setIsLoading(true);
                                     }}
                                     className="text-base text-normal font-bold cursor-pointer"
                                   >
@@ -825,6 +830,7 @@ export default function Post() {
                                   <img
                                     onClick={() => {
                                       router.push(`/profile/${replyUser.uid}`);
+                                      setIsLoading(true);
                                     }}
                                     src={replyUser.picture}
                                     alt={replyUser.name}
@@ -841,6 +847,7 @@ export default function Post() {
                                               router.push(
                                                 `/profile/${replyUser.uid}`,
                                               );
+                                              setIsLoading(true);
                                             }}
                                             className="text-base text-normal font-bold cursor-pointer"
                                           >

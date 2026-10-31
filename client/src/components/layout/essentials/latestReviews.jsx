@@ -59,6 +59,7 @@ export default function LatestReviews() {
     <div
       onClick={(e) => {
         e.stopPropagation();
+        setIsLoading(true);
         router.push(`/hex/${review.titleId}`);
       }}
       key={index}
@@ -88,6 +89,7 @@ export default function LatestReviews() {
           <img
             onClick={(e) => {
               e.stopPropagation();
+              setIsLoading(true);
               router.push(`/profile/${reviewOwner?.uid}`);
             }}
             src={reviewOwner?.picture}
@@ -100,6 +102,7 @@ export default function LatestReviews() {
             <p
               onClick={(e) => {
                 e.stopPropagation();
+                setIsLoading(true);
                 router.push(`/profile/${reviewOwner.uid}`);
               }}
               className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer"

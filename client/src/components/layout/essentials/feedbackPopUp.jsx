@@ -61,6 +61,7 @@ export default function FeedbackPopUp() {
           </p>
           <RegularButtons
             onClick={() => {
+              setIsLoading(true);
               setIsOpen(false);
               router.push("/communityFeedback");
             }}

@@ -81,7 +81,7 @@ export default function CitadelLightBox({
   };
 
   return (
-    <div className="inset-0 z-100 flex flex-col items-center justify-center fixed">
+    <div className="inset-0 z-[100] flex flex-col items-center justify-center fixed">
       <div className="z-50 inset-0">
         {showDetails && citadelLightBoxFiles.length > 1 ? (
           <div className="absolute top-5 left-4">
@@ -133,7 +133,7 @@ export default function CitadelLightBox({
           setShowDetails((prev) => !prev);
         }}
         ref={citadelLightBoxRef}
-        className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-full h-full scrollbar-hide"
+        className="flex items-center bg-brand overflow-x-auto snap-x snap-mandatory scroll-smooth relative w-[100%] h-[100%] scrollbar-hide"
       >
         {citadelLightBoxFiles.map((file, index) => {
           const ext = file.split(".").pop().toLowerCase();
@@ -164,6 +164,7 @@ export default function CitadelLightBox({
             <p
               onClick={(e) => {
                 e.stopPropagation();
+                setIsLoading(true);
                 setCitadelLightBoxOpen(false);
                 router.push(`/profile/${citadelLightBoxSenderId}`);
               }}

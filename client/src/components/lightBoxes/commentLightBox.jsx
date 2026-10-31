@@ -164,6 +164,7 @@ export default function CommentLightBox({
             <p
               onClick={(e) => {
                 e.stopPropagation();
+                setIsLoading(true);
                 setCommentLightBoxOpen(false);
                 router.push(`/profile/${commentLightBoxUserId}`);
               }}

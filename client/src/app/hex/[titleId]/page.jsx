@@ -271,6 +271,7 @@ export default function Title() {
                     />
                     <div
                       onClick={() => {
+                        setIsLoading(true);
                         router.push("/trustAndLegality");
                       }}
                       className="absolute top-2 right-2 cursor-pointer opacity-70"
@@ -498,7 +499,7 @@ export default function Title() {
                   }
                   onClick={() => {
                     user
-                      ? (router.push("/powerboard"))
+                      ? (setIsLoading(true), router.push("/powerboard"))
                       : setShowSignInModal(true);
                   }}
                   className={`${doneRank ? "bg-(--color-zeus)/60!" : ""}`}
@@ -567,6 +568,7 @@ export default function Title() {
                           key={unit.tmdbId}
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsLoading(true);
                             router.push(`/titles/${unit.tmdbId}`);
                           }}
                           className="flex flex-col w-24 shrink-0 gap-2 cursor-pointer bg-second rounded"
@@ -615,6 +617,7 @@ export default function Title() {
                           key={`${unit.tmdbId}-${unit.job}`}
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsLoading(true);
                             router.push(`/titles/${unit.tmdbId}`);
                           }}
                           className="flex flex-col w-24 shrink-0 gap-2 cursor-pointer bg-second rounded"
@@ -734,6 +737,7 @@ export default function Title() {
                             <img
                               onClick={(e) => {
                                 e.stopPropagation();
+                                setIsLoading(true);
                                 router.push(`/profile/${reviewOwner?.uid}`);
                               }}
                               src={reviewOwner?.picture}
@@ -746,6 +750,7 @@ export default function Title() {
                               <p
                                 onClick={(e) => {
                                   e.stopPropagation();
+                                  setIsLoading(true);
                                   router.push(`/profile/${reviewOwner?.uid}`);
                                 }}
                                 className="cursor-pointer text-base mt-2 font-bold leading-none"

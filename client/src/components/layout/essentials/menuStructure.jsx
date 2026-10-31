@@ -17,6 +17,7 @@ export default function MenuStructure() {
     <div className="flex flex-col gap-2 items-start">
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/about");
           setShowMenu(false);
         }}
@@ -27,6 +28,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/sigils");
           setShowMenu(false);
         }}
@@ -37,6 +39,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/communityFeedback");
           setShowMenu(false);
         }}
@@ -47,6 +50,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/recommendations");
           setShowMenu(false);
         }}
@@ -57,6 +61,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/heroFund");
           setShowMenu(false);
         }}
@@ -67,6 +72,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/trustAndLegality");
           setShowMenu(false);
         }}
@@ -77,6 +83,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/termsAndConditions");
           setShowMenu(false);
         }}
@@ -87,6 +94,7 @@ export default function MenuStructure() {
       </button>
       <button
         onClick={() => {
+          setIsLoading(true);
           router.push("/privacyPolicy");
           setShowMenu(false);
         }}
