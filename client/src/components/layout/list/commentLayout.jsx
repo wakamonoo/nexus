@@ -22,7 +22,6 @@ export default function CommentLayout({ comment, firstComment, listId }) {
         <img
           onClick={() => {
             router.push(`/profile/${commentor.uid}`);
-            setIsLoading(true);
           }}
           src={commentor?.picture}
           alt={commentor.name}
@@ -42,7 +41,6 @@ export default function CommentLayout({ comment, firstComment, listId }) {
                 <p
                   onClick={() => {
                     router.push(`/profile/${comment.userId}`);
-                    setIsLoading(true);
                   }}
                   className="text-base text-normal font-bold cursor-pointer"
                 >

@@ -471,7 +471,6 @@ export default function Main() {
         <div className="flex gap-4 md:gap-8 w-full justify-end p-4">
           <button
             onClick={() => {
-              setIsLoading(true);
               router.push("/hex/lists");
             }}
             className="cursor-pointer"
@@ -482,7 +481,6 @@ export default function Main() {
           </button>
           <button
             onClick={() => {
-              setIsLoading(true);
               router.push("/hex/timeline");
             }}
             className="cursor-pointer"

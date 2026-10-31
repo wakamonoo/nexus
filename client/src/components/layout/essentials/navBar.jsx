@@ -61,12 +61,10 @@ export default function NavBar() {
         top: 0,
         behavior: "smooth",
       });
-      setIsLoading(true);
       await postFetch();
       router.push("/");
       setIsLoading(false);
     } else {
-      setIsLoading(true);
       router.push("/");
     }
   };
@@ -75,7 +73,6 @@ export default function NavBar() {
     if (pathname === `/${loc}`) {
       router.push(`/${loc}`);
     } else {
-      setIsLoading(true);
       router.push(`/${loc}`);
     }
   };
