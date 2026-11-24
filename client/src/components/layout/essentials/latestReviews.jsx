@@ -8,6 +8,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
 import { UserContext } from "@/context/userContext";
+import { useRouter } from "next/navigation";
+import { LoaderContext } from "@/context/loaderContext";
 
 dayjs.extend(relativeTime);
 
@@ -15,6 +17,8 @@ export default function LatestReviews() {
   const { sortedReviews, reviewsLoad, reviewVotes } = useContext(SocketContext);
   const { titles } = useContext(TitleContext);
   const { allUsers } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const router = useRouter();
   const carouselRef = useRef(null);
 
   useEffect(() => {
@@ -53,10 +57,13 @@ export default function LatestReviews() {
     upvotes,
     downvotes,
   ) => (
-    <Link
-      href={`hex/${review.titleId}`}
+    <div
+      onClick={() => {
+        setIsLoading(true);
+        router.push(`/hex/${review.titleId}`);
+      }}
       key={index}
-      className="group relative overflow-hidden rounded-3xl border border-panel bg-second cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
+      className="group  relative overflow-hidden rounded-3xl border border-panel bg-second cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
     >
       <div className="relative h-30 overflow-hidden">
         <img
@@ -132,7 +139,7 @@ export default function LatestReviews() {
           </span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 
   return (
