@@ -87,7 +87,7 @@ export default function Countdown() {
     <div className="mt-2 w-full">
       <Link
         href={`/hex/${displayTitle.titleId}`}
-        className="relative overflow-hidden p-2 cursor-pointer"
+        className="relative block overflow-hidden p-2 cursor-pointer"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/w500${displayTitle?.backdrop})`,
           backgroundSize: "cover",
