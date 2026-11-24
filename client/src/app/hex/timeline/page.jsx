@@ -19,7 +19,7 @@ const getConnections = (connections) => {
     .filter(Boolean);
 };
 
-function BranchNode({ node, titles }) {
+function BranchNode({ node, titles, setIsLoading }) {
   const children = titles.filter((title) =>
     getConnections(title.connections).includes(node.title),
   );
@@ -30,6 +30,7 @@ function BranchNode({ node, titles }) {
         <div className="h-6 w-1 bg-accent" />
         <Link
           href={`/hex/${node.titleId}`}
+          onClick={() => setIsLoading(true)}
           className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer"
         >
           <img
@@ -79,6 +80,7 @@ function BranchNode({ node, titles }) {
               <BranchNode
                 node={child}
                 titles={titles}
+                setIsLoading={setIsLoading}
               />
             </div>
           ))}
@@ -168,6 +170,7 @@ export default function Timeline() {
                     <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                     <Link
                       href={`/hex/${unit.titleId}`}
+                      onClick={() => setIsLoading(true)}
                       className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                     >
                       <img
@@ -213,6 +216,7 @@ export default function Timeline() {
                   return (
                     <Link
                       href={`/hex/${unit.titleId}`}
+                      onClick={() => setIsLoading(true)}
                       key={unit.titleId}
                       className="relative flex flex-col items-center"
                     >
@@ -263,6 +267,7 @@ export default function Timeline() {
                   return (
                     <Link
                       href={`/hex/${unit.titleId}`}
+                      onClick={() => setIsLoading(true)}
                       key={unit.titleId}
                       className="relative flex flex-col items-center"
                     >
@@ -321,6 +326,7 @@ export default function Timeline() {
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                           <Link
                             href={`/hex/${unit.titleId}`}
+                            onClick={() => setIsLoading(true)}
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                           >
                             <img
@@ -366,6 +372,7 @@ export default function Timeline() {
                               <BranchNode
                                 node={branch}
                                 titles={nonEarth616}
+                                setIsLoading={setIsLoading}
                               />
                             </div>
                           ))}

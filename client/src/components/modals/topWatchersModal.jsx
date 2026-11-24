@@ -1,5 +1,6 @@
 "use client";
 import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
 import { useContext } from "react";
 import Avatar from "@/assets/defaultAvatar.png";
 import CountUp from "react-countup";
@@ -10,6 +11,7 @@ import { MdClose } from "react-icons/md";
 
 export default function TopWatchersModal({ setShowTopWatchersModal }) {
   const { user, allUsers } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
 
   const sortedUsers = [...allUsers].sort(
     (a, b) => (b.totalWatched || 0) - (a.totalWatched || 0),
@@ -96,6 +98,7 @@ export default function TopWatchersModal({ setShowTopWatchersModal }) {
             {activeRankedUsers?.map((watcher, index) => (
               <Link
                 href={`/profile/${watcher.uid}`}
+                onClick={() => setIsLoading(true)}
                 key={index}
                 className={`block w-full cursor-pointer rounded-xl border ${watcher.uid === user?.uid ? "bg-accent" : "bg-panel"} border-(--color-secondary) p-3 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)`}
               >
@@ -139,6 +142,7 @@ export default function TopWatchersModal({ setShowTopWatchersModal }) {
             {unrankedUsers?.map((watcher, index) => (
               <Link
                 href={`/profile/${watcher.uid}`}
+                onClick={() => setIsLoading(true)}
                 key={index}
                 className={`block w-full cursor-pointer rounded-xl border ${watcher.uid === user?.uid ? "bg-accent" : "bg-panel"} border-(--color-secondary) p-3 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)`}
               >

@@ -5,7 +5,9 @@ import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { TitleContext } from "./titleContext";
+import { LoaderContext } from "./loaderContext";
 
 export const SocketContext = createContext();
 
@@ -41,6 +43,8 @@ const showBrowserNotification = ({ title, body, icon }) => {
 };
 
 export const SocketProvider = ({ children }) => {
+  const { setIsLoading } = useContext(LoaderContext);
+  const pathname = usePathname();
   const [messages, setMessages] = useState([]);
   const [chatLoad, setChatLoad] = useState(true);
   const { allUsers, user, socket } = useContext(UserContext);
@@ -212,7 +216,13 @@ export const SocketProvider = ({ children }) => {
           <Link
             href={pingUrl || "#"}
             onClick={(e) => {
-              if (!pingUrl) e.preventDefault();
+              if (!pingUrl) {
+                e.preventDefault();
+              } else if (
+                pathname !== pingUrl.split("#")[0].replace(/\/$/, "")
+              ) {
+                setIsLoading(true);
+              }
               toast.dismiss(t.id);
             }}
             className={`${

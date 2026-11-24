@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { useContext } from "react";
+import { LoaderContext } from "@/context/loaderContext";
+import { usePathname } from "next/navigation";
 
 export default function CustomLink({
   href,
@@ -7,10 +10,28 @@ export default function CustomLink({
   className = "",
   ...props
 }) {
+  const { setIsLoading } = useContext(LoaderContext);
+  const pathname = usePathname();
+  const isInternalLink =
+    typeof href === "string" && href.startsWith("/") && !href.startsWith("//");
+  const targetPath = isInternalLink
+    ? href.split(/[?#]/)[0].replace(/\/$/, "")
+    : null;
+  const currentPath = pathname.replace(/\/$/, "");
+
   return (
     <Link
       href={href}
-      onClick={onClick}
+      onClick={(e) => {
+        onClick?.(e);
+        if (
+          !e.defaultPrevented &&
+          isInternalLink &&
+          targetPath !== currentPath
+        ) {
+          setIsLoading(true);
+        }
+      }}
       className={`relative border hover:border-red-600 duration-500 group cursor-pointer text-accent  overflow-hidden px-4 py-2 rounded-md bg-red-800 p-2 flex justify-center items-center font-extrabold ${className}`}
       {...props}
     >

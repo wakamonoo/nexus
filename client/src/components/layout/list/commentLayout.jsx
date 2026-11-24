@@ -1,6 +1,7 @@
 "use client";
 import ConfirmListCommentDelete from "@/components/modals/confirmListCommentDelete";
 import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
 import dayjs from "dayjs";
 import Link from "next/link";
 import { useContext, useState } from "react";
@@ -9,6 +10,7 @@ import { FaTrash } from "react-icons/fa";
 
 export default function CommentLayout({ comment, firstComment, listId }) {
   const { allUsers, user } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [showConfirmListCommentDelete, setShowConfirmListCommentDelete] = useState(false);
 
   const commentor = allUsers.find((u) => u.uid === comment.userId);
@@ -16,7 +18,10 @@ export default function CommentLayout({ comment, firstComment, listId }) {
   return (
     <>
       <div className="flex gap-2 relative">
-        <Link href={`/profile/${commentor.uid}`}>
+        <Link
+          href={`/profile/${commentor.uid}`}
+          onClick={() => setIsLoading(true)}
+        >
           <img
             src={commentor?.picture}
             alt={commentor.name}
@@ -36,6 +41,7 @@ export default function CommentLayout({ comment, firstComment, listId }) {
               <div className="flex flex-col">
                 <Link
                   href={`/profile/${comment.userId}`}
+                  onClick={() => setIsLoading(true)}
                   className="text-base text-normal font-bold cursor-pointer"
                 >
                   {commentor.name}

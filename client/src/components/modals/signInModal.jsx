@@ -5,6 +5,8 @@ import { auth } from "@/lib/firebase/config";
 import Link from "next/link";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
+import { usePathname } from "next/navigation";
 import Swal from "sweetalert2";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
@@ -28,6 +30,8 @@ if (APP_ENV === "production") {
 export default function SignInModal() {
   const { isLogged, fetchUserData, setShowSignInModal } =
     useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const pathname = usePathname();
 
   const handleSignIn = async () => {
     if (isLogged) {
@@ -179,7 +183,10 @@ export default function SignInModal() {
                 By continuing, you agree to our{" "}
                 <Link
                   href="/terms&Conditions"
-                  onClick={() => setShowSignInModal(false)}
+                  onClick={() => {
+                    setShowSignInModal(false);
+                    if (pathname !== "/terms&Conditions") setIsLoading(true);
+                  }}
                   className="cursor-pointer text-blue-500"
                 >
                   Terms of Service
@@ -187,7 +194,10 @@ export default function SignInModal() {
                 and{" "}
                 <Link
                   href="/privacyPolicy"
-                  onClick={() => setShowSignInModal(false)}
+                  onClick={() => {
+                    setShowSignInModal(false);
+                    if (pathname !== "/privacyPolicy") setIsLoading(true);
+                  }}
                   className="cursor-pointer text-blue-500"
                 >
                   Privacy Policy

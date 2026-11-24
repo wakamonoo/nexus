@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { useContext } from "react";
+import { LoaderContext } from "@/context/loaderContext";
+import { usePathname } from "next/navigation";
 
 export default function SecondaryCircledLinks({
   href,
@@ -8,6 +11,15 @@ export default function SecondaryCircledLinks({
   className = "",
   ...props
 }) {
+  const { setIsLoading } = useContext(LoaderContext);
+  const pathname = usePathname();
+  const isInternalLink =
+    typeof href === "string" && href.startsWith("/") && !href.startsWith("//");
+  const targetPath = isInternalLink
+    ? href.split(/[?#]/)[0].replace(/\/$/, "")
+    : null;
+  const currentPath = pathname.replace(/\/$/, "");
+
   return (
     <Link
       href={href}
@@ -17,6 +29,13 @@ export default function SecondaryCircledLinks({
           return;
         }
         onClick?.(e);
+        if (
+          !e.defaultPrevented &&
+          isInternalLink &&
+          targetPath !== currentPath
+        ) {
+          setIsLoading(true);
+        }
       }}
       aria-disabled={disabled}
       className={`w-fit py-2 px-4 rounded-full flex justify-center items-center gap-1 ${

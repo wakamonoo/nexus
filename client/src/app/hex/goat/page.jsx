@@ -42,6 +42,7 @@ export default function Goat() {
           Your fav not here?{" "}
           <Link
             href="/powerboard"
+            onClick={() => setIsLoading(true)}
             className="cursor-pointer underline"
           >
             Rank it

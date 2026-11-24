@@ -49,6 +49,7 @@ export default function Activities() {
                 onClick={(e) => {
                   if (!activityUrl) {
                     e.preventDefault();
+                  } else {
                     setIsLoading(true);
                   }
                 }}

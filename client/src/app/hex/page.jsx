@@ -6,6 +6,7 @@ import Loader from "@/components/loaders/searchLoader";
 import { useContext } from "react";
 import Link from "next/link";
 import { TitleContext } from "@/context/titleContext";
+import { LoaderContext } from "@/context/loaderContext";
 import NavBar from "@/components/layout/essentials/navBar";
 import { MdSearchOff } from "react-icons/md";
 import { WatchContext } from "@/context/watchContext";
@@ -44,6 +45,7 @@ export default function Main() {
     titlesLoad,
   } = useContext(TitleContext);
   const { isTitleWatched } = useContext(WatchContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [isScrolled1, setIsScrolled1] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
   const [isScrolled3, setIsScrolled3] = useState(false);
@@ -466,6 +468,7 @@ export default function Main() {
         <div className="flex gap-4 md:gap-8 w-full justify-end p-4">
           <Link
             href="/hex/lists"
+            onClick={() => setIsLoading(true)}
             className="cursor-pointer"
           >
             <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
@@ -474,6 +477,7 @@ export default function Main() {
           </Link>
           <Link
             href="/hex/timeline"
+            onClick={() => setIsLoading(true)}
             className="cursor-pointer"
           >
             <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
@@ -539,6 +543,7 @@ export default function Main() {
                 <h1 className="text-xl">LATEST RELEASES</h1>
                 <Link
                   href="/hex/latest"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled1 ? "flex" : "hidden"
                   }`}
@@ -621,6 +626,7 @@ export default function Main() {
                 <h1 className="text-xl">MCU CHRONOLOGICAL ORDER</h1>
                 <Link
                   href="/hex/chrono"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled2 ? "flex" : "hidden"
                   }`}
@@ -702,6 +708,7 @@ export default function Main() {
                 <h1 className="text-xl">MCU RELEASE ORDER</h1>
                 <Link
                   href="/hex/release"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled3 ? "flex" : "hidden"
                   }`}
@@ -784,6 +791,7 @@ export default function Main() {
                 <h1 className="text-xl">GOAT STATUS</h1>
                 <Link
                   href="/hex/goat"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled4 ? "flex" : "hidden"
                   }`}
@@ -841,6 +849,7 @@ export default function Main() {
                 <h1 className="text-xl">Popular</h1>
                 <Link
                   href="/hex/popular"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled5 ? "flex" : "hidden"
                   }`}
@@ -898,6 +907,7 @@ export default function Main() {
                 <h1 className="text-xl">MULTIVERSAL CANON</h1>
                 <Link
                   href="/hex/multiversalCanon"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled6 ? "flex" : "hidden"
                   }`}
@@ -994,6 +1004,7 @@ export default function Main() {
                 <h1 className="text-xl">MARVEL ADJACENT</h1>
                 <Link
                   href="/hex/marvelAdjacent"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled7 ? "flex" : "hidden"
                   }`}
@@ -1090,6 +1101,7 @@ export default function Main() {
                 <h1 className="text-xl">CINEMATIC CONTINUUM</h1>
                 <Link
                   href="/hex/cinematicContinuum"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled8 ? "flex" : "hidden"
                   }`}
@@ -1190,6 +1202,7 @@ export default function Main() {
                 <h1 className="text-xl">UPCOMING TITLES</h1>
                 <Link
                   href="/hex/upcoming"
+                  onClick={() => setIsLoading(true)}
                   className={`flex items-center cursor-pointer ${
                     isScrolled9 ? "flex" : "hidden"
                   }`}

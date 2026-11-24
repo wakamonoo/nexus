@@ -11,6 +11,7 @@ import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { SocketContext } from "@/context/socketContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 dayjs.extend(relativeTime);
 
@@ -34,6 +35,7 @@ export default function PostLightBox() {
   const echoed =
     postEchoes[currentPostInfo.postId] ?? currentPostInfo.echoed ?? [];
   const { allUsers, user, setShowSignInModal } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const pathname = usePathname();
 
@@ -171,6 +173,9 @@ export default function PostLightBox() {
               onClick={(e) => {
                 e.stopPropagation();
                 setPostLightBoxOpen(false);
+                if (pathname !== `/profile/${post.userId}`) {
+                  setIsLoading(true);
+                }
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
             >
@@ -201,6 +206,9 @@ export default function PostLightBox() {
               onClick={(e) => {
                 e.stopPropagation();
                 setPostLightBoxOpen(false);
+                if (pathname !== `/posts/${currentPostInfo.topic}`) {
+                  setIsLoading(true);
+                }
               }}
               className={`h-fit w-fit rounded-full bg-linear-to-r from-(--color-accent) to-(--color-zeus) ${
                 currentPostInfo.topic ? "block" : "hidden"
@@ -219,6 +227,8 @@ export default function PostLightBox() {
 
                 if (pathname === `/post/${currentPostInfo.postId}`) {
                   e.preventDefault();
+                } else {
+                  setIsLoading(true);
                 }
               }}
               className="block cursor-pointer text-base text-normal leading-5 line-clamp-3"
@@ -276,6 +286,8 @@ export default function PostLightBox() {
 
                 if (pathname === `/post/${currentPostInfo.postId}`) {
                   e.preventDefault();
+                } else {
+                  setIsLoading(true);
                 }
               }}
               className="flex flex-col items-center justify-center bg-(--color-panel)/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-secondary) active:bg-(--color-secondary) cursor-pointer"

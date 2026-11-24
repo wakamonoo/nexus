@@ -16,6 +16,7 @@ import AutoPlay from "./autoPlay";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import { TitleContext } from "@/context/titleContext";
 import { SocketContext } from "@/context/socketContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 dayjs.extend(relativeTime);
 
@@ -30,6 +31,7 @@ export default function PostStructure({ post }) {
     setSelectedPost,
   } = useContext(PostContext);
   const { postEnergizes, postEchoes } = useContext(SocketContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const energized = postEnergizes[post?.postId] ?? post?.energized ?? [];
   const echoed = postEchoes[post?.postId] ?? post?.echoed ?? [];
   const [showFull, setShowFull] = useState(false);
@@ -127,6 +129,8 @@ export default function PostStructure({ post }) {
                 top: 0,
                 behavior: "smooth",
               });
+             } else {
+               setIsLoading(true);
             }
           }}
           className="relative z-20"
@@ -150,6 +154,8 @@ export default function PostStructure({ post }) {
                   top: 0,
                   behavior: "smooth",
                 });
+               } else {
+                 setIsLoading(true);
               }
             }}
             className="relative z-20 text-base mt-2 font-bold leading-3.5 truncate"
@@ -184,6 +190,8 @@ export default function PostStructure({ post }) {
                   top: 0,
                   behavior: "smooth",
                 });
+               } else {
+                 setIsLoading(true);
               }
             }}
             className={`relative z-20 block h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
@@ -383,6 +391,9 @@ export default function PostStructure({ post }) {
         </button>
         <Link
           href={`/post/${post.postId}?focus=comment`}
+          onClick={() => {
+            if (pathname !== `/post/${post.postId}`) setIsLoading(true);
+          }}
           className="relative z-20 flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer select-none"
         >
           <FaComment className="text-2xl transform -scale-x-100" />
@@ -400,6 +411,9 @@ export default function PostStructure({ post }) {
       </div>
       <Link
         href={`/post/${post.postId}`}
+        onClick={() => {
+          if (pathname !== `/post/${post.postId}`) setIsLoading(true);
+        }}
         aria-label="View Post"
         className="absolute inset-0 z-10"
       />

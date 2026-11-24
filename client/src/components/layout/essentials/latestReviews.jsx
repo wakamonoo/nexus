@@ -88,7 +88,10 @@ export default function LatestReviews() {
         <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-(--color-panel)/60 px-2 py-1.5">
           <Link
             href={`/profile/${reviewOwner?.uid}`}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsLoading(true);
+            }}
           >
             <img
               src={reviewOwner?.picture}
@@ -101,7 +104,10 @@ export default function LatestReviews() {
           <div className="pr-2">
             <Link
               href={`/profile/${reviewOwner.uid}`}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLoading(true);
+              }}
               className="block max-w-32 truncate text-sm font-bold leading-none cursor-pointer"
             >
               {reviewOwner?.name}

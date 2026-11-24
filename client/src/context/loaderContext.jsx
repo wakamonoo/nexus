@@ -36,7 +36,7 @@ export const LoaderProvider = ({ children }) => {
   return (
     <LoaderContext.Provider value={{ isLoading, setIsLoading, splashLoading }}>
       {children}
-      {isLoading && <Loader />}
+      <Loader />
     </LoaderContext.Provider>
   );
 };

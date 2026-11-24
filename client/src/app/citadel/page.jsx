@@ -500,7 +500,10 @@ export default function Citadel() {
                             {!ownMessage && (
                               <Link
                                 href={`/profile/${msg.senderId}`}
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsLoading(true);
+                                }}
                               >
                                 <img
                                   src={messageOwner?.picture || Avatar.src}
@@ -752,6 +755,7 @@ export default function Citadel() {
                               {visibleSeenUsers.slice(-8).map((viewer) => (
                                 <Link
                                   href={`/profile/${viewer.uid}`}
+                                  onClick={() => setIsLoading(true)}
                                   key={viewer.uid}
                                 >
                                   <img

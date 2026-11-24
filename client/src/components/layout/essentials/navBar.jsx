@@ -67,6 +67,8 @@ export default function NavBar() {
       await postFetch();
       router.push("/");
       setIsLoading(false);
+    } else {
+      setIsLoading(true);
     }
   };
 
@@ -130,6 +132,9 @@ export default function NavBar() {
           </Link>
           <Link
             href="/hex"
+            onClick={() => {
+              if (pathname !== "/hex") setIsLoading(true);
+            }}
             className={`flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group ${isActive(
               "/hex",
             )}`}
@@ -147,6 +152,9 @@ export default function NavBar() {
           </Link>
           <Link
             href="/citadel"
+            onClick={() => {
+              if (pathname !== "/citadel") setIsLoading(true);
+            }}
             className={`relative flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group ${isActive(
               "/citadel",
             )}`}

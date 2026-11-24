@@ -1,8 +1,15 @@
+"use client";
 import alt from "@/assets/alt_logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from "react";
+import { LoaderContext } from "@/context/loaderContext";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const { setIsLoading } = useContext(LoaderContext);
+  const pathname = usePathname();
+
   return (
     <footer className="w-full mt-14 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-62 bg-panel">
       <div className="flex items-center justify-center w-full">
@@ -65,6 +72,9 @@ export default function Footer() {
         </div>
         <Link
           href="/heroFund"
+          onClick={() => {
+            if (pathname !== "/heroFund") setIsLoading(true);
+          }}
           className="block mx-auto max-w-5xl text-xs text-vibe opacity-60 text-center mt-2 cursor-pointer hover:opacity-100 active:opacity-100"
         >
           support Nexus and help keep the community alive, growing, and free for

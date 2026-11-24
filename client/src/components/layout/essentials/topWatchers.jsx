@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import Avatar from "@/assets/defaultAvatar.png";
 import CountUp from "react-countup";
 import Link from "next/link";
+import { LoaderContext } from "@/context/loaderContext";
 import { GiTrophy } from "react-icons/gi";
 import { FaArrowRight, FaMedal } from "react-icons/fa";
 import ScreenTimeLoader from "../../loaders/topWatchersLoader";
@@ -14,6 +15,7 @@ import SecondaryButtons from "@/components/buttons/secBtns";
 
 export default function ScreenTime() {
   const { user, allUsers, allUsersLoading } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [showTopWatchersModal, setShowTopWatchersModal] = useState(false);
 
   const sortedUsers = [...allUsers].sort(
@@ -96,6 +98,7 @@ export default function ScreenTime() {
               {topWatchers?.map((watcher, index) => (
                 <Link
                   href={`/profile/${watcher.uid}`}
+                  onClick={() => setIsLoading(true)}
                   key={index}
                   className={`block w-full cursor-pointer rounded-xl border ${watcher.uid === user?.uid ? "bg-accent" : "bg-panel"} border-(--color-secondary) p-3 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)`}
                 >

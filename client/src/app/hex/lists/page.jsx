@@ -93,6 +93,7 @@ export default function Lists() {
               return (
                 <Link
                   href={`/hex/lists/${list.listId}`}
+                  onClick={() => setIsLoading(true)}
                   key={list.listId || list._id}
                   className="group relative block rounded-xl bg-linear-to-b from-(--color-panel) to-(--color-secondary) border border-panel hover:border-(--color-secondary) focus:border-(--color-secondary) transition-all duration-200 cursor-pointer"
                 >

@@ -1,11 +1,49 @@
+"use client";
+import { LoaderContext } from "@/context/loaderContext";
+import { useContext, useEffect, useState } from "react";
+
 export default function Loader() {
+  const { isLoading } = useContext(LoaderContext);
+  const [progress, setProgress] = useState(0);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    let interval;
+    let timeout;
+
+    if (isLoading) {
+      setVisible(true);
+      setProgress(0);
+
+      interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) return 90;
+          return prev + (90 - prev) * 0.08;
+        });
+      }, 150);
+    } else if (visible) {
+      setProgress(100);
+
+      timeout = setTimeout(() => {
+        setVisible(false);
+        setProgress(0);
+      }, 300);
+    }
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [isLoading]);
+
+  if (!visible) return null;
+
   return (
-    <div className="fixed inset-0 z-150 flex items-center justify-center backdrop-blur-lg">
-      <div className="flex items-center justify-center bg-second w-16 h-20 rounded-tl-4xl rounded-tr-4xl p-2">
-        <div className="relative w-12 h-16 rounded-tl-4xl rounded-tr-4xl bg-accent animate-pulse">
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-second w-4 h-12 rounded-tl-2xl rounded-tr-2xl" />
-        </div>
-      </div>
+    <div className="fixed top-0 left-0 z-9999 h-0.75 w-full">
+      <div
+        className="h-full bg-accent transition-all duration-300 ease-out"
+        style={{ width: `${progress}%` }}
+      />
     </div>
   );
 }

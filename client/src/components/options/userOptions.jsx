@@ -9,10 +9,14 @@ import {
   MdLogout,
 } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
+import { usePathname } from "next/navigation";
 import { GiNinjaHead } from "react-icons/gi";
 
 export default function UserOptions({ setShowUserOptions, userOptRef }) {
   const { user, setShowSignInModal, adminBtn } = useContext(UserContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const pathname = usePathname();
   const optRef = useRef();
 
   useEffect(() => {
@@ -47,6 +51,8 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
             if (!user) {
               e.preventDefault();
               setShowSignInModal(true);
+            } else if (pathname !== `/profile/${user.uid}`) {
+              setIsLoading(true);
             }
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
@@ -74,6 +80,9 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
         {adminBtn && (
           <Link
             href="/admin"
+            onClick={() => {
+              if (pathname !== "/admin") setIsLoading(true);
+            }}
             className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
           >
             <MdAdminPanelSettings className="text-2xl" />
@@ -86,6 +95,8 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
             if (!user) {
               e.preventDefault();
               setShowSignInModal(true);
+            } else if (pathname !== "/portfolio") {
+              setIsLoading(true);
             }
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
@@ -99,6 +110,8 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
             if (!user) {
               e.preventDefault();
               setShowSignInModal(true);
+            } else if (pathname !== "/powerboard") {
+              setIsLoading(true);
             }
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"

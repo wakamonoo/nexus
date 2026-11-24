@@ -4,6 +4,8 @@ import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/loaders/searchLoader";
 import Avatar from "@/assets/defaultAvatar.png";
 import Link from "next/link";
+import { LoaderContext } from "@/context/loaderContext";
+import { usePathname } from "next/navigation";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -18,6 +20,8 @@ if (APP_ENV === "production") {
 }
 
 export default function UserSearch({ showSearch, setShowSearch }) {
+  const { setIsLoading } = useContext(LoaderContext);
+  const pathname = usePathname();
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -100,6 +104,11 @@ export default function UserSearch({ showSearch, setShowSearch }) {
             searchResults?.map((profile) => (
               <Link
                 href={`profile/${profile.uid}`}
+                onClick={() => {
+                  if (pathname !== `/profile/${profile.uid}`) {
+                    setIsLoading(true);
+                  }
+                }}
                 key={profile.uid}
                 className="block w-full rounded-full bg-second hover:bg-(--color-panel) border border-panel p-2"
               >

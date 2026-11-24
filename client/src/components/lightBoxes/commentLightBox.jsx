@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Link from "next/link";
+import { LoaderContext } from "@/context/loaderContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -17,6 +18,7 @@ export default function CommentLightBox({
   commentLightBoxOpen,
   setCommentLightBoxOpen,
 }) {
+  const { setIsLoading } = useContext(LoaderContext);
   const [showDetails, setShowDetails] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const commentLightBoxRef = useRef();
@@ -163,6 +165,7 @@ export default function CommentLightBox({
               onClick={(e) => {
                 e.stopPropagation();
                 setCommentLightBoxOpen(false);
+                setIsLoading(true);
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
             >

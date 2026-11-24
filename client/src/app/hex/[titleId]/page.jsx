@@ -273,6 +273,7 @@ export default function Title() {
                     />
                     <Link
                       href="/trustAndLegality"
+                      onClick={() => setIsLoading(true)}
                       className="absolute top-2 right-2 cursor-pointer opacity-70"
                     >
                       <BsInfoCircle className="text-normal" />
@@ -596,6 +597,7 @@ export default function Title() {
                           key={unit.tmdbId}
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsLoading(true);
                           }}
                           className="flex flex-col w-24 shrink-0 gap-2 cursor-pointer bg-second rounded"
                         >
@@ -644,6 +646,7 @@ export default function Title() {
                           key={`${unit.tmdbId}-${unit.job}`}
                           onClick={(e) => {
                             e.stopPropagation();
+                            setIsLoading(true);
                           }}
                           className="flex flex-col w-24 shrink-0 gap-2 cursor-pointer bg-second rounded"
                         >
@@ -761,7 +764,10 @@ export default function Title() {
                           <div className="flex items-center gap-2">
                             <Link
                               href={`/profile/${reviewOwner?.uid}`}
-                              onClick={(e) => e.stopPropagation()}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setIsLoading(true);
+                              }}
                             >
                               <img
                                 src={reviewOwner?.picture}
@@ -774,7 +780,10 @@ export default function Title() {
                             <div className="flex flex-col">
                               <Link
                                 href={`/profile/${reviewOwner?.uid}`}
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsLoading(true);
+                                }}
                                 className="cursor-pointer text-base mt-2 font-bold leading-none"
                               >
                                 {reviewOwner?.name}

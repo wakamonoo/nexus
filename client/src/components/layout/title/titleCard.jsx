@@ -8,6 +8,7 @@ import { MdOutlineReviews } from "react-icons/md";
 import AddReviewModal from "../../modals/addReviewModal";
 import { GiTrophy } from "react-icons/gi";
 import Link from "next/link";
+import { LoaderContext } from "@/context/loaderContext";
 
 export default function TitleCard({
   unit,
@@ -19,6 +20,7 @@ export default function TitleCard({
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const { handleWatch } = useContext(WatchContext);
+  const { setIsLoading } = useContext(LoaderContext);
   const [showAddReviewModal, setShowAddReviewModal] = useState(false);
   const { user, setShowSignInModal } = useContext(UserContext);
   const timer = useRef(null);
@@ -52,6 +54,7 @@ export default function TitleCard({
       <Link
         href={`/hex/${unit.titleId}`}
         ref={cardRef}
+        onClick={() => setIsLoading(true)}
         onMouseEnter={() => setShowMenu(true)}
         onMouseLeave={() => setShowMenu(false)}
         onTouchStart={() => {

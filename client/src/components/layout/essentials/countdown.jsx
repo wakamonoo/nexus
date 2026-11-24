@@ -8,12 +8,14 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import CountdownLoader from "../../loaders/countdownLoader";
 import Link from "next/link";
+import { LoaderContext } from "@/context/loaderContext";
 
 dayjs.extend(duration);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export default function Countdown() {
+  const { setIsLoading } = useContext(LoaderContext);
   const { titles, titlesLoad } = useContext(TitleContext);
   const [now, setNow] = useState(dayjs.utc());
   const [globalShow, setGlobalShow] = useState(true);
@@ -87,6 +89,7 @@ export default function Countdown() {
     <div className="mt-2 w-full">
       <Link
         href={`/hex/${displayTitle.titleId}`}
+        onClick={() => setIsLoading(true)}
         className="relative block overflow-hidden p-2 cursor-pointer"
         style={{
           backgroundImage: `url(https://image.tmdb.org/t/p/w500${displayTitle?.backdrop})`,

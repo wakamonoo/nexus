@@ -90,6 +90,7 @@ export default function ProfileReviews({ profileUser }) {
                   <div key={review.reviewId}>
                     <Link
                       href={`/hex/${review.titleId}`}
+                      onClick={() => setIsLoading(true)}
                       className="group relative overflow-hidden rounded-3xl border border-panel bg-second cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
                     >
                       {review.userId === user?.uid && (

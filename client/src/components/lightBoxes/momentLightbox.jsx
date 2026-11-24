@@ -10,6 +10,8 @@ import { SocketContext } from "@/context/socketContext";
 import { FaTrash } from "react-icons/fa";
 import ConfirmMomentDeleteModal from "../modals/confirmMomentDeleteModal";
 import Link from "next/link";
+import { LoaderContext } from "@/context/loaderContext";
+import { usePathname } from "next/navigation";
 
 dayjs.extend(relativeTime);
 
@@ -33,6 +35,8 @@ export default function MomentLightbox({
 }) {
   const { user, setShowSignInModal } = useContext(UserContext);
   const { momentLoves } = useContext(SocketContext);
+  const { setIsLoading } = useContext(LoaderContext);
+  const pathname = usePathname();
   const [showConfirmMomentDeleteModal, setShowConfirmMomentDeleteModal] =
     useState(false);
   const loved = momentLoves[moment?.momentId] ?? moment?.loved ?? [];
@@ -79,7 +83,12 @@ export default function MomentLightbox({
             <div className="flex items-center gap-2 rounded-full bg-(--color-panel)/60 px-2 py-1.5">
               <Link
                 href={`/profile/${owner.uid}`}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (pathname !== `/profile/${owner.uid}`) {
+                    setIsLoading(true);
+                  }
+                }}
               >
                 <img
                   src={owner.picture || Avatar.src}
@@ -92,7 +101,12 @@ export default function MomentLightbox({
               <div className="pr-2">
                 <Link
                   href={`/profile/${owner.uid}`}
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (pathname !== `/profile/${owner.uid}`) {
+                      setIsLoading(true);
+                    }
+                  }}
                   className="block max-w-32 truncate text-sm font-bold leading-none cursor-pointer"
                 >
                   {owner.name}
@@ -141,6 +155,11 @@ export default function MomentLightbox({
               )}
               <Link
                 href={`/hex/${title.titleId}`}
+                onClick={() => {
+                  if (pathname !== `/hex/${title.titleId}`) {
+                    setIsLoading(true);
+                  }
+                }}
                 className="cursor-pointer flex items-center gap-2"
               >
                 <img

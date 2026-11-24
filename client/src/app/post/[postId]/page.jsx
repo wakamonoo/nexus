@@ -393,7 +393,10 @@ export default function Post() {
                     <div className="flex gap-3 px-4 py-2 items-center">
                       <Link
                         href={`/profile/${postOwner?.uid}`}
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsLoading(true);
+                        }}
                       >
                         <img
                           src={postOwner?.picture || Avatar.src}
@@ -406,7 +409,10 @@ export default function Post() {
                       <div className="flex flex-col">
                         <Link
                           href={`/profile/${postOwner?.uid}`}
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsLoading(true);
+                          }}
                           className="cursor-pointer text-base mt-2 font-bold leading-3.5 truncate"
                         >
                           {postOwner?.name}
@@ -433,7 +439,10 @@ export default function Post() {
                       <div className="px-4">
                         <Link
                           href={`/posts/${post?.topicId}`}
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsLoading(true);
+                          }}
                           className={`block h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
                         >
                           <p className="font-bold text-vibe text-sm px-2">
@@ -651,7 +660,10 @@ export default function Post() {
                     return (
                       <div key={index} className="flex flex-col">
                         <div className="flex gap-2 relative">
-                          <Link href={`/profile/${commentUser.uid}`}>
+                          <Link
+                            href={`/profile/${commentUser.uid}`}
+                            onClick={() => setIsLoading(true)}
+                          >
                             <img
                               src={commentUser?.picture || Avatar.src}
                               alt={commentUser.name}
@@ -671,6 +683,7 @@ export default function Post() {
                                 <div className="flex flex-col">
                                   <Link
                                     href={`/profile/${commentUser.uid}`}
+                                    onClick={() => setIsLoading(true)}
                                     className="text-base text-normal font-bold cursor-pointer"
                                   >
                                     {commentUser.name}
@@ -815,7 +828,10 @@ export default function Post() {
                                   key={index}
                                   className="flex gap-2 relative"
                                 >
-                                  <Link href={`/profile/${replyUser.uid}`}>
+                                  <Link
+                                    href={`/profile/${replyUser.uid}`}
+                                    onClick={() => setIsLoading(true)}
+                                  >
                                     <img
                                       src={replyUser.picture}
                                       alt={replyUser.name}
@@ -830,6 +846,7 @@ export default function Post() {
                                         <div className="flex flex-col">
                                           <Link
                                             href={`/profile/${replyUser.uid}`}
+                                            onClick={() => setIsLoading(true)}
                                             className="text-base text-normal font-bold cursor-pointer"
                                           >
                                             {replyUser.name}
