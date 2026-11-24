@@ -4,7 +4,6 @@ import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
@@ -13,7 +12,6 @@ import TitleCard from "@/components/layout/title/titleCard";
 export default function Upcoming() {
   const { upcomingTitles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
   const router = useRouter();
 
@@ -43,7 +41,6 @@ export default function Upcoming() {
                     key={unit.titleId}
                     unit={unit}
                     isWatched={isTitleWatched(unit.titleId)}
-                    onOpen={() => handleShowNav(unit.titleId)}
                   />
                 ))}
             </div>

@@ -7,11 +7,11 @@ import { FiCheckCircle } from "react-icons/fi";
 import { MdOutlineReviews } from "react-icons/md";
 import AddReviewModal from "../../modals/addReviewModal";
 import { GiTrophy } from "react-icons/gi";
+import Link from "next/link";
 
 export default function TitleCard({
   unit,
   isWatched,
-  onOpen,
   continuum,
   goat,
   popular,
@@ -49,8 +49,8 @@ export default function TitleCard({
 
   return (
     <>
-      <div
-        onClick={onOpen}
+      <Link
+        href={`/hex/${unit.titleId}`}
         ref={cardRef}
         onMouseEnter={() => setShowMenu(true)}
         onMouseLeave={() => setShowMenu(false)}
@@ -136,11 +136,7 @@ export default function TitleCard({
         {continuum && (
           <div
             className={`absolute opacity-80 top-0 right-1 p-2 h-4 w-8 flex items-center justify-center rounded-b-full z-10 ${
-              mcu
-                ? "bg-accent"
-                : legacy
-                  ? "bg-hulk"
-                  : "bg-(--color-infinity)"
+              mcu ? "bg-accent" : legacy ? "bg-hulk" : "bg-(--color-infinity)"
             }`}
           />
         )}
@@ -164,7 +160,7 @@ export default function TitleCard({
             <p className="font-bold text-lg">{unit.listOrder}</p>
           </div>
         )}
-      </div>
+      </Link>
       {showAddReviewModal && (
         <AddReviewModal
           setShowAddReviewModal={setShowAddReviewModal}

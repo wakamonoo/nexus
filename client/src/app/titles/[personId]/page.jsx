@@ -4,7 +4,6 @@ import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
-import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import TitleCard from "@/components/layout/title/titleCard";
@@ -27,7 +26,6 @@ export default function Person() {
   const [projects, setProjects] = useState([]);
   const [pageLoad, setPageLoad] = useState(true);
   const { setIsLoading } = useContext(LoaderContext);
-  const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
   const [showFull, setShowFull] = useState(false);
   const router = useRouter();
@@ -146,7 +144,6 @@ export default function Person() {
                     key={unit.titleId}
                     unit={unit}
                     isWatched={isTitleWatched(unit.titleId)}
-                    onOpen={() => handleShowNav(unit.titleId)}
                   />
                 ))}
               </div>

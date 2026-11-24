@@ -1,12 +1,12 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import { MdClose, MdOutlineSensors } from "react-icons/md";
 import { FaComment } from "react-icons/fa";
 import { AiFillThunderbolt } from "react-icons/ai";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { UserContext } from "@/context/userContext";
-import { LoaderContext } from "@/context/loaderContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -34,24 +34,12 @@ export default function PostLightBox() {
   const echoed =
     postEchoes[currentPostInfo.postId] ?? currentPostInfo.echoed ?? [];
   const { allUsers, user, setShowSignInModal } = useContext(UserContext);
-  const { setIsLoading } = useContext(LoaderContext);
-  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const pathname = usePathname();
 
   const post = posts.find((p) => p.postId === currentPostInfo.postId);
 
   const postOwner = allUsers.find((user) => user.uid === post?.userId);
-
-  const handlePostNav = (id, focusInput = false) => {
-    setPostLightBoxOpen(false);
-    if (pathname == `/post/${id}`) {
-      return;
-    }
-    setIsLoading(true);
-    const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
-    router.push(url);
-  };
 
   useEffect(() => {
     if (!postLightBoxOpen) return;
@@ -178,17 +166,16 @@ export default function PostLightBox() {
       {showDetails && (
         <div className="absolute bg-(--color-secondary)/50 w-full bottom-0 left-0">
           <div className="flex flex-col p-2">
-            <p
+            <Link
+              href={`/profile/${post.userId}`}
               onClick={(e) => {
                 e.stopPropagation();
-                setIsLoading(true);
                 setPostLightBoxOpen(false);
-                router.push(`/profile/${post.userId}`);
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
             >
               {postOwner.name}
-            </p>
+            </Link>
             <p className="text-xs text-vibe">
               {(() => {
                 const diffWeeks = dayjs().diff(
@@ -207,15 +194,13 @@ export default function PostLightBox() {
             </p>
           </div>
           <div
-            onClick={() => handlePostNav(currentPostInfo.postId)}
             className="px-1"
           >
-            <div
+            <Link
+              href={`/posts/${currentPostInfo.topic}`}
               onClick={(e) => {
-                setIsLoading(true);
                 e.stopPropagation();
                 setPostLightBoxOpen(false);
-                router.push(`/posts/${currentPostInfo.topic}`);
               }}
               className={`h-fit w-fit rounded-full bg-linear-to-r from-(--color-accent) to-(--color-zeus) ${
                 currentPostInfo.topic ? "block" : "hidden"
@@ -224,15 +209,22 @@ export default function PostLightBox() {
               <p className="font-bold text-sm text-vibe px-2">
                 {currentPostInfo.topic}
               </p>
-            </div>
+            </Link>
           </div>
           <div className="px-2 py-1">
-            <p
-              onClick={() => handlePostNav(currentPostInfo.postId)}
-              className="cursor-pointer text-base text-normal leading-5 line-clamp-3"
+            <Link
+              href={`/post/${currentPostInfo.postId}`}
+              onClick={(e) => {
+                setPostLightBoxOpen(false);
+
+                if (pathname === `/post/${currentPostInfo.postId}`) {
+                  e.preventDefault();
+                }
+              }}
+              className="block cursor-pointer text-base text-normal leading-5 line-clamp-3"
             >
               {currentPostInfo.text}
-            </p>
+            </Link>
           </div>
           <div className="flex justify-between items-center pt-4 border-t border-panel mt-2 py-4">
             <div
@@ -277,8 +269,15 @@ export default function PostLightBox() {
                 {echoed ? echoed.length : 0} echoed
               </p>
             </div>
-            <div
-              onClick={() => handlePostNav(currentPostInfo.postId, true)}
+            <Link
+              href={`/post/${currentPostInfo.postId}?focus=comment`}
+              onClick={(e) => {
+                setPostLightBoxOpen(false);
+
+                if (pathname === `/post/${currentPostInfo.postId}`) {
+                  e.preventDefault();
+                }
+              }}
               className="flex flex-col items-center justify-center bg-(--color-panel)/75 p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-secondary) active:bg-(--color-secondary) cursor-pointer"
             >
               <FaComment className="text-2xl transform -scale-x-100" />
@@ -293,7 +292,7 @@ export default function PostLightBox() {
                   : 0}{" "}
                 commented
               </p>
-            </div>
+            </Link>
           </div>
         </div>
       )}

@@ -6,8 +6,8 @@ import { ListContext } from "@/context/listContext";
 import { LoaderContext } from "@/context/loaderContext";
 import { SocketContext } from "@/context/socketContext";
 import { TitleContext } from "@/context/titleContext";
-import { TitleNavContext } from "@/context/titleNavContext";
 import { UserContext } from "@/context/userContext";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { BiSolidUpvote } from "react-icons/bi";
@@ -20,7 +20,6 @@ export default function Lists() {
   const { user, allUsers, setShowSignInModal } = useContext(UserContext);
   const { lists, listLoad } = useContext(ListContext);
   const { titles } = useContext(TitleContext);
-  const { handleShowListNav } = useContext(TitleNavContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -92,10 +91,10 @@ export default function Lists() {
                 realtimeVote?.downvotes ?? list?.downvotes ?? [];
 
               return (
-                <div
+                <Link
+                  href={`/hex/lists/${list.listId}`}
                   key={list.listId || list._id}
-                  onClick={() => handleShowListNav(`lists/${list.listId}`)}
-                  className="group relative rounded-xl bg-linear-to-b from-(--color-panel) to-(--color-secondary) border border-panel hover:border-(--color-secondary) focus:border-(--color-secondary) transition-all duration-200 cursor-pointer"
+                  className="group relative block rounded-xl bg-linear-to-b from-(--color-panel) to-(--color-secondary) border border-panel hover:border-(--color-secondary) focus:border-(--color-secondary) transition-all duration-200 cursor-pointer"
                 >
                   <div className="p-4">
                     <div className="relative h-42 md:h-50">
@@ -165,7 +164,7 @@ export default function Lists() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

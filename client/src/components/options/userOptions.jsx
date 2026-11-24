@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef } from "react";
+import Link from "next/link";
 import { ScrollContext } from "@/context/scrollContext";
-import { LoaderContext } from "@/context/loaderContext";
-import { useRouter } from "next/navigation";
 import { PiRankingDuotone } from "react-icons/pi";
 import {
   MdAdminPanelSettings,
@@ -13,8 +12,6 @@ import { UserContext } from "@/context/userContext";
 import { GiNinjaHead } from "react-icons/gi";
 
 export default function UserOptions({ setShowUserOptions, userOptRef }) {
-  const router = useRouter();
-  const { setIsLoading } = useContext(LoaderContext);
   const { user, setShowSignInModal, adminBtn } = useContext(UserContext);
   const optRef = useRef();
 
@@ -44,11 +41,13 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
       className="fixed z-50 top-18 right-2 sm:right-4 md:right-8 lg:right-16 bg-second w-60 border border-panel h-fit rounded overflow-hidden"
     >
       <div className="flex flex-col p-4">
-        <button
-          onClick={() => {
-            user
-              ? (setIsLoading(true), router.push(`/profile/${user.uid}`))
-              : setShowSignInModal(true);
+        <Link
+          href={user ? `/profile/${user.uid}` : "#"}
+          onClick={(e) => {
+            if (!user) {
+              e.preventDefault();
+              setShowSignInModal(true);
+            }
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
         >
@@ -71,41 +70,42 @@ export default function UserOptions({ setShowUserOptions, userOptRef }) {
               <p className="text-base font-bold text-normal">Profile</p>
             </>
           )}
-        </button>
+        </Link>
         {adminBtn && (
-          <button
-            onClick={() => {
-              setIsLoading(true);
-              router.push("/admin");
-            }}
+          <Link
+            href="/admin"
             className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
           >
             <MdAdminPanelSettings className="text-2xl" />
             <p className="text-base font-bold text-normal">Admin</p>
-          </button>
+          </Link>
         )}
-        <button
-          onClick={() => {
-            user
-              ? (setIsLoading(true), router.push("/portfolio"))
-              : setShowSignInModal(true);
+        <Link
+          href={user ? "/portfolio" : "#"}
+          onClick={(e) => {
+            if (!user) {
+              e.preventDefault();
+              setShowSignInModal(true);
+            }
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
         >
           <MdCheckBox className="text-2xl" />
           <p className="text-base font-bold text-normal">Portfolio</p>
-        </button>
-        <button
-          onClick={() => {
-            user
-              ? (setIsLoading(true), router.push("/powerboard"))
-              : setShowSignInModal(true);
+        </Link>
+        <Link
+          href={user ? "/powerboard" : "#"}
+          onClick={(e) => {
+            if (!user) {
+              e.preventDefault();
+              setShowSignInModal(true);
+            }
           }}
           className="flex items-center gap-2 cursor-pointer hover:bg-(--color-panel) focus:bg-(--color-panel) p-4 rounded"
         >
           <PiRankingDuotone className="text-2xl" />
           <p className="text-base font-bold text-normal">Powerboard</p>
-        </button>
+        </Link>
         <button
           onClick={() => {
             setShowUserOptions(false);

@@ -4,9 +4,9 @@ import { FaAngleRight } from "react-icons/fa";
 import TitleLoader from "@/components/loaders/titlesLoader";
 import Loader from "@/components/loaders/searchLoader";
 import { useContext } from "react";
+import Link from "next/link";
 import { TitleContext } from "@/context/titleContext";
 import NavBar from "@/components/layout/essentials/navBar";
-import { TitleNavContext } from "@/context/titleNavContext";
 import { MdSearchOff } from "react-icons/md";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
@@ -14,8 +14,6 @@ import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/titlesStructure/goatTitlesStructureMin";
 import MostWatchedTitlesStructureMin from "@/components/layout/titlesStructure/mostWatchedTitlesStructureMin";
 import CustomButton from "@/components/buttons/customBtn";
-import { useRouter } from "next/navigation";
-import { LoaderContext } from "@/context/loaderContext";
 import TitleCard from "@/components/layout/title/titleCard";
 import TitlesLoader from "@/components/loaders/titlesLoader";
 import { FaClapperboard } from "react-icons/fa6";
@@ -45,9 +43,7 @@ export default function Main() {
     releasedAdjacentTitles,
     titlesLoad,
   } = useContext(TitleContext);
-  const { handleShowNav, handleShowListNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
-  const { setIsLoading } = useContext(LoaderContext);
   const [isScrolled1, setIsScrolled1] = useState(false);
   const [isScrolled2, setIsScrolled2] = useState(false);
   const [isScrolled3, setIsScrolled3] = useState(false);
@@ -87,7 +83,6 @@ export default function Main() {
   const [canScroll7, setCanScroll7] = useState(false);
   const [canScroll8, setCanScroll8] = useState(false);
   const [canScroll9, setCanScroll9] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const current = scrollRef1.current;
@@ -469,28 +464,22 @@ export default function Main() {
       <NavBar />
       <div className="relative bg-brand w-full pt-16 p-2 sm:px-4 md:px-8 lg:px-16">
         <div className="flex gap-4 md:gap-8 w-full justify-end p-4">
-          <button
-            onClick={() => {
-              setIsLoading(true);
-              router.push("/hex/lists");
-            }}
+          <Link
+            href="/hex/lists"
             className="cursor-pointer"
           >
             <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
               Lists
             </p>
-          </button>
-          <button
-            onClick={() => {
-              setIsLoading(true);
-              router.push("/hex/timeline");
-            }}
+          </Link>
+          <Link
+            href="/hex/timeline"
             className="cursor-pointer"
           >
             <p className="text-base opacity-60 transition-all duration-200 hover:font-bold active:font-bold hover:opacity-100 active:opacity-100">
               Timeline
             </p>
-          </button>
+          </Link>
         </div>
         <div className="flex flex-1 items-center gap-2 bg-panel px-4 py-2 rounded-full">
           <input
@@ -529,7 +518,6 @@ export default function Main() {
                       key={unit.titleId}
                       unit={unit}
                       isWatched={isTitleWatched(unit.titleId)}
-                      onOpen={() => handleShowNav(unit.titleId)}
                     />
                   ))}
               </div>
@@ -549,15 +537,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">LATEST RELEASES</h1>
-                <div
-                  onClick={() => handleShowListNav("latest")}
+                <Link
+                  href="/hex/latest"
                   className={`flex items-center cursor-pointer ${
                     isScrolled1 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
 
               <div
@@ -607,7 +595,6 @@ export default function Main() {
                           key={unit.titleId}
                           unit={unit}
                           isWatched={isTitleWatched(unit.titleId)}
-                          onOpen={() => handleShowNav(unit.titleId)}
                         />
                       ))
                     ) : (
@@ -632,15 +619,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">MCU CHRONOLOGICAL ORDER</h1>
-                <div
-                  onClick={() => handleShowListNav("chrono")}
+                <Link
+                  href="/hex/chrono"
                   className={`flex items-center cursor-pointer ${
                     isScrolled2 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
               <div
                 className="relative"
@@ -689,7 +676,6 @@ export default function Main() {
                           key={unit.titleId}
                           unit={unit}
                           isWatched={isTitleWatched(unit.titleId)}
-                          onOpen={() => handleShowNav(unit.titleId)}
                         />
                       ))
                     ) : (
@@ -714,15 +700,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">MCU RELEASE ORDER</h1>
-                <div
-                  onClick={() => handleShowListNav("release")}
+                <Link
+                  href="/hex/release"
                   className={`flex items-center cursor-pointer ${
                     isScrolled3 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
 
               <div
@@ -772,7 +758,6 @@ export default function Main() {
                           key={unit.titleId}
                           unit={unit}
                           isWatched={isTitleWatched(unit.titleId)}
-                          onOpen={() => handleShowNav(unit.titleId)}
                         />
                       ))
                     ) : (
@@ -797,15 +782,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">GOAT STATUS</h1>
-                <div
-                  onClick={() => handleShowListNav("goat")}
+                <Link
+                  href="/hex/goat"
                   className={`flex items-center cursor-pointer ${
                     isScrolled4 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
 
               <div
@@ -854,15 +839,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">Popular</h1>
-                <div
-                  onClick={() => handleShowListNav("popular")}
+                <Link
+                  href="/hex/popular"
                   className={`flex items-center cursor-pointer ${
                     isScrolled5 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
 
               <div
@@ -911,15 +896,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">MULTIVERSAL CANON</h1>
-                <div
-                  onClick={() => handleShowListNav("multiversalCanon")}
+                <Link
+                  href="/hex/multiversalCanon"
                   className={`flex items-center cursor-pointer ${
                     isScrolled6 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
 
               <div
@@ -983,7 +968,6 @@ export default function Main() {
                             key={unit.titleId}
                             unit={unit}
                             isWatched={isTitleWatched(unit.titleId)}
-                            onOpen={() => handleShowNav(unit.titleId)}
                           />
                         ))
                     ) : (
@@ -1008,15 +992,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">MARVEL ADJACENT</h1>
-                <div
-                  onClick={() => handleShowListNav("marvelAdjacent")}
+                <Link
+                  href="/hex/marvelAdjacent"
                   className={`flex items-center cursor-pointer ${
                     isScrolled7 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
 
               <div
@@ -1080,7 +1064,6 @@ export default function Main() {
                             key={unit.titleId}
                             unit={unit}
                             isWatched={isTitleWatched(unit.titleId)}
-                            onOpen={() => handleShowNav(unit.titleId)}
                           />
                         ))
                     ) : (
@@ -1105,15 +1088,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">CINEMATIC CONTINUUM</h1>
-                <div
-                  onClick={() => handleShowListNav("cinematicContinuum")}
+                <Link
+                  href="/hex/cinematicContinuum"
                   className={`flex items-center cursor-pointer ${
                     isScrolled8 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
 
               <div
@@ -1179,7 +1162,6 @@ export default function Main() {
                               key={unit.titleId}
                               unit={unit}
                               isWatched={isTitleWatched(unit.titleId)}
-                              onOpen={() => handleShowNav(unit.titleId)}
                               continuum={true}
                             />
                           );
@@ -1206,15 +1188,15 @@ export default function Main() {
             <div className="py-4">
               <div className="flex justify-between items-center">
                 <h1 className="text-xl">UPCOMING TITLES</h1>
-                <div
-                  onClick={() => handleShowListNav("upcoming")}
+                <Link
+                  href="/hex/upcoming"
                   className={`flex items-center cursor-pointer ${
                     isScrolled9 ? "flex" : "hidden"
                   }`}
                 >
                   <p className="text-xs text-vibe">View All</p>
                   <FaAngleRight className="text-vibe text-base" />
-                </div>
+                </Link>
               </div>
 
               <div
@@ -1278,7 +1260,6 @@ export default function Main() {
                             key={unit.titleId}
                             unit={unit}
                             isWatched={isTitleWatched(unit.titleId)}
-                            onOpen={() => handleShowNav(unit.titleId)}
                           />
                         ))
                     ) : (

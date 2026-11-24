@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
@@ -24,7 +24,6 @@ export default function RinaNews() {
   const [news, setNews] = useState(null);
   const [showFull, setShowFull] = useState(false);
   const [showAllArticles, setShowAllArticles] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     try {
@@ -115,9 +114,9 @@ export default function RinaNews() {
           </div>
           <div className="mt-2">
             {visibleArticles.map((article, index) => (
-              <div
+              <Link
+                href={`${article?.url}`}
                 key={index}
-                onClick={() => router.push(`${article?.url}`)}
                 className="bg-second flex gap-4 p-2 border-y border-panel cursor-pointer hover:bg-(--color-panel) w-full"
               >
                 <div className="w-[30%] aspect-video overflow-hidden">
@@ -149,7 +148,7 @@ export default function RinaNews() {
                     </span>
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
             {news?.articles?.length > 2 && (
               <div

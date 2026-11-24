@@ -2,7 +2,7 @@
 import { MdClose, MdLogout } from "react-icons/md";
 import { googleSignUp } from "@/lib/firebase/config";
 import { auth } from "@/lib/firebase/config";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
@@ -10,7 +10,6 @@ import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import Logo from "@/assets/main_logo.png";
 import PopUp from "@/assets/pop-up.png";
-import { LoaderContext } from "@/context/loaderContext";
 import CircledButtons from "../buttons/circledBtns";
 import RegularButtons from "../buttons/regBtns";
 
@@ -29,8 +28,6 @@ if (APP_ENV === "production") {
 export default function SignInModal() {
   const { isLogged, fetchUserData, setShowSignInModal } =
     useContext(UserContext);
-  const { setIsLoading } = useContext(LoaderContext);
-  const router = useRouter();
 
   const handleSignIn = async () => {
     if (isLogged) {
@@ -180,27 +177,21 @@ export default function SignInModal() {
             <div className="flex flex-col gap-1 items-center justify-center">
               <p className="text-xs text-center text-vibe mb-2">
                 By continuing, you agree to our{" "}
-                <span
-                  onClick={() => {
-                    setShowSignInModal(false);
-                    setIsLoading(true);
-                    router.push("/terms&Conditions");
-                  }}
+                <Link
+                  href="/terms&Conditions"
+                  onClick={() => setShowSignInModal(false)}
                   className="cursor-pointer text-blue-500"
                 >
                   Terms of Service
-                </span>{" "}
+                </Link>{" "}
                 and{" "}
-                <span
-                  onClick={() => {
-                    setShowSignInModal(false);
-                    setIsLoading(true);
-                    router.push("/privacyPolicy");
-                  }}
+                <Link
+                  href="/privacyPolicy"
+                  onClick={() => setShowSignInModal(false)}
                   className="cursor-pointer text-blue-500"
                 >
                   Privacy Policy
-                </span>
+                </Link>
                 .
               </p>
               <p className="text-xs text-vibe opacity-60 text-center">

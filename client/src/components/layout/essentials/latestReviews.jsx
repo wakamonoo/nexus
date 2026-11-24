@@ -1,8 +1,7 @@
 import { TitleContext } from "@/context/titleContext";
 import { useContext, useEffect, useRef } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { LoaderContext } from "@/context/loaderContext";
+import Link from "next/link";
 import { MdRateReview } from "react-icons/md";
 import ReviewsLoader from "../../loaders/reviewsLoader";
 import dayjs from "dayjs";
@@ -15,9 +14,7 @@ dayjs.extend(relativeTime);
 export default function LatestReviews() {
   const { sortedReviews, reviewsLoad, reviewVotes } = useContext(SocketContext);
   const { titles } = useContext(TitleContext);
-  const { setIsLoading } = useContext(LoaderContext);
   const { allUsers } = useContext(UserContext);
-  const router = useRouter();
   const carouselRef = useRef(null);
 
   useEffect(() => {
@@ -56,12 +53,8 @@ export default function LatestReviews() {
     upvotes,
     downvotes,
   ) => (
-    <div
-      onClick={(e) => {
-        e.stopPropagation();
-        setIsLoading(true);
-        router.push(`/hex/${review.titleId}`);
-      }}
+    <Link
+      href={`hex/${review.titleId}`}
       key={index}
       className="group relative overflow-hidden rounded-3xl border border-panel bg-second cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl"
     >
@@ -86,29 +79,26 @@ export default function LatestReviews() {
         </div>
 
         <div className="absolute top-3 left-3 flex items-center gap-2 rounded-full bg-(--color-panel)/60 px-2 py-1.5">
-          <img
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsLoading(true);
-              router.push(`/profile/${reviewOwner?.uid}`);
-            }}
-            src={reviewOwner?.picture}
-            alt={reviewOwner?.name}
-            loading="lazy"
-            decoding="async"
-            className="w-8 h-8 rounded-full object-cover cursor-pointer"
-          />
+          <Link
+            href={`/profile/${reviewOwner?.uid}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={reviewOwner?.picture}
+              alt={reviewOwner?.name}
+              loading="lazy"
+              decoding="async"
+              className="w-8 h-8 rounded-full object-cover cursor-pointer"
+            />
+          </Link>
           <div className="pr-2">
-            <p
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsLoading(true);
-                router.push(`/profile/${reviewOwner.uid}`);
-              }}
-              className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer"
+            <Link
+              href={`/profile/${reviewOwner.uid}`}
+              onClick={(e) => e.stopPropagation()}
+              className="block max-w-32 truncate text-sm font-bold leading-none cursor-pointer"
             >
               {reviewOwner?.name}
-            </p>
+            </Link>
 
             <p className="text-xs text-vibe">
               {(() => {
@@ -142,7 +132,7 @@ export default function LatestReviews() {
           </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 
   return (
@@ -197,7 +187,9 @@ export default function LatestReviews() {
         )}
       </div>
 
-      <div className={`hidden lg:block ${sortedReviews?.length > 0 ? "h-[calc(100vh-6rem)] overflow-y-auto custom-scroll" : ""}`}>
+      <div
+        className={`hidden lg:block ${sortedReviews?.length > 0 ? "h-[calc(100vh-6rem)] overflow-y-auto custom-scroll" : ""}`}
+      >
         <div className="flex items-center gap-2 pb-2">
           <p className="text-base font-bold text-vibe opacity-60">Reviews</p>
           <div className="flex-1 border-t-2 border-panel" />

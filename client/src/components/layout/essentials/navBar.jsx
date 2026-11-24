@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { ScrollContext } from "@/context/scrollContext";
@@ -55,8 +56,9 @@ export default function NavBar() {
           .slice(latestSeenIndex + 1)
           .filter((m) => m.senderId !== user?.uid).length;
 
-  const handleHomeClick = async () => {
+  const handleHomeClick = async (e) => {
     if (pathname === "/") {
+      e.preventDefault();
       window.scrollTo({
         top: 0,
         behavior: "smooth",
@@ -65,18 +67,6 @@ export default function NavBar() {
       await postFetch();
       router.push("/");
       setIsLoading(false);
-    } else {
-      setIsLoading(true);
-      router.push("/");
-    }
-  };
-
-  const handleNavClick = async (loc) => {
-    if (pathname === `/${loc}`) {
-      router.push(`/${loc}`);
-    } else {
-      setIsLoading(true);
-      router.push(`/${loc}`);
     }
   };
 
@@ -107,7 +97,7 @@ export default function NavBar() {
               }`}
             />
           </button>
-          <button onClick={handleHomeClick} className="cursor-pointer">
+          <Link href="/" onClick={handleHomeClick} className="cursor-pointer">
             <Image
               src={Logo}
               priority
@@ -117,10 +107,11 @@ export default function NavBar() {
               sizes="100vw"
               className="w-24 h-auto"
             />
-          </button>
+          </Link>
         </div>
         <div className="flex items-center gap-3.5 sm:gap-7 w-fit">
-          <button
+          <Link
+            href="/"
             onClick={handleHomeClick}
             className={`flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group ${isActive(
               "/",
@@ -136,9 +127,9 @@ export default function NavBar() {
             >
               Portal
             </p>
-          </button>
-          <button
-            onClick={() => handleNavClick("hex")}
+          </Link>
+          <Link
+            href="/hex"
             className={`flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group ${isActive(
               "/hex",
             )}`}
@@ -153,9 +144,9 @@ export default function NavBar() {
             >
               Hex
             </p>
-          </button>
-          <button
-            onClick={() => handleNavClick("citadel")}
+          </Link>
+          <Link
+            href="/citadel"
             className={`relative flex flex-col flex-1 min-w-6.25 cursor-pointer items-center group ${isActive(
               "/citadel",
             )}`}
@@ -175,7 +166,7 @@ export default function NavBar() {
             >
               Citadel
             </p>
-          </button>
+          </Link>
           <button
             onClick={(e) => {
               setShowPing((prev) => !prev);

@@ -1,8 +1,7 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { useRouter } from "next/navigation";
-import { LoaderContext } from "@/context/loaderContext";
+import Link from "next/link";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -20,9 +19,7 @@ export default function CitadelLightBox({
 }) {
   const [showDetails, setShowDetails] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { setIsLoading } = useContext(LoaderContext);
   const citadelLightBoxRef = useRef();
-  const router = useRouter();
 
   useEffect(() => {
     if (!citadelLightBoxOpen) return;
@@ -161,17 +158,16 @@ export default function CitadelLightBox({
       {showDetails && (
         <div className="absolute bg-(--color-secondary)/50 w-full bottom-0 left-0">
           <div className="flex flex-col p-2">
-            <p
+            <Link
+              href={`/profile/${citadelLightBoxSenderId}`}
               onClick={(e) => {
                 e.stopPropagation();
-                setIsLoading(true);
                 setCitadelLightBoxOpen(false);
-                router.push(`/profile/${citadelLightBoxSenderId}`);
               }}
               className="cursor-pointer text-base mt-2 font-bold leading-3.5"
             >
               {citadelLightBoxSenderName}
-            </p>
+            </Link>
             <p className="text-xs text-vibe">
               {(() => {
                 const diffWeeks = dayjs().diff(

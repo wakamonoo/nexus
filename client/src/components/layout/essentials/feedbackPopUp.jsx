@@ -1,9 +1,7 @@
 "use client";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularLinks from "@/components/links/regLinks";
 import { FeedbackContext } from "@/context/feedbackContext";
-import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
-import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 
@@ -14,8 +12,6 @@ export default function FeedbackPopUp() {
   const { user } = useContext(UserContext);
   const { feedbacks } = useContext(FeedbackContext);
   const [isOpen, setIsOpen] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
-  const router = useRouter();
 
   const doneFeedback = feedbacks.find((u) => u.userId === user?.uid);
 
@@ -59,15 +55,12 @@ export default function FeedbackPopUp() {
           <p className="text-sm leading-relaxed text-muted">
             You've been exploring Nexus. We'd love to hear what you think.
           </p>
-          <RegularButtons
-            onClick={() => {
-              setIsLoading(true);
-              setIsOpen(false);
-              router.push("/communityFeedback");
-            }}
+          <RegularLinks
+            href="/communityFeedback"
+            onClick={() => setIsOpen(false)}
           >
             <p className="font-bold text-normal text-base">Share Feedback</p>
-          </RegularButtons>
+          </RegularLinks>
         </div>
       </div>
     </div>

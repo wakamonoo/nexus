@@ -8,8 +8,8 @@ import Fallback from "@/assets/fallback.png";
 import Avatar from "@/assets/defaultAvatar.png";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PostOptions from "../../options/postOptions";
-import { LoaderContext } from "@/context/loaderContext";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import AutoPlay from "./autoPlay";
@@ -33,20 +33,12 @@ export default function PostStructure({ post }) {
   const energized = postEnergizes[post?.postId] ?? post?.energized ?? [];
   const echoed = postEchoes[post?.postId] ?? post?.echoed ?? [];
   const [showFull, setShowFull] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(null);
-  const router = useRouter();
   const pathname = usePathname();
   const postCarouselRef = useRef(null);
 
   const postOwner = allUsers.find((user) => user.uid === post?.userId);
-
-  const handlePostNavMain = (id, focusInput = false) => {
-    setIsLoading(true);
-    const url = focusInput ? `/post/${id}?focus=comment` : `/post/${id}`;
-    router.push(url);
-  };
 
   const handleNext = () => {
     if (!post?.files) return;
@@ -79,10 +71,7 @@ export default function PostStructure({ post }) {
   const currentTopic = titles.find((t) => t.titleId === post?.topicId);
 
   return (
-    <div
-      onClick={() => handlePostNavMain(post.postId)}
-      className="relative w-full h-auto cursor-pointer bg-linear-to-b from-(--color-panel) to-(--color-secondary) rounded-tl-2xl rounded-br-2xl"
-    >
+    <div className="relative w-full h-auto cursor-pointer bg-linear-to-b from-(--color-panel) to-(--color-secondary) rounded-tl-2xl rounded-br-2xl">
       {post.files?.length > 1 && (
         <>
           {currentIndex > 0 && (
@@ -110,7 +99,7 @@ export default function PostStructure({ post }) {
         </>
       )}
       {user?.uid === postOwner?.uid ? (
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 z-20">
           <button
             id={`btn-${post.postId}`}
             onClick={(e) => {
@@ -128,43 +117,45 @@ export default function PostStructure({ post }) {
       ) : null}
 
       <div className="flex gap-3 px-4 items-center py-2">
-        <img
+        <Link
+          href={`/profile/${postOwner?.uid}`}
           onClick={(e) => {
             e.stopPropagation();
             if (pathname.startsWith("/profile")) {
+              e.preventDefault();
               window.scrollTo({
                 top: 0,
                 behavior: "smooth",
               });
-            } else {
-              setIsLoading(true);
-              router.push(`/profile/${postOwner?.uid}`);
             }
           }}
-          src={postOwner?.picture || Avatar.src}
-          alt={postOwner?.name}
-          loading="lazy"
-          decoding="async"
-          className="w-12 h-12 object-cover rounded-full"
-        />
+          className="relative z-20"
+        >
+          <img
+            src={postOwner?.picture || Avatar.src}
+            alt={postOwner?.name}
+            loading="lazy"
+            decoding="async"
+            className="w-12 h-12 object-cover rounded-full"
+          />
+        </Link>
         <div className="flex flex-col">
-          <p
+          <Link
+            href={`/profile/${postOwner?.uid}`}
             onClick={(e) => {
               e.stopPropagation();
               if (pathname.startsWith("/profile")) {
+                e.preventDefault();
                 window.scrollTo({
                   top: 0,
                   behavior: "smooth",
                 });
-              } else {
-                setIsLoading(true);
-                router.push(`/profile/${postOwner?.uid}`);
               }
             }}
-            className="text-base mt-2 font-bold leading-3.5 truncate"
+            className="relative z-20 text-base mt-2 font-bold leading-3.5 truncate"
           >
             {postOwner?.name}
-          </p>
+          </Link>
           <p className="text-xs text-vibe">
             {(() => {
               const diffWeeks = dayjs().diff(dayjs(post.date), "week");
@@ -183,25 +174,24 @@ export default function PostStructure({ post }) {
 
       {currentTopic && (
         <div className="px-4">
-          <div
+          <Link
+            href={`/posts/${post.topicId}`}
             onClick={(e) => {
               e.stopPropagation();
               if (pathname.startsWith("/posts")) {
+                e.preventDefault();
                 window.scrollTo({
                   top: 0,
                   behavior: "smooth",
                 });
-              } else {
-                setIsLoading(true);
-                router.push(`/posts/${post.topicId}`);
               }
             }}
-            className={`h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
+            className={`relative z-20 block h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
           >
             <p className="font-bold text-vibe text-sm px-2">
               {currentTopic?.title}
             </p>
-          </div>
+          </Link>
         </div>
       )}
 
@@ -219,7 +209,7 @@ export default function PostStructure({ post }) {
                         e.stopPropagation();
                         setShowFull(true);
                       }}
-                      className="cursor-pointer text-base font-light text-normal opacity-60"
+                      className="relative z-20 cursor-pointer text-base font-light text-normal opacity-60"
                     >
                       see more
                     </span>
@@ -234,7 +224,7 @@ export default function PostStructure({ post }) {
                     e.stopPropagation();
                     setShowFull(false);
                   }}
-                  className="cursor-pointer text-base font-light text-normal opacity-60"
+                  className="relative z-20 cursor-pointer text-base font-light text-normal opacity-60"
                 >
                   see less
                 </span>
@@ -260,14 +250,14 @@ export default function PostStructure({ post }) {
             href={post.embed?.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-3 rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-normal transition hover:bg-blue-600 active:bg-blue-600"
+            className="relative z-20 ml-3 rounded-lg bg-blue-500 px-3 py-1.5 text-sm text-normal transition hover:bg-blue-600 active:bg-blue-600"
           >
             Open
           </a>
         </div>
       ) : post.embed?.id ? (
         <iframe
-          className="w-full h-full aspect-video"
+          className="relative z-20 w-full h-full aspect-video"
           src={`https://www.youtube.com/embed/${post.embed?.id}`}
           title="YouTube Video"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -277,7 +267,7 @@ export default function PostStructure({ post }) {
 
       {post.files && post.files.length > 0 ? (
         <div
-          className="relative w-full overflow-hidden"
+          className="relative z-20 w-full overflow-hidden"
           style={aspectRatio ? { aspectRatio: aspectRatio } : {}}
         >
           {post.files.length > 1 ? (
@@ -359,7 +349,7 @@ export default function PostStructure({ post }) {
               setShowSignInModal(true);
             }
           }}
-          className="flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer select-none"
+          className="relative z-20 flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer select-none"
         >
           <AiFillThunderbolt
             className={`text-2xl ${
@@ -380,7 +370,7 @@ export default function PostStructure({ post }) {
               setShowSignInModal(true);
             }
           }}
-          className="flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer  select-none"
+          className="relative z-20 flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer  select-none"
         >
           <MdOutlineSensors
             className={`text-2xl ${
@@ -391,12 +381,9 @@ export default function PostStructure({ post }) {
             {echoed ? echoed.length : 0} echoed
           </p>
         </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handlePostNavMain(post.postId, true);
-          }}
-          className="flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer select-none"
+        <Link
+          href={`/post/${post.postId}?focus=comment`}
+          className="relative z-20 flex flex-col items-center justify-center bg-(--color-panel) p-2  w-[33%] h-fit transition-all duration-200 hover:w-[45%] active:w-[45%] hover:bg-(--color-panel)/75 active:bg-(--color-panel)/75 cursor-pointer select-none"
         >
           <FaComment className="text-2xl transform -scale-x-100" />
           <p className="text-xs font-light text-vibe opacity-60">
@@ -409,8 +396,13 @@ export default function PostStructure({ post }) {
               : 0}{" "}
             commented
           </p>
-        </button>
+        </Link>
       </div>
+      <Link
+        href={`/post/${post.postId}`}
+        aria-label="View Post"
+        className="absolute inset-0 z-10"
+      />
     </div>
   );
 }

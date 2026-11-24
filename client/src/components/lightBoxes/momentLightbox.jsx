@@ -7,11 +7,9 @@ import { FaHeart } from "react-icons/fa6";
 import { useContext, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { SocketContext } from "@/context/socketContext";
-import { TitleNavContext } from "@/context/titleNavContext";
 import { FaTrash } from "react-icons/fa";
 import ConfirmMomentDeleteModal from "../modals/confirmMomentDeleteModal";
-import { useRouter } from "next/navigation";
-import { LoaderContext } from "@/context/loaderContext";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 
@@ -34,13 +32,10 @@ export default function MomentLightbox({
   title,
 }) {
   const { user, setShowSignInModal } = useContext(UserContext);
-  const { handleShowNav } = useContext(TitleNavContext);
   const { momentLoves } = useContext(SocketContext);
   const [showConfirmMomentDeleteModal, setShowConfirmMomentDeleteModal] =
     useState(false);
   const loved = momentLoves[moment?.momentId] ?? moment?.loved ?? [];
-  const { setIsLoading } = useContext(LoaderContext);
-  const router = useRouter();
 
   const handleLove = async () => {
     try {
@@ -82,29 +77,26 @@ export default function MomentLightbox({
           </div>
           <div className="absolute top-3 flex items-center justify-between w-full px-4">
             <div className="flex items-center gap-2 rounded-full bg-(--color-panel)/60 px-2 py-1.5">
-              <img
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsLoading(true);
-                  router.push(`/profile/${owner.uid}`);
-                }}
-                src={owner.picture || Avatar.src}
-                alt={owner.name}
-                loading="lazy"
-                decoding="async"
-                className="w-8 h-8 rounded-full object-cover cursor-pointer"
-              />
+              <Link
+                href={`/profile/${owner.uid}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img
+                  src={owner.picture || Avatar.src}
+                  alt={owner.name}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-8 h-8 rounded-full object-cover cursor-pointer"
+                />
+              </Link>
               <div className="pr-2">
-                <p
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsLoading(true);
-                    router.push(`/profile/${owner.uid}`);
-                  }}
-                  className="max-w-32 truncate text-sm font-bold leading-none cursor-pointer"
+                <Link
+                  href={`/profile/${owner.uid}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="block max-w-32 truncate text-sm font-bold leading-none cursor-pointer"
                 >
                   {owner.name}
-                </p>
+                </Link>
 
                 <p className="text-xs text-vibe">
                   {(() => {
@@ -147,8 +139,8 @@ export default function MomentLightbox({
               {moment.caption && (
                 <p className="mb-3 text-sm leading-relaxed">{moment.caption}</p>
               )}
-              <div
-                onClick={() => handleShowNav(title.titleId)}
+              <Link
+                href={`/hex/${title.titleId}`}
                 className="cursor-pointer flex items-center gap-2"
               >
                 <img
@@ -168,7 +160,7 @@ export default function MomentLightbox({
                   </p>
                   <p className="truncate text-sm font-bold">{title.title}</p>
                 </div>
-              </div>
+              </Link>
             </div>
 
             {user?.uid === owner.uid && (

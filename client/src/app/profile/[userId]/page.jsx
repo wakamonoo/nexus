@@ -9,7 +9,6 @@ import { useParams, useRouter } from "next/navigation";
 import { TitleContext } from "@/context/titleContext";
 import { GiTrophy } from "react-icons/gi";
 import { WatchContext } from "@/context/watchContext";
-import { TitleNavContext } from "@/context/titleNavContext";
 import ProfilePosts from "@/components/layout/profile/profilePosts";
 import ProfileReviews from "@/components/layout/profile/profileReviews";
 import EditProfileModal from "@/components/modals/editProfileModal";
@@ -57,7 +56,6 @@ export default function UserProfile() {
   } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
   const { getUserWatchedInfoFetch, isTitleWatched } = useContext(WatchContext);
-  const { handleShowNav } = useContext(TitleNavContext);
   const [showProfilePosts, setShowProfilePosts] = useState(true);
   const [showProfileReviews, setShowProfileReviews] = useState(false);
   const [showProfileEchoes, setShowProfileEchoes] = useState(false);
@@ -670,7 +668,6 @@ export default function UserProfile() {
                             key={rank.titleId}
                             unit={{ ...title, rank: rank.rank }}
                             isWatched={isTitleWatched(title.titleId)}
-                            onOpen={() => handleShowNav(title.titleId)}
                             goat={true}
                           />
                         );
@@ -751,7 +748,6 @@ export default function UserProfile() {
                             key={item.titleId}
                             unit={title}
                             isWatched={isTitleWatched(title.titleId)}
-                            onOpen={() => handleShowNav(title.titleId)}
                           />
                         );
                       })}

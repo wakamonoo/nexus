@@ -3,8 +3,7 @@ import { FaAngleLeft } from "react-icons/fa";
 import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/loaders/searchLoader";
 import Avatar from "@/assets/defaultAvatar.png";
-import { useRouter } from "next/navigation";
-import { LoaderContext } from "@/context/loaderContext";
+import Link from "next/link";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -22,9 +21,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
   const inputRef = useRef();
-  const router = useRouter();
 
   useEffect(() => {
     if (showSearch && inputRef.current) {
@@ -101,13 +98,10 @@ export default function UserSearch({ showSearch, setShowSearch }) {
             <Loader />
           ) : searchResults.length > 0 ? (
             searchResults?.map((profile) => (
-              <div
+              <Link
+                href={`profile/${profile.uid}`}
                 key={profile.uid}
-                onClick={() => {
-                  setIsLoading(true);
-                  router.push(`profile/${profile.uid}`);
-                }}
-                className="w-full rounded-full bg-second hover:bg-(--color-panel) border border-panel p-2"
+                className="block w-full rounded-full bg-second hover:bg-(--color-panel) border border-panel p-2"
               >
                 <div className="flex gap-2 items-center cursor-pointer">
                   <img
@@ -126,7 +120,7 @@ export default function UserSearch({ showSearch, setShowSearch }) {
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))
           ) : (
             searchInput.trim() !== "" && (

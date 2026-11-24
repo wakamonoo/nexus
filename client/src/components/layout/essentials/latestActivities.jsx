@@ -5,7 +5,7 @@ import { useContext } from "react";
 import Avatar from "@/assets/defaultAvatar.png";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import ActivitiesLoader from "@/components/loaders/activitiesLoader";
 import { LoaderContext } from "@/context/loaderContext";
 
@@ -15,7 +15,6 @@ export default function Activities() {
   const { activities } = useContext(SocketContext);
   const { allUsers, allUsersLoading } = useContext(UserContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const router = useRouter();
 
   return (
     <div className="mt-2 w-full">
@@ -35,18 +34,22 @@ export default function Activities() {
         <div className="flex flex-col gap-2">
           {activities.slice(0, 5).map((activity) => {
             const user = allUsers.find((u) => u.uid === activity?.userId);
+            const activityUrl =
+              activity?.type === "list"
+                ? `/hex/lists/${activity?.listId}`
+                : activity?.type === "watch"
+                  ? `/profile/${activity?.userId}/#library`
+                  : activity?.type === "review"
+                    ? `/profile/${activity?.userId}/#reviews`
+                    : null;
 
             return (
-              <div
-                onClick={() => {
-                  setIsLoading(true);
-
-                  if (activity?.type === "list") {
-                    router.push(`/hex/lists/${activity?.listId}`);
-                  } else if (activity?.type === "watch") {
-                    router.push(`/profile/${activity?.userId}/#library`);
-                  } else if (activity?.type === "review") {
-                    router.push(`/profile/${activity?.userId}/#reviews`);
+              <Link
+                href={activityUrl || "#"}
+                onClick={(e) => {
+                  if (!activityUrl) {
+                    e.preventDefault();
+                    setIsLoading(true);
                   }
                 }}
                 key={activity.activityId}
@@ -85,7 +88,7 @@ export default function Activities() {
                     })()}
                   </p>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

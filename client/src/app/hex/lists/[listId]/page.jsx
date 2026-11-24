@@ -9,7 +9,6 @@ import {
 } from "react-icons/fa";
 import { LoaderContext } from "@/context/loaderContext";
 import { useParams, useRouter } from "next/navigation";
-import { TitleNavContext } from "@/context/titleNavContext";
 import ShowListLoader from "@/components/loaders/showListLoader";
 import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
@@ -55,7 +54,6 @@ export default function List() {
   const { user, allUsers, setShowSignInModal } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
   const [showListOption, setShowListOption] = useState(false);
   const [showAddCommentModal, setShowAddCommentModal] = useState(false);
@@ -319,7 +317,6 @@ export default function List() {
                       key={unit.titleId}
                       unit={unit}
                       isWatched={isTitleWatched(unit.titleId)}
-                      onOpen={() => handleShowNav(unit.titleId)}
                       list={true}
                     />
                     <div>

@@ -4,7 +4,7 @@ import { UserContext } from "./userContext";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { TitleContext } from "./titleContext";
 
 export const SocketContext = createContext();
@@ -57,7 +57,6 @@ export const SocketProvider = ({ children }) => {
   const [pings, setPings] = useState([]);
   const [activities, setActivities] = useState(null);
   const [latestSeenMessages, setLatestSeenMessages] = useState({});
-  const router = useRouter();
 
   useEffect(() => {
     if (
@@ -192,28 +191,28 @@ export const SocketProvider = ({ children }) => {
 
       setPings((prev) => [...prev, pingData]);
 
+      const pingUrl =
+        pingData.type === "postComment" ||
+        pingData.type === "reply" ||
+        pingData.type === "energize" ||
+        pingData.type === "echo"
+          ? `/post/${pingData.postId}`
+          : pingData.type === "sigil"
+            ? `/profile/${pingData.userId}`
+            : pingData.type === "reviewUpvote"
+              ? `/hex/${pingData.titleId}`
+              : pingData.type === "listComment"
+                ? `/hex/lists/${pingData.listId}`
+                : pingData.type === "love"
+                  ? `/profile/${pingData.senderId}`
+                  : null;
+
       toast.custom(
         (t) => (
-          <div
-            onClick={() => {
-              {
-                if (
-                  pingData.type === "postComment" ||
-                  pingData.type === "reply" ||
-                  pingData.type === "energize" ||
-                  pingData.type === "echo"
-                ) {
-                  router.push(`/post/${pingData.postId}`);
-                } else if (pingData.type === "sigil") {
-                  router.push(`/profile/${pingData.userId}`);
-                } else if (pingData.type === "reviewUpvote") {
-                  router.push(`/hex/${pingData.titleId}`);
-                } else if (pingData.type === "listComment") {
-                  router.push(`/hex/lists/${pingData.listId}`);
-                } else if (pingData.type === "love") {
-                  router.push(`/profile/${pingData.senderId}`);
-                }
-              }
+          <Link
+            href={pingUrl || "#"}
+            onClick={(e) => {
+              if (!pingUrl) e.preventDefault();
               toast.dismiss(t.id);
             }}
             className={`${
@@ -239,7 +238,7 @@ export const SocketProvider = ({ children }) => {
                 {pingData.message}
               </p>
             </div>
-          </div>
+          </Link>
         ),
         { duration: 5000 },
       );

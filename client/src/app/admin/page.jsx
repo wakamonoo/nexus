@@ -2,11 +2,11 @@
 import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import RegularLinks from "@/components/links/regLinks";
 import CountUp from "react-countup";
 import { UserContext } from "@/context/userContext";
 import AdminGuard from "@/components/guard/adminGuard";
 import { LoaderContext } from "@/context/loaderContext";
-import RegularButtons from "@/components/buttons/regBtns";
 import Avatar from "@/assets/defaultAvatar.png";
 import ScrollContainer from "react-indiana-drag-scroll";
 import Swal from "sweetalert2";
@@ -204,25 +204,21 @@ export default function Page() {
             <div className="bg-second p-4 rounded-2xl border border-panel">
               <p className="font-bold text-lg">Quick Actions</p>
               <div className="flex flex-col gap-2">
-                <RegularButtons onClick={() => router.push("/admin/addTitle")}>
+                <RegularLinks href="/admin/addTitle">
                   <p className="font-bold text-normal text-base uppercase">
                     Add new title
                   </p>
-                </RegularButtons>
-                <RegularButtons
-                  onClick={() => router.push("/admin/editTitles")}
-                >
+                </RegularLinks>
+                <RegularLinks href="/admin/editTitles">
                   <p className="font-bold text-normal text-base uppercase">
                     Edit Titles
                   </p>
-                </RegularButtons>
-                <RegularButtons
-                  onClick={() => router.push("/admin/updateTitlesOrder")}
-                >
+                </RegularLinks>
+                <RegularLinks href="/admin/updateTitlesOrder">
                   <p className="font-bold text-normal text-base uppercase">
                     Update Order
                   </p>
-                </RegularButtons>
+                </RegularLinks>
               </div>
             </div>
           </div>

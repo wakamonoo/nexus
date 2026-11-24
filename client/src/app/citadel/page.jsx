@@ -5,7 +5,7 @@ import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaRegComments, FaReply, FaTrash, FaUserSlash } from "react-icons/fa";
 import ChatLoader from "@/components/loaders/chatLoder";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { LoaderContext } from "@/context/loaderContext";
 import ConfirmMessageDeleteModal from "@/components/modals/confirmMessageDeleteModal";
 import dayjs from "dayjs";
@@ -62,7 +62,6 @@ export default function Citadel() {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [activeMessage, setActiveMessage] = useState(null);
   const [replyingTo, setReplyingTo] = useState(null);
-  const router = useRouter();
   const [messageSize, setMessageSize] = useState(null);
   const inputRef = useRef(null);
   const replyRef = useRef({});
@@ -499,18 +498,18 @@ export default function Citadel() {
                             }`}
                           >
                             {!ownMessage && (
-                              <img
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setIsLoading(true);
-                                  router.push(`/profile/${msg.senderId}`);
-                                }}
-                                src={messageOwner?.picture || Avatar.src}
-                                alt="user"
-                                loading="lazy"
-                                decoding="async"
-                                className="cursor-pointer w-8 h-8 rounded-full"
-                              />
+                              <Link
+                                href={`/profile/${msg.senderId}`}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <img
+                                  src={messageOwner?.picture || Avatar.src}
+                                  alt="user"
+                                  loading="lazy"
+                                  decoding="async"
+                                  className="cursor-pointer w-8 h-8 rounded-full"
+                                />
+                              </Link>
                             )}
                             <div
                               className={`flex flex-col ${
@@ -751,17 +750,17 @@ export default function Citadel() {
                               className={`flex gap-0.5 mt-1 ${ownMessage ? "mr-2" : "ml-12"}`}
                             >
                               {visibleSeenUsers.slice(-8).map((viewer) => (
-                                <img
-                                  onClick={() => {
-                                    setIsLoading(true);
-                                    router.push(`/profile/${viewer.uid}`);
-                                  }}
+                                <Link
+                                  href={`/profile/${viewer.uid}`}
                                   key={viewer.uid}
-                                  src={viewer.picture || Avatar.src}
-                                  alt={viewer.name}
-                                  title={viewer.name}
-                                  className="w-4 h-4 rounded-full object-cover cursor-pointer"
-                                />
+                                >
+                                  <img
+                                    src={viewer.picture || Avatar.src}
+                                    alt={viewer.name}
+                                    title={viewer.name}
+                                    className="w-4 h-4 rounded-full object-cover cursor-pointer"
+                                  />
+                                </Link>
                               ))}
                               {visibleSeenUsers.length > 8 && (
                                 <span className="w-fit p-2 h-4 rounded-full bg-(--color-panel)/40 text-(--color-vibranium)/60 text-[8px] flex items-center justify-center">

@@ -23,7 +23,7 @@ export default function Sigil() {
             ever-evolving story.
           </p>
         </header>
-        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/[0.04] p-4">
+        <div className="mb-10 rounded-xl border border-accent/15 bg-accent/4 p-4">
           <p className="text-sm leading-7 opacity-60">
             Earn sigils through your activity, achievements, and your journey
             across Nexus.

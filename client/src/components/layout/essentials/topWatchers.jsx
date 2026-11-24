@@ -1,10 +1,9 @@
 "use client";
 import { UserContext } from "@/context/userContext";
-import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import Avatar from "@/assets/defaultAvatar.png";
 import CountUp from "react-countup";
-import { LoaderContext } from "@/context/loaderContext";
+import Link from "next/link";
 import { GiTrophy } from "react-icons/gi";
 import { FaArrowRight, FaMedal } from "react-icons/fa";
 import ScreenTimeLoader from "../../loaders/topWatchersLoader";
@@ -15,9 +14,7 @@ import SecondaryButtons from "@/components/buttons/secBtns";
 
 export default function ScreenTime() {
   const { user, allUsers, allUsersLoading } = useContext(UserContext);
-  const { setIsLoading } = useContext(LoaderContext);
   const [showTopWatchersModal, setShowTopWatchersModal] = useState(false);
-  const router = useRouter();
 
   const sortedUsers = [...allUsers].sort(
     (a, b) => (b.totalWatched || 0) - (a.totalWatched || 0),
@@ -97,13 +94,10 @@ export default function ScreenTime() {
             </div>
             <div className="space-y-3">
               {topWatchers?.map((watcher, index) => (
-                <button
+                <Link
+                  href={`/profile/${watcher.uid}`}
                   key={index}
-                  onClick={() => {
-                    setIsLoading(true);
-                    router.push(`/profile/${watcher.uid}`);
-                  }}
-                  className={`w-full cursor-pointer rounded-xl border ${watcher.uid === user?.uid ? "bg-accent" : "bg-panel"} border-(--color-secondary) p-3 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)`}
+                  className={`block w-full cursor-pointer rounded-xl border ${watcher.uid === user?.uid ? "bg-accent" : "bg-panel"} border-(--color-secondary) p-3 transition-all duration-200 active:bg-(--color-secondary) active:-translate-y-0.5 active:border-(--color-panel) hover:bg-(--color-secondary) hover:-translate-y-0.5 hover:border-(--color-panel)`}
                 >
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
@@ -135,7 +129,7 @@ export default function ScreenTime() {
                       <p className="text-xs text-vibe">total watched</p>
                     </div>
                   </div>
-                </button>
+                </Link>
               ))}
             </div>
             <div className="mt-4 ml-auto w-fit">

@@ -5,7 +5,6 @@ import { MenuProvider } from "@/context/menuContext";
 import { TitleProvider } from "@/context/titleContext";
 import { PostProvider } from "@/context/postContext";
 import { LoaderProvider } from "@/context/loaderContext";
-import { TitleNavProvider } from "@/context/titleNavContext";
 import { WatchProvider } from "@/context/watchContext";
 import { SigilProvider } from "@/context/sigilContext";
 import { SocketProvider } from "@/context/socketContext";
@@ -158,20 +157,18 @@ export default function RootLayout({ children }) {
                 <ScrollProvider>
                   <MenuProvider>
                     <PostProvider>
-                      <TitleNavProvider>
-                        <WatchProvider>
-                          <ListProvider>
-                            <MomentProvider>
-                              <FeedbackProvider>
-                                <SigilProvider>
-                                  {children}
-                                  <FeedbackPopUp />
-                                </SigilProvider>
-                              </FeedbackProvider>
-                            </MomentProvider>
-                          </ListProvider>
-                        </WatchProvider>
-                      </TitleNavProvider>
+                      <WatchProvider>
+                        <ListProvider>
+                          <MomentProvider>
+                            <FeedbackProvider>
+                              <SigilProvider>
+                                {children}
+                                <FeedbackPopUp />
+                              </SigilProvider>
+                            </FeedbackProvider>
+                          </MomentProvider>
+                        </ListProvider>
+                      </WatchProvider>
                     </PostProvider>
                   </MenuProvider>
                 </ScrollProvider>

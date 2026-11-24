@@ -6,8 +6,8 @@ import "react-indiana-drag-scroll/dist/style.css";
 import StarBackground from "./starBackground";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { TitleNavContext } from "@/context/titleNavContext";
 import { LoaderContext } from "@/context/loaderContext";
+import Link from "next/link";
 
 const getConnections = (connections) => {
   if (!connections) return [];
@@ -19,7 +19,7 @@ const getConnections = (connections) => {
     .filter(Boolean);
 };
 
-function BranchNode({ node, titles, handleShowNav }) {
+function BranchNode({ node, titles }) {
   const children = titles.filter((title) =>
     getConnections(title.connections).includes(node.title),
   );
@@ -28,8 +28,8 @@ function BranchNode({ node, titles, handleShowNav }) {
     <div className="relative flex flex-col items-center">
       <div className="flex flex-col items-center">
         <div className="h-6 w-1 bg-accent" />
-        <div
-          onClick={() => handleShowNav(node.titleId)}
+        <Link
+          href={`/hex/${node.titleId}`}
           className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer"
         >
           <img
@@ -43,7 +43,7 @@ function BranchNode({ node, titles, handleShowNav }) {
             decoding="async"
             className="w-full h-full object-cover rounded"
           />
-        </div>
+        </Link>
         <div className="flex flex-col items-center px-2 mt-1">
           <p className="text-sm font-bold text-center leading-3.5 line-clamp-2">
             {node.title}
@@ -79,7 +79,6 @@ function BranchNode({ node, titles, handleShowNav }) {
               <BranchNode
                 node={child}
                 titles={titles}
-                handleShowNav={handleShowNav}
               />
             </div>
           ))}
@@ -92,7 +91,6 @@ function BranchNode({ node, titles, handleShowNav }) {
 export default function Timeline() {
   const { titles } = useContext(TitleContext);
   const { setIsLoading } = useContext(LoaderContext);
-  const { handleShowNav } = useContext(TitleNavContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -168,8 +166,8 @@ export default function Timeline() {
                 <div className="flex items-center flex-col w-full">
                   <div className="flex items-start w-full">
                     <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
-                    <div
-                      onClick={() => handleShowNav(unit.titleId)}
+                    <Link
+                      href={`/hex/${unit.titleId}`}
                       className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                     >
                       <img
@@ -183,7 +181,7 @@ export default function Timeline() {
                         decoding="async"
                         className="w-full h-full object-cover rounded"
                       />
-                    </div>
+                    </Link>
                     <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                   </div>
                   <div className="flex flex-col items-center px-2 mt-1">
@@ -213,16 +211,15 @@ export default function Timeline() {
                 </div>
                 {Multiverse.map((unit) => {
                   return (
-                    <div
+                    <Link
+                      href={`/hex/${unit.titleId}`}
                       key={unit.titleId}
-                      onClick={() => handleShowNav(unit.titleId)}
                       className="relative flex flex-col items-center"
                     >
                       <div className="flex items-center flex-col w-full">
                         <div className="flex items-start w-full">
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                           <div
-                            onClick={() => handleShowNav(unit.titleId)}
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                           >
                             <img
@@ -248,7 +245,7 @@ export default function Timeline() {
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
@@ -264,16 +261,15 @@ export default function Timeline() {
                 </div>
                 {unknownUniverse.map((unit) => {
                   return (
-                    <div
+                    <Link
+                      href={`/hex/${unit.titleId}`}
                       key={unit.titleId}
-                      onClick={() => handleShowNav(unit.titleId)}
                       className="relative flex flex-col items-center"
                     >
                       <div className="flex items-center flex-col w-full">
                         <div className="flex items-start w-full">
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                           <div
-                            onClick={() => handleShowNav(unit.titleId)}
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                           >
                             <img
@@ -296,7 +292,7 @@ export default function Timeline() {
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
@@ -323,8 +319,8 @@ export default function Timeline() {
                       <div className="flex items-center flex-col w-full">
                         <div className="flex items-start w-full">
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
-                          <div
-                            onClick={() => handleShowNav(unit.titleId)}
+                          <Link
+                            href={`/hex/${unit.titleId}`}
                             className="flex flex-col items-center justify-center w-26 h-40 md:w-32 md:h-46 shrink-0 cursor-pointer mx-1"
                           >
                             <img
@@ -338,7 +334,7 @@ export default function Timeline() {
                               decoding="async"
                               className="w-full h-full object-cover rounded"
                             />
-                          </div>
+                          </Link>
                           <div className="min-w-6 h-1 flex-1 bg-hulk mt-8" />
                         </div>
                         <div className="flex flex-col items-center px-2 mt-1">
@@ -370,7 +366,6 @@ export default function Timeline() {
                               <BranchNode
                                 node={branch}
                                 titles={nonEarth616}
-                                handleShowNav={handleShowNav}
                               />
                             </div>
                           ))}

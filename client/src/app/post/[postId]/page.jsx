@@ -1,5 +1,6 @@
 "use client";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import { PostContext } from "@/context/postContext";
 import {
@@ -390,29 +391,26 @@ export default function Post() {
                     ) : null}
 
                     <div className="flex gap-3 px-4 py-2 items-center">
-                      <img
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsLoading(true);
-                          router.push(`/profile/${postOwner?.uid}`);
-                        }}
-                        src={postOwner?.picture || Avatar.src}
-                        alt={postOwner?.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="cursor-pointer w-12 h-12 object-cover rounded-full"
-                      />
+                      <Link
+                        href={`/profile/${postOwner?.uid}`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <img
+                          src={postOwner?.picture || Avatar.src}
+                          alt={postOwner?.name}
+                          loading="lazy"
+                          decoding="async"
+                          className="cursor-pointer w-12 h-12 object-cover rounded-full"
+                        />
+                      </Link>
                       <div className="flex flex-col">
-                        <p
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsLoading(true);
-                            router.push(`/profile/${postOwner?.uid}`);
-                          }}
+                        <Link
+                          href={`/profile/${postOwner?.uid}`}
+                          onClick={(e) => e.stopPropagation()}
                           className="cursor-pointer text-base mt-2 font-bold leading-3.5 truncate"
                         >
                           {postOwner?.name}
-                        </p>
+                        </Link>
                         <p className="text-xs text-vibe">
                           {(() => {
                             const diffWeeks = dayjs().diff(
@@ -433,18 +431,15 @@ export default function Post() {
                     </div>
                     {currentTopic && (
                       <div className="px-4">
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsLoading(true);
-                            router.push(`/posts/${post?.topicId}`);
-                          }}
-                          className={`h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
+                        <Link
+                          href={`/posts/${post?.topicId}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className={`block h-fit w-fit rounded-full bg-linear-to-r ${currentTopic?.category === "mcu" ? "from-(--color-accent)" : currentTopic?.category === "legacy" ? "from-(--color-hulk)" : "from-(--color-infinity)"} to-(--color-zeus)`}
                         >
                           <p className="font-bold text-vibe text-sm px-2">
                             {currentTopic?.title}
                           </p>
-                        </div>
+                        </Link>
                       </div>
                     )}
                     {post?.text && (
@@ -656,17 +651,15 @@ export default function Post() {
                     return (
                       <div key={index} className="flex flex-col">
                         <div className="flex gap-2 relative">
-                          <img
-                            onClick={() => {
-                              router.push(`/profile/${commentUser.uid}`);
-                              setIsLoading(true);
-                            }}
-                            src={commentUser?.picture || Avatar.src}
-                            alt={commentUser.name}
-                            loading="lazy"
-                            decoding="async"
-                            className="w-12 h-12 object-cover rounded-full cursor-pointer"
-                          />
+                          <Link href={`/profile/${commentUser.uid}`}>
+                            <img
+                              src={commentUser?.picture || Avatar.src}
+                              alt={commentUser.name}
+                              loading="lazy"
+                              decoding="async"
+                              className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                            />
+                          </Link>
                           {comment.date === firstComment.date ? (
                             <div className="flex absolute top-0 left-8">
                               <Bs1CircleFill className="text-xl text-zeus" />
@@ -676,17 +669,12 @@ export default function Post() {
                             <div className="bg-second w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                               <div className="flex justify-between items-start gap-4">
                                 <div className="flex flex-col">
-                                  <p
-                                    onClick={() => {
-                                      router.push(
-                                        `/profile/${commentUser.uid}`,
-                                      );
-                                      setIsLoading(true);
-                                    }}
+                                  <Link
+                                    href={`/profile/${commentUser.uid}`}
                                     className="text-base text-normal font-bold cursor-pointer"
                                   >
                                     {commentUser.name}
-                                  </p>
+                                  </Link>
                                   <p className="text-xs text-vibe">
                                     {dayjs(comment.date).fromNow()}
                                   </p>
@@ -827,32 +815,25 @@ export default function Post() {
                                   key={index}
                                   className="flex gap-2 relative"
                                 >
-                                  <img
-                                    onClick={() => {
-                                      router.push(`/profile/${replyUser.uid}`);
-                                      setIsLoading(true);
-                                    }}
-                                    src={replyUser.picture}
-                                    alt={replyUser.name}
-                                    loading="lazy"
-                                    decoding="async"
-                                    className="w-12 h-12 object-cover rounded-full cursor-pointer"
-                                  />
+                                  <Link href={`/profile/${replyUser.uid}`}>
+                                    <img
+                                      src={replyUser.picture}
+                                      alt={replyUser.name}
+                                      loading="lazy"
+                                      decoding="async"
+                                      className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                                    />
+                                  </Link>
                                   <div className="flex flex-col w-full">
                                     <div className="bg-panel w-fit max-w-full py-2 px-4 rounded-tr-2xl rounded-br-2xl rounded-bl-2xl">
                                       <div className="flex justify-between items-start gap-4">
                                         <div className="flex flex-col">
-                                          <p
-                                            onClick={() => {
-                                              router.push(
-                                                `/profile/${replyUser.uid}`,
-                                              );
-                                              setIsLoading(true);
-                                            }}
+                                          <Link
+                                            href={`/profile/${replyUser.uid}`}
                                             className="text-base text-normal font-bold cursor-pointer"
                                           >
                                             {replyUser.name}
-                                          </p>
+                                          </Link>
                                           <p className="text-xs text-vibe">
                                             {dayjs(reply.date).fromNow()}
                                           </p>

@@ -1,5 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
+import Link from "next/link";
 import { TitleContext } from "@/context/titleContext";
 import { useParams } from "next/navigation";
 import {
@@ -27,6 +28,7 @@ import { MdClose, MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleOptions from "@/components/options/titleOptions";
 import { GiTrophy } from "react-icons/gi";
 import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
+import SecondaryCircledLinks from "@/components/links/secCircledLinks";
 import ConfirmReviewDeleteModal from "@/components/modals/confirmReviewDeleteModal";
 import dayjs from "dayjs";
 import Avatar from "@/assets/defaultAvatar.png";
@@ -269,15 +271,12 @@ export default function Title() {
                       decoding="async"
                       className="w-full h-auto rounded"
                     />
-                    <div
-                      onClick={() => {
-                        setIsLoading(true);
-                        router.push("/trustAndLegality");
-                      }}
+                    <Link
+                      href="/trustAndLegality"
                       className="absolute top-2 right-2 cursor-pointer opacity-70"
                     >
                       <BsInfoCircle className="text-normal" />
-                    </div>
+                    </Link>
                     <div className="flex flex-col absolute top-2 left-2 gap-2 opacity-70">
                       <div className="flex items-center gap-1">
                         <GiTrophy className="text-xs" />
@@ -491,39 +490,67 @@ export default function Title() {
                   </p>
                 </SecondaryCircledButtons>
 
-                <SecondaryCircledButtons
-                  disabled={
-                    title?.category === "legacy" ||
-                    title?.category === "adjacent" ||
-                    title?.status === "upcoming"
-                  }
-                  onClick={() => {
-                    user
-                      ? (setIsLoading(true), router.push("/powerboard"))
-                      : setShowSignInModal(true);
-                  }}
-                  className={`${doneRank ? "bg-(--color-zeus)/60!" : ""}`}
-                >
-                  {doneRank ? (
-                    <FiCheckCircle className="text-xs" />
-                  ) : title?.category === "mcu" ? (
-                    <FaCrown className="text-xs" />
-                  ) : (
-                    <RiLockFill className="text-xs" />
-                  )}
+                {user &&
+                title?.category !== "legacy" &&
+                title?.category !== "adjacent" &&
+                title?.status !== "upcoming" ? (
+                  <SecondaryCircledLinks
+                    href="/powerboard"
+                    className={`${doneRank ? "bg-(--color-zeus)/60!" : ""}`}
+                  >
+                    {doneRank ? (
+                      <FiCheckCircle className="text-xs" />
+                    ) : title?.category === "mcu" ? (
+                      <FaCrown className="text-xs" />
+                    ) : (
+                      <RiLockFill className="text-xs" />
+                    )}
 
-                  <p className="font-bold text-normal text-xs">
-                    {title?.status === "upcoming"
-                      ? "Unavailable"
-                      : title?.category === "mcu"
-                        ? doneRank
-                          ? "Ranked"
-                          : "Rank It"
-                        : title?.category === "legacy"
-                          ? "Legacy Title"
-                          : "Adjacent Title"}
-                  </p>
-                </SecondaryCircledButtons>
+                    <p className="font-bold text-normal text-xs">
+                      {title?.status === "upcoming"
+                        ? "Unavailable"
+                        : title?.category === "mcu"
+                          ? doneRank
+                            ? "Ranked"
+                            : "Rank It"
+                          : title?.category === "legacy"
+                            ? "Legacy Title"
+                            : "Adjacent Title"}
+                    </p>
+                  </SecondaryCircledLinks>
+                ) : (
+                  <SecondaryCircledButtons
+                    disabled={
+                      title?.category === "legacy" ||
+                      title?.category === "adjacent" ||
+                      title?.status === "upcoming"
+                    }
+                    onClick={() => {
+                      if (!user) setShowSignInModal(true);
+                    }}
+                    className={`${doneRank ? "bg-(--color-zeus)/60!" : ""}`}
+                  >
+                    {doneRank ? (
+                      <FiCheckCircle className="text-xs" />
+                    ) : title?.category === "mcu" ? (
+                      <FaCrown className="text-xs" />
+                    ) : (
+                      <RiLockFill className="text-xs" />
+                    )}
+
+                    <p className="font-bold text-normal text-xs">
+                      {title?.status === "upcoming"
+                        ? "Unavailable"
+                        : title?.category === "mcu"
+                          ? doneRank
+                            ? "Ranked"
+                            : "Rank It"
+                          : title?.category === "legacy"
+                            ? "Legacy Title"
+                            : "Adjacent Title"}
+                    </p>
+                  </SecondaryCircledButtons>
+                )}
               </div>
 
               <div className="py-2 border-t border-panel mt-4">
@@ -564,12 +591,11 @@ export default function Title() {
                   {title.cast?.length > 0 ? (
                     <div className="flex gap-4 w-max">
                       {title.cast?.map((unit) => (
-                        <div
+                        <Link
+                          href={`/titles/${unit.tmdbId}`}
                           key={unit.tmdbId}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setIsLoading(true);
-                            router.push(`/titles/${unit.tmdbId}`);
                           }}
                           className="flex flex-col w-24 shrink-0 gap-2 cursor-pointer bg-second rounded"
                         >
@@ -590,7 +616,7 @@ export default function Title() {
                               {unit.character}
                             </p>
                           </div>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   ) : (
@@ -613,12 +639,11 @@ export default function Title() {
                   {sortedCrew?.length > 0 ? (
                     <div className="flex gap-4 w-max">
                       {sortedCrew.map((unit) => (
-                        <div
+                        <Link
+                          href={`/titles/${unit.tmdbId}`}
                           key={`${unit.tmdbId}-${unit.job}`}
                           onClick={(e) => {
                             e.stopPropagation();
-                            setIsLoading(true);
-                            router.push(`/titles/${unit.tmdbId}`);
                           }}
                           className="flex flex-col w-24 shrink-0 gap-2 cursor-pointer bg-second rounded"
                         >
@@ -641,7 +666,7 @@ export default function Title() {
                               {unit.job}
                             </p>
                           </div>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   ) : (
@@ -734,29 +759,26 @@ export default function Title() {
                           )}
 
                           <div className="flex items-center gap-2">
-                            <img
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsLoading(true);
-                                router.push(`/profile/${reviewOwner?.uid}`);
-                              }}
-                              src={reviewOwner?.picture}
-                              alt={reviewOwner?.name}
-                              loading="lazy"
-                              decoding="async"
-                              className="w-12 h-12 object-cover rounded-full cursor-pointer"
-                            />
+                            <Link
+                              href={`/profile/${reviewOwner?.uid}`}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <img
+                                src={reviewOwner?.picture}
+                                alt={reviewOwner?.name}
+                                loading="lazy"
+                                decoding="async"
+                                className="w-12 h-12 object-cover rounded-full cursor-pointer"
+                              />
+                            </Link>
                             <div className="flex flex-col">
-                              <p
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setIsLoading(true);
-                                  router.push(`/profile/${reviewOwner?.uid}`);
-                                }}
+                              <Link
+                                href={`/profile/${reviewOwner?.uid}`}
+                                onClick={(e) => e.stopPropagation()}
                                 className="cursor-pointer text-base mt-2 font-bold leading-none"
                               >
                                 {reviewOwner?.name}
-                              </p>
+                              </Link>
                               <p className="text-xs text-vibe">
                                 {(() => {
                                   const diffWeeks = dayjs().diff(

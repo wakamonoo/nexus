@@ -1,7 +1,6 @@
 "use client";
 import { LoaderContext } from "@/context/loaderContext";
 import { TitleContext } from "@/context/titleContext";
-import { TitleNavContext } from "@/context/titleNavContext";
 import { UserContext } from "@/context/userContext";
 import { WatchContext } from "@/context/watchContext";
 import { useContext, useEffect } from "react";
@@ -14,7 +13,6 @@ export default function MostWatchedTitlesStructureMax() {
   const { setIsLoading } = useContext(LoaderContext);
   const { popular } = useContext(TitleContext);
   const { isTitleWatched } = useContext(WatchContext);
-  const { handleShowNav } = useContext(TitleNavContext);
 
   let previousCount = null;
   let currentRank = 0;
@@ -39,7 +37,6 @@ export default function MostWatchedTitlesStructureMax() {
             key={unit.titleId}
             unit={unit}
             isWatched={isTitleWatched(unit.titleId)}
-            onOpen={() => handleShowNav(unit.titleId)}
             popular={true}
           />
         ))

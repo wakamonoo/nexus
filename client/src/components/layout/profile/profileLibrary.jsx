@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { MdSensorsOff } from "react-icons/md";
 import { UserContext } from "@/context/userContext";
 import { TitleContext } from "@/context/titleContext";
-import { TitleNavContext } from "@/context/titleNavContext";
 import TitleCard from "../title/titleCard";
 import { WatchContext } from "@/context/watchContext";
 import LibraryLoader from "@/components/loaders/libraryLoader";
@@ -10,7 +9,6 @@ import { FaClapperboard } from "react-icons/fa6";
 
 export default function ProfileLibrary({ profileUserWatch, profileUser }) {
   const { titles, titlesLoad, releasedMCUTitles } = useContext(TitleContext);
-  const { handleShowNav } = useContext(TitleNavContext);
   const { isTitleWatched } = useContext(WatchContext);
   const [sortBy, setSortBy] = useState("watch-recent");
   const { user, allUsersLoading } = useContext(UserContext);
@@ -152,7 +150,6 @@ export default function ProfileLibrary({ profileUserWatch, profileUser }) {
                   key={title.titleId}
                   unit={title}
                   isWatched={isTitleWatched(title.titleId)}
-                  onOpen={() => handleShowNav(title.titleId)}
                 />
               );
             })}

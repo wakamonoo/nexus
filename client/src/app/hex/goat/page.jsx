@@ -1,5 +1,6 @@
 "use client";
 import { useContext, useEffect } from "react";
+import Link from "next/link";
 import { TitleContext } from "@/context/titleContext";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -39,12 +40,12 @@ export default function Goat() {
       <div className="w-full flex justify-center p-8 opacity-70">
         <p className="text-xs text-vibe">
           Your fav not here?{" "}
-          <span
-            onClick={() => router.push("/powerboard")}
+          <Link
+            href="/powerboard"
             className="cursor-pointer underline"
           >
             Rank it
-          </span>
+          </Link>
         </p>
       </div>
     </div>

@@ -1,6 +1,7 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
 import { useRouter } from "next/navigation";
+import CircledLinks from "@/components/links/circledLinks";
 import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import ConfirmTitleDeleteModal from "@/components/modals/confirmTitleDeleteModal";
@@ -126,17 +127,13 @@ export default function EditTitleMain() {
                         <div className="w-full flex flex-col gap-2">
                           <h4 className="leading-3.5">{title.title}</h4>
                           <div className="flex flex-col gap-2 w-full">
-                            <CircledButtons
-                              onClick={() =>
-                                router.push(
-                                  `/admin/editTitles/${title.titleId}`,
-                                )
-                              }
+                            <CircledLinks
+                              href={`/admin/editTitles/${title.titleId}`}
                             >
                               <p className="font-bold text-normal text-base">
                                 Edit title
                               </p>
-                            </CircledButtons>
+                            </CircledLinks>
                             <CircledButtons
                               onClick={() => openDelModal(title.titleId)}
                               className="px-4 bg-accent rounded-2xl"
@@ -180,15 +177,13 @@ export default function EditTitleMain() {
                   <div className="w-full flex flex-col gap-2">
                     <h4 className="leading-3.5">{title.title}</h4>
                     <div className="flex flex-col gap-2 w-full">
-                      <CircledButtons
-                        onClick={() =>
-                          router.push(`/admin/editTitles/${title.titleId}`)
-                        }
+                      <CircledLinks
+                        href={`/admin/editTitles/${title.titleId}`}
                       >
                         <p className="font-bold text-normal text-base">
                           Edit title
                         </p>
-                      </CircledButtons>
+                      </CircledLinks>
                       <CircledButtons
                         onClick={() => openDelModal(title.titleId)}
                         className="px-4 bg-accent rounded-2xl"
