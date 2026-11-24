@@ -121,12 +121,12 @@ export default function RinaNews() {
               >
                 <div className="w-[30%] aspect-video overflow-hidden">
                   <img
-                    src={article.image}
-                    onError={(e) => (e.currentTarget.src = Fallback.src)}
-                    alt="article image"
-                    width={0}
-                    height={0}
-                    sizes="100vw"
+                    src={article?.image || Fallback.src}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = Fallback.src;
+                    }}
+                    alt="Article Image"
                     className="w-full h-full object-cover"
                   />
                 </div>
