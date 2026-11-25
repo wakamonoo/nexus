@@ -12,8 +12,8 @@ import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import Logo from "@/assets/main_logo.png";
 import PopUp from "@/assets/pop-up.png";
-import CircledButtons from "../buttons/circledBtns";
-import RegularButtons from "../buttons/regBtns";
+import CircledButton from "../buttons/circledButton";
+import RegularButton from "../buttons/regularButton";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -159,7 +159,7 @@ export default function SignInModal() {
             />
           </div>
           <div className="flex w-full">
-            <CircledButtons onClick={handleSignIn}>
+            <CircledButton onClick={handleSignIn}>
               {isLogged ? (
                 <div className="flex gap-2 items-center justify-center">
                   <p className="font-bold text-normal text-base">
@@ -175,7 +175,7 @@ export default function SignInModal() {
                   <FcGoogle className="text-2xl" />
                 </div>
               )}
-            </CircledButtons>
+            </CircledButton>
           </div>
           {!isLogged && (
             <div className="flex flex-col gap-1 items-center justify-center">

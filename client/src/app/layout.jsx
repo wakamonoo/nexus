@@ -13,6 +13,7 @@ import { ListProvider } from "@/context/listContext";
 import { MomentProvider } from "@/context/momentContext";
 import { FeedbackProvider } from "@/context/feedbackContext";
 import FeedbackPopUp from "@/components/layout/essentials/feedbackPopUp";
+import { Analytics } from "@vercel/analytics/next";
 
 // Fonts
 const bebasNeue = Bebas_Neue({
@@ -163,6 +164,7 @@ export default function RootLayout({ children }) {
                             <FeedbackProvider>
                               <SigilProvider>
                                 {children}
+                                <Analytics />
                                 <FeedbackPopUp />
                               </SigilProvider>
                             </FeedbackProvider>

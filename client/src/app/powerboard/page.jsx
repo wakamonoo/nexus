@@ -15,7 +15,7 @@ import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import { HiOutlineSearch } from "react-icons/hi";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularButton from "@/components/buttons/regularButton";
 import { WatchContext } from "@/context/watchContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -414,7 +414,7 @@ export default function Powerboard() {
       </DndContext>
 
       <div className="py-4 flex gap-2 justify-center items-center">
-        <RegularButtons
+        <RegularButton
           onClick={() => {
             setSlots({});
             setItems(
@@ -426,15 +426,15 @@ export default function Powerboard() {
         >
           <BiReset className="text-2xl" />
           <p className="text-base text-normal font-bold">Reset Rankings</p>
-        </RegularButtons>
-        <RegularButtons
+        </RegularButton>
+        <RegularButton
           onClick={() => {
             user ? handleSave() : setShowSignInModal(true);
           }}
         >
           <FaRegSave className="text-2xl" />
           <p className="text-base text-normal font-bold">Save Rankings</p>
-        </RegularButtons>
+        </RegularButton>
       </div>
     </div>
   );

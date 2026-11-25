@@ -11,11 +11,11 @@ import {
   MdSearchOff,
 } from "react-icons/md";
 import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
+import RegularButton from "../buttons/regularButton";
 import { LoaderContext } from "@/context/loaderContext";
 import { ListContext } from "@/context/listContext";
 import Avatar from "@/assets/defaultAvatar.png";
-import SecondaryButtons from "../buttons/secBtns";
+import SecondaryButton from "../buttons/secondaryButton";
 import { TitleContext } from "@/context/titleContext";
 import { IoRadioButtonOff, IoRadioButtonOn } from "react-icons/io5";
 import { MomentContext } from "@/context/momentContext";
@@ -605,12 +605,12 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
           )}
         </div>
         <div className="flex border-t border-panel p-4">
-          <RegularButtons
+          <RegularButton
             disabled={!selectedTitle || !capturedPhoto}
             onClick={() => submitMoment()}
           >
             <p className="font-bold text-normal text-base">Add</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

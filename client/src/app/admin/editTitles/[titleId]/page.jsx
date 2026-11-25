@@ -5,8 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import AdminGuard from "@/components/guard/adminGuard";
 import Swal from "sweetalert2";
 import { FaAngleLeft } from "react-icons/fa";
-import RegularButtons from "@/components/buttons/regBtns";
-import SecondaryButtons from "@/components/buttons/secBtns";
+import RegularButton from "@/components/buttons/regularButton";
+import SecondaryButton from "@/components/buttons/secondaryButton";
 import TMDBSearchModal from "@/components/modals/tmdbSearchModal";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -42,6 +42,10 @@ export default function EditTitle() {
   const { setIsLoading } = useContext(LoaderContext);
   const [showTMDBSearchModal, setShowTMDBSearchModal] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     const getTitle = async () => {
@@ -171,12 +175,12 @@ export default function EditTitle() {
               placeholder="Enter Title"
               className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
             />
-            <SecondaryButtons
+            <SecondaryButton
               type="button"
               onClick={() => setShowTMDBSearchModal(true)}
             >
               <p className="font-bold text-normal text-base">Locate in TMDB</p>
-            </SecondaryButtons>
+            </SecondaryButton>
             <input
               type="text"
               name="timeline"
@@ -264,9 +268,9 @@ export default function EditTitle() {
               placeholder="Connections"
               className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
             />
-            <RegularButtons type="submit">
+            <RegularButton type="submit">
               <p className="font-bold text-normal text-base">Update Title</p>
-            </RegularButtons>
+            </RegularButton>
           </form>
         </div>
         {showTMDBSearchModal && (

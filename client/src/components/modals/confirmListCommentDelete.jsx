@@ -1,11 +1,11 @@
 import { MdClose } from "react-icons/md";
 import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
+import RegularButton from "../buttons/regularButton";
 import { useContext, useEffect, useState } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import { ListContext } from "@/context/listContext";
 import { createPortal } from "react-dom";
-import SecondaryButtons from "../buttons/secBtns";
+import SecondaryButton from "../buttons/secondaryButton";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -125,14 +125,14 @@ export default function ConfirmListCommentDelete({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons onClick={handleCommentDelete}>
+          <SecondaryButton onClick={handleCommentDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons
+          </SecondaryButton>
+          <RegularButton
             onClick={() => setShowConfirmListCommentDelete(false)}
           >
             <p className="font-bold text-normal text-base">Cancel</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>,

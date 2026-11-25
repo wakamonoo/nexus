@@ -1,4 +1,4 @@
-export default function RegularButtons({
+export default function RegularButton({
   onClick,
   type = "button",
   children,

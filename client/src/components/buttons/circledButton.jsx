@@ -1,4 +1,4 @@
-export default function CircledButtons({
+export default function CircledButton({
   onClick,
   children,
   disabled = false,

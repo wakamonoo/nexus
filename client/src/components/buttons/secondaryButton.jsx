@@ -1,4 +1,4 @@
-export default function SecondaryButtons({
+export default function SecondaryButton({
   onClick,
   htmlFor,
   children,

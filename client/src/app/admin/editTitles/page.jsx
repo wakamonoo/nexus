@@ -1,14 +1,15 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
 import { useRouter } from "next/navigation";
-import CircledLinks from "@/components/links/circledLinks";
+import CircledLink from "@/components/links/circledLink";
 import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import ConfirmTitleDeleteModal from "@/components/modals/confirmTitleDeleteModal";
 import AdminGuard from "@/components/guard/adminGuard";
-import CircledButtons from "@/components/buttons/circledBtns";
+import CircledButton from "@/components/buttons/circledButton";
 import { MdSearchOff } from "react-icons/md";
 import Loader from "@/components/loaders/searchLoader";
+import { LoaderContext } from "@/context/loaderContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -24,17 +25,18 @@ if (APP_ENV === "production") {
 
 export default function EditTitleMain() {
   const { titles } = useContext(TitleContext);
-  const [showConfirmTitleDeleteModal, setShowConfirmTitleDeleteModal] = useState(false);
+  const { setIsLoading } = useContext(LoaderContext);
+  const [showConfirmTitleDeleteModal, setShowConfirmTitleDeleteModal] =
+    useState(false);
   const [selectedTitleId, setSelectedTitleId] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const openDelModal = (titleId) => {
-    setSelectedTitleId(titleId);
-    setShowConfirmTitleDeleteModal(true);
-  };
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const handleTitleSearch = async () => {
     if (!searchInput) return setSearchResults([]);
@@ -127,21 +129,21 @@ export default function EditTitleMain() {
                         <div className="w-full flex flex-col gap-2">
                           <h4 className="leading-3.5">{title.title}</h4>
                           <div className="flex flex-col gap-2 w-full">
-                            <CircledLinks
+                            <CircledLink
                               href={`/admin/editTitles/${title.titleId}`}
                             >
                               <p className="font-bold text-normal text-base">
                                 Edit title
                               </p>
-                            </CircledLinks>
-                            <CircledButtons
+                            </CircledLink>
+                            <CircledButton
                               onClick={() => openDelModal(title.titleId)}
                               className="px-4 bg-accent rounded-2xl"
                             >
                               <p className="font-bold text-normal text-base">
                                 Delete title
                               </p>
-                            </CircledButtons>
+                            </CircledButton>
                           </div>
                         </div>
                       </div>
@@ -177,21 +179,22 @@ export default function EditTitleMain() {
                   <div className="w-full flex flex-col gap-2">
                     <h4 className="leading-3.5">{title.title}</h4>
                     <div className="flex flex-col gap-2 w-full">
-                      <CircledLinks
-                        href={`/admin/editTitles/${title.titleId}`}
-                      >
+                      <CircledLink href={`/admin/editTitles/${title.titleId}`}>
                         <p className="font-bold text-normal text-base">
                           Edit title
                         </p>
-                      </CircledLinks>
-                      <CircledButtons
-                        onClick={() => openDelModal(title.titleId)}
+                      </CircledLink>
+                      <CircledButton
+                        onClick={() => {
+                          setSelectedTitleId(title.titleId);
+                          setShowConfirmTitleDeleteModal(true);
+                        }}
                         className="px-4 bg-accent rounded-2xl"
                       >
                         <p className="font-bold text-normal text-base">
                           Delete title
                         </p>
-                      </CircledButtons>
+                      </CircledButton>
                     </div>
                   </div>
                 </div>

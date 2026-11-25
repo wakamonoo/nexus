@@ -7,8 +7,8 @@ import Swal from "sweetalert2";
 import { GoogleAuthProvider, reauthenticateWithPopup } from "firebase/auth";
 import { auth } from "@/lib/firebase/config";
 import { useRouter } from "next/navigation";
-import SecondaryButtons from "../buttons/secBtns";
-import RegularButtons from "../buttons/regBtns";
+import SecondaryButton from "../buttons/secondaryButton";
+import RegularButton from "../buttons/regularButton";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -119,14 +119,14 @@ export default function ConfirmAccountDeleteModal({
           </span>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons onClick={handleAccountDelete}>
+          <SecondaryButton onClick={handleAccountDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons
+          </SecondaryButton>
+          <RegularButton
             onClick={() => setShowConfirmAccountDeleteModal(false)}
           >
             <p className="font-bold text-normal text-base">Cancel</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

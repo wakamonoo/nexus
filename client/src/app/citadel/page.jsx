@@ -15,9 +15,9 @@ import { RiFileGifFill, RiImageAiFill } from "react-icons/ri";
 import CitadelLightBox from "@/components/lightBoxes/citadelLightBox";
 import GifPickerModal from "@/components/modals/gifPickerModal";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import CircledButtons from "@/components/buttons/circledBtns";
+import CircledButton from "@/components/buttons/circledButton";
 import NavBar from "@/components/layout/essentials/navBar";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularButton from "@/components/buttons/regularButton";
 import Swal from "sweetalert2";
 import CitadelOptions from "@/components/options/citadelOptions";
 import { FaCopy } from "react-icons/fa6";
@@ -407,11 +407,11 @@ export default function Citadel() {
               </p>
 
               <div className="mt-2">
-                <CircledButtons onClick={() => setShowSignInModal(true)}>
+                <CircledButton onClick={() => setShowSignInModal(true)}>
                   <p className="text-base font-bold text-normal">
                     Continue to login
                   </p>
-                </CircledButtons>
+                </CircledButton>
               </div>
             </div>
           </div>

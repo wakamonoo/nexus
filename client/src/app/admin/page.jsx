@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import RegularLinks from "@/components/links/regLinks";
+import RegularLink from "@/components/links/regularLink";
 import CountUp from "react-countup";
 import { UserContext } from "@/context/userContext";
 import AdminGuard from "@/components/guard/adminGuard";
@@ -10,7 +10,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import Avatar from "@/assets/defaultAvatar.png";
 import ScrollContainer from "react-indiana-drag-scroll";
 import Swal from "sweetalert2";
-import SecondaryButtons from "@/components/buttons/secBtns";
+import SecondaryButton from "@/components/buttons/secondaryButton";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -204,21 +204,21 @@ export default function Page() {
             <div className="bg-second p-4 rounded-2xl border border-panel">
               <p className="font-bold text-lg">Quick Actions</p>
               <div className="flex flex-col gap-2">
-                <RegularLinks href="/admin/addTitle">
+                <RegularLink href="/admin/addTitle">
                   <p className="font-bold text-normal text-base uppercase">
                     Add new title
                   </p>
-                </RegularLinks>
-                <RegularLinks href="/admin/editTitles">
+                </RegularLink>
+                <RegularLink href="/admin/editTitles">
                   <p className="font-bold text-normal text-base uppercase">
                     Edit Titles
                   </p>
-                </RegularLinks>
-                <RegularLinks href="/admin/updateTitlesOrder">
+                </RegularLink>
+                <RegularLink href="/admin/updateTitlesOrder">
                   <p className="font-bold text-normal text-base uppercase">
                     Update Order
                   </p>
-                </RegularLinks>
+                </RegularLink>
               </div>
             </div>
           </div>
@@ -227,11 +227,11 @@ export default function Page() {
           <div className="flex w-full items-center justify-between mb-2">
             <p className="font-bold text-lg w-full">Registered Users</p>
             <div className="w-fit">
-              <SecondaryButtons onClick={handleSyncUsers}>
+              <SecondaryButton onClick={handleSyncUsers}>
                 <p className="font-bold text-normal text-base uppercase whitespace-nowrap">
                   Sync users
                 </p>
-              </SecondaryButtons>
+              </SecondaryButton>
             </div>
           </div>
           <ScrollContainer

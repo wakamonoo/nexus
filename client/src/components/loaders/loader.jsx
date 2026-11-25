@@ -1,17 +1,19 @@
 "use client";
 import { LoaderContext } from "@/context/loaderContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 export default function Loader() {
   const { isLoading } = useContext(LoaderContext);
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(false);
+  const loadingStarted = useRef(false);
 
   useEffect(() => {
     let interval;
     let timeout;
 
     if (isLoading) {
+      loadingStarted.current = true;
       setVisible(true);
       setProgress(0);
 
@@ -21,7 +23,8 @@ export default function Loader() {
           return prev + (90 - prev) * 0.08;
         });
       }, 150);
-    } else if (visible) {
+    } else if (loadingStarted.current) {
+      loadingStarted.current = false;
       setProgress(100);
 
       timeout = setTimeout(() => {

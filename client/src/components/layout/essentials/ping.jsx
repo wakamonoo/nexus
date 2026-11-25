@@ -10,7 +10,7 @@ import { PiBellSimpleSlash } from "react-icons/pi";
 import { SocketContext } from "@/context/socketContext";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import PingOptions from "../../options/pingOptions";
-import RegularButtons from "../../buttons/regBtns";
+import RegularButton from "../../buttons/regularButton";
 import Swal from "sweetalert2";
 import Fallback from "@/assets/fallback.png";
 import ConfirmPingsDeleteModal from "@/components/modals/confirmPingsDeleteModal";
@@ -148,16 +148,16 @@ export default function Ping({ setShowPing }) {
             <h4 className="text-xl text-center">Pings</h4>
             {pings.length > 0 && (
               <div className="p-2">
-                <RegularButtons
+                <RegularButton
                   onClick={() => setShowConfirmpPingsDeleteModal(true)}
                 >
                   <p className="font-bold text-normal text-base">Delete all</p>
-                </RegularButtons>
-                <RegularButtons onClick={() => handleReadAllPing(user.uid)}>
+                </RegularButton>
+                <RegularButton onClick={() => handleReadAllPing(user.uid)}>
                   <p className="font-bold text-normal text-base">
                     Mark all as read
                   </p>
-                </RegularButtons>
+                </RegularButton>
               </div>
             )}
             {pings.length === 0 ? (

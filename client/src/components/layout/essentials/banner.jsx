@@ -4,7 +4,7 @@ import { UserContext } from "@/context/userContext";
 import ButtonLoader from "../../loaders/buttonLoader";
 import AddPostModal from "../../modals/addPostModal";
 import UserSearch from "./userSearch";
-import CircledButtons from "../../buttons/circledBtns";
+import CircledButton from "../../buttons/circledButton";
 
 export default function Banner() {
   const { user, loading, setShowSignInModal } = useContext(UserContext);
@@ -48,15 +48,15 @@ export default function Banner() {
             </div>
 
             {!user ? (
-              <CircledButtons onClick={() => setShowSignInModal(true)}>
+              <CircledButton onClick={() => setShowSignInModal(true)}>
                 <p className="font-bold text-normal text-base">Sign Up</p>
-              </CircledButtons>
+              </CircledButton>
             ) : loading ? (
               <ButtonLoader />
             ) : (
-              <CircledButtons onClick={() => setShowAddPostModal(true)}>
+              <CircledButton onClick={() => setShowAddPostModal(true)}>
                 <p className="font-bold text-normal text-base">Assemble</p>
-              </CircledButtons>
+              </CircledButton>
             )}
           </div>
         </div>

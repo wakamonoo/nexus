@@ -1,5 +1,5 @@
 "use client";
-import SecondaryButtons from "@/components/buttons/secBtns";
+import SecondaryButton from "@/components/buttons/secondaryButton";
 import ListsLoader from "@/components/loaders/listsLoader";
 import AddListModal from "@/components/modals/addListModal";
 import { ListContext } from "@/context/listContext";
@@ -46,7 +46,7 @@ export default function Lists() {
           </p>
 
           <div className="w-fit mt-2">
-            <SecondaryButtons
+            <SecondaryButton
               onClick={() => {
                 user ? setShowAddListModal(true) : setShowSignInModal(true);
               }}
@@ -54,7 +54,7 @@ export default function Lists() {
               <p className="font-bold text-normal text-base">
                 Curate Your List
               </p>
-            </SecondaryButtons>
+            </SecondaryButton>
           </div>
         </div>
 

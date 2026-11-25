@@ -1,5 +1,5 @@
 "use client";
-import RegularLinks from "@/components/links/regLinks";
+import RegularLink from "@/components/links/regularLink";
 import { FeedbackContext } from "@/context/feedbackContext";
 import { UserContext } from "@/context/userContext";
 import { useContext, useEffect, useState } from "react";
@@ -55,12 +55,12 @@ export default function FeedbackPopUp() {
           <p className="text-sm leading-relaxed text-muted">
             You've been exploring Nexus. We'd love to hear what you think.
           </p>
-          <RegularLinks
+          <RegularLink
             href="/communityFeedback"
             onClick={() => setIsOpen(false)}
           >
             <p className="font-bold text-normal text-base">Share Feedback</p>
-          </RegularLinks>
+          </RegularLink>
         </div>
       </div>
     </div>

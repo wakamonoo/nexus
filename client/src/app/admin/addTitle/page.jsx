@@ -1,13 +1,13 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
 import AdminGuard from "@/components/guard/adminGuard";
 import Swal from "sweetalert2";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularButton from "@/components/buttons/regularButton";
 import TMDBSearchModal from "@/components/modals/tmdbSearchModal";
-import SecondaryButtons from "@/components/buttons/secBtns";
+import SecondaryButton from "@/components/buttons/secondaryButton";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -39,8 +39,11 @@ export default function AddTitle() {
   });
   const { setIsLoading } = useContext(LoaderContext);
   const router = useRouter();
-
   const [showTMDBSearchModal, setShowTMDBSearchModal] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -149,12 +152,12 @@ export default function AddTitle() {
               placeholder="Enter Title"
               className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
             />
-            <SecondaryButtons
+            <SecondaryButton
               type="button"
               onClick={() => setShowTMDBSearchModal(true)}
             >
               <p className="font-bold text-normal text-base">Locate in TMDB</p>
-            </SecondaryButtons>
+            </SecondaryButton>
             <input
               type="text"
               name="timeline"
@@ -242,9 +245,9 @@ export default function AddTitle() {
               placeholder="Connections"
               className="bg-panel text-base text-normal font-normal p-4 rounded w-full"
             />
-            <RegularButtons type="submit">
+            <RegularButton type="submit">
               <p className="font-bold text-normal text-base">Submit</p>
-            </RegularButtons>
+            </RegularButton>
           </form>
         </div>
         {showTMDBSearchModal && (

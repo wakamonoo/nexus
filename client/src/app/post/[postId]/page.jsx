@@ -39,8 +39,8 @@ import CommentLightBox from "@/components/lightBoxes/commentLightBox";
 import GifPickerModal from "@/components/modals/gifPickerModal";
 import AutoPlay from "@/components/layout/post/autoPlay";
 import { TitleContext } from "@/context/titleContext";
-import CircledButtons from "@/components/buttons/circledBtns";
-import RegularButtons from "@/components/buttons/regBtns";
+import CircledButton from "@/components/buttons/circledButton";
+import RegularButton from "@/components/buttons/regularButton";
 import { SocketContext } from "@/context/socketContext";
 
 dayjs.extend(relativeTime);
@@ -783,7 +783,7 @@ export default function Post() {
                               <div className="px-4 pb-4">
                                 <div className="flex flex-col md:flex-row md:gap-2">
                                   {commentUser.uid === user?.uid && (
-                                    <RegularButtons
+                                    <RegularButton
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         setSelectedCommentOption(null);
@@ -794,9 +794,9 @@ export default function Post() {
                                       <p className="font-bold text-normal text-base">
                                         Delete Comment
                                       </p>
-                                    </RegularButtons>
+                                    </RegularButton>
                                   )}
-                                  <RegularButtons
+                                  <RegularButton
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       setSelectedCommentOption(null);
@@ -810,7 +810,7 @@ export default function Post() {
                                     <p className="font-bold text-normal text-base">
                                       Reply
                                     </p>
-                                  </RegularButtons>
+                                  </RegularButton>
                                 </div>
                               </div>
                             </div>
@@ -951,7 +951,7 @@ export default function Post() {
                                         <div className="px-4 pb-4">
                                           <div className="flex flex-col md:flex-row md:gap-2">
                                             {replyUser.uid === user?.uid && (
-                                              <RegularButtons
+                                              <RegularButton
                                                 onClick={(e) => {
                                                   e.stopPropagation();
                                                   setSelectedCommentOption(
@@ -968,9 +968,9 @@ export default function Post() {
                                                 <p className="font-bold text-normal text-base">
                                                   Delete Reply
                                                 </p>
-                                              </RegularButtons>
+                                              </RegularButton>
                                             )}
-                                            <RegularButtons
+                                            <RegularButton
                                               onClick={(e) => {
                                                 e.stopPropagation();
                                                 setSelectedCommentOption(null);
@@ -990,7 +990,7 @@ export default function Post() {
                                               <p className="font-bold text-normal text-base">
                                                 Reply
                                               </p>
-                                            </RegularButtons>
+                                            </RegularButton>
                                           </div>
                                         </div>
                                       </div>

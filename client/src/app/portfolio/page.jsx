@@ -1,6 +1,6 @@
 "use client";
-import RegularButtons from "@/components/buttons/regBtns";
-import SecondaryButtons from "@/components/buttons/secBtns";
+import RegularButton from "@/components/buttons/regularButton";
+import SecondaryButton from "@/components/buttons/secondaryButton";
 import Loader from "@/components/loaders/loader";
 import ExportCard from "@/components/layout/portfolio/exportCard";
 import { LoaderContext } from "@/context/loaderContext";
@@ -112,23 +112,23 @@ export default function Portfolio() {
               Viewing Order
             </p>
             <div className="grid grid-flow-col auto-cols-fr w-full gap-2">
-              <SecondaryButtons
+              <SecondaryButton
                 onClick={() => {
                   setOrder(chrono);
                   setOrderType("Chronological");
                 }}
               >
                 <p className="font-heading text-normal text-base">Chrono</p>
-              </SecondaryButtons>
-              <SecondaryButtons
+              </SecondaryButton>
+              <SecondaryButton
                 onClick={() => {
                   setOrder(release);
                   setOrderType("Release");
                 }}
               >
                 <p className="font-heading text-normal text-base">Release</p>
-              </SecondaryButtons>
-              <SecondaryButtons
+              </SecondaryButton>
+              <SecondaryButton
                 onClick={() => {
                   setOrder(
                     titles
@@ -151,7 +151,7 @@ export default function Portfolio() {
                 }}
               >
                 <p className="font-heading text-normal text-base">Continuum</p>
-              </SecondaryButtons>
+              </SecondaryButton>
             </div>
           </div>
           <div className="flex-1 border-t-2 border-panel" />
@@ -172,9 +172,9 @@ export default function Portfolio() {
           {exporting ? (
             <Loader />
           ) : (
-            <RegularButtons onClick={exportImage} disabled={exporting}>
+            <RegularButton onClick={exportImage} disabled={exporting}>
               <p className="font-heading text-normal text-base">Export Image</p>
-            </RegularButtons>
+            </RegularButton>
           )}
         </aside>
         <section className="min-w-0">

@@ -5,7 +5,7 @@ import { FaFlag, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
-import SecondaryButtons from "../buttons/secBtns";
+import SecondaryButton from "../buttons/secondaryButton";
 import { RiImageAiFill } from "react-icons/ri";
 import Avatar from "@/assets/defaultAvatar.png";
 import { LuCodeXml } from "react-icons/lu";
@@ -321,10 +321,10 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
               )}
 
               <div className="flex flex-col md:flex-row md:gap-2">
-                <SecondaryButtons htmlFor="fileUploadPost">
+                <SecondaryButton htmlFor="fileUploadPost">
                   <RiImageAiFill className="text-2xl" />
                   <p className="font-bold text-normal text-base">Add Media</p>
-                </SecondaryButtons>
+                </SecondaryButton>
                 <input
                   id="fileUploadPost"
                   name="file"
@@ -337,14 +337,14 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
                   multiple
                   className="hidden"
                 />
-                <SecondaryButtons
+                <SecondaryButton
                   onClick={() => setShowTopics((prev) => !prev)}
                 >
                   <FaFlag className="text-2xl" />
                   <p className="font-bold text-normal text-base">
                     Choose Topic
                   </p>
-                </SecondaryButtons>
+                </SecondaryButton>
               </div>
 
               <div className="py-2">

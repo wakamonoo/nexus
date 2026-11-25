@@ -14,7 +14,7 @@ import { WatchContext } from "@/context/watchContext";
 import { UserContext } from "@/context/userContext";
 import TitleCard from "@/components/layout/title/titleCard";
 import ListLoader from "@/components/loaders/listLoader";
-import SecondaryButtons from "@/components/buttons/secBtns";
+import SecondaryButton from "@/components/buttons/secondaryButton";
 import ListDelConfirm from "@/components/modals/confirmListDeleteModal";
 import EditListModal from "@/components/modals/editListModal";
 import ConfirmListDeleteModal from "@/components/modals/confirmListDeleteModal";

@@ -3,7 +3,7 @@ import { UserContext } from "@/context/userContext";
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
+import RegularButton from "../buttons/regularButton";
 import { LoaderContext } from "@/context/loaderContext";
 import { ListContext } from "@/context/listContext";
 import Avatar from "@/assets/defaultAvatar.png";
@@ -147,9 +147,9 @@ export default function AddCommentModal({
           </div>
         </div>
         <div className="flex border-t border-panel p-4">
-          <RegularButtons onClick={() => handleSendComment()}>
+          <RegularButton onClick={() => handleSendComment()}>
             <p className="font-bold text-normal text-base">Add</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

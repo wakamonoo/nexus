@@ -11,9 +11,9 @@ import ConfirmReviewDeleteModal from "../../modals/confirmReviewDeleteModal";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { BiDotsHorizontal, BiDotsHorizontalRounded } from "react-icons/bi";
-import CircledButtons from "../../buttons/circledBtns";
+import CircledButton from "../../buttons/circledButton";
 import { SocketContext } from "@/context/socketContext";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularButton from "@/components/buttons/regularButton";
 import ReviewsLoader from "@/components/loaders/reviewsLoader";
 import ReviewOptions from "@/components/options/reviewOptions";
 

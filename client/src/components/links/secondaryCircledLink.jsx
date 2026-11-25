@@ -3,21 +3,23 @@ import { useContext } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import { usePathname } from "next/navigation";
 
-export default function RegularLinks({
+export default function SecondaryCircledLink({
   href,
   onClick,
   children,
   disabled = false,
   className = "",
-  ...props
 }) {
   const { setIsLoading } = useContext(LoaderContext);
   const pathname = usePathname();
+
   const isInternalLink =
     typeof href === "string" && href.startsWith("/") && !href.startsWith("//");
+
   const targetPath = isInternalLink
     ? href.split(/[?#]/)[0].replace(/\/$/, "")
     : null;
+    
   const currentPath = pathname.replace(/\/$/, "");
 
   return (
@@ -38,12 +40,11 @@ export default function RegularLinks({
         }
       }}
       aria-disabled={disabled}
-      className={`mt-2 w-full py-2 px-4 rounded flex justify-center items-center gap-1 ${
+      className={`w-fit py-2 px-4 rounded-full flex justify-center items-center gap-1 ${
         disabled
-          ? "cursor-not-allowed bg-(--color-accent)/60"
-          : "hover:bg-(--color-accent)/80 cursor-pointer bg-accent"
+          ? "bg-second cursor-not-allowed bg-(--color-panel)/60"
+          : "bg-panel hover:bg-(--color-panel)/80 cursor-pointer"
       } ${className}`}
-      {...props}
     >
       {children}
     </Link>

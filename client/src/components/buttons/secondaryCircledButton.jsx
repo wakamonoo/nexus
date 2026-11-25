@@ -1,4 +1,4 @@
-export default function SecondaryCircledButtons({
+export default function SecondaryCircledButton({
   onClick,
   children,
   disabled = false,

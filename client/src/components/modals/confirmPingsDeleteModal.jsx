@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { MdClose } from "react-icons/md";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
-import SecondaryButtons from "../buttons/secBtns";
+import RegularButton from "../buttons/regularButton";
+import SecondaryButton from "../buttons/secondaryButton";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -103,14 +103,14 @@ export default function ConfirmPingsDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons onClick={handleDeleteAll}>
+          <SecondaryButton onClick={handleDeleteAll}>
             <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons
+          </SecondaryButton>
+          <RegularButton
             onClick={() => setShowConfirmpPingsDeleteModal(false)}
           >
             <p className="font-bold text-normal text-base">Cancel</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

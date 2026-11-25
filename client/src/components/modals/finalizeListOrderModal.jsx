@@ -4,7 +4,7 @@ import { MdClose } from "react-icons/md";
 import { TitleContext } from "@/context/titleContext";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
+import RegularButton from "../buttons/regularButton";
 import { ListContext } from "@/context/listContext";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
@@ -284,7 +284,7 @@ export default function FinalizeListOrderModal({
           </div>
 
           <div className="flex border-t border-panel p-4">
-            <RegularButtons
+            <RegularButton
               onClick={() => {
                 if (mode === "add") {
                   handleSubmitList();
@@ -297,7 +297,7 @@ export default function FinalizeListOrderModal({
               <p className="font-bold text-normal text-base">
                 {mode === "add" ? "Submit List" : "Update List"}
               </p>
-            </RegularButtons>
+            </RegularButton>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import NavBar from "@/components/layout/essentials/navBar";
 import { UserContext } from "@/context/userContext";
 import Avatar from "@/assets/defaultAvatar.png";
 import { useContext, useEffect, useMemo, useState } from "react";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularButton from "@/components/buttons/regularButton";
 import { BiSolidStar } from "react-icons/bi";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
@@ -327,11 +327,11 @@ export default function CommunityFeedback() {
           </div>
           {!user ? (
             <div className="w-fit">
-              <RegularButtons onClick={() => setShowSignInModal(true)}>
+              <RegularButton onClick={() => setShowSignInModal(true)}>
                 <p className="font-bold text-normal text-base uppercase">
                   Sign in to submit feedback
                 </p>
-              </RegularButtons>
+              </RegularButton>
             </div>
           ) : hasFeedback ? (
             <div className="rounded-xl border border-panel bg-second p-4">
@@ -421,14 +421,14 @@ export default function CommunityFeedback() {
                   as part of Nexus portfolio showcase.
                 </p>
               </label>
-              <RegularButtons
+              <RegularButton
                 type="submit"
                 disabled={!consent || !rating || !reviewText.trim()}
               >
                 <p className="font-bold text-normal text-base uppercase">
                   Submit Feedback
                 </p>
-              </RegularButtons>
+              </RegularButton>
             </form>
           )}
         </section>

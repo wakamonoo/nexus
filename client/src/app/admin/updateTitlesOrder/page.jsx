@@ -31,6 +31,10 @@ export default function UpdateOrder() {
   const router = useRouter();
 
   useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
     if (chrono && chrono.length > 0) {
       setItems(chrono);
     }
@@ -83,8 +87,7 @@ export default function UpdateOrder() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } catch (err) {
@@ -101,8 +104,7 @@ export default function UpdateOrder() {
         customClass: {
           popup:
             "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-          title:
-            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
     } finally {

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { TitleContext } from "@/context/titleContext";
@@ -27,8 +27,8 @@ import { UserContext } from "@/context/userContext";
 import { MdClose, MdOutlineReviews, MdRateReview } from "react-icons/md";
 import TitleOptions from "@/components/options/titleOptions";
 import { GiTrophy } from "react-icons/gi";
-import SecondaryCircledButtons from "@/components/buttons/secCircledBtns";
-import SecondaryCircledLinks from "@/components/links/secCircledLinks";
+import SecondaryCircledButton from "@/components/buttons/secondaryCircledButton";
+import SecondaryCircledLink from "@/components/links/secondaryCircledLink";
 import ConfirmReviewDeleteModal from "@/components/modals/confirmReviewDeleteModal";
 import dayjs from "dayjs";
 import Avatar from "@/assets/defaultAvatar.png";
@@ -44,7 +44,7 @@ import {
 } from "react-icons/bi";
 import Swal from "sweetalert2";
 import { SocketContext } from "@/context/socketContext";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularButton from "@/components/buttons/regularButton";
 import TitleInfoLoader from "@/components/loaders/titleInfoLoader";
 import TitleReviewsLoader from "@/components/loaders/titleReviewsLoader";
 import ReviewOptions from "@/components/options/reviewOptions";
@@ -449,25 +449,25 @@ export default function Title() {
                         : `https://www.youtube.com/watch?v=${title.trailer}`
                     }
                   >
-                    <SecondaryCircledButtons>
+                    <SecondaryCircledButton>
                       <FaPlay className="text-xs" />
 
                       <span className="font-bold text-normal text-xs">
                         Watch Trailer
                       </span>
-                    </SecondaryCircledButtons>
+                    </SecondaryCircledButton>
                   </a>
                 ) : (
-                  <SecondaryCircledButtons disabled>
+                  <SecondaryCircledButton disabled>
                     <FaVideoSlash className="text-xs" />
 
                     <span className="font-bold text-normal text-xs">
                       Unavailable
                     </span>
-                  </SecondaryCircledButtons>
+                  </SecondaryCircledButton>
                 )}
 
-                <SecondaryCircledButtons
+                <SecondaryCircledButton
                   onClick={() => {
                     user
                       ? setShowAddReviewModal(true)
@@ -489,13 +489,13 @@ export default function Title() {
                         ? "Reviewed"
                         : "Add Review"}
                   </p>
-                </SecondaryCircledButtons>
+                </SecondaryCircledButton>
 
                 {user &&
                 title?.category !== "legacy" &&
                 title?.category !== "adjacent" &&
                 title?.status !== "upcoming" ? (
-                  <SecondaryCircledLinks
+                  <SecondaryCircledLink
                     href="/powerboard"
                     className={`${doneRank ? "bg-(--color-zeus)/60!" : ""}`}
                   >
@@ -518,9 +518,9 @@ export default function Title() {
                             ? "Legacy Title"
                             : "Adjacent Title"}
                     </p>
-                  </SecondaryCircledLinks>
+                  </SecondaryCircledLink>
                 ) : (
-                  <SecondaryCircledButtons
+                  <SecondaryCircledButton
                     disabled={
                       title?.category === "legacy" ||
                       title?.category === "adjacent" ||
@@ -550,7 +550,7 @@ export default function Title() {
                             ? "Legacy Title"
                             : "Adjacent Title"}
                     </p>
-                  </SecondaryCircledButtons>
+                  </SecondaryCircledButton>
                 )}
               </div>
 

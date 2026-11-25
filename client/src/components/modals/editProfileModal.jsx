@@ -5,9 +5,9 @@ import { LuImageUp } from "react-icons/lu";
 import Avatar from "@/assets/defaultAvatar.png";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
-import RegularButtons from "../buttons/regBtns";
+import RegularButton from "../buttons/regularButton";
 import ConfirmAccountDeleteModal from "./confirmAccountDeleteModal";
-import SecondaryButtons from "../buttons/secBtns";
+import SecondaryButton from "../buttons/secondaryButton";
 import { UserContext } from "@/context/userContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -258,10 +258,10 @@ export default function EditProfileModal({ setShowEditProfileModal, user }) {
             </form>
           </div>
           <div className="flex flex-col md:flex-row md:gap-2 border-t border-panel p-4">
-            <RegularButtons type="submit" form="edit-profile-form">
+            <RegularButton type="submit" form="edit-profile-form">
               <p className="font-bold text-normal text-base">Submit changes</p>
-            </RegularButtons>
-            <SecondaryButtons
+            </RegularButton>
+            <SecondaryButton
               type="button"
               onClick={() => {
                 setShowConfirmAccountDeleteModal(true);
@@ -270,7 +270,7 @@ export default function EditProfileModal({ setShowEditProfileModal, user }) {
               <p className="font-bold text-normal text-base">
                 Delete your account
               </p>
-            </SecondaryButtons>
+            </SecondaryButton>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client";
 import { MdClose } from "react-icons/md";
-import SecondaryButtons from "../buttons/secBtns";
-import RegularButtons from "../buttons/regBtns";
+import SecondaryButton from "../buttons/secondaryButton";
+import RegularButton from "../buttons/regularButton";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 import { useContext } from "react";
@@ -102,12 +102,12 @@ export default function ConfirmTitleDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons onClick={handleTitleDelete}>
+          <SecondaryButton onClick={handleTitleDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons onClick={() => setShowConfirmTitleDeleteModal(false)}>
+          </SecondaryButton>
+          <RegularButton onClick={() => setShowConfirmTitleDeleteModal(false)}>
             <p className="font-bold text-normal text-base">Cancel</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

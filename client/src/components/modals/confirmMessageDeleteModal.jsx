@@ -1,11 +1,11 @@
 "use client";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
-import CircledButtons from "../buttons/circledBtns";
+import CircledButton from "../buttons/circledButton";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
-import SecondaryButtons from "../buttons/secBtns";
-import RegularButtons from "../buttons/regBtns";
+import SecondaryButton from "../buttons/secondaryButton";
+import RegularButton from "../buttons/regularButton";
 import { UserContext } from "@/context/userContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -108,14 +108,14 @@ export default function ConfirmMessageDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons onClick={handleMessageDelete}>
+          <SecondaryButton onClick={handleMessageDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons
+          </SecondaryButton>
+          <RegularButton
             onClick={() => setShowConfirmMessageDeleteModal(false)}
           >
             <p className="font-bold text-normal text-base">Cancel</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

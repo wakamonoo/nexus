@@ -4,7 +4,7 @@ import emailjs from "@emailjs/browser";
 import Swal from "sweetalert2";
 import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import NavBar from "@/components/layout/essentials/navBar";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularButton from "@/components/buttons/regularButton";
 
 export default function Recommendations() {
   const contact = useRef();
@@ -109,9 +109,9 @@ export default function Recommendations() {
                 placeholder="Message..."
                 className="bg-second w-full h-32 p-2 text-normal text-base"
               />
-              <RegularButtons type="submit">
+              <RegularButton type="submit">
                 <p className="font-bold text-normal text-base">Send</p>
-              </RegularButtons>
+              </RegularButton>
             </form>
           </div>
           <div className="border-t border-panel pt-8 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">

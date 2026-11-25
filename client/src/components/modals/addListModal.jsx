@@ -4,12 +4,12 @@ import { MdClose, MdSearchOff } from "react-icons/md";
 import { TitleContext } from "@/context/titleContext";
 import { IoRadioButtonOff, IoRadioButtonOn } from "react-icons/io5";
 import { UserContext } from "@/context/userContext";
-import CircledButtons from "../buttons/circledBtns";
+import CircledButton from "../buttons/circledButton";
 import Loader from "@/components/loaders/searchLoader";
 import TitleCard from "../layout/title/titleCard";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
+import RegularButton from "../buttons/regularButton";
 import { ListContext } from "@/context/listContext";
 import FinalizeListOrderModal from "./finalizeListOrderModal";
 
@@ -371,20 +371,20 @@ export default function AddListModal({ user, setShowAddListModal }) {
             )}
           </div>
           <div className="flex flex-col md:flex-row md:gap-2 border-t border-panel p-4">
-            <RegularButtons
+            <RegularButton
               onClick={() => {
                 setShowFinalizeListOrderModal(true);
               }}
               disabled={!listTitle.trim() || selected.length === 0}
             >
               <p className="font-bold text-normal text-base">Finalize Order</p>
-            </RegularButtons>
-            <RegularButtons
+            </RegularButton>
+            <RegularButton
               onClick={handleSubmitList}
               disabled={!listTitle.trim() || selected.length === 0}
             >
               <p className="font-bold text-normal text-base">Submit List</p>
-            </RegularButtons>
+            </RegularButton>
           </div>
         </div>
       </div>

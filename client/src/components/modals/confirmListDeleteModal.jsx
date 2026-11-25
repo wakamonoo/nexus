@@ -2,13 +2,13 @@
 import { TitleContext } from "@/context/titleContext";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
-import CircledButtons from "../buttons/circledBtns";
+import CircledButton from "../buttons/circledButton";
 import Swal from "sweetalert2";
 import { LoaderContext } from "@/context/loaderContext";
 import { useRouter } from "next/navigation";
 import { ListContext } from "@/context/listContext";
-import RegularButtons from "../buttons/regBtns";
-import SecondaryButtons from "../buttons/secBtns";
+import RegularButton from "../buttons/regularButton";
+import SecondaryButton from "../buttons/secondaryButton";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -108,12 +108,12 @@ export default function ConfirmListDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons onClick={handleListDelete}>
+          <SecondaryButton onClick={handleListDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons onClick={() => setShowConfirmListDeleteModal(false)}>
+          </SecondaryButton>
+          <RegularButton onClick={() => setShowConfirmListDeleteModal(false)}>
             <p className="font-bold text-normal text-base">Cancel</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

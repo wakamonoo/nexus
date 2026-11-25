@@ -14,7 +14,6 @@ import { UserContext } from "@/context/userContext";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import GoatTitlesStructureMin from "@/components/layout/titlesStructure/goatTitlesStructureMin";
 import MostWatchedTitlesStructureMin from "@/components/layout/titlesStructure/mostWatchedTitlesStructureMin";
-import CustomButton from "@/components/buttons/customBtn";
 import TitleCard from "@/components/layout/title/titleCard";
 import TitlesLoader from "@/components/loaders/titlesLoader";
 import { FaClapperboard } from "react-icons/fa6";

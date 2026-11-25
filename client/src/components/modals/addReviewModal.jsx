@@ -3,7 +3,7 @@ import { UserContext } from "@/context/userContext";
 import { useContext, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Swal from "sweetalert2";
-import RegularButtons from "../buttons/regBtns";
+import RegularButton from "../buttons/regularButton";
 import { LoaderContext } from "@/context/loaderContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -140,9 +140,9 @@ export default function AddReviewModal({
           </div>
         </div>
         <div className="flex border-t border-panel p-4">
-          <RegularButtons onClick={() => postReview()}>
+          <RegularButton onClick={() => postReview()}>
             <p className="font-bold text-normal text-base">Post</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

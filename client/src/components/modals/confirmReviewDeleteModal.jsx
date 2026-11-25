@@ -1,12 +1,12 @@
 "use client";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
-import CircledButtons from "../buttons/circledBtns";
+import CircledButton from "../buttons/circledButton";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
 import { usePathname } from "next/navigation";
-import SecondaryButtons from "../buttons/secBtns";
-import RegularButtons from "../buttons/regBtns";
+import SecondaryButton from "../buttons/secondaryButton";
+import RegularButton from "../buttons/regularButton";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -118,14 +118,14 @@ export default function ConfirmReviewDeleteModal({
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons onClick={handleReviewDelete}>
+          <SecondaryButton onClick={handleReviewDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons
+          </SecondaryButton>
+          <RegularButton
             onClick={() => setShowConfirmReviewDeleteModal(false)}
           >
             <p className="font-bold text-normal text-base">Cancel</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

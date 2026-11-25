@@ -2,8 +2,8 @@
 import { PostContext } from "@/context/postContext";
 import { useContext } from "react";
 import { MdClose } from "react-icons/md";
-import RegularButtons from "../buttons/regBtns";
-import SecondaryButtons from "../buttons/secBtns";
+import RegularButton from "../buttons/regularButton";
+import SecondaryButton from "../buttons/secondaryButton";
 import { LoaderContext } from "@/context/loaderContext";
 import { usePathname, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
@@ -113,12 +113,12 @@ export default function ConfirmPostDeleteModal({ postToDelete }) {
           </p>
         </div>
         <div className="flex gap-2 border-t border-panel p-4">
-          <SecondaryButtons onClick={handlePostDelete}>
+          <SecondaryButton onClick={handlePostDelete}>
             <p className="font-bold text-normal text-base">Confirm</p>
-          </SecondaryButtons>
-          <RegularButtons onClick={() => setShowConfirmPostDeleteModal(false)}>
+          </SecondaryButton>
+          <RegularButton onClick={() => setShowConfirmPostDeleteModal(false)}>
             <p className="font-bold text-normal text-base">Cancel</p>
-          </RegularButtons>
+          </RegularButton>
         </div>
       </div>
     </div>

@@ -9,9 +9,9 @@ import { GiTrophy } from "react-icons/gi";
 import { FaArrowRight, FaMedal } from "react-icons/fa";
 import ScreenTimeLoader from "../../loaders/topWatchersLoader";
 import TopWatchersLoader from "../../loaders/topWatchersLoader";
-import RegularButtons from "@/components/buttons/regBtns";
+import RegularButton from "@/components/buttons/regularButton";
 import TopWatchersModal from "@/components/modals/topWatchersModal";
-import SecondaryButtons from "@/components/buttons/secBtns";
+import SecondaryButton from "@/components/buttons/secondaryButton";
 
 export default function ScreenTime() {
   const { user, allUsers, allUsersLoading } = useContext(UserContext);
