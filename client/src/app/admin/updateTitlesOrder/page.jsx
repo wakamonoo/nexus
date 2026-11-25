@@ -1,6 +1,6 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import SortableItem from "@/components/dnd/sortableItem";
@@ -27,7 +27,9 @@ export default function UpdateOrder() {
   const { chrono } = useContext(TitleContext);
   const [items, setItems] = useState([]);
   const [rotate, setRotate] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -59,8 +61,11 @@ export default function UpdateOrder() {
   };
 
   const handleUpdateOrder = async () => {
+    const actionId = "admin:update-title-order";
+    if (requestInFlight.current || !items.length) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
     setRotate(true);
-    setIsLoading(true);
     try {
       await fetch(`${BASE_URL}/api/titles/updateOrder`, {
         method: "POST",
@@ -108,7 +113,8 @@ export default function UpdateOrder() {
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
       setTimeout(() => {
         setRotate(false);
       }, 1500);

@@ -1,7 +1,7 @@
 "use client";
 import { LoaderContext } from "@/context/loaderContext";
 import { useParams, useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import AdminGuard from "@/components/guard/adminGuard";
 import Swal from "sweetalert2";
 import { FaAngleLeft } from "react-icons/fa";
@@ -39,7 +39,9 @@ export default function EditTitle() {
     summary: "",
   });
   const { titleId } = useParams();
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
   const [showTMDBSearchModal, setShowTMDBSearchModal] = useState(false);
   const router = useRouter();
 
@@ -98,7 +100,9 @@ export default function EditTitle() {
   };
 
   const handleUpdateTitle = async (titleId) => {
-    setIsLoading(true);
+    const actionId = `admin:update-title:${titleId}`;
+    if (requestInFlight.current || !startActionLoading(actionId)) return;
+    requestInFlight.current = true;
 
     try {
       await fetch(`${BASE_URL}/api/titles/updateTitle/${titleId}`, {
@@ -144,7 +148,8 @@ export default function EditTitle() {
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

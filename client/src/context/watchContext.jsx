@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { LoaderContext } from "./loaderContext";
 import { UserContext } from "./userContext";
 import Swal from "sweetalert2";
@@ -19,9 +19,11 @@ if (APP_ENV === "production") {
 export const WatchContext = createContext();
 
 export const WatchProvider = ({ children }) => {
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const { user } = useContext(UserContext);
   const [watchInfo, setWatchInfo] = useState([]);
+  const requestInFlight = useRef(new Set());
 
   const watchedInfoFetch = async (userId) => {
     try {
@@ -76,7 +78,10 @@ export const WatchProvider = ({ children }) => {
   };
 
   const handleWatch = async (titleId) => {
-    setIsLoading(true);
+    const actionId = `watch-title:${user?.uid}:${titleId}`;
+    if (!user?.uid || requestInFlight.current.has(actionId)) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current.add(actionId);
 
     try {
       await fetch(`${BASE_URL}/api/watched/watchRoute/${titleId}`, {
@@ -128,7 +133,8 @@ export const WatchProvider = ({ children }) => {
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current.delete(actionId);
+      finishActionLoading(actionId);
     }
   };
 

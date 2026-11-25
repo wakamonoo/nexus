@@ -34,7 +34,8 @@ export default function Powerboard() {
   const { releasedMCUTitles } = useContext(TitleContext);
   const { user, setUser, setShowSignInModal } = useContext(UserContext);
   const { isTitleWatched } = useContext(WatchContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const [items, setItems] = useState([]);
   const [slots, setSlots] = useState({});
   const [draggedItem, setDraggedItem] = useState(null);
@@ -42,6 +43,7 @@ export default function Powerboard() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const scrollRef = useRef(null);
+  const saveRequestInFlight = useRef(false);
 
   const watchedMCUTitles = useMemo(
     () => releasedMCUTitles.filter((title) => isTitleWatched(title.titleId)),
@@ -122,30 +124,34 @@ export default function Powerboard() {
   };
 
   const handleSave = async () => {
-    setIsLoading(true);
+    const rankings = buildRankings();
+
+    if (rankings.length === 0) {
+      Swal.fire({
+        toast: true,
+        position: "bottom-start",
+        title: "oops, atleast add 1 title!",
+        icon: "warning",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "var(--color-secondary)",
+        iconColor: "var(--color-zeus)",
+        customClass: {
+          popup:
+            "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+          title:
+            "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+        },
+      });
+      return;
+    }
+
+    const actionId = `save-ranking:${user?.uid}`;
+    if (saveRequestInFlight.current || !user?.uid) return;
+    if (!startActionLoading(actionId)) return;
+    saveRequestInFlight.current = true;
 
     try {
-      const rankings = buildRankings();
-
-      if (rankings.length === 0) {
-        Swal.fire({
-          toast: true,
-          position: "bottom-start",
-          title: "oops, atleast add 1 title!",
-          icon: "warning",
-          timer: 2000,
-          showConfirmButton: false,
-          background: "var(--color-secondary)",
-          iconColor: "var(--color-zeus)",
-          customClass: {
-            popup:
-              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-            title:
-              "!text-base !font-semibold !text-(--color-text) !leading-4.5",
-          },
-        });
-        return;
-      }
       await fetch(`${BASE_URL}/api/rankings/saveRanking`, {
         method: "POST",
         headers: {
@@ -197,7 +203,8 @@ export default function Powerboard() {
         },
       });
     } finally {
-      setIsLoading(false);
+      saveRequestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

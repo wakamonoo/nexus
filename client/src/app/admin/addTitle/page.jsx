@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { LoaderContext } from "@/context/loaderContext";
@@ -37,7 +37,9 @@ export default function AddTitle() {
     connections: "",
     summary: "",
   });
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
   const router = useRouter();
   const [showTMDBSearchModal, setShowTMDBSearchModal] = useState(false);
 
@@ -61,7 +63,9 @@ export default function AddTitle() {
   };
 
   const handleAddNewTitle = async () => {
-    setIsLoading(true);
+    const actionId = "admin:add-title";
+    if (requestInFlight.current || !startActionLoading(actionId)) return;
+    requestInFlight.current = true;
 
     try {
       await fetch(`${BASE_URL}/api/titles/addTitle`, {
@@ -120,7 +124,8 @@ export default function AddTitle() {
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

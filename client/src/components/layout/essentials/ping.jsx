@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { ScrollContext } from "@/context/scrollContext";
 import { UserContext } from "@/context/userContext";
 import Image from "next/image";
@@ -31,9 +31,11 @@ if (APP_ENV === "production") {
 
 export default function Ping({ setShowPing }) {
   const { navHide } = useContext(ScrollContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const { pings, setPings } = useContext(SocketContext);
   const [selectedPing, setSelectedPing] = useState(null);
+  const readAllRequestInFlight = useRef(false);
   const [showConfirmPingsDeleteModal, setShowConfirmpPingsDeleteModal] =
     useState(false);
   const { allUsers, user } = useContext(UserContext);
@@ -80,7 +82,10 @@ export default function Ping({ setShowPing }) {
   };
 
   const handleReadAllPing = async (userId) => {
-    setIsLoading(true);
+    const actionId = `mark-all-pings-read:${userId}`;
+    if (readAllRequestInFlight.current || !startActionLoading(actionId)) return;
+    readAllRequestInFlight.current = true;
+    setSelectedPing(null);
 
     try {
       await fetch(`${BASE_URL}/api/pings/markAllAsRead/${userId}`, {
@@ -128,8 +133,8 @@ export default function Ping({ setShowPing }) {
         },
       });
     } finally {
-      setIsLoading(false);
-      setSelectedPing(null);
+      readAllRequestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
   return (

@@ -61,6 +61,7 @@ export default function List() {
   const [showTitles, setShowTitles] = useState(true);
   const [showComments, setShowComments] = useState(false);
   const router = useRouter();
+  const voteRequestsInFlight = useRef(new Set());
   useEffect(() => {
     setIsLoading(false);
   }, []);
@@ -91,7 +92,12 @@ export default function List() {
   const handleVote = async (listId, vote) => {
     if (!user?.uid) {
       setShowSignInModal();
+      return;
     }
+    const actionId = `vote-list:${listId}:${user.uid}`;
+    if (voteRequestsInFlight.current.has(actionId)) return;
+    if (!startActionLoading(actionId)) return;
+    voteRequestsInFlight.current.add(actionId);
 
     try {
       await fetch(`${BASE_URL}/api/reacts/listVote/${listId}`, {
@@ -121,6 +127,9 @@ export default function List() {
           title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
+    } finally {
+      voteRequestsInFlight.current.delete(actionId);
+      finishActionLoading(actionId);
     }
   };
 

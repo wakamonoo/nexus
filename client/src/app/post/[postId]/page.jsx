@@ -80,7 +80,8 @@ export default function Post() {
   const [replyToCommentUserId, setReplyToCommentUserId] = useState(null);
   const [replyToUserName, setReplyToUserName] = useState(null);
   const [isReplying, setIsReplying] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showConfirmCommentDeleteModal, setShowConfirmCommentDeleteModal] =
     useState(false);
@@ -97,6 +98,7 @@ export default function Post() {
   const [selectedCommentOption, setSelectedCommentOption] = useState(null);
   const inputRef = useRef();
   const postCarouselRef = useRef(null);
+  const commentSubmissionInFlight = useRef(false);
 
   useEffect(() => {
     setIsLoading(false);
@@ -165,11 +167,17 @@ export default function Post() {
   };
 
   const handleSendComment = async () => {
+    if (
+      commentSubmissionInFlight.current ||
+      (!commentText.trim() && files.length === 0)
+    )
+      return;
+
+    const actionId = `add-post-comment:${postId}:${user?.uid}`;
+    if (!startActionLoading(actionId)) return;
+    commentSubmissionInFlight.current = true;
+
     try {
-      setIsLoading(true);
-
-      if (!commentText.trim() && files.length === 0) return;
-
       const uploadedFiles = files.filter((file) => typeof file !== "string");
       const gifUrls = files.filter(
         (file) =>
@@ -222,16 +230,23 @@ export default function Post() {
     } catch (err) {
       console.error(err);
     } finally {
-      setIsLoading(false);
+      commentSubmissionInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 
   const handleSendReply = async () => {
+    if (
+      commentSubmissionInFlight.current ||
+      (!commentText.trim() && files.length === 0)
+    )
+      return;
+
+    const actionId = `add-post-reply:${postId}:${replyToCommentId}:${user?.uid}`;
+    if (!startActionLoading(actionId)) return;
+    commentSubmissionInFlight.current = true;
+
     try {
-      setIsLoading(true);
-
-      if (!commentText.trim() && files.length === 0) return;
-
       const uploadedFiles = files.filter((file) => typeof file !== "string");
       const gifUrls = files.filter(
         (file) =>
@@ -293,7 +308,8 @@ export default function Post() {
     } catch (err) {
       console.error(err);
     } finally {
-      setIsLoading(false);
+      commentSubmissionInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

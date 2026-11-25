@@ -19,11 +19,17 @@ if (APP_ENV === "production") {
 
 export default function PingOptions({ pingId, setSelectedPing }) {
   const { user } = useContext(UserContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const { setPings } = useContext(SocketContext);
+  const requestInFlight = useRef(new Set());
 
   const handleDeletePing = async (pingId) => {
-    setIsLoading(true);
+    const actionId = `delete-ping:${pingId}:${user?.uid}`;
+    if (requestInFlight.current.has(actionId)) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current.add(actionId);
+    setSelectedPing(null);
 
     try {
       await fetch(`${BASE_URL}/api/pings/deletePing/${pingId}`, {
@@ -68,14 +74,19 @@ export default function PingOptions({ pingId, setSelectedPing }) {
         },
       });
     } finally {
-      setIsLoading(false);
-      setSelectedPing(null);
+      requestInFlight.current.delete(actionId);
+      finishActionLoading(actionId);
     }
   };
 
   const handleReadPing = async (ping) => {
+    const actionId = `read-ping:${pingId}:${user?.uid}`;
+    if (requestInFlight.current.has(actionId)) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current.add(actionId);
+    setSelectedPing(null);
+
     try {
-      setIsLoading(true);
       await fetch(`${BASE_URL}/api/pings/isReadPatch/${pingId}`, {
         method: "PATCH",
         headers: {
@@ -121,8 +132,8 @@ export default function PingOptions({ pingId, setSelectedPing }) {
         },
       });
     } finally {
-      setIsLoading(false);
-      setSelectedPing(null);
+      requestInFlight.current.delete(actionId);
+      finishActionLoading(actionId);
     }
   };
   return (

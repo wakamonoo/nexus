@@ -1,5 +1,5 @@
 ﻿"use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TitleContext } from "@/context/titleContext";
 import { useParams } from "next/navigation";
@@ -71,7 +71,8 @@ export default function Title() {
   const [title, setTitle] = useState(null);
   const [currentTitleRank, setCurrentTitleRank] = useState(null);
   const [showSum, setShowSum] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const [showAddReviewModal, setShowAddReviewModal] = useState(false);
   const [showTitleMenu, setShowTitleMenu] = useState(false);
   const { user, allUsers, setShowSignInModal } = useContext(UserContext);
@@ -79,6 +80,7 @@ export default function Title() {
     useState(false);
   const [selectedReview, setSelectedReview] = useState(null);
   const { reviewVotes } = useContext(SocketContext);
+  const voteRequestsInFlight = useRef(new Set());
 
   useEffect(() => {
     setIsLoading(false);
@@ -129,7 +131,13 @@ export default function Title() {
   const handleVote = async (reviewId, vote) => {
     if (!user?.uid) {
       setShowSignInModal();
+      return;
     }
+    const actionId = `vote-review:${reviewId}:${user.uid}`;
+    if (voteRequestsInFlight.current.has(actionId)) return;
+    if (!startActionLoading(actionId)) return;
+    voteRequestsInFlight.current.add(actionId);
+
     try {
       await fetch(`${BASE_URL}/api/reacts/reviewVote/${reviewId}`, {
         method: "PATCH",
@@ -158,6 +166,9 @@ export default function Title() {
           title: "!text-base !font-semibold !text-(--color-text) !leading-4.5",
         },
       });
+    } finally {
+      voteRequestsInFlight.current.delete(actionId);
+      finishActionLoading(actionId);
     }
   };
 

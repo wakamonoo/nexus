@@ -8,6 +8,7 @@ import SecondaryButton from "../buttons/secondaryButton";
 import { RiImageAiFill } from "react-icons/ri";
 import { LuCodeXml } from "react-icons/lu";
 import { PostContext } from "@/context/postContext";
+import { LoaderContext } from "@/context/loaderContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -31,12 +32,60 @@ export default function AddPostModal({ setShowAddPostModal }) {
     file: null,
   });
   const { titles } = useContext(TitleContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const requestInFlight = useRef(false);
   const [showTopics, setShowTopics] = useState(false);
 
   const submitPost = async () => {
-    if (requestInFlight.current) return;
+    const actionId = `add-post:${user?.uid}`;
+    if (
+      requestInFlight.current ||
+      (!post.text.trim() && !post.embed.trim() && !post.file?.length)
+    )
+      return;
+
+    const getYoutubeId = (url) => {
+      const regex =
+        /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/;
+
+      return url.match(regex)?.[1] || null;
+    };
+
+    let embed = null;
+
+    if (post.embed.trim()) {
+      const id = getYoutubeId(post.embed);
+
+      if (!id) {
+        Swal.fire({
+          toast: true,
+          position: "bottom-start",
+          title: "Invalid YouTube link!",
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false,
+          background: "var(--color-secondary)",
+          iconColor: "var(--color-accent)",
+          customClass: {
+            popup:
+              "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
+            title:
+              "!text-base !font-semibold !text-(--color-text) !leading-4.5",
+          },
+        });
+        return;
+      }
+      embed = {
+        provider: "youtube",
+        id,
+        url: post.embed.trim(),
+      };
+    }
+
+    if (!startActionLoading(actionId)) return;
     requestInFlight.current = true;
+    setShowAddPostModal(false);
 
     try {
       let uploadedUrls = [];
@@ -81,44 +130,6 @@ export default function AddPostModal({ setShowAddPostModal }) {
         uploadedUrls = urls;
       }
 
-      const getYoutubeId = (url) => {
-        const regex =
-          /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/;
-
-        return url.match(regex)?.[1] || null;
-      };
-
-      let embed = null;
-
-      if (post.embed.trim()) {
-        const id = getYoutubeId(post.embed);
-
-        if (!id) {
-          Swal.fire({
-            toast: true,
-            position: "bottom-start",
-            title: "Invalid YouTube link!",
-            icon: "error",
-            timer: 2000,
-            showConfirmButton: false,
-            background: "var(--color-secondary)",
-            iconColor: "var(--color-accent)",
-            customClass: {
-              popup:
-                "!w-full !max-w-xs !inline-flex !items-center !justify-center !border !border-(--color-panel) !text-normal !rounded-lg !shadow-lg !px-4 !py-2",
-              title:
-                "!text-base !font-semibold !text-(--color-text) !leading-4.5",
-            },
-          });
-          return;
-        }
-        embed = {
-          provider: "youtube",
-          id,
-          url: post.embed.trim(),
-        };
-      }
-
       const res = await fetch(`${BASE_URL}/api/posts/addPost`, {
         method: "POST",
         headers: {
@@ -140,7 +151,6 @@ export default function AddPostModal({ setShowAddPostModal }) {
       const { post: newPost } = await res.json();
 
       setPosts((prev) => [newPost, ...prev]);
-      setShowAddPostModal(false);
 
       Swal.fire({
         toast: true,
@@ -176,6 +186,7 @@ export default function AddPostModal({ setShowAddPostModal }) {
       });
     } finally {
       requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import RegularLink from "@/components/links/regularLink";
@@ -37,7 +37,9 @@ export default function Page() {
     upcomingTitlesCount: 0,
   });
   const { setShowSignInModal, allUsers } = useContext(UserContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const syncRequestInFlight = useRef(false);
 
   useEffect(() => {
     setShowSignInModal(false);
@@ -59,7 +61,9 @@ export default function Page() {
   }, []);
 
   const handleSyncUsers = async () => {
-    setIsLoading(true);
+    const actionId = "admin:sync-users";
+    if (syncRequestInFlight.current || !startActionLoading(actionId)) return;
+    syncRequestInFlight.current = true;
     try {
       await fetch(`${BASE_URL}/api/users/sync`, {
         method: "POST",
@@ -102,7 +106,8 @@ export default function Page() {
         },
       });
     } finally {
-      setIsLoading(false);
+      syncRequestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

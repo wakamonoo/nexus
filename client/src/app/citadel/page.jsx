@@ -38,7 +38,8 @@ if (APP_ENV === "production") {
 
 export default function Citadel() {
   const { allUsers, user, setShowSignInModal } = useContext(UserContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const { messages, setMessages, chatLoad, latestSeenMessages } =
     useContext(SocketContext);
   const [input, setInput] = useState("");
@@ -69,6 +70,8 @@ export default function Citadel() {
   const seenMessageRequests = useRef(new Set());
   const seenMessageRefs = useRef({});
   const timer = useRef(null);
+  const sendMessageInFlight = useRef(false);
+  const editMessageRequests = useRef(new Set());
 
   const markMessageSeen = async (msg) => {
     if (!user) return;
@@ -149,9 +152,15 @@ export default function Citadel() {
   };
 
   const sendMessage = async () => {
-    if (!input.trim() && files.length === 0) return;
+    if (
+      sendMessageInFlight.current ||
+      (!input.trim() && files.length === 0)
+    )
+      return;
 
-    setIsLoading(true);
+    const actionId = `send-message:${user?.uid}`;
+    if (!startActionLoading(actionId)) return;
+    sendMessageInFlight.current = true;
 
     justSentMessage.current = true;
 
@@ -239,12 +248,16 @@ export default function Citadel() {
     } catch (err) {
       console.error(err);
     } finally {
-      setIsLoading(false);
+      sendMessageInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 
   const editMessage = async (msgId) => {
-    setIsLoading(true);
+    const actionId = `edit-message:${msgId}:${user?.uid}`;
+    if (editMessageRequests.current.has(actionId)) return;
+    if (!startActionLoading(actionId)) return;
+    editMessageRequests.current.add(actionId);
 
     try {
       await fetch(`${BASE_URL}/api/messages/editMessage/${msgId}`, {
@@ -267,7 +280,8 @@ export default function Citadel() {
     } catch (err) {
       console.error(err);
     } finally {
-      setIsLoading(false);
+      editMessageRequests.current.delete(actionId);
+      finishActionLoading(actionId);
     }
   };
 

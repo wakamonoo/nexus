@@ -2,7 +2,7 @@
 import NavBar from "@/components/layout/essentials/navBar";
 import { UserContext } from "@/context/userContext";
 import Avatar from "@/assets/defaultAvatar.png";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import RegularButton from "@/components/buttons/regularButton";
 import { BiSolidStar } from "react-icons/bi";
 import Swal from "sweetalert2";
@@ -132,7 +132,9 @@ export default function CommunityFeedback() {
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [consent, setConsent] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
 
   const ratingCounts = useMemo(() => {
     return {
@@ -155,9 +157,17 @@ export default function CommunityFeedback() {
   const postFeedback = async (e) => {
     e.preventDefault();
 
-    if (!consent || !rating || !reviewText.trim()) return;
+    if (
+      requestInFlight.current ||
+      !consent ||
+      !rating ||
+      !reviewText.trim()
+    )
+      return;
 
-    setIsLoading(true);
+    const actionId = `submit-feedback:${user?.uid}`;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
     try {
       const res = await fetch(`${BASE_URL}/api/feedbacks/addFeedback`, {
         method: "POST",
@@ -210,7 +220,8 @@ export default function CommunityFeedback() {
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

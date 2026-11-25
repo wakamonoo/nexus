@@ -1,5 +1,6 @@
 "use client";
 import { UserContext } from "@/context/userContext";
+import { LoaderContext } from "@/context/loaderContext";
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   MdCamera,
@@ -80,6 +81,8 @@ const SelectionCard = ({ title, selectedTitle, setSelectedTitle }) => {
 
 export default function AddMomenttModal({ setShowAddMomentModal }) {
   const { user } = useContext(UserContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const { titles } = useContext(TitleContext);
   const { setMoments } = useContext(MomentContext);
   const [selectedTitle, setSelectedTitle] = useState(null);
@@ -304,8 +307,12 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
   }, [caption]);
 
   const submitMoment = async () => {
-    if (requestInFlight.current) return;
+    if (requestInFlight.current || !selectedTitle || !capturedPhoto) return;
+
+    const actionId = `add-moment:${user?.uid}:${selectedTitle.titleId}`;
+    if (!startActionLoading(actionId)) return;
     requestInFlight.current = true;
+    setShowAddMomentModal(false);
 
     try {
       const formData = new FormData();
@@ -365,11 +372,6 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
 
       setMoments((prev) => [newMoment, ...prev]);
 
-      setCapturedPhoto(null);
-      setSelectedTitle(null);
-      setCaption("");
-      setShowAddMomentModal(false);
-
       Swal.fire({
         toast: true,
         position: "bottom-start",
@@ -404,6 +406,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
       });
     } finally {
       requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

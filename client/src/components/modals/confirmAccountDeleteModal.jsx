@@ -8,6 +8,7 @@ import { auth } from "@/lib/firebase/config";
 import { useRouter } from "next/navigation";
 import SecondaryButton from "../buttons/secondaryButton";
 import RegularButton from "../buttons/regularButton";
+import { LoaderContext } from "@/context/loaderContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -27,6 +28,8 @@ export default function ConfirmAccountDeleteModal({
   user,
 }) {
   const { firebaseUser } = useContext(UserContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const userId = user?.uid;
   const router = useRouter();
   const requestInFlight = useRef(false);
@@ -34,10 +37,17 @@ export default function ConfirmAccountDeleteModal({
   const handleAccountDelete = async () => {
     if (requestInFlight.current) return;
     requestInFlight.current = true;
+    const actionId = `delete-account:${userId}`;
+    let actionStarted = false;
 
     try {
       const provider = new GoogleAuthProvider();
       await reauthenticateWithPopup(auth.currentUser, provider);
+
+      if (!startActionLoading(actionId)) return;
+      actionStarted = true;
+      setShowConfirmAccountDeleteModal(false);
+      setShowEditProfileModal(false);
 
       await fetch(`${BASE_URL}/api/users/deleteUser/${userId}`, {
         method: "DELETE",
@@ -45,8 +55,6 @@ export default function ConfirmAccountDeleteModal({
 
       await firebaseUser.delete();
 
-      setShowConfirmAccountDeleteModal(false);
-      setShowEditProfileModal(false);
       router.push("/");
 
       Swal.fire({
@@ -83,6 +91,7 @@ export default function ConfirmAccountDeleteModal({
       });
     } finally {
       requestInFlight.current = false;
+      if (actionStarted) finishActionLoading(actionId);
     }
   };
 
