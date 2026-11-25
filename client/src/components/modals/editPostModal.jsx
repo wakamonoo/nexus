@@ -1,10 +1,9 @@
 import { MdClose } from "react-icons/md";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { FaFlag, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { TitleContext } from "@/context/titleContext";
-import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButton from "../buttons/secondaryButton";
 import { RiImageAiFill } from "react-icons/ri";
 import Avatar from "@/assets/defaultAvatar.png";
@@ -30,7 +29,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
     embed: "",
   });
   const { titles } = useContext(TitleContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const requestInFlight = useRef(false);
   const [showTopics, setShowTopics] = useState(false);
   const [existingFiles, setExistingFiles] = useState([]);
   const [newFiles, setNewFiles] = useState([]);
@@ -49,7 +48,8 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
   }, [postToEdit]);
 
   const editPost = async () => {
-    setIsLoading(true);
+    if (requestInFlight.current) return;
+    requestInFlight.current = true;
 
     try {
       let uploadedUrls = [];
@@ -101,7 +101,6 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
                 "!text-base !font-semibold !text-(--color-text) !leading-4.5",
             },
           });
-          setIsLoading(false);
           return;
         }
         embed = {
@@ -160,7 +159,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
     }
   };
 

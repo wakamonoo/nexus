@@ -1,7 +1,7 @@
 import { MdClose } from "react-icons/md";
 import Swal from "sweetalert2";
 import RegularButton from "../buttons/regularButton";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { LoaderContext } from "@/context/loaderContext";
 import { ListContext } from "@/context/listContext";
 import { createPortal } from "react-dom";
@@ -24,16 +24,22 @@ export default function ConfirmListCommentDelete({
   comment,
   listId,
 }) {
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const { setLists } = useContext(ListContext);
   const [mounted, setMounted] = useState(false);
+  const requestInFlight = useRef(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const handleCommentDelete = async () => {
-    setIsLoading(true);
+    const actionId = `delete-list-comment:${comment.commentId}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmListCommentDelete(false);
 
     try {
       await fetch(`${BASE_URL}/api/lists/deleteComment/${comment.commentId}`, {
@@ -56,8 +62,6 @@ export default function ConfirmListCommentDelete({
             : list,
         ),
       );
-
-      setShowConfirmListCommentDelete(false);
 
       Swal.fire({
         toast: true,
@@ -92,7 +96,8 @@ export default function ConfirmListCommentDelete({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

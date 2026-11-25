@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import CircledButton from "../buttons/circledButton";
 import { LoaderContext } from "@/context/loaderContext";
@@ -25,10 +25,16 @@ export default function ConfirmCommentDeleteModal({
   post,
   userId,
 }) {
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
 
   const handleCommentDelete = async () => {
-    setIsLoading(true);
+    const actionId = `delete-comment:${commentToDelete}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmCommentDeleteModal(false);
 
     try {
       const res = await fetch(
@@ -65,8 +71,6 @@ export default function ConfirmCommentDeleteModal({
         }));
       }
 
-      setShowConfirmCommentDeleteModal(false);
-
       Swal.fire({
         toast: true,
         position: "bottom-start",
@@ -100,7 +104,8 @@ export default function ConfirmCommentDeleteModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
   return (

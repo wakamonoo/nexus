@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MdClose, MdSearchOff } from "react-icons/md";
 import { TitleContext } from "@/context/titleContext";
 import { IoRadioButtonOff, IoRadioButtonOn } from "react-icons/io5";
@@ -129,12 +129,20 @@ export default function EditListModal({ list, setShowEditListModal }) {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const [showFinalizeListOrderModal, setShowFinalizeListOrderModal] =
     useState(false);
+  const requestInFlight = useRef(false);
 
   const handleUpdateList = async () => {
-    setIsLoading(true);
+    const actionId = `update-list:${list.listId}`;
+    if (!listTitle.trim() || selected.length === 0 || requestInFlight.current)
+      return;
+
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowEditListModal(false);
 
     try {
       await fetch(`${BASE_URL}/api/lists/updateList/${list.listId}`, {
@@ -206,8 +214,8 @@ export default function EditListModal({ list, setShowEditListModal }) {
         },
       });
     } finally {
-      setIsLoading(false);
-      setShowEditListModal(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

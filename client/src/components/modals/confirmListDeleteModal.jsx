@@ -1,6 +1,6 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import CircledButton from "../buttons/circledButton";
 import Swal from "sweetalert2";
@@ -27,11 +27,17 @@ export default function ConfirmListDeleteModal({
   setShowConfirmListDeleteModal,
 }) {
   const { setLists } = useContext(ListContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const router = useRouter();
+  const requestInFlight = useRef(false);
 
   const handleListDelete = async () => {
-    setIsLoading(true);
+    const actionId = `delete-list:${listToDelete}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmListDeleteModal(false);
 
     try {
       await fetch(`${BASE_URL}/api/lists/deleteList/${listToDelete}`, {
@@ -39,8 +45,6 @@ export default function ConfirmListDeleteModal({
       });
 
       setLists((prev) => prev.filter((list) => list.listId !== listToDelete));
-
-      setShowConfirmListDeleteModal(false);
 
       router.back();
 
@@ -77,7 +81,8 @@ export default function ConfirmListDeleteModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

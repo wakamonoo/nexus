@@ -661,18 +661,18 @@ export default function Post() {
                       <div key={index} className="flex flex-col">
                         <div className="flex gap-2 relative">
                           <Link
-                            href={`/profile/${commentUser.uid}`}
+                            href={`/profile/${commentUser?.uid}`}
                             onClick={() => setIsLoading(true)}
                           >
                             <img
                               src={commentUser?.picture || Avatar.src}
-                              alt={commentUser.name}
+                              alt={commentUser?.name}
                               loading="lazy"
                               decoding="async"
                               className="w-12 h-12 object-cover rounded-full cursor-pointer"
                             />
                           </Link>
-                          {comment.date === firstComment.date ? (
+                          {comment?.date === firstComment.date ? (
                             <div className="flex absolute top-0 left-8">
                               <Bs1CircleFill className="text-xl text-zeus" />
                             </div>
@@ -682,11 +682,11 @@ export default function Post() {
                               <div className="flex justify-between items-start gap-4">
                                 <div className="flex flex-col">
                                   <Link
-                                    href={`/profile/${commentUser.uid}`}
+                                    href={`/profile/${commentUser?.uid}`}
                                     onClick={() => setIsLoading(true)}
                                     className="text-base text-normal font-bold cursor-pointer"
                                   >
-                                    {commentUser.name}
+                                    {commentUser?.name}
                                   </Link>
                                   <p className="text-xs text-vibe">
                                     {dayjs(comment.date).fromNow()}

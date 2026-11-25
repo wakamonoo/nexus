@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import CircledButton from "../buttons/circledButton";
 import { LoaderContext } from "@/context/loaderContext";
@@ -26,11 +26,17 @@ export default function ConfirmReviewDeleteModal({
   setReviews,
   userId,
 }) {
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const pathname = usePathname();
+  const requestInFlight = useRef(false);
 
   const handleReviewDelete = async () => {
-    setIsLoading(true);
+    const actionId = `delete-review:${reviewToDelete}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmReviewDeleteModal(false);
 
     try {
       await fetch(`${BASE_URL}/api/reviews/deleteReview/${reviewToDelete}`, {
@@ -51,8 +57,6 @@ export default function ConfirmReviewDeleteModal({
       if (pathname.startsWith("/profile")) {
         setReviews((prev) => prev.filter((r) => r.reviewId !== reviewToDelete));
       }
-
-      setShowConfirmReviewDeleteModal(false);
 
       Swal.fire({
         toast: true,
@@ -87,7 +91,8 @@ export default function ConfirmReviewDeleteModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

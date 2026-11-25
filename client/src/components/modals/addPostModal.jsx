@@ -1,10 +1,9 @@
 import { MdClose } from "react-icons/md";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { UserContext } from "@/context/userContext";
 import { FaFlag, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { TitleContext } from "@/context/titleContext";
-import { LoaderContext } from "@/context/loaderContext";
 import SecondaryButton from "../buttons/secondaryButton";
 import { RiImageAiFill } from "react-icons/ri";
 import { LuCodeXml } from "react-icons/lu";
@@ -32,11 +31,12 @@ export default function AddPostModal({ setShowAddPostModal }) {
     file: null,
   });
   const { titles } = useContext(TitleContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const requestInFlight = useRef(false);
   const [showTopics, setShowTopics] = useState(false);
 
   const submitPost = async () => {
-    setIsLoading(true);
+    if (requestInFlight.current) return;
+    requestInFlight.current = true;
 
     try {
       let uploadedUrls = [];
@@ -110,7 +110,6 @@ export default function AddPostModal({ setShowAddPostModal }) {
                 "!text-base !font-semibold !text-(--color-text) !leading-4.5",
             },
           });
-          setIsLoading(false);
           return;
         }
         embed = {
@@ -176,7 +175,7 @@ export default function AddPostModal({ setShowAddPostModal }) {
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
     }
   };
 

@@ -4,7 +4,7 @@ import SecondaryButton from "../buttons/secondaryButton";
 import RegularButton from "../buttons/regularButton";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { TitleContext } from "@/context/titleContext";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
@@ -24,10 +24,16 @@ export default function ConfirmTitleDeleteModal({
   setShowConfirmTitleDeleteModal,
 }) {
   const { setTitles } = useContext(TitleContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
 
   const handleTitleDelete = async () => {
-    setIsLoading(true);
+    const actionId = `delete-title:${titleToDelete}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmTitleDeleteModal(false);
 
     try {
       await fetch(`${BASE_URL}/api/titles/deleteTitle/${titleToDelete}`, {
@@ -35,8 +41,6 @@ export default function ConfirmTitleDeleteModal({
       });
 
       setTitles((prev) => prev.filter((t) => t.titleId !== titleToDelete));
-
-      setShowConfirmTitleDeleteModal(false);
 
       Swal.fire({
         toast: true,
@@ -71,7 +75,8 @@ export default function ConfirmTitleDeleteModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

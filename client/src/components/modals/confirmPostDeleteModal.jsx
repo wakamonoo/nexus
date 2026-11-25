@@ -1,6 +1,6 @@
 "use client";
 import { PostContext } from "@/context/postContext";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import RegularButton from "../buttons/regularButton";
 import SecondaryButton from "../buttons/secondaryButton";
@@ -25,12 +25,18 @@ export default function ConfirmPostDeleteModal({ postToDelete }) {
   const { user } = useContext(UserContext);
   const { setShowConfirmPostDeleteModal, setPosts, setPostLightBoxOpen } =
     useContext(PostContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const router = useRouter();
   const pathname = usePathname();
+  const requestInFlight = useRef(false);
 
   const handlePostDelete = async () => {
-    setIsLoading(true);
+    const actionId = `delete-post:${postToDelete}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmPostDeleteModal(false);
 
     try {
       await fetch(`${BASE_URL}/api/posts/deletePost/${postToDelete}`, {
@@ -42,7 +48,6 @@ export default function ConfirmPostDeleteModal({ postToDelete }) {
       });
 
       setPosts((prev) => prev.filter((post) => post.postId !== postToDelete));
-      setShowConfirmPostDeleteModal(false);
       setPostLightBoxOpen(false);
       if (pathname.startsWith("/post")) {
         router.back();
@@ -82,7 +87,8 @@ export default function ConfirmPostDeleteModal({ postToDelete }) {
       });
       console.error(err);
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

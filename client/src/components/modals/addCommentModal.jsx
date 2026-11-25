@@ -1,12 +1,11 @@
 "use client";
-import { UserContext } from "@/context/userContext";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
-import Swal from "sweetalert2";
 import RegularButton from "../buttons/regularButton";
-import { LoaderContext } from "@/context/loaderContext";
-import { ListContext } from "@/context/listContext";
 import Avatar from "@/assets/defaultAvatar.png";
+import { ListContext } from "@/context/listContext";
+import { LoaderContext } from "@/context/loaderContext";
+import Swal from "sweetalert2";
 
 const APP_ENV = process.env.NEXT_PUBLIC_APP_ENV;
 
@@ -21,25 +20,24 @@ if (APP_ENV === "production") {
 }
 
 export default function AddCommentModal({
-  listId,
   user,
   setShowAddCommentModal,
+  listId,
 }) {
-  const [commentText, setCommentText] = useState("");
   const { setLists } = useContext(ListContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } = useContext(LoaderContext);
+  const [commentText, setCommentText] = useState("");
+  const requestInFlight = useRef(false);
 
-  const handleSendComment = async () => {
-    setIsLoading(true);
+  const handleAddComment = async () => {
+    const actionId = `add-comment:${listId}`;
+    if (!commentText.trim() || requestInFlight.current) return;
 
-    if (!commentText.trim()) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowAddCommentModal(false);
 
     try {
-      const newComment = {
-        userId: user.uid,
-        textComment: commentText,
-      };
-
       const response = await fetch(
         `${BASE_URL}/api/lists/addComment/${listId}`,
         {
@@ -47,7 +45,10 @@ export default function AddCommentModal({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(newComment),
+          body: JSON.stringify({
+            userId: user.uid,
+            textComment: commentText,
+          }),
         },
       );
 
@@ -64,8 +65,6 @@ export default function AddCommentModal({
             : list,
         ),
       );
-
-      setCommentText("");
 
       Swal.fire({
         toast: true,
@@ -100,8 +99,8 @@ export default function AddCommentModal({
         },
       });
     } finally {
-      setIsLoading(false);
-      setShowAddCommentModal(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 
@@ -147,7 +146,7 @@ export default function AddCommentModal({
           </div>
         </div>
         <div className="flex border-t border-panel p-4">
-          <RegularButton onClick={() => handleSendComment()}>
+          <RegularButton onClick={handleAddComment}>
             <p className="font-bold text-normal text-base">Add</p>
           </RegularButton>
         </div>

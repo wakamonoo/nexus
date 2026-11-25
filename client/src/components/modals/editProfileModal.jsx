@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { LuImageUp } from "react-icons/lu";
 import Avatar from "@/assets/defaultAvatar.png";
@@ -24,9 +24,11 @@ if (APP_ENV === "production") {
 
 export default function EditProfileModal({ setShowEditProfileModal, user }) {
   const { setUser, setAllUsers } = useContext(UserContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const [showConfirmAccountDeleteModal, setShowConfirmAccountDeleteModal] =
     useState(false);
+  const requestInFlight = useRef(false);
   const [data, setData] = useState({
     userImage: user?.picture,
     userName: user?.name,
@@ -47,7 +49,11 @@ export default function EditProfileModal({ setShowEditProfileModal, user }) {
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    if (requestInFlight.current) return;
+    const actionId = `update-profile:${user.uid}`;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowEditProfileModal(false);
 
     try {
       let imageURL = data.userImage;
@@ -158,8 +164,8 @@ export default function EditProfileModal({ setShowEditProfileModal, user }) {
         },
       });
     } finally {
-      setIsLoading(false);
-      setShowEditProfileModal(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

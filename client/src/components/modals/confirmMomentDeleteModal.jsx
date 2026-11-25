@@ -1,6 +1,6 @@
 "use client";
 import { TitleContext } from "@/context/titleContext";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import CircledButton from "../buttons/circledButton";
 import Swal from "sweetalert2";
@@ -31,10 +31,16 @@ export default function ConfirmMomentDeleteModal({
 }) {
   const { user } = useContext(UserContext);
   const { setMoments } = useContext(MomentContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
 
   const handleMomentDelete = async () => {
-    setIsLoading(true);
+    const actionId = `delete-moment:${momentToDelete}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmMomentDeleteModal(false);
 
     try {
       await fetch(`${BASE_URL}/api/moments/deleteMoment/${momentToDelete}`, {
@@ -48,7 +54,6 @@ export default function ConfirmMomentDeleteModal({
         prev.filter((moment) => moment.momentId !== momentToDelete),
       );
 
-      setShowConfirmMomentDeleteModal(false);
       setShowMomentLightbox(false);
 
       Swal.fire({
@@ -84,7 +89,8 @@ export default function ConfirmMomentDeleteModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

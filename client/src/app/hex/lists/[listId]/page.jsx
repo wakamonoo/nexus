@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { TitleContext } from "@/context/titleContext";
 import {
   FaAngleLeft,
@@ -53,20 +53,19 @@ export default function List() {
     useState(false);
   const { user, allUsers, setShowSignInModal } = useContext(UserContext);
   const { titles } = useContext(TitleContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { setIsLoading, startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const { isTitleWatched } = useContext(WatchContext);
   const [showListOption, setShowListOption] = useState(false);
   const [showAddCommentModal, setShowAddCommentModal] = useState(false);
   const [showTitles, setShowTitles] = useState(true);
   const [showComments, setShowComments] = useState(false);
   const router = useRouter();
-
   useEffect(() => {
     setIsLoading(false);
   }, []);
 
   const currentList = lists.find((list) => list.listId === listId);
-
   const realtimeVote = listVotes[currentList?.listId];
 
   const upvotes = realtimeVote?.upvotes ?? currentList?.upvotes ?? [];
@@ -387,8 +386,8 @@ export default function List() {
       )}
       {showAddCommentModal && (
         <AddCommentModal
-          listId={listId}
           user={user}
+          listId={listId}
           setShowAddCommentModal={setShowAddCommentModal}
         />
       )}

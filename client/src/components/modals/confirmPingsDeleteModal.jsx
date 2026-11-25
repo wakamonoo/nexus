@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import { LoaderContext } from "@/context/loaderContext";
 import Swal from "sweetalert2";
@@ -24,10 +24,16 @@ export default function ConfirmPingsDeleteModal({
   setSelectedPing,
   userId,
 }) {
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
 
   const handleDeleteAll = async () => {
-    setIsLoading(true);
+    const actionId = `delete-pings:${userId}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmpPingsDeleteModal(false);
 
     try {
       await fetch(`${BASE_URL}/api/pings/deleteAll/${userId}`, {
@@ -36,7 +42,6 @@ export default function ConfirmPingsDeleteModal({
 
       setPings((prev) => prev.filter((p) => p.userId !== userId));
 
-      setShowConfirmpPingsDeleteModal(false);
       setSelectedPing(null);
 
       Swal.fire({
@@ -72,7 +77,8 @@ export default function ConfirmPingsDeleteModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

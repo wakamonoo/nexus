@@ -1,7 +1,6 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MdClose } from "react-icons/md";
-import { LoaderContext } from "@/context/loaderContext";
 import { UserContext } from "@/context/userContext";
 import Swal from "sweetalert2";
 import { GoogleAuthProvider, reauthenticateWithPopup } from "firebase/auth";
@@ -27,13 +26,14 @@ export default function ConfirmAccountDeleteModal({
   setShowEditProfileModal,
   user,
 }) {
-  const { setIsLoading } = useContext(LoaderContext);
   const { firebaseUser } = useContext(UserContext);
   const userId = user?.uid;
   const router = useRouter();
+  const requestInFlight = useRef(false);
 
   const handleAccountDelete = async () => {
-    setIsLoading(true);
+    if (requestInFlight.current) return;
+    requestInFlight.current = true;
 
     try {
       const provider = new GoogleAuthProvider();
@@ -82,7 +82,7 @@ export default function ConfirmAccountDeleteModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
     }
   };
 

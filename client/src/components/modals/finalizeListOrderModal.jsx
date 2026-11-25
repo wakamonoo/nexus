@@ -35,10 +35,12 @@ export default function FinalizeListOrderModal({
   setShowEditListModal,
 }) {
   const { titles } = useContext(TitleContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const [items, setItems] = useState(() => selected);
   const { setLists } = useContext(ListContext);
   const scrollRef = useRef(null);
+  const requestInFlight = useRef(false);
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
@@ -52,7 +54,13 @@ export default function FinalizeListOrderModal({
   };
 
   const handleSubmitList = async () => {
-    setIsLoading(true);
+    const actionId = `create-list:${user.uid}:${listTitle}`;
+    if (!listTitle.trim() || items.length === 0 || requestInFlight.current)
+      return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowFinalizeListOrderModal(false);
+    setShowAddListModal(false);
 
     try {
       const res = await fetch(`${BASE_URL}/api/lists/addlist`, {
@@ -113,16 +121,21 @@ export default function FinalizeListOrderModal({
         },
       });
     } finally {
-      setIsLoading(false);
-      setShowFinalizeListOrderModal(false);
-      setShowAddListModal(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 
   const handleUpdateList = async () => {
-    try {
-      setIsLoading(true);
+    const actionId = `update-list:${list.listId}`;
+    if (!listTitle.trim() || items.length === 0 || requestInFlight.current)
+      return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowFinalizeListOrderModal(false);
+    setShowEditListModal(false);
 
+    try {
       await fetch(`${BASE_URL}/api/lists/updateList/${list.listId}`, {
         method: "PATCH",
         headers: {
@@ -190,9 +203,8 @@ export default function FinalizeListOrderModal({
         },
       });
     } finally {
-      setIsLoading(false);
-      setShowFinalizeListOrderModal(false);
-      setShowEditListModal(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

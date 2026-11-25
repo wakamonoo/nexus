@@ -12,7 +12,6 @@ import {
 } from "react-icons/md";
 import Swal from "sweetalert2";
 import RegularButton from "../buttons/regularButton";
-import { LoaderContext } from "@/context/loaderContext";
 import { ListContext } from "@/context/listContext";
 import Avatar from "@/assets/defaultAvatar.png";
 import SecondaryButton from "../buttons/secondaryButton";
@@ -94,7 +93,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
   const [cameraStream, setCameraStream] = useState(null);
   const [flashOn, setFlashOn] = useState(false);
   const [cameraFacing, setCameraFacing] = useState("environment");
-  const { setIsLoading } = useContext(LoaderContext);
+  const requestInFlight = useRef(false);
   const [caption, setCaption] = useState("");
   const inputRef = useRef(null);
 
@@ -305,9 +304,10 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
   }, [caption]);
 
   const submitMoment = async () => {
-    try {
-      setIsLoading(true);
+    if (requestInFlight.current) return;
+    requestInFlight.current = true;
 
+    try {
       const formData = new FormData();
 
       formData.append("files", capturedPhoto);
@@ -403,7 +403,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
     }
   };
 

@@ -1,6 +1,6 @@
 "use client";
 import { UserContext } from "@/context/userContext";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { MdClose } from "react-icons/md";
 import Swal from "sweetalert2";
 import RegularButton from "../buttons/regularButton";
@@ -25,12 +25,17 @@ export default function AddReviewModal({
 }) {
   const { user } = useContext(UserContext);
   const [reviewText, setReviewText] = useState("");
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
 
   const postReview = async () => {
-    if (!reviewText.trim()) return;
+    const actionId = `add-review:${titleId}:${user?.uid}`;
+    if (!reviewText.trim() || requestInFlight.current) return;
 
-    setIsLoading(true);
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowAddReviewModal(false);
 
     try {
       const newReview = {
@@ -57,9 +62,6 @@ export default function AddReviewModal({
             : [data.review],
         }));
       }
-
-      setReviewText("");
-      setShowAddReviewModal(false);
 
       Swal.fire({
         toast: true,
@@ -94,7 +96,8 @@ export default function AddReviewModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 

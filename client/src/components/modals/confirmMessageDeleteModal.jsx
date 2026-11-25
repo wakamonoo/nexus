@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { MdClose } from "react-icons/md";
 import CircledButton from "../buttons/circledButton";
 import { LoaderContext } from "@/context/loaderContext";
@@ -26,10 +26,16 @@ export default function ConfirmMessageDeleteModal({
   onDelete,
 }) {
   const { user } = useContext(UserContext);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
+  const requestInFlight = useRef(false);
 
   const handleMessageDelete = async () => {
-    setIsLoading(true);
+    const actionId = `delete-message:${messageToDelete}`;
+    if (requestInFlight.current) return;
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowConfirmMessageDeleteModal(false);
 
     try {
       await fetch(`${BASE_URL}/api/messages/deleteMessage/${messageToDelete}`, {
@@ -42,8 +48,6 @@ export default function ConfirmMessageDeleteModal({
         }),
       });
       onDelete(messageToDelete);
-
-      setShowConfirmMessageDeleteModal(false);
 
       Swal.fire({
         toast: true,
@@ -78,7 +82,8 @@ export default function ConfirmMessageDeleteModal({
         },
       });
     } finally {
-      setIsLoading(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
   return (

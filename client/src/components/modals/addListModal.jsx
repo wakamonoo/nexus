@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MdClose, MdSearchOff } from "react-icons/md";
 import { TitleContext } from "@/context/titleContext";
 import { IoRadioButtonOff, IoRadioButtonOn } from "react-icons/io5";
@@ -120,13 +120,21 @@ export default function AddListModal({ user, setShowAddListModal }) {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { setIsLoading } = useContext(LoaderContext);
+  const { startActionLoading, finishActionLoading } =
+    useContext(LoaderContext);
   const { setLists } = useContext(ListContext);
+  const requestInFlight = useRef(false);
   const [showFinalizeListOrderModal, setShowFinalizeListOrderModal] =
     useState(false);
 
   const handleSubmitList = async () => {
-    setIsLoading(true);
+    const actionId = `create-list:${user.uid}:${listTitle}`;
+    if (!listTitle.trim() || selected.length === 0 || requestInFlight.current)
+      return;
+
+    if (!startActionLoading(actionId)) return;
+    requestInFlight.current = true;
+    setShowAddListModal(false);
 
     try {
       const res = await fetch(`${BASE_URL}/api/lists/addlist`, {
@@ -187,8 +195,8 @@ export default function AddListModal({ user, setShowAddListModal }) {
         },
       });
     } finally {
-      setIsLoading(false);
-      setShowAddListModal(false);
+      requestInFlight.current = false;
+      finishActionLoading(actionId);
     }
   };
 
