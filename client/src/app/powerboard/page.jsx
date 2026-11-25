@@ -148,7 +148,7 @@ export default function Powerboard() {
 
     const actionId = `save-ranking:${user?.uid}`;
     if (saveRequestInFlight.current || !user?.uid) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Saving ranking...")) return;
     saveRequestInFlight.current = true;
 
     try {

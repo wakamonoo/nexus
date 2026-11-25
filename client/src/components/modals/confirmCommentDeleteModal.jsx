@@ -32,7 +32,7 @@ export default function ConfirmCommentDeleteModal({
   const handleCommentDelete = async () => {
     const actionId = `delete-comment:${commentToDelete}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting comment...")) return;
     requestInFlight.current = true;
     setShowConfirmCommentDeleteModal(false);
 

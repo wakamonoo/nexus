@@ -34,7 +34,7 @@ export default function ConfirmReviewDeleteModal({
   const handleReviewDelete = async () => {
     const actionId = `delete-review:${reviewToDelete}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting review...")) return;
     requestInFlight.current = true;
     setShowConfirmReviewDeleteModal(false);
 

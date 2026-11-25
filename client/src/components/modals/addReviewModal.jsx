@@ -33,7 +33,7 @@ export default function AddReviewModal({
     const actionId = `add-review:${titleId}:${user?.uid}`;
     if (!reviewText.trim() || requestInFlight.current) return;
 
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Submitting review...")) return;
     requestInFlight.current = true;
     setShowAddReviewModal(false);
 

@@ -38,7 +38,7 @@ export default function ConfirmMomentDeleteModal({
   const handleMomentDelete = async () => {
     const actionId = `delete-moment:${momentToDelete}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting moment...")) return;
     requestInFlight.current = true;
     setShowConfirmMomentDeleteModal(false);
 

@@ -174,7 +174,7 @@ export default function Post() {
       return;
 
     const actionId = `add-post-comment:${postId}:${user?.uid}`;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Posting comment...")) return;
     commentSubmissionInFlight.current = true;
 
     try {
@@ -243,7 +243,7 @@ export default function Post() {
       return;
 
     const actionId = `add-post-reply:${postId}:${replyToCommentId}:${user?.uid}`;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Posting reply...")) return;
     commentSubmissionInFlight.current = true;
 
     try {

@@ -80,7 +80,7 @@ export const WatchProvider = ({ children }) => {
   const handleWatch = async (titleId) => {
     const actionId = `watch-title:${user?.uid}:${titleId}`;
     if (!user?.uid || requestInFlight.current.has(actionId)) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Updating watch status...")) return;
     requestInFlight.current.add(actionId);
 
     try {

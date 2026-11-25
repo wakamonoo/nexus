@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { TitleContext } from "@/context/titleContext";
@@ -135,7 +135,7 @@ export default function Title() {
     }
     const actionId = `vote-review:${reviewId}:${user.uid}`;
     if (voteRequestsInFlight.current.has(actionId)) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Submitting vote...")) return;
     voteRequestsInFlight.current.add(actionId);
 
     try {

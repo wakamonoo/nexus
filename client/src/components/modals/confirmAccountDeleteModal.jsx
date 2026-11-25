@@ -44,7 +44,7 @@ export default function ConfirmAccountDeleteModal({
       const provider = new GoogleAuthProvider();
       await reauthenticateWithPopup(auth.currentUser, provider);
 
-      if (!startActionLoading(actionId)) return;
+      if (!startActionLoading(actionId, "Deleting account...")) return;
       actionStarted = true;
       setShowConfirmAccountDeleteModal(false);
       setShowEditProfileModal(false);

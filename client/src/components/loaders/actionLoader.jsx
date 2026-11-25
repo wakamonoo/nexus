@@ -4,7 +4,7 @@ import { LoaderContext } from "@/context/loaderContext";
 import SpinLoader from "./spinLoader";
 
 export default function ActionLoader() {
-  const { isActionLoading } = useContext(LoaderContext);
+  const { isActionLoading, actionLoadingText } = useContext(LoaderContext);
 
   return (
     <div
@@ -12,7 +12,7 @@ export default function ActionLoader() {
     >
       <SpinLoader />
       <p className="text-base font-semibold text-(--color-text) leading-4.5">
-        Processing Request...
+        {actionLoadingText}
       </p>
     </div>
   );

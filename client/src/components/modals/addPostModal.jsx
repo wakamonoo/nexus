@@ -83,7 +83,7 @@ export default function AddPostModal({ setShowAddPostModal }) {
       };
     }
 
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Creating post...")) return;
     requestInFlight.current = true;
     setShowAddPostModal(false);
 

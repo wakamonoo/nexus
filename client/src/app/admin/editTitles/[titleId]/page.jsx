@@ -101,7 +101,7 @@ export default function EditTitle() {
 
   const handleUpdateTitle = async (titleId) => {
     const actionId = `admin:update-title:${titleId}`;
-    if (requestInFlight.current || !startActionLoading(actionId)) return;
+    if (requestInFlight.current || !startActionLoading(actionId, "Updating title...")) return;
     requestInFlight.current = true;
 
     try {

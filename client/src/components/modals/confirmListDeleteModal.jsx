@@ -35,7 +35,7 @@ export default function ConfirmListDeleteModal({
   const handleListDelete = async () => {
     const actionId = `delete-list:${listToDelete}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting list...")) return;
     requestInFlight.current = true;
     setShowConfirmListDeleteModal(false);
 

@@ -31,7 +31,7 @@ export default function ConfirmPingsDeleteModal({
   const handleDeleteAll = async () => {
     const actionId = `delete-pings:${userId}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting notifications...")) return;
     requestInFlight.current = true;
     setShowConfirmpPingsDeleteModal(false);
 

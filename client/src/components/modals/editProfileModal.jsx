@@ -51,7 +51,7 @@ export default function EditProfileModal({ setShowEditProfileModal, user }) {
     e.preventDefault();
     if (requestInFlight.current) return;
     const actionId = `update-profile:${user.uid}`;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Updating profile...")) return;
     requestInFlight.current = true;
     setShowEditProfileModal(false);
 

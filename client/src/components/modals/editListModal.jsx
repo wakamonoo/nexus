@@ -140,7 +140,7 @@ export default function EditListModal({ list, setShowEditListModal }) {
     if (!listTitle.trim() || selected.length === 0 || requestInFlight.current)
       return;
 
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Updating list...")) return;
     requestInFlight.current = true;
     setShowEditListModal(false);
 

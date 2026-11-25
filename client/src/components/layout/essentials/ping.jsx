@@ -83,7 +83,7 @@ export default function Ping({ setShowPing }) {
 
   const handleReadAllPing = async (userId) => {
     const actionId = `mark-all-pings-read:${userId}`;
-    if (readAllRequestInFlight.current || !startActionLoading(actionId)) return;
+    if (readAllRequestInFlight.current || !startActionLoading(actionId, "Marking notifications as read...")) return;
     readAllRequestInFlight.current = true;
     setSelectedPing(null);
 

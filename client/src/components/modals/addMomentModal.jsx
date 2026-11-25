@@ -310,7 +310,7 @@ export default function AddMomenttModal({ setShowAddMomentModal }) {
     if (requestInFlight.current || !selectedTitle || !capturedPhoto) return;
 
     const actionId = `add-moment:${user?.uid}:${selectedTitle.titleId}`;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Posting moment...")) return;
     requestInFlight.current = true;
     setShowAddMomentModal(false);
 

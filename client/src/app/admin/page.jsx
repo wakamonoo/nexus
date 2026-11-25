@@ -62,7 +62,7 @@ export default function Page() {
 
   const handleSyncUsers = async () => {
     const actionId = "admin:sync-users";
-    if (syncRequestInFlight.current || !startActionLoading(actionId)) return;
+    if (syncRequestInFlight.current || !startActionLoading(actionId, "Syncing users...")) return;
     syncRequestInFlight.current = true;
     try {
       await fetch(`${BASE_URL}/api/users/sync`, {

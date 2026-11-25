@@ -92,7 +92,7 @@ export default function EditPostModal({ setShowEditPostModal, postToEdit }) {
     }
 
     const actionId = `edit-post:${postToEdit.postId}`;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Updating post...")) return;
     requestInFlight.current = true;
     setShowEditPostModal(false);
 

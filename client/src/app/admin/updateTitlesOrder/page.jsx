@@ -63,7 +63,7 @@ export default function UpdateOrder() {
   const handleUpdateOrder = async () => {
     const actionId = "admin:update-title-order";
     if (requestInFlight.current || !items.length) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Updating title order...")) return;
     requestInFlight.current = true;
     setRotate(true);
     try {

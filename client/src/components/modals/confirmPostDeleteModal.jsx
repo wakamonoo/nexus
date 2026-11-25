@@ -34,7 +34,7 @@ export default function ConfirmPostDeleteModal({ postToDelete }) {
   const handlePostDelete = async () => {
     const actionId = `delete-post:${postToDelete}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting post...")) return;
     requestInFlight.current = true;
     setShowConfirmPostDeleteModal(false);
 

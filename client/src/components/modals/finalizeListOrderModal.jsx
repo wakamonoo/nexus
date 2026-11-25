@@ -57,7 +57,7 @@ export default function FinalizeListOrderModal({
     const actionId = `create-list:${user.uid}:${listTitle}`;
     if (!listTitle.trim() || items.length === 0 || requestInFlight.current)
       return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Creating list...")) return;
     requestInFlight.current = true;
     setShowFinalizeListOrderModal(false);
     setShowAddListModal(false);
@@ -130,7 +130,7 @@ export default function FinalizeListOrderModal({
     const actionId = `update-list:${list.listId}`;
     if (!listTitle.trim() || items.length === 0 || requestInFlight.current)
       return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Updating list...")) return;
     requestInFlight.current = true;
     setShowFinalizeListOrderModal(false);
     setShowEditListModal(false);

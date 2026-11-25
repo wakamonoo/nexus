@@ -64,7 +64,7 @@ export default function AddTitle() {
 
   const handleAddNewTitle = async () => {
     const actionId = "admin:add-title";
-    if (requestInFlight.current || !startActionLoading(actionId)) return;
+    if (requestInFlight.current || !startActionLoading(actionId, "Adding title...")) return;
     requestInFlight.current = true;
 
     try {

@@ -132,7 +132,7 @@ export default function AddListModal({ user, setShowAddListModal }) {
     if (!listTitle.trim() || selected.length === 0 || requestInFlight.current)
       return;
 
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Creating list...")) return;
     requestInFlight.current = true;
     setShowAddListModal(false);
 

@@ -33,7 +33,7 @@ export default function ConfirmMessageDeleteModal({
   const handleMessageDelete = async () => {
     const actionId = `delete-message:${messageToDelete}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting message...")) return;
     requestInFlight.current = true;
     setShowConfirmMessageDeleteModal(false);
 

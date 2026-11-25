@@ -33,7 +33,7 @@ export default function AddCommentModal({
     const actionId = `add-comment:${listId}`;
     if (!commentText.trim() || requestInFlight.current) return;
 
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Posting comment...")) return;
     requestInFlight.current = true;
     setShowAddCommentModal(false);
 

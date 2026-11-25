@@ -37,7 +37,7 @@ export default function ConfirmListCommentDelete({
   const handleCommentDelete = async () => {
     const actionId = `delete-list-comment:${comment.commentId}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting comment...")) return;
     requestInFlight.current = true;
     setShowConfirmListCommentDelete(false);
 

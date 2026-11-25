@@ -9,17 +9,24 @@ export const LoaderContext = createContext();
 export const LoaderProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isActionLoading, setIsActionLoading] = useState(false);
+  const [actionLoadingText, setActionLoadingText] = useState(
+    "Processing Request...",
+  );
   const actionRequestIds = useRef(new Set());
   const [splashLoading, setSplashLoading] = useState(false);
   const [initialized, setInitialized] = useState(false);
 
-  const startActionLoading = useCallback((requestId) => {
-    if (actionRequestIds.current.has(requestId)) return false;
+  const startActionLoading = useCallback(
+    (requestId, actionLoadingText = "Processing Request...") => {
+      if (actionRequestIds.current.has(requestId)) return false;
 
-    actionRequestIds.current.add(requestId);
-    setIsActionLoading(actionRequestIds.current.size > 0);
-    return true;
-  }, []);
+      setActionLoadingText(actionLoadingText);
+      actionRequestIds.current.add(requestId);
+      setIsActionLoading(actionRequestIds.current.size > 0);
+      return true;
+    },
+    [],
+  );
 
   const finishActionLoading = useCallback((requestId) => {
     if (!actionRequestIds.current.delete(requestId)) return;
@@ -57,6 +64,8 @@ export const LoaderProvider = ({ children }) => {
         setIsLoading,
         isActionLoading,
         setIsActionLoading,
+        actionLoadingText,
+        setActionLoadingText,
         startActionLoading,
         finishActionLoading,
         splashLoading,

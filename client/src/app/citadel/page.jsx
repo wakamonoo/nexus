@@ -159,7 +159,7 @@ export default function Citadel() {
       return;
 
     const actionId = `send-message:${user?.uid}`;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Sending message...")) return;
     sendMessageInFlight.current = true;
 
     justSentMessage.current = true;
@@ -256,7 +256,7 @@ export default function Citadel() {
   const editMessage = async (msgId) => {
     const actionId = `edit-message:${msgId}:${user?.uid}`;
     if (editMessageRequests.current.has(actionId)) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Updating message...")) return;
     editMessageRequests.current.add(actionId);
 
     try {

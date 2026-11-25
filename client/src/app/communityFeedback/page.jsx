@@ -166,7 +166,7 @@ export default function CommunityFeedback() {
       return;
 
     const actionId = `submit-feedback:${user?.uid}`;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Submitting feedback...")) return;
     requestInFlight.current = true;
     try {
       const res = await fetch(`${BASE_URL}/api/feedbacks/addFeedback`, {

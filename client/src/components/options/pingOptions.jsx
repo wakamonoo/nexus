@@ -27,7 +27,7 @@ export default function PingOptions({ pingId, setSelectedPing }) {
   const handleDeletePing = async (pingId) => {
     const actionId = `delete-ping:${pingId}:${user?.uid}`;
     if (requestInFlight.current.has(actionId)) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting notification...")) return;
     requestInFlight.current.add(actionId);
     setSelectedPing(null);
 
@@ -82,7 +82,7 @@ export default function PingOptions({ pingId, setSelectedPing }) {
   const handleReadPing = async (ping) => {
     const actionId = `read-ping:${pingId}:${user?.uid}`;
     if (requestInFlight.current.has(actionId)) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Marking notification as read...")) return;
     requestInFlight.current.add(actionId);
     setSelectedPing(null);
 

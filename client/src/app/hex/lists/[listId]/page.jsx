@@ -96,7 +96,7 @@ export default function List() {
     }
     const actionId = `vote-list:${listId}:${user.uid}`;
     if (voteRequestsInFlight.current.has(actionId)) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Submitting vote...")) return;
     voteRequestsInFlight.current.add(actionId);
 
     try {

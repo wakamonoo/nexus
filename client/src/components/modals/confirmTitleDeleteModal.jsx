@@ -31,7 +31,7 @@ export default function ConfirmTitleDeleteModal({
   const handleTitleDelete = async () => {
     const actionId = `delete-title:${titleToDelete}`;
     if (requestInFlight.current) return;
-    if (!startActionLoading(actionId)) return;
+    if (!startActionLoading(actionId, "Deleting title...")) return;
     requestInFlight.current = true;
     setShowConfirmTitleDeleteModal(false);
 
