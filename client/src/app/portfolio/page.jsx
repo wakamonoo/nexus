@@ -86,7 +86,7 @@ export default function Portfolio() {
   );
 
   return (
-    <main className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 w-full">
+    <main className="p-2 sm:px-4 md:px-8 lg:px-16 w-full">
       <div className="flex justify-between py-4">
         <FaAngleLeft
           onClick={() => router.back()}

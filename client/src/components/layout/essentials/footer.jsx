@@ -11,7 +11,7 @@ export default function Footer() {
   const pathname = usePathname();
 
   return (
-    <footer className="w-full mt-14 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-62 bg-panel">
+    <footer className="w-full mt-14 p-2 sm:px-4 md:px-8 lg:px-16 2xl:px-62 bg-panel">
       <div className="flex items-center justify-center w-full">
         <div className="border-t border-2 border-(--color-secondary) flex-1" />
         <Image

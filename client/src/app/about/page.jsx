@@ -150,7 +150,7 @@ export default function About() {
   return (
     <>
       <NavBar />
-      <div className="bg-brand w-full pt-22 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+      <div className="bg-brand w-full pt-22 p-2 sm:px-4 md:px-8 lg:px-16">
         <header className="mb-12 border-b border-panel pb-10">
           <h1 className="text-2xl font-bold tracking-tight text-vobe">
             About Nexus

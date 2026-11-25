@@ -138,7 +138,7 @@ export default function Timeline() {
 
   return (
     <StarBackground>
-      <div className="flex fixed justify-between items-center py-4 p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 w-full z-10">
+      <div className="flex fixed justify-between items-center py-4 p-2 sm:px-4 md:px-8 lg:px-16 w-full z-10">
         <FaAngleLeft
           onClick={() => router.back()}
           className="text-2xl cursor-pointer"

@@ -61,7 +61,7 @@ export default function Person() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32">
+      <div className="flex flex-col justify-center items-center p-2 sm:px-4 md:px-8 lg:px-16">
         <div className="flex justify-between items-center py-4 w-full">
           <FaAngleLeft
             onClick={() => router.back()}
@@ -136,7 +136,7 @@ export default function Person() {
                 </p>
               </div>
             </aside>
-            <div className="w-full h-[1px] bg-panel my-4 block md:hidden" />
+            <div className="w-full h-px bg-panel my-4 block md:hidden" />
             <main className="w-full">
               <div className="grid grid-cols-[repeat(auto-fill,104px)] md:grid-cols-[repeat(auto-fill,128px)] justify-center gap-2">
                 {projects?.map((unit) => (

@@ -237,7 +237,7 @@ export default function Title() {
           setShowTitleMenu(false);
           setSelectedReview(null);
         }}
-        className="p-2 sm:px-4 md:px-8 lg:px-16 xl:px-32 bg-linear-to-b from-(--color-secondary) to-(--color-bg)"
+        className="p-2 sm:px-4 md:px-8 lg:px-16 bg-linear-to-b from-(--color-secondary) to-(--color-bg)"
       >
         <div className="flex justify-between py-4 ">
           <FaAngleLeft
